@@ -1,0 +1,27 @@
+{% extends 'institutions/base.html' %}
+{% load i18n %}
+{% block content %}
+<h2><a href="{{object.get_absolute_url}}">{{object}}</a></h2>
+<table>
+<tr>
+    <td>{% trans "ID"%}</td>
+    <td>{{object.id}}</td>
+</tr>
+<tr>
+    <td>{% trans "Name"%}</td>
+    <td>{{object.name}}</td>
+</tr>
+<tr>
+    <td>{% trans "E-mail"%}</td>
+    <td>{{object.address}}</td>
+</tr>
+<tr>
+    <td>{% trans "jst"%}</td>
+    <td><a href="{{object.jst.get_absolute_url}}">{{object.jst.nazwa}}</a></td>
+</tr>
+<tr>
+    <td>{% trans "Tag"%}</td>
+    <td>{% for tag in object.tags.all %}<span class="label label-info"><a href="{{tag.get_absolute_url}}">{{tag}}</a></span> {% endfor %}</td>
+</tr>
+</table>
+{% endblock %}

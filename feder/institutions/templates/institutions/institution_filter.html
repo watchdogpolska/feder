@@ -1,0 +1,35 @@
+{% extends 'institutions/base.html' %}
+{% load i18n crispy_forms_tags %}
+{% block javascript %}
+{{block.super}}
+<script>
+{# $(document).ready(function() {
+    $('#id_voivodeship').change(function() {
+        console.log($(this).val());
+        $('#id_community').yourlabsAutocomplete().data = {
+            'parent': $(this).val()
+        }
+    });
+}); #}
+</script>
+{% endblock %}
+{% block content %}
+<div class="row">
+<div class="col-md-2">
+{% crispy filter.form %}
+</div>
+<div class="col-md-10">
+
+    {% if object_list %}
+    {% for object in object_list %}
+        <div class="well">
+            <h3><a href="{{object.get_absolute_url}}">{{object}}</a></h3>
+            <p>JST: <a href="{{object.jst.get_absolute_url}}">{{object.jst.nazwa}}</a></p>
+        </div>
+    {% endfor %}
+    {% else %}
+        {% trans 'No rows.' %}
+    {% endif %}
+</div>
+</div>
+{% endblock %}
