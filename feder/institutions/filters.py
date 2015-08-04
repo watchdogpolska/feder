@@ -31,6 +31,7 @@ class JSTModelChoice(django_filters.ModelChoiceFilter):
 
 
 class InstitutionFilter(django_filters.FilterSet):
+    name = django_filters.CharFilter(lookup_type='icontains')
     voivodeship = JSTModelChoice(level=1, label=_("Vovivodeship"))
     county = JSTModelChoice(level=2, label=_("County"))
     community = JSTModelChoice(level=3, label=_("Community"))
@@ -60,5 +61,5 @@ class InstitutionFilter(django_filters.FilterSet):
 
     class Meta:
         model = Institution
-        fields = ['tags']
+        fields = ['name', 'tags']
         order_by = ['-case_count', 'jst']

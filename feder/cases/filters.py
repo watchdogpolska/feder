@@ -5,6 +5,7 @@ from .models import Case
 
 
 class CaseFilter(CrispyFilterMixin, django_filters.FilterSet):
+    name = django_filters.CharFilter(lookup_type='icontains')
     institution = AutocompleteChoiceFilter('InstitutionAutocomplete')
     monitoring = AutocompleteChoiceFilter('MonitoringAutocomplete')
 
@@ -15,5 +16,5 @@ class CaseFilter(CrispyFilterMixin, django_filters.FilterSet):
 
     class Meta:
         model = Case
-        fields = ['monitoring', 'institution']
+        fields = ['name', 'monitoring', 'institution']
         order_by = ['-letter_count', 'created', ]

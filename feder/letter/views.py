@@ -14,7 +14,7 @@ from .filters import LetterFilter
 class LetterListView(SelectRelatedMixin, FilterView):
     filterset_class = LetterFilter
     model = Letter
-    select_related = ['author_user']
+    select_related = ['author_user', 'author_institution', 'case__institution']
     paginate_by = 25
 
     def get_queryset(self, *args, **kwargs):
