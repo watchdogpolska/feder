@@ -39,7 +39,6 @@ THIRD_PARTY_APPS = (
     'allauth.account',  # registration
     'allauth.socialaccount',  # registration
     'autocomplete_light',
-    'tinycontent',
     'formtools',
     'mptt'
 )
