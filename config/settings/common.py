@@ -47,7 +47,7 @@ THIRD_PARTY_APPS = (
 
 # Apps specific for this project go here.
 LOCAL_APPS = (
-    'teryt',
+    'feder.teryt',
     'feder.users',  # custom users app
     'feder.institutions',
     'feder.monitorings',
