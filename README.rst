@@ -131,8 +131,8 @@ Run these commands to deploy the project to Heroku:
 
     heroku create --buildpack https://github.com/heroku/heroku-buildpack-python
 
-    heroku addons:create heroku-postgresql:dev
-    heroku pg:backups schedule DATABASE_URL
+    heroku addons:create heroku-postgresql:hobby-dev
+    heroku pg:backups schedule DATABASE_URL --at "04:00 UTC"
     heroku pg:promote DATABASE_URL
 
     heroku addons:create mailgun
@@ -140,12 +140,13 @@ Run these commands to deploy the project to Heroku:
 
     heroku config:set DJANGO_SECRET_KEY=RANDOM_SECRET_KEY_HERE
     heroku config:set DJANGO_SETTINGS_MODULE='config.settings.production'
-
+    
     heroku config:set DJANGO_AWS_ACCESS_KEY_ID=YOUR_AWS_ID_HERE
     heroku config:set DJANGO_AWS_SECRET_ACCESS_KEY=YOUR_AWS_SECRET_ACCESS_KEY_HERE
     heroku config:set DJANGO_AWS_STORAGE_BUCKET_NAME=YOUR_AWS_S3_BUCKET_NAME_HERE
 
-    heroku config:set DJANGO_MAILGUN_SERVER_NAME=YOUR_MALGUN_SERVER
+    heroku config:set MAILGUN_SERVER_NAME=$(heroku config:get MAILGUN_DOMAIN | cut -d"=" -f2-)
+    heroku config:set DJANGO_SERVER_EMAIL="smtp://$(heroku config:get MAILGUN_SMTP_LOGIN | cut -d"=" -f2- | sed 's/@/%40/' ):$(heroku config:get MAILGUN_SMTP_PASSWORD | cut -d"=" -f2-)@$(heroku config:get MAILGUN_SMTP_SERVER | cut -d"=" -f2-)"
 
     git push heroku master
     heroku run python manage.py migrate
