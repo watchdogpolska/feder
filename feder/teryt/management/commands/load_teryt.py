@@ -3,7 +3,7 @@ from lxml import etree
 from django.db import transaction
 from django.core.management.base import BaseCommand
 from django.utils.lru_cache import lru_cache
-from teryt.models import JednostkaAdministracyjna, Category
+from feder.teryt.models import JednostkaAdministracyjna, Category
 
 
 @lru_cache()

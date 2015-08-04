@@ -3,7 +3,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse
 from autoslug.fields import AutoSlugField
-from teryt.models import JednostkaAdministracyjna
+from feder.teryt.models import JednostkaAdministracyjna
 from model_utils.managers import PassThroughManager
 
 
