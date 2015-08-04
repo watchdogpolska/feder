@@ -39,3 +39,4 @@ pytz==2015.4
 django-filters==0.2.1
 django-autocomplete-light==2.2.4
 https://github.com/ad-m/django-atom/archive/v0.1.0.zip
+django-formtools==1.0
