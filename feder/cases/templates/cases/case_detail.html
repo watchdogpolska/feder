@@ -9,11 +9,9 @@
 <div class="well letter-list">
 <h2>{% trans 'letters' %}</h2>
 {% if object.letter_set.all %}
-<ul>
     {% for letter in object.letter_set.all %}
-    <li><a href="{{letter.get_absolute_url}}">{{letter}}</a></li>
+        {% include 'letter/_object.html' with object=letter %}
     {% endfor %}
-</ul>
 {% else %}
     {% trans 'No rows.' %}
 {% endif %}

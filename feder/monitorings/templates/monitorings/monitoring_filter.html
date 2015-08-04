@@ -1,17 +1,24 @@
 {% extends 'monitorings/base.html' %}
-{% load i18n %}
+{% load i18n crispy_forms_tags %}
 {% block content %}
 <div class="clearfix">
     <div class="pull-right btn-group">
         <a class="btn btn-default" href="{% url 'monitorings:create' %}">{% trans 'Create' %}</a>
     </div>
 </div>
+
+<div class="row">
+<div class="col-sm-9">
 {% if object_list %}
 {% for object in object_list %}
 <div class="well">
     <h1><h1><a href="{{object.get_absolute_url}}">{{object}}</a></h1></h1>
-    <p>User: {{object.user}}</p>
+    <p>User: <a href="{{object.user.get_absolute_url}}">{{object.user}}</a></p>
 </div>
 {% endfor %}
 {% endif %}
+</div>
+<div class="col-sm-3">
+{% crispy filter.form %}
+</div>
 {% endblock %}

@@ -12,17 +12,21 @@ class JST(JednostkaAdministracyjna):
         proxy = True
 
     def get_absolute_url(self):
-        return reverse('institutions:list', kwargs={'jst_pk': self.pk})
+        return reverse('institutions:jst_details', kwargs={'slug': self.slug})
 
 
 class InstitutionQuerySet(models.QuerySet):
     def with_case_count(self):
         return self.annotate(case_count=models.Count('case'))
 
+    def area(self, jst):
+        return self.filter(jst__tree_id=jst.tree_id,
+            jst__lft__range=(jst.lft, jst.rght))
+
 
 class Institution(models.Model):
     name = models.CharField(max_length=250, verbose_name=_("Name"))
-    slug = AutoSlugField(populate_from='name', verbose_name=_("Slug"))
+    slug = AutoSlugField(populate_from='name', verbose_name=_("Slug"), unique=True)
     tags = models.ManyToManyField('Tag', verbose_name=_("Tag"))
     address = models.EmailField(verbose_name=_("E-mail"))
     jst = models.ForeignKey(JST, limit_choices_to={'category__level': 3},
@@ -60,7 +64,7 @@ class Tag(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('institutions:list')+ "?tags=" + str(self.pk)
+        return reverse('institutions:list') + "?tags=" + str(self.pk)
 
     class Meta:
         verbose_name = _("Tag")

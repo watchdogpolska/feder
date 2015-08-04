@@ -7,8 +7,7 @@ from . import views
 urlpatterns = [
    url(r'^$', views.InstitutionListView.as_view(), name="list"),
    url(r'^institution-(?P<slug>[\w-]+)$', views.InstitutionDetailView.as_view(), name="details"),
-   url(r'^jst-(?P<jst_pk>[\d]+)$', views.InstitutionListView.as_view(), name="list"),
-   url(r'^tag-(?P<tag_slug>[\w-]+)$', views.InstitutionListView.as_view(), name="list"),
+   url(r'^jst-(?P<slug>[\w-]+)$', views.JSTDetailView.as_view(), name="jst_details"),
 
 
 ]

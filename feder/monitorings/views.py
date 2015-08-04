@@ -1,4 +1,4 @@
-from django.views.generic import ListView, DetailView, UpdateView, DeleteView
+from django.views.generic import DetailView, UpdateView, DeleteView
 from django.utils.translation import ugettext_lazy as _
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse_lazy
@@ -6,14 +6,22 @@ from django.contrib.auth.decorators import login_required
 from braces.views import (SelectRelatedMixin, LoginRequiredMixin, FormValidMessageMixin,
     UserFormKwargsMixin)
 from formtools.preview import FormPreview
+from django_filters.views import FilterView
 from atom.views import DeleteMessageMixin
 from .models import Monitoring
 from .forms import MonitoringForm, CreateMonitoringForm
+from .filters import MonitoringFilter
 
 
-class MonitoringListView(SelectRelatedMixin, ListView):
+class MonitoringListView(SelectRelatedMixin, FilterView):
+    filterset_class = MonitoringFilter
     model = Monitoring
     select_related = ['user', ]
+    paginate_by = 25
+
+    def get_queryset(self, *args, **kwargs):
+        qs = super(MonitoringListView, self).get_queryset(*args, **kwargs)
+        return qs
 
 
 class MonitoringDetailView(SelectRelatedMixin, DetailView):
@@ -21,7 +29,7 @@ class MonitoringDetailView(SelectRelatedMixin, DetailView):
     select_related = ['user', ]
 
 
-class MonitoringCreateView(LoginRequiredMixin, UserFormKwargsMixin, FormPreview):
+class MonitoringCreateView(FormPreview):
     form_template = 'monitorings/monitoring_form.html'
     preview_template = 'monitorings/monitoring_preview.html'
     form_class = CreateMonitoringForm

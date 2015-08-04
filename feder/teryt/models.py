@@ -46,7 +46,7 @@ class JednostkaAdministracyjna(MPTTModel):
                             related_name='children')
     name = models.CharField(_('Name'), max_length=36,)
     category = models.ForeignKey(Category)
-    slug = AutoSlugField(populate_from='name')
+    slug = AutoSlugField(populate_from='name', unique=True)
     updated_on = models.DateField(verbose_name=_("Updated date"))
     active = models.BooleanField(default=False)
     objects = PassThroughTreeManager.for_queryset_class(JednostkaAdministracyjnaQuerySet)()

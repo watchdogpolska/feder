@@ -45,7 +45,7 @@ class CaseUpdateView(LoginRequiredMixin, UserFormKwargsMixin,  FormValidMessageM
 
 class CaseDeleteView(LoginRequiredMixin, DeleteMessageMixin, DeleteView):
     model = Case
-    success_url = reverse_lazy('case:list')
+    success_url = reverse_lazy('cases:list')
 
     def get_success_message(self):
         return _("{0} deleted!").format(self.object)

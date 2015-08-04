@@ -16,7 +16,7 @@ class CaseQuerySet(models.QuerySet):
 
 class Case(TimeStampedModel):
     name = models.CharField(verbose_name=_("Name"), max_length=50)
-    slug = AutoSlugField(populate_from='name', verbose_name=_("Slug"))
+    slug = AutoSlugField(populate_from='name', verbose_name=_("Slug"), unique=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     monitoring = models.ForeignKey(Monitoring)
     institution = models.ForeignKey(Institution)

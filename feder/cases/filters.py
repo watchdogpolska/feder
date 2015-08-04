@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
-from .models import Case
-from atom.filters import CrispyFilterMixin
+from atom.filters import CrispyFilterMixin, AutocompleteChoiceFilter
 import django_filters
+from .models import Case
 
 
 class CaseFilter(CrispyFilterMixin, django_filters.FilterSet):
+    institution = AutocompleteChoiceFilter('InstitutionAutocomplete')
+    monitoring = AutocompleteChoiceFilter('MonitoringAutocomplete')
+
     form_class = None
 
     def __init__(self, *args, **kwargs):
@@ -12,4 +15,5 @@ class CaseFilter(CrispyFilterMixin, django_filters.FilterSet):
 
     class Meta:
         model = Case
-        order_by = ['-letter_count', 'jst']
+        fields = ['monitoring', 'institution']
+        order_by = ['-letter_count', 'created', ]

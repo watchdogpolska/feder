@@ -4,6 +4,7 @@ from .models import Monitoring
 from braces.forms import UserKwargModelFormMixin
 from crispy_forms.layout import Layout, Fieldset
 from django.utils.translation import ugettext as _
+import autocomplete_light
 from atom.forms import SaveButtonMixin
 from feder.letter.models import Letter
 from feder.institutions.models import Institution
@@ -19,7 +20,7 @@ class MonitoringForm(SaveButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
 
 
 class CreateMonitoringForm(SaveButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
-    recipients = forms.ModelMultipleChoiceField(queryset=Institution.objects.all())
+    recipients = autocomplete_light.ModelMultipleChoiceField('InstitutionAutocomplete')
     text = forms.CharField(widget=forms.Textarea)
 
     def __init__(self, *args, **kwargs):
@@ -38,8 +39,15 @@ class CreateMonitoringForm(SaveButtonMixin, UserKwargModelFormMixin, forms.Model
         self.instance.user = self.user
         obj = super(CreateMonitoringForm, self).save(*args, **kwargs)
         text = self.cleaned_data['text']
+        count = 1
         for institution in self.cleaned_data['recipients']:
-            Letter.send_new_case(user=self.user, monitoring=obj, institution=institution, text=text)
+            postfix = " #%d" % (count, )
+            Letter.send_new_case(user=self.user,
+                monitoring=obj,
+                postfix=postfix,
+                institution=institution,
+                text=text)
+            count += 1
         return obj
 
     class Meta:

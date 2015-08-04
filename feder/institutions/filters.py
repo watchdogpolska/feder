@@ -2,7 +2,8 @@ from crispy_forms.helper import FormHelper
 from django.utils.translation import ugettext as _
 from crispy_forms.layout import Submit
 import django_filters
-from .models import Institution, JST
+import autocomplete_light
+from .models import Institution, JST, Tag
 
 
 class JSTModelChoice(django_filters.ModelChoiceFilter):
@@ -33,6 +34,8 @@ class InstitutionFilter(django_filters.FilterSet):
     voivodeship = JSTModelChoice(level=1, label=_("Vovivodeship"))
     county = JSTModelChoice(level=2, label=_("County"))
     community = JSTModelChoice(level=3, label=_("Community"))
+    tags = django_filters.ModelChoiceFilter(queryset=Tag.objects.all(),
+        widget=autocomplete_light.ChoiceWidget('TagAutocomplete'))
 
     def __init__(self, *args, **kwargs):
         super(InstitutionFilter, self).__init__(*args, **kwargs)

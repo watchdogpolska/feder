@@ -39,8 +39,11 @@ class Letter(TimeStampedModel):
         return self.author_user if self.author_user else self.author_institution
 
     @classmethod
-    def send_new_case(cls, user, monitoring, institution, text):
-        case = Case(user=user, name=monitoring.name, monitoring=monitoring, institution=institution)
+    def send_new_case(cls, user, monitoring, institution, text, postfix=''):
+        case = Case(user=user,
+            name=monitoring.name+postfix,
+            monitoring=monitoring,
+            institution=institution)
         case.save()
         letter = cls(author_user=user, case=case, title=monitoring.name, body=text)
         letter.save()

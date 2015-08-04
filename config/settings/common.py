@@ -42,6 +42,7 @@ THIRD_PARTY_APPS = (
     'autocomplete_light',
     'tinycontent',
     'formtools',
+    'mptt'
 )
 
 # Apps specific for this project go here.

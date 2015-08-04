@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load mptt_tags i18n %}
+{% block content %}
+<ol class="breadcrumb">
+{% for jst in breadcrumbs %}
+    <li><a href="{% url 'institutions:jst_details' slug=jst.slug%}">{{jst}}</a></li>
+{% endfor %}
+  <li class="active">{{jst}}</li>
+</ol>
+
+<div class="well institution-list">
+<h2>{% trans 'institutions' %}</h2>
+{% if institution_list.all %}
+<ul>
+    {% for institution in institution_list.all %}
+    <li><a href="{{institution.get_absolute_url}}">{{institution}}</a></li>
+    {% endfor %}
+</ul>
+{% else %}
+    {% trans 'No rows.' %}
+{% endif %}
+</div>
+{% endblock %}
