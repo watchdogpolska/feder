@@ -1,0 +1,30 @@
+{% extends 'monitorings/base.html' %}
+{% load crispy_forms_tags i18n %}
+
+{% block content %}
+
+<h1>{% trans "Preview your submission" %}</h1>
+
+<table>
+{% for key, value in form.cleaned_data.items %}
+<tr>
+<th>{{ key }}:</th>
+<td>{{ value }}</td>
+</tr>
+{% endfor %}
+</table>
+
+<p>{% blocktrans %}Security hash: {{ hash_value }}{% endblocktrans %}</p>
+
+<form action="" method="post">{% csrf_token %}
+{% for field in form %}{{ field.as_hidden }}{% endfor %}
+<input type="hidden" name="{{ stage_field }}" value="2" />
+<input type="hidden" name="{{ hash_field }}" value="{{ hash_value }}" />
+<p><input type="submit" class="btn btn-primary" value="{% trans "Submit" %}" /></p>
+</form>
+
+<h1>{% trans "Or edit it again" %}</h1>
+
+{% crispy form %}
+
+{% endblock %}

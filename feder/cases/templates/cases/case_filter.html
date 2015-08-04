@@ -1,0 +1,32 @@
+{%extends 'cases/base.html' %}
+{% load i18n crispy_forms_tags %}
+{% block content %}
+<h1>{% trans 'Case index' %}</h2>
+<div class="row">
+<div class="col-sm-3">
+{% crispy filter.form %}
+</div>
+<div class="col-sm-9">
+{% if object_list %}
+    {% for object in object_list %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><a href="{{object.get_absolute_url}}">{{object}}</a></h3>
+      </div>
+      <div class="panel-body">
+        <p>Institution: <a href="{{object.institution.get_absolute_url}}">{{object.institution}}</a></p>
+        <p>Monitoring: <a href="{{object.monitoring.get_absolute_url}}">{{object.monitoring}}</a></p>
+        <p>Letter count: {{object.letter_count}}</a></p>
+
+      </div>
+      <table class="table table-stripped">
+        {# TODO: Some rows #}
+      </table>
+    </div>
+    {% endfor %}
+{% else %}
+    {% trans 'No rows.' %}
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

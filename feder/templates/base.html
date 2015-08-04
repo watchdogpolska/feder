@@ -48,6 +48,10 @@
           <ul class="nav navbar-nav">
             <li><a href="{% url 'home' %}">Home</a></li>
             <li><a href="{% url 'about' %}">About</a></li>
+            <li><a href="{% url 'cases:list' %}">{% trans 'Cases' %}</a></li>
+            <li><a href="{% url 'monitorings:list' %}">{% trans 'Monitorings' %}</a></li>
+            <li><a href="{% url 'letters:list' %}">{% trans 'Letters' %}</a></li>
+            <li><a href="{% url 'institutions:list' %}">{% trans 'Institutions' %}</a></li>
           </ul>
         
           <ul class="nav navbar-nav navbar-right">

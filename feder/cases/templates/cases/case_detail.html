@@ -1,0 +1,21 @@
+{% extends 'cases/base_object.html' %}
+{% load i18n %}
+{% block content_object %}
+    <p>Institution: <a href="{{object.institution.get_absolute_url}}">{{object.institution}}</a></p>
+    <p>Monitoring: <a href="{{object.monitoring.get_absolute_url}}">{{object.monitoring}}</a></p>
+{% endblock %}
+
+{% block letter_list %}
+<div class="well letter-list">
+<h2>{% trans 'letters' %}</h2>
+{% if object.letter_set.all %}
+<ul>
+    {% for letter in object.letter_set.all %}
+    <li><a href="{{letter.get_absolute_url}}">{{letter}}</a></li>
+    {% endfor %}
+</ul>
+{% else %}
+    {% trans 'No rows.' %}
+{% endif %}
+</div>
+{% endblock %}

@@ -1,8 +1,8 @@
-{% extends 'institutions/base.html' %}
+{% extends 'institutions/base_object.html' %}
 {% load i18n %}
-{% block content %}
-<h2><a href="{{object.get_absolute_url}}">{{object}}</a></h2>
-<table>
+{% block content_table %}
+{{object.pk}}
+
 <tr>
     <td>{% trans "ID"%}</td>
     <td>{{object.id}}</td>
@@ -17,11 +17,60 @@
 </tr>
 <tr>
     <td>{% trans "jst"%}</td>
-    <td><a href="{{object.jst.get_absolute_url}}">{{object.jst.nazwa}}</a></td>
+    <td><a href="{{object.jst.get_absolute_url}}">{{object.jst}}</a></td>
 </tr>
 <tr>
     <td>{% trans "Tag"%}</td>
     <td>{% for tag in object.tags.all %}<span class="label label-info"><a href="{{tag.get_absolute_url}}">{{tag}}</a></span> {% endfor %}</td>
 </tr>
-</table>
+{% endblock %}
+
+{% block content_object %}
+<div class="row">
+    <div class="col-md-4 case-list">
+        <div class="well">
+            <h2>{% trans 'Cases' %}</h2>
+            {% if object.case_set.all %}
+            <ul>
+                {% for case in object.case_set.all %}
+                <li><a href="{{case.get_absolute_url}}">{{case}}</a></li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            {% trans 'No rows.' %}
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="col-md-4 monitoring-list">
+        <div class="well">
+        <h2>{% trans 'Monitoring' %}</h2>
+        {% if monitoring_list %}
+        <ul>
+            {% for monitoring in monitoring_list %}
+            <li><a href="{{monitoring.get_absolute_url}}">{{monitoring}}</a></li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        {% trans 'No rows.' %}
+        {% endif %}
+        </div>
+    </div>
+
+    <div class="col-md-4 email-list">
+        <div class="well">
+        <h2>{% trans 'E-mails' %}</h2>
+        {% if object.email_set.all %}
+        <ul>
+            {% for email in object.email_set.all %}
+            <li>{{email}} {% if email.email == object.address %}( {%trans 'Primary' %} ){% endif %}</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        {% trans 'No rows.' %}
+        {% endif %}
+        </div>
+    </div>
+
+</div>
 {% endblock %}

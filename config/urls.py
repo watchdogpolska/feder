@@ -20,6 +20,9 @@ urlpatterns = [
 
     # Your stuff: custom urls includes go here
     url(r'^institutions/', include('feder.institutions.urls', namespace="institutions")),
+    url(r'^monitorings/', include('feder.monitorings.urls', namespace="monitorings")),
+    url(r'^cases/', include('feder.cases.urls', namespace="cases")),
+    url(r'^letters/', include('feder.letter.urls', namespace="letters")),
     url(r'^autocomplete/', include('autocomplete_light.urls')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -27,7 +27,6 @@ DJANGO_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
     # Useful template tags:
     # 'django.contrib.humanize',
 
@@ -39,22 +38,26 @@ THIRD_PARTY_APPS = (
     'allauth',  # registration
     'allauth.account',  # registration
     'allauth.socialaccount',  # registration
-    'teryt',
     'autofixture',
-    'autocomplete_light'
+    'autocomplete_light',
+    'tinycontent',
+    'formtools',
 )
 
 # Apps specific for this project go here.
 LOCAL_APPS = (
+    'teryt',
     'feder.users',  # custom users app
     'feder.institutions',
     'feder.monitorings',
     'feder.surveys',
+    'feder.cases',
+    'feder.letter',
     # Your stuff: custom apps go here
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
-INSTALLED_APPS = LOCAL_APPS + THIRD_PARTY_APPS + DJANGO_APPS
+INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS
 
 # MIDDLEWARE CONFIGURATION
 # ------------------------------------------------------------------------------

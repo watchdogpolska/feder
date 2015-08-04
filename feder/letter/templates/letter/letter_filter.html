@@ -1,0 +1,26 @@
+{%extends 'letter/base.html' %}
+{% load i18n crispy_forms_tags %}
+{% block content %}
+  <h1>{% trans 'Letter index' %}</h2>
+    <div class="row">
+      <div class="col-sm-3">
+        {% crispy filter.form %}
+      </div>
+      <div class="col-sm-9">
+        {% if object_list %}
+          {% for object in object_list %}
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title"><a href="{{object.get_absolute_url}}">{{object}}</a></h3>
+              </div>
+              <div class="panel-body">
+                {{object.body}}
+              </div>
+            </div>
+          {% endfor %}
+          {% else %}
+          {% trans 'No rows.' %}
+          {% endif %}
+        </div>
+      </div>
+    {% endblock %}

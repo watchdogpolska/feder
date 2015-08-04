@@ -1,0 +1,17 @@
+{% extends 'monitorings/base.html' %}
+{% load i18n %}
+{% block content %}
+<div class="clearfix">
+    <div class="pull-right btn-group">
+        <a class="btn btn-default" href="{% url 'monitorings:create' %}">{% trans 'Create' %}</a>
+    </div>
+</div>
+{% if object_list %}
+{% for object in object_list %}
+<div class="well">
+    <h1><h1><a href="{{object.get_absolute_url}}">{{object}}</a></h1></h1>
+    <p>User: {{object.user}}</p>
+</div>
+{% endfor %}
+{% endif %}
+{% endblock %}

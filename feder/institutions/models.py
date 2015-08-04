@@ -1,26 +1,13 @@
 from django.db import models
-from django.utils.translation import ugettext as _
+
+from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse
 from autoslug.fields import AutoSlugField
-from model_utils.managers import PassThroughManager
 from teryt.models import JednostkaAdministracyjna
-
-
-class JSTQuerySet(models.QuerySet):
-
-    def wojewodztwa(self):
-        return self.extra(where=["char_length(id) = 2"])
-
-    def powiaty(self):
-        return self.extra(where=["char_length(id) = 4"])
-
-    def gminy(self):
-        return self.extra(where=["char_length(id) = 7"])
+from model_utils.managers import PassThroughManager
 
 
 class JST(JednostkaAdministracyjna):
-    objects = PassThroughManager.for_queryset_class(JSTQuerySet)()
-
     class Meta:
         proxy = True
 
@@ -29,8 +16,8 @@ class JST(JednostkaAdministracyjna):
 
 
 class InstitutionQuerySet(models.QuerySet):
-    def in_jst(self, obj):
-        return self.filter(jst__id__startswith=obj)
+    def with_case_count(self):
+        return self.annotate(case_count=models.Count('case'))
 
 
 class Institution(models.Model):
@@ -38,7 +25,8 @@ class Institution(models.Model):
     slug = AutoSlugField(populate_from='name', verbose_name=_("Slug"))
     tags = models.ManyToManyField('Tag', verbose_name=_("Tag"))
     address = models.EmailField(verbose_name=_("E-mail"))
-    jst = models.ForeignKey(JST)
+    jst = models.ForeignKey(JST, limit_choices_to={'category__level': 3},
+        verbose_name=_('Unit of administrative division'), db_index=True)
     objects = PassThroughManager.for_queryset_class(InstitutionQuerySet)()
 
     class Meta:
@@ -72,4 +60,8 @@ class Tag(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('institutions:list')+"?tags=" + self.pk
+        return reverse('institutions:list')+ "?tags=" + str(self.pk)
+
+    class Meta:
+        verbose_name = _("Tag")
+        verbose_name_plural = _("Tags")

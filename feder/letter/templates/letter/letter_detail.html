@@ -1,0 +1,32 @@
+{%extends 'letter/base_object.html' %}
+{% load i18n %}
+{% block content_object %}
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">{{object.author}}</h3>
+  </div>
+  <div class="panel-body">
+    {{object.body}}
+
+    <blockquote>
+      {{object.quote}}
+    </blockquote>
+  <div class="well attachment-list">
+  <h2>{% trans 'attachments' %}</h2>
+  {% if object.attachment_set.all %}
+  <ul>
+      {% for attachment in object.attachment_set.all %}
+      <li>{{attachment.pk}}</li>
+      {# <li><a href="{{attachment.get_absolute_url}}">{{attachment}}</a></li>#}
+      {% endfor %}
+  </ul>
+  {% else %}
+      {% trans 'No rows.' %}
+  {% endif %}
+  </div>
+  </div>
+  
+</div>
+
+{% endblock %}
