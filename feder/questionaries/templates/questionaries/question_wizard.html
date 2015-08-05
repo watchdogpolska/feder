@@ -1,0 +1,25 @@
+{% extends 'questionaries/base_questionary.html' %}
+{% load crispy_forms_tags i18n %}
+{% block content %}
+<form method="post" enctype="multipart/form-data">
+{% csrf_token %}
+{{ wizard.form.media }}
+{{ wizard.management_form }}
+{% if wizard.form.forms %}
+    {{ wizard.form.management_form }}
+    {% for form in wizard.form.forms %}
+        {% crispy form %}
+    {% endfor %}
+{% else %}
+    {% crispy wizard.form %}
+{% endif %}
+
+{% if wizard.steps.prev %}
+<button name="wizard_goto_step" class="btn btn-default" type="submit" value="{{ wizard.steps.first }}">{% trans "first step" %}</button>
+<button name="wizard_goto_step" class="btn btn-default" type="submit" value="{{ wizard.steps.prev }}">{% trans "prev step" %}</button>
+{% endif %}
+<input type="submit" class="btn btn-primary" name="submit" value="{% trans "submit" %}" />
+</form>
+
+
+{% endblock %}

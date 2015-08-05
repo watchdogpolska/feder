@@ -1,0 +1,55 @@
+{% extends 'questionaries/base_questionary.html' %}
+{% load i18n crispy_forms_tags %}
+
+{% block content_object %}
+<div class="row">
+    <div class="col-md-4">
+        <div class="well task-list">
+        <h2>{% trans 'Tasks' %}</h2>
+        {% if object.task_set.all %}
+        <ul>
+            {% for task in object.task_set.all %}
+            <li><a href="{{task.get_absolute_url}}">{{task}}</a></li>
+            {% endfor %}
+        </ul>
+        {% else %}
+            {% trans 'No rows.' %}
+        {% endif %}
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="well question-list">
+        <h2>{% trans 'Questions' %}</h2>
+        {% if object.question_set.all %}
+        <ul>
+            {% for question in object.question_set.all %}
+            <li>{{question}}<pre>{{question.blob}}</pre></li>
+            {% endfor %}
+        </ul>
+        {% else %}
+            {% trans 'No rows.' %}
+        {% endif %}
+        </div>
+    </div>
+
+    <div class="col-md-4 email-list">
+        <div class="well">
+        <h2>{% trans 'Forms' %}</h2>
+        {% if answer_forms %}
+            {% for form in answer_forms %}
+                <div class="well">
+                <p>Position: {{form.question.position}}</p>
+                {% crispy form %}
+                <a href="{% url 'questionaries:question_up' pk=form.question.pk%}" class="btn btn-default"><i class="glyphicon glyphicon-hand-down"></i> Down</a>
+                <a href="{% url 'questionaries:question_down' pk=form.question.pk%}" class="btn btn-default"><i class="glyphicon glyphicon-hand-up"></i> Up</a>
+                </div>
+            {% endfor %}
+        {% else %}
+            {% trans 'No rows.' %}
+        {% endif %}
+        </div>
+    </div>
+
+</div>
+{% endblock %}

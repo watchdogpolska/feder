@@ -1,0 +1,26 @@
+{% extends 'questionaries/base.html' %}
+{% load i18n %}
+{% block content %}
+
+  {% block buttons %}
+    <div class="clearfix">
+      <div class="pull-right btn-group">
+        <a class="btn btn-default" href="{% url 'questionaries:update' pk=object.pk %}">{% trans 'Edit' %}</a>
+        <a class="btn btn-warning" href="{% url 'questionaries:delete' pk=object.pk %}">{% trans 'Delete' %}</a>
+        <a class="btn btn-primary" href="{% url 'questionaries:question_create' pk=object.pk %}">{% trans 'Add question' %}</a>
+
+      </div>
+    </div>
+  {% endblock %}
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title"><a href="{{object.get_absolute_url}}">{{object}}</a></h3>
+    </div>
+    <div class="panel-body">
+      {% block content_object %}{% endblock %}
+    </div>
+    <table class="table table-striped">
+      {% block content_table %}{% endblock %}
+    </div>
+  </div>
+  {% endblock %}
