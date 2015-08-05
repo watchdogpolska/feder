@@ -1,0 +1,20 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
+from django.conf.urls import url
+from . import views
+
+urlpatterns = [
+   url(r'^$', views.TaskListView.as_view(),
+    name="list"),
+   url(r'^~create$', views.TaskCreateView.as_view(),
+    name="create"),
+   url(r'^task-(?P<pk>[\d]+)$', views.TaskDetailView.as_view(),
+    name="details"),
+   url(r'^task-(?P<pk>[\d]+)/~update$', views.TaskUpdateView.as_view(),
+    name="update"),
+   url(r'^task-(?P<pk>[\d]+)/~delete$', views.TaskDeleteView.as_view(),
+    name="delete"),
+   url(r'^task-(?P<pk>[\d]+)/~fill$', views.fill_survey,
+    name="fill_survey"),
+]

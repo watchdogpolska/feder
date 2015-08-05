@@ -1,0 +1,18 @@
+{% extends 'tasks/base_object.html' %}
+{% load i18n %}
+{% block content_table %}
+<tr>
+    <td>{% trans "Case" %}</td>
+    <td><a href="{{object.case.get_absolute_url}}">{{object.case}}</a></td>
+</tr>
+<tr>
+    <td>{% trans "Questionary"%}</td>
+    <td><a href="{{object.questionary.get_absolute_url}}">{{object.questionary}}</a></td>
+</tr>
+{% endblock %}
+
+{% block content_object %}
+<div class="row">
+
+</div>
+{% endblock %}
