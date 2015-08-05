@@ -7,7 +7,6 @@ from django.utils.translation import ugettext as _
 import autocomplete_light
 from atom.forms import SaveButtonMixin
 from feder.letter.models import Letter
-from feder.institutions.models import Institution
 
 
 class MonitoringForm(SaveButtonMixin, UserKwargModelFormMixin, forms.ModelForm):

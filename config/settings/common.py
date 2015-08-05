@@ -50,9 +50,10 @@ LOCAL_APPS = (
     'feder.users',  # custom users app
     'feder.institutions',
     'feder.monitorings',
-    'feder.surveys',
+    'feder.tasks',
     'feder.cases',
     'feder.letter',
+    'feder.questionaries',
     # Your stuff: custom apps go here
 )
 

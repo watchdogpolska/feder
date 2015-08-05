@@ -1,15 +1,34 @@
 {% extends 'monitorings/base_object.html' %}
 {% load i18n %}
 {% block content_object %}
-{{object.pk}}
-  <h2>{% trans 'Cases' %}</h2>
-    {% if object.case_set.all %}
-    <ul>
-        {% for case in object.case_set.with_letter_count.all %}
-        <li><a href="{{case.get_absolute_url}}">{{case}} ({{ case.letter_count }})</a></li>
-        {% endfor %}
-    </ul>
-    {% else %}
+<div class="col-md-6">
+    <div class="well case-list">
+        <h2>{% trans 'cases' %}</h2>
+        {% if object.case_set.all %}
+        <ul>
+            {% for case in object.case_set.all %}
+            <li><a href="{{case.get_absolute_url}}">{{case}}</a></li>
+            {% endfor %}
+        </ul>
+        {% else %}
         {% trans 'No rows.' %}
-    {% endif %}
+        {% endif %}
+    </div>
+</div>
+<div class="col-md-6">
+    <div class="well questionary-list">
+        <h2>{% trans 'Questionaries' %}</h2>
+        {% if object.questionary_set.all %}
+        <ul>
+            {% for questionary in object.questionary_set.all %}
+            <li><a href="{{questionary.get_absolute_url}}">{{questionary}}</a></li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        {% trans 'No rows.' %}
+        {% endif %}
+    </div>
+</div>
+
+
 {% endblock %}

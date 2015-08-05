@@ -22,6 +22,8 @@ urlpatterns = [
     url(r'^institutions/', include('feder.institutions.urls', namespace="institutions")),
     url(r'^monitorings/', include('feder.monitorings.urls', namespace="monitorings")),
     url(r'^cases/', include('feder.cases.urls', namespace="cases")),
+    url(r'^tasks/', include('feder.tasks.urls', namespace="tasks")),
+    url(r'^questionaries/', include('feder.questionaries.urls', namespace="questionaries")),
     url(r'^letters/', include('feder.letter.urls', namespace="letters")),
     url(r'^autocomplete/', include('autocomplete_light.urls')),
 

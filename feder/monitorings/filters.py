@@ -15,3 +15,4 @@ class MonitoringFilter(CrispyFilterMixin, django_filters.FilterSet):
     class Meta:
         model = Monitoring
         fields = ['name', 'user']
+        order_by = ['created', '-created']
