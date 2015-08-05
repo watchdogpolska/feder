@@ -48,10 +48,34 @@
           <ul class="nav navbar-nav">
             <li><a href="{% url 'home' %}">Home</a></li>
             <li><a href="{% url 'about' %}">About</a></li>
-            <li><a href="{% url 'cases:list' %}">{% trans 'Cases' %}</a></li>
-            <li><a href="{% url 'monitorings:list' %}">{% trans 'Monitorings' %}</a></li>
-            <li><a href="{% url 'letters:list' %}">{% trans 'Letters' %}</a></li>
-            <li><a href="{% url 'institutions:list' %}">{% trans 'Institutions' %}</a></li>
+            <li>
+              <a href="{% url 'cases:list' %}">
+              <i class="glyphicon glyphicon-folder-open"></i> 
+              {% trans 'Cases' %}</a>
+            </li>
+            <li>
+              <a href="{% url 'monitorings:list' %}">
+              <i class="glyphicon glyphicon-search"></i> 
+              {% trans 'Monitorings' %}</a>
+            </li>
+            <li>
+              <a href="{% url 'letters:list' %}">
+              <i class="glyphicon glyphicon-envelope"></i> 
+              {% trans 'Letters' %}</a></li>
+            <li>
+              <a href="{% url 'institutions:list' %}">
+              <i class="glyphicon glyphicon-home"></i> 
+              {% trans 'Institutions' %}</a></li>
+            <li>
+              <a href="{% url 'questionaries:list' %}">
+              <i class="glyphicon glyphicon-list-alt"></i> 
+              {% trans 'Questionaries' %}</a>
+            </li>
+            <li>
+              <a href="{% url 'tasks:list' %}">
+              <i class="glyphicon glyphicon-edit"></i> 
+              {% trans 'Tasks' %}</a>
+            </li>
           </ul>
         
           <ul class="nav navbar-nav navbar-right">
