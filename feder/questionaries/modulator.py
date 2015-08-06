@@ -9,11 +9,14 @@ class BaseBlobFormModulator(object):
         self.blob = blob or {}
         super(BaseBlobFormModulator, self).__init__()
 
-    def create(self):
-        raise NotImplementedError("")
+    def create(self, fields):
+        raise NotImplementedError("Provide method 'create'")
 
-    def answer(self):
-        raise NotImplementedError("")
+    def answer(self, fields):
+        raise NotImplementedError("Provide method 'answer'")
+
+    def read(self, cleaned_data):
+        raise NotImplementedError("Provide method 'read'")
 
 
 class BaseSimpleModulator(BaseBlobFormModulator):
@@ -27,6 +30,9 @@ class BaseSimpleModulator(BaseBlobFormModulator):
     def answer(self, fields):
         fields['value'] = self.output_field_cls(label=self.blob['name'],
             help_text=self.blob['help_text'], required=self.blob.get('required', True))
+
+    def read(self, cleaned_data):
+        return cleaned_data['value']
 
 
 class CharModulator(BaseSimpleModulator):
@@ -43,4 +49,6 @@ class EmailModulator(BaseSimpleModulator):
     description = "E-mail modulator"
     output_field_cls = forms.CharField
 
-modulators = {'char': CharModulator, 'int': IntegerModulator, 'email': EmailModulator}
+modulators = {'char': CharModulator,
+              'int': IntegerModulator,
+              'email': EmailModulator}
