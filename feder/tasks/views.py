@@ -13,7 +13,7 @@ from .forms import TaskForm
 class TaskListView(SelectRelatedMixin, FilterView):
     filterset_class = TaskFilter
     model = Task
-    # select_related = ['',]
+    select_related = ['case', 'questionary']
     paginate_by = 25
 
     def get_queryset(self, *args, **kwargs):
@@ -55,6 +55,7 @@ class TaskDeleteView(LoginRequiredMixin, DeleteMessageMixin, DeleteView):
 
     def get_success_message(self):
         return _("{0} deleted!").format(self.object)
+
 
 def fill_survey(request, pk):
     pass

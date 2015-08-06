@@ -5,9 +5,8 @@ from .models import Task
 
 
 class TaskFilter(CrispyFilterMixin, django_filters.FilterSet):
-    # name = django_filters.CharFilter(lookup_type='icontains')
-    # institution = AutocompleteChoiceFilter('InstitutionAutocomplete')
-    # monitoring = AutocompleteChoiceFilter('MonitoringAutocomplete')
+    case = AutocompleteChoiceFilter('CaseAutocomplete')
+    questionary = AutocompleteChoiceFilter('QuestionaryAutocomplete')
 
     form_class = None
 

@@ -7,23 +7,28 @@
     </div>
 </div>
 <div class="row">
-<div class="col-md-2">
-{% crispy filter.form %}
-</div>
-<div class="col-md-10">
-
-    {% if object_list %}
-    {% for object in object_list %}
-        <div class="well">
-            <h3><a href="{{object.get_absolute_url}}">{{object}}</a></h3>
-            <p>JST: <a href="{{object.jst.get_absolute_url}}">{{object.jst}}</a></p>
-            <p>Case count: {{object.case_count}}</p>
-
+    <div class="col-md-2">
+        {% crispy filter.form %}
+    </div>
+    <div class="col-md-10">
+        {% if object_list %}
+        {% for object in object_list %}
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title"><a href="{{object.get_absolute_url}}">{{object}}</a></h3>
         </div>
-    {% endfor %}
-    {% else %}
+        <div class="panel-body">
+            <p>Case: <a href="{{object.case.get_absolute_url}}">{{object.case}}</a></p>
+            <p>Questionary: <a href="{{object.questionary.get_absolute_url}}">{{object.questionary}}
+            </div>
+            <table class="table table-stripped">
+                {# TODO: Some rows #}
+            </table>
+        </div>
+        {% endfor %}
+        {% else %}
         {% trans 'No rows.' %}
-    {% endif %}
-</div>
+        {% endif %}
+    </div>
 </div>
 {% endblock %}
