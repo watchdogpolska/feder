@@ -11,12 +11,21 @@
 <div class="col-sm-9">
 {% if object_list %}
 {% for object in object_list %}
-<div class="well">
-    <h1><h1><a href="{{object.get_absolute_url}}">{{object}}</a></h1></h1>
-    <p>User: <a href="{{object.user.get_absolute_url}}">{{object.user}}</a></p>
-</div>
-{% endfor %}
-{% endif %}
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title"><i class="glyphicon glyphicon-search"></i> <a href="{{object.get_absolute_url}}">{{object}}</a></h3>
+        </div>
+        <table class="table table-stripped">
+            <tr>
+                <td>User:</td>
+                <td><a href="{{object.user.get_absolute_url}}">{{object.user}}</a></td>
+            </tr>
+        </table>
+    </div>
+    {% endfor %}
+    {% else %}
+    {% trans 'No rows.' %}
+    {% endif %}
 </div>
 <div class="col-sm-3">
 {% crispy filter.form %}
