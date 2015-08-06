@@ -14,6 +14,10 @@ class JST(JednostkaAdministracyjna):
     def get_absolute_url(self):
         return reverse('institutions:jst_details', kwargs={'slug': self.slug})
 
+    def institution_qs(self):
+        Institution = self.institution_set.model
+        return Institution.objects.area(self)
+
 
 class InstitutionQuerySet(models.QuerySet):
     def with_case_count(self):

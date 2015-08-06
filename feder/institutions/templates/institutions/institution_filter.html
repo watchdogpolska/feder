@@ -2,22 +2,31 @@
 {% load i18n crispy_forms_tags %}
 {% block content %}
 <div class="row">
-<div class="col-md-2">
-{% crispy filter.form %}
-</div>
-<div class="col-md-10">
+    <div class="col-md-2">
+        {% crispy filter.form %}
+    </div>
+    <div class="col-md-10">
 
-    {% if object_list %}
-    {% for object in object_list %}
-        <div class="well">
-            <h3><a href="{{object.get_absolute_url}}">{{object}}</a></h3>
-            <p>JST: <a href="{{object.jst.get_absolute_url}}">{{object.jst}}</a></p>
-            <p>Case count: {{object.case_count}}</p>
-
+        {% if object_list %}
+        {% for object in object_list %}
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title"><i class="glyphicon glyphicon-home"></i>  <a href="{{object.get_absolute_url}}">{{object}}</a></h3>
         </div>
+        <table class="table table-stripped">
+            <tr>
+                <td>JST:</td>
+                <td><a href="{{object.jst.get_absolute_url}}">{{object.jst}}</a></td>
+            </tr>
+            <tr>
+                <td>Case count: </td>
+                <td>{{object.case_count}}</td>
+            </tr>
+        </table>
+    </div>
     {% endfor %}
     {% else %}
-        {% trans 'No rows.' %}
+    {% trans 'No rows.' %}
     {% endif %}
 </div>
 </div>

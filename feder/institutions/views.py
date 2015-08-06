@@ -35,5 +35,4 @@ class JSTDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(JSTDetailView, self).get_context_data(**kwargs)
         context['breadcrumbs'] = self.object.get_ancestors().all()
-        context['institution_list'] = Institution.objects.area(self.object).all()
         return context
