@@ -11,7 +11,7 @@
 {% endblock %}
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h3 class="panel-title"><a href="{{object.get_absolute_url}}">{{object}}</a></h3>
+    <h3 class="panel-title"><i class="glyphicon glyphicon-envelope"></i> <a href="{{object.get_absolute_url}}">{{object}}</a></h3>
   </div>
   <div class="panel-body">
     {% block content_object %}{% endblock %}
