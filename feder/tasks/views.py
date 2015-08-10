@@ -7,7 +7,7 @@ from django_filters.views import FilterView
 from atom.views import DeleteMessageMixin
 from .models import Task
 from .filters import TaskFilter
-from .forms import TaskForm
+from .forms import TaskForm, MultiTaskForm
 
 
 class TaskListView(SelectRelatedMixin, FilterView):
