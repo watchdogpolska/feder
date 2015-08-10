@@ -43,3 +43,4 @@ django-formtools==1.0
 django-mptt==0.7.4
 django-tinycontent==0.5.0
 django-autofixture==0.10.1
+jsonfield==1.0.3
