@@ -1,6 +1,14 @@
 {% extends 'monitorings/base.html' %}
 {% load i18n %}
 {% block content %}
+<ol class="breadcrumb">
+    {% for jst in object.institution.jst.get_ancestors.all %}
+    <li><a href="{{jst.get_absolute_url}}">{{jst}}</a></li>
+    {% endfor %}
+    <li><a href="{{object.institution.jst.get_absolute_url}}">{{object.institution.jst}}</a></li>
+    <li><a href="{{object.institution.get_absolute_url}}">{{object.institution}}</a></li>
+    <li class="active">{{object}}</li>
+</ol>
 {% block buttons %}
 <div class="clearfix">
     <div class="pull-right btn-group">

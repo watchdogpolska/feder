@@ -1,6 +1,15 @@
 {% extends 'questionaries/base.html' %}
 {% load i18n %}
 {% block content %}
+<ol class="breadcrumb">
+    {% for jst in object.case.institution.jst.get_ancestors.all %}
+    <li><a href="{{jst.get_absolute_url}}">{{jst}}</a></li>
+    {% endfor %}
+    <li><a href="{{object.case.institution.jst.get_absolute_url}}">{{object.institution.jst}}</a></li>
+    <li><a href="{{object.case.institution.get_absolute_url}}">{{object.institution}}</a></li>
+    <li><a href="{{object.case.get_absolute_url}}">{{object.case}}</a></li>
+    <li class="active">{{object}}</li>
+</ol>
 
   {% block buttons %}
     <div class="clearfix">

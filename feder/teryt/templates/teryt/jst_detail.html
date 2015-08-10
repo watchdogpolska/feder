@@ -2,10 +2,10 @@
 {% load mptt_tags i18n %}
 {% block content %}
 <ol class="breadcrumb">
-    {% for jst in breadcrumbs %}
+    {% for jst in object.get_ancestors.all %}
     <li><a href="{{jst.get_absolute_url}}">{{jst}}</a></li>
     {% endfor %}
-    <li class="active">{{jst}}</li>
+    <li class="active">{{object}}</li>
 </ol>
 
 <div class="panel panel-default">
@@ -14,7 +14,7 @@
   </div>
 </div>
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-3">
         <div class="panel panel-default">
           <div class="panel-heading">
             <h3 class="panel-title">Institutions</h3>
@@ -30,7 +30,7 @@
         </div>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-3">
         <div class="panel panel-default">
           <div class="panel-heading">
             <h3 class="panel-title">Cases</h3>
@@ -46,7 +46,24 @@
         </div>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-3">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Tasks</h3>
+          </div>
+          <table class="table table-stripped">
+            {% for task in object.task_qs.all %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td><a href="{{task.get_absolute_url}}">{{task.case}} in {{task.case.monitoring}}</a></td>
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
+    </div>
+
+
+    <div class="col-md-3">
         <div class="panel panel-default">
           <div class="panel-heading">
             <h3 class="panel-title">Children</h3>

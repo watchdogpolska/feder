@@ -2,15 +2,21 @@ from django.db import models
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse
+from model_utils.managers import PassThroughManager
 from model_utils.models import TimeStampedModel
 from feder.cases.models import Case
 from jsonfield import JSONField
 from feder.questionaries.models import Questionary, Question
 
 
+class TaskQuerySet(models.QuerySet):
+    pass
+
+
 class Task(TimeStampedModel):
     case = models.ForeignKey(Case)
     questionary = models.ForeignKey(Questionary)
+    objects = PassThroughManager.for_queryset_class(TaskQuerySet)()
 
     class Meta:
         ordering = ['created', ]

@@ -67,6 +67,12 @@ class JednostkaAdministracyjna(MPTTModel):
         return Case.objects.filter(institution__jst__tree_id=self.tree_id,
             institution__jst__lft__range=(self.lft, self.rght))
 
+    def task_qs(self):
+        Task = (self.institution_set.model.case_set.related.related_model.
+            task_set.related.related_model)
+        return Task.objects.filter(case__institution__jst__tree_id=self.tree_id,
+            case__institution__jst__lft__range=(self.lft, self.rght)).select_related('case__monitoring')
+
     class MPTTMeta:
         order_insertion_by = ['name']
 
