@@ -17,6 +17,22 @@
     <div class="col-md-3">
         <div class="panel panel-default">
           <div class="panel-heading">
+            <h3 class="panel-title">Children</h3>
+          </div>
+          <table class="table table-stripped">
+            {% for jst in object.children.all %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td><a href="{{jst.get_absolute_url}}">{{jst}}</a></td>
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="panel panel-default">
+          <div class="panel-heading">
             <h3 class="panel-title">Institutions</h3>
           </div>
           <table class="table table-stripped">
@@ -56,23 +72,6 @@
             <tr>
                 <td>{{ forloop.counter }}</td>
                 <td><a href="{{task.get_absolute_url}}">{{task.case}} in {{task.case.monitoring}}</a></td>
-            </tr>
-            {% endfor %}
-          </table>
-        </div>
-    </div>
-
-
-    <div class="col-md-3">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">Children</h3>
-          </div>
-          <table class="table table-stripped">
-            {% for jst in object.children.all %}
-            <tr>
-                <td>{{ forloop.counter }}</td>
-                <td><a href="{{jst.get_absolute_url}}">{{jst}}</a></td>
             </tr>
             {% endfor %}
           </table>
