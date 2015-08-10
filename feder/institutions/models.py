@@ -7,18 +7,6 @@ from feder.teryt.models import JednostkaAdministracyjna
 from model_utils.managers import PassThroughManager
 
 
-class JST(JednostkaAdministracyjna):
-    class Meta:
-        proxy = True
-
-    def get_absolute_url(self):
-        return reverse('institutions:jst_details', kwargs={'slug': self.slug})
-
-    def institution_qs(self):
-        Institution = self.institution_set.model
-        return Institution.objects.area(self)
-
-
 class InstitutionQuerySet(models.QuerySet):
     def with_case_count(self):
         return self.annotate(case_count=models.Count('case'))
@@ -33,7 +21,7 @@ class Institution(models.Model):
     slug = AutoSlugField(populate_from='name', verbose_name=_("Slug"), unique=True)
     tags = models.ManyToManyField('Tag', verbose_name=_("Tag"))
     address = models.EmailField(verbose_name=_("E-mail"))
-    jst = models.ForeignKey(JST, limit_choices_to={'category__level': 3},
+    jst = models.ForeignKey(JednostkaAdministracyjna, limit_choices_to={'category__level': 3},
         verbose_name=_('Unit of administrative division'), db_index=True)
     objects = PassThroughManager.for_queryset_class(InstitutionQuerySet)()
 

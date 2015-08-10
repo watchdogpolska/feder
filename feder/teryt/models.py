@@ -4,6 +4,7 @@ from mptt.models import MPTTModel, TreeForeignKey
 from django.utils.translation import ugettext as _
 from mptt.managers import TreeManager
 from model_utils import Choices
+from django.core.urlresolvers import reverse
 from model_utils.managers import PassThroughManagerMixin
 from autoslug import AutoSlugField
 
@@ -29,7 +30,7 @@ class JednostkaAdministracyjnaQuerySet(models.QuerySet):
 class Category(models.Model):
     LEVEL = Choices((1, 'voivodeship', _('voivodeship')),
                     (2, 'county', _('county')),
-                   (3, 'community', _('community')))
+                    (3, 'community', _('community')))
     name = models.CharField(max_length=50)
     slug = AutoSlugField(populate_from='name')
 
@@ -53,6 +54,18 @@ class JednostkaAdministracyjna(MPTTModel):
 
     def __unicode__(self):
         return u'{0} ({1})'.format(self.name, self.category.name)
+
+    def get_absolute_url(self):
+        return reverse('teryt:details', kwargs={'slug': self.slug})
+
+    def institution_qs(self):
+        Institution = self.institution_set.model
+        return Institution.objects.area(self)
+
+    def case_qs(self):
+        Case = self.institution_set.model.case_set.related.related_model
+        return Case.objects.filter(institution__jst__tree_id=self.tree_id,
+            institution__jst__lft__range=(self.lft, self.rght))
 
     class MPTTMeta:
         order_insertion_by = ['name']

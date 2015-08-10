@@ -3,7 +3,7 @@
 {% block content %}
 <ol class="breadcrumb">
     {% for jst in breadcrumbs %}
-    <li><a href="{% url 'institutions:jst_details' slug=jst.slug%}">{{jst}}</a></li>
+    <li><a href="{{jst.get_absolute_url}}">{{jst}}</a></li>
     {% endfor %}
     <li class="active">{{jst}}</li>
 </ol>
@@ -14,7 +14,7 @@
   </div>
 </div>
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-4">
         <div class="panel panel-default">
           <div class="panel-heading">
             <h3 class="panel-title">Institutions</h3>
@@ -29,7 +29,24 @@
           </table>
         </div>
     </div>
-    <div class="col-md-6">
+
+    <div class="col-md-4">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Cases</h3>
+          </div>
+          <table class="table table-stripped">
+            {% for case in object.case_qs.all %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td><a href="{{case.get_absolute_url}}">{{case}}</a></td>
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
+    </div>
+
+    <div class="col-md-4">
         <div class="panel panel-default">
           <div class="panel-heading">
             <h3 class="panel-title">Children</h3>
@@ -38,7 +55,7 @@
             {% for jst in object.children.all %}
             <tr>
                 <td>{{ forloop.counter }}</td>
-                <td><a href="{% url 'institutions:jst_details' slug=jst.slug %}">{{jst}}</a></td>
+                <td><a href="{{jst.get_absolute_url}}">{{jst}}</a></td>
             </tr>
             {% endfor %}
           </table>

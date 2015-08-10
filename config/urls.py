@@ -8,7 +8,6 @@ from django.contrib import admin
 from django.views.generic import TemplateView
 
 urlpatterns = [
-    url(r'^$', TemplateView.as_view(template_name='pages/home.html'), name="home"),
     url(r'^about/$', TemplateView.as_view(template_name='pages/about.html'), name="about"),
 
     # Django Admin
@@ -26,6 +25,7 @@ urlpatterns = [
     url(r'^questionaries/', include('feder.questionaries.urls', namespace="questionaries")),
     url(r'^letters/', include('feder.letter.urls', namespace="letters")),
     url(r'^autocomplete/', include('autocomplete_light.urls')),
+    url(r'^', include('feder.teryt.urls', namespace="teryt")),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

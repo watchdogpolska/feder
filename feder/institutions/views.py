@@ -2,7 +2,7 @@ from django.views.generic import DetailView
 from django_filters.views import FilterView
 from braces.views import SelectRelatedMixin
 from feder.monitorings.models import Monitoring
-from .models import Institution, JST
+from .models import Institution
 from .filters import InstitutionFilter
 
 
@@ -26,13 +26,4 @@ class InstitutionDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(InstitutionDetailView, self).get_context_data(**kwargs)
         context['monitoring_list'] = self.get_monitoring_list(self.object)
-        return context
-
-
-class JSTDetailView(DetailView):
-    model = JST
-
-    def get_context_data(self, **kwargs):
-        context = super(JSTDetailView, self).get_context_data(**kwargs)
-        context['breadcrumbs'] = self.object.get_ancestors().all()
         return context
