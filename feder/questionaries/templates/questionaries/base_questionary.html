@@ -8,6 +8,7 @@
         <a class="btn btn-default" href="{% url 'questionaries:update' pk=object.pk %}">{% trans 'Edit' %}</a>
         <a class="btn btn-warning" href="{% url 'questionaries:delete' pk=object.pk %}">{% trans 'Delete' %}</a>
         <a class="btn btn-primary" href="{% url 'questionaries:question_create' pk=object.pk %}">{% trans 'Add question' %}</a>
+        <a class="btn btn-primary" href="{% url 'questionaries:tasks' pk=object.pk %}">{% trans 'Create tasks' %}</a>
 
       </div>
     </div>

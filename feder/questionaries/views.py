@@ -8,6 +8,7 @@ from django_filters.views import FilterView
 from atom.views import DeleteMessageMixin, ActionView, ActionMessageMixin
 from formtools.wizard.views import SessionWizardView
 from django.db.models import F
+from feder.tasks.forms import MultiTaskForm
 from .models import Questionary, Question
 from .filters import QuestionaryFilter
 from .forms import QuestionaryForm, QuestionForm, BoolQuestionForm, AnswerFormSet
@@ -97,3 +98,17 @@ class QuestionMoveView(ActionMessageMixin, ActionView):
 
     def get_success_url(self):
         return self.object.questionary.get_absolute_url()
+
+
+class TaskMultiCreateView(LoginRequiredMixin, UserFormKwargsMixin, UpdateView):
+    model = Questionary
+    form_class = MultiTaskForm
+
+    def get_form_kwargs(self):
+        return {'questionary': self.object}
+
+    def get_form_valid_message(self):
+        return _("{0} created!").format(self.object)
+
+    def get_success_url(self):
+        return self.object.get_absolute_url()

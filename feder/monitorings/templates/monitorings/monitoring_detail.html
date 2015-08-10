@@ -7,7 +7,7 @@
         {% if object.case_set.all %}
         <ul>
             {% for case in object.case_set.all %}
-            <li><a href="{{case.get_absolute_url}}">{{case}}</a></li>
+            <li><a href="{{case.get_absolute_url}}">{{case}}</a> in <a href="{{case.institution.get_absolute_url}}">{{case.institution}}</a></li>
             {% endfor %}
         </ul>
         {% else %}

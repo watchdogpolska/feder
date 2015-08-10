@@ -97,3 +97,4 @@ class QuestionForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
     class Meta:
         model = Question
         fields = ['position', 'genre']
+
