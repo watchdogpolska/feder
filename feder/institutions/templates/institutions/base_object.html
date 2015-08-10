@@ -5,7 +5,7 @@
     {% for jst in object.jst.get_ancestors.all %}
     <li><a href="{{jst.get_absolute_url}}">{{jst}}</a></li>
     {% endfor %}
-    <li><a href="{{object.jst}}">{{object.jst}}</a></li>
+    <li><a href="{{object.jst.get_absolute_url}}">{{object.jst}}</a></li>
     <li class="active">{{object}}</li>
 </ol>
   {% block buttons %}
