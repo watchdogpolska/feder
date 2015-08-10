@@ -54,6 +54,7 @@ LOCAL_APPS = (
     'feder.cases',
     'feder.letter',
     'feder.questionaries',
+    'feder.main'
     # Your stuff: custom apps go here
 )
 
