@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404, redirect
-from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
+from django.views.generic import CreateView, DetailView, UpdateView, DeleteView, FormView
 from django.utils.translation import ugettext_lazy as _
+from django.views.generic.detail import SingleObjectMixin
 from braces.views import (SelectRelatedMixin, LoginRequiredMixin, FormValidMessageMixin,
     UserFormKwargsMixin, PrefetchRelatedMixin)
 from django.core.urlresolvers import reverse_lazy
@@ -100,15 +101,23 @@ class QuestionMoveView(ActionMessageMixin, ActionView):
         return self.object.questionary.get_absolute_url()
 
 
-class TaskMultiCreateView(LoginRequiredMixin, UserFormKwargsMixin, UpdateView):
+class TaskMultiCreateView(LoginRequiredMixin, UserFormKwargsMixin, SingleObjectMixin, FormView):
     model = Questionary
     form_class = MultiTaskForm
+    template_name = 'questionaries/questionary_form.html'
 
     def get_form_kwargs(self):
-        return {'questionary': self.object}
+        kwargs = super(TaskMultiCreateView, self).get_form_kwargs()
+        self.object = self.get_object()
+        kwargs.update({'questionary': self.object})
+        return kwargs
 
     def get_form_valid_message(self):
         return _("{0} created!").format(self.object)
 
     def get_success_url(self):
         return self.object.get_absolute_url()
+
+    def form_valid(self, form, *args, **kwargs):
+        form.save()
+        return super(TaskMultiCreateView, self).form_valid(form, *args, **kwargs)
