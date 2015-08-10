@@ -1,14 +1,5 @@
-from django.views.generic import DetailView, ListView
+from django.views.generic import DetailView
 from .models import JednostkaAdministracyjna
-
-
-class JSTListView(ListView):
-    model = JednostkaAdministracyjna
-    template_name = 'teryt/jst_home.html'
-
-    def get_queryset(self, *args, **kwargs):
-        qs = super(JSTListView, self).get_queryset(*args, **kwargs)
-        return qs.filter(level=0)
 
 
 class JSTDetailView(DetailView):

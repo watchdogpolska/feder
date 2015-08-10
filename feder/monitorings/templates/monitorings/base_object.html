@@ -2,6 +2,10 @@
 {% load i18n %}
 {% block content %}
 {% if object %}
+  <ol class="breadcrumb">
+      <li class="active">{{object}}</li>
+  </ol>
+
     <div class="clearfix">
     <div class="pull-right btn-group">
         <a class="btn btn-default" href="{% url 'monitorings:update' slug=object.slug %}">{% trans 'Edit' %}</a>

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Voivodeship</h3>
+          </div>
+          <table class="table table-stripped">
+            {% for jst in voivodeship_list %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td><a href="{{jst.get_absolute_url}}">{{jst}}</a></td>
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Monitorings</h3>
+          </div>
+          <table class="table table-stripped">
+            {% for monitoring in monitoring_list %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td><a href="{{monitoring.get_absolute_url}}">{{monitoring}}</a></td>
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -10,9 +10,8 @@ from autoslug import AutoSlugField
 
 
 class PassThroughTreeManager(PassThroughManagerMixin, TreeManager):
-    def get_queryset(self, *args, **kwargs):
-        qs = super(PassThroughTreeManager, self).get_queryset(*args, **kwargs)
-        return qs.select_related('category')
+    def with_category(self):
+        return self.select_related('category')
 
 
 class JednostkaAdministracyjnaQuerySet(models.QuerySet):
@@ -36,6 +35,9 @@ class Category(models.Model):
 
     level = models.IntegerField(choices=LEVEL, db_index=True)
 
+    def __unicode__(self):
+        return self.name
+
     class Meta:
         verbose_name = _('Category')
         verbose_name_plural = _('Categories')
@@ -53,7 +55,7 @@ class JednostkaAdministracyjna(MPTTModel):
     objects = PassThroughTreeManager.for_queryset_class(JednostkaAdministracyjnaQuerySet)()
 
     def __unicode__(self):
-        return u'{0} ({1})'.format(self.name, self.category.name)
+        return u'{0}'.format(self.name)
 
     def get_absolute_url(self):
         return reverse('teryt:details', kwargs={'slug': self.slug})

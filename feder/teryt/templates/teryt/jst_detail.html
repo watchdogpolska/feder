@@ -20,10 +20,10 @@
             <h3 class="panel-title">Children</h3>
           </div>
           <table class="table table-stripped">
-            {% for jst in object.children.all %}
+            {% for jst in object.children.with_category.all %}
             <tr>
                 <td>{{ forloop.counter }}</td>
-                <td><a href="{{jst.get_absolute_url}}">{{jst}}</a></td>
+                <td><a href="{{jst.get_absolute_url}}">{{jst}} ({{jst.category}})</a></td>
             </tr>
             {% endfor %}
           </table>

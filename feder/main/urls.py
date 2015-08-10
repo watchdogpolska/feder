@@ -5,5 +5,5 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-   url(r'^(?P<slug>[\w-]+)$', views.JSTDetailView.as_view(), name="details"),
+   url(r'^$', views.HomeView.as_view(), name="home"),
 ]
