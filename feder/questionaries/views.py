@@ -9,10 +9,10 @@ from django_filters.views import FilterView
 from atom.views import DeleteMessageMixin, ActionView, ActionMessageMixin, FormInitialMixin
 from formtools.wizard.views import SessionWizardView
 from django.db.models import F
-from feder.tasks.forms import MultiTaskForm
+from feder.tasks.forms import MultiTaskForm, AnswerFormSet
 from .models import Questionary, Question
 from .filters import QuestionaryFilter
-from .forms import QuestionaryForm, QuestionForm, BoolQuestionForm, AnswerFormSet
+from .forms import QuestionaryForm, QuestionForm, BoolQuestionForm
 
 
 class QuestionaryListView(SelectRelatedMixin, FilterView):
@@ -38,7 +38,7 @@ class QuestionaryDetailView(PrefetchRelatedMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(QuestionaryDetailView, self).get_context_data(**kwargs)
-        context['answer_forms'] = AnswerFormSet(self.object)
+        context['answer_forms'] = AnswerFormSet(questionary=self.object)
         return context
 
 

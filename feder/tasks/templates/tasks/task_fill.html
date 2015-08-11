@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load i18n crispy_forms_tags %}
+{% block content %}
+<h1>{{object}} - {{object.pk}}</h1>
+<p>Questionary: <a href="{{object.questionary.get_absolute_url}}">{{object.questionary}}</a></p>
+<form method="POST">
+{% crispy form %}
+{% for form in formset %}
+<div class="well">
+{% crispy form %}
+</div>
+{% endfor %}
+</form>
+
+{% if done %}
+
+<h1>DONE!</h1>
+{% endif %}
+{% endblock %}
