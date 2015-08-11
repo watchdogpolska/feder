@@ -6,7 +6,7 @@ from braces.views import (SelectRelatedMixin, LoginRequiredMixin, FormValidMessa
     UserFormKwargsMixin, PrefetchRelatedMixin)
 from django.core.urlresolvers import reverse_lazy
 from django_filters.views import FilterView
-from atom.views import DeleteMessageMixin, ActionView, ActionMessageMixin
+from atom.views import DeleteMessageMixin, ActionView, ActionMessageMixin, FormInitialMixin
 from formtools.wizard.views import SessionWizardView
 from django.db.models import F
 from feder.tasks.forms import MultiTaskForm
@@ -42,7 +42,7 @@ class QuestionaryDetailView(PrefetchRelatedMixin, DetailView):
         return context
 
 
-class QuestionaryCreateView(LoginRequiredMixin, UserFormKwargsMixin, CreateView):
+class QuestionaryCreateView(LoginRequiredMixin, UserFormKwargsMixin, FormInitialMixin, CreateView):
     model = Questionary
     form_class = QuestionaryForm
 
@@ -56,7 +56,7 @@ class QuestionaryUpdateView(LoginRequiredMixin, UserFormKwargsMixin,  FormValidM
     form_class = QuestionaryForm
 
     def get_form_valid_message(self):
-        return _("{0} updated!").format(self.object)
+        return _("{object} updated!").format(object=self.object)
 
 
 class QuestionaryDeleteView(LoginRequiredMixin, DeleteMessageMixin, DeleteView):
@@ -64,7 +64,7 @@ class QuestionaryDeleteView(LoginRequiredMixin, DeleteMessageMixin, DeleteView):
     success_url = reverse_lazy('questionaries:list')
 
     def get_success_message(self):
-        return _("{0} deleted!").format(self.object)
+        return _("{object} deleted!").format(object=self.object)
 
 
 class QuestionWizard(SessionWizardView):
@@ -95,7 +95,7 @@ class QuestionMoveView(ActionMessageMixin, ActionView):
         self.object.save()
 
     def get_success_message(self):
-        return _("{0} moved!").format(self.object)
+        return _("{object} moved!").format(object=self.object)
 
     def get_success_url(self):
         return self.object.questionary.get_absolute_url()

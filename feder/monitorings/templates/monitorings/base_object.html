@@ -10,6 +10,7 @@
     <div class="pull-right btn-group">
         <a class="btn btn-default" href="{% url 'monitorings:update' slug=object.slug %}">{% trans 'Edit' %}</a>
         <a class="btn btn-warning" href="{% url 'monitorings:delete' slug=object.slug %}">{% trans 'Delete' %}</a>
+        <a class="btn btn-default" href="{% url 'questionaries:create' %}?monitoring={{object.pk}}">{% trans 'Create questionary' %}</a>
     </div>
 </div>
 {% endif %}
