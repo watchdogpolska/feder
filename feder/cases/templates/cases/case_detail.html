@@ -8,8 +8,8 @@
 {% block letter_list %}
 <div class="well letter-list">
 <h2>{% trans 'letters' %}</h2>
-{% if object.letter_set.all %}
-    {% for letter in object.letter_set.all %}
+{% if letter_list %}
+    {% for letter in letter_list %}
         {% include 'letter/_object.html' with object=letter %}
     {% endfor %}
 {% else %}

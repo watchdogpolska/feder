@@ -1,7 +1,7 @@
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 from django.utils.translation import ugettext_lazy as _
 from braces.views import (SelectRelatedMixin, LoginRequiredMixin, FormValidMessageMixin,
-    UserFormKwargsMixin)
+    UserFormKwargsMixin, PrefetchRelatedMixin)
 from django.core.urlresolvers import reverse_lazy
 from django_filters.views import FilterView
 from atom.views import DeleteMessageMixin
@@ -21,9 +21,16 @@ class CaseListView(SelectRelatedMixin, FilterView):
         return qs.with_letter_count()
 
 
-class CaseDetailView(SelectRelatedMixin, DetailView):
+class CaseDetailView(SelectRelatedMixin, PrefetchRelatedMixin, DetailView):
     model = Case
     select_related = ['user', 'monitoring', 'institution']
+    prefetch_related = ['letter_set']
+
+    def get_context_data(self, **kwargs):
+        context = super(CaseDetailView, self).get_context_data(**kwargs)
+        context['letter_list'] = (self.object.letter_set.prefetch_related('attachment_set').
+            select_related('author_user', 'author_institution'))
+        return context
 
 
 class CaseCreateView(LoginRequiredMixin, UserFormKwargsMixin, CreateView):
