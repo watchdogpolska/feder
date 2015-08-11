@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView, FormView
 from django.utils.translation import ugettext_lazy as _
-from django.views.generic.detail import SingleObjectMixin
+from django.views.generic.detail import SingleObjectTemplateResponseMixin, SingleObjectMixin
 from braces.views import (SelectRelatedMixin, LoginRequiredMixin, FormValidMessageMixin,
     UserFormKwargsMixin, PrefetchRelatedMixin)
 from django.core.urlresolvers import reverse_lazy
@@ -90,7 +90,7 @@ class QuestionMoveView(ActionMessageMixin, ActionView):
     direction = None
     change = {'up': +1, 'down': -1}
 
-    def action(self):
+    def action(self, *args, **kwargs):
         self.object.position = F('position') + self.change[self.direction]
         self.object.save()
 
@@ -101,10 +101,11 @@ class QuestionMoveView(ActionMessageMixin, ActionView):
         return self.object.questionary.get_absolute_url()
 
 
-class TaskMultiCreateView(LoginRequiredMixin, UserFormKwargsMixin, SingleObjectMixin, FormView):
+class TaskMultiCreateView(LoginRequiredMixin, UserFormKwargsMixin, FormValidMessageMixin,
+       SingleObjectTemplateResponseMixin, SingleObjectMixin, FormView):
     model = Questionary
     form_class = MultiTaskForm
-    template_name = 'questionaries/questionary_form.html'
+    template_name_suffix = '_form'
 
     def get_form_kwargs(self):
         kwargs = super(TaskMultiCreateView, self).get_form_kwargs()
@@ -113,7 +114,7 @@ class TaskMultiCreateView(LoginRequiredMixin, UserFormKwargsMixin, SingleObjectM
         return kwargs
 
     def get_form_valid_message(self):
-        return _("{0} created!").format(self.object)
+        return _("Tasks for {object} created!").format(object=self.object)
 
     def get_success_url(self):
         return self.object.get_absolute_url()
