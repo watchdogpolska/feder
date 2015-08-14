@@ -41,7 +41,8 @@ THIRD_PARTY_APPS = (
     'autofixture',
     'autocomplete_light',
     'formtools',
-    'mptt'
+    'mptt',
+    'atom'
 )
 
 # Apps specific for this project go here.
