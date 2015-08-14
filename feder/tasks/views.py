@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse_lazy
@@ -68,13 +68,13 @@ def fill_survey(request, pk):
     context['form'] = form
     if request.POST and form.is_valid():
             obj = form.save(commit=False)
-            formset = AnswerFormSet(data=request.POST or None, survey=obj, questionary=task.questionary)
+            formset = AnswerFormSet(data=request.POST or None, survey=obj,
+                questionary=task.questionary)
             context['formset'] = formset
             if formset.is_valid():
                 obj.save()
                 formset.save()
-                context['survey'] = obj
-                context['done'] = True
+                return redirect(obj.task)
     else:
         formset = AnswerFormSet(data=request.POST or None, questionary=task.questionary)
         context['formset'] = formset
