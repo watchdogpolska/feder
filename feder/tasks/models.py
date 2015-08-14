@@ -14,9 +14,13 @@ class TaskQuerySet(models.QuerySet):
 
 
 class Task(TimeStampedModel):
+    name = models.CharField(max_length=75)
     case = models.ForeignKey(Case)
     questionary = models.ForeignKey(Questionary)
     objects = PassThroughManager.for_queryset_class(TaskQuerySet)()
+
+    def __unicode__(self):
+        return self.name
 
     class Meta:
         ordering = ['created', ]

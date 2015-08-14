@@ -85,15 +85,19 @@ class AnswerFormSet(object):  # How use django formsets?
 
 class MultiTaskForm(SaveButtonMixin, UserKwargModelFormMixin, forms.Form):
     cases = forms.ModelMultipleChoiceField(queryset=Case.objects.none())
+    name = forms.CharField(max_length=50)
 
     def __init__(self, questionary, *args, **kwargs):
         self.questionary = questionary
         super(MultiTaskForm, self).__init__(*args, **kwargs)
         self.fields['cases'].queryset = questionary.monitoring.case_set.all()
 
+    def get_name(self, no):
+        return "{name} #{no}".format(name=self.cleaned_data['name'], no=no)
+
     def save(self, *args, **kwargs):
-        objs = [Task(questionary=self.questionary, case=case)
-            for case in self.cleaned_data['cases']]
+        objs = [Task(questionary=self.questionary, name=self.get_name(no),
+            case=case) for no, case in enumerate(self.cleaned_data['cases'], start=1)]
         return Task.objects.bulk_create(objs)
 
 
