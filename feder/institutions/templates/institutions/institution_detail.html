@@ -1,4 +1,4 @@
-{% extends 'institutions/base.html' %}
+{% extends 'monitorings/base.html' %}
 {% load i18n %}
 {% block content %}
 <ol class="breadcrumb">
@@ -7,41 +7,30 @@
     {% endfor %}
     <li><a href="{{object.jst.get_absolute_url}}">{{object.jst}}</a></li>
     <li class="active">{{object}}</li>
-</ol>
 
+</ol>
 {% block buttons %}
-    <div class="clearfix">
-      <div class="pull-right btn-group">
-        <a class="btn btn-default" href="{% url 'institutions:update' slug=object.slug %}">{% trans 'Edit' %}</a>
-        <a class="btn btn-warning" href="{% url 'institutions:delete' slug=object.slug %}">{% trans 'Delete' %}</a>
-      </div>
-    </div>
-  {% endblock %}
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h3 class="panel-title"><i class="glyphicon glyphicon-home"></i> <a href="{{object.get_absolute_url}}">{{object}}</a></h3>
-    </div>
-    <table class="table table-striped">
-        <tr>
-            <td>{% trans "Name"%}</td>
-            <td>{{object.name}}</td>
-        </tr>
-        <tr>
-            <td>{% trans "E-mail"%}</td>
-            <td>{{object.address}}</td>
-        </tr>
-        <tr>
-            <td><i class="glyphicon glyphicon-globe"></i> {% trans "jst"%}</td>
-            <td><a href="{{object.jst.get_absolute_url}}">{{object.jst}}</a></td>
-        </tr>
-        <tr>
-            <td>{% trans "Tag"%}</td>
-            <td>{% for tag in object.tags.all %}<span class="label label-info"><a href="{{tag.get_absolute_url}}">{{tag}}</a></span> {% endfor %}</td>
-        </tr>
-    </table>
-    <div class="panel-body">
-        {% for case in case_list %}
+{% if object %}
+<div class="clearfix">
+  <div class="pull-right btn-group">
+    <a class="btn btn-default" href="{% url 'institutions:update' slug=object.slug %}">{% trans 'Edit' %}</a>
+    <a class="btn btn-warning" href="{% url 'institutions:delete' slug=object.slug %}">{% trans 'Delete' %}</a>
+</div>
+</div>
+{% endif %}
+{% endblock %}
+
+<div class="page-header">
+<h2><i class="glyphicon glyphicon-home"></i>{{object}}</h2>
+</div>
+<div class="row red">
+    <p>{% trans "E-mail"%}: {{object.address}}</p>
+    <p>{% trans "Tags"%}: {% for tag in object.tags.all %}<a href="{{tag.get_absolute_url}}">{{tag}}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+</div>
+<div class="row gray">
+    {% for case in case_list %}
         {% ifchanged %}<h2><i class="glyphicon glyphicon-search"></i> <a href="{{case.monitoring.get_absolute_url}}">{{case.monitoring}}</a></h2>{% endifchanged %}
+        
         <div class="panel panel-default">
           <div class="panel-heading">
             <h3 class="panel-title"><i class="glyphicon glyphicon-folder-open"></i> 
@@ -55,67 +44,68 @@
               </table>
           {% endif %}
         </div>
-        {% endfor %}
-        {% if case_list.has_previous or case_list.has_next %}
-        <ul class="pager">
-            {% if case_list.has_previous %}
-                <li><a href="{% url 'institutions:details' slug=object.slug page=case_list.previous_page_number %}">&laquo; {% trans 'previous' %}</a></li>
-            {% endif %}
-
-            <li>{% blocktrans with no=case_list.number total=case_list.paginator.num_pages %}Page {{ no }} of {{ total }}{% endblocktrans %}</li>
-
-            {% if case_list.has_next %}
-                <li><a href="{% url 'institutions:details' slug=object.slug page=case_list.next_page_number %}">{% trans 'next' %} &raquo; </a></li>
-            {% endif %}
-        </ul>
-        {% endif %}
-            {% comment %}
-            <div class="col-md-4 case-list">
-                <div class="well">
-                    <h2>{% trans 'Cases' %}</h2>
-                    {% if object.case_set.all %}
-                    <ul>
-                        {% for case in object.case_set.all %}
-                        <li><a href="{{case.get_absolute_url}}">{{case}}</a></li>
-                        {% endfor %}
-                    </ul>
-                    {% else %}
-                    {% trans 'No rows.' %}
-                    {% endif %}
-                </div>
-            </div>
-
-            <div class="col-md-4 monitoring-list">
-                <div class="well">
-                <h2>{% trans 'Monitoring' %}</h2>
-                {% if monitoring_list %}
-                <ul>
-                    {% for monitoring in monitoring_list %}
-                    <li><a href="{{monitoring.get_absolute_url}}">{{monitoring}}</a></li>
-                    {% endfor %}
-                </ul>
-                {% else %}
-                {% trans 'No rows.' %}
-                {% endif %}
-                </div>
-            </div>
-
-            <div class="col-md-4 email-list">
-                <div class="well">
-                <h2>{% trans 'E-mails' %}</h2>
-                {% if object.email_set.all %}
-                <ul>
-                    {% for email in object.email_set.all %}
-                    <li>{{email}} {% if email.email == object.address %}( {%trans 'Primary' %} ){% endif %}</li>
-                    {% endfor %}
-                </ul>
-                {% else %}
-                {% trans 'No rows.' %}
-                {% endif %}
-                </div>
-            </div>
-            {% endcomment %}
-    </div>
+    {% endfor %}
     
-  </div>
+    {% if case_list.has_previous or case_list.has_next %}
+    <ul class="pager">
+        {% if case_list.has_previous %}
+            <li><a href="{% url 'institutions:details' slug=object.slug page=case_list.previous_page_number %}">&laquo; {% trans 'previous' %}</a></li>
+        {% endif %}
+
+        <li>{% blocktrans with no=case_list.number total=case_list.paginator.num_pages %}Page {{ no }} of {{ total }}{% endblocktrans %}</li>
+
+        {% if case_list.has_next %}
+            <li><a href="{% url 'institutions:details' slug=object.slug page=case_list.next_page_number %}">{% trans 'next' %} &raquo; </a></li>
+        {% endif %}
+    </ul>
+    {% endif %}
+</div>
 {% endblock %}
+
+
+{% comment %}
+<div class="col-md-4 case-list">
+    <div class="well">
+        <h2>{% trans 'Cases' %}</h2>
+        {% if object.case_set.all %}
+        <ul>
+            {% for case in object.case_set.all %}
+            <li><a href="{{case.get_absolute_url}}">{{case}}</a></li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        {% trans 'No rows.' %}
+        {% endif %}
+    </div>
+</div>
+
+<div class="col-md-4 monitoring-list">
+    <div class="well">
+    <h2>{% trans 'Monitoring' %}</h2>
+    {% if monitoring_list %}
+    <ul>
+        {% for monitoring in monitoring_list %}
+        <li><a href="{{monitoring.get_absolute_url}}">{{monitoring}}</a></li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    {% trans 'No rows.' %}
+    {% endif %}
+    </div>
+</div>
+
+<div class="col-md-4 email-list">
+    <div class="well">
+    <h2>{% trans 'E-mails' %}</h2>
+    {% if object.email_set.all %}
+    <ul>
+        {% for email in object.email_set.all %}
+        <li>{{email}} {% if email.email == object.address %}( {%trans 'Primary' %} ){% endif %}</li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    {% trans 'No rows.' %}
+    {% endif %}
+    </div>
+</div>
+{% endcomment %}

@@ -6,27 +6,20 @@
     <li><a href="{{jst.get_absolute_url}}">{{jst}}</a></li>
     {% endfor %}
     <li><a href="{{object.jst.get_absolute_url}}">{{object.jst}}</a></li>
-    <li class="active">{{object}}</li>
-</ol>
-  {% block buttons %}
-    {% if object %}
-    <div class="clearfix">
+      <li><a href="{{object.get_absolute_url}}">{{object}}</a></li>
+    <li>{% if headline %}{{headline }}{% else %}{% trans 'Edit' %}{% endif %}</li></ol>
+  <div class="clearfix">
       <div class="pull-right btn-group">
         <a class="btn btn-default" href="{% url 'institutions:update' slug=object.slug %}">{% trans 'Edit' %}</a>
         <a class="btn btn-warning" href="{% url 'institutions:delete' slug=object.slug %}">{% trans 'Delete' %}</a>
       </div>
     </div>
-    {% endif %}
-  {% endblock %}
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h3 class="panel-title"><i class="glyphicon glyphicon-home"></i> <a href="{{object.get_absolute_url}}">{{object}}</a></h3>
-    </div>
-    <div class="panel-body">
-      {% block content_object %}{% endblock %}
-    </div>
-    <table class="table table-striped">
-      {% block content_table %}{% endblock %}
-    </div>
-  </div>
-  {% endblock %}
+
+<div class="page-header">
+<h2><i class="glyphicon glyphicon-home"></i> <a href="{{object.get_absolute_url}}">{{object}}</a></h2>
+</div>
+
+<div class="gray">
+{% block content_object %}{% endblock %}
+</div>
+{% endblock %}

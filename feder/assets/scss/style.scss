@@ -29,13 +29,12 @@ $gray: #F0F0F0;
   li {
     padding: 5px 0px;
   }
-  li:before { // How to write it up? 
+  li:after { // How to write it up? 
     content: "";
     display: block;
-    width: 50px;
+    width: 25px;
     height: 1px;
-    margin-bottom: 0px;
-    margin-top: 0px;
+    margin: 0px;
   }
   width: 100%;
 }
@@ -46,21 +45,17 @@ $gray: #F0F0F0;
   background-color: $red;
   color: $gray;
   a { 
-    color: darken(#fff, 5%);
+    color: darken(#fff, 10%);
   }
   a:hover{
-    color: darken(#fff, 15%);
+    color: darken(#fff, 20%);
   }
-  :after{
-    border: 20px solid darken($red, 15%); 
-    border-right-color: #fff;
-    border-top-color: #fff;
-  }
+  
   .page-title {
     color: #fff;
   }
   .select-list {
-    li:before {
+    li:after {
       background-color: darken($gray, 10%);
     }
   }
@@ -71,7 +66,7 @@ $gray: #F0F0F0;
   background-color: $gray;
   text-color: $red;
   .select-list {
-    li:before {
+    li:after {
       background-color: $red;
     }
   }

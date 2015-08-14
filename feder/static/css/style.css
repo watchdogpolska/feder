@@ -7296,13 +7296,12 @@ button.close {
 .select-list li {
   padding: 5px 0px;
 }
-.select-list li:before {
+.select-list li:after {
   content: "";
   display: block;
-  width: 50px;
+  width: 25px;
   height: 1px;
-  margin-bottom: 0px;
-  margin-top: 0px;
+  margin: 0px;
 }
 
 .red {
@@ -7310,20 +7309,15 @@ button.close {
   color: #F0F0F0;
 }
 .red a {
-  color: #f2f2f2;
+  color: #e6e6e6;
 }
 .red a:hover {
-  color: #d9d9d9;
-}
-.red :after {
-  border: 20px solid #961b1b;
-  border-right-color: #fff;
-  border-top-color: #fff;
+  color: #cccccc;
 }
 .red .page-title {
   color: #fff;
 }
-.red .select-list li:before {
+.red .select-list li:after {
   background-color: #d6d6d6;
 }
 
@@ -7331,7 +7325,7 @@ button.close {
   background-color: #F0F0F0;
   text-color: #D72626;
 }
-.gray .select-list li:before {
+.gray .select-list li:after {
   background-color: #D72626;
 }
 .gray .page-title {
