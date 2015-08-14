@@ -15,6 +15,7 @@ class Monitoring(TimeStampedModel):
     name = models.CharField(verbose_name=_("Name"), max_length=50)
     slug = AutoSlugField(populate_from='name', verbose_name=_("Slug"), unique=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    description = models.TextField(verbose_name=_("Description"), blank=True)
     objects = PassThroughManager.for_queryset_class(MonitoringQuerySet)()
     # TODO: Define fields here
 

@@ -3,30 +3,17 @@
 {% block content %}
 {% if object %}
   <ol class="breadcrumb">
-      <li class="active">{{object}}</li>
+      <li><a href="{{object.get_absolute_url}}">{{object}}</a></li>
+      {% block breadcrumbs_row %}{% endblock %} 
   </ol>
-
-    <div class="clearfix">
-    <div class="pull-right btn-group">
-        <a class="btn btn-default" href="{% url 'monitorings:update' slug=object.slug %}">{% trans 'Edit' %}</a>
-        <a class="btn btn-warning" href="{% url 'monitorings:delete' slug=object.slug %}">{% trans 'Delete' %}</a>
-        <a class="btn btn-default" href="{% url 'questionaries:create' %}?monitoring={{object.pk}}">{% trans 'Create questionary' %}</a>
-    </div>
-</div>
+  {% include 'monitorings/_btn.html' with object=object %}
 {% endif %}
 
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h3 class="panel-title"><i class="glyphicon glyphicon-search"></i> <a href="{{object.get_absolute_url}}">{{object}}</a></h3>
-  </div>
-  <table class="table">
-  <tr>
-    <td>User:</td>
-    <td><a href="{{object.user.get_absolute_url}}">{{object.user}}</a></td>
-  </tr>
-  </table>
-  <div class="panel-body">
+<div class="page-header">
+<h2><i class="glyphicon glyphicon-search"></i> <a href="{{object.get_absolute_url}}">{{object}}</a>
+</h2>
+
+<div class="gray">
     {% block content_object %}{% endblock %}
-  </div>
 </div>
 {% endblock %}

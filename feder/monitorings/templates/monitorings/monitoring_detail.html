@@ -1,7 +1,35 @@
-{% extends 'monitorings/base_object.html' %}
-{% load i18n %}
-{% block content_object %}
-<h3>{% trans 'Insitutions' %}</h3>
+{% extends 'monitorings/base.html' %}
+{% load i18n humanize %}
+
+{% block content %}
+  <ol class="breadcrumb">
+      <li class="active">{{object}}</li>
+  </ol>
+
+  {% include 'monitorings/_btn.html' with object=object %}
+<div class="page-header">
+<h2><i class="glyphicon glyphicon-search"></i>{{object}} <small>{% trans 'by' %} <a href="{{object.user.get_absolute_url}}">{{object.user}}</a> <time datetime="{{object.created|date:'PTDHMS'}}">{{object.created|naturaltime}}</time></h2>
+</div>
+<div class="row">
+  {% if object.description %}
+  <div class="col-sm-{% if request.user == object.user and object.questionary_set.all %}6{% else %}12{% endif %}">
+  <div class="red">
+  {{object.description|linebreaks}}
+  </div>
+  </div>
+  {% endif %}
+
+  {% if request.user == object.user and object.questionary_set.all%}
+  <div class="col-sm-6">
+  <div class="gray">
+    <h2 class="title"><i class="glyphicon glyphicon-list-alt"></i> {% trans 'Questionaries' %}</h3>
+    {% include '_select_list.html' with object_list=object.questionary_set.all %}
+  </div>
+  </div>
+  {% endif %}
+</div>
+<div class="gray">
+<h3>{% trans 'Institutions, cases and tasks' %}</h3>
 {% for case in object_list %}
 {% ifchanged %}<h4><i class="glyphicon glyphicon-home"></i> <a href="{{case.institution.get_absolute_url}}">{{case.institution}}</a></h4>{% endifchanged %}
 <div class="panel panel-default">
@@ -31,5 +59,5 @@
     {% endif %}
 </ul>
 {% endif %}
-
+</div>
 {% endblock %}

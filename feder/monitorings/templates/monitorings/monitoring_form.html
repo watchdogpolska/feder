@@ -1,5 +1,13 @@
 {% extends 'monitorings/base_object.html' %}
-{% load crispy_forms_tags %}
+{% load crispy_forms_tags i18n %}
+{% block breadcrumbs_row %}
+<li class="active">
+{% if headline %}{{headline }}
+{% elif object %} {% trans 'Update' %}
+{% else %}{% trans 'Create' %}
+{% endif %}</li>
+{% endblock %} 
+
 {% block content_object %}
     {% crispy form %}
 {% endblock %}

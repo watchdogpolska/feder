@@ -1,5 +1,7 @@
 {% extends 'monitorings/base_object.html' %}
 {% load i18n %}
+{% block breadcrumbs_row %}<li class="active">{% trans 'Delete' %}</li>{% endblock %} 
+
 {% block content_object %}
     <form method="POST">
     <div style="display:none">
