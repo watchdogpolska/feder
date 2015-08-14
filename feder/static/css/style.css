@@ -7269,10 +7269,6 @@ button.close {
     display: none !important;
   }
 }
-body {
-  padding-top: 71px;
-}
-
 .navbar-brand img {
   display: none;
 }
@@ -7308,9 +7304,6 @@ body {
   margin-bottom: 0px;
   margin-top: 0px;
 }
-.select-list li:first-child {
-  border-bottom: none;
-}
 
 .red {
   background-color: #D72626;
@@ -7327,14 +7320,11 @@ body {
   border-right-color: #fff;
   border-top-color: #fff;
 }
-.red .title {
+.red .page-title {
   color: #fff;
 }
 .red .select-list li:before {
   background-color: #d6d6d6;
-}
-.red .select-list li:first-child {
-  border-bottom: none;
 }
 
 .gray {
@@ -7344,8 +7334,8 @@ body {
 .gray .select-list li:before {
   background-color: #D72626;
 }
-.gray .select-list li:first-child {
-  border-bottom: none;
+.gray .page-title {
+  color: #D72626;
 }
 
 

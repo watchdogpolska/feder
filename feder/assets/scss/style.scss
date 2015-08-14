@@ -1,6 +1,5 @@
 @import 'variables';
 @import 'bootstrap';
-body { padding-top: $navbar-height+20px; }
 
 $red: #D72626;
 $gray: #F0F0F0;
@@ -38,9 +37,6 @@ $gray: #F0F0F0;
     margin-bottom: 0px;
     margin-top: 0px;
   }
-  li:first-child {
-    border-bottom: none;
-  }
   width: 100%;
 }
 
@@ -60,15 +56,12 @@ $gray: #F0F0F0;
     border-right-color: #fff;
     border-top-color: #fff;
   }
-  .title {
+  .page-title {
     color: #fff;
   }
   .select-list {
     li:before {
       background-color: darken($gray, 10%);
-    }
-    li:first-child {
-      border-bottom: none;
     }
   }
 }
@@ -81,9 +74,9 @@ $gray: #F0F0F0;
     li:before {
       background-color: $red;
     }
-    li:first-child {
-      border-bottom: none;
-    }
+  }
+  .page-title {
+    color: $red;
   }
 }
 
