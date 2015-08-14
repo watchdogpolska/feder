@@ -1,6 +1,10 @@
 {% extends 'questionaries/base_questionary.html' %}
 {% load crispy_forms_tags i18n %}
-{% block content %}
+{% block breadcrumbs_row %}
+<li class="active">{% trans 'Add question' %}</li>
+{% endblock %} 
+
+{% block content_object %}
 <form method="post" enctype="multipart/form-data">
 {% csrf_token %}
 {{ wizard.form.media }}

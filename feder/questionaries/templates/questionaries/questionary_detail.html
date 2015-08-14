@@ -1,48 +1,34 @@
 {% extends 'questionaries/base_questionary.html' %}
-{% load i18n crispy_forms_tags %}
+{% load i18n crispy_forms_tags humanize %}
+{% block content %}
+<ol class="breadcrumb">
+    <li><a href="{{object.monitoring.get_absolute_url}}">{{object.monitoring}}</a></li>
+    <li class="active">{{object}}</li>
+</ol>
+  {% block buttons %}
+    {% include 'questionaries/_btn.html' %}
+  {% endblock %}
+<div class="page-header">
+<h2>{{object}} <small><time datetime="{{object.created|date:'PTDHMS'}}">{{object.created|naturaltime}}</time></small></h2>
 
-{% block content_object %}
 <div class="row">
-    <div class="col-md-4">
-        <div class="well task-list">
+    <div class="col-md-4 col-md-offset-2">
+        <div class="red">
         <h2>{% trans 'Tasks' %}</h2>
-        {% if object.task_set.all %}
-        <ul>
-            {% for task in object.task_set.all %}
-            <li><a href="{{task.get_absolute_url}}">{{task}}</a></li>
-            {% endfor %}
-        </ul>
-        {% else %}
-            {% trans 'No rows.' %}
-        {% endif %}
+        {% include '_select_list.html' with object_list=object.task_set.all %}
         </div>
     </div>
 
-    <div class="col-md-4">
-        <div class="well question-list">
-        <h2>{% trans 'Questions' %}</h2>
-        {% if object.question_set.all %}
-        <ul>
-            {% for question in object.question_set.all %}
-            <li>{{question}}<pre>{{question.blob}}</pre></li>
-            {% endfor %}
-        </ul>
-        {% else %}
-            {% trans 'No rows.' %}
-        {% endif %}
-        </div>
-    </div>
-
-    <div class="col-md-4 email-list">
-        <div class="well">
+    <div class="col-md-6">
+        <div class="gray">
         <h2>{% trans 'Forms' %}</h2>
         {% if answer_forms %}
             {% for form in answer_forms %}
                 <div class="well">
-                <p>Position: {{form.question.position}}</p>
+                <p>{% trans 'Position' %}: {{form.question.position}}</p>
                 {% crispy form %}
-                <a href="{% url 'questionaries:question_up' pk=form.question.pk%}" class="btn btn-default"><i class="glyphicon glyphicon-hand-down"></i> Down</a>
-                <a href="{% url 'questionaries:question_down' pk=form.question.pk%}" class="btn btn-default"><i class="glyphicon glyphicon-hand-up"></i> Up</a>
+                <a href="{% url 'questionaries:question_up' pk=form.question.pk%}" class="btn btn-default"><i class="glyphicon glyphicon-hand-down"></i> {% trans 'Move up'%}</a>
+                <a href="{% url 'questionaries:question_down' pk=form.question.pk%}" class="btn btn-default"><i class="glyphicon glyphicon-hand-up"></i> {% trans 'Move down'%}</a>
                 </div>
             {% endfor %}
         {% else %}

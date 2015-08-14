@@ -72,12 +72,19 @@ class QuestionWizard(SessionWizardView):
     template_name = 'questionaries/question_wizard.html'
 
     def get_form_kwargs(self, step):
+        self.questionary = get_object_or_404(Questionary, pk=self.kwargs['pk'])
         if step == '0':
-            return {'questionary': get_object_or_404(Questionary, pk=self.kwargs['pk'])}
+            return {'questionary': self.questionary}
         if step == '1':
             data = self.storage.get_step_data('0')
             return {'genre': data.get('0-genre')}
         return {}
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(QuestionWizard, self).get_context_data(*args, **kwargs)
+        context['object'] = self.questionary
+        context['headline'] = _('Create question')
+        return context
 
     def done(self, form_list, **kwargs):
         obj = form_list[0].save(form_list[1].cleaned_data)

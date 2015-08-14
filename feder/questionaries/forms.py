@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django import forms
+from django.utils.translation import ugettext as _
 from atom.forms import SaveButtonMixin, HelperMixin
 from braces.forms import UserKwargModelFormMixin
 from .models import Questionary, Question
@@ -29,7 +30,7 @@ class QuestionForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
         super(QuestionForm, self).__init__(*args, **kwargs)
         self.helper.form_tag = False
         choices = [(key, mod.description) for key, mod in modulators.items()]
-        self.fields['genre'] = forms.ChoiceField(choices=choices)
+        self.fields['genre'] = forms.ChoiceField(choices=choices, label=_("Genre"))
         self.instance.questionary = questionary
 
     def save(self, blob, *args, **kwargs):

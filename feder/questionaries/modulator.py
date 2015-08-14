@@ -25,7 +25,7 @@ class BaseSimpleModulator(BaseBlobFormModulator):
     def create(self, fields):
         fields['name'] = forms.CharField(label=_("Question"))
         fields['help_text'] = forms.CharField(label=_("Description of question"))
-        fields['required'] = forms.BooleanField(label=_("This fields is required?"))
+        fields['required'] = forms.BooleanField(label=_("This fields will be required?"), required=False)
 
     def answer(self, fields):
         fields['value'] = self.output_field_cls(label=self.blob['name'],

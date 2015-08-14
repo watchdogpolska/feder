@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 from django import forms
+from django.utils.functional import cached_property
+from django.utils.translation import ugettext_lazy as _
 from atom.forms import SaveButtonMixin
 from braces.forms import UserKwargModelFormMixin
-from django.utils.functional import cached_property
 from feder.cases.models import Case
 from feder.questionaries.modulator import modulators
 from .models import Task, Survey, Answer
@@ -84,8 +85,8 @@ class AnswerFormSet(object):  # How use django formsets?
 
 
 class MultiTaskForm(SaveButtonMixin, UserKwargModelFormMixin, forms.Form):
-    cases = forms.ModelMultipleChoiceField(queryset=Case.objects.none())
-    name = forms.CharField(max_length=50)
+    cases = forms.ModelMultipleChoiceField(queryset=Case.objects.none(), label=_("Cases"))
+    name = forms.CharField(max_length=50, label=_("Name"))
 
     def __init__(self, questionary, *args, **kwargs):
         self.questionary = questionary

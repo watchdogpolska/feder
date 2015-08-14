@@ -7,9 +7,9 @@ from jsonfield import JSONField
 
 
 class Questionary(TimeStampedModel):
-    title = models.CharField(max_length=250)
-    monitoring = models.ForeignKey(Monitoring)
-    lock = models.BooleanField(default=False)
+    title = models.CharField(max_length=250, verbose_name=_("Title"))
+    monitoring = models.ForeignKey(Monitoring, verbose_name=_("Monitoring"))
+    lock = models.BooleanField(default=False, verbose_name=_("Lock"))
 
     class Meta:
         ordering = ['created', ]
@@ -24,10 +24,10 @@ class Questionary(TimeStampedModel):
 
 
 class Question(models.Model):
-    questionary = models.ForeignKey(Questionary)
-    position = models.SmallIntegerField()
-    genre = models.CharField(max_length=25)
-    blob = JSONField()
+    questionary = models.ForeignKey(Questionary, verbose_name=_("Questionary"))
+    position = models.SmallIntegerField(default=0, verbose_name=_("Position"))
+    genre = models.CharField(max_length=25, verbose_name=_("Genre"))
+    blob = JSONField(verbose_name=_("Technical definition"))
 
     class Meta:
         ordering = ['position', ]
