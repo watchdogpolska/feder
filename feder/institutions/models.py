@@ -29,7 +29,7 @@ class Institution(models.Model):
         verbose_name = _("Institution")
         verbose_name_plural = _("Institution")
 
-    def __str__(self):
+    def __unicode__(self):
         return self.name
 
     def get_absolute_url(self):
@@ -44,7 +44,7 @@ class Email(models.Model):
         verbose_name = _("Email")
         verbose_name_plural = _("Emails")
 
-    def __str__(self):
+    def __unicode__(self):
         return self.email
 
 
@@ -52,7 +52,7 @@ class Tag(models.Model):
     name = models.CharField(max_length=15, verbose_name=_("Name"))
     slug = AutoSlugField(populate_from='name', verbose_name=_("Slug"))
 
-    def __str__(self):
+    def __unicode__(self):
         return self.name
 
     def get_absolute_url(self):
