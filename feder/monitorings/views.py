@@ -8,7 +8,7 @@ from braces.views import (SelectRelatedMixin, LoginRequiredMixin, FormValidMessa
 from formtools.preview import FormPreview
 from django_filters.views import FilterView
 from atom.views import DeleteMessageMixin
-from main.mixins import ExtraListMixin
+from feder.main.mixins import ExtraListMixin
 from feder.cases.models import Case
 from .models import Monitoring
 from .forms import MonitoringForm, CreateMonitoringForm
