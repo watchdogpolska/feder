@@ -3,6 +3,21 @@
 {% block content_object %}
     <p>Institution: <a href="{{object.institution.get_absolute_url}}">{{object.institution}}</a></p>
     <p>Monitoring: <a href="{{object.monitoring.get_absolute_url}}">{{object.monitoring}}</a></p>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Tasks</h3>
+  </div>
+  <table class="table table-stripped">
+    {% for task in object.task_set.all %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+        <td><a href="{{ task.get_absolute_url }}">{{ task }}</a></td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+
 {% endblock %}
 
 {% block letter_list %}

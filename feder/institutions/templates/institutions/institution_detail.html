@@ -1,74 +1,124 @@
-{% extends 'institutions/base_object.html' %}
+{% extends 'institutions/base.html' %}
 {% load i18n %}
-{% block content_table %}
-<tr>
-    <td>{% trans "ID"%}</td>
-    <td>{{object.id}}</td>
-</tr>
-<tr>
-    <td>{% trans "Name"%}</td>
-    <td>{{object.name}}</td>
-</tr>
-<tr>
-    <td>{% trans "E-mail"%}</td>
-    <td>{{object.address}}</td>
-</tr>
-<tr>
-    <td><i class="glyphicon glyphicon-globe"></i> {% trans "jst"%}</td>
-    <td><a href="{{object.jst.get_absolute_url}}">{{object.jst}}</a></td>
-</tr>
-<tr>
-    <td>{% trans "Tag"%}</td>
-    <td>{% for tag in object.tags.all %}<span class="label label-info"><a href="{{tag.get_absolute_url}}">{{tag}}</a></span> {% endfor %}</td>
-</tr>
-{% endblock %}
+{% block content %}
+<ol class="breadcrumb">
+    {% for jst in object.jst.get_ancestors.all %}
+    <li><a href="{{jst.get_absolute_url}}">{{jst}}</a></li>
+    {% endfor %}
+    <li><a href="{{object.jst.get_absolute_url}}">{{object.jst}}</a></li>
+    <li class="active">{{object}}</li>
+</ol>
 
-{% block content_object %}
-<div class="row">
-    <div class="col-md-4 case-list">
-        <div class="well">
-            <h2>{% trans 'Cases' %}</h2>
-            {% if object.case_set.all %}
-            <ul>
+{% block buttons %}
+    {% comment %} 
+    <div class="clearfix">
+      <div class="pull-right btn-group">
+        <a class="btn btn-default" href="{% url 'institutions:update' slug=object.slug %}">{% trans 'Edit' %}</a>
+        <a class="btn btn-warning" href="{% url 'institutions:delete' slug=object.slug %}">{% trans 'Delete' %}</a>
+      </div>
+    </div>
+    {% endcomment %}
+  {% endblock %}
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title"><i class="glyphicon glyphicon-home"></i> <a href="{{object.get_absolute_url}}">{{object}}</a></h3>
+    </div>
+    <table class="table table-striped">
+        <tr>
+            <td>{% trans "Name"%}</td>
+            <td>{{object.name}}</td>
+        </tr>
+        <tr>
+            <td>{% trans "E-mail"%}</td>
+            <td>{{object.address}}</td>
+        </tr>
+        <tr>
+            <td><i class="glyphicon glyphicon-globe"></i> {% trans "jst"%}</td>
+            <td><a href="{{object.jst.get_absolute_url}}">{{object.jst}}</a></td>
+        </tr>
+        <tr>
+            <td>{% trans "Tag"%}</td>
+            <td>{% for tag in object.tags.all %}<span class="label label-info"><a href="{{tag.get_absolute_url}}">{{tag}}</a></span> {% endfor %}</td>
+        </tr>
+    </table>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-6 case-list">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">Cases</h3>
+              </div>
+              <div class="panel-body">
+                <ul>
                 {% for case in object.case_set.all %}
-                <li><a href="{{case.get_absolute_url}}">{{case}}</a></li>
+                    <li><a href="{{case.get_absolute_url}}">{{case}}</a>
+                        {% if case.task_set.all %}
+                            <ul>
+                                {% for task in case.task_set.all %}
+                                    <li><a href="{{task.get_absolute_url}}">{{task}}</a></li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </li>
                 {% endfor %}
-            </ul>
-            {% else %}
-            {% trans 'No rows.' %}
-            {% endif %}
+                </ul>
+              </div>
+            </div>
+
+            </div>
+            <div class="col-md-6 monitoring-list">
+            Lorem ipsum
+            </div>
+
+            {% comment %}
+            <div class="col-md-4 case-list">
+                <div class="well">
+                    <h2>{% trans 'Cases' %}</h2>
+                    {% if object.case_set.all %}
+                    <ul>
+                        {% for case in object.case_set.all %}
+                        <li><a href="{{case.get_absolute_url}}">{{case}}</a></li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    {% trans 'No rows.' %}
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="col-md-4 monitoring-list">
+                <div class="well">
+                <h2>{% trans 'Monitoring' %}</h2>
+                {% if monitoring_list %}
+                <ul>
+                    {% for monitoring in monitoring_list %}
+                    <li><a href="{{monitoring.get_absolute_url}}">{{monitoring}}</a></li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                {% trans 'No rows.' %}
+                {% endif %}
+                </div>
+            </div>
+
+            <div class="col-md-4 email-list">
+                <div class="well">
+                <h2>{% trans 'E-mails' %}</h2>
+                {% if object.email_set.all %}
+                <ul>
+                    {% for email in object.email_set.all %}
+                    <li>{{email}} {% if email.email == object.address %}( {%trans 'Primary' %} ){% endif %}</li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                {% trans 'No rows.' %}
+                {% endif %}
+                </div>
+            </div>
+            {% endcomment %}
+
         </div>
     </div>
-
-    <div class="col-md-4 monitoring-list">
-        <div class="well">
-        <h2>{% trans 'Monitoring' %}</h2>
-        {% if monitoring_list %}
-        <ul>
-            {% for monitoring in monitoring_list %}
-            <li><a href="{{monitoring.get_absolute_url}}">{{monitoring}}</a></li>
-            {% endfor %}
-        </ul>
-        {% else %}
-        {% trans 'No rows.' %}
-        {% endif %}
-        </div>
-    </div>
-
-    <div class="col-md-4 email-list">
-        <div class="well">
-        <h2>{% trans 'E-mails' %}</h2>
-        {% if object.email_set.all %}
-        <ul>
-            {% for email in object.email_set.all %}
-            <li>{{email}} {% if email.email == object.address %}( {%trans 'Primary' %} ){% endif %}</li>
-            {% endfor %}
-        </ul>
-        {% else %}
-        {% trans 'No rows.' %}
-        {% endif %}
-        </div>
-    </div>
-
-</div>
+    
+  </div>
 {% endblock %}

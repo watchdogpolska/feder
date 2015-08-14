@@ -1,6 +1,6 @@
 from django.views.generic import DetailView
 from django_filters.views import FilterView
-from braces.views import SelectRelatedMixin
+from braces.views import SelectRelatedMixin, PrefetchRelatedMixin
 from feder.monitorings.models import Monitoring
 from .models import Institution
 from .filters import InstitutionFilter
@@ -17,8 +17,10 @@ class InstitutionListView(SelectRelatedMixin, FilterView):
         return qs.with_case_count()
 
 
-class InstitutionDetailView(DetailView):
+class InstitutionDetailView(SelectRelatedMixin, PrefetchRelatedMixin, DetailView):
     model = Institution
+    prefetch_related = ['case_set__task_set', 'tags']
+    select_related = []
 
     def get_monitoring_list(self, obj):
         return Monitoring.objects.filter(case__institution=obj).all()
