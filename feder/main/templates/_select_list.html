@@ -1,0 +1,9 @@
+{% load i18n %}{% if object_list %}
+    <ul class="select-list">
+        {% for object in object_list %}
+            <li><a href="{{object.get_absolute_url}}">{{object}}</a></li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>{% trans 'No rows.' %}</p>
+{% endif %}
