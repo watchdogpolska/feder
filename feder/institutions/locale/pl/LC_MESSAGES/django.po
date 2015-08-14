@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-institutions 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-03 06:44+0000\n"
-"PO-Revision-Date: 2015-08-03 08:44+0100\n"
+"POT-Creation-Date: 2015-08-14 02:03+0000\n"
+"PO-Revision-Date: 2015-08-14 04:03+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -19,66 +19,78 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.5.4\n"
 
-#: filters.py:33
+#: filters.py:12
 msgid "Vovivodeship"
 msgstr "Województwo"
 
-#: filters.py:34
+#: filters.py:13
 msgid "County"
 msgstr "Powiat"
 
-#: filters.py:35
+#: filters.py:14
 msgid "Community"
 msgstr "Gmina"
 
-#: filters.py:55
+#: filters.py:36
 msgid "Filter"
 msgstr "Filtruj"
 
-#: models.py:17 models.py:48 templates/institutions/institution_detail.html:11
+#: models.py:20 models.py:52 templates/institutions/institution_detail.html:29
 msgid "Name"
 msgstr "Nazwa"
 
-#: models.py:18 models.py:49
+#: models.py:21 models.py:53
 msgid "Slug"
 msgstr "Identyfikator redakcyjny"
 
-#: models.py:19 models.py:58 templates/institutions/institution_detail.html:23
+#: models.py:22 models.py:62 templates/institutions/institution_detail.html:41
 msgid "Tag"
 msgstr "Tag"
 
-#: models.py:20 models.py:37 templates/institutions/institution_detail.html:15
+#: models.py:23 models.py:41 templates/institutions/institution_detail.html:33
 msgid "E-mail"
 msgstr "E-mail"
 
-#: models.py:22
+#: models.py:25
 msgid "Unit of administrative division"
 msgstr "Jednostka podziału terytorialnego"
 
-#: models.py:25 models.py:26 models.py:36
+#: models.py:29 models.py:30 models.py:40
 msgid "Institution"
 msgstr "Instytucja"
 
-#: models.py:40
+#: models.py:44
 msgid "Email"
 msgstr "E-mail"
 
-#: models.py:41
+#: models.py:45
 msgid "Emails"
 msgstr "E-maile"
 
-#: models.py:59
+#: models.py:63
 msgid "Tags"
 msgstr "Tagi"
 
-#: templates/institutions/institution_detail.html:7
-msgid "ID"
-msgstr "ID"
-
-#: templates/institutions/institution_detail.html:19
+#: templates/institutions/institution_detail.html:37
 msgid "jst"
 msgstr "Jednostka podziału administracyjnego"
 
-#: templates/institutions/institution_filter.html:31
+#: templates/institutions/institution_detail.html:65
+msgid "previous"
+msgstr "poprzednia"
+
+#: templates/institutions/institution_detail.html:68
+#, python-format
+msgid "Page %(no)s of %(total)s"
+msgstr "Strona %(no)s z %(total)s"
+
+#: templates/institutions/institution_detail.html:71
+msgid "next"
+msgstr "następna"
+
+#: templates/institutions/institution_filter.html:29
 msgid "No rows."
 msgstr "Brak wierszy"
+
+#~ msgid "ID"
+#~ msgstr "ID"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-teryt\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-03 05:50+0000\n"
+"POT-Creation-Date: 2015-08-14 02:11+0000\n"
 "PO-Revision-Date: 2015-08-03 07:51+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -31,27 +31,26 @@ msgstr "powiat"
 msgid "community"
 msgstr "gmina"
 
-#: models.py:39
+#: models.py:42
 msgid "Category"
 msgstr "Kategoria"
 
-#: models.py:40
+#: models.py:43
 msgid "Categories"
 msgstr "Kategorie"
 
-#: models.py:47
+#: models.py:50
 msgid "Name"
 msgstr "Nazwa"
 
-#: models.py:50
-#| msgid "Updated on"
+#: models.py:53
 msgid "Updated date"
 msgstr "Data aktualizacji"
 
-#: models.py:61
+#: models.py:82
 msgid "Unit of administrative division"
 msgstr "Jednostka podziału terytorialnego"
 
-#: models.py:62
+#: models.py:83
 msgid "Units of administrative division"
 msgstr "Jednostki podziału terytorialnego"
