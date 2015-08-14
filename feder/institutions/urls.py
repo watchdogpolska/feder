@@ -7,4 +7,6 @@ from . import views
 urlpatterns = [
    url(r'^$', views.InstitutionListView.as_view(), name="list"),
    url(r'^institution-(?P<slug>[\w-]+)$', views.InstitutionDetailView.as_view(), name="details"),
+   url(r'^institution-(?P<slug>[\w-]+)/(?P<page>[\d]+)$', views.InstitutionDetailView.as_view(),
+    name="details"),
 ]

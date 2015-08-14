@@ -42,34 +42,35 @@
         </tr>
     </table>
     <div class="panel-body">
-        <div class="row">
-            <div class="col-md-6 case-list">
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h3 class="panel-title">Cases</h3>
-              </div>
-              <div class="panel-body">
-                <ul>
-                {% for case in object.case_set.all %}
-                    <li><a href="{{case.get_absolute_url}}">{{case}}</a>
-                        {% if case.task_set.all %}
-                            <ul>
-                                {% for task in case.task_set.all %}
-                                    <li><a href="{{task.get_absolute_url}}">{{task}}</a></li>
-                                {% endfor %}
-                            </ul>
-                        {% endif %}
-                    </li>
-                {% endfor %}
-                </ul>
-              </div>
-            </div>
+        {% for case in case_list %}
+        {% ifchanged %}<h2><i class="glyphicon glyphicon-search"></i> <a href="{{case.monitoring.get_absolute_url}}">{{case.monitoring}}</a></h2>{% endifchanged %}
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title"><i class="glyphicon glyphicon-folder-open"></i> 
+           <a href="{{case.get_absolute_url}}">{{case}}</a></h3>
+          </div>
+          {% if case.task_set.all %}
+              <table class="table">
+              {% for task in case.task_set.all %}
+                  <tr><td><i class="glyphicon glyphicon-edit"></i> <a href="{{task.get_absolute_url}}">{{task}}</a></td></tr>
+              {% endfor %}
+              </table>
+          {% endif %}
+        </div>
+        {% endfor %}
+        {% if case_list.has_previous or case_list.has_next %}
+        <ul class="pager">
+            {% if case_list.has_previous %}
+                <li><a href="{% url 'institutions:details' slug=object.slug page=case_list.previous_page_number %}">&laquo; {% trans 'previous' %}</a></li>
+            {% endif %}
 
-            </div>
-            <div class="col-md-6 monitoring-list">
-            Lorem ipsum
-            </div>
+            <li>{% blocktrans with no=case_list.number total=case_list.paginator.num_pages %}Page {{ no }} of {{ total }}{% endblocktrans %}</li>
 
+            {% if case_list.has_next %}
+                <li><a href="{% url 'institutions:details' slug=object.slug page=case_list.next_page_number %}">{% trans 'next' %} &raquo; </a></li>
+            {% endif %}
+        </ul>
+        {% endif %}
             {% comment %}
             <div class="col-md-4 case-list">
                 <div class="well">
@@ -116,8 +117,6 @@
                 </div>
             </div>
             {% endcomment %}
-
-        </div>
     </div>
     
   </div>

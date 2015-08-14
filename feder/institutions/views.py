@@ -1,7 +1,8 @@
 from django.views.generic import DetailView
 from django_filters.views import FilterView
+from django.core.paginator import Paginator, EmptyPage
 from braces.views import SelectRelatedMixin, PrefetchRelatedMixin
-from feder.monitorings.models import Monitoring
+from feder.cases.models import Case
 from .models import Institution
 from .filters import InstitutionFilter
 
@@ -19,13 +20,27 @@ class InstitutionListView(SelectRelatedMixin, FilterView):
 
 class InstitutionDetailView(SelectRelatedMixin, PrefetchRelatedMixin, DetailView):
     model = Institution
-    prefetch_related = ['case_set__task_set', 'tags']
+    prefetch_related = ['tags']
     select_related = []
+    paginate_by = 5
 
-    def get_monitoring_list(self, obj):
-        return Monitoring.objects.filter(case__institution=obj).all()
+    def paginator(self, obj_list):
+        paginator = Paginator(obj_list, self.paginate_by)
+        try:
+            return paginator.page(self.kwargs.get('page', 1))
+        except EmptyPage:
+            # If page is out of range (e.g. 9999), deliver last page of results.
+            return paginator.page(paginator.num_pages)
+
+    @staticmethod
+    def get_case_list(obj):
+        return (Case.objects.filter(institution=obj).
+            select_related('monitoring').
+            prefetch_related('task_set').
+            order_by('monitoring').all())
 
     def get_context_data(self, **kwargs):
         context = super(InstitutionDetailView, self).get_context_data(**kwargs)
-        context['monitoring_list'] = self.get_monitoring_list(self.object)
+        case_list = self.get_case_list(self.object)
+        context['case_list'] = self.paginator(case_list)
         return context
