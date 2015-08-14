@@ -1,18 +1,30 @@
-{% extends 'tasks/base_object.html' %}
+{% extends 'tasks/base.html' %}
 {% load i18n %}
-{% block content_table %}
-    <tr>
-        <td>{% trans "Case" %}</td>
-        <td><a href="{{object.case.get_absolute_url}}">{{object.case}}</a></td>
-    </tr>
-    <tr>
-        <td>{% trans "Questionary"%}</td>
-        <td><a href="{{object.questionary.get_absolute_url}}">{{object.questionary}}</a></td>
-    </tr>
-{% endblock %}
-
 {% block content %}
-{{block.super}}
+<div class="row">
+  <div class="col-sm-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="glyphicon glyphicon-edit"></i> <a href="{{object.get_absolute_url}}">{{object}}</a></h3>
+      </div>
+      <div class="panel-body">
+        {% block content_object %}{% endblock %}
+      </div>
+      <table class="table table-striped">
+        <tr>
+            <td>{% trans "Case" %}</td>
+            <td><a href="{{object.case.get_absolute_url}}">{{object.case}}</a></td>
+        </tr>
+        <tr>
+            <td>{% trans "Questionary"%}</td>
+            <td><a href="{{object.questionary.get_absolute_url}}">{{object.questionary}}</a></td>
+        </tr>
+
+      </table>
+    </div>
+  </div>
+  <div class="col-sm-6">
+{% if object.survey_set.all %}
 <div class="panel panel-default">
   <div class="panel-heading">
     <h3 class="panel-title">{% trans 'Surveys' %}</h3>
@@ -39,5 +51,9 @@
   </tr>
   {% endfor %}
   </table>
+</div>
+{% endif %}
+
+  </div>
 </div>
 {% endblock %}
