@@ -7,17 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: letters 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-14 02:04+0000\n"
-"PO-Revision-Date: 2015-08-14 04:05+0100\n"
+"POT-Creation-Date: 2015-08-14 13:07+0000\n"
+"PO-Revision-Date: 2015-08-14 15:08+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
+"Language: pl_PL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.5.4\n"
-"Language: pl_PL\n"
 
 #: models.py:20
 msgid "Title"
@@ -31,9 +31,14 @@ msgstr "Treść"
 msgid "Quote"
 msgstr "Cytat"
 
-#: models.py:27 models.py:28
+#: models.py:27
 msgid "Letter"
 msgstr "List"
+
+#: models.py:28
+#| msgid "Letter"
+msgid "Letters"
+msgstr "Listy"
 
 #: templates/letter/_object.html:13
 msgid "attachments"

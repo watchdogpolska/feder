@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-teryt\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-14 02:11+0000\n"
-"PO-Revision-Date: 2015-08-03 07:51+0100\n"
+"POT-Creation-Date: 2015-08-14 12:59+0000\n"
+"PO-Revision-Date: 2015-08-14 14:59+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -54,3 +54,19 @@ msgstr "Jednostka podziału terytorialnego"
 #: models.py:83
 msgid "Units of administrative division"
 msgstr "Jednostki podziału terytorialnego"
+
+#: templates/teryt/jst_detail.html:20
+msgid "Subordinate units"
+msgstr "Jednostki podrzędne"
+
+#: templates/teryt/jst_detail.html:36
+msgid "Institutions"
+msgstr "Instytucje"
+
+#: templates/teryt/jst_detail.html:52
+msgid "Cases"
+msgstr "Sprawy"
+
+#: templates/teryt/jst_detail.html:68
+msgid "Tasks"
+msgstr "Zadania"

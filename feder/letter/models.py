@@ -25,7 +25,7 @@ class Letter(TimeStampedModel):
 
     class Meta:
         verbose_name = _("Letter")
-        verbose_name_plural = _("Letter")
+        verbose_name_plural = _("Letters")
         ordering = ['created', ]
 
     def __unicode__(self):

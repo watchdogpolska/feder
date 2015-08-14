@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
-
+{% load i18n %}
 {% block content %}
 <div class="row">
     <div class="col-md-6">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title">Voivodeship</h3>
+            <h3 class="panel-title">{% trans 'Voivodeship'%}</h3>
           </div>
           <table class="table table-stripped">
             {% for jst in voivodeship_list %}
@@ -20,7 +20,7 @@
     <div class="col-md-6">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title">Monitorings</h3>
+            <h3 class="panel-title">{% trans 'Monitorings'%}</h3>
           </div>
           <table class="table table-stripped">
             {% for monitoring in monitoring_list %}

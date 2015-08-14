@@ -17,7 +17,7 @@
     <div class="col-md-3">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title">Children</h3>
+            <h3 class="panel-title">{% trans 'Subordinate units'%}</h3>
           </div>
           <table class="table table-stripped">
             {% for jst in object.children.with_category.all %}
@@ -33,7 +33,7 @@
     <div class="col-md-3">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title">Institutions</h3>
+            <h3 class="panel-title">{% trans 'Institutions'%}</h3>
           </div>
           <table class="table table-stripped">
             {% for institution in object.institution_qs.all %}
@@ -49,7 +49,7 @@
     <div class="col-md-3">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title">Cases</h3>
+            <h3 class="panel-title">{% trans 'Cases'%}</h3>
           </div>
           <table class="table table-stripped">
             {% for case in object.case_qs.all %}
@@ -65,7 +65,7 @@
     <div class="col-md-3">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title">Tasks</h3>
+            <h3 class="panel-title">{% trans 'Tasks' %}</h3>
           </div>
           <table class="table table-stripped">
             {% for task in object.task_qs.all %}
