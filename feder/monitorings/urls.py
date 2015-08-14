@@ -12,6 +12,8 @@ urlpatterns = [
     name="create"),
    url(r'^monitoring-(?P<slug>[\w-]+)$', views.MonitoringDetailView.as_view(),
     name="details"),
+   url(r'^monitoring-(?P<slug>[\w-]+)/page-(?P<page>[\d]+)$', views.MonitoringDetailView.as_view(),
+    name="details"),
    url(r'^monitoring-(?P<slug>[\w-]+)/~update$', views.MonitoringUpdateView.as_view(),
     name="update"),
    url(r'^monitoring-(?P<slug>[\w-]+)/~delete$', views.MonitoringDeleteView.as_view(),

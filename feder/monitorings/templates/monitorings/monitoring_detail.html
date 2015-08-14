@@ -1,34 +1,35 @@
 {% extends 'monitorings/base_object.html' %}
 {% load i18n %}
 {% block content_object %}
-<div class="col-md-6">
-    <div class="well case-list">
-        <h2>{% trans 'cases' %}</h2>
-        {% if object.case_set.all %}
-        <ul>
-            {% for case in object.case_set.all %}
-            <li><a href="{{case.get_absolute_url}}">{{case}}</a> in <a href="{{case.institution.get_absolute_url}}">{{case.institution}}</a></li>
-            {% endfor %}
-        </ul>
-        {% else %}
-        {% trans 'No rows.' %}
-        {% endif %}
-    </div>
+<h3>{% trans 'Insitutions' %}</h3>
+{% for case in object_list %}
+{% ifchanged %}<h4><i class="glyphicon glyphicon-home"></i> <a href="{{case.institution.get_absolute_url}}">{{case.institution}}</a></h4>{% endifchanged %}
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h5 class="panel-title"><i class="glyphicon glyphicon-folder-open"></i> 
+   <a href="{{case.get_absolute_url}}">{{case}}</a></h5>
+  </div>
+  {% if case.task_set.all %}
+      <table class="table">
+      {% for task in case.task_set.all %}
+          <tr><td><i class="glyphicon glyphicon-edit"></i> <a href="{{task.get_absolute_url}}">{{task}}</a></td></tr>
+      {% endfor %}
+      </table>
+  {% endif %}
 </div>
-<div class="col-md-6">
-    <div class="well questionary-list">
-        <h2>{% trans 'Questionaries' %}</h2>
-        {% if object.questionary_set.all %}
-        <ul>
-            {% for questionary in object.questionary_set.all %}
-            <li><a href="{{questionary.get_absolute_url}}">{{questionary}}</a></li>
-            {% endfor %}
-        </ul>
-        {% else %}
-        {% trans 'No rows.' %}
-        {% endif %}
-    </div>
-</div>
+{% endfor %}
+{% if object_list.has_previous or object_list.has_next %}
+<ul class="pager">
+    {% if object_list.has_previous %}
+        <li><a href="{% url 'monitorings:details' slug=object.slug page=object_list.previous_page_number %}">&laquo; {% trans 'previous' %}</a></li>
+    {% endif %}
 
+    <li>{% blocktrans with no=object_list.number total=object_list.paginator.num_pages %}Page {{ no }} of {{ total }}{% endblocktrans %}</li>
+
+    {% if object_list.has_next %}
+        <li><a href="{% url 'monitorings:details' slug=object.slug page=object_list.next_page_number %}">{% trans 'next' %} &raquo; </a></li>
+    {% endif %}
+</ul>
+{% endif %}
 
 {% endblock %}

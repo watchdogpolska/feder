@@ -8,6 +8,8 @@ from braces.views import (SelectRelatedMixin, LoginRequiredMixin, FormValidMessa
 from formtools.preview import FormPreview
 from django_filters.views import FilterView
 from atom.views import DeleteMessageMixin
+from main.mixins import ExtraListMixin
+from feder.cases.models import Case
 from .models import Monitoring
 from .forms import MonitoringForm, CreateMonitoringForm
 from .filters import MonitoringFilter
@@ -24,9 +26,17 @@ class MonitoringListView(SelectRelatedMixin, FilterView):
         return qs
 
 
-class MonitoringDetailView(SelectRelatedMixin, DetailView):
+class MonitoringDetailView(SelectRelatedMixin, ExtraListMixin, DetailView):
     model = Monitoring
     select_related = ['user', ]
+    paginate_by = 25
+
+    @staticmethod
+    def get_object_list(obj):
+        return (Case.objects.filter(monitoring=obj).
+            select_related('institution').
+            prefetch_related('task_set').
+            order_by('institution').all())
 
 
 class MonitoringCreateView(FormPreview):

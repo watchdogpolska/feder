@@ -17,8 +17,14 @@
 
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h3 class="panel-title"><a href="{{object.get_absolute_url}}">{{object}}</a></h3>
+    <h3 class="panel-title"><i class="glyphicon glyphicon-search"></i> <a href="{{object.get_absolute_url}}">{{object}}</a></h3>
   </div>
+  <table class="table">
+  <tr>
+    <td>User:</td>
+    <td><a href="{{object.user.get_absolute_url}}">{{object.user}}</a></td>
+  </tr>
+  </table>
   <div class="panel-body">
     {% block content_object %}{% endblock %}
   </div>
