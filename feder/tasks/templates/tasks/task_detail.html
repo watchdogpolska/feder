@@ -15,7 +15,7 @@
 {{block.super}}
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h3 class="panel-title">Survey</h3>
+    <h3 class="panel-title">{% trans 'Surveys' %}</h3>
   </div>
   <table class="table table-stripped">
   {% for survey in object.survey_set.all %}
@@ -24,7 +24,7 @@
     <td>{{survey}} - <a href="{{survey.user.get_absolute_url}}">{{survey.user}}</a>
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">Answers</h3>
+                <h3 class="panel-title">{% trans 'Answers' %}</h3>
             </div>
             <table class="table table-stripped">
             {% for answer in survey.answer_set.all %}

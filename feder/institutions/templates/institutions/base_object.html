@@ -9,14 +9,14 @@
     <li class="active">{{object}}</li>
 </ol>
   {% block buttons %}
-    {% comment %} 
+    {% if object %}
     <div class="clearfix">
       <div class="pull-right btn-group">
         <a class="btn btn-default" href="{% url 'institutions:update' slug=object.slug %}">{% trans 'Edit' %}</a>
         <a class="btn btn-warning" href="{% url 'institutions:delete' slug=object.slug %}">{% trans 'Delete' %}</a>
       </div>
     </div>
-    {% endcomment %}
+    {% endif %}
   {% endblock %}
   <div class="panel panel-default">
     <div class="panel-heading">

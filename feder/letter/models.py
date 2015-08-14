@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from atom.models import AttachmentBase
 from model_utils.managers import PassThroughManager
 from model_utils.models import TimeStampedModel
@@ -14,9 +15,11 @@ class LetterQuerySet(models.QuerySet):
 
 
 class Letter(TimeStampedModel):
-    case = models.ForeignKey(Case)
-    author_user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True)
-    author_institution = models.ForeignKey(Institution, null=True, blank=True)
+    case = models.ForeignKey(Case, verbose_name=_("Case"))
+    author_user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("Author (if user)"),
+        null=True, blank=True)
+    author_institution = models.ForeignKey(Institution, verbose_name=_("Author (if institution)"),
+        null=True, blank=True)
     title = models.CharField(verbose_name=_("Title"), max_length=50)
     body = models.TextField(verbose_name=_("Text"))
     quote = models.TextField(verbose_name=_("Quote"), blank=True)
@@ -34,9 +37,17 @@ class Letter(TimeStampedModel):
     def get_absolute_url(self):
         return reverse('letters:details', kwargs={'pk': self.pk})
 
-    # TODO: Define custom methods here
+    @property
     def author(self):
         return self.author_user if self.author_user else self.author_institution
+
+    @author.setter
+    def author(self, value):
+        if isinstance(value, Institution):
+            self.author_institution = value
+        elif isinstance(value, get_user_model()):
+            self.author_user = value
+        raise ValueError("Only User and Institution is allowed for attribute author")
 
     @classmethod
     def send_new_case(cls, user, monitoring, institution, text, postfix=''):

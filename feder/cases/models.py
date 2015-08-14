@@ -18,8 +18,8 @@ class Case(TimeStampedModel):
     name = models.CharField(verbose_name=_("Name"), max_length=50)
     slug = AutoSlugField(populate_from='name', verbose_name=_("Slug"), unique=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
-    monitoring = models.ForeignKey(Monitoring)
-    institution = models.ForeignKey(Institution)
+    monitoring = models.ForeignKey(Monitoring, verbose_name=_("Monitoring"))
+    institution = models.ForeignKey(Institution, verbose_name=_("Institution"))
 
     # TODO: Define fields here
     objects = PassThroughManager.for_queryset_class(CaseQuerySet)()
