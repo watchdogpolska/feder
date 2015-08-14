@@ -2,80 +2,47 @@
 {% load mptt_tags i18n %}
 {% block content %}
 <ol class="breadcrumb">
-    {% for jst in object.get_ancestors.all %}
-    <li><a href="{{jst.get_absolute_url}}">{{jst}}</a></li>
-    {% endfor %}
-    <li class="active">{{object}}</li>
+  {% for jst in object.get_ancestors.all %}
+  <li><a href="{{jst.get_absolute_url}}">{{jst}}</a></li>
+  {% endfor %}
+  <li class="active">{{object}}</li>
 </ol>
+  <h1 class="page-header"><i class="glyphicon glyphicon-globe"></i> {{object}}</h1>
 
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h3 class="panel-title"><i class="glyphicon glyphicon-globe"></i>  <a href="{{object.get_absolute_url}}">{{object}}</a></h3>
+  <div class="row">
+    {% if object.children.with_category.all %}
+    <div class="col-md-3">
+    <div class="gray">
+      <h2 class="title">{% trans 'Subordinate units'%}</h2>
+      <ul class="select-list">
+          {% for jst in object.children.with_category.all %}
+          <li><a href="{{jst.get_absolute_url}}">{{jst}} ({{jst.category}})</a></li>
+          {% endfor %}
+      </ul>
+    </div>
+    </div>
+    {% endif %}
+
+    <div class="col-md-3">
+    <div class="red">
+      <h2 class="title"><i class="glyphicon glyphicon-home"></i> {% trans 'Institutions'%}</h3>
+      {% include '_select_list.html' with object_list=object.institution_qs.all %}
+    </div>
+    </div>
+
+    <div class="col-md-3">
+    <div class="gray">
+      <h2 class="title"><i class="glyphicon glyphicon-search"></i> {% trans 'Cases'%}</h3>
+      {% include '_select_list.html' with object_list=object.case_qs.all %}
+    </div>
+    </div>
+    
+    <div class="col-md-3">
+    <div class="red">
+      <h2 class="title"><i class="glyphicon glyphicon-folder-open"></i> {% trans 'Tasks' %}</h3>
+      {% include '_select_list.html' with object_list=object.task_qs.all %}
+    </div>
+    </div>
+
   </div>
-</div>
-<div class="row">
-    <div class="col-md-3">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">{% trans 'Subordinate units'%}</h3>
-          </div>
-          <table class="table table-stripped">
-            {% for jst in object.children.with_category.all %}
-            <tr>
-                <td>{{ forloop.counter }}</td>
-                <td><a href="{{jst.get_absolute_url}}">{{jst}} ({{jst.category}})</a></td>
-            </tr>
-            {% endfor %}
-          </table>
-        </div>
-    </div>
-
-    <div class="col-md-3">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">{% trans 'Institutions'%}</h3>
-          </div>
-          <table class="table table-stripped">
-            {% for institution in object.institution_qs.all %}
-            <tr>
-                <td>{{ forloop.counter }}</td>
-                <td><a href="{{institution.get_absolute_url}}">{{institution}}</a></td>
-            </tr>
-            {% endfor %}
-          </table>
-        </div>
-    </div>
-
-    <div class="col-md-3">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">{% trans 'Cases'%}</h3>
-          </div>
-          <table class="table table-stripped">
-            {% for case in object.case_qs.all %}
-            <tr>
-                <td>{{ forloop.counter }}</td>
-                <td><a href="{{case.get_absolute_url}}">{{case}}</a></td>
-            </tr>
-            {% endfor %}
-          </table>
-        </div>
-    </div>
-
-    <div class="col-md-3">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">{% trans 'Tasks' %}</h3>
-          </div>
-          <table class="table table-stripped">
-            {% for task in object.task_qs.all %}
-            <tr>
-                <td>{{ forloop.counter }}</td>
-                <td><a href="{{task.get_absolute_url}}">{{task.case}} in {{task.case.monitoring}}</a></td>
-            </tr>
-            {% endfor %}
-          </table>
-        </div>
-    </div>
-</div>
-{% endblock %}
+  {% endblock %}

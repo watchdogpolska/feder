@@ -1,2 +1,89 @@
 @import 'variables';
 @import 'bootstrap';
+body { padding-top: $navbar-height+20px; }
+
+$red: #D72626;
+$gray: #F0F0F0;
+
+.navbar-brand img { // TODO
+    display: none;
+} 
+
+.block {
+  padding: 40px;
+  position: relative;
+}
+
+.block:before{
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: 20px solid darken($gray, 15%); 
+  border-right-color: #fff;
+  border-top-color: #fff;
+}
+
+.select-list {
+  list-style: none;
+  padding: 0px;
+  li {
+    padding: 5px 0px;
+  }
+  li:before { // How to write it up? 
+    content: "";
+    display: block;
+    width: 50px;
+    height: 1px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+  }
+  li:first-child {
+    border-bottom: none;
+  }
+  width: 100%;
+}
+
+
+.red {
+  @extend .block;
+  background-color: $red;
+  color: $gray;
+  a { 
+    color: darken(#fff, 5%);
+  }
+  a:hover{
+    color: darken(#fff, 15%);
+  }
+  :after{
+    border: 20px solid darken($red, 15%); 
+    border-right-color: #fff;
+    border-top-color: #fff;
+  }
+  .title {
+    color: #fff;
+  }
+  .select-list {
+    li:before {
+      background-color: darken($gray, 10%);
+    }
+    li:first-child {
+      border-bottom: none;
+    }
+  }
+}
+
+.gray {
+  @extend .block;
+  background-color: $gray;
+  text-color: $red;
+  .select-list {
+    li:before {
+      background-color: $red;
+    }
+    li:first-child {
+      border-bottom: none;
+    }
+  }
+}
+
