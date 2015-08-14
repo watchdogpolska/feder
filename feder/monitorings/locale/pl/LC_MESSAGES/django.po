@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-monitorings 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-14 22:16+0000\n"
-"PO-Revision-Date: 2015-08-15 00:16+0100\n"
+"POT-Creation-Date: 2015-08-14 22:40+0000\n"
+"PO-Revision-Date: 2015-08-15 00:40+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -23,7 +23,7 @@ msgstr ""
 msgid "User"
 msgstr "Użytkownik"
 
-#: forms.py:28 models.py:22 models.py:23
+#: forms.py:28 models.py:23 models.py:24
 msgid "Monitoring"
 msgstr "Monitoring"
 
@@ -39,6 +39,10 @@ msgstr "Nazwa"
 msgid "Slug"
 msgstr "Identyfikator redakcyjny"
 
+#: models.py:18
+msgid "Description"
+msgstr "Opis"
+
 #: templates/monitorings/_btn.html:3
 msgid "Edit"
 msgstr "Edycja"
@@ -53,28 +57,28 @@ msgstr "Usuń"
 msgid "Create questionary"
 msgstr "Utwórz kwestionariusz"
 
-#: templates/monitorings/monitoring_detail.html:7
+#: templates/monitorings/monitoring_detail.html:11
 msgid "by"
 msgstr "przez"
 
-#: templates/monitorings/monitoring_detail.html:7
-msgid "at"
-msgstr "o"
+#: templates/monitorings/monitoring_detail.html:25
+msgid "Questionaries"
+msgstr "Kwestionariusze"
 
-#: templates/monitorings/monitoring_detail.html:10
+#: templates/monitorings/monitoring_detail.html:32
 msgid "Institutions, cases and tasks"
 msgstr "Instytucje, sprawy i zadania"
 
-#: templates/monitorings/monitoring_detail.html:30
+#: templates/monitorings/monitoring_detail.html:52
 msgid "previous"
 msgstr "poprzednia"
 
-#: templates/monitorings/monitoring_detail.html:33
+#: templates/monitorings/monitoring_detail.html:55
 #, python-format
 msgid "Page %(no)s of %(total)s"
 msgstr "Strona %(no)s z %(total)s"
 
-#: templates/monitorings/monitoring_detail.html:36
+#: templates/monitorings/monitoring_detail.html:58
 msgid "next"
 msgstr "następna"
 
@@ -122,6 +126,9 @@ msgstr "{0} zaktualizowany!"
 #, python-brace-format
 msgid "{0} deleted!"
 msgstr "{0} usunięty!"
+
+#~ msgid "at"
+#~ msgstr "o"
 
 #~ msgid "Institution data"
 #~ msgstr "Dane instytucji"
