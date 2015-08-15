@@ -46,8 +46,10 @@ var config = (function () {
         script: {
             input: [
                 path.bower + '/jquery/dist/jquery.js',
-                // path.bower + '/bootstrap-sass/assets/javascripts/bootstrap/tab.js',
-                // path.bower + '/bootstrap-sass/assets/javascripts/bootstrap/tooltip.js',
+                path.bower + '/bootstrap-sass/assets/javascripts/bootstrap/tab.js',
+                path.bower + '/bootstrap-sass/assets/javascripts/bootstrap/transition.js',
+                path.bower + '/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js',
+                path.bower + '/bootstrap-sass/assets/javascripts/bootstrap/tooltip.js',
                 path.assets + '/js/*.js'
             ],
             output: {

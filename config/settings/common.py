@@ -157,9 +157,7 @@ TEMPLATE_CONTEXT_PROCESSORS = [
     # Your stuff: custom template context processors go here
 ]
 
-TEMPLATE_DIRS = [
-    str(APPS_DIR.path('templates')),
-]
+
 TEMPLATE_LOADERS = [
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
@@ -169,7 +167,6 @@ TEMPLATES = [
         # See: https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-TEMPLATES-BACKEND
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-dirs
-        'DIRS': TEMPLATE_DIRS,
         'OPTIONS': {
             # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-debug
             'debug': DEBUG,

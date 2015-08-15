@@ -28,6 +28,7 @@
     <p>{% trans "Tags"%}: {% for tag in object.tags.all %}<a href="{{tag.get_absolute_url}}">{{tag}}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</p>
 </div>
 <div class="row gray">
+<h3>{% trans 'Cases and tasks' %}</h3>
     {% for case in case_list %}
         {% ifchanged %}<h2><i class="glyphicon glyphicon-search"></i> <a href="{{case.monitoring.get_absolute_url}}">{{case.monitoring}}</a></h2>{% endifchanged %}
         
