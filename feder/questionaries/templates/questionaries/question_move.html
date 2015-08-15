@@ -1,22 +1,18 @@
 {% extends 'questionaries/base.html' %}
 {% load i18n %}
 {% block content %}
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h3 class="panel-title"><a href="{{object.questionary.get_absolute_url}}">{{object.questionary}}</a></h3>
-    </div>
-    <div class="panel-body">
-    <form method="POST">
+<div class="page-header">
+<h1>
+<a href="{{object.questionary.get_absolute_url}}">{{object.questionary}}</a>
+</h1>
+</div>
+<div class="gray">
+  <form method="POST">
     <div style="display:none">
         <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
     </div>
         <input type="submit" class="btn btn-primary" value="{% trans 'Move' %}">
     </form>
-
-    </div>
-    <table class="table table-striped">
-      {% block content_table %}{% endblock %}
-    </div>
   </div>
-
+</div>
 {% endblock %}

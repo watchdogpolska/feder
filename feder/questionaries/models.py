@@ -9,7 +9,8 @@ from jsonfield import JSONField
 class Questionary(TimeStampedModel):
     title = models.CharField(max_length=250, verbose_name=_("Title"))
     monitoring = models.ForeignKey(Monitoring, verbose_name=_("Monitoring"))
-    lock = models.BooleanField(default=False, verbose_name=_("Lock"))
+    lock = models.BooleanField(default=False, verbose_name=_("Lock of edition"),
+        help_text=_("Prevent of edit question to protect against destruction the data set"))
 
     class Meta:
         ordering = ['created', ]
@@ -28,6 +29,12 @@ class Question(models.Model):
     position = models.SmallIntegerField(default=0, verbose_name=_("Position"))
     genre = models.CharField(max_length=25, verbose_name=_("Genre"))
     blob = JSONField(verbose_name=_("Technical definition"))
+
+    def save(self, lock_protection=True):
+        # The final protection against destruction of the data set
+        if lock_protection is True and self.pk is None and self.questionary.lock:
+            raise ValueError("You can't modify this questionary. Some answers exists")
+        return super(Question, self).save()
 
     class Meta:
         ordering = ['position', ]

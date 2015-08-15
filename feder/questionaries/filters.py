@@ -11,10 +11,13 @@ class QuestionaryFilter(CrispyFilterMixin, django_filters.FilterSet):
     created = django_filters.DateRangeFilter(label=_("Creation date"))
     form_class = None
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
         super(QuestionaryFilter, self).__init__(*args, **kwargs)
+        if not self.user.is_superuser:
+            del self.fields['lock']
 
     class Meta:
         model = Questionary
-        fields = ['title', 'monitoring', 'created']
+        fields = ['title', 'monitoring', 'created', 'lock']
         order_by = ['created', ]

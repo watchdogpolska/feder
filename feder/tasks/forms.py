@@ -2,7 +2,7 @@
 from django import forms
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
-from atom.forms import SaveButtonMixin
+from atom.forms import SaveButtonMixin, HelperMixin
 from braces.forms import UserKwargModelFormMixin
 from feder.cases.models import Case
 from feder.questionaries.modulator import modulators
@@ -15,7 +15,7 @@ class TaskForm(SaveButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
         fields = ['case', 'questionary', ]
 
 
-class AnswerForm(forms.Form):
+class AnswerForm(HelperMixin, forms.Form):
     def __init__(self, question, survey=None, *args, **kwargs):
         self.question = question
         self.survey = survey
@@ -54,15 +54,23 @@ class AnswerFormSet(object):  # How use django formsets?
     def __len__(self):
         return len(self.forms)
 
+    def get_form_kwargs(self, question):
+        return dict(question=question, survey=self.survey, prefix=str(question.pk), **self.kwargs)
+
+    def get_form_args(self, question):
+        return self.args
+
     @cached_property
     def forms(self):
         """
         Instantiate forms at first property access.
         """
-        # DoS protection is included in total_form_count()
-        forms = [AnswerForm(question=question, survey=self.survey, prefix=str(question.pk),
-                *self.args, **self.kwargs)
-            for question in self.questionary.question_set.all()]
+        forms = []
+        for question in self.questionary.question_set.all():
+            form = AnswerForm(*self.get_form_args(question), **self.get_form_kwargs(question))
+            if hasattr(form, 'helper'):
+                form.helper.form_tag = False
+            forms.append(form)
         return forms
 
     def is_valid(self):

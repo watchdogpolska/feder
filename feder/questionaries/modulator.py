@@ -1,5 +1,5 @@
 from django import forms
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 
 
 class BaseBlobFormModulator(object):
@@ -25,7 +25,8 @@ class BaseSimpleModulator(BaseBlobFormModulator):
     def create(self, fields):
         fields['name'] = forms.CharField(label=_("Question"))
         fields['help_text'] = forms.CharField(label=_("Description of question"))
-        fields['required'] = forms.BooleanField(label=_("This fields will be required?"), required=False)
+        fields['required'] = forms.BooleanField(label=_("This fields will be required?"),
+            required=False)
 
     def answer(self, fields):
         fields['value'] = self.output_field_cls(label=self.blob['name'],
@@ -36,19 +37,31 @@ class BaseSimpleModulator(BaseBlobFormModulator):
 
 
 class CharModulator(BaseSimpleModulator):
-    description = "Char modulator"
+    description = _("Question about char")
     output_field_cls = forms.CharField
 
 
 class IntegerModulator(BaseSimpleModulator):
-    description = "Integer modulator"
+    description = _("Question about integer")
     output_field_cls = forms.CharField
 
 
 class EmailModulator(BaseSimpleModulator):
-    description = "E-mail modulator"
+    description = _("Question about e-mail")
     output_field_cls = forms.CharField
+
+
+class JSTModulator(BaseSimpleModulator):
+    description = _("Question about unit of administrative division")
+
+    def answer(self, fields):
+        import autocomplete_light
+        fields['value'] = autocomplete_light.ModelMultipleChoiceField(
+            'JednostkaAdministracyjnaAutocomplete', label=self.blob['name'],
+            help_text=self.blob['help_text'],
+            required=self.blob.get('required', True))
 
 modulators = {'char': CharModulator,
               'int': IntegerModulator,
-              'email': EmailModulator}
+              'email': EmailModulator,
+              'jst': JSTModulator}

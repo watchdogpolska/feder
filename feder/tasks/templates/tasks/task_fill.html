@@ -2,11 +2,5 @@
 {% load i18n crispy_forms_tags %}
 {% block content %}
 <h1>{{object}} - {{object.pk}}</h1>
-<form method="POST">
-{% for form in formset %}
-<div class="well">
-{% crispy form %}
-</div>
-{% endfor %}
-</form>
+{% include 'tasks/_formset.html' with object=formset %}
 {% endblock %}

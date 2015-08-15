@@ -28,8 +28,7 @@ class CaseDetailView(SelectRelatedMixin, PrefetchRelatedMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(CaseDetailView, self).get_context_data(**kwargs)
-        context['letter_list'] = (self.object.letter_set.prefetch_related('attachment_set').
-            select_related('author_user', 'author_institution'))
+        context['letter_list'] = (self.object.letter_set.for_milestone().all())
         return context
 
 

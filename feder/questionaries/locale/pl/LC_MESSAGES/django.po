@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: questionaries\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-15 14:11+0000\n"
-"PO-Revision-Date: 2015-08-15 16:11+0100\n"
+"POT-Creation-Date: 2015-08-15 22:51+0000\n"
+"PO-Revision-Date: 2015-08-16 00:51+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -31,7 +31,7 @@ msgstr "Monitoring"
 msgid "Creation date"
 msgstr "Data utworzenia"
 
-#: forms.py:33 models.py:29
+#: forms.py:35 models.py:30
 msgid "Genre"
 msgstr "Rodzaj"
 
@@ -40,30 +40,34 @@ msgid "Title"
 msgstr "Tytuł"
 
 #: models.py:12
-msgid "Lock"
-msgstr "Blokada"
+msgid "Lock of edition"
+msgstr "Blokada edycji"
 
-#: models.py:16 models.py:27
+#: models.py:13
+msgid "Prevent of edit question to protect against destruction the data set"
+msgstr "Zapobiega edycji pytań, aby chronić przed zniszczeniem zbioru danych"
+
+#: models.py:17 models.py:28
 msgid "Questionary"
 msgstr "Kwestionariusz"
 
-#: models.py:17
+#: models.py:18
 msgid "Questionaries"
 msgstr "Kwestionariusze"
 
-#: models.py:28 templates/questionaries/questionary_detail.html:28
+#: models.py:29 templates/questionaries/questionary_detail.html:31
 msgid "Position"
 msgstr "Pozycja"
 
-#: models.py:30
+#: models.py:31
 msgid "Technical definition"
 msgstr "Opis techniczny"
 
-#: models.py:34 modulator.py:26
+#: models.py:41 modulator.py:26
 msgid "Question"
 msgstr "Pytanie"
 
-#: models.py:35
+#: models.py:42
 msgid "Questions"
 msgstr "Pytania"
 
@@ -75,6 +79,22 @@ msgstr "Opis pytania"
 msgid "This fields will be required?"
 msgstr "To pole będzie wymagane?"
 
+#: modulator.py:40
+msgid "Question about char"
+msgstr "Pytanie o tekst"
+
+#: modulator.py:45
+msgid "Question about integer"
+msgstr "Pytanie o liczbę"
+
+#: modulator.py:50
+msgid "Question about e-mail"
+msgstr "Pytanie o adres e-mail"
+
+#: modulator.py:55
+msgid "Question about unit of administrative division"
+msgstr "Pytanie o jednostkę podziału terytorialnego"
+
 #: templates/questionaries/_btn.html:4
 msgid "Edit"
 msgstr "Edytuj"
@@ -84,12 +104,12 @@ msgstr "Edytuj"
 msgid "Delete"
 msgstr "Usuń"
 
-#: templates/questionaries/_btn.html:6
+#: templates/questionaries/_btn.html:7 templates/questionaries/_btn.html:9
 #: templates/questionaries/question_wizard.html:4
 msgid "Add question"
 msgstr "Dodaj pytanie"
 
-#: templates/questionaries/_btn.html:7
+#: templates/questionaries/_btn.html:11
 msgid "Create tasks"
 msgstr "Utwórz zadanie"
 
@@ -114,18 +134,18 @@ msgid "Tasks"
 msgstr "Zadania"
 
 #: templates/questionaries/questionary_detail.html:24
-msgid "Forms"
-msgstr "Formularz"
+msgid "Form preview"
+msgstr "Podgląd formularza"
 
 #: templates/questionaries/questionary_detail.html:30
 msgid "Move up"
 msgstr "Przesuń wyżej"
 
-#: templates/questionaries/questionary_detail.html:31
+#: templates/questionaries/questionary_detail.html:32
 msgid "Move down"
 msgstr "Przesuń niżej"
 
-#: templates/questionaries/questionary_detail.html:35
+#: templates/questionaries/questionary_detail.html:37
 #: templates/questionaries/questionary_filter.html:37
 msgid "No rows."
 msgstr "Brak wierszy"
@@ -139,40 +159,44 @@ msgid "Create questionary"
 msgstr "Utwórz kwestionariusz"
 
 #: templates/questionaries/questionary_form.html:4
-#| msgid "Create questionary"
 msgid "Update questionary"
 msgstr "Zaktualizuj kwestionariusz"
 
 #: templates/questionaries/questionary_form.html:4
-#| msgid "Add question"
 msgid "Add questionary"
 msgstr "Dodaj kwestionariusz"
 
-#: views.py:44
+#: views.py:50
 #, python-brace-format
 msgid "{0} created!"
 msgstr "{0} utworzony!"
 
-#: views.py:53
+#: views.py:59
 #, python-brace-format
 msgid "{object} updated!"
 msgstr "{object} zaktualizowany!"
 
-#: views.py:61
+#: views.py:67
 #, python-brace-format
 msgid "{object} deleted!"
 msgstr "{object} usunięty!"
 
-#: views.py:80
+#: views.py:89
 msgid "Create question"
 msgstr "Utwórz pytanie"
 
-#: views.py:99
+#: views.py:108
 #, python-brace-format
 msgid "{object} moved!"
 msgstr "{object} przesunięty!"
 
-#: views.py:118
+#: views.py:127
 #, python-brace-format
 msgid "Tasks for {object} created!"
 msgstr "Zadania dla {object} utworzone!"
+
+#~ msgid "Forms"
+#~ msgstr "Formularz"
+
+#~ msgid "Lock"
+#~ msgstr "Blokada"

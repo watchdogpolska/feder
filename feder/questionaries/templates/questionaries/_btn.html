@@ -3,7 +3,11 @@
   <div class="pull-right btn-group">
     <a class="btn btn-default" href="{% url 'questionaries:update' pk=object.pk %}">{% trans 'Edit' %}</a>
     <a class="btn btn-warning" href="{% url 'questionaries:delete' pk=object.pk %}">{% trans 'Delete' %}</a>
+    {% if not object.lock %}
     <a class="btn btn-primary" href="{% url 'questionaries:question_create' pk=object.pk %}">{% trans 'Add question' %}</a>
+    {% else %}
+    <a class="btn btn-primary disabled">{% trans 'Add question' %}</a>
+    {% endif %}
     <a class="btn btn-primary" href="{% url 'questionaries:tasks' pk=object.pk %}">{% trans 'Create tasks' %}</a>
 
   </div>

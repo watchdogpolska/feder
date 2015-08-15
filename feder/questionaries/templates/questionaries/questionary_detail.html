@@ -21,14 +21,16 @@
 
     <div class="col-md-6">
         <div class="gray">
-        <h2>{% trans 'Forms' %}</h2>
+        <h2>{% trans 'Form preview' %}</h2>
         {% if answer_forms %}
             {% for form in answer_forms %}
                 <div class="well">
-                <p>{% trans 'Position' %}: {{form.question.position}}</p>
                 {% crispy form %}
-                <a href="{% url 'questionaries:question_up' pk=form.question.pk%}" class="btn btn-default"><i class="glyphicon glyphicon-hand-down"></i> {% trans 'Move up'%}</a>
-                <a href="{% url 'questionaries:question_down' pk=form.question.pk%}" class="btn btn-default"><i class="glyphicon glyphicon-hand-up"></i> {% trans 'Move down'%}</a>
+                <div class="btn-group" role="group" aria-label="...">
+                <a href="{% url 'questionaries:question_up' pk=form.question.pk%}" class="btn btn-default"><i class="glyphicon glyphicon-hand-up"></i> {% trans 'Move up'%}</a>
+                <p class="btn btn-default">{% trans 'Position' %}: {{form.question.position}}</p>
+                <a href="{% url 'questionaries:question_down' pk=form.question.pk%}" class="btn btn-default"><i class="glyphicon glyphicon-hand-down"></i> {% trans 'Move down'%}</a>
+                </div>
                 </div>
             {% endfor %}
         {% else %}

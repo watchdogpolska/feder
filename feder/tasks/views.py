@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse_lazy
 from django_filters.views import FilterView
 from django.contrib.auth.decorators import login_required
 from braces.views import (SelectRelatedMixin, LoginRequiredMixin, FormValidMessageMixin,
-    UserFormKwargsMixin)
+    UserFormKwargsMixin, PrefetchRelatedMixin)
 from atom.views import DeleteMessageMixin
 from .models import Task
 from .filters import TaskFilter
@@ -29,9 +29,15 @@ class TaskListView(SelectRelatedMixin, ListView):
 """
 
 
-class TaskDetailView(SelectRelatedMixin, DetailView):
+class TaskDetailView(SelectRelatedMixin, PrefetchRelatedMixin, DetailView):
     model = Task
-    select_related = ['case', 'questionary']
+    select_related = ['case__monitoring', 'case__institution', 'questionary']
+    prefetch_related = ['survey_set', 'questionary__question_set']
+
+    def get_context_data(self, **kwargs):
+        context = super(TaskDetailView, self).get_context_data(**kwargs)
+        context['formset'] = AnswerFormSet(survey=None, questionary=self.object.questionary)
+        return context
 
 
 class TaskCreateView(LoginRequiredMixin, UserFormKwargsMixin, CreateView):

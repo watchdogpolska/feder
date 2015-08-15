@@ -11,7 +11,9 @@ from feder.cases.models import Case
 
 
 class LetterQuerySet(models.QuerySet):
-    pass
+    def for_milestone(self):
+        return (self.prefetch_related('attachment_set').
+            select_related('author_user', 'author_institution'))
 
 
 class Letter(TimeStampedModel):

@@ -10,13 +10,15 @@ from .modulator import modulators
 class QuestionaryForm(SaveButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(QuestionaryForm, self).__init__(*args, **kwargs)
+        if not self.user.is_superuser:
+            del self.fields['lock']
 
     class Meta:
         model = Questionary
-        fields = ['title', 'monitoring', ]
+        fields = ['title', 'monitoring', 'lock']
 
 
-class BoolQuestionForm(HelperMixin, forms.Form):
+class BoolQuestionForm(HelperMixin, UserKwargModelFormMixin, forms.Form):
     def __init__(self, genre, *args, **kwargs):
         self.genre = genre
         super(BoolQuestionForm, self).__init__(*args, **kwargs)

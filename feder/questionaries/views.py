@@ -10,6 +10,7 @@ from atom.views import DeleteMessageMixin, ActionView, ActionMessageMixin, FormI
 from formtools.wizard.views import SessionWizardView
 from django.db.models import F
 from feder.tasks.forms import MultiTaskForm, AnswerFormSet
+from django.core.exceptions import PermissionDenied
 from .models import Questionary, Question
 from .filters import QuestionaryFilter
 from .forms import QuestionaryForm, QuestionForm, BoolQuestionForm
@@ -20,6 +21,11 @@ class QuestionaryListView(SelectRelatedMixin, FilterView):
     model = Questionary
     select_related = ['monitoring', ]
     paginate_by = 25
+
+    def get_filterset_kwargs(self, *args, **kwargs):
+        kwargs = super(QuestionaryListView, self).get_filterset_kwargs(*args, **kwargs)
+        kwargs['user'] = self.request.user
+        return kwargs
 
     def get_queryset(self, *args, **kwargs):
         qs = super(QuestionaryListView, self).get_queryset(*args, **kwargs)
@@ -67,12 +73,15 @@ class QuestionWizard(SessionWizardView):
 
     def get_form_kwargs(self, step):
         self.questionary = get_object_or_404(Questionary, pk=self.kwargs['pk'])
+        if self.questionary.lock:
+            raise PermissionDenied("This questionary are locked to edit")
+        kwargs = {'user': self.request.user}
         if step == '0':
-            return {'questionary': self.questionary}
+            kwargs.update({'questionary': self.questionary})
         if step == '1':
             data = self.storage.get_step_data('0')
-            return {'genre': data.get('0-genre')}
-        return {}
+            kwargs.update({'genre': data.get('0-genre')})
+        return kwargs
 
     def get_context_data(self, *args, **kwargs):
         context = super(QuestionWizard, self).get_context_data(*args, **kwargs)
@@ -89,7 +98,7 @@ class QuestionMoveView(ActionMessageMixin, ActionView):
     model = Question
     template_name_suffix = '_move'
     direction = None
-    change = {'up': +1, 'down': -1}
+    change = {'up': -1, 'down': +1}
 
     def action(self, *args, **kwargs):
         self.object.position = F('position') + self.change[self.direction]

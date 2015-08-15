@@ -23,13 +23,25 @@ class Task(TimeStampedModel):
     def __unicode__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return reverse('tasks:details', kwargs={'pk': self.pk})
+
+    def lock_check(self):
+        if self.questionary.lock is False:
+            self.questionary.lock = True
+            self.questionary.save()
+            return True
+        return False
+
+    def save(self, lock_check=True, *args, **kwargs):
+        if lock_check:
+            self.lock_check()
+        return super(Task, self).save(*args, **kwargs)
+
     class Meta:
         ordering = ['created', ]
         verbose_name = _("Task")
         verbose_name_plural = _("Tasks")
-
-    def get_absolute_url(self):
-        return reverse('tasks:details', kwargs={'pk': self.pk})
 
 
 class Survey(TimeStampedModel):
