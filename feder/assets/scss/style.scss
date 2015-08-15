@@ -1,6 +1,6 @@
 @import 'variables';
 @import 'bootstrap';
-
+@import 'milestones';
 $red: #D72626;
 $gray: #F0F0F0;
 
@@ -17,6 +17,7 @@ $gray: #F0F0F0;
   border: 20px solid darken($gray, 15%); 
   border-right-color: #fff;
   border-top-color: #fff;
+  margin-bottom: 20px;
 }
 
 .select-list {

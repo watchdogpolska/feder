@@ -7,8 +7,9 @@
   {% endfor %}
   <li class="active">{{object}}</li>
 </ol>
-  <h1 class="page-header"><i class="glyphicon glyphicon-globe"></i> {{object}}</h1>
-
+<div class="page-header">
+  <h1><i class="glyphicon glyphicon-globe"></i> {{object}} <small>{{object.category}}</small></h1>
+</div>
   <div class="row">
     {% if object.children.with_category.all %}
     <div class="col-md-3">

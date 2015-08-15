@@ -1,0 +1,119 @@
+// Port http://jablon.me/bootstrap-milestones/ to SCSS
+$milestone-offset-smaller: 5px;
+$milestone-offset-small: 10px;
+$milestone-offset: 15px;
+$milestone-offset-large: 20px;
+$milestone-offset-larger: 25px;
+
+$milestone-icon-padding: 7.5px;
+$milestone-icon-font-size: 12px;
+$milestone-icon-width: $milestone-icon-padding * 2 + $milestone-icon-font-size + 2;
+
+.milestones {
+
+  // the <ul .milestones>
+  list-style-type: none;
+  padding-left: $milestone-icon-width/2;
+
+  // the top and bottom borders
+  // of the list
+  &.milestones-bordered {
+    border-bottom: 2px solid $gray-light;
+    border-top: 2px solid $gray-light;
+  }
+
+  &.milestones-bordered-top {
+    border-top: 2px solid $gray-light;
+  }
+
+  &.milestones-bordered-bottom {
+    border-bottom: 2px solid $gray-light;
+  }
+
+  // every <li> item
+  & > li {
+    // each milestone
+    border-left: 1px dotted $gray-light;
+    border-bottom: 1px dotted $gray-light;
+    padding-top: $milestone-offset;
+    padding-bottom: $milestone-offset;
+    padding-left: $milestone-offset-larger;
+    min-height: 2*$milestone-offset-larger;
+
+    // headings in list-items
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 0px;
+      margin-bottom: $milestone-offset-smaller;
+    }
+
+    // reduces the bottom margin for bs elements
+    // that add a margin beneath them
+    .list-group:last-child,
+    .panel:last-child,
+    .well:last-child,
+    .table:last-child,
+    .alert:last-child,
+    .progress:last-child,
+    pre:last-child
+    {
+      margin-bottom: $milestone-offset-smaller;
+    }
+
+    // removes the grey dotted line
+    // for the last milestone
+    &:last-child {
+      border-bottom: none;
+    }
+
+    // does the heavy lifting to the icons
+    & > .fa:first-child,
+    & > .glyphicon:first-child {
+      margin-left: -($milestone-offset-larger + ($milestone-icon-width - 2)/2 + 1);
+      margin-top: -$milestone-offset-smaller;
+      float:left;
+      position: relative;
+      border-radius: $milestone-icon-width/2;
+      padding: $milestone-icon-padding;
+      font-size: $milestone-icon-font-size;
+      min-width: $milestone-icon-width;
+      text-align: center;
+    }
+  }
+}
+
+// all the icon colors
+.milestone-default {
+  background-color: $gray-lighter;
+  color: $gray-light;
+  border: 1px solid darken($gray-lighter, 5%);
+}
+
+.milestone-primary {
+  background-color: $brand-primary;
+  color: #fff;
+  border: 1px solid darken($brand-primary, 5%);
+}
+
+.milestone-success {
+  background-color: $brand-success;
+  color: #fff;
+  border: 1px solid darken($brand-success, 5%);
+}
+
+.milestone-info {
+  background-color: $brand-info;
+  color: #fff;
+  border: 1px solid darken($brand-info, 5%);
+}
+
+.milestone-warning {
+  background-color: $brand-warning;
+  color: #fff;
+  border: 1px solid darken($brand-warning, 5%);
+}
+
+.milestone-danger, .milestone-error {
+  background-color: $brand-danger;
+  color: #fff;
+  border: 1px solid darken($brand-danger, 5%);
+}

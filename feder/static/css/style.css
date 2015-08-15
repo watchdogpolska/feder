@@ -1815,7 +1815,7 @@ abbr[data-original-title] {
 blockquote {
   padding: 10px 20px;
   margin: 0 0 20px;
-  font-size: 17.5px;
+  font-size: 14px;
   border-left: 5px solid #eeeeee;
 }
 blockquote p:last-child,
@@ -7269,6 +7269,92 @@ button.close {
     display: none !important;
   }
 }
+.milestones {
+  list-style-type: none;
+  padding-left: 14.5px;
+}
+.milestones.milestones-bordered {
+  border-bottom: 2px solid #777777;
+  border-top: 2px solid #777777;
+}
+.milestones.milestones-bordered-top {
+  border-top: 2px solid #777777;
+}
+.milestones.milestones-bordered-bottom {
+  border-bottom: 2px solid #777777;
+}
+.milestones > li {
+  border-left: 1px dotted #777777;
+  border-bottom: 1px dotted #777777;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-left: 25px;
+  min-height: 50px;
+}
+.milestones > li h1, .milestones > li h2, .milestones > li h3, .milestones > li h4, .milestones > li h5, .milestones > li h6 {
+  margin-top: 0px;
+  margin-bottom: 5px;
+}
+.milestones > li .list-group:last-child,
+.milestones > li .panel:last-child,
+.milestones > li .well:last-child,
+.milestones > li .table:last-child,
+.milestones > li .alert:last-child,
+.milestones > li .progress:last-child,
+.milestones > li pre:last-child {
+  margin-bottom: 5px;
+}
+.milestones > li:last-child {
+  border-bottom: none;
+}
+.milestones > li > .fa:first-child, .milestones > li > .glyphicon:first-child {
+  margin-left: -39.5px;
+  margin-top: -5px;
+  float: left;
+  position: relative;
+  border-radius: 14.5px;
+  padding: 7.5px;
+  font-size: 12px;
+  min-width: 29px;
+  text-align: center;
+}
+
+.milestone-default {
+  background-color: #eeeeee;
+  color: #777777;
+  border: 1px solid #e2e2e2;
+}
+
+.milestone-primary {
+  background-color: #bb2121;
+  color: #fff;
+  border: 1px solid #a51d1d;
+}
+
+.milestone-success {
+  background-color: #5cb85c;
+  color: #fff;
+  border: 1px solid #4cae4c;
+}
+
+.milestone-info {
+  background-color: #5bc0de;
+  color: #fff;
+  border: 1px solid #46b8da;
+}
+
+.milestone-warning {
+  background-color: #f0ad4e;
+  color: #fff;
+  border: 1px solid #eea236;
+}
+
+.milestone-danger, .milestone-error {
+  background-color: #d9534f;
+  color: #fff;
+  border: 1px solid #d43f3a;
+}
+
 .block, .red, .gray {
   padding: 40px;
   position: relative;
@@ -7282,6 +7368,7 @@ button.close {
   border: 20px solid #cacaca;
   border-right-color: #fff;
   border-top-color: #fff;
+  margin-bottom: 20px;
 }
 
 .select-list {
