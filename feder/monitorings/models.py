@@ -8,7 +8,8 @@ from autoslug.fields import AutoSlugField
 
 
 class MonitoringQuerySet(models.QuerySet):
-    pass
+    def with_case_count(self):
+        return self.annotate(case_count=models.Count('case'))
 
 
 class Monitoring(TimeStampedModel):

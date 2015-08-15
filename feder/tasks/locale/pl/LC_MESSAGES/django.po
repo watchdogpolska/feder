@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tasks 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-15 03:07+0000\n"
-"PO-Revision-Date: 2015-08-15 05:04+0100\n"
+"POT-Creation-Date: 2015-08-15 14:25+0000\n"
+"PO-Revision-Date: 2015-08-15 16:25+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -27,7 +27,20 @@ msgstr "Data utworzenia"
 msgid "Cases"
 msgstr "Sprawy"
 
-#: forms.py:89 models.py:17
+#: forms.py:89
+msgid "Suffix"
+msgstr "Przedrostek"
+
+#: forms.py:90
+#| msgid "Suffix for name in the form \"[name] #[no]\"."
+msgid "Suffix for name in the form \"[suffix] #[no]\"."
+msgstr "Przedrostek dla nazwy w postaci \"[przedrostek] #[numer]\"."
+
+#: forms.py:96
+msgid "They are available only cases relevant to the monitoring."
+msgstr "Tu są dostępne sprawy wyłącznie właściwe dla danego monitoringu. "
+
+#: models.py:17
 msgid "Name"
 msgstr "Nazwa"
 

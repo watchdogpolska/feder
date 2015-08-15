@@ -23,7 +23,7 @@ class MonitoringListView(SelectRelatedMixin, FilterView):
 
     def get_queryset(self, *args, **kwargs):
         qs = super(MonitoringListView, self).get_queryset(*args, **kwargs)
-        return qs
+        return qs.with_case_count()
 
 
 class MonitoringDetailView(SelectRelatedMixin, ExtraListMixin, DetailView):

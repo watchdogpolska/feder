@@ -1,12 +1,12 @@
 {% extends 'monitorings/base.html' %}
 {% load i18n %}
 {% block content %}
+<ol class="breadcrumb">
+  {% if object %}<li><a href="{{object.get_absolute_url}}">{{object}}</a></li>{% endif %}
+  {% block breadcrumbs_row %}{% endblock %} 
+</ol>
 {% if object %}
-  <ol class="breadcrumb">
-      <li><a href="{{object.get_absolute_url}}">{{object}}</a></li>
-      {% block breadcrumbs_row %}{% endblock %} 
-  </ol>
-  {% include 'monitorings/_btn.html' with object=object %}
+{% include 'monitorings/_btn.html' with object=object %}
 {% endif %}
 
 <div class="page-header">

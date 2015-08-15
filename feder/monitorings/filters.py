@@ -20,4 +20,4 @@ class MonitoringFilter(CrispyFilterMixin, django_filters.FilterSet):
     class Meta:
         model = Monitoring
         fields = ['name', 'user', 'created']
-        order_by = ['created', '-created']
+        order_by = ['created', '-created', 'case_count']

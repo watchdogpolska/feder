@@ -30,34 +30,38 @@
 </div>
 <div class="gray">
 <h3>{% trans 'Institutions, cases and tasks' %}</h3>
-{% for case in object_list %}
-{% ifchanged %}<h4><i class="glyphicon glyphicon-home"></i> <a href="{{case.institution.get_absolute_url}}">{{case.institution}}</a></h4>{% endifchanged %}
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h5 class="panel-title"><i class="glyphicon glyphicon-folder-open"></i> 
-   <a href="{{case.get_absolute_url}}">{{case}}</a></h5>
+{% if object_list %}
+  {% for case in object_list %}
+  {% ifchanged %}<h4><i class="glyphicon glyphicon-home"></i> <a href="{{case.institution.get_absolute_url}}">{{case.institution}}</a></h4>{% endifchanged %}
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h5 class="panel-title"><i class="glyphicon glyphicon-folder-open"></i> 
+     <a href="{{case.get_absolute_url}}">{{case}}</a></h5>
+    </div>
+    {% if case.task_set.all %}
+        <table class="table">
+        {% for task in case.task_set.all %}
+            <tr><td><i class="glyphicon glyphicon-edit"></i> <a href="{{task.get_absolute_url}}">{{task}}</a></td></tr>
+        {% endfor %}
+        </table>
+    {% endif %}
   </div>
-  {% if case.task_set.all %}
-      <table class="table">
-      {% for task in case.task_set.all %}
-          <tr><td><i class="glyphicon glyphicon-edit"></i> <a href="{{task.get_absolute_url}}">{{task}}</a></td></tr>
-      {% endfor %}
-      </table>
+  {% endfor %}
+  {% if object_list.has_previous or object_list.has_next %}
+  <ul class="pager">
+      {% if object_list.has_previous %}
+          <li><a href="{% url 'monitorings:details' slug=object.slug page=object_list.previous_page_number %}">&laquo; {% trans 'previous' %}</a></li>
+      {% endif %}
+
+      <li>{% blocktrans with no=object_list.number total=object_list.paginator.num_pages %}Page {{ no }} of {{ total }}{% endblocktrans %}</li>
+
+      {% if object_list.has_next %}
+          <li><a href="{% url 'monitorings:details' slug=object.slug page=object_list.next_page_number %}">{% trans 'next' %} &raquo; </a></li>
+      {% endif %}
+  </ul>
   {% endif %}
-</div>
-{% endfor %}
-{% if object_list.has_previous or object_list.has_next %}
-<ul class="pager">
-    {% if object_list.has_previous %}
-        <li><a href="{% url 'monitorings:details' slug=object.slug page=object_list.previous_page_number %}">&laquo; {% trans 'previous' %}</a></li>
-    {% endif %}
-
-    <li>{% blocktrans with no=object_list.number total=object_list.paginator.num_pages %}Page {{ no }} of {{ total }}{% endblocktrans %}</li>
-
-    {% if object_list.has_next %}
-        <li><a href="{% url 'monitorings:details' slug=object.slug page=object_list.next_page_number %}">{% trans 'next' %} &raquo; </a></li>
-    {% endif %}
-</ul>
+{% else %}
+<p>{% trans 'No rows.' %}</p>
 {% endif %}
 </div>
 {% endblock %}

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: questionaries\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-15 03:03+0000\n"
-"PO-Revision-Date: 2015-08-15 05:04+0100\n"
+"POT-Creation-Date: 2015-08-15 14:11+0000\n"
+"PO-Revision-Date: 2015-08-15 16:11+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -131,13 +131,22 @@ msgid "No rows."
 msgstr "Brak wierszy"
 
 #: templates/questionaries/questionary_filter.html:5
-#| msgid "Questionaries"
 msgid "Questionaries index"
 msgstr "Wykaz kwestionariuszy"
 
 #: templates/questionaries/questionary_filter.html:10
 msgid "Create questionary"
 msgstr "Utwórz kwestionariusz"
+
+#: templates/questionaries/questionary_form.html:4
+#| msgid "Create questionary"
+msgid "Update questionary"
+msgstr "Zaktualizuj kwestionariusz"
+
+#: templates/questionaries/questionary_form.html:4
+#| msgid "Add question"
+msgid "Add questionary"
+msgstr "Dodaj kwestionariusz"
 
 #: views.py:44
 #, python-brace-format
