@@ -1,47 +1,49 @@
 {% extends 'institutions/base.html' %}
 {% load i18n crispy_forms_tags %}
+
+{% block buttons %}
+<div class="clearfix">
+  <div class="pull-right btn-group">
+    <a class="btn btn-default" href="{% url 'institutions:create' %}">{% trans 'Create institution' %}</a>
+</div>
+</div>
+{% endblock %}
+
 {% block content %}
 <div class="page-header">
   <h1>{% trans 'Institutions index' %}</h1>
 </div>
 
-  {% block buttons %}
-    <div class="clearfix">
-      <div class="pull-right btn-group">
-        <a class="btn btn-default" href="{% url 'institutions:create' %}">{% trans 'Create institution' %}</a>
-      </div>
-    </div>
-  {% endblock %}
 <div class="row">
     <div class="col-md-3">
-    <div class="red">
-        {% crispy filter.form %}
-    </div>
+        <div class="red">
+            {% crispy filter.form %}
+        </div>
     </div>
     <div class="col-md-9">
-    <div class="gray">
-        {% if object_list %}
-        {% for object in object_list %}
-        <div class="panel panel-default">
-            <div class="panel-heading">
-            <h3 class="panel-title"><i class="glyphicon glyphicon-home"></i>  <a href="{{object.get_absolute_url}}">{{object}}</a></h3>
+        <div class="gray">
+            {% if object_list %}
+            {% for object in object_list %}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="glyphicon glyphicon-home"></i>  <a href="{{object.get_absolute_url}}">{{object}}</a></h3>
+                </div>
+                <table class="table table-stripped">
+                    <tr>
+                        <td><i class="glyphicon glyphicon-globe"></i> {% trans 'Unit of administrative division' %}:</td>
+                        <td><a href="{{object.jst.get_absolute_url}}">{{object.jst}}</a></td>
+                    </tr>
+                    <tr>
+                        <td>{% trans 'Case count'%}: </td>
+                        <td>{{object.case_count}}</td>
+                    </tr>
+                </table>
+            </div>
+            {% endfor %}
+            {% else %}
+            {% trans 'No rows.' %}
+            {% endif %}
         </div>
-        <table class="table table-stripped">
-            <tr>
-                <td><i class="glyphicon glyphicon-globe"></i> {% trans 'Unit of administrative division' %}:</td>
-                <td><a href="{{object.jst.get_absolute_url}}">{{object.jst}}</a></td>
-            </tr>
-            <tr>
-                <td>{% trans 'Case count'%}: </td>
-                <td>{{object.case_count}}</td>
-            </tr>
-        </table>
-        </div>
-        {% endfor %}
-        {% else %}
-        {% trans 'No rows.' %}
-        {% endif %}
     </div>
-</div>
 </div>
 {% endblock %}

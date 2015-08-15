@@ -1,34 +1,37 @@
 {%extends 'cases/base.html' %}
 {% load i18n crispy_forms_tags %}
+
 {% block content %}
 <div class="page-header">
   <h1>{% trans 'Case index' %}</h1>
 </div>
+
 <div class="row">
-<div class="col-sm-3">
-<div class="red">
-{% crispy filter.form %}
-</div>
-</div>
-<div class="col-sm-9">
-<div class="gray">
-{% if object_list %}
-    {% for object in object_list %}
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title"><i class="glyphicon glyphicon-folder-open"></i> <a href="{{object.get_absolute_url}}">{{object}}</a></h3>
-      </div>
-      <div class="panel-body">
-        <p>{% trans 'Institution'%}: <a href="{{object.institution.get_absolute_url}}">{{object.institution}}</a></p>
-        <p>{% trans 'Monitoring'%}: <a href="{{object.monitoring.get_absolute_url}}">{{object.monitoring}}</a></p>
-        <p>{% trans 'Letter count'%}: {{object.letter_count}}</a></p>
-      </div>
+  <div class="col-sm-3">
+    <div class="red">
+      {% crispy filter.form %}
     </div>
-    {% endfor %}
-{% else %}
-    {% trans 'No rows.' %}
-    {% endif %}
-</div>
+  </div>
+
+  <div class="col-sm-9">
+    <div class="gray">
+      {% if object_list %}
+      {% for object in object_list %}
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title"><i class="glyphicon glyphicon-folder-open"></i> <a href="{{object.get_absolute_url}}">{{object}}</a></h3>
+        </div>
+        <div class="panel-body">
+          <p>{% trans 'Institution'%}: <a href="{{object.institution.get_absolute_url}}">{{object.institution}}</a></p>
+          <p>{% trans 'Monitoring'%}: <a href="{{object.monitoring.get_absolute_url}}">{{object.monitoring}}</a></p>
+          <p>{% trans 'Letter count'%}: {{object.letter_count}}</a></p>
+        </div>
+      </div>
+      {% endfor %}
+      {% else %}
+      {% trans 'No rows.' %}
+      {% endif %}
+    </div>
   </div>
 </div>
 {% endblock %}

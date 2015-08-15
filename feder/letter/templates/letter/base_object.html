@@ -1,11 +1,13 @@
 {% extends 'letter/base.html' %}
 {% load i18n %}
-{% block content %}
+
+{% block breadcrumbs %}
 <ol class="breadcrumb">
     <li><a href="{{object.case.monitoring.get_absolute_url}}">{{object.case.monitoring}}</a></li>
     <li><a href="{{object.case.get_absolute_url}}">{{object.case}}</a></li>
     <li class="active">{% if headline %}{{ headline }}{% else %}{% trans 'Edit' %}{% endif %}</li>
 </ol>
+{% endblock %}
 
 {% block buttons %}
 <div class="clearfix">
@@ -15,6 +17,8 @@
     </div>
 </div>
 {% endblock %}
+
+{% block content %}
 <div class="panel panel-default">
   <div class="panel-heading">
     <h3 class="panel-title"><i class="glyphicon glyphicon-envelope"></i> <a href="{{object.get_absolute_url}}">{{object}}</a></h3>

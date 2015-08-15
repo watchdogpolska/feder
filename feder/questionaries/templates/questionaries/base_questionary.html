@@ -1,6 +1,6 @@
 {% extends 'questionaries/base.html' %}
 {% load i18n %}
-{% block content %}
+{% block breadcrumbs %}
 <ol class="breadcrumb">
     {% if object %}
     <li><a href="{{object.monitoring.get_absolute_url}}">{{object.monitoring}}</a></li>
@@ -8,13 +8,23 @@
     {% endif %}
     {% block breadcrumbs_row %}{% endblock %} 
 </ol>
+{% endblock %}
+
+{% block content %}
+
 {% if object %}
-    {% include 'questionaries/_btn.html' %}
-{% endif %}
+{% include 'questionaries/_btn.html' %}
 <div class="page-header">
-<h2><i class="glyphicon glyphicon-list-alt"></i> <a href="{{object.get_absolute_url}}">{{object}}</a></h2>
+    <h2>
+        <i class="glyphicon glyphicon-list-alt"></i>
+        <a href="{{object.get_absolute_url}}">{{object}}</a>
+    </h2>
 </div>
+
+{% endif %}
+
+
 <div class="gray">
-      {% block content_object %}{% endblock %}
+  {% block content_object %}{% endblock %}
 </div>
 {% endblock %}

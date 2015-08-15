@@ -1,6 +1,6 @@
 {% extends 'monitorings/base.html' %}
 {% load i18n %}
-{% block content %}
+{% block breadcrumbs %}
 <ol class="breadcrumb">
   {% for jst in object.institution.jst.get_ancestors.all %}
   <li><a href="{{jst.get_absolute_url}}">{{jst}}</a></li>
@@ -9,6 +9,8 @@
   <li><a href="{{object.institution.get_absolute_url}}">{{object.institution}}</a></li>
   <li class="active">{{object}}</li>
 </ol>
+{% endblock %}
+
 {% block buttons %}
 <div class="clearfix">
   <div class="pull-right btn-group">
@@ -18,6 +20,7 @@
 </div>
 {% endblock %}
 
+{% block content %}
 <div class="page-header">
   <h1><i class="glyphicon glyphicon-folder-open"></i> {{object}}</h1>
 </div>

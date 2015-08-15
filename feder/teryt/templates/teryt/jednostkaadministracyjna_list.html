@@ -6,7 +6,7 @@
     <h1 class="page-header">{% trans 'Voivodeship'%}</h1>
     <p>{% trans 'Select voivodeship.' %}</p>
     <ul class="select-list">
-    {% for jst in object_list %}
+        {% for jst in object_list %}
         <li><a href="{{jst.get_absolute_url}}">{{jst}}</a></li>
         {% endfor %}
     </ul>

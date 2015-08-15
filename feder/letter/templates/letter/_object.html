@@ -9,17 +9,16 @@
     <blockquote>
       {{object.quote}}
     </blockquote>
-  {% if object.attachment_set.all %}
-  <div class="well attachment-list">
-  <h2>{% trans 'attachments' %}</h2>
-  <ul>
-      {% for attachment in object.attachment_set.all %}
-      <li>{{attachment.pk}}</li>
-      {# <li><a href="{{attachment.get_absolute_url}}">{{attachment}}</a></li>#}
-      {% endfor %}
-  </ul>
+    {% if object.attachment_set.all %}
+    <div class="well attachment-list">
+      <h2>{% trans 'attachments' %}</h2>
+      <ul>
+        {% for attachment in object.attachment_set.all %}
+        <li>{{attachment.pk}}</li>
+        {# <li><a href="{{attachment.get_absolute_url}}">{{attachment}}</a></li>#}
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
   </div>
-  {% endif %}
-  </div>
-  
 </div>
