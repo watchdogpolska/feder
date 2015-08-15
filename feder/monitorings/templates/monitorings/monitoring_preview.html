@@ -2,29 +2,26 @@
 {% load crispy_forms_tags i18n %}
 
 {% block content %}
+<div class="page-header">
+<h1>{% trans 'Create monitoring' %}</h1>
+</div>
+<h2>{% trans "Preview your submission" %}</h1>
 
-<h1>{% trans "Preview your submission" %}</h1>
-
-<table>
-{% for key, value in form.cleaned_data.items %}
-<tr>
-<th>{{ key }}:</th>
-<td>{{ value }}</td>
-</tr>
-{% endfor %}
-</table>
-
-<p>{% blocktrans %}Security hash: {{ hash_value }}{% endblocktrans %}</p>
-
+<div class="gray">
+<p>{% trans 'Recipients' %}: {% for institution in form.cleaned_data.recipients %}{{institution}}{% if not forloop.endloop %}, {% endif %}{% endfor %}
+<p>{% trans 'Name' %}: {{form.cleaned_data.name }}</p> 
+<div class="well">
+{{form.cleaned_data.text|linebreaks}}
+</div>
 <form action="" method="post">{% csrf_token %}
 {% for field in form %}{{ field.as_hidden }}{% endfor %}
 <input type="hidden" name="{{ stage_field }}" value="2" />
 <input type="hidden" name="{{ hash_field }}" value="{{ hash_value }}" />
 <p><input type="submit" class="btn btn-primary" value="{% trans "Submit" %}" /></p>
 </form>
-
+</div>
 <h1>{% trans "Or edit it again" %}</h1>
-
+<div class="gray">
 {% crispy form %}
-
+</div>
 {% endblock %}

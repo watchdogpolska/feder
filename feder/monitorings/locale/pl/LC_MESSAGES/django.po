@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-monitorings 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-14 22:40+0000\n"
-"PO-Revision-Date: 2015-08-15 00:40+0100\n"
+"POT-Creation-Date: 2015-08-15 01:31+0000\n"
+"PO-Revision-Date: 2015-08-15 03:31+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -23,15 +23,23 @@ msgstr ""
 msgid "User"
 msgstr "Użytkownik"
 
-#: forms.py:28 models.py:23 models.py:24
+#: forms.py:23 templates/monitorings/monitoring_preview.html:11
+msgid "Recipients"
+msgstr "Odbiorcy"
+
+#: forms.py:24
+msgid "Text"
+msgstr "Treść"
+
+#: forms.py:29 models.py:23 models.py:24
 msgid "Monitoring"
 msgstr "Monitoring"
 
-#: forms.py:31
+#: forms.py:32
 msgid "Content of new letter"
 msgstr "Treść nowego listu"
 
-#: models.py:15
+#: models.py:15 templates/monitorings/monitoring_preview.html:12
 msgid "Name"
 msgstr "Nazwa"
 
@@ -96,19 +104,19 @@ msgid "Update"
 msgstr "Aktualizuj"
 
 #: templates/monitorings/monitoring_preview.html:6
+#| msgid "Monitoring"
+msgid "Create monitoring"
+msgstr "Utwórz monitoring"
+
+#: templates/monitorings/monitoring_preview.html:8
 msgid "Preview your submission"
 msgstr "Pogląd:"
 
-#: templates/monitorings/monitoring_preview.html:17
-#, python-format
-msgid "Security hash: %(hash_value)s"
-msgstr "Kod bezpieczeństwa: %(hash_value)s"
-
-#: templates/monitorings/monitoring_preview.html:23
+#: templates/monitorings/monitoring_preview.html:20
 msgid "Submit"
 msgstr "Zgłoś"
 
-#: templates/monitorings/monitoring_preview.html:26
+#: templates/monitorings/monitoring_preview.html:23
 msgid "Or edit it again"
 msgstr "lub edytuj ponownie"
 
@@ -126,6 +134,9 @@ msgstr "{0} zaktualizowany!"
 #, python-brace-format
 msgid "{0} deleted!"
 msgstr "{0} usunięty!"
+
+#~ msgid "Security hash: %(hash_value)s"
+#~ msgstr "Kod bezpieczeństwa: %(hash_value)s"
 
 #~ msgid "at"
 #~ msgstr "o"

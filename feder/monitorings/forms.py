@@ -19,8 +19,9 @@ class MonitoringForm(SaveButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
 
 
 class CreateMonitoringForm(SaveButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
-    recipients = autocomplete_light.ModelMultipleChoiceField('InstitutionAutocomplete')
-    text = forms.CharField(widget=forms.Textarea)
+    recipients = autocomplete_light.ModelMultipleChoiceField('InstitutionAutocomplete',
+        label=_("Recipients"))
+    text = forms.CharField(widget=forms.Textarea, label=_("Text"))
 
     def __init__(self, *args, **kwargs):
         super(CreateMonitoringForm, self).__init__(*args, **kwargs)
