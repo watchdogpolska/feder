@@ -9,6 +9,6 @@ class HomeView(TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(HomeView, self).get_context_data(*args, **kwargs)
-        context['monitoring_list'] = Monitoring.objects.order_by('created').all()[:20]
+        context['monitoring_list'] = Monitoring.objects.order_by('created').all()[:16]
         context['voivodeship_list'] = JednostkaAdministracyjna.objects.voivodeship().all()
         return context

@@ -7269,10 +7269,6 @@ button.close {
     display: none !important;
   }
 }
-.navbar-brand img {
-  display: none;
-}
-
 .block, .red, .gray {
   padding: 40px;
   position: relative;
