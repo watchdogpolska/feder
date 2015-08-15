@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tasks 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-14 14:05+0000\n"
-"PO-Revision-Date: 2015-08-14 16:05+0100\n"
+"POT-Creation-Date: 2015-08-15 03:04+0000\n"
+"PO-Revision-Date: 2015-08-15 05:04+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -19,11 +19,26 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.5.4\n"
 
-#: models.py:18 templates/tasks/task_detail.html:5
+#: filters.py:12
+msgid "Creation date"
+msgstr "Data utworzenia"
+
+#: forms.py:88
+#| msgid "Case"
+msgid "Cases"
+msgstr "Sprawy"
+
+#: forms.py:89
+msgid "Name"
+msgstr "Nazwa"
+
+#: models.py:18 templates/tasks/task_detail.html:15
+#: templates/tasks/task_filter.html:29
 msgid "Case"
 msgstr "Sprawa"
 
-#: models.py:19 templates/tasks/task_detail.html:9
+#: models.py:19 templates/tasks/task_detail.html:19
+#: templates/tasks/task_filter.html:30
 msgid "Questionary"
 msgstr "Kwestionariusz"
 
@@ -43,7 +58,7 @@ msgstr "Zadania"
 msgid "Survey"
 msgstr "Ankieta"
 
-#: models.py:42
+#: models.py:42 templates/tasks/task_detail.html:30
 msgid "Surveys"
 msgstr "Ankiety"
 
@@ -51,27 +66,32 @@ msgstr "Ankiety"
 msgid "Answer"
 msgstr "Odpowiedź"
 
-#: models.py:52
+#: models.py:52 templates/tasks/task_detail.html:39
 msgid "Answers"
 msgstr "Odpowiedzi"
 
-#: templates/tasks/base_object.html:8
+#: templates/tasks/_btn.html:3
 msgid "Edit"
 msgstr "Edytuj"
 
-#: templates/tasks/base_object.html:9
+#: templates/tasks/_btn.html:4
 msgid "Delete"
 msgstr "Usuń"
 
-#: templates/tasks/base_object.html:10
+#: templates/tasks/_btn.html:5
 msgid "Fill survey"
 msgstr "Wypełnij ankietę"
 
-#: templates/tasks/task_filter.html:6
+#: templates/tasks/task_filter.html:5
+#| msgid "Tasks"
+msgid "Tasks index"
+msgstr "Wykaz zadań"
+
+#: templates/tasks/task_filter.html:10
 msgid "Create task"
 msgstr "Utwórz zadanie"
 
-#: templates/tasks/task_filter.html:30
+#: templates/tasks/task_filter.html:35
 msgid "No rows."
 msgstr "Brak wierszy"
 

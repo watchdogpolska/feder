@@ -7320,6 +7320,9 @@ button.close {
 .red .select-list li:after {
   background-color: #d6d6d6;
 }
+.red .has-error .help-block, .red .has-error .control-label, .red .has-error .radio, .red .has-error .checkbox, .red .has-error .radio-inline, .red .has-error .checkbox-inline, .red .has-error.radio label, .red .has-error.checkbox label, .red .has-error.radio-inline label, .red .has-error.checkbox-inline label {
+  color: #FFF643;
+}
 
 .gray {
   background-color: #F0F0F0;

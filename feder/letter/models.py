@@ -39,7 +39,7 @@ class Letter(TimeStampedModel):
 
     @property
     def author(self):
-        return self.author_user if self.author_user else self.author_institution
+        return self.author_user if self.author_user_id else self.author_institution
 
     @author.setter
     def author(self, value):

@@ -1,6 +1,12 @@
 {% extends 'letter/base.html' %}
 {% load i18n %}
 {% block content %}
+<ol class="breadcrumb">
+    <li><a href="{{object.case.monitoring.get_absolute_url}}">{{object.case.monitoring}}</a></li>
+    <li><a href="{{object.case.get_absolute_url}}">{{object.case}}</a></li>
+    <li class="active">{% if headline %}{{ headline }}{% else %}{% trans 'Edit' %}{% endif %}</li>
+</ol>
+
 {% block buttons %}
 <div class="clearfix">
     <div class="pull-right btn-group">

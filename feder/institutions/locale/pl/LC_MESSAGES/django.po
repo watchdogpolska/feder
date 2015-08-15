@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-institutions 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-14 23:59+0000\n"
-"PO-Revision-Date: 2015-08-15 01:59+0100\n"
+"POT-Creation-Date: 2015-08-15 03:02+0000\n"
+"PO-Revision-Date: 2015-08-15 05:03+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -19,19 +19,24 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.5.4\n"
 
-#: filters.py:12
+#: filters.py:11
 msgid "Vovivodeship"
 msgstr "Województwo"
 
-#: filters.py:13
+#: filters.py:12
 msgid "County"
 msgstr "Powiat"
 
-#: filters.py:14
+#: filters.py:13
 msgid "Community"
 msgstr "Gmina"
 
-#: filters.py:36
+#: filters.py:14 models.py:63
+#: templates/institutions/institution_detail.html:28
+msgid "Tags"
+msgstr "Tagi"
+
+#: filters.py:35
 msgid "Filter"
 msgstr "Filtruj"
 
@@ -51,7 +56,7 @@ msgstr "Tag"
 msgid "E-mail"
 msgstr "E-mail"
 
-#: models.py:25
+#: models.py:25 templates/institutions/institution_filter.html:31
 msgid "Unit of administrative division"
 msgstr "Jednostka podziału terytorialnego"
 
@@ -67,17 +72,18 @@ msgstr "E-mail"
 msgid "Emails"
 msgstr "E-maile"
 
-#: models.py:63 templates/institutions/institution_detail.html:28
-msgid "Tags"
-msgstr "Tagi"
-
-#: templates/institutions/base_object.html:10
 #: templates/institutions/base_object.html:13
+#: templates/institutions/base_object.html:21
 #: templates/institutions/institution_detail.html:16
 msgid "Edit"
 msgstr "Edycja"
 
 #: templates/institutions/base_object.html:14
+#| msgid "Institution"
+msgid "Add institution"
+msgstr "Dodaj instytucje"
+
+#: templates/institutions/base_object.html:22
 #: templates/institutions/institution_detail.html:17
 msgid "Delete"
 msgstr "Usuń"
@@ -99,11 +105,22 @@ msgstr "Strona %(no)s z %(total)s"
 msgid "next"
 msgstr "następna"
 
-#: templates/institutions/institution_filter.html:7
-msgid "Create"
-msgstr "Dodaj"
+#: templates/institutions/institution_filter.html:5
+#| msgid "Institution"
+msgid "Institutions index"
+msgstr "Wykaz instytucji"
 
-#: templates/institutions/institution_filter.html:36
+#: templates/institutions/institution_filter.html:11
+#| msgid "Institution"
+msgid "Create institution"
+msgstr "Utwórz instytucje"
+
+#: templates/institutions/institution_filter.html:35
+#| msgid "County"
+msgid "Case count"
+msgstr "Liczba spraw"
+
+#: templates/institutions/institution_filter.html:42
 msgid "No rows."
 msgstr "Brak wierszy"
 
@@ -121,6 +138,9 @@ msgstr "{0} zaktualizowany!"
 #, python-brace-format
 msgid "{0} deleted!"
 msgstr "{0} usunięty!"
+
+#~ msgid "Create"
+#~ msgstr "Dodaj"
 
 #~ msgid "jst"
 #~ msgstr "Jednostka podziału administracyjnego"

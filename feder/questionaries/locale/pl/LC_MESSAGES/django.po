@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: questionaries\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-14 23:12+0000\n"
-"PO-Revision-Date: 2015-08-15 01:08+0100\n"
+"POT-Creation-Date: 2015-08-15 03:03+0000\n"
+"PO-Revision-Date: 2015-08-15 05:04+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -19,6 +19,18 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.5.4\n"
 
+#: filters.py:9
+msgid "Name"
+msgstr "Nazwa"
+
+#: filters.py:10 models.py:11
+msgid "Monitoring"
+msgstr "Monitoring"
+
+#: filters.py:11
+msgid "Creation date"
+msgstr "Data utworzenia"
+
 #: forms.py:33 models.py:29
 msgid "Genre"
 msgstr "Rodzaj"
@@ -26,10 +38,6 @@ msgstr "Rodzaj"
 #: models.py:10
 msgid "Title"
 msgstr "Tytuł"
-
-#: models.py:11
-msgid "Monitoring"
-msgstr "Monitoring"
 
 #: models.py:12
 msgid "Lock"
@@ -43,7 +51,7 @@ msgstr "Kwestionariusz"
 msgid "Questionaries"
 msgstr "Kwestionariusze"
 
-#: models.py:28 templates/questionaries/questionary_detail.html:36
+#: models.py:28 templates/questionaries/questionary_detail.html:28
 msgid "Position"
 msgstr "Pozycja"
 
@@ -105,53 +113,57 @@ msgstr "wyślij"
 msgid "Tasks"
 msgstr "Zadania"
 
-#: templates/questionaries/questionary_detail.html:25
-#: templates/questionaries/questionary_detail.html:43
-#: templates/questionaries/questionary_filter.html:30
-msgid "No rows."
-msgstr "Brak wierszy"
-
-#: templates/questionaries/questionary_detail.html:32
+#: templates/questionaries/questionary_detail.html:24
 msgid "Forms"
 msgstr "Formularz"
 
-#: templates/questionaries/questionary_detail.html:38
+#: templates/questionaries/questionary_detail.html:30
 msgid "Move up"
 msgstr "Przesuń wyżej"
 
-#: templates/questionaries/questionary_detail.html:39
+#: templates/questionaries/questionary_detail.html:31
 msgid "Move down"
 msgstr "Przesuń niżej"
 
-#: templates/questionaries/questionary_filter.html:6
+#: templates/questionaries/questionary_detail.html:35
+#: templates/questionaries/questionary_filter.html:37
+msgid "No rows."
+msgstr "Brak wierszy"
+
+#: templates/questionaries/questionary_filter.html:5
+#| msgid "Questionaries"
+msgid "Questionaries index"
+msgstr "Wykaz kwestionariuszy"
+
+#: templates/questionaries/questionary_filter.html:10
 msgid "Create questionary"
 msgstr "Utwórz kwestionariusz"
 
-#: views.py:50
+#: views.py:44
 #, python-brace-format
 msgid "{0} created!"
 msgstr "{0} utworzony!"
 
-#: views.py:59
+#: views.py:53
 #, python-brace-format
 msgid "{object} updated!"
 msgstr "{object} zaktualizowany!"
 
-#: views.py:67
+#: views.py:61
 #, python-brace-format
 msgid "{object} deleted!"
 msgstr "{object} usunięty!"
 
-#: views.py:86
+#: views.py:80
 msgid "Create question"
 msgstr "Utwórz pytanie"
 
-#: views.py:105
+#: views.py:99
 #, python-brace-format
 msgid "{object} moved!"
 msgstr "{object} przesunięty!"
 
-#: views.py:124
+#: views.py:118
 #, python-brace-format
 msgid "Tasks for {object} created!"
 msgstr "Zadania dla {object} utworzone!"

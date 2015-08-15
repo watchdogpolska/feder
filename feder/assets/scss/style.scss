@@ -59,6 +59,9 @@ $gray: #F0F0F0;
       background-color: darken($gray, 10%);
     }
   }
+  .has-error .help-block, .has-error .control-label, .has-error .radio, .has-error .checkbox, .has-error .radio-inline, .has-error .checkbox-inline, .has-error.radio label, .has-error.checkbox label, .has-error.radio-inline label, .has-error.checkbox-inline label {
+    color: #FFF643;
+  }
 }
 
 .gray {

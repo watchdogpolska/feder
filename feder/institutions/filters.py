@@ -1,22 +1,21 @@
 from crispy_forms.helper import FormHelper
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 from crispy_forms.layout import Submit
 import django_filters
-import autocomplete_light
 from feder.teryt.filters import JSTModelChoice
-from .models import Institution, Tag
+from atom.filters import AutocompleteChoiceFilter
+from .models import Institution
 
 
 class InstitutionFilter(django_filters.FilterSet):
-    name = django_filters.CharFilter(lookup_type='icontains')
     voivodeship = JSTModelChoice(level=1, label=_("Vovivodeship"))
     county = JSTModelChoice(level=2, label=_("County"))
     community = JSTModelChoice(level=3, label=_("Community"))
-    tags = django_filters.ModelChoiceFilter(queryset=Tag.objects.all(),
-        widget=autocomplete_light.ChoiceWidget('TagAutocomplete'))
+    tags = AutocompleteChoiceFilter('TagAutocomplete', label=_("Tags"))
 
     def __init__(self, *args, **kwargs):
         super(InstitutionFilter, self).__init__(*args, **kwargs)
+        self.filters['name'].lookup_type = 'icontains'
         if self.data.get('voivodeship', None):
             self.filters['county'].limit_parent(self.data.get('voivodeship'))
             if self.data.get('county', None):

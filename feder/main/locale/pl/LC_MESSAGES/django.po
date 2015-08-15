@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: main 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-15 00:14+0000\n"
+"POT-Creation-Date: 2015-08-15 03:02+0000\n"
 "PO-Revision-Date: 2015-08-15 02:14+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -213,7 +213,7 @@ msgid "Signup"
 msgstr ""
 
 #: templates/account/signup.html:10 templates/account/signup.html.py:20
-#: templates/base.html:90
+#: templates/base.html:89
 msgid "Sign Up"
 msgstr ""
 
@@ -277,7 +277,6 @@ msgid "Cases"
 msgstr "Sprawy"
 
 #: templates/base.html:60
-#| msgid "Last monitorings"
 msgid "Monitorings"
 msgstr "Monitoringi"
 
@@ -297,15 +296,15 @@ msgstr "Kwestionariusze"
 msgid "Tasks"
 msgstr "Zadania"
 
-#: templates/base.html:87
+#: templates/base.html:86
 msgid "My Profile"
 msgstr "Mój profil"
 
-#: templates/base.html:88
+#: templates/base.html:87
 msgid "Logout"
 msgstr "Wyloguj"
 
-#: templates/base.html:91
+#: templates/base.html:90
 msgid "Log In"
 msgstr "Zaloguj"
 

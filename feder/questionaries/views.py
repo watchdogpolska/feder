@@ -18,18 +18,12 @@ from .forms import QuestionaryForm, QuestionForm, BoolQuestionForm
 class QuestionaryListView(SelectRelatedMixin, FilterView):
     filterset_class = QuestionaryFilter
     model = Questionary
-    # select_related = ['', ]
+    select_related = ['monitoring', ]
     paginate_by = 25
 
     def get_queryset(self, *args, **kwargs):
         qs = super(QuestionaryListView, self).get_queryset(*args, **kwargs)
         return qs
-
-"""
-class QuestionaryListView(SelectRelatedMixin, ListView):
-    model = Questionary
-    select_related = ['']
-"""
 
 
 class QuestionaryDetailView(PrefetchRelatedMixin, DetailView):

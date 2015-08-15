@@ -7,17 +7,31 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cases 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-14 02:01+0000\n"
-"PO-Revision-Date: 2015-08-14 04:03+0100\n"
+"POT-Creation-Date: 2015-08-15 03:03+0000\n"
+"PO-Revision-Date: 2015-08-15 05:03+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
+"Language: pl_PL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.5.4\n"
-"Language: pl_PL\n"
+
+#: filters.py:9 models.py:22 templates/cases/case_detail.html:27
+#: templates/cases/case_filter.html:22
+msgid "Institution"
+msgstr "Instytucja"
+
+#: filters.py:10 models.py:21 templates/cases/case_detail.html:28
+#: templates/cases/case_filter.html:23
+msgid "Monitoring"
+msgstr "Monitoring"
+
+#: filters.py:11
+msgid "Creation date"
+msgstr "Data utworzenia"
 
 #: models.py:18
 msgid "Name"
@@ -31,26 +45,35 @@ msgstr "Identyfikator redakcyjny"
 msgid "Case"
 msgstr "Sprawa"
 
-#: templates/cases/base_object.html:15
+#: templates/cases/base_object.html:15 templates/cases/case_detail.html:15
 msgid "Edit"
 msgstr "Edytuj"
 
 #: templates/cases/base_object.html:16
 #: templates/cases/case_confirm_delete.html:8
+#: templates/cases/case_detail.html:16
 msgid "Delete"
 msgstr "Usuń"
 
-#: templates/cases/case_detail.html:25
-msgid "letters"
+#: templates/cases/case_detail.html:34
+msgid "Tasks"
+msgstr "Zadania"
+
+#: templates/cases/case_detail.html:47
+msgid "Letters"
 msgstr "Listy"
 
-#: templates/cases/case_detail.html:31 templates/cases/case_filter.html:28
+#: templates/cases/case_detail.html:53 templates/cases/case_filter.html:29
 msgid "No rows."
 msgstr "Brak wierszy"
 
-#: templates/cases/case_filter.html:4
+#: templates/cases/case_filter.html:5
 msgid "Case index"
 msgstr "Wykaz spraw"
+
+#: templates/cases/case_filter.html:24
+msgid "Letter count"
+msgstr "Liczba listów"
 
 #: views.py:41
 #, python-brace-format

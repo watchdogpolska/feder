@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-monitorings 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-15 01:31+0000\n"
-"PO-Revision-Date: 2015-08-15 03:31+0100\n"
+"POT-Creation-Date: 2015-08-15 03:02+0000\n"
+"PO-Revision-Date: 2015-08-15 05:02+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -19,9 +19,9 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.5.4\n"
 
-#: filters.py:11
-msgid "User"
-msgstr "Użytkownik"
+#: filters.py:12 templates/monitorings/monitoring_filter.html:33
+msgid "Creation date"
+msgstr "Data utworzenia"
 
 #: forms.py:23 templates/monitorings/monitoring_preview.html:11
 msgid "Recipients"
@@ -31,7 +31,7 @@ msgstr "Odbiorcy"
 msgid "Text"
 msgstr "Treść"
 
-#: forms.py:29 models.py:23 models.py:24
+#: forms.py:29 models.py:22 models.py:23
 msgid "Monitoring"
 msgstr "Monitoring"
 
@@ -46,6 +46,10 @@ msgstr "Nazwa"
 #: models.py:16
 msgid "Slug"
 msgstr "Identyfikator redakcyjny"
+
+#: models.py:17 templates/monitorings/monitoring_filter.html:32
+msgid "User"
+msgstr "Użytkownik"
 
 #: models.py:18
 msgid "Description"
@@ -90,12 +94,17 @@ msgstr "Strona %(no)s z %(total)s"
 msgid "next"
 msgstr "następna"
 
-#: templates/monitorings/monitoring_filter.html:6
-#: templates/monitorings/monitoring_form.html:7
-msgid "Create"
-msgstr "Utwórz"
+#: templates/monitorings/monitoring_filter.html:5
+#| msgid "Monitoring"
+msgid "Monitorings index"
+msgstr "Wykaz monitoringów"
 
-#: templates/monitorings/monitoring_filter.html:32
+#: templates/monitorings/monitoring_filter.html:11
+#: templates/monitorings/monitoring_preview.html:6
+msgid "Create monitoring"
+msgstr "Utwórz monitoring"
+
+#: templates/monitorings/monitoring_filter.html:38
 msgid "No rows."
 msgstr "Brak wierszy."
 
@@ -103,10 +112,9 @@ msgstr "Brak wierszy."
 msgid "Update"
 msgstr "Aktualizuj"
 
-#: templates/monitorings/monitoring_preview.html:6
-#| msgid "Monitoring"
-msgid "Create monitoring"
-msgstr "Utwórz monitoring"
+#: templates/monitorings/monitoring_form.html:7
+msgid "Create"
+msgstr "Utwórz"
 
 #: templates/monitorings/monitoring_preview.html:8
 msgid "Preview your submission"

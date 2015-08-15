@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: letters 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-14 13:07+0000\n"
-"PO-Revision-Date: 2015-08-14 15:08+0100\n"
+"POT-Creation-Date: 2015-08-15 03:03+0000\n"
+"PO-Revision-Date: 2015-08-15 05:03+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -19,24 +19,43 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.5.4\n"
 
-#: models.py:20
+#: filters.py:10 models.py:23
 msgid "Title"
 msgstr "Tytuł"
 
+#: filters.py:12 templates/letter/letter_filter.html:27
+msgid "Institution"
+msgstr "Instytucja"
+
+#: filters.py:13
+msgid "Creation date"
+msgstr "Data utworzenia"
+
+#: models.py:18
+msgid "Case"
+msgstr "Sprawa"
+
+#: models.py:19
+msgid "Author (if user)"
+msgstr "Autor (jeżeli użytkownik)"
+
 #: models.py:21
+msgid "Author (if institution)"
+msgstr "Autor (jeżeli instytucja)"
+
+#: models.py:24
 msgid "Text"
 msgstr "Treść"
 
-#: models.py:22
+#: models.py:25
 msgid "Quote"
 msgstr "Cytat"
 
-#: models.py:27
+#: models.py:30
 msgid "Letter"
 msgstr "List"
 
-#: models.py:28
-#| msgid "Letter"
+#: models.py:31
 msgid "Letters"
 msgstr "Listy"
 
@@ -44,21 +63,26 @@ msgstr "Listy"
 msgid "attachments"
 msgstr "Załączniki"
 
-#: templates/letter/_object.html:22 templates/letter/letter_filter.html:25
+#: templates/letter/_object.html:22 templates/letter/letter_filter.html:32
 msgid "No rows."
 msgstr "Brak wierszy"
 
-#: templates/letter/base_object.html:7
+#: templates/letter/base_object.html:7 templates/letter/base_object.html:13
 msgid "Edit"
 msgstr "Edytuj"
 
-#: templates/letter/base_object.html:8
+#: templates/letter/base_object.html:14
 msgid "Delete"
 msgstr "Usuń"
 
-#: templates/letter/letter_filter.html:4
-msgid "Letter index"
-msgstr "Wykaz wierszy"
+#: templates/letter/letter_filter.html:5
+#| msgid "Letter index"
+msgid "Letters index"
+msgstr "Wykaz listów"
+
+#: templates/letter/letter_filter.html:26
+msgid "Author"
+msgstr "Autor"
 
 #: views.py:35
 #, python-brace-format

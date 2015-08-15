@@ -14,10 +14,9 @@ class MonitoringQuerySet(models.QuerySet):
 class Monitoring(TimeStampedModel):
     name = models.CharField(verbose_name=_("Name"), max_length=50)
     slug = AutoSlugField(populate_from='name', verbose_name=_("Slug"), unique=True)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("User"))
     description = models.TextField(verbose_name=_("Description"), blank=True)
     objects = PassThroughManager.for_queryset_class(MonitoringQuerySet)()
-    # TODO: Define fields here
 
     class Meta:
         verbose_name = _("Monitoring")
@@ -29,5 +28,3 @@ class Monitoring(TimeStampedModel):
 
     def get_absolute_url(self):
         return reverse('monitorings:details', kwargs={'slug': self.slug})
-
-    # TODO: Define custom methods here

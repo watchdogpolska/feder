@@ -1,29 +1,37 @@
 {%extends 'letter/base.html' %}
 {% load i18n crispy_forms_tags %}
 {% block content %}
-  <h1>{% trans 'Letter index' %}</h2>
-    <div class="row">
-      <div class="col-sm-2">
+<div class="page-header">
+  <h1>{% trans 'Letters index' %}</h1>
+</div>
+
+  <div class="row">
+    <div class="col-sm-3">
+      <div class="red">
         {% crispy filter.form %}
       </div>
-      <div class="col-sm-10">
+    </div>
+    <div class="col-sm-9">
+      <div class="gray">
         {% if object_list %}
-          {% for object in object_list %}
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h3 class="panel-title"><i class="glyphicon glyphicon-envelope"></i> <a href="{{object.get_absolute_url}}">{{object}}</a></h3>
-              </div>
-              <div class="panel-body">
-                {{object.body}}
-              </div>
-              <table class="table">
-              <tr><td>Author_institution: </td><td><a href="{{object.author_institution.get_absolute_url}}">{{object.author_institution}} ({{object.case.institution}})</a></td></tr>
-              </table>
-            </div>
-          {% endfor %}
-          {% else %}
-          {% trans 'No rows.' %}
-          {% endif %}
+        {% for object in object_list %}
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title"><i class="glyphicon glyphicon-envelope"></i> <a href="{{object.get_absolute_url}}">{{object}}</a></h3>
+          </div>
+          <div class="panel-body">
+            {{object.body|linebreaks}}
+          </div>
+          <table class="table">
+            <tr><td>{% trans 'Author'%}: </td><td><a href="{{object.author.get_absolute_url}}">{{object.author}}</a></td></tr>
+            <tr><td>{% trans 'Institution'%}: </td><td><a href="{{object.case.institution.get_absolute_url}}">{{object.case.institution}}</a></td></tr>
+          </table>
         </div>
+        {% endfor %}
+        {% else %}
+        {% trans 'No rows.' %}
+        {% endif %}
       </div>
-    {% endblock %}
+    </div>
+  </div>
+  {% endblock %}

@@ -1,34 +1,42 @@
 {% extends 'questionaries/base_questionary.html' %}
 {% load i18n crispy_forms_tags %}
 {% block content %}
+<div class="page-header">
+  <h1>{% trans 'Questionaries index' %}</h1>
+</div>
+
 <div class="clearfix">
     <div class="pull-right btn-group">
         <a class="btn btn-default" href="{% url 'questionaries:create' %}">{% trans 'Create questionary' %}</a>
     </div>
 </div>
-<div class="row">
-    <div class="col-md-2">
-        {% crispy filter.form %}
-    </div>
-    <div class="col-md-10">
 
-        {% if object_list %}
-        {% for object in object_list %}
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title"><i class="glyphicon glyphicon-folder-open"></i> <a href="{{object.get_absolute_url}}">{{object}}</a></h3>
+<div class="row">
+    <div class="col-md-3">
+        <div class="red">
+        {% crispy filter.form %}
         </div>
-        <table class="table table-stripped">
-            <tr>
-                <td>Monitoring:</td>
-                <td><a href="{{object.monitoring.get_absolute_url}}">{{object.monitoring}}</a></td>
-            </tr>
-        </table>
     </div>
-    {% endfor %}
-    {% else %}
-    {% trans 'No rows.' %}
-    {% endif %}
-</div>
+    <div class="col-md-9">
+        <div class="gray">
+        {% if object_list %}
+            {% for object in object_list %}
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title"><i class="glyphicon glyphicon-folder-open"></i> <a href="{{object.get_absolute_url}}">{{object}}</a></h3>
+            </div>
+            <table class="table table-stripped">
+                <tr>
+                    <td>Monitoring:</td>
+                    <td><a href="{{object.monitoring.get_absolute_url}}">{{object.monitoring}}</a></td>
+                </tr>
+            </table>
+            </div>
+            {% endfor %}
+        {% else %}
+            {% trans 'No rows.' %}
+        {% endif %}
+        </div>
+    </div>
 </div>
 {% endblock %}

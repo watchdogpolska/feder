@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
-# -*- coding: utf-8 -*-
-from atom.filters import CrispyFilterMixin, AutocompleteChoiceFilter
+from django.utils.translation import ugettext_lazy as _
 import django_filters
 from .models import Questionary
+from atom.filters import CrispyFilterMixin, AutocompleteChoiceFilter
 
 
 class QuestionaryFilter(CrispyFilterMixin, django_filters.FilterSet):
-    # name = django_filters.CharFilter(lookup_type='icontains')
-    # institution = AutocompleteChoiceFilter('InstitutionAutocomplete')
+    title = django_filters.CharFilter(lookup_type='icontains', label=_("Name"))
+    monitoring = AutocompleteChoiceFilter('MonitoringAutocomplete', label=_("Monitoring"))
+    created = django_filters.DateRangeFilter(label=_("Creation date"))
     form_class = None
 
     def __init__(self, *args, **kwargs):
@@ -15,5 +16,5 @@ class QuestionaryFilter(CrispyFilterMixin, django_filters.FilterSet):
 
     class Meta:
         model = Questionary
-        # fields = ['name', 'monitoring', 'institution']
-        # order_by = ['-letter_count', 'created', ]
+        fields = ['title', 'monitoring', 'created']
+        order_by = ['created', ]

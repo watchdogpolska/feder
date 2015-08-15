@@ -1,23 +1,34 @@
-{% extends 'monitorings/base.html' %}
+{% extends 'institutions/base.html' %}
 {% load i18n %}
 {% block content %}
 <ol class="breadcrumb">
-    {% for jst in object.jst.get_ancestors.all %}
-    <li><a href="{{jst.get_absolute_url}}">{{jst}}</a></li>
-    {% endfor %}
-    <li><a href="{{object.jst.get_absolute_url}}">{{object.jst}}</a></li>
+    {% if object %}
+      {% for jst in object.jst.get_ancestors.all %}
+      <li><a href="{{jst.get_absolute_url}}">{{jst}}</a></li>
+      {% endfor %}
+      <li><a href="{{object.jst.get_absolute_url}}">{{object.jst}}</a></li>
       <li><a href="{{object.get_absolute_url}}">{{object}}</a></li>
-    <li>{% if headline %}{{headline }}{% else %}{% trans 'Edit' %}{% endif %}</li></ol>
+    {% endif %}
+    <li>{% if headline %}{{headline }}
+    {% elif object %}{% trans 'Edit' %}
+    {% else %}{% trans 'Add institution'%}
+    {% endif %}</li>
+</ol>
+
+{% if object %}
   <div class="clearfix">
-      <div class="pull-right btn-group">
-        <a class="btn btn-default" href="{% url 'institutions:update' slug=object.slug %}">{% trans 'Edit' %}</a>
-        <a class="btn btn-warning" href="{% url 'institutions:delete' slug=object.slug %}">{% trans 'Delete' %}</a>
-      </div>
-    </div>
+  <div class="pull-right btn-group">
+    <a class="btn btn-default" href="{% url 'institutions:update' slug=object.slug %}">{% trans 'Edit' %}</a>
+    <a class="btn btn-warning" href="{% url 'institutions:delete' slug=object.slug %}">{% trans 'Delete' %}</a>
+  </div>
+  </div>
 
 <div class="page-header">
 <h2><i class="glyphicon glyphicon-home"></i> <a href="{{object.get_absolute_url}}">{{object}}</a></h2>
 </div>
+
+{% endif %}
+
 
 <div class="gray">
 {% block content_object %}{% endblock %}
