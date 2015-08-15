@@ -14,7 +14,7 @@ class TaskQuerySet(models.QuerySet):
 
 
 class Task(TimeStampedModel):
-    name = models.CharField(max_length=75)
+    name = models.CharField(max_length=75, verbose_name=_("Name"))
     case = models.ForeignKey(Case, verbose_name=_("Case"))
     questionary = models.ForeignKey(Questionary, verbose_name=_("Questionary"),
         help_text=_("Questionary to fill by user as task"))
