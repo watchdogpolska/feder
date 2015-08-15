@@ -7358,6 +7358,7 @@ button.close {
 .block, .red, .gray {
   padding: 40px;
   position: relative;
+  margin-bottom: 20px;
 }
 
 .block:before, .red:before, .gray:before {
@@ -7368,7 +7369,6 @@ button.close {
   border: 20px solid #cacaca;
   border-right-color: #fff;
   border-top-color: #fff;
-  margin-bottom: 20px;
 }
 
 .select-list {

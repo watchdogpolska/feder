@@ -7,6 +7,7 @@ $gray: #F0F0F0;
 .block {
   padding: 40px;
   position: relative;
+  margin-bottom: 20px;
 }
 
 .block:before{
@@ -17,7 +18,6 @@ $gray: #F0F0F0;
   border: 20px solid darken($gray, 15%); 
   border-right-color: #fff;
   border-top-color: #fff;
-  margin-bottom: 20px;
 }
 
 .select-list {
