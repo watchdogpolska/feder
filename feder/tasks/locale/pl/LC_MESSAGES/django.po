@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tasks 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-16 00:29+0000\n"
-"PO-Revision-Date: 2015-08-16 02:29+0100\n"
+"POT-Creation-Date: 2015-08-16 00:49+0000\n"
+"PO-Revision-Date: 2015-08-16 02:49+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -48,12 +48,12 @@ msgid "Name"
 msgstr "Nazwa"
 
 #: models.py:21 templates/tasks/_task_small.html:7
-#: templates/tasks/task_detail.html:32
+#: templates/tasks/task_detail.html:28
 msgid "Case"
 msgstr "Sprawa"
 
 #: models.py:22 templates/tasks/_task_small.html:8
-#: templates/tasks/task_detail.html:37
+#: templates/tasks/task_detail.html:33
 msgid "Questionary"
 msgstr "Kwestionariusz"
 
@@ -93,33 +93,46 @@ msgstr "Edytuj"
 msgid "Delete"
 msgstr "Usuń"
 
-#: templates/tasks/_btn.html:5 templates/tasks/task_detail.html:18
+#: templates/tasks/_btn.html:5 templates/tasks/task_detail.html:14
 msgid "Fill survey"
 msgstr "Wypełnij ankietę"
 
-#: templates/tasks/task_detail.html:44
+#: templates/tasks/task_detail.html:40
 msgid "To do"
 msgstr "Do wykonania"
 
-#: templates/tasks/task_detail.html:54
+#: templates/tasks/task_detail.html:50
 msgid "No rows."
 msgstr "Brak wierszy"
+
+#: templates/tasks/task_fill.html:9
+#| msgid "Survey"
+msgid "Survey fill"
+msgstr "Wypełnianie ankiety"
 
 #: templates/tasks/task_filter.html:6
 msgid "Create task"
 msgstr "Utwórz zadanie"
 
-#: views.py:48
+#: views.py:49
 #, python-brace-format
 msgid "{0} created!"
 msgstr "{0} utworzono!"
 
-#: views.py:57
+#: views.py:58
 #, python-brace-format
 msgid "{0} updated!"
 msgstr "{0} zaktualizowany!"
 
-#: views.py:65
+#: views.py:66
 #, python-brace-format
 msgid "{0} deleted!"
 msgstr "{0} skasowany!"
+
+#: views.py:82
+msgid ""
+"Thank you for your submission. It is approaching us to know the truth, by "
+"obtaining reliable data."
+msgstr ""
+"Dziękujemy za Twoje zgłoszenie. Zbliża ono nas do poznania prawdy, poprzez "
+"pozyskanie wiarygodnych danych."

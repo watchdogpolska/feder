@@ -7,8 +7,12 @@
 </ol>
 {% endblock %}
 
-{% block content %}
+{% block buttons %}
+{% if object %}
 {% include 'monitorings/_btn.html' with object=object %}
+{% endif %}
+{% endblock %}
+{% block content %}
 <div class="page-header">
     <h2>
         <i class="glyphicon glyphicon-search"></i>

@@ -4,6 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse_lazy
 from django_filters.views import FilterView
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from braces.views import (SelectRelatedMixin, LoginRequiredMixin, FormValidMessageMixin,
     UserFormKwargsMixin, PrefetchRelatedMixin)
 from atom.views import DeleteMessageMixin
@@ -78,6 +79,9 @@ def fill_survey(request, pk):
                 questionary=task.questionary)
             context['formset'] = formset
             if formset.is_valid():
+                messages.success(request,
+                _("Thank you for your submission. It is approaching us to know the " +
+                "truth, by obtaining reliable data."))
                 obj.save()
                 formset.save()
                 return redirect(obj.task)
