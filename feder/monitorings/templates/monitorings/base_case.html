@@ -16,9 +16,11 @@
 
 {% block content %}
 <div class="page-header">
-<h2><i class="glyphicon glyphicon-search"></i> <a href="{{object.get_absolute_url}}">{{object}}</a>
-</h2>
-
+    <h2>
+        <i class="glyphicon glyphicon-search"></i>
+        <a href="{{object.get_absolute_url}}">{{object}}</a>
+    </h2>
+</div>
 <div class="gray">
     {% block content_object %}{% endblock %}
 </div>

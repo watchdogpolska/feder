@@ -1,39 +1,36 @@
 {% extends 'institutions/base.html' %}
 {% load i18n crispy_forms_tags %}
-{% block content %}
-<div class="page-header">
-  <h1>{% trans 'Tasks index' %}</h1>
-</div>
-
+{% block buttons %}
 <div class="clearfix">
     <div class="pull-right btn-group">
         <a class="btn btn-default" href="{% url 'tasks:create' %}">{% trans 'Create task' %}</a>
     </div>
 </div>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h1>{% trans 'Tasks index' %}</h1>
+</div>
 
 <div class="row">
     <div class="col-md-3">
         <div class="red">
-        {% crispy filter.form %}
+            {% crispy filter.form %}
         </div>
     </div>
     <div class="col-md-9">
         <div class="gray">
-        {% if object_list %}
-        {% for object in object_list %}
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title"><a href="{{object.get_absolute_url}}">{{object}}</a></h3>
-          </div>
-          <div class="panel-body">
-            <p>{% trans 'Case'%}: <a href="{{object.case.get_absolute_url}}">{{object.case}}</a></p>
-            <p>{% trans 'Questionary'%}: <a href="{{object.questionary.get_absolute_url}}">{{object.questionary}}
-          </div>
-        </div>
-        {% endfor %}
-        {% else %}
-        {% trans 'No rows.' %}
-        {% endif %}
+            {% if object_list %}
+            {% for object in object_list %}
+            {% include 'tasks/_task_small.html' with object=object %}
+            {% empty %}
+            <div class="gray">
+                <p>
+                    {% trans 'No rows.' %}
+                </p>
+            </div>
+            {% endfor %}
         </div>
     </div>
 </div>

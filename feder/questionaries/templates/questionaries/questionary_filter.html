@@ -16,28 +16,20 @@
 <div class="row">
     <div class="col-md-3">
         <div class="red">
-        {% crispy filter.form %}
+            {% crispy filter.form %}
         </div>
     </div>
     <div class="col-md-9">
         <div class="gray">
-        {% if object_list %}
             {% for object in object_list %}
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h3 class="panel-title"><i class="glyphicon glyphicon-folder-open"></i> <a href="{{object.get_absolute_url}}">{{object}}</a></h3>
-            </div>
-            <table class="table table-stripped">
-                <tr>
-                    <td>Monitoring:</td>
-                    <td><a href="{{object.monitoring.get_absolute_url}}">{{object.monitoring}}</a></td>
-                </tr>
-            </table>
+            {% include 'questionaries/_questionary_small.html' with object=object %}
+            {% empty %}
+            <div class="gray">
+                <p>
+                    {% trans 'No rows.' %}
+                </p>
             </div>
             {% endfor %}
-        {% else %}
-            {% trans 'No rows.' %}
-        {% endif %}
         </div>
     </div>
 </div>

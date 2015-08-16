@@ -21,29 +21,17 @@
         </div>
     </div>
     <div class="col-md-9">
+        {% if object_list %}
+        {% for object in object_list %}
+        {% include 'institutions/_institution_small.html' with object=object %}
+        {% empty %}
         <div class="gray">
-            {% if object_list %}
-            {% for object in object_list %}
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="glyphicon glyphicon-home"></i>  <a href="{{object.get_absolute_url}}">{{object}}</a></h3>
-                </div>
-                <table class="table table-stripped">
-                    <tr>
-                        <td><i class="glyphicon glyphicon-globe"></i> {% trans 'Unit of administrative division' %}:</td>
-                        <td><a href="{{object.jst.get_absolute_url}}">{{object.jst}}</a></td>
-                    </tr>
-                    <tr>
-                        <td>{% trans 'Case count'%}: </td>
-                        <td>{{object.case_count}}</td>
-                    </tr>
-                </table>
-            </div>
-            {% endfor %}
-            {% else %}
-            {% trans 'No rows.' %}
-            {% endif %}
+            <p>
+                {% trans 'No rows.' %}
+            </p>
         </div>
+        {% endfor %}
     </div>
+</div>
 </div>
 {% endblock %}

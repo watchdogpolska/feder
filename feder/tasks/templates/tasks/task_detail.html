@@ -1,77 +1,90 @@
 {% extends 'tasks/base.html' %}
 {% load i18n %}
-{% block content %}
+{% block breadcrumbs %}
 <ol class="breadcrumb">
-  {% for jst in object.case.institution.jst.get_ancestors.all %}
-  <li><a href="{{jst.get_absolute_url}}">{{jst}}</a></li>
-  {% endfor %}
-  <li><a href="{{object.case.institution.jst.get_absolute_url}}">{{object.case.institution.jst}}</a></li>
-  <li><a href="{{object.case.institution.get_absolute_url}}">{{object.case.institution}}</a></li>
-  <li><a href="{{object.case.get_absolute_url}}">{{object.case}}</a></li>
-  <li class="active">{{object}}</li>
+    {% for jst in object.case.institution.jst.get_ancestors.all %}
+    <li><a href="{{jst.get_absolute_url}}">{{jst}}</a></li>
+    {% endfor %}
+    <li><a href="{{object.case.institution.jst.get_absolute_url}}">{{object.case.institution.jst}}</a></li>
+    <li><a href="{{object.case.institution.get_absolute_url}}">{{object.case.institution}}</a></li>
+    <li><a href="{{object.case.get_absolute_url}}">{{object.case}}</a></li>
+    <li class="active">{{object}}</li>
 </ol>
-
-<div class="page-header">
-  <h1><i class="glyphicon glyphicon-folder-edit"></i> {{object}}</h1>
-</div>
+{% endblock %}
 
 {% block buttons %}
 <div class="clearfix">
-  <div class="pull-right btn-group">
-    <a class="btn btn-primary" href="{% url 'tasks:fill_survey' pk=object.pk %}">{% trans 'Fill survey' %}</a>
-  </div>
+    <div class="pull-right btn-group">
+        <a class="btn btn-primary" href="{% url 'tasks:fill_survey' pk=object.pk %}">{% trans 'Fill survey' %}</a>
+    </div>
 </div>
 {% endblock %}
 
+{% block content %}
+<div class="page-header">
+    <h1><i class="glyphicon glyphicon-folder-edit"></i> {{object}}</h1>
+</div>
 
 <div class="col-sm-6">
-  <div class="red">
-    <p><i class="glyphicon glyphicon-folder-open"></i> {% trans "Case"%}: <a href="{{object.case.get_absolute_url}}">{{object.case}}</a></p>
-    <p><i class="glyphicon glyphicon-list-alt"></i> {% trans "Questionary"%}: <a href="{{object.questionary.get_absolute_url}}">{{object.questionary}}</a></p>
-    {% include 'cases/_desc.html' with object=object.case %}
-  </div>
+    <div class="red">
+        <p>
+            <i class="glyphicon glyphicon-folder-open"></i>
+            {% trans "Case"%}:
+            <a href="{{object.case.get_absolute_url}}">{{object.case}}</a>
+        </p>
+        <p>
+            <i class="glyphicon glyphicon-list-alt"></i>
+            {% trans "Questionary"%}:
+            <a href="{{object.questionary.get_absolute_url}}">{{object.questionary}}</a>
+        </p>
+        {% include 'cases/_desc.html' with object=object.case %}
+    </div>
 
-  <div class="gray">
-    <h2>{% trans 'To do' %}</h2>
-    {% include 'tasks/_formset.html' with object=formset %}
-  </div>
+    <div class="gray">
+        <h2>{% trans 'To do' %}</h2>
+        {% include 'tasks/_formset.html' with object=formset %}
+    </div>
 
 </div>
 
 <div class="col-sm-6">
+    {% if object.case.letter_set.for_milestone.all %}
+    {% include 'letter/_milestone_list.html' with object_list=object.case.letter_set.for_milestone.all %}
+    {% else %}
+    {% trans 'No rows.' %}
+    {% endif %}
+</div>
+{% endblock %}
 
-  {% if object.case.letter_set.for_milestone.all %}
-  {% include 'letter/_milestone_list.html' with object_list=object.case.letter_set.for_milestone.all %}
-  {% else %}
-  {% trans 'No rows.' %}
-  {% endif %}
-
+{% comment %}
 {% if object.survey_set.all %}
 <div class="gray">
-  <h3>{% trans 'Surveys' %}</h3>
-  <table class="table table-stripped">
-    {% for survey in object.survey_set.all %}
-    <tr>
-      <td>{{ forloop.counter }}</td>
-      <td>{{survey}} - <a href="{{survey.user.get_absolute_url}}">{{survey.user}}</a>
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">{% trans 'Answers' %}</h3>
-          </div>
-          <table class="table table-stripped">
-            {% for answer in survey.answer_set.all %}
-            <tr>
-              <td>{{ forloop.counter }}</td>
-              <td>{{answer}}<pre>{{answer.blob}}</pre></td>
-            </tr>
-            {% endfor %}
-          </table>
-        </div>
-      </td>
-    </tr>
-    {% endfor %}
-  </table>
+    <h3>{% trans 'Surveys' %}</h3>
+    <table class="table table-stripped">
+        {% for survey in object.survey_set.all %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>
+                {{survey}} - <a href="{{survey.user.get_absolute_url}}">{{survey.user}}</a>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            {% trans 'Answers' %}
+                        </h3>
+                    </div>
+                    <table class="table table-stripped">
+                        {% for answer in survey.answer_set.all %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{answer}}<pre>{{answer.blob}}</pre></td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
 </div>
 {% endif %}
-</div>
-{% endblock %}
+{% endcomment %}

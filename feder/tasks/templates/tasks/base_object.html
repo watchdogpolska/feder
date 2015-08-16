@@ -1,22 +1,16 @@
 {% extends 'monitorings/base.html' %}
 {% load i18n %}
-{% block content %}
+{% block buttons %}
+{% if object %}
+    {% include 'tasks/_btn.html' with object=object %}
+{% endif %}
+{% endblock %}
 
-  {% block buttons %}
-    {% include 'tasks/_btn.html' %}
-  {% endblock %}
-  {% block panel %}
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h3 class="panel-title"><i class="glyphicon glyphicon-edit"></i> <a href="{{object.get_absolute_url}}">{{object}}</a></h3>
-    </div>
-    <div class="panel-body">
-      {% block content_object %}{% endblock %}
-    </div>
-    <table class="table table-striped">
-      {% block content_table %}{% endblock %}
-    </table>
-  </div>
-  {% endblock %}
-  {% block content_extra %}{% endblock %}
+{% block content %}
+<h1 class="panel-title">
+  <i class="glyphicon glyphicon-edit"></i>
+  <a href="{{object.get_absolute_url}}">{{object}}</a>
+</h1>
+{% block content_object %}{% endblock %}
+{% endblock %}
 {% endblock %}

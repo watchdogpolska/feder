@@ -1,0 +1,10 @@
+<div class="gray">
+    <h2>
+        <i class="glyphicon glyphicon-folder-open"></i>
+        <a href="{{object.get_absolute_url}}">{{object}}</a>
+    </h2>
+    <p>
+        {% trans 'Monitoring'%}:
+        <a href="{{object.monitoring.get_absolute_url}}">{{object.monitoring}}</a>
+    </p>
+</div>

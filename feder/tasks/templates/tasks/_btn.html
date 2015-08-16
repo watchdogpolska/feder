@@ -1,7 +1,7 @@
 <div class="clearfix">
-  <div class="pull-right btn-group">
-    <a class="btn btn-default" href="{% url 'tasks:update' pk=object.pk %}">{% trans 'Edit' %}</a>
-    <a class="btn btn-warning" href="{% url 'tasks:delete' pk=object.pk %}">{% trans 'Delete' %}</a>
-    <a class="btn btn-primary" href="{% url 'tasks:fill_survey' pk=object.pk %}">{% trans 'Fill survey' %}</a>
-  </div>
+    <div class="pull-right btn-group">
+        <a class="btn btn-default" href="{% url 'tasks:update' pk=object.pk %}">{% trans 'Edit' %}</a>
+        <a class="btn btn-warning" href="{% url 'tasks:delete' pk=object.pk %}">{% trans 'Delete' %}</a>
+        <a class="btn btn-primary" href="{% url 'tasks:fill_survey' pk=object.pk %}">{% trans 'Fill survey' %}</a>
+    </div>
 </div>
