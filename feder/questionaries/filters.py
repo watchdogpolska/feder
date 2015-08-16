@@ -15,7 +15,7 @@ class QuestionaryFilter(CrispyFilterMixin, django_filters.FilterSet):
         self.user = user
         super(QuestionaryFilter, self).__init__(*args, **kwargs)
         if not self.user.is_superuser:
-            del self.fields['lock']
+            del self.filters['lock']
 
     class Meta:
         model = Questionary
