@@ -49,8 +49,8 @@ class QuestionaryCreateView(LoginRequiredMixin, UserFormKwargsMixin, CreateMessa
     form_class = QuestionaryForm
 
 
-class QuestionaryUpdateView(LoginRequiredMixin, UserFormKwargsMixin,  FormValidMessageMixin,
-        UpdateMessageMixin, UpdateView):
+class QuestionaryUpdateView(LoginRequiredMixin, UserFormKwargsMixin, UpdateMessageMixin,
+        FormValidMessageMixin, UpdateView):
     model = Questionary
     form_class = QuestionaryForm
 
