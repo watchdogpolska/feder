@@ -1,32 +1,5 @@
 {%extends 'cases/base.html' %}
-{% load i18n crispy_forms_tags %}
-
+{% load i18n %}
 {% block content %}
-<div class="page-header">
-    <h1>{% trans 'Case index' %}</h1>
-</div>
-
-<div class="row">
-    <div class="col-sm-3">
-        <div class="red">
-            {% crispy filter.form %}
-        </div>
-    </div>
-
-    <div class="col-sm-9">
-        {% if object_list %}
-        {% for object in object_list %}
-        <div class="gray">
-            {% include 'cases/_case_small.html' with object=object %}
-        </div>
-        {% empty %}
-        <div class="red">
-            <p>
-                {% trans 'No rows.' %}
-            </p>
-        </div>
-        {% endfor %}
-    </div>
-</div>
-</div>
+{% include '_filter.html' with title='Case index' form=filter.form object_list=object_list object_template='cases/_case_small.html' %}
 {% endblock %}

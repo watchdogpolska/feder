@@ -9,29 +9,5 @@
 {% endblock %}
 
 {% block content %}
-<div class="page-header">
-    <h1>{% trans 'Monitorings index' %}</h1>
-</div>
-
-<div class="row">
-    <div class="col-sm-3">
-        <div class="red">
-            {% crispy filter.form %}
-        </div>
-    </div>
-
-    <div class="col-sm-9">
-        {% if object_list %}
-        {% for object in object_list %}
-        {% include 'monitorings/_monitoring_small.html' with object=object %}
-        {% endfor %}
-        {% else %}
-        <div class="red">
-            <p>
-                {% trans 'No rows.' %}
-            </p>
-        </div>
-        {% endif %}
-    </div>
-</div>
+{% include '_filter.html' with title='Monitorings index' form=filter.form object_list=object_list object_template='monitorings/_monitoring_small.html' %}
 {% endblock %}

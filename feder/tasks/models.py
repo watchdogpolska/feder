@@ -9,6 +9,9 @@ from jsonfield import JSONField
 from feder.questionaries.models import Questionary, Question
 
 
+_('Tasks index')
+
+
 class TaskQuerySet(models.QuerySet):
     pass
 

@@ -10,6 +10,9 @@ from .forms import CaseForm
 from .filters import CaseFilter
 
 
+_("Case index")
+
+
 class CaseListView(SelectRelatedMixin, FilterView):
     filterset_class = CaseFilter
     model = Case

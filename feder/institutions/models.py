@@ -6,6 +6,8 @@ from autoslug.fields import AutoSlugField
 from feder.teryt.models import JednostkaAdministracyjna
 from model_utils.managers import PassThroughManager
 
+_('Institution index')
+
 
 class InstitutionQuerySet(models.QuerySet):
     def with_case_count(self):

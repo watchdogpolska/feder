@@ -9,29 +9,5 @@
 {% endblock %}
 
 {% block content %}
-<div class="page-header">
-  <h1>{% trans 'Tasks index' %}</h1>
-</div>
-
-<div class="row">
-    <div class="col-md-3">
-        <div class="red">
-            {% crispy filter.form %}
-        </div>
-    </div>
-    <div class="col-md-9">
-        <div class="gray">
-            {% if object_list %}
-            {% for object in object_list %}
-            {% include 'tasks/_task_small.html' with object=object %}
-            {% empty %}
-            <div class="gray">
-                <p>
-                    {% trans 'No rows.' %}
-                </p>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-</div>
+{% include '_filter.html' with title='Tasks index' form=filter.form object_list=object_list object_template='tasks/_task_small.html' %}
 {% endblock %}

@@ -1,14 +1,15 @@
-<div class="gray">
-    <h2>
-        <i class="glyphicon glyphicon-home"></i>
-        <a href="{{object.get_absolute_url}}">{{object}}</a>
-    </h2>
-    <p>
-        <i class="glyphicon glyphicon-globe"></i> {% trans 'Unit of administrative division' %}: 
-        <a href="{{object.jst.get_absolute_url}}">{{object.jst}}</a>
-    </p>
-    <p>
-        {% trans 'Case count'%}:
-        {{object.case_count}}
-    </p>
-</div>
+{% load i18n %}
+<h2>
+    <i class="glyphicon glyphicon-home"></i>
+    <a href="{{object.get_absolute_url}}">
+        {{object}}
+    </a>
+</h2>
+<p>
+    <i class="glyphicon glyphicon-globe"></i> {% trans 'Unit of administrative division' %}: 
+    <a href="{{object.jst.get_absolute_url}}">{{object.jst}}</a>
+</p>
+<p>
+    {% trans 'Case count'%}:
+    {{object.case_count}}
+</p>

@@ -1,18 +1,16 @@
 {% load i18n humanize %}
-<div class="gray">
-    <h2>
-        <i class="glyphicon glyphicon-search"></i>
-        <a href="{{object.get_absolute_url}}">{{object}}</a>
-    </h2>
+<h2>
+    <i class="glyphicon glyphicon-search"></i>
+    <a href="{{object.get_absolute_url}}">{{object}}</a>
+</h2>
 
-    <p>
-        {% trans 'User'%}:
-        <a href="{{object.user.get_absolute_url}}">{{object.user}}</a>
-    </p>
-    <p>
-        {% trans 'Creation date'%}:
-        <time datetime="{{object.created|date:'PTDHMS'}}">
-            {{object.created|naturaltime}}
-        </time>
-    </p>
-</div>
+<p>
+    {% trans 'User'%}:
+    <a href="{{object.user.get_absolute_url}}">{{object.user}}</a>
+</p>
+<p>
+    {% trans 'Creation date'%}:
+    <time datetime="{{object.created|date:'PTDHMS'}}">
+        {{object.created|naturaltime}}
+    </time>
+</p>

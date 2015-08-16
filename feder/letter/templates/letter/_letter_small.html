@@ -1,14 +1,31 @@
-<div class="gray">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title"><i class="glyphicon glyphicon-envelope"></i> <a href="{{object.get_absolute_url}}">{{object}}</a></h3>
-        </div>
-        <div class="panel-body">
-            {{object.body|linebreaks}}
-        </div>
-        <table class="table">
-            <tr><td>{% trans 'Author'%}: </td><td><a href="{{object.author.get_absolute_url}}">{{object.author}}</a></td></tr>
-            <tr><td>{% trans 'Institution'%}: </td><td><a href="{{object.case.institution.get_absolute_url}}">{{object.case.institution}}</a></td></tr>
-        </table>
+{% load i18n %}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title"><i class="glyphicon glyphicon-envelope"></i> <a href="{{object.get_absolute_url}}">{{object}}</a></h3>
     </div>
+    <div class="panel-body">
+        {{object.body|linebreaks}}
+    </div>
+    <table class="table">
+        <tr>
+            <td>
+                {% trans 'Author'%}:
+            </td>
+            <td>
+                <a href="{{object.author.get_absolute_url}}">
+                    {{object.author}}
+                </a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                {% trans 'Institution'%}:
+            </td>
+            <td>
+                <a href="{{object.case.institution.get_absolute_url}}">
+                    {{object.case.institution}}
+                </a>
+            </td>
+        </tr>
+    </table>
 </div>

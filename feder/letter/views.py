@@ -10,6 +10,8 @@ from .models import Letter
 from .forms import LetterForm
 from .filters import LetterFilter
 
+_("Letters index")
+
 
 class LetterListView(SelectRelatedMixin, FilterView):
     filterset_class = LetterFilter

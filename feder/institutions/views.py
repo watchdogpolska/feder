@@ -13,6 +13,8 @@ from django.core.urlresolvers import reverse_lazy
 from atom.views import DeleteMessageMixin
 from .forms import InstitutionForm
 
+_('Institutions index')
+
 
 class InstitutionListView(SelectRelatedMixin, FilterView):
     filterset_class = InstitutionFilter
