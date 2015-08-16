@@ -1,0 +1,20 @@
+{% extends 'tasks/base.html' %}
+{% load i18n %}
+{% block breadcrumbs %}
+<ol class="breadcrumb">
+    <li><a href="{{object.task.case.monitoring.get_absolute_url}}">{{object.task.case.monitoring}}</a></li>
+    <li><a href="{{object.task.case.get_absolute_url}}">{{object.task.case}}</a></li>
+    <li><a href="{{object.task.get_absolute_url}}">{{object.task}}</a></li>
+    {% block breadcrumbs_row %}{% endblock %}
+</ol>
+{% endblock %}
+
+{% block content %}
+<h1 class="page-header">
+  <i class="glyphicon glyphicon-edit"></i>
+  <a href="{{object.get_absolute_url}}">{{object}}</a>
+</h1>
+<div class="gray">
+{% block content_object %}{% endblock %}
+</div>
+{% endblock %}

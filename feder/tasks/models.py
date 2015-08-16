@@ -47,9 +47,22 @@ class Task(TimeStampedModel):
         verbose_name_plural = _("Tasks")
 
 
+class SurveyQuerySet(models.QuerySet):
+    def with_full_answer(self):
+        return self.prefetch_related(models.Prefetch('answer_set',
+                queryset=Answer.objects.select_related('question')))
+
+    def with_user(self):
+        return self.select_related('user')
+
+    def for_task(self, task):
+        return self.filter(task=task)
+
+
 class Survey(TimeStampedModel):
     task = models.ForeignKey(Task)
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    objects = PassThroughManager.for_queryset_class(SurveyQuerySet)()
 
     class Meta:
         ordering = ['created', ]

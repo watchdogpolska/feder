@@ -19,7 +19,7 @@
     <h1><i class="glyphicon glyphicon-folder-edit"></i> {{object}}</h1>
 </div>
 
-<div class="col-sm-6">
+<div class="col-sm-5">
     <div class="red">
         <p>
             <i class="glyphicon glyphicon-folder-open"></i>
@@ -37,9 +37,10 @@
     {% if user_survey %}
         <div class="gray">
             <h2>{% trans 'Your analysis' %}</h2>
-            {% for answer in user_survey.answer_set.all %}
-            <p><b>{{answer.question.label}}</b>: {{answer.render}}</p>
-            {% endfor %}
+            {% include 'tasks/_answer.html' with object_list=user_survey.answer_set.all %}
+            <a href="{% url 'tasks:delete_survey' task_id=object.pk %}" class="btn btn-default">
+                {% trans 'Delete' %}
+            </a>
         </div>
     {% else %}
         <div class="gray">
@@ -50,7 +51,7 @@
 
 </div>
 
-<div class="col-sm-6">
+<div class="col-sm-7">
     {% if object.case.letter_set.for_milestone.all %}
     {% include 'letter/_milestone_list.html' with object_list=object.case.letter_set.for_milestone.all %}
     {% else %}
