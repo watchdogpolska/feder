@@ -8,7 +8,7 @@ from .models import Institution
 
 
 class InstitutionFilter(django_filters.FilterSet):
-    voivodeship = JSTModelChoice(level=1, label=_("Vovivodeship"))
+    voivodeship = JSTModelChoice(level=1, label=_("Voivodeship"))
     county = JSTModelChoice(level=2, label=_("County"))
     community = JSTModelChoice(level=3, label=_("Community"))
     tags = AutocompleteChoiceFilter('TagAutocomplete', label=_("Tags"))

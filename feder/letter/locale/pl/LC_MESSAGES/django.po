@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: letters 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-15 03:03+0000\n"
+"POT-Creation-Date: 2015-08-16 00:29+0000\n"
 "PO-Revision-Date: 2015-08-15 05:03+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -19,11 +19,11 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.5.4\n"
 
-#: filters.py:10 models.py:23
+#: filters.py:10 models.py:25
 msgid "Title"
 msgstr "Tytuł"
 
-#: filters.py:12 templates/letter/letter_filter.html:27
+#: filters.py:12 templates/letter/_letter_small.html:22
 msgid "Institution"
 msgstr "Instytucja"
 
@@ -31,70 +31,68 @@ msgstr "Instytucja"
 msgid "Creation date"
 msgstr "Data utworzenia"
 
-#: models.py:18
+#: models.py:20
 msgid "Case"
 msgstr "Sprawa"
 
-#: models.py:19
+#: models.py:21
 msgid "Author (if user)"
 msgstr "Autor (jeżeli użytkownik)"
 
-#: models.py:21
+#: models.py:23
 msgid "Author (if institution)"
 msgstr "Autor (jeżeli instytucja)"
 
-#: models.py:24
+#: models.py:26
 msgid "Text"
 msgstr "Treść"
 
-#: models.py:25
+#: models.py:27
 msgid "Quote"
 msgstr "Cytat"
 
-#: models.py:30
+#: models.py:32
 msgid "Letter"
 msgstr "List"
 
-#: models.py:31
+#: models.py:33
 msgid "Letters"
 msgstr "Listy"
 
-#: templates/letter/_object.html:13
-msgid "attachments"
-msgstr "Załączniki"
-
-#: templates/letter/_object.html:22 templates/letter/letter_filter.html:32
-msgid "No rows."
-msgstr "Brak wierszy"
-
-#: templates/letter/base_object.html:7 templates/letter/base_object.html:13
-msgid "Edit"
-msgstr "Edytuj"
-
-#: templates/letter/base_object.html:14
-msgid "Delete"
-msgstr "Usuń"
-
-#: templates/letter/letter_filter.html:5
-#| msgid "Letter index"
-msgid "Letters index"
-msgstr "Wykaz listów"
-
-#: templates/letter/letter_filter.html:26
+#: templates/letter/_letter_small.html:12
 msgid "Author"
 msgstr "Autor"
 
-#: views.py:35
+#: templates/letter/_object.html:14
+msgid "attachments"
+msgstr "Załączniki"
+
+#: templates/letter/base_object.html:8 templates/letter/base_object.html:15
+msgid "Edit"
+msgstr "Edytuj"
+
+#: templates/letter/base_object.html:16
+msgid "Delete"
+msgstr "Usuń"
+
+#: views.py:13
+msgid "Letters index"
+msgstr "Wykaz listów"
+
+#: views.py:37
 #, python-brace-format
 msgid "{0} created!"
 msgstr "{0} utworzony!"
 
-#: views.py:44
+#: views.py:46
 #, python-brace-format
 msgid "{0} updated!"
 msgstr "{0} zaktualizowany!"
 
-#: views.py:52
+#: views.py:54
 #, python-brace-format
 msgid "{0} deleted!"
 msgstr "{0} usunięty!"
+
+#~ msgid "No rows."
+#~ msgstr "Brak wierszy"

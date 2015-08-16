@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-monitorings 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-15 03:02+0000\n"
+"POT-Creation-Date: 2015-08-16 00:30+0000\n"
 "PO-Revision-Date: 2015-08-15 05:02+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -19,11 +19,11 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.5.4\n"
 
-#: filters.py:12 templates/monitorings/monitoring_filter.html:33
+#: filters.py:12 templates/monitorings/_monitoring_small.html:12
 msgid "Creation date"
 msgstr "Data utworzenia"
 
-#: forms.py:23 templates/monitorings/monitoring_preview.html:11
+#: forms.py:23 templates/monitorings/monitoring_preview.html:12
 msgid "Recipients"
 msgstr "Odbiorcy"
 
@@ -31,7 +31,7 @@ msgstr "Odbiorcy"
 msgid "Text"
 msgstr "Treść"
 
-#: forms.py:29 models.py:22 models.py:23
+#: forms.py:29 models.py:23 models.py:24
 msgid "Monitoring"
 msgstr "Monitoring"
 
@@ -39,74 +39,69 @@ msgstr "Monitoring"
 msgid "Content of new letter"
 msgstr "Treść nowego listu"
 
-#: models.py:15 templates/monitorings/monitoring_preview.html:12
+#: models.py:16 templates/monitorings/monitoring_preview.html:13
 msgid "Name"
 msgstr "Nazwa"
 
-#: models.py:16
+#: models.py:17
 msgid "Slug"
 msgstr "Identyfikator redakcyjny"
 
-#: models.py:17 templates/monitorings/monitoring_filter.html:32
+#: models.py:18 templates/monitorings/_monitoring_small.html:8
 msgid "User"
 msgstr "Użytkownik"
 
-#: models.py:18
+#: models.py:19
 msgid "Description"
 msgstr "Opis"
 
-#: templates/monitorings/_btn.html:3
+#: templates/monitorings/_btn.html:4
 msgid "Edit"
 msgstr "Edycja"
 
-#: templates/monitorings/_btn.html:4
+#: templates/monitorings/_btn.html:5
 #: templates/monitorings/monitoring_confirm_delete.html:3
 #: templates/monitorings/monitoring_confirm_delete.html:10
 msgid "Delete"
 msgstr "Usuń"
 
-#: templates/monitorings/_btn.html:5
+#: templates/monitorings/_btn.html:6
 msgid "Create questionary"
 msgstr "Utwórz kwestionariusz"
 
-#: templates/monitorings/monitoring_detail.html:11
+#: templates/monitorings/monitoring_detail.html:17
 msgid "by"
 msgstr "przez"
 
-#: templates/monitorings/monitoring_detail.html:25
+#: templates/monitorings/monitoring_detail.html:40
 msgid "Questionaries"
 msgstr "Kwestionariusze"
 
-#: templates/monitorings/monitoring_detail.html:32
+#: templates/monitorings/monitoring_detail.html:47
 msgid "Institutions, cases and tasks"
 msgstr "Instytucje, sprawy i zadania"
 
-#: templates/monitorings/monitoring_detail.html:52
+#: templates/monitorings/monitoring_detail.html:68
 msgid "previous"
 msgstr "poprzednia"
 
-#: templates/monitorings/monitoring_detail.html:55
+#: templates/monitorings/monitoring_detail.html:71
 #, python-format
 msgid "Page %(no)s of %(total)s"
 msgstr "Strona %(no)s z %(total)s"
 
-#: templates/monitorings/monitoring_detail.html:58
+#: templates/monitorings/monitoring_detail.html:74
 msgid "next"
 msgstr "następna"
 
-#: templates/monitorings/monitoring_filter.html:5
-#| msgid "Monitoring"
-msgid "Monitorings index"
-msgstr "Wykaz monitoringów"
+#: templates/monitorings/monitoring_detail.html:79
+msgid "No rows."
+msgstr "Brak wierszy."
 
-#: templates/monitorings/monitoring_filter.html:11
+#: templates/monitorings/monitoring_filter.html:6
 #: templates/monitorings/monitoring_preview.html:6
 msgid "Create monitoring"
 msgstr "Utwórz monitoring"
-
-#: templates/monitorings/monitoring_filter.html:38
-msgid "No rows."
-msgstr "Brak wierszy."
 
 #: templates/monitorings/monitoring_form.html:6
 msgid "Update"
@@ -116,15 +111,15 @@ msgstr "Aktualizuj"
 msgid "Create"
 msgstr "Utwórz"
 
-#: templates/monitorings/monitoring_preview.html:8
+#: templates/monitorings/monitoring_preview.html:9
 msgid "Preview your submission"
 msgstr "Pogląd:"
 
-#: templates/monitorings/monitoring_preview.html:20
+#: templates/monitorings/monitoring_preview.html:21
 msgid "Submit"
 msgstr "Zgłoś"
 
-#: templates/monitorings/monitoring_preview.html:23
+#: templates/monitorings/monitoring_preview.html:25
 msgid "Or edit it again"
 msgstr "lub edytuj ponownie"
 
@@ -142,6 +137,10 @@ msgstr "{0} zaktualizowany!"
 #, python-brace-format
 msgid "{0} deleted!"
 msgstr "{0} usunięty!"
+
+#~| msgid "Monitoring"
+#~ msgid "Monitorings index"
+#~ msgstr "Wykaz monitoringów"
 
 #~ msgid "Security hash: %(hash_value)s"
 #~ msgstr "Kod bezpieczeństwa: %(hash_value)s"

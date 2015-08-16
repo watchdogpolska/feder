@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-teryt\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-15 03:03+0000\n"
+"POT-Creation-Date: 2015-08-16 00:29+0000\n"
 "PO-Revision-Date: 2015-08-14 20:21+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -65,18 +65,18 @@ msgstr ""
 "Wybierz województwo, aby uzyskać informacje o nim i aktywnościach na jego "
 "terenie."
 
-#: templates/teryt/jst_detail.html:16
+#: templates/teryt/jst_detail.html:21
 msgid "Subordinate units"
 msgstr "Jednostki podrzędne"
 
-#: templates/teryt/jst_detail.html:28
+#: templates/teryt/jst_detail.html:35
 msgid "Institutions"
 msgstr "Instytucje"
 
-#: templates/teryt/jst_detail.html:35
+#: templates/teryt/jst_detail.html:44
 msgid "Cases"
 msgstr "Sprawy"
 
-#: templates/teryt/jst_detail.html:42
+#: templates/teryt/jst_detail.html:53
 msgid "Tasks"
 msgstr "Zadania"
