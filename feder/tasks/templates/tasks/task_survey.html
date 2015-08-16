@@ -1,0 +1,39 @@
+{% extends 'tasks/base_object.html' %}
+{% load i18n humanize %}
+
+{% block breadcrumbs_row %}
+<li class="active">
+    {% trans 'Answers' %}
+</li>
+{% endblock %}
+
+{% block content_object %}
+<div class="gray">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>{% trans 'User' %}</th>
+                {% for question in object.questionary.question_set.all %}
+                <th>{{question.label}}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for survey in survey_list %}
+            <tr>
+                <td>
+                    <a href="{{survey.user.get_absolute_url}}">
+                        {{survey.user}}
+                    </a>
+                </td>
+                {% for answer in survey.answer_set.all %}
+                <td>
+                    {{answer.render}}
+                </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

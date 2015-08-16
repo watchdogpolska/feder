@@ -4,6 +4,7 @@ from model_utils.models import TimeStampedModel
 from django.core.urlresolvers import reverse
 from feder.monitorings.models import Monitoring
 from jsonfield import JSONField
+from feder.questionaries.modulator import modulators
 
 
 class Questionary(TimeStampedModel):
@@ -12,16 +13,16 @@ class Questionary(TimeStampedModel):
     lock = models.BooleanField(default=False, verbose_name=_("Lock of edition"),
         help_text=_("Prevent of edit question to protect against destruction the data set"))
 
-    class Meta:
-        ordering = ['created', ]
-        verbose_name = _("Questionary")
-        verbose_name_plural = _("Questionaries")
-
     def get_absolute_url(self):
         return reverse('questionaries:details', kwargs={'pk': self.pk})
 
     def __unicode__(self):
         return self.title
+
+    class Meta:
+        ordering = ['created', ]
+        verbose_name = _("Questionary")
+        verbose_name_plural = _("Questionaries")
 
 
 class Question(models.Model):
@@ -35,6 +36,9 @@ class Question(models.Model):
         if lock_protection is True and self.pk is None and self.questionary.lock:
             raise ValueError("You can't modify this questionary. Some answers exists")
         return super(Question, self).save()
+
+    def label(self):
+        return modulators[self.genre](self.blob).render_label()
 
     class Meta:
         ordering = ['position', ]

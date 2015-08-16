@@ -35,9 +35,32 @@ class TaskDetailView(SelectRelatedMixin, PrefetchRelatedMixin, DetailView):
     select_related = ['case__monitoring', 'case__institution', 'questionary']
     prefetch_related = ['survey_set', 'questionary__question_set']
 
-    def get_context_data(self, **kwargs):
-        context = super(TaskDetailView, self).get_context_data(**kwargs)
+    def get_context_data(self, *args, **kwargs):
+        context = super(TaskDetailView, self).get_context_data(*args, **kwargs)
         context['formset'] = AnswerFormSet(survey=None, questionary=self.object.questionary)
+        Survey = self.object.survey_set.model
+        try:
+            context['user_survey'] = self.object.survey_set.filter(user=self.request.user).get()
+        except Survey.DoesNotExist:
+            context['user_survey'] = None
+        return context
+
+
+class TaskSurveyView(SelectRelatedMixin, PrefetchRelatedMixin, DetailView):
+    model = Task
+    select_related = ['case__monitoring', 'case__institution', 'questionary', ]
+    prefetch_related = ['questionary__question_set']
+    template_name_suffix = '_survey'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(TaskSurveyView, self).get_context_data(*args, **kwargs)
+        Survey = self.object.survey_set.model
+        survey_list = (Survey.objects.filter(task=self.object).
+            select_related('user').
+            prefetch_related('answer_set__question').all())
+        context['survey_list'] = survey_list
+        user_survey_list = [x for x in survey_list if x.user == self.request.user]
+        context['user_survey'] = user_survey_list[0] if user_survey_list else None
         return context
 
 

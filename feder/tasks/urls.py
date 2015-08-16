@@ -15,6 +15,8 @@ urlpatterns = [
     name="update"),
    url(r'^task-(?P<pk>[\d]+)/~delete$', views.TaskDeleteView.as_view(),
     name="delete"),
+   url(r'^task-(?P<pk>[\d]+)/~survey$', views.TaskSurveyView.as_view(),
+    name="survey"),
    url(r'^task-(?P<pk>[\d]+)/~fill$', views.fill_survey,
     name="fill_survey"),
 ]

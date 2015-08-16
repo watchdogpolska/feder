@@ -35,6 +35,12 @@ class BaseSimpleModulator(BaseBlobFormModulator):
     def read(self, cleaned_data):
         return cleaned_data['value']
 
+    def render_answer(self, blob):
+        return blob
+
+    def render_label(self):
+        return self.blob['name']
+
 
 class CharModulator(BaseSimpleModulator):
     description = _("Question about char")

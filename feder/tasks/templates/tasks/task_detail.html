@@ -9,11 +9,9 @@
 {% endblock %}
 
 {% block buttons %}
-<div class="clearfix">
-    <div class="pull-right btn-group">
-        <a class="btn btn-primary" href="{% url 'tasks:fill_survey' pk=object.pk %}">{% trans 'Fill survey' %}</a>
-    </div>
-</div>
+{% if object %}
+{% include 'tasks/_btn.html' %}
+{% endif %}
 {% endblock %}
 
 {% block content %}
@@ -36,10 +34,19 @@
         {% include 'cases/_desc.html' with object=object.case %}
     </div>
 
-    <div class="gray">
-        <h2>{% trans 'To do' %}</h2>
-        {% include 'tasks/_formset.html' with object=formset %}
-    </div>
+    {% if user_survey %}
+        <div class="gray">
+            <h2>{% trans 'Your analysis' %}</h2>
+            {% for answer in user_survey.answer_set.all %}
+            <p><b>{{answer.question.label}}</b>: {{answer.render}}</p>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="gray">
+            <h2>{% trans 'To do' %}</h2>
+            {% include 'tasks/_formset.html' with object=formset %}
+        </div>
+    {% endif %}
 
 </div>
 

@@ -7,7 +7,7 @@ from model_utils.models import TimeStampedModel
 from feder.cases.models import Case
 from jsonfield import JSONField
 from feder.questionaries.models import Questionary, Question
-
+from feder.questionaries.modulator import modulators
 
 _('Tasks index')
 
@@ -55,12 +55,16 @@ class Survey(TimeStampedModel):
         ordering = ['created', ]
         verbose_name = _("Survey")
         verbose_name_plural = _("Surveys")
+        unique_together = [('task', 'user')]
 
 
 class Answer(models.Model):
     survey = models.ForeignKey(Survey)
     question = models.ForeignKey(Question)
     blob = JSONField()
+
+    def render(self):
+        return modulators[self.question.genre](self.question.blob).render_answer(self.blob)
 
     class Meta:
         verbose_name = _("Answer")
