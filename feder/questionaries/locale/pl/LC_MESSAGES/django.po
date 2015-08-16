@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: questionaries\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-16 00:29+0000\n"
-"PO-Revision-Date: 2015-08-16 00:51+0100\n"
+"POT-Creation-Date: 2015-08-16 02:08+0000\n"
+"PO-Revision-Date: 2015-08-16 04:00+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -162,34 +162,28 @@ msgstr "Zaktualizuj kwestionariusz"
 msgid "Add questionary"
 msgstr "Dodaj kwestionariusz"
 
-#: views.py:50
-#, python-brace-format
-msgid "{0} created!"
-msgstr "{0} utworzony!"
-
-#: views.py:59
-#, python-brace-format
-msgid "{object} updated!"
-msgstr "{object} zaktualizowany!"
-
-#: views.py:67
-#, python-brace-format
-msgid "{object} deleted!"
-msgstr "{object} usunięty!"
-
-#: views.py:89
+#: views.py:82
 msgid "Create question"
 msgstr "Utwórz pytanie"
 
-#: views.py:108
+#: views.py:101
 #, python-brace-format
-msgid "{object} moved!"
-msgstr "{object} przesunięty!"
+msgid "Question {object} moved!"
+msgstr "Pytanie {object} przesunięte!"
 
-#: views.py:127
+#: views.py:120
 #, python-brace-format
-msgid "Tasks for {object} created!"
-msgstr "Zadania dla {object} utworzone!"
+msgid "Tasks for {questionary} created!"
+msgstr "Zadania dla {questionary} utworzone!"
+
+#~ msgid "{0} created!"
+#~ msgstr "{0} utworzony!"
+
+#~ msgid "{object} updated!"
+#~ msgstr "{object} zaktualizowany!"
+
+#~ msgid "{object} deleted!"
+#~ msgstr "{object} usunięty!"
 
 #~ msgid "Questionaries index"
 #~ msgstr "Wykaz kwestionariuszy"

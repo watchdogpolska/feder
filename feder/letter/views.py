@@ -5,7 +5,7 @@ from braces.views import (SelectRelatedMixin, LoginRequiredMixin, FormValidMessa
     UserFormKwargsMixin)
 from django.core.urlresolvers import reverse_lazy
 from django_filters.views import FilterView
-from atom.views import DeleteMessageMixin
+from atom.views import DeleteMessageMixin, CreateMessageMixin, UpdateMessageMixin
 from .models import Letter
 from .forms import LetterForm
 from .filters import LetterFilter
@@ -29,26 +29,18 @@ class LetterDetailView(SelectRelatedMixin, DetailView):
     select_related = ['author_institution', ]
 
 
-class LetterCreateView(LoginRequiredMixin, UserFormKwargsMixin, CreateView):
+class LetterCreateView(LoginRequiredMixin, UserFormKwargsMixin,
+        CreateMessageMixin, CreateView):
     model = Letter
     form_class = LetterForm
 
-    def get_form_valid_message(self):
-        return _("{0} created!").format(self.object)
 
-
-class LetterUpdateView(LoginRequiredMixin, UserFormKwargsMixin,  FormValidMessageMixin,
-        UpdateView):
+class LetterUpdateView(LoginRequiredMixin, UserFormKwargsMixin, UpdateMessageMixin,
+        FormValidMessageMixin, UpdateView):
     model = Letter
     form_class = LetterForm
-
-    def get_form_valid_message(self):
-        return _("{0} updated!").format(self.object)
 
 
 class LetterDeleteView(LoginRequiredMixin, DeleteMessageMixin, DeleteView):
     model = Letter
     success_url = reverse_lazy('letters:list')
-
-    def get_success_message(self):
-        return _("{0} deleted!").format(self.object)

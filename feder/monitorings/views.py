@@ -7,7 +7,7 @@ from braces.views import (SelectRelatedMixin, LoginRequiredMixin, FormValidMessa
     UserFormKwargsMixin)
 from formtools.preview import FormPreview
 from django_filters.views import FilterView
-from atom.views import DeleteMessageMixin
+from atom.views import DeleteMessageMixin, UpdateMessageMixin
 from feder.main.mixins import ExtraListMixin
 from feder.cases.models import Case
 from .models import Monitoring
@@ -65,21 +65,15 @@ class MonitoringCreateView(FormPreview):
         return self.response_done(form, context)
 
     def get_form_valid_message(self):
-        return _("{0} created!").format(self.object)
+        return _("Monitoring {monitoring} created!").format(monitoring=self.object)
 
 
-class MonitoringUpdateView(LoginRequiredMixin, UserFormKwargsMixin,  FormValidMessageMixin,
-        UpdateView):
+class MonitoringUpdateView(LoginRequiredMixin, UserFormKwargsMixin,
+        UpdateMessageMixin, FormValidMessageMixin, UpdateView):
     model = Monitoring
     form_class = MonitoringForm
-
-    def get_form_valid_message(self):
-        return _("{0} updated!").format(self.object)
 
 
 class MonitoringDeleteView(LoginRequiredMixin, DeleteMessageMixin, DeleteView):
     model = Monitoring
     success_url = reverse_lazy('monitorings:list')
-
-    def get_success_message(self):
-        return _("{0} deleted!").format(self.object)

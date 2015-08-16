@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-monitorings 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-16 00:30+0000\n"
-"PO-Revision-Date: 2015-08-15 05:02+0100\n"
+"POT-Creation-Date: 2015-08-16 02:08+0000\n"
+"PO-Revision-Date: 2015-08-16 03:59+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -69,32 +69,32 @@ msgstr "Usuń"
 msgid "Create questionary"
 msgstr "Utwórz kwestionariusz"
 
-#: templates/monitorings/monitoring_detail.html:17
+#: templates/monitorings/monitoring_detail.html:21
 msgid "by"
 msgstr "przez"
 
-#: templates/monitorings/monitoring_detail.html:40
+#: templates/monitorings/monitoring_detail.html:44
 msgid "Questionaries"
 msgstr "Kwestionariusze"
 
-#: templates/monitorings/monitoring_detail.html:47
+#: templates/monitorings/monitoring_detail.html:51
 msgid "Institutions, cases and tasks"
 msgstr "Instytucje, sprawy i zadania"
 
-#: templates/monitorings/monitoring_detail.html:68
+#: templates/monitorings/monitoring_detail.html:72
 msgid "previous"
 msgstr "poprzednia"
 
-#: templates/monitorings/monitoring_detail.html:71
+#: templates/monitorings/monitoring_detail.html:75
 #, python-format
 msgid "Page %(no)s of %(total)s"
 msgstr "Strona %(no)s z %(total)s"
 
-#: templates/monitorings/monitoring_detail.html:74
+#: templates/monitorings/monitoring_detail.html:78
 msgid "next"
 msgstr "następna"
 
-#: templates/monitorings/monitoring_detail.html:79
+#: templates/monitorings/monitoring_detail.html:83
 msgid "No rows."
 msgstr "Brak wierszy."
 
@@ -125,28 +125,14 @@ msgstr "lub edytuj ponownie"
 
 #: views.py:68
 #, python-brace-format
-msgid "{0} created!"
-msgstr "{0} utworzona!"
+msgid "Monitoring {monitoring} created!"
+msgstr "Monitoring {monitoring} utworzony!"
 
-#: views.py:77
-#, python-brace-format
-msgid "{0} updated!"
-msgstr "{0} zaktualizowany!"
+#~ msgid "{0} created!"
+#~ msgstr "{0} utworzona!"
 
-#: views.py:85
-#, python-brace-format
-msgid "{0} deleted!"
-msgstr "{0} usunięty!"
+#~ msgid "{0} updated!"
+#~ msgstr "{0} zaktualizowany!"
 
-#~| msgid "Monitoring"
-#~ msgid "Monitorings index"
-#~ msgstr "Wykaz monitoringów"
-
-#~ msgid "Security hash: %(hash_value)s"
-#~ msgstr "Kod bezpieczeństwa: %(hash_value)s"
-
-#~ msgid "at"
-#~ msgstr "o"
-
-#~ msgid "Institution data"
-#~ msgstr "Dane instytucji"
+#~ msgid "{0} deleted!"
+#~ msgstr "{0} usunięty!"

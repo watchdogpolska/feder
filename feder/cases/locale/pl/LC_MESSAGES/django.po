@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cases 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-16 00:29+0000\n"
-"PO-Revision-Date: 2015-08-16 02:12+0100\n"
+"POT-Creation-Date: 2015-08-16 02:08+0000\n"
+"PO-Revision-Date: 2015-08-16 03:47+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -49,25 +49,25 @@ msgstr "Sprawa"
 msgid "Letter count"
 msgstr "Liczba listów"
 
-#: templates/cases/base_object.html:17 templates/cases/case_detail.html:17
+#: templates/cases/base_object.html:13 templates/cases/case_detail.html:13
 msgid "Edit"
 msgstr "Edytuj"
 
-#: templates/cases/base_object.html:18
+#: templates/cases/base_object.html:14
 #: templates/cases/case_confirm_delete.html:8
-#: templates/cases/case_detail.html:18
+#: templates/cases/case_detail.html:14
 msgid "Delete"
 msgstr "Usuń"
 
-#: templates/cases/case_detail.html:37
+#: templates/cases/case_detail.html:33
 msgid "Tasks"
 msgstr "Zadania"
 
-#: templates/cases/case_detail.html:46
+#: templates/cases/case_detail.html:42
 msgid "Letters"
 msgstr "Listy"
 
-#: templates/cases/case_detail.html:52
+#: templates/cases/case_detail.html:48
 msgid "No rows."
 msgstr "Brak wierszy"
 
@@ -75,17 +75,14 @@ msgstr "Brak wierszy"
 msgid "Case index"
 msgstr "Wykaz spraw"
 
-#: views.py:43
-#, python-brace-format
-msgid "{0} created!"
-msgstr "{0} utworzona!"
+#~| msgid "{0} created!"
+#~ msgid "{case} created!"
+#~ msgstr "{case} utworzona!"
 
-#: views.py:52
-#, python-brace-format
-msgid "{0} updated!"
-msgstr "{0} zaktualizowana!"
+#~| msgid "{0} updated!"
+#~ msgid "{case} updated!"
+#~ msgstr "{case} zaktualizowana!"
 
-#: views.py:60
-#, python-brace-format
-msgid "{0} deleted!"
-msgstr "{0} usunięta!"
+#~| msgid "{0} deleted!"
+#~ msgid "{case} deleted!"
+#~ msgstr "{case} usunięta!"

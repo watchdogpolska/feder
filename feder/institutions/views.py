@@ -10,7 +10,7 @@ from django.utils.translation import ugettext_lazy as _
 from braces.views import (LoginRequiredMixin, FormValidMessageMixin,
     UserFormKwargsMixin)
 from django.core.urlresolvers import reverse_lazy
-from atom.views import DeleteMessageMixin
+from atom.views import DeleteMessageMixin, CreateMessageMixin, UpdateMessageMixin
 from .forms import InstitutionForm
 
 _('Institutions index')
@@ -41,26 +41,19 @@ class InstitutionDetailView(SelectRelatedMixin, ExtraListMixin, PrefetchRelatedM
             order_by('monitoring').all())
 
 
-class InstitutionCreateView(LoginRequiredMixin, UserFormKwargsMixin, CreateView):
+class InstitutionCreateView(LoginRequiredMixin, CreateMessageMixin,
+        UserFormKwargsMixin, CreateView):
     model = Institution
     form_class = InstitutionForm
 
-    def get_form_valid_message(self):
-        return _("{0} created!").format(self.object)
 
-
-class InstitutionUpdateView(LoginRequiredMixin, UserFormKwargsMixin,  FormValidMessageMixin,
-        UpdateView):
+class InstitutionUpdateView(LoginRequiredMixin, UserFormKwargsMixin,
+        UpdateMessageMixin, FormValidMessageMixin, UpdateView):
     model = Institution
     form_class = InstitutionForm
 
-    def get_form_valid_message(self):
-        return _("{0} updated!").format(self.object)
 
-
-class InstitutionDeleteView(LoginRequiredMixin, DeleteMessageMixin, DeleteView):
+class InstitutionDeleteView(LoginRequiredMixin, DeleteMessageMixin, UpdateMessageMixin,
+        DeleteView):
     model = Institution
     success_url = reverse_lazy('institutions:list')
-
-    def get_success_message(self):
-        return _("{0} deleted!").format(self.object)

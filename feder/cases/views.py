@@ -4,7 +4,7 @@ from braces.views import (SelectRelatedMixin, LoginRequiredMixin, FormValidMessa
     UserFormKwargsMixin, PrefetchRelatedMixin)
 from django.core.urlresolvers import reverse_lazy
 from django_filters.views import FilterView
-from atom.views import DeleteMessageMixin
+from atom.views import DeleteMessageMixin, CreateMessageMixin, UpdateMessageMixin
 from .models import Case
 from .forms import CaseForm
 from .filters import CaseFilter
@@ -35,26 +35,18 @@ class CaseDetailView(SelectRelatedMixin, PrefetchRelatedMixin, DetailView):
         return context
 
 
-class CaseCreateView(LoginRequiredMixin, UserFormKwargsMixin, CreateView):
+class CaseCreateView(LoginRequiredMixin, UserFormKwargsMixin,
+        CreateMessageMixin, CreateView):
     model = Case
     form_class = CaseForm
 
-    def get_form_valid_message(self):
-        return _("{0} created!").format(self.object)
 
-
-class CaseUpdateView(LoginRequiredMixin, UserFormKwargsMixin,  FormValidMessageMixin,
-        UpdateView):
+class CaseUpdateView(LoginRequiredMixin, UserFormKwargsMixin, UpdateMessageMixin,
+        FormValidMessageMixin, UpdateView):
     model = Case
     form_class = CaseForm
-
-    def get_form_valid_message(self):
-        return _("{0} updated!").format(self.object)
 
 
 class CaseDeleteView(LoginRequiredMixin, DeleteMessageMixin, DeleteView):
     model = Case
     success_url = reverse_lazy('cases:list')
-
-    def get_success_message(self):
-        return _("{0} deleted!").format(self.object)

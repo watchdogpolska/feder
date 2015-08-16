@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from braces.views import (SelectRelatedMixin, LoginRequiredMixin, FormValidMessageMixin,
     UserFormKwargsMixin, PrefetchRelatedMixin)
-from atom.views import DeleteMessageMixin
+from atom.views import DeleteMessageMixin, CreateMessageMixin, UpdateMessageMixin
 from .models import Task
 from .filters import TaskFilter
 from .forms import TaskForm, AnswerFormSet, SurveyForm
@@ -41,29 +41,20 @@ class TaskDetailView(SelectRelatedMixin, PrefetchRelatedMixin, DetailView):
         return context
 
 
-class TaskCreateView(LoginRequiredMixin, UserFormKwargsMixin, CreateView):
+class TaskCreateView(LoginRequiredMixin, UserFormKwargsMixin, CreateMessageMixin, CreateView):
     model = Task
     form_class = TaskForm
 
-    def get_form_valid_message(self):
-        return _("{0} created!").format(self.object)
 
-
-class TaskUpdateView(LoginRequiredMixin, UserFormKwargsMixin,  FormValidMessageMixin,
-        UpdateView):
+class TaskUpdateView(LoginRequiredMixin, UserFormKwargsMixin, UpdateMessageMixin,
+        FormValidMessageMixin, UpdateView):
     model = Task
     form_class = TaskForm
-
-    def get_form_valid_message(self):
-        return _("{0} updated!").format(self.object)
 
 
 class TaskDeleteView(LoginRequiredMixin, DeleteMessageMixin, DeleteView):
     model = Task
     success_url = reverse_lazy('tasks:list')
-
-    def get_success_message(self):
-        return _("{0} deleted!").format(self.object)
 
 
 @login_required

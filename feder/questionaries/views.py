@@ -6,7 +6,8 @@ from braces.views import (SelectRelatedMixin, LoginRequiredMixin, FormValidMessa
     UserFormKwargsMixin, PrefetchRelatedMixin)
 from django.core.urlresolvers import reverse_lazy
 from django_filters.views import FilterView
-from atom.views import DeleteMessageMixin, ActionView, ActionMessageMixin, FormInitialMixin
+from atom.views import (DeleteMessageMixin, ActionView, ActionMessageMixin, FormInitialMixin, 
+    CreateMessageMixin, UpdateMessageMixin)
 from formtools.wizard.views import SessionWizardView
 from django.db.models import F
 from feder.tasks.forms import MultiTaskForm, AnswerFormSet
@@ -42,29 +43,21 @@ class QuestionaryDetailView(PrefetchRelatedMixin, DetailView):
         return context
 
 
-class QuestionaryCreateView(LoginRequiredMixin, UserFormKwargsMixin, FormInitialMixin, CreateView):
+class QuestionaryCreateView(LoginRequiredMixin, UserFormKwargsMixin, CreateMessageMixin,
+        FormInitialMixin, CreateView):
     model = Questionary
     form_class = QuestionaryForm
-
-    def get_form_valid_message(self):
-        return _("{0} created!").format(self.object)
 
 
 class QuestionaryUpdateView(LoginRequiredMixin, UserFormKwargsMixin,  FormValidMessageMixin,
-        UpdateView):
+        UpdateMessageMixin, UpdateView):
     model = Questionary
     form_class = QuestionaryForm
-
-    def get_form_valid_message(self):
-        return _("{object} updated!").format(object=self.object)
 
 
 class QuestionaryDeleteView(LoginRequiredMixin, DeleteMessageMixin, DeleteView):
     model = Questionary
     success_url = reverse_lazy('questionaries:list')
-
-    def get_success_message(self):
-        return _("{object} deleted!").format(object=self.object)
 
 
 class QuestionWizard(SessionWizardView):
@@ -105,7 +98,7 @@ class QuestionMoveView(ActionMessageMixin, ActionView):
         self.object.save()
 
     def get_success_message(self):
-        return _("{object} moved!").format(object=self.object)
+        return _("Question {object} moved!").format(object=self.object)
 
     def get_success_url(self):
         return self.object.questionary.get_absolute_url()
@@ -124,7 +117,7 @@ class TaskMultiCreateView(LoginRequiredMixin, UserFormKwargsMixin, FormValidMess
         return kwargs
 
     def get_form_valid_message(self):
-        return _("Tasks for {object} created!").format(object=self.object)
+        return _("Tasks for {questionary} created!").format(questionary=self.object)
 
     def get_success_url(self):
         return self.object.get_absolute_url()
