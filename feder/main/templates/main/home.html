@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load i18n %}
+{% load i18n static %}
 {% block content %}
 <div class="jumbotron gray">
   <h1>{% trans "Let's civil data mining!" %}</h1>
@@ -8,17 +8,24 @@
 </div>
 
 <div class="row">
-    <div class="col-md-4 col-md-offset-1">
+    <div class="col-md-7">
       <div class="red">
         <h2 class="title"><i class="glyphicon glyphicon-globe"></i> {% trans 'Voivodeships' %}</h3>
-        {% include '_select_list.html' with object_list=voivodeship_list %}
+        {% include 'main/pl_map.svg' %}
       </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-5">
     <div class="gray">
       <h2 class="title"><i class="glyphicon glyphicon-search"></i> {% trans 'Last monitorings' %}</h3>
       {% include '_select_list.html' with object_list=monitoring_list %}
     </div>
     </div>
 </div>
+{% endblock %}
+
+
+{% block javascript %}
+  {{ block.super }}
+  <script src="{% static 'init_map.js' %}"></script>
+
 {% endblock %}
