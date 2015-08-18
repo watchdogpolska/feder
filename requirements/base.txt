@@ -38,7 +38,7 @@ pytz==2015.4
 # Your custom requirements go here
 django-filter==0.10.0
 django-autocomplete-light==2.2.4
-https://github.com/ad-m/django-atom/archive/b009b2bf3500f4cace6776c86141e224d0290d8b.zip
+https://github.com/ad-m/django-atom/archive/7f1d2303597fd245424ec0410c311fee241dcbf7.zip
 django-formtools==1.0
 django-mptt==0.7.4
 django-tinycontent==0.5.0
