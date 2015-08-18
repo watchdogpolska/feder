@@ -53,28 +53,7 @@
             <a href="{{case.monitoring.get_absolute_url}}">{{case.monitoring}}</a>
         </h3>
         {% endifchanged %}
-
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">
-                    <i class="glyphicon glyphicon-folder-open"></i> 
-                    <a href="{{case.get_absolute_url}}">{{case}}</a>
-                </h3>
-            </div>
-
-            {% if case.task_set.all %}
-            <table class="table">
-                {% for task in case.task_set.all %}
-                <tr>
-                    <td>
-                        <i class="glyphicon glyphicon-edit"></i>
-                        <a href="{{task.get_absolute_url}}">{{task}}</a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </table>
-            {% endif %}
-        </div>
+        {% include 'cases/_case_panel.html' with object=case %}
     </div>
     {% endfor %}
 

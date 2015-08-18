@@ -29,58 +29,47 @@
     </h2>
 </div>
 <div class="row">
-
-    {% if object.description %}
-    <div class="col-sm-{% if request.user == object.user and object.questionary_set.all %}6{% else %}12{% endif %}">
+    <div class="col-md-5">
+        {% if object.description %}
         <div class="red">
             {{object.description|linebreaks}}
         </div>
-    </div>
-    {% endif %}
+        {% endif %}
 
-    {% if request.user == object.user and object.questionary_set.all %}
-    <div class="col-sm-6">
+        {% if request.user == object.user and object.questionary_set.all %}
         <div class="gray">
-            <h2 class="title"><i class="glyphicon glyphicon-list-alt"></i> {% trans 'Questionaries' %}</h3>
-                {% include '_select_list.html' with object_list=object.questionary_set.all %}
-            </div>
+            <h2 class="title"><i class="glyphicon glyphicon-list-alt"></i> {% trans 'Questionaries' %}</h2>
+            {% include '_select_list.html' with object_list=object.questionary_set.all %}
         </div>
         {% endif %}
     </div>
-    <div class="gray">
+
+    <div class="col-md-7">
         <h3>{% trans 'Institutions, cases and tasks' %}</h3>
         {% if object_list %}
         {% for case in object_list %}
-        {% ifchanged %}<h4><i class="glyphicon glyphicon-home"></i> <a href="{{case.institution.get_absolute_url}}">{{case.institution}}</a></h4>{% endifchanged %}
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h5 class="panel-title"><i class="glyphicon glyphicon-folder-open"></i> 
-                    <a href="{{case.get_absolute_url}}">{{case}}</a></h5>
-                </div>
-                {% if case.task_set.all %}
-                <table class="table">
-                    {% for task in case.task_set.all %}
-                    <tr><td><i class="glyphicon glyphicon-edit"></i> <a href="{{task.get_absolute_url}}">{{task}}</a></td></tr>
-                    {% endfor %}
-                </table>
-                {% endif %}
-            </div>
-            {% endfor %}
-            {% if object_list.has_previous or object_list.has_next %}
-            <ul class="pager">
-                {% if object_list.has_previous %}
-                <li><a href="{% url 'monitorings:details' slug=object.slug page=object_list.previous_page_number %}">&laquo; {% trans 'previous' %}</a></li>
-                {% endif %}
-
-                <li>{% blocktrans with no=object_list.number total=object_list.paginator.num_pages %}Page {{ no }} of {{ total }}{% endblocktrans %}</li>
-
-                {% if object_list.has_next %}
-                <li><a href="{% url 'monitorings:details' slug=object.slug page=object_list.next_page_number %}">{% trans 'next' %} &raquo; </a></li>
-                {% endif %}
-            </ul>
-            {% endif %}
-            {% else %}
-            <p>{% trans 'No rows.' %}</p>
-            {% endif %}
+        <div class="gray">
+            {% ifchanged %}<h4><i class="glyphicon glyphicon-home"></i> <a href="{{case.institution.get_absolute_url}}">{{case.institution}}</a></h4>{% endifchanged %}
+        {% include 'cases/_case_panel.html' with object=case %}
         </div>
-        {% endblock %}
+        {% endfor %}
+
+        {% if object_list.has_previous or object_list.has_next %}
+        <ul class="pager">
+            {% if object_list.has_previous %}
+            <li><a href="{% url 'monitorings:details' slug=object.slug page=object_list.previous_page_number %}">&laquo; {% trans 'previous' %}</a></li>
+            {% endif %}
+            {% include 'cases/_case_panel.html' with object=case %}
+            <li>{% blocktrans with no=object_list.number total=object_list.paginator.num_pages %}Page {{ no }} of {{ total }}{% endblocktrans %}</li>
+
+            {% if object_list.has_next %}
+            <li><a href="{% url 'monitorings:details' slug=object.slug page=object_list.next_page_number %}">{% trans 'next' %} &raquo; </a></li>
+            {% endif %}
+        </ul>
+        {% endif %}
+        {% else %}
+        <p>{% trans 'No rows.' %}</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
