@@ -51,33 +51,40 @@
               <ul class="dropdown-menu">
                 <li>
                   <a href="{% url 'cases:list' %}">
-                  <i class="glyphicon glyphicon-folder-open"></i> 
-                  {% trans 'Cases' %}</a>
+                    <i class="glyphicon glyphicon-folder-open"></i> 
+                    {% trans 'Cases' %}
+                  </a>
                 </li>
                 <li>
                   <a href="{% url 'monitorings:list' %}">
-                  <i class="glyphicon glyphicon-search"></i> 
-                  {% trans 'Monitorings' %}</a>
+                    <i class="glyphicon glyphicon-search"></i> 
+                    {% trans 'Monitorings' %}
+                  </a>
                 </li>
                 <li>
                   <a href="{% url 'letters:list' %}">
-                  <i class="glyphicon glyphicon-envelope"></i> 
-                  {% trans 'Letters' %}</a></li>
+                    <i class="glyphicon glyphicon-envelope"></i> 
+                    {% trans 'Letters' %}
+                  </a>
+                </li>
                 <li>
                   <a href="{% url 'institutions:list' %}">
-                  <i class="glyphicon glyphicon-home"></i> 
-                  {% trans 'Institutions' %}</a></li>
-                <li>
-                  <a href="{% url 'questionaries:list' %}">
-                  <i class="glyphicon glyphicon-list-alt"></i> 
-                  {% trans 'Questionaries' %}</a>
-                </li>
-                <li>
-                  <a href="{% url 'tasks:list' %}">
-                  <i class="glyphicon glyphicon-edit"></i> 
-                  {% trans 'Tasks' %}</a>
-                </li>
-              </ul>
+                    <i class="glyphicon glyphicon-home"></i> 
+                    {% trans 'Institutions' %}</a>
+                  </li>
+                  <li>
+                    <a href="{% url 'questionaries:list' %}">
+                      <i class="glyphicon glyphicon-list-alt"></i> 
+                      {% trans 'Questionaries' %}
+                    </a>
+                  </li>
+                  <li>
+                    <a href="{% url 'tasks:list' %}">
+                      <i class="glyphicon glyphicon-edit"></i> 
+                      {% trans 'Tasks' %}
+                    </a>
+                  </li>
+                </ul>
             </li>
           </ul>
         
@@ -107,7 +114,20 @@
         <p>Use this document as a way to quick start any new project.</p>
       {% endblock content %}
 
+   <div class="footer">
+      <div class="footer-right">Sieć Obywatelska - Watchdog Polska<br>
+        ul. Ursynowska 22/2<br>
+        00-102 Warszawa</div>
+        <div class="footer-left">
+          silnik: <a href="http://jawne.info.pl">jawne.info.pl</a> |
+          <a href="https://github.com/watchdogpolska/feder"><i class="fa fa-github"></i> Github</a>
+        </div>
+        <div class="footer-center">Strona wykorzystuje cookies</div>
+
+      </div>
     </div> <!-- /container -->
+
+
 
     {% block modal %}{% endblock modal %}
 

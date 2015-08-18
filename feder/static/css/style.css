@@ -7418,4 +7418,24 @@ button.close {
   color: #D72626;
 }
 
+.footer {
+  padding: 12px 6px;
+  margin: 12px 0px;
+  border-top: 1px solid #F5F5F5;
+  color: #888;
+  font-size: 10px;
+}
+
+.footer-right {
+  float: left;
+}
+
+.footer-left {
+  float: right;
+}
+
+.footer-center {
+  text-align: center;
+}
+
 
