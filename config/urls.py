@@ -6,6 +6,8 @@ from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.views.generic import TemplateView
+from django.template import Context, loader
+from django.http import HttpResponseServerError
 
 urlpatterns = [
     url(r'^', include('feder.main.urls', namespace="main")),
@@ -39,3 +41,16 @@ if settings.DEBUG:
         url(r'^404/$', 'django.views.defaults.page_not_found'),
         url(r'^500/$', 'django.views.defaults.server_error'),
     ]
+
+
+def handler500(request):
+    """500 error handler which includes ``request`` in the context.
+
+    Templates: `500.html`
+    Context: None
+    """
+
+    t = loader.get_template('500.html')
+    return HttpResponseServerError(t.render(Context({
+        'request': request,
+    })))

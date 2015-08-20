@@ -132,4 +132,16 @@ except ImportError:
         'default': env.cache_url("DJANGO_CACHE_URL", default="memcache://127.0.0.1:11211"),
     }
 
-# Your production stuff: Below this line define 3rd party library settings
+
+RAVEN_CONFIG = {
+    'dsn': env("RAVEN_DSN"),
+}
+
+INSTALLED_APPS = INSTALLED_APPS + (
+    'raven.contrib.django.raven_compat',
+)
+
+MIDDLEWARE_CLASSES = (
+    'raven.contrib.django.raven_compat.middleware.Sentry404CatchMiddleware',
+    'raven.contrib.django.raven_compat.middleware.SentryResponseErrorIdMiddleware',
+) + MIDDLEWARE_CLASSES
