@@ -11,6 +11,8 @@ class TaskFilter(CrispyFilterMixin, django_filters.FilterSet):
     case__institution = AutocompleteChoiceFilter('InstitutionAutocomplete')
     case__monitoring = AutocompleteChoiceFilter('MonitoringAutocomplete')
     created = django_filters.DateRangeFilter(label=_("Creation date"))
+    done = django_filters.BooleanFilter(label=_("Is done?"),
+        action=lambda qs, v: qs.is_done(exclude=not v))
     form_class = None
 
     def __init__(self, *args, **kwargs):
