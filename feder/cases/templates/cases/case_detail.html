@@ -23,29 +23,33 @@
         {{object}}
     </h1>
 </div>
-<div class="col-sm-5">
-    <div class="gray">
-        {% include 'cases/_desc.html' with object=object %}
+<div class="row">'
+    <div class="col-sm-5">
+        <div class="gray">
+            {% include 'cases/_desc.html' with object=object %}
+        </div>
+        <div class="red">
+            <h2>
+                <i class="fa fa-edit"></i>
+                {% trans 'Tasks' %}
+            </h2>
+            {% include '_select_list.html' with object_list=object.task_set.all %}
+        </div>
     </div>
-    <div class="red">
+
+    <div class="col-sm-7">
         <h2>
-            <i class="fa fa-edit"></i>
-            {% trans 'Tasks' %}
+            <i class="fa fa-envelope"></i>
+            {% trans 'Letters' %}
         </h2>
-        {% include '_select_list.html' with object_list=object.task_set.all %}
+
+        {% if letter_list %}
+        {% include 'letter/_milestone_list.html' with object_list=letter_list %}
+        {% else %}
+        <div class="gray">
+            {% trans 'No rows.' %}
+        </div>
+        {% endif %}
     </div>
-</div>
-
-<div class="col-sm-7">
-    <h2>
-        <i class="fa fa-envelope"></i>
-        {% trans 'Letters' %}
-    </h2>
-
-    {% if letter_list %}
-    {% include 'letter/_milestone_list.html' with object_list=letter_list %}
-    {% else %}
-    {% trans 'No rows.' %}
-    {% endif %}
 </div>
 {% endblock %}
