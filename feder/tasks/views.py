@@ -95,6 +95,9 @@ def fill_survey(request, pk):
     context = {}
     task = get_object_or_404(Task, pk=pk)
     context['object'] = task
+    if Survey.objects.filter(task=task, user=request.user).exists():
+        messages.warning(request,
+                _("Already done the job. If you want to change the answer - delete answers."))
     form = SurveyForm(data=request.POST or None, task=task, user=request.user)
     context['form'] = form
     if request.POST and form.is_valid():
@@ -108,7 +111,17 @@ def fill_survey(request, pk):
                 "truth, by obtaining reliable data."))
                 obj.save()
                 formset.save()
-                return redirect(obj.task)
+                if 'save' in request.POST:
+                    return redirect(obj.task)
+                else:
+                    next_task = task.get_next_for_user(request.user)
+                    if next_task:
+                        return redirect(next_task)
+                    else:
+                        messages.success(request,
+                            _("Thank you for your help. Unfortunately, all the tasks " +
+                            "for you have been exhausted."))
+                        return redirect(task.case.monitoring)
     else:
         formset = AnswerFormSet(data=request.POST or None, questionary=task.questionary)
         context['formset'] = formset

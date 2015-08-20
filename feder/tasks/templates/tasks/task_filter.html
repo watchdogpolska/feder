@@ -20,19 +20,20 @@
     </div>
 
     <div class="col-sm-9">
-        {% for object in object_list %}
-        {% include 'tasks/_progress.html' with progress=stats.progress max=stats.required_count value=stats.done_count %}
-
-        <div class="gray">
-            {% include 'tasks/_task_small.html' with object=object %}
-        </div>
-        {% empty %}
+        {% if object_list %}
+            {% include 'tasks/_progress.html' with progress=stats.progress max=stats.required_count value=stats.done_count %}
+            {% for object in object_list %}
+            <div class="gray">
+                {% include 'tasks/_task_small.html' with object=object %}
+            </div>
+            {% endfor %}
+        {% else %}
         <div class="gray">
             <p>
                 {% trans 'No rows.' %}
             </p>
         </div>
-        {% endfor %}
+        {% endif %}
     </div>
 </div>
 {% endblock %}

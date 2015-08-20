@@ -8,5 +8,7 @@
 <div style="display:none">
     <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 </div>
-<input type="submit" class="btn btn-primary">
+<input type="submit" name="save" class="btn btn-primary" value="{% trans 'Save'%}">
+<input type="submit" name="save_next" class="btn btn-primary" value="{% trans 'Save and go next'%}">
+
 </form>

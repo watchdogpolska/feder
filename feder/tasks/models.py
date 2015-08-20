@@ -30,13 +30,20 @@ class TaskQuerySet(models.QuerySet):
             obj.survey_done = obj.survey_count
             obj.save()
 
+    def by_monitoring(self):
+        return self.filter(case__monitoring=monitoring)
+
+    def exclude_by_user(self, user, monitoring=None):
+        filled_set = Survey.objects.filter(user=user).all().values('task_id')
+        return self.exclude(pk__in=filled_set)
+
     def survey_stats(self):
         result = self.aggregate(done_count=models.Sum('survey_done'),
                 required_count=models.Sum('survey_required'))
-        if result['required_count'] == 0:
-            result['progress'] = 0
-        else:
+        if result['required_count']:
             result['progress'] = result.get('done_count', 0) / result.get('required_count', 0) * 100
+        else:
+            result['progress'] = 0
         return result
 
 
@@ -77,6 +84,10 @@ class Task(TimeStampedModel):
         if lock_check:
             self.lock_check()
         return super(Task, self).save(*args, **kwargs)
+
+    def get_next_for_user(self, user):
+        return (Task.objects.by_monitoring(self.case.monitoring).
+            exclude_by_user(user).first())
 
     class Meta:
         ordering = ['created', ]
