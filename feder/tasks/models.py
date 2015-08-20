@@ -30,6 +30,15 @@ class TaskQuerySet(models.QuerySet):
             obj.survey_done = obj.survey_count
             obj.save()
 
+    def survey_stats(self):
+        result = self.aggregate(done_count=models.Sum('survey_done'),
+                required_count=models.Sum('survey_required'))
+        if result['required_count'] == 0:
+            result['progress'] = 0
+        else:
+            result['progress'] = result['done_count'] / result['required_count'] * 100
+        return result
+
 
 class Task(TimeStampedModel):
     name = models.CharField(max_length=75, verbose_name=_("Name"))

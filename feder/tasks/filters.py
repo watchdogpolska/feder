@@ -9,8 +9,8 @@ class TaskFilter(CrispyFilterMixin, django_filters.FilterSet):
     case = AutocompleteChoiceFilter('CaseAutocomplete')
     questionary = AutocompleteChoiceFilter('QuestionaryAutocomplete')
     case__institution = AutocompleteChoiceFilter('InstitutionAutocomplete')
+    case__monitoring = AutocompleteChoiceFilter('MonitoringAutocomplete')
     created = django_filters.DateRangeFilter(label=_("Creation date"))
-
     form_class = None
 
     def __init__(self, *args, **kwargs):

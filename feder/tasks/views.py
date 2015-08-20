@@ -2,14 +2,13 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse_lazy
-from django.db.models import Prefetch
 from django_filters.views import FilterView
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from braces.views import (SelectRelatedMixin, LoginRequiredMixin, FormValidMessageMixin,
     UserFormKwargsMixin, PrefetchRelatedMixin)
 from atom.views import DeleteMessageMixin, CreateMessageMixin, UpdateMessageMixin
-from .models import Task, Survey, Answer
+from .models import Task, Survey
 from .filters import TaskFilter
 from .forms import TaskForm, AnswerFormSet, SurveyForm
 
@@ -20,10 +19,10 @@ class TaskListView(SelectRelatedMixin, FilterView):
     select_related = ['case', 'questionary']
     paginate_by = 25
 
-    def get_queryset(self, *args, **kwargs):
-        qs = super(TaskListView, self).get_queryset(*args, **kwargs)
-        return qs
-
+    def get_context_data(self, **kwargs):
+        context = super(TaskListView, self).get_context_data(**kwargs)
+        context['stats'] = self.object_list.survey_stats()
+        return context
 """
 class TaskListView(SelectRelatedMixin, ListView):
     model = Task
