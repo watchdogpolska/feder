@@ -33,7 +33,7 @@
                 <i class="fa fa-edit"></i>
                 {% trans 'Tasks' %}
             </h2>
-            {% include '_select_list.html' with object_list=object.task_set.all %}
+            {% include 'tasks/_task_select_list.html' with object_list=object.task_set.all %}
         </div>
     </div>
 
