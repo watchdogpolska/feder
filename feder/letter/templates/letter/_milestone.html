@@ -1,4 +1,4 @@
 <li>
-    <i class="milestone-default glyphicon {% if object.author_institution %}glyphicon-home{% elif object.author_user %}glyphicon-user{% else %}glyphicon-envelope{% endif %}"></i>
+    <i class="milestone-default fa {% if object.author_institution %}fa-home{% elif object.author_user %}fa-user{% else %}fa-envelope{% endif %}"></i>
     {% include 'letter/_object.html' with object=object %}
   </li>
