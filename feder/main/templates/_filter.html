@@ -1,4 +1,5 @@
 {% load i18n crispy_forms_tags %}
+{# task_filter.html use own copy #}
 <div class="page-header">
     <h1>{% trans title %}</h1>
 </div>
@@ -16,7 +17,7 @@
             {% include object_template with object=object %}
         </div>
         {% empty %}
-        <div class="red">
+        <div class="gray">
             <p>
                 {% trans 'No rows.' %}
             </p>
