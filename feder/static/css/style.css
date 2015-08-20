@@ -7379,6 +7379,9 @@ button.close {
 .select-list li {
   padding: 5px 0px;
 }
+.select-list li a {
+  display: block;
+}
 .select-list li:after {
   content: "";
   display: block;
