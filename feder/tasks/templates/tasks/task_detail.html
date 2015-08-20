@@ -16,18 +16,18 @@
 
 {% block content %}
 <div class="page-header">
-    <h1><i class="glyphicon glyphicon-folder-edit"></i> {{object}}</h1>
+    <h1><i class="fa fa-folder-edit"></i> {{object}}</h1>
 </div>
 
 <div class="col-sm-5">
     <div class="red">
         <p>
-            <i class="glyphicon glyphicon-folder-open"></i>
+            <i class="fa fa-folder-open"></i>
             {% trans "Case"%}:
             <a href="{{object.case.get_absolute_url}}">{{object.case}}</a>
         </p>
         <p>
-            <i class="glyphicon glyphicon-list-alt"></i>
+            <i class="fa fa-list-alt"></i>
             {% trans "Questionary"%}:
             <a href="{{object.questionary.get_absolute_url}}">{{object.questionary}}</a>
         </p>

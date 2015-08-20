@@ -24,7 +24,7 @@
 
 {% block content %}
 <div class="page-header">
-    <h2><i class="glyphicon glyphicon-home"></i>{{object}}</h2>
+    <h2><i class="fa fa-home"></i>{{object}}</h2>
 </div>
 <div class="col-md-4">
     <div class="red">
@@ -49,7 +49,7 @@
     <div class="gray">
         {% ifchanged %}
         <h3>
-            <i class="glyphicon glyphicon-search"></i>
+            <i class="fa fa-search"></i>
             <a href="{{case.monitoring.get_absolute_url}}">{{case.monitoring}}</a>
         </h3>
         {% endifchanged %}

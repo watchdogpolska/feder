@@ -15,7 +15,7 @@
 {% block content %}
 <div class="page-header">
     <h2>
-        <i class="glyphicon glyphicon-search"></i>
+        <i class="fa fa-search"></i>
         {{object}}
         <small>
             {% trans 'by' %}
@@ -38,7 +38,7 @@
 
         {% if request.user == object.user and object.questionary_set.all %}
         <div class="gray">
-            <h2 class="title"><i class="glyphicon glyphicon-list-alt"></i> {% trans 'Questionaries' %}</h2>
+            <h2 class="title"><i class="fa fa-list-alt"></i> {% trans 'Questionaries' %}</h2>
             {% include '_select_list.html' with object_list=object.questionary_set.all %}
         </div>
         {% endif %}
@@ -49,7 +49,7 @@
         {% if object_list %}
         {% for case in object_list %}
         <div class="gray">
-            {% ifchanged %}<h4><i class="glyphicon glyphicon-home"></i> <a href="{{case.institution.get_absolute_url}}">{{case.institution}}</a></h4>{% endifchanged %}
+            {% ifchanged %}<h4><i class="fa fa-home"></i> <a href="{{case.institution.get_absolute_url}}">{{case.institution}}</a></h4>{% endifchanged %}
         {% include 'cases/_case_panel.html' with object=case %}
         </div>
         {% endfor %}

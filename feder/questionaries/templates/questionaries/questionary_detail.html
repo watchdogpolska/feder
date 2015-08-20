@@ -14,7 +14,7 @@
 {% block content %}
 <div class="page-header">
     <h2>
-        <i class="glyphicon glyphicon-list-alt"></i>
+        <i class="fa fa-list-alt"></i>
         {{object}} 
         <small><time datetime="{{object.created|date:'PTDHMS'}}">{{object.created|naturaltime}}</time></small>
     </h2>
@@ -36,9 +36,9 @@
             <div class="well">
                 {% crispy form %}
                 <div class="btn-group" role="group" aria-label="...">
-                    <a href="{% url 'questionaries:question_up' pk=form.question.pk%}" class="btn btn-default"><i class="glyphicon glyphicon-hand-up"></i> {% trans 'Move up'%}</a>
+                    <a href="{% url 'questionaries:question_up' pk=form.question.pk%}" class="btn btn-default"><i class="fa fa-hand-up"></i> {% trans 'Move up'%}</a>
                     <p class="btn btn-default">{% trans 'Position' %}: {{form.question.position}}</p>
-                    <a href="{% url 'questionaries:question_down' pk=form.question.pk%}" class="btn btn-default"><i class="glyphicon glyphicon-hand-down"></i> {% trans 'Move down'%}</a>
+                    <a href="{% url 'questionaries:question_down' pk=form.question.pk%}" class="btn btn-default"><i class="fa fa-hand-down"></i> {% trans 'Move down'%}</a>
                 </div>
             </div>
             {% endfor %}

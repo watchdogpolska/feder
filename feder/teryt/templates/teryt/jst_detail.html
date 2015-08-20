@@ -11,7 +11,7 @@
 
 {% block content %}
 <div class="page-header">
-    <h1><i class="glyphicon glyphicon-globe"></i> {{object}} <small>{{object.category}}</small></h1>
+    <h1><i class="fa fa-globe"></i> {{object}} <small>{{object.category}}</small></h1>
 </div>
 
 <div class="row">
@@ -31,7 +31,7 @@
     <div class="col-md-3">
         <div class="red">
             <h2 class="title">
-                <i class="glyphicon glyphicon-home"></i>
+                <i class="fa fa-home"></i>
                 {% trans 'Institutions'%}
             </h2>
             {% include '_select_list.html' with object_list=object.institution_qs.all %}
@@ -40,7 +40,7 @@
     <div class="col-md-3">
         <div class="gray">
             <h2 class="title">
-                <i class="glyphicon glyphicon-search"></i>
+                <i class="fa fa-search"></i>
                 {% trans 'Cases'%}
             </h2>
             {% include '_select_list.html' with object_list=object.case_qs.all %}
@@ -49,7 +49,7 @@
     <div class="col-md-3">
         <div class="red">
             <h2 class="title">
-                <i class="glyphicon glyphicon-folder-open"></i>
+                <i class="fa fa-folder-open"></i>
                 {% trans 'Tasks' %}
             </h2>
             {% include '_select_list.html' with object_list=object.task_qs.all %}
