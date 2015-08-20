@@ -6,6 +6,8 @@ from feder.monitorings.models import Monitoring
 from jsonfield import JSONField
 from feder.questionaries.modulator import modulators
 
+_('Questionaries index')
+
 
 class Questionary(TimeStampedModel):
     title = models.CharField(max_length=250, verbose_name=_("Title"))
