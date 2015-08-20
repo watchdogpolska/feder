@@ -8727,4 +8727,11 @@ button.close {
   color: #000;
 }
 
+.link-tag {
+  border: 1px solid #e6e6e6;
+  border-radius: 15px;
+  padding: 1px 5px;
+  font-size: 0.8em;
+}
+
 
