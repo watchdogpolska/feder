@@ -25,6 +25,9 @@ $gray: #F0F0F0;
   padding: 0px;
   li {
     padding: 5px 0px;
+    a {
+       display: block;
+    }
   }
   li:after { // How to write it up? 
     content: "";
