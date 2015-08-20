@@ -36,7 +36,7 @@ class TaskQuerySet(models.QuerySet):
         if result['required_count'] == 0:
             result['progress'] = 0
         else:
-            result['progress'] = result['done_count'] / result['required_count'] * 100
+            result['progress'] = result.get('done_count', 0) / result.get('required_count', 0) * 100
         return result
 
 
