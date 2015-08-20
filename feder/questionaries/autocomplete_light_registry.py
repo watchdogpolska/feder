@@ -1,8 +1,11 @@
 import autocomplete_light
 from models import Questionary
 
-# This will generate a MonitoringAutocomplete class
-autocomplete_light.register(Questionary,
-    # Just like in ModelAdmin.search_fields
-    search_fields=['title'],
-)
+
+class QuestionaryAutocomplete(autocomplete_light.AutocompleteModelBase):
+    search_fields = ['title']
+
+    def choices_for_request(self, *args, **kwargs):
+        qs = super(QuestionaryAutocomplete, self).choices_for_request(*args, **kwargs)
+        return qs.only('id', 'title')
+autocomplete_light.register(Questionary, QuestionaryAutocomplete)
