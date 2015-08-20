@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-monitorings 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-16 02:08+0000\n"
-"PO-Revision-Date: 2015-08-16 03:59+0100\n"
+"POT-Creation-Date: 2015-08-20 15:47+0000\n"
+"PO-Revision-Date: 2015-08-20 17:47+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -31,7 +31,7 @@ msgstr "Odbiorcy"
 msgid "Text"
 msgstr "Treść"
 
-#: forms.py:29 models.py:23 models.py:24
+#: forms.py:29 models.py:26 models.py:27
 msgid "Monitoring"
 msgstr "Monitoring"
 
@@ -39,19 +39,24 @@ msgstr "Monitoring"
 msgid "Content of new letter"
 msgstr "Treść nowego listu"
 
-#: models.py:16 templates/monitorings/monitoring_preview.html:13
+#: models.py:10
+#| msgid "Monitoring"
+msgid "Monitorings index"
+msgstr "Wykaz monitoringów"
+
+#: models.py:19 templates/monitorings/monitoring_preview.html:13
 msgid "Name"
 msgstr "Nazwa"
 
-#: models.py:17
+#: models.py:20
 msgid "Slug"
 msgstr "Identyfikator redakcyjny"
 
-#: models.py:18 templates/monitorings/_monitoring_small.html:8
+#: models.py:21 templates/monitorings/_monitoring_small.html:8
 msgid "User"
 msgstr "Użytkownik"
 
-#: models.py:19
+#: models.py:22
 msgid "Description"
 msgstr "Opis"
 
@@ -69,32 +74,36 @@ msgstr "Usuń"
 msgid "Create questionary"
 msgstr "Utwórz kwestionariusz"
 
+#: templates/monitorings/_monitoring_small.html:18
+msgid "Case count"
+msgstr "Liczba spraw"
+
 #: templates/monitorings/monitoring_detail.html:21
 msgid "by"
 msgstr "przez"
 
-#: templates/monitorings/monitoring_detail.html:44
+#: templates/monitorings/monitoring_detail.html:41
 msgid "Questionaries"
 msgstr "Kwestionariusze"
 
-#: templates/monitorings/monitoring_detail.html:51
+#: templates/monitorings/monitoring_detail.html:48
 msgid "Institutions, cases and tasks"
 msgstr "Instytucje, sprawy i zadania"
 
-#: templates/monitorings/monitoring_detail.html:72
+#: templates/monitorings/monitoring_detail.html:60
 msgid "previous"
 msgstr "poprzednia"
 
-#: templates/monitorings/monitoring_detail.html:75
+#: templates/monitorings/monitoring_detail.html:63
 #, python-format
 msgid "Page %(no)s of %(total)s"
 msgstr "Strona %(no)s z %(total)s"
 
-#: templates/monitorings/monitoring_detail.html:78
+#: templates/monitorings/monitoring_detail.html:66
 msgid "next"
 msgstr "następna"
 
-#: templates/monitorings/monitoring_detail.html:83
+#: templates/monitorings/monitoring_detail.html:71
 msgid "No rows."
 msgstr "Brak wierszy."
 

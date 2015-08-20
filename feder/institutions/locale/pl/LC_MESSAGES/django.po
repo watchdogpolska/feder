@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-institutions 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-16 02:08+0000\n"
+"POT-Creation-Date: 2015-08-20 15:47+0000\n"
 "PO-Revision-Date: 2015-08-16 02:30+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -32,7 +32,7 @@ msgid "Community"
 msgstr "Gmina"
 
 #: filters.py:14 models.py:65
-#: templates/institutions/institution_detail.html:32
+#: templates/institutions/institution_detail.html:33
 msgid "Tags"
 msgstr "Tagi"
 
@@ -56,7 +56,7 @@ msgstr "Identyfikator redakcyjny"
 msgid "Tag"
 msgstr "Tag"
 
-#: models.py:25 models.py:43 templates/institutions/institution_detail.html:31
+#: models.py:25 models.py:43 templates/institutions/institution_detail.html:32
 msgid "E-mail"
 msgstr "E-mail"
 
@@ -95,28 +95,32 @@ msgstr "Dodaj instytucje"
 msgid "Delete"
 msgstr "Usuń"
 
-#: templates/institutions/institution_detail.html:37
+#: templates/institutions/institution_detail.html:38
 msgid "E-mails"
 msgstr "Adresy e-mail"
 
-#: templates/institutions/institution_detail.html:40
+#: templates/institutions/institution_detail.html:41
 msgid "Primary"
 msgstr "Podstawowy"
 
-#: templates/institutions/institution_detail.html:47
+#: templates/institutions/institution_detail.html:48
 msgid "Cases and tasks"
 msgstr "Sprawy i zadania"
 
-#: templates/institutions/institution_detail.html:84
+#: templates/institutions/institution_detail.html:61
+msgid "No rows."
+msgstr "Brak wierszy"
+
+#: templates/institutions/institution_detail.html:68
 msgid "previous"
 msgstr "poprzednia"
 
-#: templates/institutions/institution_detail.html:87
+#: templates/institutions/institution_detail.html:71
 #, python-format
 msgid "Page %(no)s of %(total)s"
 msgstr "Strona %(no)s z %(total)s"
 
-#: templates/institutions/institution_detail.html:90
+#: templates/institutions/institution_detail.html:74
 msgid "next"
 msgstr "następna"
 
@@ -136,9 +140,6 @@ msgstr "Wykaz instytucji"
 
 #~ msgid "{0} deleted!"
 #~ msgstr "{0} usunięty!"
-
-#~ msgid "No rows."
-#~ msgstr "Brak wierszy"
 
 #~ msgid "Create"
 #~ msgstr "Dodaj"

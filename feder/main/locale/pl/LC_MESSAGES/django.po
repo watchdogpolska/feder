@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: main 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-16 02:08+0000\n"
+"POT-Creation-Date: 2015-08-20 15:47+0000\n"
 "PO-Revision-Date: 2015-08-15 02:14+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -113,25 +113,25 @@ msgid ""
 "mail address for user %(user_display)s."
 msgstr ""
 
-#: templates/account/login.html:8 templates/account/login.html.py:14
-#: templates/account/login.html:41
+#: templates/account/login.html:8 templates/account/login.html.py:15
+#: templates/account/login.html:42
 msgid "Sign In"
 msgstr ""
 
-#: templates/account/login.html:17
+#: templates/account/login.html:18
 #, python-format
 msgid ""
 "Please sign in with one\n"
-"      of your existing third party accounts. Or, <a href=\"%(signup_url)s"
+"          of your existing third party accounts. Or, <a href=\"%(signup_url)s"
 "\">sign up</a>\n"
-"      for a %(site_name)s account and sign in below:"
+"          for a %(site_name)s account and sign in below:"
 msgstr ""
 
-#: templates/account/login.html:27
+#: templates/account/login.html:28
 msgid "or"
 msgstr ""
 
-#: templates/account/login.html:42
+#: templates/account/login.html:43
 msgid "Forgot Password?"
 msgstr ""
 
@@ -212,12 +212,12 @@ msgstr ""
 msgid "Signup"
 msgstr ""
 
-#: templates/account/signup.html:10 templates/account/signup.html.py:20
-#: templates/base.html:89
+#: templates/account/signup.html:12 templates/account/signup.html.py:24
+#: templates/base.html:96
 msgid "Sign Up"
 msgstr ""
 
-#: templates/account/signup.html:12
+#: templates/account/signup.html:15
 #, python-format
 msgid ""
 "Already have an account? Then please <a href=\"%(login_url)s\">sign in</a>."
@@ -276,35 +276,35 @@ msgstr "Szukaj"
 msgid "Cases"
 msgstr "Sprawy"
 
-#: templates/base.html:60
+#: templates/base.html:61
 msgid "Monitorings"
 msgstr "Monitoringi"
 
-#: templates/base.html:65
+#: templates/base.html:67
 msgid "Letters"
 msgstr "Listy"
 
-#: templates/base.html:69
+#: templates/base.html:73
 msgid "Institutions"
 msgstr "Instytucje"
 
-#: templates/base.html:73
+#: templates/base.html:78
 msgid "Questionaries"
 msgstr "Kwestionariusze"
 
-#: templates/base.html:78
+#: templates/base.html:84
 msgid "Tasks"
 msgstr "Zadania"
 
-#: templates/base.html:86
+#: templates/base.html:93
 msgid "My Profile"
 msgstr "Mój profil"
 
-#: templates/base.html:87
+#: templates/base.html:94
 msgid "Logout"
 msgstr "Wyloguj"
 
-#: templates/base.html:90
+#: templates/base.html:97
 msgid "Log In"
 msgstr "Zaloguj"
 

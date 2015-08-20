@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: questionaries\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-16 02:08+0000\n"
+"POT-Creation-Date: 2015-08-20 15:48+0000\n"
 "PO-Revision-Date: 2015-08-16 04:00+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -23,7 +23,7 @@ msgstr ""
 msgid "Name"
 msgstr "Nazwa"
 
-#: filters.py:10 models.py:11
+#: filters.py:10 models.py:14
 #: templates/questionaries/_questionary_small.html:7
 msgid "Monitoring"
 msgstr "Monitoring"
@@ -32,43 +32,47 @@ msgstr "Monitoring"
 msgid "Creation date"
 msgstr "Data utworzenia"
 
-#: forms.py:35 models.py:30
+#: forms.py:35 models.py:33
 msgid "Genre"
 msgstr "Rodzaj"
 
-#: models.py:10
+#: models.py:9
+msgid "Questionaries index"
+msgstr "Wykaz kwestionariuszy"
+
+#: models.py:13
 msgid "Title"
 msgstr "Tytuł"
 
-#: models.py:12
+#: models.py:15
 msgid "Lock of edition"
 msgstr "Blokada edycji"
 
-#: models.py:13
+#: models.py:16
 msgid "Prevent of edit question to protect against destruction the data set"
 msgstr "Zapobiega edycji pytań, aby chronić przed zniszczeniem zbioru danych"
 
-#: models.py:17 models.py:28
+#: models.py:26 models.py:31
 msgid "Questionary"
 msgstr "Kwestionariusz"
 
-#: models.py:18
+#: models.py:27
 msgid "Questionaries"
 msgstr "Kwestionariusze"
 
-#: models.py:29 templates/questionaries/questionary_detail.html:40
+#: models.py:32 templates/questionaries/questionary_detail.html:40
 msgid "Position"
 msgstr "Pozycja"
 
-#: models.py:31
+#: models.py:34
 msgid "Technical definition"
 msgstr "Opis techniczny"
 
-#: models.py:41 modulator.py:26
+#: models.py:47 modulator.py:26
 msgid "Question"
 msgstr "Pytanie"
 
-#: models.py:42
+#: models.py:48
 msgid "Questions"
 msgstr "Pytania"
 
@@ -80,19 +84,19 @@ msgstr "Opis pytania"
 msgid "This fields will be required?"
 msgstr "To pole będzie wymagane?"
 
-#: modulator.py:40
+#: modulator.py:46
 msgid "Question about char"
 msgstr "Pytanie o tekst"
 
-#: modulator.py:45
+#: modulator.py:51
 msgid "Question about integer"
 msgstr "Pytanie o liczbę"
 
-#: modulator.py:50
+#: modulator.py:56
 msgid "Question about e-mail"
 msgstr "Pytanie o adres e-mail"
 
-#: modulator.py:55
+#: modulator.py:61
 msgid "Question about unit of administrative division"
 msgstr "Pytanie o jednostkę podziału terytorialnego"
 
@@ -184,9 +188,6 @@ msgstr "Zadania dla {questionary} utworzone!"
 
 #~ msgid "{object} deleted!"
 #~ msgstr "{object} usunięty!"
-
-#~ msgid "Questionaries index"
-#~ msgstr "Wykaz kwestionariuszy"
 
 #~ msgid "Forms"
 #~ msgstr "Formularz"
