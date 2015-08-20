@@ -26,49 +26,51 @@
 <div class="page-header">
     <h2><i class="fa fa-home"></i>{{object}}</h2>
 </div>
-<div class="col-md-4">
-    <div class="red">
-        <p>{% trans "E-mail"%}: {{object.address}}</p>
-        <p>{% trans "Tags"%}: {% for tag in object.tags.all %}<a href="{{tag.get_absolute_url}}">{{tag}}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</p>
-    </div>
+<div class="row">
+    <div class="col-md-4">
+        <div class="red">
+            <p>{% trans "E-mail"%}: {{object.address}}</p>
+            <p>{% trans "Tags"%}: {% for tag in object.tags.all %}<a href="{{tag.get_absolute_url}}">{{tag}}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+        </div>
 
-    {% if object.email_set.all %}
-    <div class="red">
-        <h3>{% trans 'E-mails' %}</h3>
-        <ul>
-            {% for email in object.email_set.all %}
-            <li>{{email}} {% if email.email == object.address %}( {%trans 'Primary' %} ){% endif %}</li>
-            {% endfor %}
+        {% if object.email_set.all %}
+        <div class="red">
+            <h3>{% trans 'E-mails' %}</h3>
+            <ul>
+                {% for email in object.email_set.all %}
+                <li>{{email}} {% if email.email == object.address %}( {%trans 'Primary' %} ){% endif %}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+    <div class="col-md-8">
+        <h2>{% trans 'Cases and tasks' %}</h2>
+        {% for case in case_list %}
+        <div class="gray">
+            {% ifchanged %}
+            <h3>
+                <i class="fa fa-search"></i>
+                <a href="{{case.monitoring.get_absolute_url}}">{{case.monitoring}}</a>
+            </h3>
+            {% endifchanged %}
+            {% include 'cases/_case_panel.html' with object=case %}
+        </div>
+        {% endfor %}
+
+        {% if case_list.has_previous or case_list.has_next %}
+        <ul class="pager">
+            {% if case_list.has_previous %}
+            <li><a href="{% url 'institutions:details' slug=object.slug page=case_list.previous_page_number %}">&laquo; {% trans 'previous' %}</a></li>
+            {% endif %}
+
+            <li>{% blocktrans with no=case_list.number total=case_list.paginator.num_pages %}Page {{ no }} of {{ total }}{% endblocktrans %}</li>
+
+            {% if case_list.has_next %}
+            <li><a href="{% url 'institutions:details' slug=object.slug page=case_list.next_page_number %}">{% trans 'next' %} &raquo; </a></li>
+            {% endif %}
         </ul>
-    </div>
-    {% endif %}
-</div>
-<div class="col-md-8">
-    <h2>{% trans 'Cases and tasks' %}</h2>
-    {% for case in case_list %}
-    <div class="gray">
-        {% ifchanged %}
-        <h3>
-            <i class="fa fa-search"></i>
-            <a href="{{case.monitoring.get_absolute_url}}">{{case.monitoring}}</a>
-        </h3>
-        {% endifchanged %}
-        {% include 'cases/_case_panel.html' with object=case %}
-    </div>
-    {% endfor %}
-
-    {% if case_list.has_previous or case_list.has_next %}
-    <ul class="pager">
-        {% if case_list.has_previous %}
-        <li><a href="{% url 'institutions:details' slug=object.slug page=case_list.previous_page_number %}">&laquo; {% trans 'previous' %}</a></li>
         {% endif %}
-
-        <li>{% blocktrans with no=case_list.number total=case_list.paginator.num_pages %}Page {{ no }} of {{ total }}{% endblocktrans %}</li>
-
-        {% if case_list.has_next %}
-        <li><a href="{% url 'institutions:details' slug=object.slug page=case_list.next_page_number %}">{% trans 'next' %} &raquo; </a></li>
-        {% endif %}
-    </ul>
-    {% endif %}
+    </div>
 </div>
 {% endblock %}
