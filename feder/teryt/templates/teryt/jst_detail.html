@@ -18,6 +18,10 @@
     {% if object.children.with_category.all %}
     <div class="col-md-3">
         <div class="gray">
+            <h2 class="title">{% trans 'Voivodeships' %}</h2>
+            {% include 'teryt/_voivodeship_map.svg.html' with selected=object %}
+        </div>
+        <div class="gray">
             <h2 class="title">{% trans 'Subordinate units'%}</h2>
             <ul class="select-list">
                 {% for jst in object.children.with_category.all %}
