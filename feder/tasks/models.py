@@ -30,7 +30,7 @@ class TaskQuerySet(models.QuerySet):
             obj.survey_done = obj.survey_count
             obj.save()
 
-    def by_monitoring(self):
+    def by_monitoring(self, monitoring):
         return self.filter(case__monitoring=monitoring)
 
     def exclude_by_user(self, user, monitoring=None):
