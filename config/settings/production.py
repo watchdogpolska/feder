@@ -3,8 +3,6 @@
 Production Configurations
 
 - Use djangosecure
-- Use Amazon's S3 for storing static files and uploaded media
-- Use mailgun to send emails
 - Use MEMCACHIER on Heroku
 '''
 from __future__ import absolute_import, unicode_literals
@@ -102,9 +100,7 @@ INSTALLED_APPS = ('collectfast', ) + INSTALLED_APPS
 # ------------------------------------------------------------------------------
 DEFAULT_FROM_EMAIL = env('DJANGO_DEFAULT_FROM_EMAIL',
                          default='feder <noreply@dane.siecobywatelska.pl>')
-EMAIL_BACKEND = 'django_mailgun.MailgunBackend'
-MAILGUN_ACCESS_KEY = env('MAILGUN_API_KEY')
-MAILGUN_SERVER_NAME = env('MAILGUN_SERVER_NAME')
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_SUBJECT_PREFIX = env("DJANGO_EMAIL_SUBJECT_PREFIX", default='[feder] ')
 SERVER_EMAIL = env('DJANGO_SERVER_EMAIL')
 
