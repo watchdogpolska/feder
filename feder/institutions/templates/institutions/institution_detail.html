@@ -46,15 +46,20 @@
     </div>
     <div class="col-md-8">
         <h2>{% trans 'Cases and tasks' %}</h2>
-        {% for case in case_list %}
-        <div class="gray">
-            {% ifchanged %}
-            <h3>
-                <i class="fa fa-search"></i>
-                <a href="{{case.monitoring.get_absolute_url}}">{{case.monitoring}}</a>
-            </h3>
-            {% endifchanged %}
+        {% regroup case_list by monitoring as case_list_grouped %}
+        {% for monitoring in case_list_grouped %}
+            <div class="gray">
+                <h3>
+                    <i class="fa fa-search"></i>
+                    <a href="{{monitoring.grouper.get_absolute_url}}">{{monitoring.grouper}}</a>
+                </h3>
+            {% for case in monitoring.list %}
             {% include 'cases/_case_panel.html' with object=case %}
+            {% endfor %}
+            </div>
+        {% empty %}
+        <div class="gray">
+            {% trans 'No rows.' %}
         </div>
         {% endfor %}
 
