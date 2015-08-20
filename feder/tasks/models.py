@@ -1,3 +1,4 @@
+from __future__ import division
 from django.db import models
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
@@ -6,6 +7,7 @@ from model_utils.managers import PassThroughManager
 from model_utils.models import TimeStampedModel
 from feder.cases.models import Case
 from jsonfield import JSONField
+from django.db.models.signals import post_save, post_delete
 from feder.questionaries.models import Questionary, Question
 from feder.questionaries.modulator import modulators
 
@@ -13,7 +15,20 @@ _('Tasks index')
 
 
 class TaskQuerySet(models.QuerySet):
-    pass
+    def survey_count(self):
+        return self.annotate(survey_count=models.Count('survey'))
+
+    def survey_left(self):
+        return self.annotate(survey_left=models.F('survey_done')-models.F('survey_required'))
+
+    def is_done(self, exclude=False):
+        func = self.exclude if exclude else self.filter
+        return func(survey_required__lte=models.F('survey_done'))
+
+    def update_survey_done(self):
+        for obj in self.survey_count().all():
+            obj.survey_done = obj.survey_count
+            obj.save()
 
 
 class Task(TimeStampedModel):
@@ -21,6 +36,8 @@ class Task(TimeStampedModel):
     case = models.ForeignKey(Case, verbose_name=_("Case"))
     questionary = models.ForeignKey(Questionary, verbose_name=_("Questionary"),
         help_text=_("Questionary to fill by user as task"))
+    survey_required = models.SmallIntegerField(verbose_name=_("Required survey count"), default=2)
+    survey_done = models.SmallIntegerField(verbose_name=_("Done survey count"), default=0)
     objects = PassThroughManager.for_queryset_class(TaskQuerySet)()
 
     def __unicode__(self):
@@ -35,6 +52,17 @@ class Task(TimeStampedModel):
             self.questionary.save()
             return True
         return False
+
+    def progress(self):
+        if self.survey_required <= 0:
+            return 1
+        return (self.survey_done / self.survey_required * 100)
+
+    def survey_left(self):
+        return self.survey_required-self.survey_done
+
+    def is_done(self):
+        return (self.survey_required <= self.survey_done)
 
     def save(self, lock_check=True, *args, **kwargs):
         if lock_check:
@@ -82,3 +110,18 @@ class Answer(models.Model):
     class Meta:
         verbose_name = _("Answer")
         verbose_name_plural = _("Answers")
+
+
+def increase_task_survey_done(sender, instance, created, **kwargs):
+    if created:
+        Task.objects.filter(pk=instance.task_id).update(survey_done=models.F('survey_done')+1)
+
+# register the signal
+post_save.connect(increase_task_survey_done, sender=Survey, dispatch_uid="increase_task_done")
+
+
+def decrease_task_survey_done(sender, instance, **kwargs):
+    Task.objects.filter(pk=instance.task_id).update(survey_done=models.F('survey_done')-1)
+
+# register the signal
+post_delete.connect(decrease_task_survey_done, sender=Survey, dispatch_uid="decrease_task_done")

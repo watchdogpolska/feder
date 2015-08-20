@@ -14,3 +14,9 @@
         {{object.created|naturaltime}}
     </time>
 </p>
+<p>
+    {% trans 'Case count'%}:
+    <time datetime="{{object.created|date:'PTDHMS'}}">
+        {{object.case_count}}
+    </time>
+</p>

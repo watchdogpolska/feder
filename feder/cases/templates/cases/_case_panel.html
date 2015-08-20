@@ -10,6 +10,7 @@
         {% for task in object.task_set.all %}
         <tr>
             <td>
+                {% include 'tasks/_task_progress.html' with object=task %}
                 <i class="fa fa-edit"></i> 
                 <a href="{{task.get_absolute_url}}">{{task}}</a>
             </td>

@@ -35,6 +35,7 @@
     </div>
 
     {% if user_survey %}
+        Task done: {{object.survey_done}}
         <div class="gray">
             <h2>{% trans 'Your analysis' %}</h2>
             {% include 'tasks/_answer.html' with object_list=user_survey.answer_set.all %}

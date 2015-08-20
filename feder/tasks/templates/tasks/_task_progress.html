@@ -1,0 +1,5 @@
+{% load i18n %}<div class="progress">
+    <div class="progress-bar {% if object.progress < 99 %}progress-bar-info {% else %} progress-bar-success {% endif %}progress-bar-striped" role="progressbar" aria-valuenow="{{object.survey_done}}" aria-valuemin="0" aria-valuemax="{{object.survey_required}}" style="width: {{object.progress|floatformat:'0'}}%">
+        <span>{%blocktrans with progress=object.progress%}{{progress}}% complete{% endblocktrans %}</span>
+    </div>
+</div>

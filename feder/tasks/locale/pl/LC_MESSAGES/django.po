@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tasks 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-16 04:14+0000\n"
-"PO-Revision-Date: 2015-08-16 06:14+0100\n"
+"POT-Creation-Date: 2015-08-20 14:55+0000\n"
+"PO-Revision-Date: 2015-08-20 16:56+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -39,49 +39,58 @@ msgstr "Przedrostek dla nazwy w postaci \"[przedrostek] #[numer]\"."
 msgid "They are available only cases relevant to the monitoring."
 msgstr "Tu są dostępne sprawy wyłącznie właściwe dla danego monitoringu. "
 
-#: models.py:12
+#: models.py:14
 msgid "Tasks index"
 msgstr "Wykaz zadań"
 
-#: models.py:20
+#: models.py:35
 msgid "Name"
 msgstr "Nazwa"
 
-#: models.py:21 templates/tasks/_task_small.html:7
+#: models.py:36 templates/tasks/_task_small.html:7
 #: templates/tasks/task_detail.html:26
 msgid "Case"
 msgstr "Sprawa"
 
-#: models.py:22 templates/tasks/_task_small.html:8
+#: models.py:37 templates/tasks/_task_small.html:8
 #: templates/tasks/task_detail.html:31
 msgid "Questionary"
 msgstr "Kwestionariusz"
 
-#: models.py:23
+#: models.py:38
 msgid "Questionary to fill by user as task"
 msgstr "Kwestionariusz do wypełnienia przez użytkownika jako zadanie"
 
-#: models.py:46
+#: models.py:39
+msgid "Required survey count"
+msgstr "Liczba wymaganych ankiet"
+
+#: models.py:40
+msgid "Done survey count"
+msgstr "Liczba ukończonych ankiet"
+
+#: models.py:74
 msgid "Task"
 msgstr "Zadanie"
 
-#: models.py:47
+#: models.py:75
 msgid "Tasks"
 msgstr "Zadania"
 
-#: models.py:56
+#: models.py:97
 msgid "Survey"
 msgstr "Ankieta"
 
-#: models.py:57
+#: models.py:98
 msgid "Surveys"
 msgstr "Ankiety"
 
-#: models.py:70
+#: models.py:111
 msgid "Answer"
 msgstr "Odpowiedź"
 
-#: models.py:71 templates/tasks/_btn.html:9 templates/tasks/task_survey.html:6
+#: models.py:112 templates/tasks/_btn.html:9
+#: templates/tasks/task_survey.html:6
 msgid "Answers"
 msgstr "Odpowiedzi"
 
@@ -89,7 +98,8 @@ msgstr "Odpowiedzi"
 msgid "Edit"
 msgstr "Edytuj"
 
-#: templates/tasks/_btn.html:5
+#: templates/tasks/_btn.html:5 templates/tasks/survey_confirm_delete.html:16
+#: templates/tasks/task_detail.html:43
 msgid "Delete"
 msgstr "Usuń"
 
@@ -97,15 +107,24 @@ msgstr "Usuń"
 msgid "Fill survey"
 msgstr "Wypełnij ankietę"
 
-#: templates/tasks/task_detail.html:39
+#: templates/tasks/_task_progress.html:3
+#, python-format
+msgid "%(progress)s%% complete"
+msgstr "%(progress)s%% ukończono"
+
+#: templates/tasks/survey_confirm_delete.html:5
+msgid "Confirm delete"
+msgstr "Potwierdź usuwanie"
+
+#: templates/tasks/task_detail.html:40
 msgid "Your analysis"
 msgstr "Twoja analiza"
 
-#: templates/tasks/task_detail.html:46
+#: templates/tasks/task_detail.html:48
 msgid "To do"
 msgstr "Do wykonania"
 
-#: templates/tasks/task_detail.html:57
+#: templates/tasks/task_detail.html:60
 msgid "No rows."
 msgstr "Brak wierszy"
 
@@ -117,11 +136,20 @@ msgstr "Wypełnianie ankiety"
 msgid "Create task"
 msgstr "Utwórz zadanie"
 
+#: templates/tasks/task_form.html:4
+#| msgid "Create task"
+msgid "Update task"
+msgstr "Zaktualizuj zadanie"
+
+#: templates/tasks/task_form.html:4
+msgid "Add task"
+msgstr "Dodaj zadanie"
+
 #: templates/tasks/task_survey.html:15
 msgid "User"
 msgstr "Użytkownik / użytkowniczka"
 
-#: views.py:97
+#: views.py:108
 msgid ""
 "Thank you for your submission. It is approaching us to know the truth, by "
 "obtaining reliable data."

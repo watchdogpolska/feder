@@ -7,5 +7,6 @@
     <p>{% trans 'Case'%}: <a href="{{object.case.get_absolute_url}}">{{object.case}}</a></p>
     <p>{% trans 'Questionary'%}: <a href="{{object.questionary.get_absolute_url}}">{{object.questionary}}
     </div>
+    {% include 'tasks/_task_progress.html' with object=object %}
 </div>
 

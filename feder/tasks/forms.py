@@ -12,7 +12,7 @@ from .models import Task, Survey, Answer
 class TaskForm(SaveButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
     class Meta:
         model = Task
-        fields = ['case', 'questionary', ]
+        fields = ['case', 'questionary', 'survey_required']
 
 
 class AnswerForm(HelperMixin, forms.Form):
