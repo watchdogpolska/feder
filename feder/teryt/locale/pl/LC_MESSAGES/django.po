@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-teryt\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-16 02:08+0000\n"
-"PO-Revision-Date: 2015-08-14 20:21+0100\n"
+"POT-Creation-Date: 2015-08-20 11:54+0000\n"
+"PO-Revision-Date: 2015-08-20 13:56+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -80,3 +80,67 @@ msgstr "Sprawy"
 #: templates/teryt/jst_detail.html:53
 msgid "Tasks"
 msgstr "Zadania"
+
+#: templates/teryt/voivodeship_map.svg.html:14
+msgid "Subcarpathian"
+msgstr "podkarpackie"
+
+#: templates/teryt/voivodeship_map.svg.html:19
+msgid "Lesser Poland"
+msgstr "małopolskie"
+
+#: templates/teryt/voivodeship_map.svg.html:24
+msgid "Silesian"
+msgstr "śląskie"
+
+#: templates/teryt/voivodeship_map.svg.html:29
+msgid "Opole"
+msgstr "opolskie"
+
+#: templates/teryt/voivodeship_map.svg.html:34
+msgid "Lower Silesian"
+msgstr "dolnośląskie"
+
+#: templates/teryt/voivodeship_map.svg.html:39
+msgid "Świętokrzyskie"
+msgstr "świętokrzyskie"
+
+#: templates/teryt/voivodeship_map.svg.html:44
+msgid "Lublin"
+msgstr "lubelskie"
+
+#: templates/teryt/voivodeship_map.svg.html:49
+msgid "Łódź"
+msgstr "łódzkie"
+
+#: templates/teryt/voivodeship_map.svg.html:54
+msgid "Mazovian"
+msgstr "mazowieckie"
+
+#: templates/teryt/voivodeship_map.svg.html:59
+msgid "Greater Poland"
+msgstr "wielkopolskie"
+
+#: templates/teryt/voivodeship_map.svg.html:64
+msgid "Lubusz"
+msgstr "lubuskie"
+
+#: templates/teryt/voivodeship_map.svg.html:69
+msgid "Kuyavian-Pomeranian"
+msgstr "kujawsko-pomorskie"
+
+#: templates/teryt/voivodeship_map.svg.html:74
+msgid "Podlaskie"
+msgstr "podlaskie"
+
+#: templates/teryt/voivodeship_map.svg.html:79
+msgid "West Pomeranian"
+msgstr "zachodniopomorskie"
+
+#: templates/teryt/voivodeship_map.svg.html:84
+msgid "Warmian-Masurian"
+msgstr "warmińsko-mazurskie"
+
+#: templates/teryt/voivodeship_map.svg.html:89
+msgid "Pomeranian"
+msgstr "pomorskie"

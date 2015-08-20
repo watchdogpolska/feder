@@ -11,7 +11,7 @@
     <div class="col-md-7">
       <div class="red">
         <h2 class="title"><i class="fa fa-globe"></i> {% trans 'Voivodeships' %}</h3>
-        {% include 'main/pl_map.svg' %}
+        {% include 'teryt/voivodeship_map.svg.html' %}
       </div>
     </div>
     <div class="col-md-5">
@@ -21,11 +21,4 @@
     </div>
     </div>
 </div>
-{% endblock %}
-
-
-{% block javascript %}
-  {{ block.super }}
-  <script src="{% static 'init_map.js' %}"></script>
-
 {% endblock %}
