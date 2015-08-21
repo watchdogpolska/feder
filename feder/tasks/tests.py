@@ -20,18 +20,18 @@ except ImportError:
 
 class CaseTestCase(TestCase):
     def _get_third_level_jst(self):
-        cat = Category(name="cat 1", level=1)
-        cat.save()
-        jst = JednostkaAdministracyjna(name="JST example", updated_on='2015-02-12',
-            category=cat)
+        jst = AutoFixture(JednostkaAdministracyjna,
+            field_values={'updated_on': '2015-02-12'},
+            generate_fk=True).create_one(commit=False)
+        jst.rght = 0
         jst.save()
+        JednostkaAdministracyjna.objects.rebuild()
         return jst
 
     def _get_institution(self):
-        self._get_third_level_jst()
+        jst = self._get_third_level_jst()
         institution = AutoFixture(Institution,
-            field_values={'user': self.user},
-            generate_fk=True).create_one()
+            field_values={'user': self.user, 'jst': jst}).create_one()
         return institution
 
     def setUp(self):
