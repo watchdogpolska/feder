@@ -1,5 +1,5 @@
 import autocomplete_light
-from models import JednostkaAdministracyjna
+from .models import JednostkaAdministracyjna
 
 # This will generate a PersonAutocomplete class
 autocomplete_light.register(JednostkaAdministracyjna,
