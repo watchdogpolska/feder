@@ -27,9 +27,9 @@ class CasesTestCase(TestCase):
         return jst
 
     def _get_institution(self):
-        self._get_third_level_jst()
+        jst = self._get_third_level_jst()
         institution = AutoFixture(Institution,
-            field_values={'user': self.user},
+            field_values={'user': self.user, 'jst': jst},
             generate_fk=True).create_one()
         return institution
 
