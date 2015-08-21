@@ -25,7 +25,6 @@ class CaseTestCase(TestCase):
             generate_fk=True).create_one(commit=False)
         jst.rght = 0
         jst.save()
-        JednostkaAdministracyjna.objects.rebuild()
         return jst
 
     def _get_institution(self):

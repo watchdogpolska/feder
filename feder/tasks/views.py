@@ -98,7 +98,7 @@ class TaskDeleteView(LoginRequiredMixin, AttrPermissionRequiredMixin, DeleteMess
     model = Task
     success_url = reverse_lazy('tasks:list')
     permission_required = 'delete_task'
-    permission_atribute = 'case__monitoring'
+    permission_attribute = 'case__monitoring'
     raise_exception = True
 
 
