@@ -1,11 +1,18 @@
+from os import path
+import tempfile
+import zipfile
+import io
+from collections import OrderedDict
+import requests
 from django.test import TestCase, RequestFactory
 from django.core.urlresolvers import reverse
+from django.core import management
 from feder.teryt.models import JednostkaAdministracyjna
 from autofixture import AutoFixture
 from feder.teryt import views
 
 
-class InstitutionTestCase(TestCase):
+class TerytViewTestCase(TestCase):
     def _get_third_level_jst(self):
         jst = AutoFixture(JednostkaAdministracyjna,
             field_values={'updated_on': '2015-02-12', 'rght': 0},
