@@ -1,7 +1,8 @@
 language: python
 env:
-  - DATABASE_URL="mysql://root:@localhost/"
-  - DJANGO_SETTINGS_MODULE="config.settings.tests"
+  global:
+    - DATABASE_URL="mysql://root:@localhost/"
+    - DJANGO_SETTINGS_MODULE="config.settings.tests"
 
 cache:
   directories:
