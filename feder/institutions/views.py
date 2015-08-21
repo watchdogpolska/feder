@@ -7,7 +7,7 @@ from .models import Institution
 from .filters import InstitutionFilter
 from django.views.generic import CreateView, UpdateView, DeleteView
 from django.utils.translation import ugettext_lazy as _
-from braces.views import (LoginRequiredMixin, FormValidMessageMixin,
+from braces.views import (LoginRequiredMixin, PermissionRequiredMixin, FormValidMessageMixin,
     UserFormKwargsMixin)
 from django.core.urlresolvers import reverse_lazy
 from atom.views import DeleteMessageMixin, CreateMessageMixin, UpdateMessageMixin
@@ -41,19 +41,25 @@ class InstitutionDetailView(SelectRelatedMixin, ExtraListMixin, PrefetchRelatedM
             order_by('monitoring').all())
 
 
-class InstitutionCreateView(LoginRequiredMixin, CreateMessageMixin,
+class InstitutionCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateMessageMixin,
         UserFormKwargsMixin, CreateView):
     model = Institution
     form_class = InstitutionForm
+    permission_required = "institutions.add_institution"
+    raise_exception = True
 
 
-class InstitutionUpdateView(LoginRequiredMixin, UserFormKwargsMixin,
+class InstitutionUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UserFormKwargsMixin,
         UpdateMessageMixin, FormValidMessageMixin, UpdateView):
     model = Institution
     form_class = InstitutionForm
+    permission_required = "institutions.change_institution"
+    raise_exception = True
 
 
-class InstitutionDeleteView(LoginRequiredMixin, DeleteMessageMixin, UpdateMessageMixin,
-        DeleteView):
+class InstitutionDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteMessageMixin,
+        UpdateMessageMixin, DeleteView):
     model = Institution
     success_url = reverse_lazy('institutions:list')
+    permission_required = "institutions.delete_institution"
+    raise_exception = True

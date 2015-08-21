@@ -1,13 +1,11 @@
-from django.test import TestCase
-
-# Create your tests here.
 from django.test import TestCase, RequestFactory
 from django.core.urlresolvers import reverse
 from feder.teryt.models import JednostkaAdministracyjna
 from feder.institutions.models import Institution
 from django.core.exceptions import PermissionDenied
 from guardian.shortcuts import assign_perm
-from . import views
+from autofixture import AutoFixture
+from feder.institutions import views
 
 try:
     from django.contrib.auth import get_user_model
@@ -18,34 +16,32 @@ except ImportError:
 
 class InstitutionTestCase(TestCase):
     def _get_third_level_jst(self):
-        jst = JednostkaAdministracyjna(name="ZXXC")
-        jst.save()
-        jst = JednostkaAdministracyjna(name="ZZZ", parent=jst)
-        jst.save()
-        jst = JednostkaAdministracyjna(name="ZZZZ", parent=jst)
+        jst = AutoFixture(JednostkaAdministracyjna,
+            field_values={'updated_on': '2015-02-12'},
+            generate_fk=True).create_one(commit=False)
         jst.save()
         JednostkaAdministracyjna.objects.rebuild()
         return jst
 
-    def _assign_all_perm(self, user):
-        assign_perm('institutions.add_institution', self.user)
-        assign_perm('institutions.change_institution', self.user)
-        assign_perm('institutions.update_institution', self.user)
+    @staticmethod
+    def _assign_all_perm(user):
+        assign_perm('institutions.add_institution', user)
+        assign_perm('institutions.change_institution', user)
+        assign_perm('institutions.delete_institution', user)
 
     def _get_institution(self):
-        jst = self._get_third_level_jst()
-        institution = Institution(name="Ins", email="X@example.com", user=self.user, jst=jst)
-        institution.save()
+        self._get_third_level_jst()
+        institution = AutoFixture(Institution,
+            field_values={'user': self.user},
+            generate_fk=True).create_one()
         return institution
 
     def setUp(self):
         self.factory = RequestFactory()
-        self.user = User.objects.create_user(
-            username='jacob', email='jacob@example.com', password='top_secret')
+        self.user = AutoFixture(User).create_one()
         self._assign_all_perm(self.user)
-        self.quest = User.objects.create_user(
-            username='smith', email='smith@example.com', password='top_secret')
-        self._get_institution()
+        self.quest = AutoFixture(User, field_values={'is_superuser': False}).create_one()
+        self.institution = self._get_institution()
 
     def test_details_display(self):
         request = self.factory.get(self.institution.get_absolute_url())
