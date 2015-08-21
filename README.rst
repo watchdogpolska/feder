@@ -1,6 +1,10 @@
- .. image:: https://coveralls.io/repos/watchdogpolska/feder/badge.svg?service=github :target: https://coveralls.io/github/watchdogpolska/feder 
+ .. image:: https://coveralls.io/repos/watchdogpolska/feder/badge.svg?service=github
+    :target: https://coveralls.io/github/watchdogpolska/feder 
 
-feder
+ .. image:: https://travis-ci.org/watchdogpolska/feder.svg
+    :target: https://travis-ci.org/watchdogpolska/feder
+    
+Feder
 ==============================
 
 Mechanizm do automatycznego wysyłania wniosków o informację do dużej liczby podmiotów, automatycznego przyjmowania odpowiedzi, udostępnienia otrzymanych odpowiedzi do analizy pod wybranym kątem przez masowo angażowanych do tego zadania obywateli oraz  upubliczniania zweryfikowanych odpowiedzi i zestawień uzyskanych danych.
