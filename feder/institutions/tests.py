@@ -28,9 +28,9 @@ class InstitutionTestCase(TestCase):
         return jst
 
     def _assign_all_perm(self, user):
-        assign_perm('institution.add_institution', self.user)
-        assign_perm('institution.change_institution', self.user)
-        assign_perm('institution.update_institution', self.user)
+        assign_perm('institutions.add_institution', self.user)
+        assign_perm('institutions.change_institution', self.user)
+        assign_perm('institutions.update_institution', self.user)
 
     def _get_institution(self):
         jst = self._get_third_level_jst()
