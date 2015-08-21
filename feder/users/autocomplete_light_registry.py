@@ -1,5 +1,5 @@
 import autocomplete_light
-from models import User
+from .models import User
 
 
 class UserAutocomplete(autocomplete_light.AutocompleteModelBase):
