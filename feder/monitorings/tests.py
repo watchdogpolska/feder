@@ -36,8 +36,8 @@ class MonitoringTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
         request.user = self.quest
-        response = views.MonitoringCreateView.as_view()(request, slug=self.monitoring.slug)
-        self.assertEqual(response.status_code, 200)
+        with self.assertRaises(PermissionDenied):
+            views.MonitoringCreateView.as_view()(request, slug=self.monitoring.slug)
 
     def test_update_permission_check(self):
         request = self.factory.get(reverse('monitorings:update',
