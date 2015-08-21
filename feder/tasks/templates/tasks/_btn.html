@@ -1,11 +1,25 @@
 {% load i18n %}
+{% load guardian_tags %}
+{% get_obj_perms request.user for object.case.monitoring as "monitoring_perms" %}
 <div class="clearfix">
     <div class="pull-right btn-group">
-        <a class="btn btn-default" href="{% url 'tasks:update' pk=object.pk %}">{% trans 'Edit' %}</a>
-        <a class="btn btn-warning" href="{% url 'tasks:delete' pk=object.pk %}">{% trans 'Delete' %}</a>
-        {% if not user_survey %}
-        <a class="btn btn-primary" href="{% url 'tasks:fill_survey' pk=object.pk %}">{% trans 'Fill survey' %}</a>
+        {% if 'change_task' in monitoring_perms %}
+        <a class="btn btn-default" href="{% url 'tasks:update' pk=object.pk %}">
+            {% trans 'Edit' %}
+        </a>
         {% endif %}
-        <a class="btn btn-default" href="{% url 'tasks:survey' pk=object.pk %}">{% trans 'Answers' %}</a>
+        {% if 'delete_task' in monitoring_perms %}
+        <a class="btn btn-warning" href="{% url 'tasks:delete' pk=object.pk %}">
+            {% trans 'Delete' %}
+        </a>
+        {% endif %}
+        {% if not user_survey %}
+        <a class="btn btn-primary" href="{% url 'tasks:fill_survey' pk=object.pk %}">
+            {% trans 'Fill survey' %}
+        </a>
+        {% endif %}
+        <a class="btn btn-default" href="{% url 'tasks:survey' pk=object.pk %}">
+            {% trans 'Answers' %}
+        </a>
     </div>
 </div>

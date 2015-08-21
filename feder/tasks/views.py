@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from braces.views import (SelectRelatedMixin, LoginRequiredMixin, FormValidMessageMixin,
     UserFormKwargsMixin, PrefetchRelatedMixin)
+from main.mixins import PermissionRequiredMixin, AttrPermissionRequiredMixin
 from atom.views import DeleteMessageMixin, CreateMessageMixin, UpdateMessageMixin
 from .models import Task, Survey
 from .filters import TaskFilter
@@ -66,15 +67,23 @@ class TaskCreateView(LoginRequiredMixin, UserFormKwargsMixin, CreateMessageMixin
     form_class = TaskForm
 
 
-class TaskUpdateView(LoginRequiredMixin, UserFormKwargsMixin, UpdateMessageMixin,
-        FormValidMessageMixin, UpdateView):
+class TaskUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UserFormKwargsMixin,
+        UpdateMessageMixin, FormValidMessageMixin, UpdateView):
     model = Task
     form_class = TaskForm
+    permission_required = 'monitorings.change_task'
+    raise_exception = True
+
+    def get_permission_object(self):
+        return super(TaskUpdateView, self).get_permission_object().case.monitoring
 
 
-class TaskDeleteView(LoginRequiredMixin, DeleteMessageMixin, DeleteView):
+class TaskDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteMessageMixin, DeleteView):
     model = Task
     success_url = reverse_lazy('tasks:list')
+    permission_required = 'monitorings.delete_task'
+    raise_exception = True
+    permission_atribute = 'case__monitoring'
 
 
 class SurveyDeleteView(LoginRequiredMixin, DeleteMessageMixin, DeleteView):
@@ -91,7 +100,7 @@ class SurveyDeleteView(LoginRequiredMixin, DeleteMessageMixin, DeleteView):
 
 
 @login_required
-def fill_survey(request, pk):
+def fill_survey(request, pk):  # TODO: Convert to CBV eg. TemplateView
     context = {}
     task = get_object_or_404(Task, pk=pk)
     context['object'] = task

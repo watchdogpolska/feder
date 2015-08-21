@@ -8,7 +8,7 @@ from . import views
 urlpatterns = [
    url(r'^$', views.MonitoringListView.as_view(),
     name="list"),
-   url(r'^~create$', views.MonitoringCreateView.as_view(),
+   url(r'^~create-(?P<monitoring>[\d]+)$', views.MonitoringCreateView.as_view(),
     name="create"),
    url(r'^monitoring-(?P<slug>[\w-]+)$', views.MonitoringDetailView.as_view(),
     name="details"),

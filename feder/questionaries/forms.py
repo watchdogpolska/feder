@@ -9,13 +9,19 @@ from .modulator import modulators
 
 class QuestionaryForm(SaveButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
     def __init__(self, *args, **kwargs):
+        self.monitoring = kwargs.pop('monitoring', None)
         super(QuestionaryForm, self).__init__(*args, **kwargs)
         if not self.user.is_superuser:
             del self.fields['lock']
 
+    def save(self, *args, **kwargs):
+        if self.monitoring:
+            self.instance.monitoring = self.monitoring
+        return super(QuestionaryForm, self).save(*args, **kwargs)
+
     class Meta:
         model = Questionary
-        fields = ['title', 'monitoring', 'lock']
+        fields = ['title', 'lock']
 
 
 class BoolQuestionForm(HelperMixin, UserKwargModelFormMixin, forms.Form):

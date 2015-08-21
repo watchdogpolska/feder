@@ -7,7 +7,7 @@ from . import views
 urlpatterns = [
    url(r'^$', views.CaseListView.as_view(),
     name="list"),
-   url(r'^~create$', views.CaseCreateView.as_view(),
+   url(r'^~create-(?P<monitoring>[\d]+)$', views.CaseCreateView.as_view(),
     name="create"),
    url(r'^case-(?P<slug>[\w-]+)$', views.CaseDetailView.as_view(),
     name="details"),

@@ -1,0 +1,17 @@
+{% load i18n %}
+{% if perms.institutions.can_change_institution or perms.institutions.can_delete_institution %}
+<div class="clearfix">
+    <div class="pull-right btn-group">
+    {% if perms.institutions.can_change_institution %}
+        <a class="btn btn-default" href="{% url 'institutions:update' slug=object.slug %}">
+            {% trans 'Edit' %}
+        </a>
+    {% endif %}
+    {% if perms.institutions.can_delete_institution %}
+        <a class="btn btn-warning" href="{% url 'institutions:delete' slug=object.slug %}">
+            {% trans 'Delete' %}
+        </a>
+    {% endif %}
+    </div>
+</div>
+{% endif %}

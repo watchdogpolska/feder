@@ -6,11 +6,13 @@ from braces.views import (SelectRelatedMixin, LoginRequiredMixin, FormValidMessa
     UserFormKwargsMixin, PrefetchRelatedMixin)
 from django.core.urlresolvers import reverse_lazy
 from django_filters.views import FilterView
-from atom.views import (DeleteMessageMixin, ActionView, ActionMessageMixin, FormInitialMixin, 
+from atom.views import (DeleteMessageMixin, ActionView, ActionMessageMixin,
     CreateMessageMixin, UpdateMessageMixin)
+from main.mixins import RaisePermissionRequiredMixin, AttrPermissionRequiredMixin
 from formtools.wizard.views import SessionWizardView
 from django.db.models import F
 from feder.tasks.forms import MultiTaskForm, AnswerFormSet
+from feder.monitorings.models import Monitoring
 from django.core.exceptions import PermissionDenied
 from .models import Questionary, Question
 from .filters import QuestionaryFilter
@@ -28,10 +30,6 @@ class QuestionaryListView(SelectRelatedMixin, FilterView):
         kwargs['user'] = self.request.user
         return kwargs
 
-    def get_queryset(self, *args, **kwargs):
-        qs = super(QuestionaryListView, self).get_queryset(*args, **kwargs)
-        return qs
-
 
 class QuestionaryDetailView(PrefetchRelatedMixin, DetailView):
     model = Questionary
@@ -43,31 +41,56 @@ class QuestionaryDetailView(PrefetchRelatedMixin, DetailView):
         return context
 
 
-class QuestionaryCreateView(LoginRequiredMixin, UserFormKwargsMixin, CreateMessageMixin,
-        FormInitialMixin, CreateView):
+class QuestionaryCreateView(LoginRequiredMixin, RaisePermissionRequiredMixin,
+        UserFormKwargsMixin, CreateMessageMixin, CreateView):
     model = Questionary
     form_class = QuestionaryForm
+    permission_required = 'monitorings.add_questionary'
+
+    def get_monitoring(self):
+        self.monitoring = get_object_or_404(Monitoring, pk=self.kwargs['monitoring'])
+        return self.monitoring
+
+    def get_permission_object(self):
+        return self.get_monitoring()
+
+    def get_form_kwargs(self, *args, **kwargs):
+        kw = super(QuestionaryCreateView, self).get_form_kwargs(*args, **kwargs)
+        kw['monitoring'] = self.monitoring
+        return kw
 
 
-class QuestionaryUpdateView(LoginRequiredMixin, UserFormKwargsMixin, UpdateMessageMixin,
-        FormValidMessageMixin, UpdateView):
+class QuestionaryUpdateView(LoginRequiredMixin, AttrPermissionRequiredMixin, UserFormKwargsMixin,
+        UpdateMessageMixin, FormValidMessageMixin, UpdateView):
     model = Questionary
     form_class = QuestionaryForm
+    permission_required = 'monitorings.change_questionary'
+    permission_attribute = 'monitoring'
 
 
-class QuestionaryDeleteView(LoginRequiredMixin, DeleteMessageMixin, DeleteView):
+class QuestionaryDeleteView(LoginRequiredMixin, AttrPermissionRequiredMixin,
+        SelectRelatedMixin, DeleteMessageMixin, DeleteView):
     model = Questionary
     success_url = reverse_lazy('questionaries:list')
+    permission_required = 'monitorings.delete_questionary'
+    permission_attribute = 'monitoring'
+    select_related = ['monitoring']
 
 
 class QuestionWizard(SessionWizardView):
     form_list = [QuestionForm, BoolQuestionForm]
     template_name = 'questionaries/question_wizard.html'
 
-    def get_form_kwargs(self, step):
-        self.questionary = get_object_or_404(Questionary, pk=self.kwargs['pk'])
+    def perm_check(self):
+        if not self.request.user.has_perm('monitorings.change_questionary',
+                self.questionary.monitoring):
+            raise PermissionDenied()
         if self.questionary.lock:
             raise PermissionDenied("This questionary are locked to edit")
+
+    def get_form_kwargs(self, step):
+        self.questionary = get_object_or_404(Questionary, pk=self.kwargs['pk'])
+        self.perm_check()
         kwargs = {'user': self.request.user}
         if step == '0':
             kwargs.update({'questionary': self.questionary})
@@ -87,10 +110,12 @@ class QuestionWizard(SessionWizardView):
         return redirect(obj.questionary)
 
 
-class QuestionMoveView(ActionMessageMixin, ActionView):
+class QuestionMoveView(LoginRequiredMixin, RaisePermissionRequiredMixin,
+        ActionMessageMixin, SelectRelatedMixin, ActionView):
     model = Question
     template_name_suffix = '_move'
     direction = None
+    select_related = ['questionary__monitoring', ]
     change = {'up': -1, 'down': +1}
 
     def action(self, *args, **kwargs):
@@ -104,11 +129,17 @@ class QuestionMoveView(ActionMessageMixin, ActionView):
         return self.object.questionary.get_absolute_url()
 
 
-class TaskMultiCreateView(LoginRequiredMixin, UserFormKwargsMixin, FormValidMessageMixin,
-       SingleObjectTemplateResponseMixin, SingleObjectMixin, FormView):
+class TaskMultiCreateView(LoginRequiredMixin, RaisePermissionRequiredMixin,
+        UserFormKwargsMixin, FormValidMessageMixin, SingleObjectTemplateResponseMixin,
+        SingleObjectMixin, FormView):
     model = Questionary
     form_class = MultiTaskForm
     template_name_suffix = '_form'
+    permission_required = 'monitorings.add_tasks'
+    raise_exception = True
+
+    def get_permission_object(self):
+        return super(TaskMultiCreateView, self).get_permission_object().monitoring
 
     def get_form_kwargs(self):
         kwargs = super(TaskMultiCreateView, self).get_form_kwargs()

@@ -7,7 +7,7 @@ from . import views
 urlpatterns = [
    url(r'^$', views.QuestionaryListView.as_view(),
     name="list"),
-   url(r'^~create$', views.QuestionaryCreateView.as_view(),
+   url(r'^~create-(?P<monitoring>[\d]+)$', views.QuestionaryCreateView.as_view(),
     name="create"),
    url(r'^questionary-(?P<pk>[\d]+)$', views.QuestionaryDetailView.as_view(),
     name="details"),

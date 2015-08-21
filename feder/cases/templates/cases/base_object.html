@@ -8,22 +8,23 @@
 {% endblock %}
 
 {% block buttons %}
-<div class="clearfix">
-    <div class="pull-right btn-group">
-        <a class="btn btn-default" href="{% url 'cases:update' slug=object.slug %}">{% trans 'Edit' %}</a>
-        <a class="btn btn-warning" href="{% url 'cases:delete' slug=object.slug %}">{% trans 'Delete' %}</a>
-    </div>
-</div>
+{% if object %}
+{% include 'cases/_btn.html' with object=object %}
+{% endif %}
 {% endblock %}
 
 {% block content %}
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title"><i class="fa fa-folder-open"></i>  <a href="{{object.get_absolute_url}}">{{object}}</a></h3>
-    </div>
-    <div class="panel-body">
+{% if object %}
+<div class="page-header">
+    <h1>
+        <i class="fa fa-folder-open"></i>
+        {{object}}
+    </h1>
+</div>
+{% endif %}
+<div class="row">
+    <div class="gray">
         {% block content_object %}{% endblock %}
     </div>
 </div>
-{% block letter_list %}{% endblock %}
 {% endblock %}

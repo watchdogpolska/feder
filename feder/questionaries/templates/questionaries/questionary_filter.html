@@ -1,12 +1,5 @@
 {% extends 'questionaries/base.html' %}
 {% load i18n crispy_forms_tags %}
-{% block buttons %}
-<div class="clearfix">
-    <div class="pull-right btn-group">
-        <a class="btn btn-default" href="{% url 'questionaries:create' %}">{% trans 'Create questionary' %}</a>
-    </div>
-</div>
-{% endblock %}
 
 {% block content %}
 {% include '_filter.html' with title='Questionaries index' form=filter.form object_list=object_list object_template='questionaries/_questionary_small.html' %}

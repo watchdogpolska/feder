@@ -42,7 +42,8 @@ THIRD_PARTY_APPS = (
     'autocomplete_light',
     'formtools',
     'mptt',
-    'atom'
+    'atom',
+    'guardian',
 )
 
 # Apps specific for this project go here.
@@ -221,6 +222,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
+    'guardian.backends.ObjectPermissionBackend',
 )
 
 # Some really nice defaults
@@ -271,3 +273,5 @@ LOGGING = {
 }
 
 # Your common stuff: Below this line define 3rd party library settings
+ANONYMOUS_USER_ID = -1
+GUARDIAN_RAISE_403 = True

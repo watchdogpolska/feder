@@ -1,4 +1,5 @@
 from django.core.paginator import Paginator, EmptyPage
+from guardian.mixins import PermissionRequiredMixin
 
 
 class ExtraListMixin(object):
@@ -22,3 +23,27 @@ class ExtraListMixin(object):
         case_list = self.get_object_list(self.object)
         context[self.extra_list_context] = self.paginator(case_list)
         return context
+
+
+class RaisePermissionRequiredMixin(PermissionRequiredMixin):
+    raise_exception = True
+
+
+class AttrPermissionRequiredMixin(RaisePermissionRequiredMixin):
+    permission_attribute = None
+
+    @staticmethod
+    def _resolve_path(obj, path=None):
+        if path:
+            for attr_name in path.split('__'):
+                obj = getattr(obj, attr_name)
+        return obj
+
+    def get_permission_object(self):
+        obj = super(PermissionRequiredMixin, self).get_permission_object()
+        return self._resolve_path(obj, self.permission_attribute)
+
+    def get_object(self):
+        if not hasattr(self, 'object'):
+            self.object = super(PermissionRequiredMixin, self).get_object()
+        return self.object

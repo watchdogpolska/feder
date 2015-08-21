@@ -8,12 +8,7 @@
 {% endblock %}
 
 {% block buttons %}
-<div class="clearfix">
-    <div class="pull-right btn-group">
-        <a class="btn btn-default" href="{% url 'cases:update' slug=object.slug %}">{% trans 'Edit' %}</a>
-        <a class="btn btn-warning" href="{% url 'cases:delete' slug=object.slug %}">{% trans 'Delete' %}</a>
-    </div>
-</div>
+{% include 'cases/_btn.html' with object=object %}
 {% endblock %}
 
 {% block content %}

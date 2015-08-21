@@ -3,8 +3,10 @@ from django.utils.translation import ugettext_lazy as _
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 from braces.views import (SelectRelatedMixin, LoginRequiredMixin, FormValidMessageMixin,
     UserFormKwargsMixin)
+from guardian.mixins import PermissionRequiredMixin
 from formtools.preview import FormPreview
 from django_filters.views import FilterView
 from atom.views import DeleteMessageMixin, UpdateMessageMixin
@@ -44,6 +46,11 @@ class MonitoringCreateView(FormPreview):
     preview_template = 'monitorings/monitoring_preview.html'
     form_class = CreateMonitoringForm
 
+    def __call__(self, request, *args, **kwargs):
+        if not request.user.has_perm('monitorings.add_monitoring'):
+            raise PermissionDenied()
+        return super(MonitoringCreateView, self).__call__(request, *args, **kwargs)
+
     @classmethod
     def as_view(cls):
         return login_required(cls(cls.form_class))
@@ -68,12 +75,17 @@ class MonitoringCreateView(FormPreview):
         return _("Monitoring {monitoring} created!").format(monitoring=self.object)
 
 
-class MonitoringUpdateView(LoginRequiredMixin, UserFormKwargsMixin,
+class MonitoringUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UserFormKwargsMixin,
         UpdateMessageMixin, FormValidMessageMixin, UpdateView):
     model = Monitoring
     form_class = MonitoringForm
+    permission_required = 'monitorings.change_monitoring'
+    raise_exception = True
 
 
-class MonitoringDeleteView(LoginRequiredMixin, DeleteMessageMixin, DeleteView):
+class MonitoringDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteMessageMixin,
+        DeleteView):
     model = Monitoring
     success_url = reverse_lazy('monitorings:list')
+    permission_required = 'monitorings.delete_monitoring'
+    raise_exception = True
