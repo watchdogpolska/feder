@@ -36,7 +36,7 @@
         </div>
         {% endif %}
 
-        {% if request.user == object.user and object.questionary_set.all %}
+        {% if object.questionary_set.all %}
         <div class="gray">
             <h2 class="title"><i class="fa fa-list-alt"></i> {% trans 'Questionaries' %}</h2>
             {% include '_select_list.html' with object_list=object.questionary_set.all %}
