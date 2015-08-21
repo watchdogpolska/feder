@@ -8,5 +8,4 @@ install:
   - pip install -r requirements/local.txt 
 
 script:
-  - python manage.py test
-
+  - python manage.py test --verbosity=2
