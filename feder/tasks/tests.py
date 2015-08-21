@@ -25,7 +25,6 @@ class CaseTestCase(TestCase):
         jst = JednostkaAdministracyjna(name="JST example", updated_on='2015-02-12',
             category=cat)
         jst.save()
-        JednostkaAdministracyjna.objects.rebuild()
         return jst
 
     def _get_institution(self):
