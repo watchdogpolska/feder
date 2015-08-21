@@ -1,7 +1,13 @@
 language: python
 env:
   - DATABASE_URL="mysql://root:@localhost/"
-cache: pip
+cache:
+  directories:
+    - $HOME/.cache/pip
+python:
+  - "2.7"
+  - "3.3"
+
 install:
   - pip install -U pip wheel
   - pip install -r requirements/test.txt 
