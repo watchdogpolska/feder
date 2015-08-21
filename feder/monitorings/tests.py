@@ -1,6 +1,7 @@
 from django.test import TestCase, RequestFactory
 from django.core.urlresolvers import reverse
 from feder.monitorings.models import Monitoring
+from django.core.exceptions import PermissionDenied
 from . import views
 
 try:
@@ -37,7 +38,7 @@ class MonitoringTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_update_permission_check(self):
-        request = self.factory.get(reverse('monitorings:create',
+        request = self.factory.get(reverse('monitorings:update',
             kwargs={'slug': self.monitoring.slug}))
         request.user = self.user
         response = views.MonitoringUpdateView.as_view()(request, slug=self.monitoring.slug)
@@ -55,5 +56,5 @@ class MonitoringTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
         request.user = self.quest
-        response = views.MonitoringDeleteView.as_view()(request, slug=self.monitoring.slug)
-        self.assertEqual(response.status_code, 403)
+        with self.assertRaise(PermissionDenied):
+            views.MonitoringDeleteView.as_view()(request, slug=self.monitoring.slug)
