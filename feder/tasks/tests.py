@@ -53,9 +53,9 @@ class CaseTestCase(TestCase):
         self.task.save()
 
     def test_details_display(self):
-        request = self.factory.get(self.case.get_absolute_url())
+        request = self.factory.get(self.task.get_absolute_url())
         request.user = self.user
-        response = views.TaskDetailView.as_view()(request, pk=self.case.pk)
+        response = views.TaskDetailView.as_view()(request, pk=self.task.pk)
         self.assertEqual(response.status_code, 200)
 
     def _perm_check(self, view, reverse_name, kwargs={}):
