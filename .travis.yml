@@ -1,20 +1,22 @@
 language: python
-env:
-  global:
-    - DATABASE_URL="mysql://root:@localhost/"
-    - DJANGO_SETTINGS_MODULE="config.settings.tests"
+python: 2.7
 
 cache:
   directories:
     - $HOME/.cache/pip
-python:
-  - "2.7"
-  - "3.3"
+
+env:
+  global:
+    - DATABASE_URL="mysql://root:@localhost/test_feder"
+    - DJANGO_SETTINGS_MODULE="config.settings.tests"
+  matrix:
+    - TOX_ENV=py27
+    - TOX_ENV=py33
+    - TOX_ENV=coverage
+
 
 install:
   - pip install -U pip wheel
-  - pip install -r requirements/test.txt 
-  - pip install -r requirements/local.txt 
-
+  - pip install tox
 script:
-  - python manage.py test --verbosity=2
+  - tox -e $TOX_ENV
