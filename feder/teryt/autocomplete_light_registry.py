@@ -1,8 +1,11 @@
 import autocomplete_light
+from feder.main.mixins import AutocompletePerformanceMixin
+
 from .models import JednostkaAdministracyjna
 
-# This will generate a PersonAutocomplete class
-autocomplete_light.register(JednostkaAdministracyjna,
-    # Just like in ModelAdmin.search_fields
-    search_fields=['name'],
-)
+
+class JednostkaAdministracyjnaAutocomplete(AutocompletePerformanceMixin,
+        autocomplete_light.AutocompleteModelBase):
+    search_fields = ['name']
+    select_only = ['id', 'name']
+autocomplete_light.register(JednostkaAdministracyjna, JednostkaAdministracyjnaAutocomplete)

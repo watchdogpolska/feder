@@ -48,3 +48,13 @@ class AttrPermissionRequiredMixin(RaisePermissionRequiredMixin):
         if not hasattr(self, 'object'):
             self.object = super(PermissionRequiredMixin, self).get_object()
         return self.object
+
+
+class AutocompletePerformanceMixin(object):
+    select_only = None
+
+    def choices_for_request(self, *args, **kwargs):
+        qs = super(AutocompletePerformanceMixin, self).choices_for_request(*args, **kwargs)
+        if self.select_only:
+            qs = qs.only(**self.select_only)
+        return qs

@@ -1,11 +1,9 @@
 import autocomplete_light
+from feder.main.mixins import AutocompletePerformanceMixin
 from .models import Case
 
 
-class CaseAutocomplete(autocomplete_light.AutocompleteModelBase):
+class CaseAutocomplete(AutocompletePerformanceMixin, autocomplete_light.AutocompleteModelBase):
     search_fields = ['name']
-
-    def choices_for_request(self, *args, **kwargs):
-        qs = super(CaseAutocomplete, self).choices_for_request(*args, **kwargs)
-        return qs.only('id', 'name')
+    select_only = ['id', 'name']
 autocomplete_light.register(Case, CaseAutocomplete)

@@ -1,11 +1,11 @@
 import autocomplete_light
+from feder.main.mixins import AutocompletePerformanceMixin
+
 from .models import Questionary
 
 
-class QuestionaryAutocomplete(autocomplete_light.AutocompleteModelBase):
+class QuestionaryAutocomplete(AutocompletePerformanceMixin,
+        autocomplete_light.AutocompleteModelBase):
     search_fields = ['title']
-
-    def choices_for_request(self, *args, **kwargs):
-        qs = super(QuestionaryAutocomplete, self).choices_for_request(*args, **kwargs)
-        return qs.only('id', 'title')
+    select_only = ['id', 'title']
 autocomplete_light.register(Questionary, QuestionaryAutocomplete)
