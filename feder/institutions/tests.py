@@ -27,7 +27,7 @@ class InstitutionTestCase(TestCase):
         JednostkaAdministracyjna.objects.rebuild()
         return jst
 
-    def _assing_all_perm(self, user):
+    def _assign_all_perm(self, user):
         assign_perm('institution.add_institution', self.user)
         assign_perm('institution.change_institution', self.user)
         assign_perm('institution.update_institution', self.user)
