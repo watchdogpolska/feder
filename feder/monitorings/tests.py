@@ -2,6 +2,7 @@ from django.test import TestCase, RequestFactory
 from django.core.urlresolvers import reverse
 from feder.monitorings.models import Monitoring
 from django.core.exceptions import PermissionDenied
+from guardian.shortcuts import assign_perm
 from . import views
 
 try:
@@ -16,6 +17,7 @@ class MonitoringTestCase(TestCase):
         self.factory = RequestFactory()
         self.user = User.objects.create_user(
             username='jacob', email='jacob@example.com', password='top_secret')
+        assign_perm('monitorings.add_monitoring', self.user)
         self.quest = User.objects.create_user(
             username='smith', email='smith@example.com', password='top_secret')
         self.monitoring = Monitoring(name="Lor", user=self.user)
@@ -45,8 +47,8 @@ class MonitoringTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
         request.user = self.quest
-        response = views.MonitoringUpdateView.as_view()(request, slug=self.monitoring.slug)
-        self.assertEqual(response.status_code, 403)
+        with self.assertRaises(PermissionDenied):
+            views.MonitoringUpdateView.as_view()(request, slug=self.monitoring.slug)
 
     def test_delete_permission_check(self):
         request = self.factory.get(reverse('monitorings:delete',
@@ -56,5 +58,5 @@ class MonitoringTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
         request.user = self.quest
-        with self.assertRaise(PermissionDenied):
+        with self.assertRaises(PermissionDenied):
             views.MonitoringDeleteView.as_view()(request, slug=self.monitoring.slug)
