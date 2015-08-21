@@ -3,7 +3,7 @@ from django.core.urlresolvers import reverse
 from feder.monitorings.models import Monitoring
 from django.core.exceptions import PermissionDenied
 from guardian.shortcuts import assign_perm
-from feder.teryt.models import JednostkaAdministracyjna
+from feder.teryt.models import JednostkaAdministracyjna, Category
 from feder.institutions.models import Institution
 from autofixture import AutoFixture
 from feder.questionaries.models import Questionary
@@ -20,10 +20,10 @@ except ImportError:
 
 class CaseTestCase(TestCase):
     def _get_third_level_jst(self):
-        jst = AutoFixture(JednostkaAdministracyjna,
-            field_values={'updated_on': '2015-02-12'},
-            generate_fk=True).create_one(commit=False)
-        jst.rght = 10
+        cat = Category(name="cat 1", level=1)
+        cat.save()
+        jst = JednostkaAdministracyjna(name="JST example", updated_on='2015-02-12',
+            category=cat)
         jst.save()
         JednostkaAdministracyjna.objects.rebuild()
         return jst
