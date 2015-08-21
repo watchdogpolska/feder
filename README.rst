@@ -1,6 +1,6 @@
- .. image:: https://coveralls.io/repos/watchdogpolska/feder/badge.svg?service=github
-    :target: https://coveralls.io/github/watchdogpolska/feder 
-
+ .. image:: https://coveralls.io/repos/watchdogpolska/feder/badge.svg?branch=master&service=github
+    :target: https://coveralls.io/github/watchdogpolska/feder?branch=master 
+ 
  .. image:: https://travis-ci.org/watchdogpolska/feder.svg
     :target: https://travis-ci.org/watchdogpolska/feder
     
