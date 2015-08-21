@@ -46,6 +46,7 @@ class QuestionaryCreateView(LoginRequiredMixin, RaisePermissionRequiredMixin,
     model = Questionary
     form_class = QuestionaryForm
     permission_required = 'monitorings.add_questionary'
+    raise_exception = True
 
     def get_monitoring(self):
         self.monitoring = get_object_or_404(Monitoring, pk=self.kwargs['monitoring'])
@@ -66,6 +67,7 @@ class QuestionaryUpdateView(LoginRequiredMixin, AttrPermissionRequiredMixin, Use
     form_class = QuestionaryForm
     permission_required = 'monitorings.change_questionary'
     permission_attribute = 'monitoring'
+    raise_exception = True
 
 
 class QuestionaryDeleteView(LoginRequiredMixin, AttrPermissionRequiredMixin,
@@ -75,6 +77,7 @@ class QuestionaryDeleteView(LoginRequiredMixin, AttrPermissionRequiredMixin,
     permission_required = 'monitorings.delete_questionary'
     permission_attribute = 'monitoring'
     select_related = ['monitoring']
+    raise_exception = True
 
 
 class QuestionWizard(SessionWizardView):
