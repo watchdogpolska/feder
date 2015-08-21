@@ -1,0 +1,12 @@
+language: python
+env:
+  - DATABASE_URL="mysql://root:@localhost/"
+cache: pip
+install:
+  - pip install -U pip wheel
+  - pip install -r requirements/test.txt 
+  - pip install -r requirements/local.txt 
+
+script:
+  - python manage.py test
+

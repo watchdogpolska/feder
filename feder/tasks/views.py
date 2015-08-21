@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from braces.views import (SelectRelatedMixin, LoginRequiredMixin, FormValidMessageMixin,
     UserFormKwargsMixin, PrefetchRelatedMixin)
-from main.mixins import PermissionRequiredMixin, AttrPermissionRequiredMixin
+from feder.main.mixins import PermissionRequiredMixin, AttrPermissionRequiredMixin
 from atom.views import DeleteMessageMixin, CreateMessageMixin, UpdateMessageMixin
 from .models import Task, Survey
 from .filters import TaskFilter

@@ -19,7 +19,7 @@ class MonitoringTestCase(TestCase):
         self.monitoring.save()
 
     def test_details_display(self):
-        request = self.factory.get(self.monitoring.get_absolute_url)
+        request = self.factory.get(self.monitoring.get_absolute_url())
         request.user = self.user
-        response = views.MonitoringDetailView.as_view(request)(slug=self.monitoring.slug)
+        response = views.MonitoringDetailView.as_view()(request, slug=self.monitoring.slug)
         self.assertEqual(response.status_code, 200)

@@ -8,7 +8,7 @@ from django.core.urlresolvers import reverse_lazy
 from django_filters.views import FilterView
 from atom.views import (DeleteMessageMixin, ActionView, ActionMessageMixin,
     CreateMessageMixin, UpdateMessageMixin)
-from main.mixins import RaisePermissionRequiredMixin, AttrPermissionRequiredMixin
+from feder.main.mixins import RaisePermissionRequiredMixin, AttrPermissionRequiredMixin
 from formtools.wizard.views import SessionWizardView
 from django.db.models import F
 from feder.tasks.forms import MultiTaskForm, AnswerFormSet
