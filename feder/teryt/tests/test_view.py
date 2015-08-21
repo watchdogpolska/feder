@@ -1,12 +1,5 @@
-from os import path
-import tempfile
-import zipfile
-import io
-from collections import OrderedDict
-import requests
 from django.test import TestCase, RequestFactory
 from django.core.urlresolvers import reverse
-from django.core import management
 from feder.teryt.models import JednostkaAdministracyjna
 from autofixture import AutoFixture
 from feder.teryt import views

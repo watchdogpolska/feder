@@ -48,6 +48,6 @@ class Command(BaseCommand):
             with JednostkaAdministracyjna.objects.delay_mptt_updates():
                 for row in root.iter('row'):
                     obj = Command.to_object(row)
-                    self.stderr.write(unicode(obj))
                     obj.save()
+                    rows_count += 1
         self.stdout.write("%s rows imported.\n" % rows_count)
