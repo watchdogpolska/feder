@@ -44,6 +44,12 @@ class QuestionariesTestCase(TestCase):
         self.questionary = Questionary(title="blabla", monitoring=self.monitoring)
         self.questionary.save()
 
+    def test_list_display(self):
+        request = self.factory.get(reverse('questionaries:list'))
+        request.user = self.user
+        response = views.QuestionaryListView.as_view()(request)
+        self.assertEqual(response.status_code, 200)
+
     def test_details_display(self):
         request = self.factory.get(self.questionary.get_absolute_url())
         request.user = self.user

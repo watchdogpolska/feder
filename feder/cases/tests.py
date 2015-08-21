@@ -50,6 +50,11 @@ class CasesTestCase(TestCase):
             user=self.user)
         self.case.save()
 
+    def test_list_display(self):
+        request = self.factory.get(reverse('cases:list'))
+        response = views.CaseListView.as_view()(request)
+        self.assertEqual(response.status_code, 200)
+
     def test_details_display(self):
         request = self.factory.get(self.case.get_absolute_url())
         request.user = self.user

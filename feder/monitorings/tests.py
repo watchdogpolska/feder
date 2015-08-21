@@ -41,6 +41,11 @@ class MonitoringTestCase(TestCase):
         self.monitoring = Monitoring(name="Lor", user=self.user)
         self.monitoring.save()
 
+    def test_list_display(self):
+        request = self.factory.get(reverse('monitorings:list'))
+        response = views.MonitoringListView.as_view()(request)
+        self.assertEqual(response.status_code, 200)
+
     def test_details_display(self):
         request = self.factory.get(self.monitoring.get_absolute_url())
         request.user = self.user

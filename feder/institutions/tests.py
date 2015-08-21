@@ -43,6 +43,11 @@ class InstitutionTestCase(TestCase):
         self.quest = AutoFixture(User, field_values={'is_superuser': False}).create_one()
         self.institution = self._get_institution()
 
+    def test_list_display(self):
+        request = self.factory.get(reverse('institutions:list'))
+        response = views.InstitutionListView.as_view()(request)
+        self.assertEqual(response.status_code, 200)
+
     def test_details_display(self):
         request = self.factory.get(self.institution.get_absolute_url())
         request.user = self.user

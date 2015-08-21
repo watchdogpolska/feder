@@ -52,6 +52,11 @@ class CaseTestCase(TestCase):
         self.task = Task(case=self.case, questionary=self.questionary)
         self.task.save()
 
+    def test_list_display(self):
+        request = self.factory.get(reverse('tasks:list'))
+        response = views.TaskListView.as_view()(request)
+        self.assertEqual(response.status_code, 200)
+
     def test_details_display(self):
         request = self.factory.get(self.task.get_absolute_url())
         request.user = self.user
