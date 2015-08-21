@@ -1,3 +1,5 @@
+ .. image:: https://coveralls.io/repos/watchdogpolska/feder/badge.svg?service=github :target: https://coveralls.io/github/watchdogpolska/feder 
+
 feder
 ==============================
 

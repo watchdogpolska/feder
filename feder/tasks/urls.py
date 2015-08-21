@@ -7,7 +7,7 @@ from . import views
 urlpatterns = [
    url(r'^$', views.TaskListView.as_view(),
     name="list"),
-   url(r'^~create$', views.TaskCreateView.as_view(),
+   url(r'^~create-(?P<case>[\d]+)$', views.TaskCreateView.as_view(),
     name="create"),
    url(r'^task-(?P<pk>[\d]+)$', views.TaskDetailView.as_view(),
     name="details"),

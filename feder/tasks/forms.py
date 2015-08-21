@@ -10,9 +10,17 @@ from .models import Task, Survey, Answer
 
 
 class TaskForm(SaveButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        self.case = kwargs.pop('case', None)
+        super(TaskForm, self).__init__(*args, **kwargs)
+
+    def save(self, *args, **kwargs):
+        self.instance.case = self.case
+        super(TaskForm, self).save(*args, **kwargs)
+
     class Meta:
         model = Task
-        fields = ['case', 'questionary', 'survey_required']
+        fields = ['questionary', 'survey_required']
 
 
 class AnswerForm(HelperMixin, forms.Form):

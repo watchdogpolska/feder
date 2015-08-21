@@ -9,6 +9,7 @@ from braces.views import (SelectRelatedMixin, LoginRequiredMixin, FormValidMessa
     UserFormKwargsMixin, PrefetchRelatedMixin)
 from feder.main.mixins import PermissionRequiredMixin, AttrPermissionRequiredMixin
 from atom.views import DeleteMessageMixin, CreateMessageMixin, UpdateMessageMixin
+from feder.cases.models import Case
 from .models import Task, Survey
 from .filters import TaskFilter
 from .forms import TaskForm, AnswerFormSet, SurveyForm
@@ -62,28 +63,43 @@ class TaskSurveyView(SelectRelatedMixin, PrefetchRelatedMixin, DetailView):
         return context
 
 
-class TaskCreateView(LoginRequiredMixin, UserFormKwargsMixin, CreateMessageMixin, CreateView):
+class TaskCreateView(LoginRequiredMixin, PermissionRequiredMixin, UserFormKwargsMixin,
+        CreateMessageMixin, CreateView):
     model = Task
     form_class = TaskForm
+    raise_exception = True
+    permission_required = 'monitorings.add_task'
+
+    def get_case(self):
+        self.case = get_object_or_404(Case.objects.select_related('monitoring'),
+            pk=self.kwargs['case'])
+        return self.case
+
+    def get_permission_object(self):
+        return self.get_case().monitoring
+
+    def get_form_kwargs(self, *args, **kwargs):
+        kw = super(TaskCreateView, self).get_form_kwargs(*args, **kwargs)
+        kw['case'] = self.case
+        return kw
 
 
-class TaskUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UserFormKwargsMixin,
+class TaskUpdateView(LoginRequiredMixin, AttrPermissionRequiredMixin, UserFormKwargsMixin,
         UpdateMessageMixin, FormValidMessageMixin, UpdateView):
     model = Task
     form_class = TaskForm
-    permission_required = 'monitorings.change_task'
+    permission_required = 'change_task'
+    permission_attribute = 'case__monitoring'
     raise_exception = True
 
-    def get_permission_object(self):
-        return super(TaskUpdateView, self).get_permission_object().case.monitoring
 
-
-class TaskDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteMessageMixin, DeleteView):
+class TaskDeleteView(LoginRequiredMixin, AttrPermissionRequiredMixin, DeleteMessageMixin,
+        DeleteView):
     model = Task
     success_url = reverse_lazy('tasks:list')
-    permission_required = 'monitorings.delete_task'
-    raise_exception = True
+    permission_required = 'delete_task'
     permission_atribute = 'case__monitoring'
+    raise_exception = True
 
 
 class SurveyDeleteView(LoginRequiredMixin, DeleteMessageMixin, DeleteView):
