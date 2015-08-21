@@ -1,5 +1,5 @@
 import autocomplete_light
-from models import Questionary
+from .models import Questionary
 
 
 class QuestionaryAutocomplete(autocomplete_light.AutocompleteModelBase):

@@ -1,5 +1,5 @@
 import autocomplete_light
-from models import Monitoring
+from .models import Monitoring
 
 
 class MonitoringAutocomplete(autocomplete_light.AutocompleteModelBase):

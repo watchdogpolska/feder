@@ -1,5 +1,5 @@
 import autocomplete_light
-from models import Institution, Tag
+from .models import Institution, Tag
 
 
 class InstitutionAutocomplete(autocomplete_light.AutocompleteModelBase):
