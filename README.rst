@@ -5,7 +5,7 @@
     :target: https://travis-ci.org/watchdogpolska/feder
     
  .. image:: https://img.shields.io/github/license/watchdogpolska/feder.svg
-    :target: 
+
 Feder
 ==============================
 
