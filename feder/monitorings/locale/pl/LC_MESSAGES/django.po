@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-monitorings 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-20 15:47+0000\n"
-"PO-Revision-Date: 2015-08-20 17:47+0100\n"
+"POT-Creation-Date: 2015-08-21 23:58+0000\n"
+"PO-Revision-Date: 2015-08-22 01:59+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -31,7 +31,7 @@ msgstr "Odbiorcy"
 msgid "Text"
 msgstr "Treść"
 
-#: forms.py:29 models.py:26 models.py:27
+#: forms.py:29 models.py:30 models.py:31
 msgid "Monitoring"
 msgstr "Monitoring"
 
@@ -39,40 +39,85 @@ msgstr "Monitoring"
 msgid "Content of new letter"
 msgstr "Treść nowego listu"
 
-#: models.py:10
-#| msgid "Monitoring"
+#: models.py:14
 msgid "Monitorings index"
 msgstr "Wykaz monitoringów"
 
-#: models.py:19 templates/monitorings/monitoring_preview.html:13
+#: models.py:23 templates/monitorings/monitoring_preview.html:13
 msgid "Name"
 msgstr "Nazwa"
 
-#: models.py:20
+#: models.py:24
 msgid "Slug"
 msgstr "Identyfikator redakcyjny"
 
-#: models.py:21 templates/monitorings/_monitoring_small.html:8
+#: models.py:25 templates/monitorings/_monitoring_small.html:8
 msgid "User"
 msgstr "Użytkownik"
 
-#: models.py:22
+#: models.py:26
 msgid "Description"
 msgstr "Opis"
 
-#: templates/monitorings/_btn.html:4
+#: models.py:34
+#| msgid "Create questionary"
+msgid "Add questionary"
+msgstr "Utwórz kwestionariusz"
+
+#: models.py:35
+#| msgid "Create questionary"
+msgid "Change questionary"
+msgstr "Zmień kwestionariusz"
+
+#: models.py:36
+#| msgid "Create questionary"
+msgid "Delete questionary"
+msgstr "Usuń kwestionariusz"
+
+#: models.py:37
+msgid "Add case"
+msgstr "Utwórz sprawę"
+
+#: models.py:38
+msgid "Change case"
+msgstr "Zmień sprawę"
+
+#: models.py:39
+#| msgid "Delete"
+msgid "Delete case"
+msgstr "Usuń sprawę"
+
+#: models.py:40
+msgid "Add task"
+msgstr "Utwórz zadanie"
+
+#: models.py:41
+msgid "Change task"
+msgstr "Zmień zadanie"
+
+#: models.py:42
+#| msgid "Delete"
+msgid "Delete task"
+msgstr "Usuń zadanie"
+
+#: templates/monitorings/_btn.html:9
 msgid "Edit"
 msgstr "Edycja"
 
-#: templates/monitorings/_btn.html:5
+#: templates/monitorings/_btn.html:14
 #: templates/monitorings/monitoring_confirm_delete.html:3
 #: templates/monitorings/monitoring_confirm_delete.html:10
 msgid "Delete"
 msgstr "Usuń"
 
-#: templates/monitorings/_btn.html:6
+#: templates/monitorings/_btn.html:19
 msgid "Create questionary"
 msgstr "Utwórz kwestionariusz"
+
+#: templates/monitorings/_btn.html:24
+#| msgid "Create"
+msgid "Create case"
+msgstr "Utwórz sprawę"
 
 #: templates/monitorings/_monitoring_small.html:18
 msgid "Case count"
@@ -103,11 +148,11 @@ msgstr "Strona %(no)s z %(total)s"
 msgid "next"
 msgstr "następna"
 
-#: templates/monitorings/monitoring_detail.html:71
+#: templates/monitorings/monitoring_detail.html:73
 msgid "No rows."
 msgstr "Brak wierszy."
 
-#: templates/monitorings/monitoring_filter.html:6
+#: templates/monitorings/monitoring_filter.html:7
 #: templates/monitorings/monitoring_preview.html:6
 msgid "Create monitoring"
 msgstr "Utwórz monitoring"
@@ -132,7 +177,7 @@ msgstr "Zgłoś"
 msgid "Or edit it again"
 msgstr "lub edytuj ponownie"
 
-#: views.py:68
+#: views.py:75
 #, python-brace-format
 msgid "Monitoring {monitoring} created!"
 msgstr "Monitoring {monitoring} utworzony!"

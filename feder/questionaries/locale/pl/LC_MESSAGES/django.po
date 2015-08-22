@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: questionaries\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-20 15:48+0000\n"
+"POT-Creation-Date: 2015-08-22 00:01+0000\n"
 "PO-Revision-Date: 2015-08-16 04:00+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -32,7 +32,7 @@ msgstr "Monitoring"
 msgid "Creation date"
 msgstr "Data utworzenia"
 
-#: forms.py:35 models.py:33
+#: forms.py:41 models.py:33
 msgid "Genre"
 msgstr "Rodzaj"
 
@@ -100,21 +100,21 @@ msgstr "Pytanie o adres e-mail"
 msgid "Question about unit of administrative division"
 msgstr "Pytanie o jednostkę podziału terytorialnego"
 
-#: templates/questionaries/_btn.html:4
+#: templates/questionaries/_btn.html:8
 msgid "Edit"
 msgstr "Edytuj"
 
-#: templates/questionaries/_btn.html:5
+#: templates/questionaries/_btn.html:11
 #: templates/questionaries/questionary_confirm_delete.html:8
 msgid "Delete"
 msgstr "Usuń"
 
-#: templates/questionaries/_btn.html:7 templates/questionaries/_btn.html:9
+#: templates/questionaries/_btn.html:15 templates/questionaries/_btn.html:17
 #: templates/questionaries/question_wizard.html:5
 msgid "Add question"
 msgstr "Dodaj pytanie"
 
-#: templates/questionaries/_btn.html:11
+#: templates/questionaries/_btn.html:21
 msgid "Create tasks"
 msgstr "Utwórz zadanie"
 
@@ -154,10 +154,6 @@ msgstr "Przesuń niżej"
 msgid "No rows."
 msgstr "Brak wierszy"
 
-#: templates/questionaries/questionary_filter.html:6
-msgid "Create questionary"
-msgstr "Utwórz kwestionariusz"
-
 #: templates/questionaries/questionary_form.html:4
 msgid "Update questionary"
 msgstr "Zaktualizuj kwestionariusz"
@@ -166,19 +162,22 @@ msgstr "Zaktualizuj kwestionariusz"
 msgid "Add questionary"
 msgstr "Dodaj kwestionariusz"
 
-#: views.py:82
+#: views.py:108
 msgid "Create question"
 msgstr "Utwórz pytanie"
 
-#: views.py:101
+#: views.py:129
 #, python-brace-format
 msgid "Question {object} moved!"
 msgstr "Pytanie {object} przesunięte!"
 
-#: views.py:120
+#: views.py:154
 #, python-brace-format
 msgid "Tasks for {questionary} created!"
 msgstr "Zadania dla {questionary} utworzone!"
+
+#~ msgid "Create questionary"
+#~ msgstr "Utwórz kwestionariusz"
 
 #~ msgid "{0} created!"
 #~ msgstr "{0} utworzony!"

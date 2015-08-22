@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cases 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-20 15:48+0000\n"
-"PO-Revision-Date: 2015-08-16 03:47+0100\n"
+"POT-Creation-Date: 2015-08-22 00:01+0000\n"
+"PO-Revision-Date: 2015-08-22 02:01+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -45,44 +45,34 @@ msgstr "Identyfikator redakcyjny"
 msgid "Case"
 msgstr "Sprawa"
 
+#: templates/cases/_btn.html:9
+msgid "Edit"
+msgstr "Edytuj"
+
+#: templates/cases/_btn.html:14 templates/cases/case_confirm_delete.html:8
+msgid "Delete"
+msgstr "Usuń"
+
+#: templates/cases/_btn.html:19
+msgid "Add tasks"
+msgstr "Utwórz zadania"
+
 #: templates/cases/_case_small.html:8
 msgid "Letter count"
 msgstr "Liczba listów"
 
-#: templates/cases/base_object.html:13 templates/cases/case_detail.html:13
-msgid "Edit"
-msgstr "Edytuj"
-
-#: templates/cases/base_object.html:14
-#: templates/cases/case_confirm_delete.html:8
-#: templates/cases/case_detail.html:14
-msgid "Delete"
-msgstr "Usuń"
-
-#: templates/cases/case_detail.html:34
+#: templates/cases/case_detail.html:29
 msgid "Tasks"
 msgstr "Zadania"
 
-#: templates/cases/case_detail.html:43
+#: templates/cases/case_detail.html:38
 msgid "Letters"
 msgstr "Listy"
 
-#: templates/cases/case_detail.html:50
+#: templates/cases/case_detail.html:45
 msgid "No rows."
 msgstr "Brak wierszy"
 
-#: views.py:13
+#: views.py:16
 msgid "Case index"
 msgstr "Wykaz spraw"
-
-#~| msgid "{0} created!"
-#~ msgid "{case} created!"
-#~ msgstr "{case} utworzona!"
-
-#~| msgid "{0} updated!"
-#~ msgid "{case} updated!"
-#~ msgstr "{case} zaktualizowana!"
-
-#~| msgid "{0} deleted!"
-#~ msgid "{case} deleted!"
-#~ msgstr "{case} usunięta!"
