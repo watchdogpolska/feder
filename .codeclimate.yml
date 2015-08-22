@@ -6,3 +6,5 @@ exclude_paths:
 - feder/*/migrations/*
 - feder/contrib/sites/migrations/*
 - feder/static/*
+- feder/*/tests.py
+- feder/*/tests/*
