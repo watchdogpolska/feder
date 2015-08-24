@@ -18,6 +18,10 @@ env:
     - TOX_ENV=coverage
     - TOX_ENV=flake8
 
+matrix:
+  allow_failures:
+    - env: TOX_ENV=flake8
+
 install:
   - pip install -U pip wheel
   - pip install tox
