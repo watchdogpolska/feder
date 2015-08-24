@@ -13,6 +13,10 @@ class CaseQuerySet(models.QuerySet):
     def with_letter_count(self):
         return self.annotate(letter_count=models.Count('letter'))
 
+    def area(self, jst):
+        return self.filter(institution__jst__tree_id=jst.tree_id,
+            institution__jst__lft__range=(jst.lft, jst.rght))
+
 
 class Case(TimeStampedModel):
     name = models.CharField(verbose_name=_("Name"), max_length=50)

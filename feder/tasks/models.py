@@ -46,6 +46,10 @@ class TaskQuerySet(models.QuerySet):
             result['progress'] = 0
         return result
 
+    def area(self, jst):
+        return self.filter(case__institution__jst__tree_id=jst.tree_id,
+            case__institution__jst__lft__range=(jst.lft, jst.rght))
+
 
 class Task(TimeStampedModel):
     name = models.CharField(max_length=75, verbose_name=_("Name"))
