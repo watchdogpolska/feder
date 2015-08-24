@@ -16,7 +16,7 @@ env:
     - TOX_ENV=py33-dj18
 #    - TOX_ENV=py33-djmaster
     - TOX_ENV=coverage
-
+    - TOX_ENV=flake8
 
 install:
   - pip install -U pip wheel
