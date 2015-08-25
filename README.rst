@@ -5,6 +5,10 @@
     :target: https://travis-ci.org/watchdogpolska/feder
     
  .. image:: https://img.shields.io/github/license/watchdogpolska/feder.svg
+ 
+ .. image:: https://requires.io/github/watchdogpolska/feder/requirements.svg?branch=master
+     :target: https://requires.io/github/watchdogpolska/feder/requirements/?branch=master
+     :alt: Requirements Status
 
 Feder
 ==============================
