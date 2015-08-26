@@ -16,12 +16,12 @@
         {% endif %}
         {% if "add_questionary" in monitoring_perms %}
         <a class="btn btn-primary" href="{% url 'questionaries:create' monitoring=object.pk %}">
-            {% trans 'Create questionary' %}
+            {% trans 'Add questionary' %}
         </a>
         {% endif %}
         {% if "add_case" in monitoring_perms %}
         <a class="btn btn-default" href="{% url 'cases:create' monitoring=object.pk %}">
-            {% trans 'Create case' %}
+            {% trans 'Add case' %}
         </a>
         {% endif %}
     </div>

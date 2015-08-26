@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tasks 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-22 00:01+0000\n"
+"POT-Creation-Date: 2015-08-26 18:38+0000\n"
 "PO-Revision-Date: 2015-08-20 20:32+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -47,53 +47,53 @@ msgstr "Tu są dostępne sprawy wyłącznie właściwe dla danego monitoringu. "
 msgid "Tasks index"
 msgstr "Wykaz zadań"
 
-#: models.py:51
+#: models.py:55
 msgid "Name"
 msgstr "Nazwa"
 
-#: models.py:52 templates/tasks/_task_small.html:8
+#: models.py:56 templates/tasks/_task_small.html:8
 #: templates/tasks/task_detail.html:26
 msgid "Case"
 msgstr "Sprawa"
 
-#: models.py:53 templates/tasks/_task_small.html:9
+#: models.py:57 templates/tasks/_task_small.html:9
 #: templates/tasks/task_detail.html:31
 msgid "Questionary"
 msgstr "Kwestionariusz"
 
-#: models.py:54
+#: models.py:58
 msgid "Questionary to fill by user as task"
 msgstr "Kwestionariusz do wypełnienia przez użytkownika jako zadanie"
 
-#: models.py:55
+#: models.py:59
 msgid "Required survey count"
 msgstr "Liczba wymaganych ankiet"
 
-#: models.py:56
+#: models.py:60
 msgid "Done survey count"
 msgstr "Liczba ukończonych ankiet"
 
-#: models.py:94
+#: models.py:98
 msgid "Task"
 msgstr "Zadanie"
 
-#: models.py:95
+#: models.py:99
 msgid "Tasks"
 msgstr "Zadania"
 
-#: models.py:117
+#: models.py:121
 msgid "Survey"
 msgstr "Ankieta"
 
-#: models.py:118
+#: models.py:122
 msgid "Surveys"
 msgstr "Ankiety"
 
-#: models.py:131
+#: models.py:135
 msgid "Answer"
 msgstr "Odpowiedź"
 
-#: models.py:132 templates/tasks/_btn.html:22
+#: models.py:136 templates/tasks/_btn.html:22
 #: templates/tasks/task_survey.html:6
 msgid "Answers"
 msgstr "Odpowiedzi"

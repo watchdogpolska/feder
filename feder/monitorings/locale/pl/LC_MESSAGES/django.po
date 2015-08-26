@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-monitorings 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-21 23:58+0000\n"
-"PO-Revision-Date: 2015-08-22 01:59+0100\n"
+"POT-Creation-Date: 2015-08-26 18:37+0000\n"
+"PO-Revision-Date: 2015-08-26 20:37+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -59,22 +59,19 @@ msgstr "Użytkownik"
 msgid "Description"
 msgstr "Opis"
 
-#: models.py:34
-#| msgid "Create questionary"
+#: models.py:34 templates/monitorings/_btn.html:19
 msgid "Add questionary"
 msgstr "Utwórz kwestionariusz"
 
 #: models.py:35
-#| msgid "Create questionary"
 msgid "Change questionary"
 msgstr "Zmień kwestionariusz"
 
 #: models.py:36
-#| msgid "Create questionary"
 msgid "Delete questionary"
 msgstr "Usuń kwestionariusz"
 
-#: models.py:37
+#: models.py:37 templates/monitorings/_btn.html:24
 msgid "Add case"
 msgstr "Utwórz sprawę"
 
@@ -83,7 +80,6 @@ msgid "Change case"
 msgstr "Zmień sprawę"
 
 #: models.py:39
-#| msgid "Delete"
 msgid "Delete case"
 msgstr "Usuń sprawę"
 
@@ -96,7 +92,6 @@ msgid "Change task"
 msgstr "Zmień zadanie"
 
 #: models.py:42
-#| msgid "Delete"
 msgid "Delete task"
 msgstr "Usuń zadanie"
 
@@ -109,15 +104,6 @@ msgstr "Edycja"
 #: templates/monitorings/monitoring_confirm_delete.html:10
 msgid "Delete"
 msgstr "Usuń"
-
-#: templates/monitorings/_btn.html:19
-msgid "Create questionary"
-msgstr "Utwórz kwestionariusz"
-
-#: templates/monitorings/_btn.html:24
-#| msgid "Create"
-msgid "Create case"
-msgstr "Utwórz sprawę"
 
 #: templates/monitorings/_monitoring_small.html:18
 msgid "Case count"
@@ -154,16 +140,17 @@ msgstr "Brak wierszy."
 
 #: templates/monitorings/monitoring_filter.html:7
 #: templates/monitorings/monitoring_preview.html:6
-msgid "Create monitoring"
-msgstr "Utwórz monitoring"
+#| msgid "Monitoring"
+msgid "Add monitoring"
+msgstr "Dodaj monitoring"
 
 #: templates/monitorings/monitoring_form.html:6
 msgid "Update"
 msgstr "Aktualizuj"
 
 #: templates/monitorings/monitoring_form.html:7
-msgid "Create"
-msgstr "Utwórz"
+msgid "Add"
+msgstr "Dodaj"
 
 #: templates/monitorings/monitoring_preview.html:9
 msgid "Preview your submission"
@@ -182,11 +169,5 @@ msgstr "lub edytuj ponownie"
 msgid "Monitoring {monitoring} created!"
 msgstr "Monitoring {monitoring} utworzony!"
 
-#~ msgid "{0} created!"
-#~ msgstr "{0} utworzona!"
-
-#~ msgid "{0} updated!"
-#~ msgstr "{0} zaktualizowany!"
-
-#~ msgid "{0} deleted!"
-#~ msgstr "{0} usunięty!"
+#~ msgid "Create questionary"
+#~ msgstr "Utwórz kwestionariusz"

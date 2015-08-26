@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cases 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-22 00:01+0000\n"
+"POT-Creation-Date: 2015-08-26 18:38+0000\n"
 "PO-Revision-Date: 2015-08-22 02:01+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -19,12 +19,12 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.5.4\n"
 
-#: filters.py:9 models.py:22 templates/cases/_case_small.html:6
+#: filters.py:9 models.py:26 templates/cases/_case_small.html:6
 #: templates/cases/_desc.html:4
 msgid "Institution"
 msgstr "Instytucja"
 
-#: filters.py:10 models.py:21 templates/cases/_case_small.html:7
+#: filters.py:10 models.py:25 templates/cases/_case_small.html:7
 #: templates/cases/_desc.html:10
 msgid "Monitoring"
 msgstr "Monitoring"
@@ -33,15 +33,15 @@ msgstr "Monitoring"
 msgid "Creation date"
 msgstr "Data utworzenia"
 
-#: models.py:18
+#: models.py:22
 msgid "Name"
 msgstr "Nazwa"
 
-#: models.py:19
+#: models.py:23
 msgid "Slug"
 msgstr "Identyfikator redakcyjny"
 
-#: models.py:28 models.py:29
+#: models.py:32 models.py:33
 msgid "Case"
 msgstr "Sprawa"
 

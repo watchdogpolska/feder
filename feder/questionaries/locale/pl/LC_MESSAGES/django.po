@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: questionaries\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-22 00:01+0000\n"
-"PO-Revision-Date: 2015-08-16 04:00+0100\n"
+"POT-Creation-Date: 2015-08-26 18:38+0000\n"
+"PO-Revision-Date: 2015-08-26 20:38+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -115,8 +115,8 @@ msgid "Add question"
 msgstr "Dodaj pytanie"
 
 #: templates/questionaries/_btn.html:21
-msgid "Create tasks"
-msgstr "Utwórz zadanie"
+msgid "Add tasks"
+msgstr "Dodaj zadania"
 
 #: templates/questionaries/question_move.html:14
 msgid "Move"
@@ -175,6 +175,9 @@ msgstr "Pytanie {object} przesunięte!"
 #, python-brace-format
 msgid "Tasks for {questionary} created!"
 msgstr "Zadania dla {questionary} utworzone!"
+
+#~ msgid "Create tasks"
+#~ msgstr "Utwórz zadanie"
 
 #~ msgid "Create questionary"
 #~ msgstr "Utwórz kwestionariusz"

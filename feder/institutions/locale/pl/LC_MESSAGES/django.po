@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-institutions 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-22 00:00+0000\n"
+"POT-Creation-Date: 2015-08-26 18:38+0000\n"
 "PO-Revision-Date: 2015-08-16 02:30+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -90,6 +90,7 @@ msgid "Case count"
 msgstr "Liczba spraw"
 
 #: templates/institutions/base_object.html:14
+#: templates/institutions/institution_filter.html:7
 msgid "Add institution"
 msgstr "Dodaj instytucje"
 
@@ -122,13 +123,12 @@ msgstr "Strona %(no)s z %(total)s"
 msgid "next"
 msgstr "następna"
 
-#: templates/institutions/institution_filter.html:7
-msgid "Create institution"
-msgstr "Utwórz instytucje"
-
 #: views.py:16
 msgid "Institutions index"
 msgstr "Wykaz instytucji"
+
+#~ msgid "Create institution"
+#~ msgstr "Utwórz instytucje"
 
 #~ msgid "{0} created!"
 #~ msgstr "{0} dodany!"

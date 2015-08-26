@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-teryt\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-22 00:01+0000\n"
+"POT-Creation-Date: 2015-08-26 18:38+0000\n"
 "PO-Revision-Date: 2015-08-20 17:48+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -47,11 +47,11 @@ msgstr "Nazwa"
 msgid "Updated date"
 msgstr "Data aktualizacji"
 
-#: models.py:82
+#: models.py:80
 msgid "Unit of administrative division"
 msgstr "Jednostka podziału terytorialnego"
 
-#: models.py:83
+#: models.py:81
 msgid "Units of administrative division"
 msgstr "Jednostki podziału terytorialnego"
 
