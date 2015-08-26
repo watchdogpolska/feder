@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.test import TestCase, RequestFactory
 from django.core.urlresolvers import reverse
 from feder.teryt.models import JednostkaAdministracyjna
@@ -14,10 +15,10 @@ except ImportError:
     from django.contrib.auth.models import User
 
 
-class InstitutionTestCase(TestCase):
+class InstitutionViewTestCase(TestCase):
     def _get_third_level_jst(self):
         jst = AutoFixture(JednostkaAdministracyjna,
-            field_values={'updated_on': '2015-02-12'},
+            field_values={'name': 'Kłodzko', 'updated_on': '2015-02-12'},
             generate_fk=True).create_one(commit=False)
         jst.rght = 0
         jst.save()
@@ -26,7 +27,6 @@ class InstitutionTestCase(TestCase):
 
     @staticmethod
     def _assign_all_perm(user):
-        assign_perm('institutions.add_institution', user)
         assign_perm('institutions.change_institution', user)
         assign_perm('institutions.delete_institution', user)
 
@@ -38,40 +38,44 @@ class InstitutionTestCase(TestCase):
 
     def setUp(self):
         self.factory = RequestFactory()
-        self.user = AutoFixture(User).create_one()
-        self._assign_all_perm(self.user)
-        self.quest = AutoFixture(User, field_values={'is_superuser': False}).create_one()
+        self.user = User.objects.create_user(username='user-1', password='test')
         self.institution = self._get_institution()
 
-    def test_list_display(self):
-        request = self.factory.get(reverse('institutions:list'))
-        response = views.InstitutionListView.as_view()(request)
+    def test_list_loads(self):
+        response = self.client.get(reverse('institutions:list'))
         self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'institutions/institution_filter.html')
+        self.assertContains(response, self.institution.name)
 
     def test_details_display(self):
-        request = self.factory.get(self.institution.get_absolute_url())
-        request.user = self.user
-        response = views.InstitutionDetailView.as_view()(request, slug=self.institution.slug)
+        response = self.client.get(self.institution.get_absolute_url())
         self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'institutions/institution_detail.html')
+        self.assertContains(response, self.institution.name)
 
-    def _perm_check(self, view, reverse_name, kwargs):
-        request = self.factory.get(reverse(reverse_name,
-            kwargs=kwargs))
-        request.user = self.user
-        response = view(request, **kwargs)
+    def _perm_check(self, url, perm, template_name='institutions/institution_form.html',
+            contains=True):
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 403)
+
+        assign_perm('institutions.' + perm, self.user)
+        self.client.login(username='user-1', password='test')
+        response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-
-        request.user = self.quest
-        with self.assertRaises(PermissionDenied):
-            view(request, **kwargs)
+        self.assertTemplateUsed(response, template_name)
+        if contains:
+            self.assertContains(response, self.institution.name)
 
     def test_create_permission_check(self):
-        self._perm_check(views.InstitutionCreateView.as_view(), 'institutions:create', kwargs={})
+        self._perm_check(reverse('institutions:create'), 'add_institution', contains=False)
 
     def test_update_permission_check(self):
-        self._perm_check(views.InstitutionUpdateView.as_view(), 'institutions:update',
-            kwargs={'slug': self.institution.slug})
+        self._perm_check(reverse('institutions:update',
+                kwargs={'slug': self.institution.slug}),
+            'change_institution')
 
     def test_delete_permission_check(self):
-        self._perm_check(views.InstitutionDeleteView.as_view(), 'institutions:delete',
-            kwargs={'slug': self.institution.slug})
+        self._perm_check(reverse('institutions:delete',
+                kwargs={'slug': self.institution.slug}),
+            'delete_institution',
+            template_name='institutions/institution_confirm_delete.html')
