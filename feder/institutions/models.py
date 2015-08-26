@@ -15,7 +15,8 @@ class InstitutionQuerySet(models.QuerySet):
 
     def area(self, jst):
         return self.filter(jst__tree_id=jst.tree_id,
-            jst__lft__range=(jst.lft, jst.rght))
+                           jst__lft__range=(jst.lft, jst.rght))
+
 
 @python_2_unicode_compatible
 class Institution(models.Model):
@@ -23,8 +24,10 @@ class Institution(models.Model):
     slug = AutoSlugField(populate_from='name', verbose_name=_("Slug"), unique=True)
     tags = models.ManyToManyField('Tag', verbose_name=_("Tag"))
     address = models.EmailField(verbose_name=_("E-mail"))
-    jst = models.ForeignKey(JednostkaAdministracyjna, limit_choices_to={'category__level': 3},
-        verbose_name=_('Unit of administrative division'), db_index=True)
+    jst = models.ForeignKey(JednostkaAdministracyjna,
+                            limit_choices_to={'category__level': 3},
+                            verbose_name=_('Unit of administrative division'),
+                            db_index=True)
     objects = PassThroughManager.for_queryset_class(InstitutionQuerySet)()
 
     class Meta:

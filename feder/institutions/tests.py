@@ -3,10 +3,8 @@ from django.test import TestCase, RequestFactory
 from django.core.urlresolvers import reverse
 from feder.teryt.models import JednostkaAdministracyjna
 from feder.institutions.models import Institution
-from django.core.exceptions import PermissionDenied
 from guardian.shortcuts import assign_perm
 from autofixture import AutoFixture
-from feder.institutions import views
 
 try:
     from django.contrib.auth import get_user_model
@@ -18,8 +16,9 @@ except ImportError:
 class InstitutionViewTestCase(TestCase):
     def _get_third_level_jst(self):
         jst = AutoFixture(JednostkaAdministracyjna,
-            field_values={'name': 'Kłodzko', 'updated_on': '2015-02-12'},
-            generate_fk=True).create_one(commit=False)
+                          field_values={'name': 'Kłodzko',
+                                        'updated_on': '2015-02-12'},
+                          generate_fk=True).create_one(commit=False)
         jst.rght = 0
         jst.save()
         JednostkaAdministracyjna.objects.rebuild()
@@ -33,8 +32,8 @@ class InstitutionViewTestCase(TestCase):
     def _get_institution(self):
         jst = self._get_third_level_jst()
         institution = AutoFixture(Institution,
-            field_values={'user': self.user,
-                          'jst': jst}).create_one()
+                                  field_values={'user': self.user,
+                                                'jst': jst}).create_one()
         return institution
 
     def setUp(self):
@@ -55,7 +54,7 @@ class InstitutionViewTestCase(TestCase):
         self.assertContains(response, self.institution.name)
 
     def _perm_check(self, url, perm, template_name='institutions/institution_form.html',
-            contains=True):
+                    contains=True):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 403)
 
@@ -72,14 +71,14 @@ class InstitutionViewTestCase(TestCase):
 
     def test_update_permission_check(self):
         self._perm_check(reverse('institutions:update',
-                kwargs={'slug': self.institution.slug}),
-            'change_institution')
+                                 kwargs={'slug': self.institution.slug}),
+                         'change_institution')
 
     def test_delete_permission_check(self):
         url = reverse('institutions:delete', kwargs={'slug': self.institution.slug})
         self._perm_check(url,
-            'delete_institution',
-            template_name='institutions/institution_confirm_delete.html')
+                         'delete_institution',
+                         template_name='institutions/institution_confirm_delete.html')
 
     def test_delete_post(self):
         url = reverse('institutions:delete', kwargs={'slug': self.institution.slug})
