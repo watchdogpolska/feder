@@ -76,7 +76,16 @@ class InstitutionViewTestCase(TestCase):
             'change_institution')
 
     def test_delete_permission_check(self):
-        self._perm_check(reverse('institutions:delete',
-                kwargs={'slug': self.institution.slug}),
+        url = reverse('institutions:delete', kwargs={'slug': self.institution.slug})
+        self._perm_check(url,
             'delete_institution',
             template_name='institutions/institution_confirm_delete.html')
+
+    def test_delete_post(self):
+        url = reverse('institutions:delete', kwargs={'slug': self.institution.slug})
+        self.assertTrue(Institution.objects.filter(pk=self.institution.pk).exists())
+        assign_perm('institutions.delete_institution', self.user)
+        self.client.login(username='user-1', password='test')
+        response = self.client.post(url, follow=True)
+        self.assertRedirects(response, reverse('institutions:list'))
+        self.assertFalse(Institution.objects.filter(pk=self.institution.pk).exists())
