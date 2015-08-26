@@ -33,7 +33,9 @@ class InstitutionViewTestCase(TestCase):
     def _get_institution(self):
         jst = self._get_third_level_jst()
         institution = AutoFixture(Institution,
-            field_values={'user': self.user, 'jst': jst}).create_one()
+            field_values={'name': 'Urząd Miejski w Pcimiu',
+                'user': self.user,
+                'jst': jst}).create_one()
         return institution
 
     def setUp(self):
