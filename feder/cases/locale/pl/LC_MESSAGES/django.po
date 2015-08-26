@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cases 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-26 22:07+0000\n"
+"POT-Creation-Date: 2015-08-26 22:15+0000\n"
 "PO-Revision-Date: 2015-08-27 00:08+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -34,22 +34,18 @@ msgid "Creation date"
 msgstr "Data utworzenia"
 
 #: filters.py:23
-#| msgid "Letter count (desceding)"
 msgid "Letter count (descending)"
 msgstr "Liczba listów (malejąco)"
 
 #: filters.py:24
-#| msgid "Letter count (desceding)"
 msgid "Letter count (ascending)"
 msgstr "Liczba listów (rosnąco)"
 
 #: filters.py:25
-#| msgid "Creation date"
 msgid "creation date (ascending)"
 msgstr "Data utworzenia (od najstarszych)"
 
 #: filters.py:26
-#| msgid "Creation date"
 msgid "creation date (descending)"
 msgstr "Data utworzenia (od najnowszych)"
 

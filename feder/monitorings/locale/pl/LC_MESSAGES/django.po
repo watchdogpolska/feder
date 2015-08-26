@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-monitorings 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-26 18:37+0000\n"
-"PO-Revision-Date: 2015-08-26 20:37+0100\n"
+"POT-Creation-Date: 2015-08-26 22:47+0000\n"
+"PO-Revision-Date: 2015-08-27 00:48+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -22,6 +22,25 @@ msgstr ""
 #: filters.py:12 templates/monitorings/_monitoring_small.html:12
 msgid "Creation date"
 msgstr "Data utworzenia"
+
+#: filters.py:29
+#| msgid "Creation date"
+msgid "Creation date (ascending)"
+msgstr "Data utworzenia (rosnąco)"
+
+#: filters.py:30
+#| msgid "Creation date"
+msgid "Creation date (descending)"
+msgstr "Data utworzenia (malejąco)"
+
+#: filters.py:31
+#| msgid "Case count"
+msgid "Cases count (ascending)"
+msgstr "Liczba spraw (rosnąco)"
+
+#: filters.py:32
+msgid "Cases count (descending)"
+msgstr "Liczba spraw (malejąco)"
 
 #: forms.py:23 templates/monitorings/monitoring_preview.html:12
 msgid "Recipients"
@@ -109,6 +128,11 @@ msgstr "Usuń"
 msgid "Case count"
 msgstr "Liczba spraw"
 
+#: templates/monitorings/base.html:5
+#| msgid "Monitoring"
+msgid "Monitorings"
+msgstr "Monitoringi"
+
 #: templates/monitorings/monitoring_detail.html:21
 msgid "by"
 msgstr "przez"
@@ -140,7 +164,6 @@ msgstr "Brak wierszy."
 
 #: templates/monitorings/monitoring_filter.html:7
 #: templates/monitorings/monitoring_preview.html:6
-#| msgid "Monitoring"
 msgid "Add monitoring"
 msgstr "Dodaj monitoring"
 

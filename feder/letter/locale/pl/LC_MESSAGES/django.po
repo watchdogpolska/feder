@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: letters 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-26 18:38+0000\n"
-"PO-Revision-Date: 2015-08-15 05:03+0100\n"
+"POT-Creation-Date: 2015-08-26 22:46+0000\n"
+"PO-Revision-Date: 2015-08-27 00:43+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -19,17 +19,17 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.5.4\n"
 
-#: filters.py:10 models.py:25
-msgid "Title"
-msgstr "Tytuł"
-
-#: filters.py:12 templates/letter/_letter_small.html:22
-msgid "Institution"
-msgstr "Instytucja"
-
-#: filters.py:13
+#: filters.py:12
 msgid "Creation date"
 msgstr "Data utworzenia"
+
+#: filters.py:21
+msgid "Creation date (ascending)"
+msgstr "Data utworzenia (rosnąco)"
+
+#: filters.py:22
+msgid "Creation date (descending)"
+msgstr "Data utworzenia (malejąco)"
 
 #: models.py:20
 msgid "Case"
@@ -43,6 +43,10 @@ msgstr "Autor (jeżeli użytkownik)"
 msgid "Author (if institution)"
 msgstr "Autor (jeżeli instytucja)"
 
+#: models.py:25
+msgid "Title"
+msgstr "Tytuł"
+
 #: models.py:26
 msgid "Text"
 msgstr "Treść"
@@ -55,13 +59,17 @@ msgstr "Cytat"
 msgid "Letter"
 msgstr "List"
 
-#: models.py:33
+#: models.py:33 templates/letter/base.html:5
 msgid "Letters"
 msgstr "Listy"
 
 #: templates/letter/_letter_small.html:12
 msgid "Author"
 msgstr "Autor"
+
+#: templates/letter/_letter_small.html:22
+msgid "Institution"
+msgstr "Instytucja"
 
 #: templates/letter/_object.html:14
 msgid "attachments"

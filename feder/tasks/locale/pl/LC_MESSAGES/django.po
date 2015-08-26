@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tasks 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-26 18:38+0000\n"
-"PO-Revision-Date: 2015-08-20 20:32+0100\n"
+"POT-Creation-Date: 2015-08-26 22:25+0000\n"
+"PO-Revision-Date: 2015-08-27 00:41+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -26,6 +26,16 @@ msgstr "Data utworzenia"
 #: filters.py:14
 msgid "Is done?"
 msgstr "Czy ukończone?"
+
+#: filters.py:26
+#| msgid "Creation date"
+msgid "creation date (ascending)"
+msgstr "Data utworzenia (rosnąco)"
+
+#: filters.py:27
+#| msgid "Creation date"
+msgid "creation date (descending)"
+msgstr "Data utworzenia (malejąco)"
 
 #: forms.py:104
 msgid "Cases"
@@ -77,7 +87,7 @@ msgstr "Liczba ukończonych ankiet"
 msgid "Task"
 msgstr "Zadanie"
 
-#: models.py:99
+#: models.py:99 templates/tasks/base.html:5
 msgid "Tasks"
 msgstr "Zadania"
 
@@ -125,7 +135,7 @@ msgid "%(progress)s%% complete"
 msgstr "%(progress)s%% ukończono"
 
 #: templates/tasks/_task_select_list.html:11
-#: templates/tasks/task_detail.html:58 templates/tasks/task_filter.html:21
+#: templates/tasks/task_detail.html:58 templates/tasks/task_filter.html:23
 msgid "No rows."
 msgstr "Brak wierszy"
 

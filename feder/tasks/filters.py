@@ -12,7 +12,7 @@ class TaskFilter(CrispyFilterMixin, django_filters.FilterSet):
     case__monitoring = AutocompleteChoiceFilter('MonitoringAutocomplete')
     created = django_filters.DateRangeFilter(label=_("Creation date"))
     done = django_filters.BooleanFilter(label=_("Is done?"),
-        action=lambda qs, v: qs.is_done(exclude=not v))
+                                        action=lambda qs, v: qs.is_done(exclude=not v))
     form_class = None
 
     def __init__(self, *args, **kwargs):
@@ -22,4 +22,7 @@ class TaskFilter(CrispyFilterMixin, django_filters.FilterSet):
     class Meta:
         model = Task
         fields = ['name', 'case', 'questionary', 'case__institution', ]
-        order_by = ['created', ]
+        order_by = [
+                    ('created', _('creation date (ascending)')),
+                    ('-created', _('creation date (descending)')),
+            ]
