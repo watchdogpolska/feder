@@ -9,7 +9,7 @@
       <li><a href="{{object.jst.get_absolute_url}}">{{object.jst}}</a></li>
       <li><a href="{{object.get_absolute_url}}">{{object}}</a></li>
     {% endif %}
-    <li>{% if headline %}{{headline }}
+    <li>{% if headline %}{{ headline }}
     {% elif object %}{% trans 'Edit' %}
     {% else %}{% trans 'Add institution'%}
     {% endif %}</li>
