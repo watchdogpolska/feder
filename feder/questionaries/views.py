@@ -62,7 +62,7 @@ class QuestionaryCreateView(LoginRequiredMixin, RaisePermissionRequiredMixin,
 
 
 class QuestionaryUpdateView(LoginRequiredMixin, AttrPermissionRequiredMixin, UserFormKwargsMixin,
-        UpdateMessageMixin, FormValidMessageMixin, UpdateView):
+                            UpdateMessageMixin, FormValidMessageMixin, UpdateView):
     model = Questionary
     form_class = QuestionaryForm
     permission_required = 'monitorings.change_questionary'
@@ -71,13 +71,15 @@ class QuestionaryUpdateView(LoginRequiredMixin, AttrPermissionRequiredMixin, Use
 
 
 class QuestionaryDeleteView(LoginRequiredMixin, AttrPermissionRequiredMixin,
-        SelectRelatedMixin, DeleteMessageMixin, DeleteView):
+                            SelectRelatedMixin, DeleteMessageMixin, DeleteView):
     model = Questionary
-    success_url = reverse_lazy('questionaries:list')
     permission_required = 'monitorings.delete_questionary'
     permission_attribute = 'monitoring'
     select_related = ['monitoring']
     raise_exception = True
+
+    def get_success_url(self):
+        return self.object.monitoring.get_absolute_url()
 
 
 class QuestionWizard(SessionWizardView):
@@ -86,7 +88,7 @@ class QuestionWizard(SessionWizardView):
 
     def perm_check(self):
         if not self.request.user.has_perm('monitorings.change_questionary',
-                self.questionary.monitoring):
+                                          self.questionary.monitoring):
             raise PermissionDenied()
         if self.questionary.lock:
             raise PermissionDenied("This questionary are locked to edit")
@@ -114,7 +116,7 @@ class QuestionWizard(SessionWizardView):
 
 
 class QuestionMoveView(LoginRequiredMixin, RaisePermissionRequiredMixin,
-        ActionMessageMixin, SelectRelatedMixin, ActionView):
+                       ActionMessageMixin, SelectRelatedMixin, ActionView):
     model = Question
     template_name_suffix = '_move'
     direction = None

@@ -33,7 +33,6 @@ class QuestionariesTestCase(TestCase):
     #     return institution
 
     def setUp(self):
-        self.factory = RequestFactory()
         self.user = User.objects.create_user(
             username='jacob', email='jacob@example.com', password='top_secret')
         assign_perm('monitorings.add_monitoring', self.user)
@@ -45,36 +44,46 @@ class QuestionariesTestCase(TestCase):
         self.questionary.save()
 
     def test_list_display(self):
-        request = self.factory.get(reverse('questionaries:list'))
-        request.user = self.user
-        response = views.QuestionaryListView.as_view()(request)
+        response = self.client.get(reverse('questionaries:list'))
         self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'questionaries/questionary_filter.html')
+        self.assertContains(response, self.questionary.title)
 
     def test_details_display(self):
-        request = self.factory.get(self.questionary.get_absolute_url())
-        request.user = self.user
-        response = views.QuestionaryDetailView.as_view()(request, pk=self.questionary.pk)
+        response = self.client.get(self.questionary.get_absolute_url())
         self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'questionaries/questionary_detail.html')
+        self.assertContains(response, self.questionary.title)
 
-    def _perm_check(self, view, reverse_name, kwargs):
-        request = self.factory.get(reverse(reverse_name,
-            kwargs=kwargs))
-        request.user = self.user
-        response = view(request, **kwargs)
+    def _perm_check(self, url, template_name='questionaries/questionary_form.html', contains=True):
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 403)
+
+        self.client.login(username='jacob', password='top_secret')
+        response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-
-        request.user = self.quest
-        with self.assertRaises(PermissionDenied):
-            view(request, **kwargs)
+        self.assertTemplateUsed(response, template_name)
+        if contains:
+            self.assertContains(response, self.questionary.title)
 
     def test_create_permission_check(self):
-        self._perm_check(views.QuestionaryCreateView.as_view(), 'questionaries:create',
-            kwargs={'monitoring': str(self.monitoring.pk)})
+        self._perm_check(reverse('questionaries:create',
+                                 kwargs={'monitoring': str(self.monitoring.pk)}),
+                         contains=False)
 
     def test_update_permission_check(self):
-        self._perm_check(views.QuestionaryUpdateView.as_view(), 'questionaries:update',
-            kwargs={'pk': self.questionary.pk})
+        self._perm_check(reverse('questionaries:update',
+                                 kwargs={'pk': self.questionary.pk}))
 
     def test_delete_permission_check(self):
-        self._perm_check(views.QuestionaryDeleteView.as_view(), 'questionaries:delete',
-            kwargs={'pk': self.questionary.pk})
+        self._perm_check(reverse('questionaries:delete',
+                                 kwargs={'pk': self.questionary.pk}),
+                         template_name='questionaries/questionary_confirm_delete.html')
+
+    def test_delete_post(self):
+        url = reverse('questionaries:delete', kwargs={'pk': self.questionary.pk})
+        self.assertTrue(Questionary.objects.filter(pk=self.questionary.pk).exists())
+        self.client.login(username='jacob', password='top_secret')
+        response = self.client.post(url, follow=True)
+        self.assertRedirects(response, self.monitoring.get_absolute_url())
+        self.assertFalse(Questionary.objects.filter(pk=self.questionary.pk).exists())

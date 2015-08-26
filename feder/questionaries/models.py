@@ -1,24 +1,28 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from model_utils.models import TimeStampedModel
 from django.core.urlresolvers import reverse
+from django.utils.encoding import python_2_unicode_compatible
+from model_utils.models import TimeStampedModel
 from feder.monitorings.models import Monitoring
 from jsonfield import JSONField
 from feder.questionaries.modulator import modulators
 
 _('Questionaries index')
 
+LOCK_HELP = _("Prevent of edit question to protect against destruction the data set")
 
+
+@python_2_unicode_compatible
 class Questionary(TimeStampedModel):
     title = models.CharField(max_length=250, verbose_name=_("Title"))
     monitoring = models.ForeignKey(Monitoring, verbose_name=_("Monitoring"))
     lock = models.BooleanField(default=False, verbose_name=_("Lock of edition"),
-        help_text=_("Prevent of edit question to protect against destruction the data set"))
+                               help_text=LOCK_HELP)
 
     def get_absolute_url(self):
         return reverse('questionaries:details', kwargs={'pk': self.pk})
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
     class Meta:
