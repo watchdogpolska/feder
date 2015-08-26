@@ -1,11 +1,11 @@
 {% extends 'institutions/base.html' %}
-{% load i18n crispy_forms_tags %}
+{% load i18n crispy_forms_tags easy_pagination_tags %}
 
 {% block content %}
 <div class="page-header">
     <h1>{% trans 'Tasks index' %}</h1>
 </div>
-<div class="row">\
+<div class="row">
 
     <div class="col-sm-9 col-sm-push-3">
         {% if object_list %}
@@ -15,6 +15,8 @@
                 {% include 'tasks/_task_small.html' with object=object %}
             </div>
             {% endfor %}
+
+            {% paginator %}
         {% else %}
         <div class="gray">
             <p>
