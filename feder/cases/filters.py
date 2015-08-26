@@ -19,4 +19,9 @@ class CaseFilter(CrispyFilterMixin, django_filters.FilterSet):
     class Meta:
         model = Case
         fields = ['name', 'monitoring', 'institution', 'created']
-        order_by = ['-letter_count', 'created', ]
+        order_by = [
+                    ('letter_count', _('Letter count (descending)')),
+                    ('-letter count', _('Letter count (ascending)')),
+                    ('created', _('creation date (ascending)')),
+                    ('-created', _('creation date (descending)')),
+            ]
