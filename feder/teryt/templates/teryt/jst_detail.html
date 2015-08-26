@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 {% load mptt_tags i18n %}
+
+{% block title %}{{object}} - {{block.super}}{%endblock %}
+
 {% block breadcrumbs %}
 <ol class="breadcrumb">
     {% for jst in object.get_ancestors.all %}

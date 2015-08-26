@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: main 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-26 18:37+0000\n"
-"PO-Revision-Date: 2015-08-15 02:14+0100\n"
+"POT-Creation-Date: 2015-08-26 19:12+0000\n"
+"PO-Revision-Date: 2015-08-26 21:13+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -267,6 +267,11 @@ msgid ""
 "<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your e-"
 "mail address</a>."
 msgstr ""
+
+#: templates/base.html:6
+#| msgid "Let's civil data mining!"
+msgid "Civil data mining"
+msgstr "Obywatelskie fedrowanie danych"
 
 #: templates/base.html:50
 msgid "Search"

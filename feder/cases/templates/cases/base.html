@@ -1,1 +1,4 @@
 {%extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans 'Cases' %} - {{block.super}}{% endblock title %}
