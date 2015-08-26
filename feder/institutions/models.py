@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse
 from autoslug.fields import AutoSlugField
@@ -17,7 +17,7 @@ class InstitutionQuerySet(models.QuerySet):
         return self.filter(jst__tree_id=jst.tree_id,
             jst__lft__range=(jst.lft, jst.rght))
 
-
+@python_2_unicode_compatible
 class Institution(models.Model):
     name = models.CharField(max_length=250, verbose_name=_("Name"))
     slug = AutoSlugField(populate_from='name', verbose_name=_("Slug"), unique=True)
@@ -31,13 +31,14 @@ class Institution(models.Model):
         verbose_name = _("Institution")
         verbose_name_plural = _("Institution")
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     def get_absolute_url(self):
         return reverse('institutions:details', kwargs={'slug': self.slug})
 
 
+@python_2_unicode_compatible
 class Email(models.Model):
     institution = models.ForeignKey(Institution, verbose_name=_("Institution"))
     email = models.EmailField(verbose_name=_("E-mail"), unique=True)
@@ -46,15 +47,16 @@ class Email(models.Model):
         verbose_name = _("Email")
         verbose_name_plural = _("Emails")
 
-    def __unicode__(self):
+    def __str__(self):
         return self.email
 
 
+@python_2_unicode_compatible
 class Tag(models.Model):
     name = models.CharField(max_length=15, verbose_name=_("Name"))
     slug = AutoSlugField(populate_from='name', verbose_name=_("Slug"))
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     def get_absolute_url(self):
