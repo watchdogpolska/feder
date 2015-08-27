@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
+from atom.forms import SingleButtonMixin
 from braces.forms import UserKwargModelFormMixin
 from django import forms
-
-from atom.forms import SingleButtonMixin
 
 from .models import Institution
 

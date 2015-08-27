@@ -1,3 +1,4 @@
+from atom.views import CreateMessageMixin, DeleteMessageMixin, UpdateMessageMixin
 from braces.views import (
     FormValidMessageMixin,
     LoginRequiredMixin,
@@ -13,7 +14,6 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
 from django_filters.views import FilterView
 
-from atom.views import CreateMessageMixin, DeleteMessageMixin, UpdateMessageMixin
 from feder.cases.models import Case
 from feder.main.mixins import AttrPermissionRequiredMixin, PermissionRequiredMixin
 

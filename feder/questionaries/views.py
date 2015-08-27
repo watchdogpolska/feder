@@ -1,3 +1,4 @@
+from atom.views import ActionMessageMixin, ActionView, CreateMessageMixin, DeleteMessageMixin, UpdateMessageMixin
 from braces.views import (
     FormValidMessageMixin,
     LoginRequiredMixin,
@@ -15,7 +16,6 @@ from django.views.generic.detail import SingleObjectMixin, SingleObjectTemplateR
 from django_filters.views import FilterView
 from formtools.wizard.views import SessionWizardView
 
-from atom.views import ActionMessageMixin, ActionView, CreateMessageMixin, DeleteMessageMixin, UpdateMessageMixin
 from feder.main.mixins import AttrPermissionRequiredMixin, RaisePermissionRequiredMixin
 from feder.monitorings.models import Monitoring
 from feder.tasks.forms import AnswerFormSet, MultiTaskForm

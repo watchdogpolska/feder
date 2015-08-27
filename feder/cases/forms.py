@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 import autocomplete_light
-from braces.forms import UserKwargModelFormMixin
-
 from atom.forms import SaveButtonMixin
+from braces.forms import UserKwargModelFormMixin
 
 from .models import Case
 

@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
+from atom.forms import HelperMixin, SaveButtonMixin
 from braces.forms import UserKwargModelFormMixin
 from django import forms
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
-from atom.forms import HelperMixin, SaveButtonMixin
 from feder.cases.models import Case
 from feder.questionaries.modulator import modulators
 

@@ -1,3 +1,4 @@
+from atom.views import DeleteMessageMixin, UpdateMessageMixin
 from braces.views import FormValidMessageMixin, LoginRequiredMixin, SelectRelatedMixin, UserFormKwargsMixin
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
@@ -9,7 +10,6 @@ from django_filters.views import FilterView
 from formtools.preview import FormPreview
 from guardian.mixins import PermissionRequiredMixin
 
-from atom.views import DeleteMessageMixin, UpdateMessageMixin
 from feder.cases.models import Case
 from feder.main.mixins import ExtraListMixin
 

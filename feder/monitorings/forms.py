@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
+from atom.forms import SaveButtonMixin
 from autocomplete_light import ModelMultipleChoiceField
 from braces.forms import UserKwargModelFormMixin
 from crispy_forms.layout import Fieldset, Layout
 from django import forms
 from django.utils.translation import ugettext as _
 
-from atom.forms import SaveButtonMixin
 from feder.letters.models import Letter
 
 from .models import Monitoring

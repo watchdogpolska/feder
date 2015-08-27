@@ -1,3 +1,4 @@
+from atom.views import CreateMessageMixin, DeleteMessageMixin, UpdateMessageMixin
 from braces.views import (
     FormValidMessageMixin,
     LoginRequiredMixin,
@@ -12,7 +13,6 @@ from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
 from django_filters.views import FilterView
 from guardian.mixins import PermissionRequiredMixin
 
-from atom.views import CreateMessageMixin, DeleteMessageMixin, UpdateMessageMixin
 from feder.monitorings.models import Monitoring
 
 from .filters import CaseFilter

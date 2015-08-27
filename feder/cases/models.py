@@ -48,4 +48,3 @@ def my_callback(sender, instance, *args, **kwargs):
         email = settings.CASE_EMAIL_TEMPLATE.format(instance.pk)
         instance.email = email
         instance.save()
-

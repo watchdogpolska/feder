@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 import django_filters
+from atom.filters import CrispyFilterMixin
 from django.contrib.auth import get_user_model
 from django.db.models import Count
 from django.utils.translation import ugettext_lazy as _
-
-from atom.filters import CrispyFilterMixin
 
 from .models import Monitoring
 

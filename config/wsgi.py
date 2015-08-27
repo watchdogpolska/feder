@@ -15,8 +15,10 @@ framework.
 """
 import os
 import sys
-from raven.contrib.django.raven_compat.middleware.wsgi import Sentry
+
 from django.core.wsgi import get_wsgi_application
+from raven.contrib.django.raven_compat.middleware.wsgi import Sentry
+
 sys.path.append(os.path.normpath(os.path.join(__file__, '../../')))
 
 

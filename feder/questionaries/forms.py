@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
+from atom.forms import HelperMixin, SaveButtonMixin
 from braces.forms import UserKwargModelFormMixin
 from django import forms
 from django.utils.translation import ugettext as _
-
-from atom.forms import HelperMixin, SaveButtonMixin
 
 from .models import Question, Questionary
 from .modulator import modulators

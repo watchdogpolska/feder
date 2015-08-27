@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 import django_filters
-from django.utils.translation import ugettext_lazy as _
-
 from atom.filters import AutocompleteChoiceFilter, CrispyFilterMixin
+from django.utils.translation import ugettext_lazy as _
 
 from .models import Questionary
 

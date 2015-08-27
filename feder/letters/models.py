@@ -1,5 +1,9 @@
+import uuid
+
+from atom.models import AttachmentBase
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.core.files.base import ContentFile
 from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse
 from django.db import models
@@ -7,9 +11,6 @@ from django.utils.translation import ugettext_lazy as _
 from model_utils.managers import PassThroughManager
 from model_utils.models import TimeStampedModel
 
-from django.core.files.base import ContentFile
-import uuid
-from atom.models import AttachmentBase
 from feder.cases.models import Case
 from feder.institutions.models import Institution
 
