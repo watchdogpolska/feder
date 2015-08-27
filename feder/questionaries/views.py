@@ -3,11 +3,11 @@ from django.views.generic import CreateView, DetailView, UpdateView, DeleteView,
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic.detail import SingleObjectTemplateResponseMixin, SingleObjectMixin
 from braces.views import (SelectRelatedMixin, LoginRequiredMixin, FormValidMessageMixin,
-    UserFormKwargsMixin, PrefetchRelatedMixin)
+                          UserFormKwargsMixin, PrefetchRelatedMixin)
 from django.core.urlresolvers import reverse_lazy
 from django_filters.views import FilterView
 from atom.views import (DeleteMessageMixin, ActionView, ActionMessageMixin,
-    CreateMessageMixin, UpdateMessageMixin)
+                        CreateMessageMixin, UpdateMessageMixin)
 from feder.main.mixins import RaisePermissionRequiredMixin, AttrPermissionRequiredMixin
 from formtools.wizard.views import SessionWizardView
 from django.db.models import F
@@ -42,7 +42,7 @@ class QuestionaryDetailView(PrefetchRelatedMixin, DetailView):
 
 
 class QuestionaryCreateView(LoginRequiredMixin, RaisePermissionRequiredMixin,
-        UserFormKwargsMixin, CreateMessageMixin, CreateView):
+                            UserFormKwargsMixin, CreateMessageMixin, CreateView):
     model = Questionary
     form_class = QuestionaryForm
     permission_required = 'monitorings.add_questionary'
@@ -136,9 +136,13 @@ class QuestionMoveView(LoginRequiredMixin, AttrPermissionRequiredMixin,
         return self.object.questionary.get_absolute_url()
 
 
-class TaskMultiCreateView(LoginRequiredMixin, RaisePermissionRequiredMixin,
-        UserFormKwargsMixin, FormValidMessageMixin, SingleObjectTemplateResponseMixin,
-        SingleObjectMixin, FormView):
+class TaskMultiCreateView(LoginRequiredMixin,
+                          RaisePermissionRequiredMixin,
+                          UserFormKwargsMixin,
+                          FormValidMessageMixin,
+                          SingleObjectTemplateResponseMixin,
+                          SingleObjectMixin,
+                          FormView):
     model = Questionary
     form_class = MultiTaskForm
     template_name_suffix = '_form'
