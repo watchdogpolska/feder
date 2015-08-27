@@ -17,6 +17,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='institution',
             name='jst',
-            field=models.ForeignKey(verbose_name='Unit of administrative division', to='teryt.JednostkaAdministracyjna'),
+            field=models.ForeignKey(verbose_name='Unit of administrative division',
+                                    to='teryt.JednostkaAdministracyjna'),
         ),
     ]

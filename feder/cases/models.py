@@ -13,6 +13,7 @@ from feder.monitorings.models import Monitoring
 
 
 class CaseQuerySet(models.QuerySet):
+
     def with_letter_count(self):
         return self.annotate(letter_count=models.Count('letter'))
 

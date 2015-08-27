@@ -45,7 +45,7 @@ class CaseDetailView(SelectRelatedMixin, PrefetchRelatedMixin, DetailView):
 
 
 class CaseCreateView(LoginRequiredMixin, PermissionRequiredMixin, UserFormKwargsMixin,
-        CreateMessageMixin, CreateView):
+                     CreateMessageMixin, CreateView):
     model = Case
     form_class = CaseForm
     permission_required = 'monitorings.add_case'
@@ -62,7 +62,7 @@ class CaseCreateView(LoginRequiredMixin, PermissionRequiredMixin, UserFormKwargs
 
 
 class CaseUpdateView(LoginRequiredMixin, UserFormKwargsMixin, PermissionRequiredMixin,
-        UpdateMessageMixin, FormValidMessageMixin, UpdateView):
+                     UpdateMessageMixin, FormValidMessageMixin, UpdateView):
     model = Case
     form_class = CaseForm
     permission_required = 'monitorings.change_case'
@@ -73,7 +73,7 @@ class CaseUpdateView(LoginRequiredMixin, UserFormKwargsMixin, PermissionRequired
 
 
 class CaseDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteMessageMixin,
-        DeleteView):
+                     DeleteView):
     model = Case
     success_url = reverse_lazy('cases:list')
     permission_required = 'monitorings.delete_case'

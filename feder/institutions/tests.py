@@ -15,6 +15,7 @@ except ImportError:
 
 
 class InstitutionViewTestCase(TestCase):
+
     def _get_third_level_jst(self):
         jst = AutoFixture(JednostkaAdministracyjna,
                           field_values={'name': 'Kłodzko',

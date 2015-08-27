@@ -17,11 +17,12 @@ _('Tasks index')
 
 
 class TaskQuerySet(models.QuerySet):
+
     def survey_count(self):
         return self.annotate(survey_count=models.Count('survey'))
 
     def survey_left(self):
-        return self.annotate(survey_left=models.F('survey_done')-models.F('survey_required'))
+        return self.annotate(survey_left=models.F('survey_done') - models.F('survey_required'))
 
     def is_done(self, exclude=False):
         func = self.exclude if exclude else self.filter
@@ -41,7 +42,7 @@ class TaskQuerySet(models.QuerySet):
 
     def survey_stats(self):
         result = self.aggregate(done_count=models.Sum('survey_done'),
-                required_count=models.Sum('survey_required'))
+                                required_count=models.Sum('survey_required'))
         if result['required_count']:
             result['progress'] = result.get('done_count', 0) / result.get('required_count', 0) * 100
         else:
@@ -50,14 +51,14 @@ class TaskQuerySet(models.QuerySet):
 
     def area(self, jst):
         return self.filter(case__institution__jst__tree_id=jst.tree_id,
-            case__institution__jst__lft__range=(jst.lft, jst.rght))
+                           case__institution__jst__lft__range=(jst.lft, jst.rght))
 
 
 class Task(TimeStampedModel):
     name = models.CharField(max_length=75, verbose_name=_("Name"))
     case = models.ForeignKey(Case, verbose_name=_("Case"))
     questionary = models.ForeignKey(Questionary, verbose_name=_("Questionary"),
-        help_text=_("Questionary to fill by user as task"))
+                                    help_text=_("Questionary to fill by user as task"))
     survey_required = models.SmallIntegerField(verbose_name=_("Required survey count"), default=2)
     survey_done = models.SmallIntegerField(verbose_name=_("Done survey count"), default=0)
     objects = PassThroughManager.for_queryset_class(TaskQuerySet)()
@@ -81,7 +82,7 @@ class Task(TimeStampedModel):
         return (self.survey_done / self.survey_required * 100)
 
     def survey_left(self):
-        return self.survey_required-self.survey_done
+        return self.survey_required - self.survey_done
 
     def is_done(self):
         return (self.survey_required <= self.survey_done)
@@ -93,7 +94,7 @@ class Task(TimeStampedModel):
 
     def get_next_for_user(self, user):
         return (Task.objects.by_monitoring(self.case.monitoring).
-            exclude_by_user(user).first())
+                exclude_by_user(user).first())
 
     class Meta:
         ordering = ['created', ]
@@ -102,9 +103,10 @@ class Task(TimeStampedModel):
 
 
 class SurveyQuerySet(models.QuerySet):
+
     def with_full_answer(self):
         return self.prefetch_related(models.Prefetch('answer_set',
-                queryset=Answer.objects.select_related('question')))
+                                                     queryset=Answer.objects.select_related('question')))
 
     def with_user(self):
         return self.select_related('user')
@@ -140,14 +142,14 @@ class Answer(models.Model):
 
 def increase_task_survey_done(sender, instance, created, **kwargs):
     if created:
-        Task.objects.filter(pk=instance.task_id).update(survey_done=models.F('survey_done')+1)
+        Task.objects.filter(pk=instance.task_id).update(survey_done=models.F('survey_done') + 1)
 
 # register the signal
 post_save.connect(increase_task_survey_done, sender=Survey, dispatch_uid="increase_task_done")
 
 
 def decrease_task_survey_done(sender, instance, **kwargs):
-    Task.objects.filter(pk=instance.task_id).update(survey_done=models.F('survey_done')-1)
+    Task.objects.filter(pk=instance.task_id).update(survey_done=models.F('survey_done') - 1)
 
 # register the signal
 post_delete.connect(decrease_task_survey_done, sender=Survey, dispatch_uid="decrease_task_done")

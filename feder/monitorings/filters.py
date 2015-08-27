@@ -27,8 +27,8 @@ class MonitoringFilter(CrispyFilterMixin, django_filters.FilterSet):
         fields = ['name', 'user', 'created']
         order_by = ['created', '-created', '-case_count']
         order_by = [
-                    ('created', _('Creation date (ascending)')),
-                    ('-created', _('Creation date (descending)')),
-                    ('case_count', _('Cases count (ascending)')),
-                    ('-case_count', _('Cases count (descending)')),
+            ('created', _('Creation date (ascending)')),
+            ('-created', _('Creation date (descending)')),
+            ('case_count', _('Cases count (ascending)')),
+            ('-case_count', _('Cases count (descending)')),
         ]

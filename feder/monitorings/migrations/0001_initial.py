@@ -16,9 +16,11 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Monitoring',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('id', models.AutoField(verbose_name='ID',
+                                        serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=50, verbose_name='Name')),
-                ('slug', autoslug.fields.AutoSlugField(populate_from=b'name', verbose_name='Slug', editable=False)),
+                ('slug', autoslug.fields.AutoSlugField(
+                    populate_from=b'name', verbose_name='Slug', editable=False)),
                 ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
         ),

@@ -7,10 +7,11 @@ from feder.teryt.models import JednostkaAdministracyjna
 
 
 class TerytViewTestCase(TestCase):
+
     def _get_third_level_jst(self):
         jst = AutoFixture(JednostkaAdministracyjna,
-            field_values={'updated_on': '2015-02-12', 'rght': 0},
-            generate_fk=True).create_one()
+                          field_values={'updated_on': '2015-02-12', 'rght': 0},
+                          generate_fk=True).create_one()
         JednostkaAdministracyjna.objects.rebuild()
         return jst
 

@@ -6,7 +6,7 @@ from .models import JednostkaAdministracyjna
 
 
 class JednostkaAdministracyjnaAutocomplete(AutocompletePerformanceMixin,
-        autocomplete_light.AutocompleteModelBase):
+                                           autocomplete_light.AutocompleteModelBase):
     search_fields = ['name']
     select_only = ['id', 'name']
 autocomplete_light.register(JednostkaAdministracyjna, JednostkaAdministracyjnaAutocomplete)

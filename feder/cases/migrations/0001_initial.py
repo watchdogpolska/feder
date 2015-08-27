@@ -18,11 +18,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Case',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('created', model_utils.fields.AutoCreatedField(default=django.utils.timezone.now, verbose_name='created', editable=False)),
-                ('modified', model_utils.fields.AutoLastModifiedField(default=django.utils.timezone.now, verbose_name='modified', editable=False)),
+                ('id', models.AutoField(verbose_name='ID',
+                                        serialize=False, auto_created=True, primary_key=True)),
+                ('created', model_utils.fields.AutoCreatedField(
+                    default=django.utils.timezone.now, verbose_name='created', editable=False)),
+                ('modified', model_utils.fields.AutoLastModifiedField(
+                    default=django.utils.timezone.now, verbose_name='modified', editable=False)),
                 ('name', models.CharField(max_length=50, verbose_name='Name')),
-                ('slug', autoslug.fields.AutoSlugField(populate_from=b'name', verbose_name='Slug', editable=False)),
+                ('slug', autoslug.fields.AutoSlugField(
+                    populate_from=b'name', verbose_name='Slug', editable=False)),
                 ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
             options={

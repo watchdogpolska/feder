@@ -24,6 +24,6 @@ class TaskFilter(CrispyFilterMixin, django_filters.FilterSet):
         model = Task
         fields = ['name', 'case', 'questionary', 'case__institution', ]
         order_by = [
-                    ('created', _('creation date (ascending)')),
-                    ('-created', _('creation date (descending)')),
-            ]
+            ('created', _('creation date (ascending)')),
+            ('-created', _('creation date (descending)')),
+        ]

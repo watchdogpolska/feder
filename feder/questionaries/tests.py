@@ -133,7 +133,7 @@ class QuestionTestCase(QuestionTestCase):
                                                 blob=blob)
 
     def _test_question_move(self, direction, target):
-        url = reverse('questionaries:question_'+direction,
+        url = reverse('questionaries:question_' + direction,
                       kwargs={'pk': self.question.pk})
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)

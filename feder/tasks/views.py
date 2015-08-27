@@ -49,7 +49,7 @@ class TaskDetailView(SelectRelatedMixin, PrefetchRelatedMixin, DetailView):
         context['formset'] = AnswerFormSet(survey=None, questionary=self.object.questionary)
         try:
             context['user_survey'] = (self.object.survey_set.with_full_answer().
-            filter(user=self.request.user).get())
+                                      filter(user=self.request.user).get())
         except Survey.DoesNotExist:
             context['user_survey'] = None
         return context
@@ -71,7 +71,7 @@ class TaskSurveyView(SelectRelatedMixin, PrefetchRelatedMixin, DetailView):
 
 
 class TaskCreateView(LoginRequiredMixin, PermissionRequiredMixin, UserFormKwargsMixin,
-        CreateMessageMixin, CreateView):
+                     CreateMessageMixin, CreateView):
     model = Task
     form_class = TaskForm
     raise_exception = True
@@ -79,7 +79,7 @@ class TaskCreateView(LoginRequiredMixin, PermissionRequiredMixin, UserFormKwargs
 
     def get_case(self):
         self.case = get_object_or_404(Case.objects.select_related('monitoring'),
-            pk=self.kwargs['case'])
+                                      pk=self.kwargs['case'])
         return self.case
 
     def get_permission_object(self):
@@ -92,7 +92,7 @@ class TaskCreateView(LoginRequiredMixin, PermissionRequiredMixin, UserFormKwargs
 
 
 class TaskUpdateView(LoginRequiredMixin, AttrPermissionRequiredMixin, UserFormKwargsMixin,
-        UpdateMessageMixin, FormValidMessageMixin, UpdateView):
+                     UpdateMessageMixin, FormValidMessageMixin, UpdateView):
     model = Task
     form_class = TaskForm
     permission_required = 'change_task'
@@ -101,7 +101,7 @@ class TaskUpdateView(LoginRequiredMixin, AttrPermissionRequiredMixin, UserFormKw
 
 
 class TaskDeleteView(LoginRequiredMixin, AttrPermissionRequiredMixin, DeleteMessageMixin,
-        DeleteView):
+                     DeleteView):
     model = Task
     success_url = reverse_lazy('tasks:list')
     permission_required = 'delete_task'
@@ -129,31 +129,31 @@ def fill_survey(request, pk):  # TODO: Convert to CBV eg. TemplateView
     context['object'] = task
     if Survey.objects.filter(task=task, user=request.user).exists():
         messages.warning(request,
-                _("Already done the job. If you want to change the answer - delete answers."))
+                         _("Already done the job. If you want to change the answer - delete answers."))
     form = SurveyForm(data=request.POST or None, task=task, user=request.user)
     context['form'] = form
     if request.POST and form.is_valid():
-            obj = form.save(commit=False)
-            formset = AnswerFormSet(data=request.POST or None, survey=obj,
-                questionary=task.questionary)
-            context['formset'] = formset
-            if formset.is_valid():
-                messages.success(request,
-                _("Thank you for your submission. It is approaching us to know the " +
-                "truth, by obtaining reliable data."))
-                obj.save()
-                formset.save()
-                if 'save' in request.POST:
-                    return redirect(obj.task)
+        obj = form.save(commit=False)
+        formset = AnswerFormSet(data=request.POST or None, survey=obj,
+                                questionary=task.questionary)
+        context['formset'] = formset
+        if formset.is_valid():
+            messages.success(request,
+                             _("Thank you for your submission. It is approaching us to know the " +
+                               "truth, by obtaining reliable data."))
+            obj.save()
+            formset.save()
+            if 'save' in request.POST:
+                return redirect(obj.task)
+            else:
+                next_task = task.get_next_for_user(request.user)
+                if next_task:
+                    return redirect(next_task)
                 else:
-                    next_task = task.get_next_for_user(request.user)
-                    if next_task:
-                        return redirect(next_task)
-                    else:
-                        messages.success(request,
-                            _("Thank you for your help. Unfortunately, all the tasks " +
-                            "for you have been exhausted."))
-                        return redirect(task.case.monitoring)
+                    messages.success(request,
+                                     _("Thank you for your help. Unfortunately, all the tasks " +
+                                       "for you have been exhausted."))
+                    return redirect(task.case.monitoring)
     else:
         formset = AnswerFormSet(data=request.POST or None, questionary=task.questionary)
         context['formset'] = formset

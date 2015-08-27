@@ -10,6 +10,7 @@ from mptt.models import MPTTModel, TreeForeignKey
 
 
 class PassThroughTreeManager(PassThroughManagerMixin, TreeManager):
+
     def with_category(self):
         return self.select_related('category')
 
@@ -70,7 +71,7 @@ class JednostkaAdministracyjna(MPTTModel):
 
     def task_qs(self):
         Task = (self.institution_set.model.case_set.related.related_model.
-            task_set.related.related_model)
+                task_set.related.related_model)
         return Task.objects.select_related('case__monitoring')
 
     class MPTTMeta:

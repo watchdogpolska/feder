@@ -17,12 +17,14 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterModelOptions(
             name='jednostkaadministracyjna',
-            options={'verbose_name': 'Jednostka podzia\u0142u terytorialnego', 'verbose_name_plural': 'Jednostki podzia\u0142u terytorialnego'},
+            options={'verbose_name': 'Jednostka podzia\u0142u terytorialnego',
+                     'verbose_name_plural': 'Jednostki podzia\u0142u terytorialnego'},
         ),
         migrations.AlterField(
             model_name='category',
             name='level',
-            field=models.IntegerField(db_index=True, choices=[(1, 'wojew\xf3dztwo'), (2, 'powiat'), (3, 'gmina')]),
+            field=models.IntegerField(db_index=True, choices=[(
+                1, 'wojew\xf3dztwo'), (2, 'powiat'), (3, 'gmina')]),
         ),
         migrations.AlterField(
             model_name='jednostkaadministracyjna',

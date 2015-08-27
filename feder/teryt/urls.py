@@ -6,7 +6,7 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-   url(r'^(?P<slug>[\w-]+)$', views.JSTDetailView.as_view(), name="details"),
-   url(r'^$', views.JednostkaAdministracyjnaListView.as_view(), name="list"),
-   url(r'^$', views.JednostkaAdministracyjnaListView.as_view(), name="voivodeship"),
+    url(r'^(?P<slug>[\w-]+)$', views.JSTDetailView.as_view(), name="details"),
+    url(r'^$', views.JednostkaAdministracyjnaListView.as_view(), name="list"),
+    url(r'^$', views.JednostkaAdministracyjnaListView.as_view(), name="voivodeship"),
 ]

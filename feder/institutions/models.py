@@ -11,6 +11,7 @@ _('Institution index')
 
 
 class InstitutionQuerySet(models.QuerySet):
+
     def with_case_count(self):
         return self.annotate(case_count=models.Count('case'))
 

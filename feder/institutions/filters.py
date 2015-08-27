@@ -31,7 +31,7 @@ class InstitutionFilter(CrispyFilterMixin, django_filters.FilterSet):
         model = Institution
         fields = ['name', 'tags']
         order_by = [
-                    ('case_count', _('Cases count (descending)')),
-                    ('-case_count', _('Cases count (ascending)')),
-                    ('jst', _('Area')),
-            ]
+            ('case_count', _('Cases count (descending)')),
+            ('-case_count', _('Cases count (ascending)')),
+            ('jst', _('Area')),
+        ]

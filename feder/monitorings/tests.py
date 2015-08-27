@@ -17,6 +17,7 @@ except ImportError:
 
 
 class PermissionTestMixin(object):
+
     def setUp(self):
         self.user = User.objects.create_user(
             username='jacob', email='jacob@example.com', password='top_secret')
@@ -39,6 +40,7 @@ class PermissionTestMixin(object):
 
 
 class MonitoringTestCase(PermissionTestMixin, TestCase):
+
     def setUp(self):
         super(MonitoringTestCase, self).setUp()
         self.monitoring = Monitoring(name="Lor", user=self.user)
@@ -64,6 +66,7 @@ class MonitoringTestCase(PermissionTestMixin, TestCase):
 
 
 class MonitoringAddViewTestCase(PermissionTestMixin, TestCase):
+
     def test_create_permission_check(self):
         assign_perm('monitorings.add_monitoring', self.user)
         self._perm_check(reverse('monitorings:create'),

@@ -22,6 +22,6 @@ class QuestionaryFilter(CrispyFilterMixin, django_filters.FilterSet):
         model = Questionary
         fields = ['title', 'monitoring', 'created', 'lock']
         order_by = [
-                    ('created', _('Creation date (ascending)')),
-                    ('-created', _('Creation date (descending)')),
+            ('created', _('Creation date (ascending)')),
+            ('-created', _('Creation date (descending)')),
         ]

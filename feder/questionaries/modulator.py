@@ -26,11 +26,11 @@ class BaseSimpleModulator(BaseBlobFormModulator):
         fields['name'] = forms.CharField(label=_("Question"))
         fields['help_text'] = forms.CharField(label=_("Description of question"))
         fields['required'] = forms.BooleanField(label=_("This fields will be required?"),
-            required=False)
+                                                required=False)
 
     def answer(self, fields):
         fields['value'] = self.output_field_cls(label=self.blob['name'],
-            help_text=self.blob['help_text'], required=self.blob.get('required', True))
+                                                help_text=self.blob['help_text'], required=self.blob.get('required', True))
 
     def read(self, cleaned_data):
         return cleaned_data['value']

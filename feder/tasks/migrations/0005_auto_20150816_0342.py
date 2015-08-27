@@ -24,7 +24,8 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='task',
             name='questionary',
-            field=models.ForeignKey(verbose_name='Questionary', to='questionaries.Questionary', help_text='Questionary to fill by user as task'),
+            field=models.ForeignKey(verbose_name='Questionary', to='questionaries.Questionary',
+                                    help_text='Questionary to fill by user as task'),
         ),
         migrations.AlterUniqueTogether(
             name='survey',

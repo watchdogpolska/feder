@@ -35,7 +35,8 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='questionary',
             name='lock',
-            field=models.BooleanField(default=False, help_text='Prevent of edit question to protect against destruction the data set', verbose_name='Lock of edition'),
+            field=models.BooleanField(
+                default=False, help_text='Prevent of edit question to protect against destruction the data set', verbose_name='Lock of edition'),
         ),
         migrations.AlterField(
             model_name='questionary',

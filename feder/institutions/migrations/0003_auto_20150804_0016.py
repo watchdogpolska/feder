@@ -15,6 +15,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='institution',
             name='slug',
-            field=autoslug.fields.AutoSlugField(editable=False, populate_from=b'name', unique=True, verbose_name='Slug'),
+            field=autoslug.fields.AutoSlugField(
+                editable=False, populate_from=b'name', unique=True, verbose_name='Slug'),
         ),
     ]

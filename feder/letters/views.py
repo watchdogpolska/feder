@@ -30,13 +30,13 @@ class LetterDetailView(SelectRelatedMixin, DetailView):
 
 
 class LetterCreateView(LoginRequiredMixin, UserFormKwargsMixin,
-        CreateMessageMixin, CreateView):
+                       CreateMessageMixin, CreateView):
     model = Letter
     form_class = LetterForm
 
 
 class LetterUpdateView(LoginRequiredMixin, UserFormKwargsMixin, UpdateMessageMixin,
-        FormValidMessageMixin, UpdateView):
+                       FormValidMessageMixin, UpdateView):
     model = Letter
     form_class = LetterForm
 

@@ -7,6 +7,7 @@ from .models import Institution
 
 
 class InstitutionForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
+
     def __init__(self, *args, **kwargs):
         super(InstitutionForm, self).__init__(*args, **kwargs)
 

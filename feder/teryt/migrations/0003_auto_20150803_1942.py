@@ -17,12 +17,14 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterModelOptions(
             name='jednostkaadministracyjna',
-            options={'verbose_name': 'Unit of administrative division', 'verbose_name_plural': 'Units of administrative division'},
+            options={'verbose_name': 'Unit of administrative division',
+                     'verbose_name_plural': 'Units of administrative division'},
         ),
         migrations.AlterField(
             model_name='category',
             name='level',
-            field=models.IntegerField(db_index=True, choices=[(1, 'voivodeship'), (2, 'county'), (3, 'community')]),
+            field=models.IntegerField(db_index=True, choices=[(
+                1, 'voivodeship'), (2, 'county'), (3, 'community')]),
         ),
         migrations.AlterField(
             model_name='jednostkaadministracyjna',

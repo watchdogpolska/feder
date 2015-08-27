@@ -9,6 +9,7 @@ from .modulator import modulators
 
 
 class QuestionaryForm(SaveButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
+
     def __init__(self, *args, **kwargs):
         self.monitoring = kwargs.pop('monitoring', None)
         super(QuestionaryForm, self).__init__(*args, **kwargs)
@@ -26,6 +27,7 @@ class QuestionaryForm(SaveButtonMixin, UserKwargModelFormMixin, forms.ModelForm)
 
 
 class BoolQuestionForm(HelperMixin, UserKwargModelFormMixin, forms.Form):
+
     def __init__(self, genre, *args, **kwargs):
         self.genre = genre
         super(BoolQuestionForm, self).__init__(*args, **kwargs)
@@ -34,6 +36,7 @@ class BoolQuestionForm(HelperMixin, UserKwargModelFormMixin, forms.Form):
 
 
 class QuestionForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
+
     def __init__(self, *args, **kwargs):
         questionary = kwargs.pop('questionary')
         super(QuestionForm, self).__init__(*args, **kwargs)

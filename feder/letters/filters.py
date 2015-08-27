@@ -19,7 +19,7 @@ class LetterFilter(CrispyFilterMixin, django_filters.FilterSet):
     class Meta:
         model = Letter
         order_by = [
-                    ('created', _('Creation date (ascending)')),
-                    ('-created', _('Creation date (descending)')),
+            ('created', _('Creation date (ascending)')),
+            ('-created', _('Creation date (descending)')),
         ]
         fields = ['title', 'created']

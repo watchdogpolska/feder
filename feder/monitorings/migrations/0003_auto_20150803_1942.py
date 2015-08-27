@@ -15,7 +15,8 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterModelOptions(
             name='monitoring',
-            options={'ordering': ['created'], 'verbose_name': 'Monitoring', 'verbose_name_plural': 'Monitoring'},
+            options={'ordering': ['created'], 'verbose_name': 'Monitoring',
+                     'verbose_name_plural': 'Monitoring'},
         ),
         migrations.RemoveField(
             model_name='monitoring',
@@ -28,11 +29,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='monitoring',
             name='created',
-            field=model_utils.fields.AutoCreatedField(default=django.utils.timezone.now, verbose_name='created', editable=False),
+            field=model_utils.fields.AutoCreatedField(
+                default=django.utils.timezone.now, verbose_name='created', editable=False),
         ),
         migrations.AddField(
             model_name='monitoring',
             name='modified',
-            field=model_utils.fields.AutoLastModifiedField(default=django.utils.timezone.now, verbose_name='modified', editable=False),
+            field=model_utils.fields.AutoLastModifiedField(
+                default=django.utils.timezone.now, verbose_name='modified', editable=False),
         ),
     ]

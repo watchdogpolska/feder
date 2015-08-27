@@ -12,6 +12,7 @@ from .models import Answer, Survey, Task
 
 
 class TaskForm(SaveButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
+
     def __init__(self, *args, **kwargs):
         self.case = kwargs.pop('case', None)
         super(TaskForm, self).__init__(*args, **kwargs)
@@ -26,6 +27,7 @@ class TaskForm(SaveButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
 
 
 class AnswerForm(HelperMixin, forms.Form):
+
     def __init__(self, question, survey=None, *args, **kwargs):
         self.question = question
         self.survey = survey
@@ -42,13 +44,14 @@ class AnswerForm(HelperMixin, forms.Form):
 
 
 class AnswerFormSet(object):  # How use django formsets?
+
     def __init__(self, questionary, survey=None, *args, **kwargs):
         self.questionary = questionary
         self.survey = survey
         self.args = args
         self.kwargs = kwargs
         self.is_bound = (self.kwargs.get('data', None) is not None
-            or self.kwargs.get('files', None) is not None)
+                         or self.kwargs.get('files', None) is not None)
 
     def __str__(self):
         return self.as_table()
@@ -105,25 +108,26 @@ class AnswerFormSet(object):  # How use django formsets?
 class MultiTaskForm(SaveButtonMixin, UserKwargModelFormMixin, forms.Form):
     cases = forms.ModelMultipleChoiceField(queryset=Case.objects.none(), label=_("Cases"))
     suffix = forms.CharField(max_length=50, label=_("Suffix"),
-        help_text=_('Suffix for name in the form "[suffix] #[no]".'))
+                             help_text=_('Suffix for name in the form "[suffix] #[no]".'))
 
     def __init__(self, questionary, *args, **kwargs):
         self.questionary = questionary
         super(MultiTaskForm, self).__init__(*args, **kwargs)
         self.fields['cases'].queryset = questionary.monitoring.case_set.all()
         self.fields['cases'].help_text = _("They are available only cases " +
-         "relevant to the monitoring.")
+                                           "relevant to the monitoring.")
 
     def get_name(self, no):
         return u"{suffix} #{no}".format(suffix=self.cleaned_data['suffix'], no=no)
 
     def save(self, *args, **kwargs):
         objs = [Task(questionary=self.questionary, name=self.get_name(no),
-            case=case) for no, case in enumerate(self.cleaned_data['cases'], start=1)]
+                     case=case) for no, case in enumerate(self.cleaned_data['cases'], start=1)]
         return Task.objects.bulk_create(objs)
 
 
 class SurveyForm(SaveButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
+
     def __init__(self, *args, **kwargs):
         self.task = kwargs.pop('task')
         super(SurveyForm, self).__init__(*args, **kwargs)

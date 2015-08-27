@@ -15,7 +15,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Category',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('id', models.AutoField(verbose_name='ID',
+                                        serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=50)),
                 ('slug', autoslug.fields.AutoSlugField(populate_from=b'name', editable=False)),
                 ('level', models.IntegerField()),
@@ -34,7 +35,8 @@ class Migration(migrations.Migration):
                 ('tree_id', models.PositiveIntegerField(editable=False, db_index=True)),
                 ('level', models.PositiveIntegerField(editable=False, db_index=True)),
                 ('category', models.ForeignKey(to='teryt.Category')),
-                ('parent', mptt.fields.TreeForeignKey(related_name='children', blank=True, to='teryt.JednostkaAdministracyjna', null=True)),
+                ('parent', mptt.fields.TreeForeignKey(related_name='children',
+                                                      blank=True, to='teryt.JednostkaAdministracyjna', null=True)),
             ],
             options={
                 'verbose_name': 'TERYT',

@@ -14,6 +14,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='category',
             name='level',
-            field=models.IntegerField(db_index=True, choices=[(1, b'wojew\xc3\xb3dztwo'), (2, b'powiat'), (3, b'gmina')]),
+            field=models.IntegerField(db_index=True, choices=[(
+                1, b'wojew\xc3\xb3dztwo'), (2, b'powiat'), (3, b'gmina')]),
         ),
     ]

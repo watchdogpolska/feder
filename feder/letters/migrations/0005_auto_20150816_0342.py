@@ -14,17 +14,20 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterModelOptions(
             name='letter',
-            options={'ordering': ['created'], 'verbose_name': 'Letter', 'verbose_name_plural': 'Letters'},
+            options={'ordering': ['created'], 'verbose_name': 'Letter',
+                     'verbose_name_plural': 'Letters'},
         ),
         migrations.AlterField(
             model_name='letter',
             name='author_institution',
-            field=models.ForeignKey(verbose_name='Author (if institution)', blank=True, to='institutions.Institution', null=True),
+            field=models.ForeignKey(verbose_name='Author (if institution)',
+                                    blank=True, to='institutions.Institution', null=True),
         ),
         migrations.AlterField(
             model_name='letter',
             name='author_user',
-            field=models.ForeignKey(verbose_name='Author (if user)', blank=True, to=settings.AUTH_USER_MODEL, null=True),
+            field=models.ForeignKey(verbose_name='Author (if user)',
+                                    blank=True, to=settings.AUTH_USER_MODEL, null=True),
         ),
         migrations.AlterField(
             model_name='letter',

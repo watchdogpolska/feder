@@ -42,13 +42,13 @@ class InstitutionDetailView(SelectRelatedMixin, ExtraListMixin, PrefetchRelatedM
     @staticmethod
     def get_object_list(obj):
         return (Case.objects.filter(institution=obj).
-            select_related('monitoring').
-            prefetch_related('task_set').
-            order_by('monitoring').all())
+                select_related('monitoring').
+                prefetch_related('task_set').
+                order_by('monitoring').all())
 
 
 class InstitutionCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateMessageMixin,
-        UserFormKwargsMixin, CreateView):
+                            UserFormKwargsMixin, CreateView):
     model = Institution
     form_class = InstitutionForm
     permission_required = "institutions.add_institution"
@@ -56,7 +56,7 @@ class InstitutionCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateM
 
 
 class InstitutionUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UserFormKwargsMixin,
-        UpdateMessageMixin, FormValidMessageMixin, UpdateView):
+                            UpdateMessageMixin, FormValidMessageMixin, UpdateView):
     model = Institution
     form_class = InstitutionForm
     permission_required = "institutions.change_institution"
@@ -64,7 +64,7 @@ class InstitutionUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UserFor
 
 
 class InstitutionDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteMessageMixin,
-        UpdateMessageMixin, DeleteView):
+                            UpdateMessageMixin, DeleteView):
     model = Institution
     success_url = reverse_lazy('institutions:list')
     permission_required = "institutions.delete_institution"
