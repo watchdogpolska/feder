@@ -115,12 +115,14 @@ class QuestionWizard(SessionWizardView):
         return redirect(obj.questionary)
 
 
-class QuestionMoveView(LoginRequiredMixin, RaisePermissionRequiredMixin,
+class QuestionMoveView(LoginRequiredMixin, AttrPermissionRequiredMixin,
                        ActionMessageMixin, SelectRelatedMixin, ActionView):
     model = Question
     template_name_suffix = '_move'
     direction = None
     select_related = ['questionary__monitoring', ]
+    permission_required = 'monitorings.change_questionary'
+    permission_attribute = 'questionary__monitoring'
     change = {'up': -1, 'down': +1}
 
     def action(self, *args, **kwargs):

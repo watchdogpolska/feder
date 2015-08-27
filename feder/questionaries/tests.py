@@ -1,13 +1,10 @@
-from django.test import TestCase, RequestFactory
+from django.test import TestCase
 from django.core.urlresolvers import reverse
 from feder.monitorings.models import Monitoring
-from django.core.exceptions import PermissionDenied
 from guardian.shortcuts import assign_perm
-from autofixture import AutoFixture
 # from feder.teryt.models import JednostkaAdministracyjna
 # from feder.institutions.models import Institution
-from feder.questionaries import views
-from feder.questionaries.models import Questionary
+from feder.questionaries.models import Questionary, Question
 
 try:
     from django.contrib.auth import get_user_model
@@ -80,6 +77,11 @@ class QuestionariesTestCase(TestCase):
                                  kwargs={'pk': self.questionary.pk}),
                          template_name='questionaries/questionary_confirm_delete.html')
 
+    def test_question_create_permission_check(self):
+        self._perm_check(reverse('questionaries:question_create',
+                                 kwargs={'pk': self.questionary.pk}),
+                         template_name='questionaries/question_wizard.html')
+
     def test_delete_post(self):
         url = reverse('questionaries:delete', kwargs={'pk': self.questionary.pk})
         self.assertTrue(Questionary.objects.filter(pk=self.questionary.pk).exists())
@@ -87,3 +89,62 @@ class QuestionariesTestCase(TestCase):
         response = self.client.post(url, follow=True)
         self.assertRedirects(response, self.monitoring.get_absolute_url())
         self.assertFalse(Questionary.objects.filter(pk=self.questionary.pk).exists())
+
+
+class QuestionTestCase(TestCase):
+
+    def setUp(self):
+        self.user = User.objects.create_user(
+            username='jacob', email='jacob@example.com', password='top_secret')
+        self.monitoring = Monitoring(name="Lor", user=self.user)
+        self.monitoring.save()
+        self.questionary = Questionary(title="blabla", monitoring=self.monitoring)
+        self.questionary.save()
+        self.client.login(username='jacob', password='top_secret')
+
+    def test_question_create(self):  # TODO: Add lock test
+        url = reverse('questionaries:question_create', kwargs={'pk': self.questionary.pk})
+        self.client.get(url)
+        param = {'question_wizard-current_step': '0',
+                 '0-position': '2',
+                 '0-genre': 'char',
+                 'submit': 'y'}
+        response = self.client.post(url, param)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(Question.objects.count(), 1)
+        response = self.client.post(url, {'question_wizard-current_step': '1',
+                                          '1-name': 'Question name',
+                                          '1-help_text': 'Question help_text',
+                                          '1-required': 'on',
+                                          'submit': ''})
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(Question.objects.count(), 2)
+
+
+class QuestionTestCase(QuestionTestCase):
+
+    def setUp(self):
+        super(QuestionTestCase, self).setUp()
+        blob = {'help_text': 'Question help_text', 'required': True, 'name': 'Question name'}
+        self.question = Question.objects.create(questionary=self.questionary,
+                                                position=0,
+                                                genre='char',
+                                                blob=blob)
+
+    def _test_question_move(self, direction, target):
+        url = reverse('questionaries:question_'+direction,
+                      kwargs={'pk': self.question.pk})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'questionaries/question_move.html')
+
+        response = self.client.post(url)
+        self.assertEqual(response.status_code, 302)
+
+        self.assertEqual(Question.objects.get(pk=self.question.pk).position, target)
+
+    def test_question_up(self):
+        return self._test_question_move('up', -1)
+
+    def test_question_down(self):
+        return self._test_question_move('down', +1)
