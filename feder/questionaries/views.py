@@ -111,7 +111,7 @@ class QuestionWizard(SessionWizardView):
         return context
 
     def done(self, form_list, **kwargs):
-        obj = form_list[0].save(form_list[1].cleaned_data)
+        obj = list(form_list)[0].save(list(form_list)[1].cleaned_data)
         return redirect(obj.questionary)
 
 
