@@ -4,12 +4,13 @@ from .models import Monitoring
 from braces.forms import UserKwargModelFormMixin
 from crispy_forms.layout import Layout, Fieldset
 from django.utils.translation import ugettext as _
-import autocomplete_light
+from autocomplete_light import ModelMultipleChoiceField
 from atom.forms import SaveButtonMixin
 from feder.letter.models import Letter
 
 
 class MonitoringForm(SaveButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
+
     def __init__(self, *args, **kwargs):
         super(MonitoringForm, self).__init__(*args, **kwargs)
 
@@ -19,21 +20,20 @@ class MonitoringForm(SaveButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
 
 
 class CreateMonitoringForm(SaveButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
-    recipients = autocomplete_light.ModelMultipleChoiceField('InstitutionAutocomplete',
-        label=_("Recipients"))
+    recipients = ModelMultipleChoiceField('InstitutionAutocomplete', label=_("Recipients"))
     text = forms.CharField(widget=forms.Textarea, label=_("Text"))
 
     def __init__(self, *args, **kwargs):
         super(CreateMonitoringForm, self).__init__(*args, **kwargs)
         self.helper.layout = Layout(
             Fieldset(_("Monitoring"),
-                'name',
+                     'name',
                      ),
             Fieldset(_("Content of new letter"),
-                'recipients',
-                'text'
+                     'recipients',
+                     'text'
                      )
-            )
+        )
 
     def save(self, *args, **kwargs):
         self.instance.user = self.user
@@ -43,10 +43,10 @@ class CreateMonitoringForm(SaveButtonMixin, UserKwargModelFormMixin, forms.Model
         for institution in self.cleaned_data['recipients']:
             postfix = " #%d" % (count, )
             Letter.send_new_case(user=self.user,
-                monitoring=obj,
-                postfix=postfix,
-                institution=institution,
-                text=text)
+                                 monitoring=obj,
+                                 postfix=postfix,
+                                 institution=institution,
+                                 text=text)
             count += 1
         return obj
 

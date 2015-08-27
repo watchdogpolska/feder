@@ -15,7 +15,7 @@ class CaseQuerySet(models.QuerySet):
 
     def area(self, jst):
         return self.filter(institution__jst__tree_id=jst.tree_id,
-            institution__jst__lft__range=(jst.lft, jst.rght))
+                           institution__jst__lft__range=(jst.lft, jst.rght))
 
 
 class Case(TimeStampedModel):
@@ -38,3 +38,6 @@ class Case(TimeStampedModel):
 
     def get_absolute_url(self):
         return reverse('cases:details', kwargs={'slug': self.slug})
+
+    def get_email(self):
+        return settings.CASE_EMAIL_TEMPLATE.format(self.pk)

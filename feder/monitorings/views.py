@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from braces.views import (SelectRelatedMixin, LoginRequiredMixin, FormValidMessageMixin,
-    UserFormKwargsMixin)
+                          UserFormKwargsMixin)
 from guardian.mixins import PermissionRequiredMixin
 from formtools.preview import FormPreview
 from django_filters.views import FilterView
@@ -36,9 +36,9 @@ class MonitoringDetailView(SelectRelatedMixin, ExtraListMixin, DetailView):
     @staticmethod
     def get_object_list(obj):
         return (Case.objects.filter(monitoring=obj).
-            select_related('institution').
-            prefetch_related('task_set').
-            order_by('institution').all())
+                select_related('institution').
+                prefetch_related('task_set').
+                order_by('institution').all())
 
 
 class MonitoringCreateView(FormPreview):
@@ -76,7 +76,7 @@ class MonitoringCreateView(FormPreview):
 
 
 class MonitoringUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UserFormKwargsMixin,
-        UpdateMessageMixin, FormValidMessageMixin, UpdateView):
+                           UpdateMessageMixin, FormValidMessageMixin, UpdateView):
     model = Monitoring
     form_class = MonitoringForm
     permission_required = 'monitorings.change_monitoring'
@@ -84,7 +84,7 @@ class MonitoringUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UserForm
 
 
 class MonitoringDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteMessageMixin,
-        DeleteView):
+                           DeleteView):
     model = Monitoring
     success_url = reverse_lazy('monitorings:list')
     permission_required = 'monitorings.delete_monitoring'

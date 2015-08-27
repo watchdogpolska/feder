@@ -1,3 +1,4 @@
+from django.core.mail import send_mail
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse
@@ -11,17 +12,18 @@ from feder.cases.models import Case
 
 
 class LetterQuerySet(models.QuerySet):
+
     def for_milestone(self):
         return (self.prefetch_related('attachment_set').
-            select_related('author_user', 'author_institution'))
+                select_related('author_user', 'author_institution'))
 
 
 class Letter(TimeStampedModel):
     case = models.ForeignKey(Case, verbose_name=_("Case"))
     author_user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("Author (if user)"),
-        null=True, blank=True)
+                                    null=True, blank=True)
     author_institution = models.ForeignKey(Institution, verbose_name=_("Author (if institution)"),
-        null=True, blank=True)
+                                           null=True, blank=True)
     title = models.CharField(verbose_name=_("Title"), max_length=50)
     body = models.TextField(verbose_name=_("Text"))
     quote = models.TextField(verbose_name=_("Quote"), blank=True)
@@ -54,17 +56,22 @@ class Letter(TimeStampedModel):
     @classmethod
     def send_new_case(cls, user, monitoring, institution, text, postfix=''):
         case = Case(user=user,
-            name=monitoring.name+postfix,
-            monitoring=monitoring,
-            institution=institution)
+                    name=monitoring.name + postfix,
+                    monitoring=monitoring,
+                    institution=institution)
         case.save()
         letter = cls(author_user=user, case=case, title=monitoring.name, body=text)
         letter.save()
         letter.send()
         return letter
 
+    def email_body(self):
+        return self.body.replace('{{EMAIL}}', self.case.get_email())
+
     def send(self):
-        pass
+        send_mail(subject=self.case.monitoring, from_email=self.case.get_email(),
+                  recipient_list=[self.case.institution.address],
+                  message=self.email_body())
 
 
 class Attachment(AttachmentBase):
