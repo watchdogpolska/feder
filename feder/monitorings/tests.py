@@ -7,6 +7,7 @@ from guardian.shortcuts import assign_perm
 from feder.institutions.factory import factory_institution
 from feder.monitorings.forms import CreateMonitoringForm
 from feder.monitorings.models import Monitoring
+from feder.letters.models import Letter
 
 try:
     from django.contrib.auth import get_user_model
@@ -70,7 +71,7 @@ class MonitoringAddViewTestCase(PermissionTestMixin, TestCase):
 
     def test_create(self):
         institution = factory_institution(self.user)
-        param = {'text': 'Example text',
+        param = {'text': 'Example text {{EMAIL}}',
                  'recipients': [institution.pk],
                  'name': 'Example name'}
         assign_perm('monitorings.add_monitoring', self.user)
@@ -91,3 +92,5 @@ class MonitoringAddViewTestCase(PermissionTestMixin, TestCase):
         self.assertEqual(Monitoring.objects.count(), 1)
 
         self.assertEqual(len(mail.outbox), 1)
+
+        Letter.objects.get().eml.delete()
