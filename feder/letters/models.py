@@ -83,7 +83,8 @@ class Letter(TimeStampedModel):
 
     def send(self, commit=True):
         message = self._construct_message()
-        self.eml.save('%s.eml' % uuid.uuid4(), ContentFile(message.message()), save=False)
+        text = message.message().as_bytes()
+        self.eml.save('%s.eml' % uuid.uuid4(), ContentFile(text), save=False)
         if commit:
             self.save()
         return message.send()
