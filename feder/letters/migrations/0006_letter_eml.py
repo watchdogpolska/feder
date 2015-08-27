@@ -7,15 +7,13 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('cases', '0004_auto_20150803_1806'),
-        ('letters', '0001_initial'),
+        ('letters', '0005_auto_20150816_0342'),
     ]
 
     operations = [
         migrations.AddField(
             model_name='letter',
-            name='case',
-            field=models.ForeignKey(default=1, to='cases.Case'),
-            preserve_default=False,
+            name='eml',
+            field=models.FileField(upload_to=b'messages/%Y/%m/%d', null=True, verbose_name='File'),
         ),
     ]

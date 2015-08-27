@@ -43,6 +43,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='attachment',
             name='record',
-            field=models.ForeignKey(to='letter.Letter'),
+            field=models.ForeignKey(to='letters.Letter'),
         ),
     ]

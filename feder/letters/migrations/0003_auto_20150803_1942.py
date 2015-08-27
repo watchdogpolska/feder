@@ -7,7 +7,7 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('letter', '0002_letter_case'),
+        ('letters', '0002_letter_case'),
     ]
 
     operations = [
