@@ -54,7 +54,7 @@ LOCAL_APPS = (
     'feder.monitorings',
     'feder.tasks',
     'feder.cases',
-    'feder.letter',
+    'feder.letters',
     'feder.questionaries',
     'feder.main',
     'feder.easy_pagination',

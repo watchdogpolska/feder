@@ -6,7 +6,7 @@ from crispy_forms.layout import Layout, Fieldset
 from django.utils.translation import ugettext as _
 from autocomplete_light import ModelMultipleChoiceField
 from atom.forms import SaveButtonMixin
-from feder.letter.models import Letter
+from feder.letters.models import Letter
 
 
 class MonitoringForm(SaveButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
