@@ -23,7 +23,6 @@ class Command(BaseCommand):
                     7: 3}
 
     def add_arguments(self, parser):
-        parser.add_argument('--limit', default='10000', type=int)
         parser.add_argument('filename', type=str)
 
     @classmethod
@@ -51,7 +50,4 @@ class Command(BaseCommand):
                     obj = Command.to_object(row)
                     obj.save()
                     row_count += 1
-                    if row_count > options['limit']:
-                        self.stdout.write("Limit reach.\n")
-                        break
         self.stdout.write("%s rows imported.\n" % row_count)
