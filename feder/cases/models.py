@@ -1,12 +1,13 @@
-from django.db import models
-from django.utils.translation import ugettext_lazy as _
-from django.core.urlresolvers import reverse
+from autoslug.fields import AutoSlugField
 from django.conf import settings
+from django.core.urlresolvers import reverse
+from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.utils.translation import ugettext_lazy as _
 from model_utils.managers import PassThroughManager
 from model_utils.models import TimeStampedModel
-from autoslug.fields import AutoSlugField
+
 from feder.institutions.models import Institution
 from feder.monitorings.models import Monitoring
 
@@ -45,4 +46,6 @@ class Case(TimeStampedModel):
 def my_callback(sender, instance, *args, **kwargs):
     if not instance.email:
         email = settings.CASE_EMAIL_TEMPLATE.format(instance.pk)
-        instance.update(email=email)
+        instance.email = email
+        instance.save()
+

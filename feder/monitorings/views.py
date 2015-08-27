@@ -1,20 +1,21 @@
-from django.views.generic import DetailView, UpdateView, DeleteView
-from django.utils.translation import ugettext_lazy as _
-from django.http import HttpResponseRedirect
-from django.core.urlresolvers import reverse_lazy
+from braces.views import FormValidMessageMixin, LoginRequiredMixin, SelectRelatedMixin, UserFormKwargsMixin
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-from braces.views import (SelectRelatedMixin, LoginRequiredMixin, FormValidMessageMixin,
-                          UserFormKwargsMixin)
-from guardian.mixins import PermissionRequiredMixin
-from formtools.preview import FormPreview
+from django.core.urlresolvers import reverse_lazy
+from django.http import HttpResponseRedirect
+from django.utils.translation import ugettext_lazy as _
+from django.views.generic import DeleteView, DetailView, UpdateView
 from django_filters.views import FilterView
+from formtools.preview import FormPreview
+from guardian.mixins import PermissionRequiredMixin
+
 from atom.views import DeleteMessageMixin, UpdateMessageMixin
-from feder.main.mixins import ExtraListMixin
 from feder.cases.models import Case
-from .models import Monitoring
-from .forms import MonitoringForm, CreateMonitoringForm
+from feder.main.mixins import ExtraListMixin
+
 from .filters import MonitoringFilter
+from .forms import CreateMonitoringForm, MonitoringForm
+from .models import Monitoring
 
 
 class MonitoringListView(SelectRelatedMixin, FilterView):

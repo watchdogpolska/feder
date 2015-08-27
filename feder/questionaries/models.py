@@ -1,10 +1,11 @@
-from django.db import models
-from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse
+from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
-from model_utils.models import TimeStampedModel
-from feder.monitorings.models import Monitoring
+from django.utils.translation import ugettext_lazy as _
 from jsonfield import JSONField
+from model_utils.models import TimeStampedModel
+
+from feder.monitorings.models import Monitoring
 from feder.questionaries.modulator import modulators
 
 _('Questionaries index')

@@ -1,6 +1,8 @@
 from autofixture import AutoFixture
-from .models import Institution
+
 from feder.teryt.factory import factory_jst
+
+from .models import Institution
 
 
 def factory_institution(user):

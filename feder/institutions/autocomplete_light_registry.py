@@ -1,6 +1,8 @@
 import autocomplete_light
-from .models import Institution, Tag
+
 from feder.main.mixins import AutocompletePerformanceMixin
+
+from .models import Institution, Tag
 
 
 class InstitutionAutocomplete(AutocompletePerformanceMixin,

@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
-from lxml import etree
-from django.db import transaction
 from django.core.management.base import BaseCommand
+from django.db import transaction
 from django.utils.lru_cache import lru_cache
-from feder.teryt.models import JednostkaAdministracyjna, Category
+from lxml import etree
+
+from feder.teryt.models import Category, JednostkaAdministracyjna
 
 
 @lru_cache()

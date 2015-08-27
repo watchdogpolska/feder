@@ -1,14 +1,17 @@
-from django.core.mail import EmailMessage
-from django.db import models
-from django.utils.translation import ugettext_lazy as _
-from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from atom.models import AttachmentBase
+from django.core.mail import EmailMessage
+from django.core.urlresolvers import reverse
+from django.db import models
+from django.utils.translation import ugettext_lazy as _
 from model_utils.managers import PassThroughManager
 from model_utils.models import TimeStampedModel
-from feder.institutions.models import Institution
+
+from django.core.files.base import ContentFile
+import uuid
+from atom.models import AttachmentBase
 from feder.cases.models import Case
+from feder.institutions.models import Institution
 
 
 class LetterQuerySet(models.QuerySet):
@@ -72,17 +75,17 @@ class Letter(TimeStampedModel):
 
     def _construct_message(self):
         return EmailMessage(subject=self.case.monitoring,
-                            from_email=self.case.get_email(),
-                            reply_to=[self.case.get_email()],
+                            from_email=self.case.email,
+                            reply_to=[self.case.email],
                             to=[self.case.institution.address],
-                            body=self.case.email)
+                            body=self.email_body())
 
     def send(self, commit=True):
-        self.eml = self._construct_message()
-        r = self.eml.send()
+        message = self._construct_message()
+        self.eml.save('%s.eml' % uuid.uuid4(), ContentFile(message.message()), save=False)
         if commit:
             self.save()
-        return r
+        return message.send()
 
 
 class Attachment(AttachmentBase):

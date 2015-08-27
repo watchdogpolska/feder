@@ -1,4 +1,5 @@
 from autofixture import AutoFixture
+
 from .models import JednostkaAdministracyjna
 
 

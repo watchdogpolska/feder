@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
-from django import forms
-from .models import Institution
-from atom.forms import SingleButtonMixin
 from braces.forms import UserKwargModelFormMixin
+from django import forms
+
+from atom.forms import SingleButtonMixin
+
+from .models import Institution
 
 
 class InstitutionForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):

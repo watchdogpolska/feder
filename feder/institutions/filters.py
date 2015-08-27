@@ -1,7 +1,9 @@
-from django.utils.translation import ugettext_lazy as _
 import django_filters
-from feder.teryt.filters import JSTModelChoice
+from django.utils.translation import ugettext_lazy as _
+
 from atom.filters import AutocompleteChoiceFilter, CrispyFilterMixin
+from feder.teryt.filters import JSTModelChoice
+
 from .models import Institution
 
 

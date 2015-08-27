@@ -1,6 +1,7 @@
-from django.db.models import Count
 from django.contrib import admin
-from .models import Institution, Email, Tag
+from django.db.models import Count
+
+from .models import Email, Institution, Tag
 
 
 class EmailInline(admin.StackedInline):

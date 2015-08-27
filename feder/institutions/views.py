@@ -1,17 +1,23 @@
-from django.views.generic import DetailView
+from braces.views import (
+    FormValidMessageMixin,
+    LoginRequiredMixin,
+    PermissionRequiredMixin,
+    PrefetchRelatedMixin,
+    SelectRelatedMixin,
+    UserFormKwargsMixin
+)
+from django.core.urlresolvers import reverse_lazy
+from django.utils.translation import ugettext_lazy as _
+from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
 from django_filters.views import FilterView
-from braces.views import SelectRelatedMixin, PrefetchRelatedMixin
+
+from atom.views import CreateMessageMixin, DeleteMessageMixin, UpdateMessageMixin
 from feder.cases.models import Case
 from feder.main.mixins import ExtraListMixin
-from .models import Institution
+
 from .filters import InstitutionFilter
-from django.views.generic import CreateView, UpdateView, DeleteView
-from django.utils.translation import ugettext_lazy as _
-from braces.views import (LoginRequiredMixin, PermissionRequiredMixin, FormValidMessageMixin,
-    UserFormKwargsMixin)
-from django.core.urlresolvers import reverse_lazy
-from atom.views import DeleteMessageMixin, CreateMessageMixin, UpdateMessageMixin
 from .forms import InstitutionForm
+from .models import Institution
 
 _('Institutions index')
 

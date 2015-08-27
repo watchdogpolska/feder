@@ -1,14 +1,16 @@
 from __future__ import division
-from django.db import models
+
 from django.conf import settings
-from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse
+from django.db import models
+from django.db.models.signals import post_delete, post_save
+from django.utils.translation import ugettext_lazy as _
+from jsonfield import JSONField
 from model_utils.managers import PassThroughManager
 from model_utils.models import TimeStampedModel
+
 from feder.cases.models import Case
-from jsonfield import JSONField
-from django.db.models.signals import post_save, post_delete
-from feder.questionaries.models import Questionary, Question
+from feder.questionaries.models import Question, Questionary
 from feder.questionaries.modulator import modulators
 
 _('Tasks index')

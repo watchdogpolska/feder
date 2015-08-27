@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
-from .models import Letter
-from django.utils.translation import ugettext_lazy as _
-from atom.filters import CrispyFilterMixin, AutocompleteChoiceFilter
 import django_filters
+from django.utils.translation import ugettext_lazy as _
+
+from atom.filters import AutocompleteChoiceFilter, CrispyFilterMixin
+
+from .models import Letter
 
 
 class LetterFilter(CrispyFilterMixin, django_filters.FilterSet):

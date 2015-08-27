@@ -1,13 +1,14 @@
-from django.test import TestCase, RequestFactory
-from django.core.urlresolvers import reverse
-from feder.monitorings.models import Monitoring
 from django.core.exceptions import PermissionDenied
+from django.core.urlresolvers import reverse
+from django.test import RequestFactory, TestCase
 from guardian.shortcuts import assign_perm
-from feder.questionaries.models import Questionary
+
 from feder.cases.models import Case
-from feder.tasks.models import Task
-from feder.tasks import views
 from feder.institutions.factory import factory_institution
+from feder.monitorings.models import Monitoring
+from feder.questionaries.models import Questionary
+from feder.tasks import views
+from feder.tasks.models import Task
 
 try:
     from django.contrib.auth import get_user_model

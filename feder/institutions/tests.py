@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
-from django.test import TestCase, RequestFactory
-from django.core.urlresolvers import reverse
-from feder.teryt.models import JednostkaAdministracyjna
-from feder.institutions.models import Institution
-from guardian.shortcuts import assign_perm
 from autofixture import AutoFixture
+from django.core.urlresolvers import reverse
+from django.test import RequestFactory, TestCase
+from guardian.shortcuts import assign_perm
+
+from feder.institutions.models import Institution
+from feder.teryt.models import JednostkaAdministracyjna
 
 try:
     from django.contrib.auth import get_user_model

@@ -1,15 +1,13 @@
-from django.db import models
-from django.utils.translation import ugettext_lazy as _
-from django.core.urlresolvers import reverse
-from django.conf import settings
-from model_utils.models import TimeStampedModel
-from model_utils.managers import PassThroughManager
 from autoslug.fields import AutoSlugField
-from guardian.models import UserObjectPermissionBase
-from guardian.models import GroupObjectPermissionBase
-from guardian.shortcuts import assign_perm
+from django.conf import settings
+from django.core.urlresolvers import reverse
+from django.db import models
 from django.db.models.signals import post_save
-
+from django.utils.translation import ugettext_lazy as _
+from guardian.models import GroupObjectPermissionBase, UserObjectPermissionBase
+from guardian.shortcuts import assign_perm
+from model_utils.managers import PassThroughManager
+from model_utils.models import TimeStampedModel
 
 _('Monitorings index')
 

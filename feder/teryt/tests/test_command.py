@@ -1,8 +1,9 @@
-from os import path
+import io
 import tempfile
 import zipfile
-import io
 from collections import OrderedDict
+from os import path
+
 import requests
 from django.core import management
 from django.test import TestCase

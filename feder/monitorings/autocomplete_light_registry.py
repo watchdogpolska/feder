@@ -1,5 +1,7 @@
 import autocomplete_light
+
 from feder.main.mixins import AutocompletePerformanceMixin
+
 from .models import Monitoring
 
 

@@ -1,8 +1,9 @@
-from django.test import TestCase, RequestFactory
-from django.core.urlresolvers import reverse
-from feder.teryt.models import JednostkaAdministracyjna
 from autofixture import AutoFixture
+from django.core.urlresolvers import reverse
+from django.test import RequestFactory, TestCase
+
 from feder.teryt import views
+from feder.teryt.models import JednostkaAdministracyjna
 
 
 class TerytViewTestCase(TestCase):

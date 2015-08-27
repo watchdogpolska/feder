@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
+from braces.forms import UserKwargModelFormMixin
 from django import forms
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
-from atom.forms import SaveButtonMixin, HelperMixin
-from braces.forms import UserKwargModelFormMixin
+
+from atom.forms import HelperMixin, SaveButtonMixin
 from feder.cases.models import Case
 from feder.questionaries.modulator import modulators
-from .models import Task, Survey, Answer
+
+from .models import Answer, Survey, Task
 
 
 class TaskForm(SaveButtonMixin, UserKwargModelFormMixin, forms.ModelForm):

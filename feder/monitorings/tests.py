@@ -1,11 +1,13 @@
 from django.core import mail
-from django.test import TestCase
 from django.core.urlresolvers import reverse
-from feder.monitorings.models import Monitoring
-from guardian.shortcuts import assign_perm
+from django.test import TestCase
 from formtools.utils import form_hmac
+from guardian.shortcuts import assign_perm
+
 from feder.institutions.factory import factory_institution
 from feder.monitorings.forms import CreateMonitoringForm
+from feder.monitorings.models import Monitoring
+
 try:
     from django.contrib.auth import get_user_model
     User = get_user_model()

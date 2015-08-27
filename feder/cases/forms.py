@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
-from .models import Case
-from braces.forms import UserKwargModelFormMixin
-from atom.forms import SaveButtonMixin
 import autocomplete_light
+from braces.forms import UserKwargModelFormMixin
+
+from atom.forms import SaveButtonMixin
+
+from .models import Case
 
 
 class CaseForm(SaveButtonMixin, UserKwargModelFormMixin, autocomplete_light.ModelForm):

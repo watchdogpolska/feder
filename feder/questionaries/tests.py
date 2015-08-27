@@ -1,10 +1,11 @@
-from django.test import TestCase
 from django.core.urlresolvers import reverse
-from feder.monitorings.models import Monitoring
+from django.test import TestCase
 from guardian.shortcuts import assign_perm
+
+from feder.monitorings.models import Monitoring
 # from feder.teryt.models import JednostkaAdministracyjna
 # from feder.institutions.models import Institution
-from feder.questionaries.models import Questionary, Question
+from feder.questionaries.models import Question, Questionary
 
 try:
     from django.contrib.auth import get_user_model

@@ -1,18 +1,25 @@
-from django.shortcuts import get_object_or_404, render, redirect
-from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
-from django.utils.translation import ugettext_lazy as _
-from django.core.urlresolvers import reverse_lazy
-from django_filters.views import FilterView
-from django.contrib.auth.decorators import login_required
+from braces.views import (
+    FormValidMessageMixin,
+    LoginRequiredMixin,
+    PrefetchRelatedMixin,
+    SelectRelatedMixin,
+    UserFormKwargsMixin
+)
 from django.contrib import messages
-from braces.views import (SelectRelatedMixin, LoginRequiredMixin, FormValidMessageMixin,
-    UserFormKwargsMixin, PrefetchRelatedMixin)
-from feder.main.mixins import PermissionRequiredMixin, AttrPermissionRequiredMixin
-from atom.views import DeleteMessageMixin, CreateMessageMixin, UpdateMessageMixin
+from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse_lazy
+from django.shortcuts import get_object_or_404, redirect, render
+from django.utils.translation import ugettext_lazy as _
+from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
+from django_filters.views import FilterView
+
+from atom.views import CreateMessageMixin, DeleteMessageMixin, UpdateMessageMixin
 from feder.cases.models import Case
-from .models import Task, Survey
+from feder.main.mixins import AttrPermissionRequiredMixin, PermissionRequiredMixin
+
 from .filters import TaskFilter
-from .forms import TaskForm, AnswerFormSet, SurveyForm
+from .forms import AnswerFormSet, SurveyForm, TaskForm
+from .models import Survey, Task
 
 
 class TaskListView(SelectRelatedMixin, FilterView):

@@ -1,7 +1,8 @@
 
 from django.views.generic import TemplateView
-from feder.teryt.models import JednostkaAdministracyjna
+
 from feder.monitorings.models import Monitoring
+from feder.teryt.models import JednostkaAdministracyjna
 
 
 class HomeView(TemplateView):

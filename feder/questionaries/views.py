@@ -1,22 +1,28 @@
-from django.shortcuts import get_object_or_404, redirect
-from django.views.generic import CreateView, DetailView, UpdateView, DeleteView, FormView
-from django.utils.translation import ugettext_lazy as _
-from django.views.generic.detail import SingleObjectTemplateResponseMixin, SingleObjectMixin
-from braces.views import (SelectRelatedMixin, LoginRequiredMixin, FormValidMessageMixin,
-                          UserFormKwargsMixin, PrefetchRelatedMixin)
-from django.core.urlresolvers import reverse_lazy
-from django_filters.views import FilterView
-from atom.views import (DeleteMessageMixin, ActionView, ActionMessageMixin,
-                        CreateMessageMixin, UpdateMessageMixin)
-from feder.main.mixins import RaisePermissionRequiredMixin, AttrPermissionRequiredMixin
-from formtools.wizard.views import SessionWizardView
-from django.db.models import F
-from feder.tasks.forms import MultiTaskForm, AnswerFormSet
-from feder.monitorings.models import Monitoring
+from braces.views import (
+    FormValidMessageMixin,
+    LoginRequiredMixin,
+    PrefetchRelatedMixin,
+    SelectRelatedMixin,
+    UserFormKwargsMixin
+)
 from django.core.exceptions import PermissionDenied
-from .models import Questionary, Question
+from django.core.urlresolvers import reverse_lazy
+from django.db.models import F
+from django.shortcuts import get_object_or_404, redirect
+from django.utils.translation import ugettext_lazy as _
+from django.views.generic import CreateView, DeleteView, DetailView, FormView, UpdateView
+from django.views.generic.detail import SingleObjectMixin, SingleObjectTemplateResponseMixin
+from django_filters.views import FilterView
+from formtools.wizard.views import SessionWizardView
+
+from atom.views import ActionMessageMixin, ActionView, CreateMessageMixin, DeleteMessageMixin, UpdateMessageMixin
+from feder.main.mixins import AttrPermissionRequiredMixin, RaisePermissionRequiredMixin
+from feder.monitorings.models import Monitoring
+from feder.tasks.forms import AnswerFormSet, MultiTaskForm
+
 from .filters import QuestionaryFilter
-from .forms import QuestionaryForm, QuestionForm, BoolQuestionForm
+from .forms import BoolQuestionForm, QuestionaryForm, QuestionForm
+from .models import Question, Questionary
 
 
 class QuestionaryListView(SelectRelatedMixin, FilterView):

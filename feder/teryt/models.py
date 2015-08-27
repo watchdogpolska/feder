@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-from django.db import models
-from mptt.models import MPTTModel, TreeForeignKey
-from django.utils.translation import ugettext as _
-from mptt.managers import TreeManager
-from model_utils import Choices
-from django.core.urlresolvers import reverse
-from model_utils.managers import PassThroughManagerMixin
 from autoslug import AutoSlugField
+from django.core.urlresolvers import reverse
+from django.db import models
+from django.utils.translation import ugettext as _
+from model_utils import Choices
+from model_utils.managers import PassThroughManagerMixin
+from mptt.managers import TreeManager
+from mptt.models import MPTTModel, TreeForeignKey
 
 
 class PassThroughTreeManager(PassThroughManagerMixin, TreeManager):

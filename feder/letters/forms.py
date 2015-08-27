@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
-from django import forms
-from .models import Letter
 from braces.forms import UserKwargModelFormMixin
+from django import forms
+
+from .models import Letter
 
 
 class LetterForm(UserKwargModelFormMixin, forms.ModelForm):

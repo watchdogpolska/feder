@@ -1,14 +1,15 @@
-from django.test import TestCase, RequestFactory
-from django.core.urlresolvers import reverse
-from feder.monitorings.models import Monitoring
-from django.core.exceptions import PermissionDenied
-from guardian.shortcuts import assign_perm
-from feder.teryt.models import JednostkaAdministracyjna
-from feder.institutions.models import Institution
 from autofixture import AutoFixture
-from feder.questionaries.models import Questionary
-from feder.cases.models import Case
+from django.core.exceptions import PermissionDenied
+from django.core.urlresolvers import reverse
+from django.test import RequestFactory, TestCase
+from guardian.shortcuts import assign_perm
+
 from feder.cases import views
+from feder.cases.models import Case
+from feder.institutions.models import Institution
+from feder.monitorings.models import Monitoring
+from feder.questionaries.models import Questionary
+from feder.teryt.models import JednostkaAdministracyjna
 
 try:
     from django.contrib.auth import get_user_model

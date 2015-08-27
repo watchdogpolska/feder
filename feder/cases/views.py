@@ -1,17 +1,23 @@
-from django.shortcuts import get_object_or_404
-from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
-from django.utils.translation import ugettext_lazy as _
-from braces.views import (SelectRelatedMixin, LoginRequiredMixin, FormValidMessageMixin,
-    UserFormKwargsMixin, PrefetchRelatedMixin)
+from braces.views import (
+    FormValidMessageMixin,
+    LoginRequiredMixin,
+    PrefetchRelatedMixin,
+    SelectRelatedMixin,
+    UserFormKwargsMixin
+)
 from django.core.urlresolvers import reverse_lazy
+from django.shortcuts import get_object_or_404
+from django.utils.translation import ugettext_lazy as _
+from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
 from django_filters.views import FilterView
 from guardian.mixins import PermissionRequiredMixin
-from atom.views import DeleteMessageMixin, CreateMessageMixin, UpdateMessageMixin
-from feder.monitorings.models import Monitoring
-from .models import Case
-from .forms import CaseForm
-from .filters import CaseFilter
 
+from atom.views import CreateMessageMixin, DeleteMessageMixin, UpdateMessageMixin
+from feder.monitorings.models import Monitoring
+
+from .filters import CaseFilter
+from .forms import CaseForm
+from .models import Case
 
 _("Case index")
 

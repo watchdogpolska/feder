@@ -1,10 +1,11 @@
+from autoslug.fields import AutoSlugField
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
-from django.core.urlresolvers import reverse
-from autoslug.fields import AutoSlugField
-from feder.teryt.models import JednostkaAdministracyjna
 from model_utils.managers import PassThroughManager
+
+from feder.teryt.models import JednostkaAdministracyjna
 
 _('Institution index')
 
