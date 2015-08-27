@@ -1,4 +1,4 @@
-from django.core.mail import send_mail
+from django.core.mail import EmailMessage
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse
@@ -29,6 +29,9 @@ class Letter(TimeStampedModel):
     quote = models.TextField(verbose_name=_("Quote"), blank=True)
     # TODO: Define fields here
     objects = PassThroughManager.for_queryset_class(LetterQuerySet)()
+    eml = models.FileField(upload_to="messages/%Y/%m/%d",
+                           verbose_name=_("File"),
+                           null=True)
 
     class Meta:
         verbose_name = _("Letter")
@@ -61,17 +64,25 @@ class Letter(TimeStampedModel):
                     institution=institution)
         case.save()
         letter = cls(author_user=user, case=case, title=monitoring.name, body=text)
-        letter.save()
-        letter.send()
+        letter.send(commit=True)
         return letter
 
     def email_body(self):
-        return self.body.replace('{{EMAIL}}', self.case.get_email())
+        return self.body.replace('{{EMAIL}}', self.case.email)
 
-    def send(self):
-        send_mail(subject=self.case.monitoring, from_email=self.case.get_email(),
-                  recipient_list=[self.case.institution.address],
-                  message=self.email_body())
+    def _construct_message(self):
+        return EmailMessage(subject=self.case.monitoring,
+                            from_email=self.case.get_email(),
+                            reply_to=[self.case.get_email()],
+                            to=[self.case.institution.address],
+                            body=self.case.email)
+
+    def send(self, commit=True):
+        self.eml = self._construct_message()
+        r = self.eml.send()
+        if commit:
+            self.save()
+        return r
 
 
 class Attachment(AttachmentBase):

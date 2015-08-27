@@ -2,6 +2,8 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse
 from django.conf import settings
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from model_utils.managers import PassThroughManager
 from model_utils.models import TimeStampedModel
 from autoslug.fields import AutoSlugField
@@ -24,8 +26,7 @@ class Case(TimeStampedModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     monitoring = models.ForeignKey(Monitoring, verbose_name=_("Monitoring"))
     institution = models.ForeignKey(Institution, verbose_name=_("Institution"))
-
-    # TODO: Define fields here
+    email = models.CharField(max_length=75, db_index=True, null=True)
     objects = PassThroughManager.for_queryset_class(CaseQuerySet)()
 
     class Meta:
@@ -39,5 +40,9 @@ class Case(TimeStampedModel):
     def get_absolute_url(self):
         return reverse('cases:details', kwargs={'slug': self.slug})
 
-    def get_email(self):
-        return settings.CASE_EMAIL_TEMPLATE.format(self.pk)
+
+@receiver(post_save, sender=Case)
+def my_callback(sender, instance, *args, **kwargs):
+    if not instance.email:
+        email = settings.CASE_EMAIL_TEMPLATE.format(instance.pk)
+        instance.update(email=email)
