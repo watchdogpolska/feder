@@ -52,7 +52,7 @@
 
     <div class="col-sm-7">
         {% if object.case.letter_set.for_milestone.all %}
-        {% include 'letter/_milestone_list.html' with object_list=object.case.letter_set.for_milestone.all %}
+        {% include 'letters/_milestone_list.html' with object_list=object.case.letter_set.for_milestone.all %}
         {% else %}
         <div class="gray">
             <p>{% trans 'No rows.' %}</p>

@@ -5,27 +5,41 @@
 <ol class="breadcrumb">
     <li><a href="{{object.case.monitoring.get_absolute_url}}">{{object.case.monitoring}}</a></li>
     <li><a href="{{object.case.get_absolute_url}}">{{object.case}}</a></li>
+    {% block breadcrumb_row %}
     <li class="active">{% if headline %}{{ headline }}{% else %}{% trans 'Edit' %}{% endif %}</li>
+    {% endblock %}
 </ol>
 {% endblock %}
 
 {% block buttons %}
 <div class="clearfix">
     <div class="pull-right btn-group">
-        <a class="btn btn-default" href="{% url 'letters:update' pk=object.pk %}">{% trans 'Edit' %}</a>
-        <a class="btn btn-warning" href="{% url 'letters:delete' pk=object.pk %}">{% trans 'Delete' %}</a>
+        <a class="btn btn-default" href="{% url 'letters:update' pk=object.pk %}">
+        {% trans 'Edit' %}
+        </a>
+        <a class="btn btn-warning" href="{% url 'letters:delete' pk=object.pk %}">
+        {% trans 'Delete' %}
+        </a>
     </div>
 </div>
 {% endblock %}
 
 {% block content %}
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h3 class="panel-title"><i class="fa fa-envelope"></i> <a href="{{object.get_absolute_url}}">{{object}}</a></h3>
-  </div>
-  <div class="panel-body">
-    {% block content_object %}{% endblock %}
-  </div>
+<div class="page-header">
+    <h3>
+        <i class="fa fa-envelope"></i>
+        <a href="{{object.get_absolute_url}}">{{object}}</a>
+        <small>
+            {% trans 'by' %}
+            <a href="{{object.author.get_absolute_url}}">
+                {{object.author}}
+            </a>
+        </small>
+    </h3>
 </div>
-{% block letter_list %}{% endblock %}
+<div class="gray">
+
+    {% block content_object %}{% endblock %}
+</div>
+
 {% endblock %}

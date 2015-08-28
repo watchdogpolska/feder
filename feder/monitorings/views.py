@@ -1,5 +1,10 @@
 from atom.views import DeleteMessageMixin, UpdateMessageMixin
-from braces.views import FormValidMessageMixin, LoginRequiredMixin, SelectRelatedMixin, UserFormKwargsMixin
+from braces.views import (
+    FormValidMessageMixin,
+    LoginRequiredMixin,
+    SelectRelatedMixin,
+    UserFormKwargsMixin
+)
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse_lazy

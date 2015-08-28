@@ -1,4 +1,11 @@
-from atom.views import ActionMessageMixin, ActionView, CreateMessageMixin, DeleteMessageMixin, UpdateMessageMixin
+from atom.ext.django_filters.views import UserKwargFilterSetMixin
+from atom.views import (
+    ActionMessageMixin,
+    ActionView,
+    CreateMessageMixin,
+    DeleteMessageMixin,
+    UpdateMessageMixin
+)
 from braces.views import (
     FormValidMessageMixin,
     LoginRequiredMixin,
@@ -7,7 +14,6 @@ from braces.views import (
     UserFormKwargsMixin
 )
 from django.core.exceptions import PermissionDenied
-from django.core.urlresolvers import reverse_lazy
 from django.db.models import F
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.translation import ugettext_lazy as _
@@ -25,7 +31,7 @@ from .forms import BoolQuestionForm, QuestionaryForm, QuestionForm
 from .models import Question, Questionary
 
 
-class QuestionaryListView(SelectRelatedMixin, FilterView):
+class QuestionaryListView(UserKwargFilterSetMixin, SelectRelatedMixin, FilterView):
     filterset_class = QuestionaryFilter
     model = Questionary
     select_related = ['monitoring', ]

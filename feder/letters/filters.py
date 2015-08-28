@@ -1,20 +1,29 @@
 # -*- coding: utf-8 -*-
-import django_filters
-from atom.filters import AutocompleteChoiceFilter, CrispyFilterMixin
+from atom.ext.django_filters.filters import (
+    AutocompleteChoiceFilter,
+    CrispyFilterMixin,
+    UserKwargFilterSetMixin
+)
 from django.utils.translation import ugettext_lazy as _
+from django_filters import BooleanFilter, DateRangeFilter, FilterSet
 
 from .models import Letter
 
 
-class LetterFilter(CrispyFilterMixin, django_filters.FilterSet):
+class LetterFilter(UserKwargFilterSetMixin, CrispyFilterMixin, FilterSet):
     form_class = None
     institution = AutocompleteChoiceFilter('InstitutionAutocomplete',
                                            name='case__institution')
-    created = django_filters.DateRangeFilter(label=_("Creation date"))
+    created = DateRangeFilter(label=_("Creation date"))
+    eml = BooleanFilter(label=_("Has eml?"),
+                        action=lambda qs, v: qs.filter(eml='') if v else qs.exclude(eml=''))
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, user, *args, **kwargs):
         super(LetterFilter, self).__init__(*args, **kwargs)
         self.filters['title'].lookup_type = 'icontains'
+
+        if not user.has_perm('letters.can_filter_eml'):
+            del self.filters['eml']
 
     class Meta:
         model = Letter

@@ -1,5 +1,16 @@
-{%extends 'letters/base_object.html' %}
+{% extends 'letters/base_object.html' %}
 {% load i18n %}
+
+{% block breadcrumb_row %}
+<li class="active">{{ object }}</li>
+{% endblock %}
+
 {% block content_object %}
 {% include 'letters/_object.html' with object=object %}
+{% if object.eml %}
+<a class="btn btn-default" href="{{object.eml.url}}">
+    <i class="fa fa-download"></i>
+    {% trans 'Download letter' %}
+</a>
+{% endif %}
 {% endblock %}

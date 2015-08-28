@@ -750,7 +750,7 @@ blockquote {
   padding: 10px 20px;
   margin: 0 0 20px;
   font-size: 14px;
-  border-left: 5px solid #eeeeee;
+  border-left: 5px solid #C3C3C3;
 }
 blockquote p:last-child,
 blockquote ul:last-child,
@@ -775,7 +775,7 @@ blockquote .small:before {
 blockquote.pull-right {
   padding-right: 15px;
   padding-left: 0;
-  border-right: 5px solid #eeeeee;
+  border-right: 5px solid #C3C3C3;
   border-left: 0;
   text-align: right;
 }

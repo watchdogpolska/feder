@@ -16,6 +16,8 @@ from feder.institutions.models import Institution
 
 
 class LetterQuerySet(models.QuerySet):
+    def attachment_count(self):
+        return self.annotate(attachment_count=models.Count('attachment'))
 
     def for_milestone(self):
         return (self.prefetch_related('attachment_set').
@@ -31,7 +33,7 @@ class Letter(TimeStampedModel):
     title = models.CharField(verbose_name=_("Title"), max_length=50)
     body = models.TextField(verbose_name=_("Text"))
     quote = models.TextField(verbose_name=_("Quote"), blank=True)
-    # TODO: Define fields here
+    email = models.EmailField(verbose_name=_("E-mail"), max_length=50, blank=True)
     objects = PassThroughManager.for_queryset_class(LetterQuerySet)()
     eml = models.FileField(upload_to="messages/%Y/%m/%d",
                            verbose_name=_("File"),
@@ -41,6 +43,9 @@ class Letter(TimeStampedModel):
         verbose_name = _("Letter")
         verbose_name_plural = _("Letters")
         ordering = ['created', ]
+        permissions = (
+            ("can_filter_eml", _("Can filter eml")),
+        )
 
     def __unicode__(self):
         return self.title
@@ -68,7 +73,7 @@ class Letter(TimeStampedModel):
                     institution=institution)
         case.save()
         letter = cls(author_user=user, case=case, title=monitoring.name, body=text)
-        letter.send(commit=True)
+        letter.send(commit=True, only=False)
         return letter
 
     def email_body(self):
@@ -81,12 +86,13 @@ class Letter(TimeStampedModel):
                             to=[self.case.institution.address],
                             body=self.email_body())
 
-    def send(self, commit=True):
+    def send(self, commit=True, only=False):
         message = self._construct_message()
         text = message.message().as_bytes()
+        self.email = self.case.institution.address
         self.eml.save('%s.eml' % uuid.uuid4(), ContentFile(text), save=False)
         if commit:
-            self.save()
+            self.save(update_fields=['eml', 'email'] if only else None)
         return message.send()
 
 

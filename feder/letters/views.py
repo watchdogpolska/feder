@@ -1,7 +1,12 @@
 # Create your views here.
+from atom.ext.django_filters.views import UserKwargFilterSetMixin
 from atom.views import CreateMessageMixin, DeleteMessageMixin, UpdateMessageMixin
-from braces.views import FormValidMessageMixin, LoginRequiredMixin, SelectRelatedMixin, UserFormKwargsMixin
-from django.core.urlresolvers import reverse_lazy
+from braces.views import (
+    FormValidMessageMixin,
+    LoginRequiredMixin,
+    SelectRelatedMixin,
+    UserFormKwargsMixin
+)
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
 from django_filters.views import FilterView
@@ -13,7 +18,7 @@ from .models import Letter
 _("Letters index")
 
 
-class LetterListView(SelectRelatedMixin, FilterView):
+class LetterListView(UserKwargFilterSetMixin, SelectRelatedMixin, FilterView):
     filterset_class = LetterFilter
     model = Letter
     select_related = ['author_user', 'author_institution', 'case__institution']
@@ -21,12 +26,12 @@ class LetterListView(SelectRelatedMixin, FilterView):
 
     def get_queryset(self, *args, **kwargs):
         qs = super(LetterListView, self).get_queryset(*args, **kwargs)
-        return qs
+        return qs.attachment_count()
 
 
 class LetterDetailView(SelectRelatedMixin, DetailView):
     model = Letter
-    select_related = ['author_institution', ]
+    select_related = ['author_institution', 'author_user', 'case__monitoring']
 
 
 class LetterCreateView(LoginRequiredMixin, UserFormKwargsMixin,
@@ -43,4 +48,6 @@ class LetterUpdateView(LoginRequiredMixin, UserFormKwargsMixin, UpdateMessageMix
 
 class LetterDeleteView(LoginRequiredMixin, DeleteMessageMixin, DeleteView):
     model = Letter
-    success_url = reverse_lazy('letters:list')
+
+    def get_success_url(self):
+        return self.case.get_absolute_url()

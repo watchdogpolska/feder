@@ -1,0 +1,13 @@
+{% load i18n %}
+<h3>
+    <i class="fa fa-envelope"></i>
+    <a href="{{object.get_absolute_url}}">{{object}}</a>
+    <small>
+    {% trans 'by' %} <a href="{{object.author.get_absolute_url}}">{{object.author}}</a>
+    </small>
+    {% if object.attachment_count %}
+    <span class="badge pull-right">
+        <i class="fa fa-download"></i> {{object.attachment_count}}
+    </span>
+    {% endif %}
+</h3>
