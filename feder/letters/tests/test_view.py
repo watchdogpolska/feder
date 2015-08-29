@@ -1,5 +1,6 @@
 from __future__ import absolute_import
 from django.core.urlresolvers import reverse
+from django.utils import six
 from django.test import TestCase
 from feder.cases.factory import factory_case
 from feder.institutions.factory import factory_institution
@@ -62,7 +63,7 @@ class ViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, template_name)
         if contains:
-            self.assertContains(response, self.l_user.title)
+            self.assertContains(response, six.text_type(self.l_user.title))
 
     def test_create_permission_check(self):
         self._perm_check(reverse('letters:create', kwargs={'case_pk': self.case.pk}),
