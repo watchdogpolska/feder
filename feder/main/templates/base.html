@@ -94,7 +94,7 @@
               <li><a href="{% url 'account_logout' %}">{% trans "Logout" %}</a></li>
             {% else %}
               <li><a href="{% url 'account_signup' %}">{% trans "Sign Up" %}</a></li>
-              <li><a href="{% url 'account_login' %}">{% trans "Log In" %}</a></li>
+              <li><a href="{% url 'account_login' %}?next={{request.get_full_path}}">{% trans "Log In" %}</a></li>
             {% endif %}
           </ul>
         </div>

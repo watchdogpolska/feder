@@ -1,0 +1,18 @@
+{% load guardian_tags i18n %}
+{% get_obj_perms request.user for object.case.monitoring as "monitoring_perms" %}
+{% if 'change_letter' in monitoring_perms or 'delete_letter' in monitoring_perms %}
+<div class="clearfix">
+    <div class="pull-right btn-group">
+        {% if 'change_letter' in monitoring_perms %}
+        <a class="btn btn-default" href="{% url 'letters:update' pk=object.pk %}">
+            {% trans 'Edit' %}
+        </a>
+        {% endif %}
+        {% if 'delete_letter' in monitoring_perms %}
+        <a class="btn btn-warning" href="{% url 'letters:delete' pk=object.pk %}">
+            {% trans 'Delete' %}
+        </a>
+        {% endif %}
+    </div>
+</div>
+{% endif %}
