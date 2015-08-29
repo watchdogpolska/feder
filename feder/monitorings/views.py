@@ -1,3 +1,4 @@
+from functools import partial
 from atom.views import DeleteMessageMixin, UpdateMessageMixin
 from braces.views import (
     FormValidMessageMixin,
@@ -56,6 +57,14 @@ class MonitoringCreateView(FormPreview):
         if not request.user.has_perm('monitorings.add_monitoring'):
             raise PermissionDenied()
         return super(MonitoringCreateView, self).__call__(request, *args, **kwargs)
+
+    def __init__(self, form):
+        self.state = {}
+
+    @property
+    def form(self):
+        import ipdb; ipdb.set_trace()
+        return self.form_class
 
     @classmethod
     def as_view(cls):

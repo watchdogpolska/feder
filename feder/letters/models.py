@@ -96,7 +96,7 @@ class Letter(TimeStampedModel):
         return letter
 
     def email_body(self):
-        return self.body.replace('{{EMAIL}}', self.case.email)
+        return self.body.replace('{{EMAIL}}', self.case.email or '')
 
     def _construct_message(self):
         return EmailMessage(subject=self.case.monitoring,

@@ -16,4 +16,6 @@ urlpatterns = [
         name="update"),
     url(r'^letter-(?P<pk>[\d-]+)/~delete$', views.LetterDeleteView.as_view(),
         name="delete"),
+    url(r'^letter-(?P<pk>[\d-]+)/~reply$', views.LetterReplyView.as_view(),
+        name="reply"),
 ]

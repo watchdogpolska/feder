@@ -1,0 +1,39 @@
+{% extends 'letters/letter_reply.html' %}
+{% load crispy_forms_tags i18n %}
+
+{% block content_object %}
+<h3>{% trans "Preview your submission" %}</h3>
+
+<div class="gray">
+        {% load i18n %}
+        <h4>
+            <i class="fa fa-envelope"></i>
+            {{form.cleaned_data.title}}
+            <small>
+                {% trans 'by' %}
+                <a href="{{request.user}}">
+                    {{request.user}}
+                </a>
+            </small>
+        </h4>
+        {{form.cleaned_data.body|linebreaks}}
+        {% if form.cleaned_data.quote %}
+        <blockquote>
+            {{form.cleaned_data.quote|linebreaks}}
+        </blockquote>
+        {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form %}{{ field.as_hidden }}{% endfor %}
+        <input type="hidden" name="{{ stage_field }}" value="2" />
+        <input type="hidden" name="{{ hash_field }}" value="{{ hash_value }}" />
+        <p><input type="submit" class="btn btn-primary" value="{% trans 'Send' %}" /></p>
+    </form>
+</div>
+
+<h3>{% trans "Or edit it again" %}</h3>
+
+<div class="gray">
+    {% crispy form %}
+</div>
+{% endblock %}
