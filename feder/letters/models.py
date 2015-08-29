@@ -23,6 +23,12 @@ class LetterQuerySet(models.QuerySet):
         return (self.prefetch_related('attachment_set').
                 select_related('author_user', 'author_institution'))
 
+    def is_outgoing(self):
+        return self.filter(author_user__isnull=False)
+
+    def is_incoming(self):
+        return self.filter(author_user__isnull=True)
+
 
 class Letter(TimeStampedModel):
     case = models.ForeignKey(Case, verbose_name=_("Case"))
@@ -47,6 +53,14 @@ class Letter(TimeStampedModel):
             ("can_filter_eml", _("Can filter eml")),
         )
 
+    @property
+    def is_incoming(self):
+        return not bool(self.author_user_id)
+
+    @property
+    def is_outgoing(self):
+        return bool(self.author_user_id)
+
     def __unicode__(self):
         return self.title
 
@@ -60,10 +74,13 @@ class Letter(TimeStampedModel):
     @author.setter
     def author(self, value):
         if isinstance(value, Institution):
+            self.author_user = None
             self.author_institution = value
         elif isinstance(value, get_user_model()):
+            self.author_institution = None
             self.author_user = value
-        raise ValueError("Only User and Institution is allowed for attribute author")
+        else:
+            raise ValueError("Only User and Institution is allowed for attribute author")
 
     @classmethod
     def send_new_case(cls, user, monitoring, institution, text, postfix=''):

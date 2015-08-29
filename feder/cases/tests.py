@@ -44,8 +44,6 @@ class CasesTestCase(TestCase):
             username='smith', email='smith@example.com', password='top_secret')
         self.monitoring = Monitoring(name="Lor", user=self.user)
         self.monitoring.save()
-        self.questionary = Questionary(title="blabla", monitoring=self.monitoring)
-        self.questionary.save()
         self.institution = self._get_institution()
         self.case = Case(name="blabla", monitoring=self.monitoring,
                          institution=self.institution,
