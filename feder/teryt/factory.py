@@ -1,12 +1,11 @@
-from autofixture import AutoFixture
-
-from .models import JednostkaAdministracyjna
+from random import randint
+from .models import JednostkaAdministracyjna as JST
+from .models import Category
 
 
 def factory_jst():
-    jst = AutoFixture(JednostkaAdministracyjna,
-                      field_values={'updated_on': '2015-02-12'},
-                      generate_fk=True).create_one(commit=False)
-    jst.rght = 0
-    jst.save()
-    return jst
+    category = Category.objects.create(name="X", level=1)
+    return JST.objects.create(name="X", id=randint(0, 1000),
+                              category=category,
+                              updated_on='2015-05-12',
+                              active=True)
