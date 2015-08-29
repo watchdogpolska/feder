@@ -49,6 +49,9 @@ class ModelTestCase(TestCase):
         self.l_i.author = i
         self.assertEqual(self.l_i.author_institution, i)
 
+        with self.assertRaises(ValueError):
+            self.l_i.author = self.l_i
+
     def test_queryset_is_incoming(self):
         self.assertEqual(Letter.objects.is_outgoing().get(), self.l_u)
 
@@ -59,6 +62,9 @@ class ModelTestCase(TestCase):
         self.l_u.send()
         self.assertEqual(len(mail.outbox), 1)
         self.assertIn(self.l_u.email, mail.outbox[0].to)
+
+    def test_attachment_count(self):
+        self.assertFalse(hasattr(Letter.objects.all()[0], 'attachment_count'))
 
 
 class NewLetterTestCase(TestCase):
