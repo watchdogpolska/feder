@@ -71,7 +71,7 @@ class LetterReplyView(FormPreview):
     # Hack around django-formtools.FormPreview
     @classmethod
     def as_view(cls):
-        return cls(cls.form_class)
+        return login_required(cls(cls.form_class))
 
     def __init__(self, form):
         self.state = {}
@@ -114,8 +114,8 @@ class LetterReplyView(FormPreview):
     # Logic & business
     def parse_params(self, request, *args, **kwargs):
         self.user = request.user
-        self.object = self.model.objects.get(pk=kwargs['pk'])
-        if not request.user.has_perm('monitorings.reply', self.object):
+        self.object = self.model.objects.select_related('case__monitoring').get(pk=kwargs['pk'])
+        if not request.user.has_perm('monitorings.reply', self.object.case.monitoring):
             raise PermissionDenied()
 
     def done(self, request, form):

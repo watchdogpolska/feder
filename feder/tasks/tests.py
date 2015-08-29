@@ -48,7 +48,6 @@ class CaseTestCase(SetUpMixin, TestCase):
 
 class PermCheckMixin(SetUpMixin):
     url = None
-    contains = False
     template_name = 'tasks/task_form.html'
     perm = None
     anonymous_user_status = 302
@@ -78,8 +77,6 @@ class PermCheckMixin(SetUpMixin):
         response = self.client.get(self._get_url())
         self.assertEqual(response.status_code, self.permitted_status)
         self.assertTemplateUsed(response, self.template_name)
-        if self.contains:
-            self.assertContains(response, self.institution.name)
 
 
 class CreateViewPermTestCase(PermCheckMixin, TestCase):

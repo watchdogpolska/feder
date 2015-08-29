@@ -44,6 +44,7 @@ THIRD_PARTY_APPS = (
     'mptt',
     'atom',
     'guardian',
+    'django_mailbox'
 )
 
 # Apps specific for this project go here.

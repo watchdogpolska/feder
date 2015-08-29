@@ -1,19 +1,30 @@
+from __future__ import print_function
 import uuid
 
 from atom.models import AttachmentBase
+import claw
+from claw import quotations
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.files.base import ContentFile
 from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse
 from django.db import models
+from django.dispatch import receiver
+from django.core.files import File
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
+from django_mailbox.models import Message
+from django_mailbox.signals import message_received
+
 from model_utils.managers import PassThroughManager
 from model_utils.models import TimeStampedModel
 
 from feder.cases.models import Case
 from feder.institutions.models import Institution
+
+
+claw.init()
 
 
 class LetterQuerySet(models.QuerySet):
@@ -42,10 +53,14 @@ class Letter(TimeStampedModel):
     body = models.TextField(verbose_name=_("Text"))
     quote = models.TextField(verbose_name=_("Quote"), blank=True)
     email = models.EmailField(verbose_name=_("E-mail"), max_length=50, blank=True)
-    objects = PassThroughManager.for_queryset_class(LetterQuerySet)()
     eml = models.FileField(upload_to="messages/%Y/%m/%d",
                            verbose_name=_("File"),
                            null=True)
+    message = models.ForeignKey(Message,
+                                null=True,
+                                verbose_name=_("Message"),
+                                help_text=_("Message registerd by django-mailbox"))
+    objects = PassThroughManager.for_queryset_class(LetterQuerySet)()
 
     class Meta:
         verbose_name = _("Letter")
@@ -114,6 +129,40 @@ class Letter(TimeStampedModel):
             self.save(update_fields=['eml', 'email'] if only else None)
         return message.send()
 
+    @classmethod
+    def process_incoming(cls, case, message):
+        if message.text:
+            text = quotations.extract_from(message.text, 'text/plain')
+            quote = message.text.replace(text, '')
+        else:
+            text = quotations.extract_from(message.html, 'text/html')
+            quote = message.text.replace(text, '')
+        obj = cls.objects.create(author_institution=case.institution,
+                                 email=message.from_address[0],
+                                 case=case,
+                                 title=message.subject,
+                                 body=text,
+                                 quote=quote)
+        attachments = []
+        for attachment in message.attachments.all():
+            file_obj = File(attachment.document, attachment.get_filename())
+            attachments.append(Attachment(record=obj, attachment=file_obj))
+        Attachment.objects.bulk_create(attachments)
+        return obj
+
 
 class Attachment(AttachmentBase):
     record = models.ForeignKey(Letter)
+
+
+@receiver(message_received)
+def mail_process(sender, message, **args):
+    try:
+        case = Case.objects.get(email=message.to[0])
+    except Case.DoesNotExists:
+        print("Message #{pk} skip, due not recognized address {to}".
+              format(pk=message.pk, to=message.to[0]))
+        return
+    letter, attachments = Letter.propess_incoming(case, message)
+    print("Message #{message} registered in case #{case} as letter #{letter_pk}".
+          format(message=message.pk, case=case.pk, letter=letter.pk))
