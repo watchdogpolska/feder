@@ -1,4 +1,4 @@
-from __future__ import absolute_import
+from __future__ import absolute_import, unicode_literals
 from django.core.urlresolvers import reverse
 from django.utils import six
 from django.test import TestCase

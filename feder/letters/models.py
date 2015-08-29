@@ -7,6 +7,7 @@ from django.core.files.base import ContentFile
 from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse
 from django.db import models
+from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from model_utils.managers import PassThroughManager
 from model_utils.models import TimeStampedModel
@@ -30,6 +31,7 @@ class LetterQuerySet(models.QuerySet):
         return self.filter(author_user__isnull=True)
 
 
+@python_2_unicode_compatible
 class Letter(TimeStampedModel):
     case = models.ForeignKey(Case, verbose_name=_("Case"))
     author_user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("Author (if user)"),
@@ -61,7 +63,7 @@ class Letter(TimeStampedModel):
     def is_outgoing(self):
         return bool(self.author_user_id)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
     def get_absolute_url(self):

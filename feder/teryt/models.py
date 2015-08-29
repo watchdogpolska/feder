@@ -2,6 +2,7 @@
 from autoslug import AutoSlugField
 from django.core.urlresolvers import reverse
 from django.db import models
+from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext as _
 from model_utils import Choices
 from model_utils.managers import PassThroughManagerMixin
@@ -27,6 +28,7 @@ class JednostkaAdministracyjnaQuerySet(models.QuerySet):
         return self.filter(category__level=3)
 
 
+@python_2_unicode_compatible
 class Category(models.Model):
     LEVEL = Choices((1, 'voivodeship', _('voivodeship')),
                     (2, 'county', _('county')),
@@ -36,7 +38,7 @@ class Category(models.Model):
 
     level = models.IntegerField(choices=LEVEL, db_index=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     class Meta:
@@ -44,6 +46,7 @@ class Category(models.Model):
         verbose_name_plural = _('Categories')
 
 
+@python_2_unicode_compatible
 class JednostkaAdministracyjna(MPTTModel):
     id = models.CharField(max_length=7, primary_key=True)
     parent = TreeForeignKey('self', null=True, blank=True,
@@ -55,7 +58,7 @@ class JednostkaAdministracyjna(MPTTModel):
     active = models.BooleanField(default=False)
     objects = PassThroughTreeManager.for_queryset_class(JednostkaAdministracyjnaQuerySet)()
 
-    def __unicode__(self):
+    def __str__(self):
         return u'{0}'.format(self.name)
 
     def get_absolute_url(self):
