@@ -18,11 +18,11 @@ class LetterFilter(UserKwargFilterSetMixin, CrispyFilterMixin, FilterSet):
     eml = BooleanFilter(label=_("Has eml?"),
                         action=lambda qs, v: qs.filter(eml='') if v else qs.exclude(eml=''))
 
-    def __init__(self, user, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super(LetterFilter, self).__init__(*args, **kwargs)
         self.filters['title'].lookup_type = 'icontains'
 
-        if not user.has_perm('letters.can_filter_eml'):
+        if not self.user.has_perm('letters.can_filter_eml'):
             del self.filters['eml']
 
     class Meta:

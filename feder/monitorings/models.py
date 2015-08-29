@@ -39,6 +39,10 @@ class Monitoring(TimeStampedModel):
             ('add_task', _('Add task')),
             ('change_task', _('Change task')),
             ('delete_task', _('Delete task')),
+            ('add_letter', _('Add letter')),
+            ('reply', _('Reply')),
+            ('change_letter', _('Change task')),
+            ('delete_letter', _('Delete letter')),
         )
 
     def __unicode__(self):
@@ -61,6 +65,7 @@ def assign_default_perm(sender, instance, created, **kwargs):
         assign_perm('add_task', instance.user, instance)
         assign_perm('change_task', instance.user, instance)
         assign_perm('delete_task', instance.user, instance)
+        assign_perm('reply', instance.user, instance)
 
 post_save.connect(assign_default_perm, sender=Monitoring, dispatch_uid="assign_default_perm")
 

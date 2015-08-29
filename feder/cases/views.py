@@ -44,7 +44,7 @@ class CaseDetailView(SelectRelatedMixin, PrefetchRelatedMixin, DetailView):
         return context
 
 
-class CaseCreateView(LoginRequiredMixin, PermissionRequiredMixin, UserFormKwargsMixin,
+class CaseCreateView(PermissionRequiredMixin, UserFormKwargsMixin,
                      CreateMessageMixin, CreateView):
     model = Case
     form_class = CaseForm
@@ -61,7 +61,7 @@ class CaseCreateView(LoginRequiredMixin, PermissionRequiredMixin, UserFormKwargs
         return kw
 
 
-class CaseUpdateView(LoginRequiredMixin, UserFormKwargsMixin, PermissionRequiredMixin,
+class CaseUpdateView(UserFormKwargsMixin, PermissionRequiredMixin,
                      UpdateMessageMixin, FormValidMessageMixin, UpdateView):
     model = Case
     form_class = CaseForm
@@ -72,7 +72,7 @@ class CaseUpdateView(LoginRequiredMixin, UserFormKwargsMixin, PermissionRequired
         return super(CaseUpdateView, self).get_permission_object().monitoring
 
 
-class CaseDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteMessageMixin,
+class CaseDeleteView(PermissionRequiredMixin, DeleteMessageMixin,
                      DeleteView):
     model = Case
     success_url = reverse_lazy('cases:list')

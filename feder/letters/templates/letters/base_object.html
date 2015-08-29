@@ -12,6 +12,7 @@
 {% endblock %}
 
 {% block buttons %}
+{% if object %}
 <div class="clearfix">
     <div class="pull-right btn-group">
         <a class="btn btn-default" href="{% url 'letters:update' pk=object.pk %}">
@@ -22,6 +23,7 @@
         </a>
     </div>
 </div>
+{% endif %}
 {% endblock %}
 
 {% block content %}

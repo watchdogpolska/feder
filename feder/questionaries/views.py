@@ -53,12 +53,11 @@ class QuestionaryDetailView(PrefetchRelatedMixin, DetailView):
         return context
 
 
-class QuestionaryCreateView(LoginRequiredMixin, RaisePermissionRequiredMixin,
-                            UserFormKwargsMixin, CreateMessageMixin, CreateView):
+class QuestionaryCreateView(RaisePermissionRequiredMixin, UserFormKwargsMixin,
+                            CreateMessageMixin, CreateView):
     model = Questionary
     form_class = QuestionaryForm
     permission_required = 'monitorings.add_questionary'
-    raise_exception = True
 
     def get_monitoring(self):
         self.monitoring = get_object_or_404(Monitoring, pk=self.kwargs['monitoring'])
@@ -73,28 +72,26 @@ class QuestionaryCreateView(LoginRequiredMixin, RaisePermissionRequiredMixin,
         return kw
 
 
-class QuestionaryUpdateView(LoginRequiredMixin, AttrPermissionRequiredMixin, UserFormKwargsMixin,
+class QuestionaryUpdateView(AttrPermissionRequiredMixin, UserFormKwargsMixin,
                             UpdateMessageMixin, FormValidMessageMixin, UpdateView):
     model = Questionary
     form_class = QuestionaryForm
     permission_required = 'monitorings.change_questionary'
     permission_attribute = 'monitoring'
-    raise_exception = True
 
 
-class QuestionaryDeleteView(LoginRequiredMixin, AttrPermissionRequiredMixin,
+class QuestionaryDeleteView(AttrPermissionRequiredMixin,
                             SelectRelatedMixin, DeleteMessageMixin, DeleteView):
     model = Questionary
     permission_required = 'monitorings.delete_questionary'
     permission_attribute = 'monitoring'
     select_related = ['monitoring']
-    raise_exception = True
 
     def get_success_url(self):
         return self.object.monitoring.get_absolute_url()
 
 
-class QuestionWizard(SessionWizardView):
+class QuestionWizard(LoginRequiredMixin, SessionWizardView):
     form_list = [QuestionForm, BoolQuestionForm]
     template_name = 'questionaries/question_wizard.html'
 
@@ -127,8 +124,8 @@ class QuestionWizard(SessionWizardView):
         return redirect(obj.questionary)
 
 
-class QuestionMoveView(LoginRequiredMixin, AttrPermissionRequiredMixin,
-                       ActionMessageMixin, SelectRelatedMixin, ActionView):
+class QuestionMoveView(AttrPermissionRequiredMixin, ActionMessageMixin,
+                       SelectRelatedMixin, ActionView):
     model = Question
     template_name_suffix = '_move'
     direction = None
@@ -148,8 +145,7 @@ class QuestionMoveView(LoginRequiredMixin, AttrPermissionRequiredMixin,
         return self.object.questionary.get_absolute_url()
 
 
-class TaskMultiCreateView(LoginRequiredMixin,
-                          RaisePermissionRequiredMixin,
+class TaskMultiCreateView(RaisePermissionRequiredMixin,
                           UserFormKwargsMixin,
                           FormValidMessageMixin,
                           SingleObjectTemplateResponseMixin,

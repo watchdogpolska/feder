@@ -70,7 +70,7 @@ class TaskSurveyView(SelectRelatedMixin, PrefetchRelatedMixin, DetailView):
         return context
 
 
-class TaskCreateView(LoginRequiredMixin, PermissionRequiredMixin, UserFormKwargsMixin,
+class TaskCreateView(PermissionRequiredMixin, UserFormKwargsMixin,
                      CreateMessageMixin, CreateView):
     model = Task
     form_class = TaskForm
@@ -91,7 +91,7 @@ class TaskCreateView(LoginRequiredMixin, PermissionRequiredMixin, UserFormKwargs
         return kw
 
 
-class TaskUpdateView(LoginRequiredMixin, AttrPermissionRequiredMixin, UserFormKwargsMixin,
+class TaskUpdateView(AttrPermissionRequiredMixin, UserFormKwargsMixin,
                      UpdateMessageMixin, FormValidMessageMixin, UpdateView):
     model = Task
     form_class = TaskForm
@@ -100,8 +100,7 @@ class TaskUpdateView(LoginRequiredMixin, AttrPermissionRequiredMixin, UserFormKw
     raise_exception = True
 
 
-class TaskDeleteView(LoginRequiredMixin, AttrPermissionRequiredMixin, DeleteMessageMixin,
-                     DeleteView):
+class TaskDeleteView(AttrPermissionRequiredMixin, DeleteMessageMixin, DeleteView):
     model = Task
     success_url = reverse_lazy('tasks:list')
     permission_required = 'delete_task'
@@ -109,7 +108,7 @@ class TaskDeleteView(LoginRequiredMixin, AttrPermissionRequiredMixin, DeleteMess
     raise_exception = True
 
 
-class SurveyDeleteView(LoginRequiredMixin, DeleteMessageMixin, DeleteView):
+class SurveyDeleteView(DeleteMessageMixin, DeleteView):
     model = Survey
     slug_url_kwarg = 'task_id'
     slug_field = 'task_id'

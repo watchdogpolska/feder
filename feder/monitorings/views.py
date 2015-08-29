@@ -81,7 +81,7 @@ class MonitoringCreateView(FormPreview):
         return _("Monitoring {monitoring} created!").format(monitoring=self.object)
 
 
-class MonitoringUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UserFormKwargsMixin,
+class MonitoringUpdateView(PermissionRequiredMixin, UserFormKwargsMixin,
                            UpdateMessageMixin, FormValidMessageMixin, UpdateView):
     model = Monitoring
     form_class = MonitoringForm
@@ -89,7 +89,7 @@ class MonitoringUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UserForm
     raise_exception = True
 
 
-class MonitoringDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteMessageMixin,
+class MonitoringDeleteView(PermissionRequiredMixin, DeleteMessageMixin,
                            DeleteView):
     model = Monitoring
     success_url = reverse_lazy('monitorings:list')

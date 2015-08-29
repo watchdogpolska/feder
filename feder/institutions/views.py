@@ -47,7 +47,7 @@ class InstitutionDetailView(SelectRelatedMixin, ExtraListMixin, PrefetchRelatedM
                 order_by('monitoring').all())
 
 
-class InstitutionCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateMessageMixin,
+class InstitutionCreateView(PermissionRequiredMixin, CreateMessageMixin,
                             UserFormKwargsMixin, CreateView):
     model = Institution
     form_class = InstitutionForm
@@ -55,7 +55,7 @@ class InstitutionCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateM
     raise_exception = True
 
 
-class InstitutionUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UserFormKwargsMixin,
+class InstitutionUpdateView(PermissionRequiredMixin, UserFormKwargsMixin,
                             UpdateMessageMixin, FormValidMessageMixin, UpdateView):
     model = Institution
     form_class = InstitutionForm
@@ -63,7 +63,7 @@ class InstitutionUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UserFor
     raise_exception = True
 
 
-class InstitutionDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteMessageMixin,
+class InstitutionDeleteView(PermissionRequiredMixin, DeleteMessageMixin,
                             UpdateMessageMixin, DeleteView):
     model = Institution
     success_url = reverse_lazy('institutions:list')

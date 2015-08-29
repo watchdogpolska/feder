@@ -55,6 +55,10 @@ class QuestionariesTestCase(TestCase):
 
     def _perm_check(self, url, template_name='questionaries/questionary_form.html', contains=True):
         response = self.client.get(url)
+        self.assertEqual(response.status_code, 302)
+
+        self.client.login(username='smith', password='top_secret')
+        response = self.client.get(url)
         self.assertEqual(response.status_code, 403)
 
         self.client.login(username='jacob', password='top_secret')

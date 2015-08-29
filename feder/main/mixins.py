@@ -1,4 +1,5 @@
 from django.core.paginator import EmptyPage, Paginator
+from braces.views import LoginRequiredMixin
 from guardian.mixins import PermissionRequiredMixin
 
 
@@ -25,13 +26,13 @@ class ExtraListMixin(object):
         return context
 
 
-class RaisePermissionRequiredMixin(PermissionRequiredMixin):
+class RaisePermissionRequiredMixin(LoginRequiredMixin, PermissionRequiredMixin):
     raise_exception = True
+    redirect_unauthenticated_users = True
 
 
 class AttrPermissionRequiredMixin(RaisePermissionRequiredMixin):
     permission_attribute = None
-    raise_exception = True
 
     @staticmethod
     def _resolve_path(obj, path=None):

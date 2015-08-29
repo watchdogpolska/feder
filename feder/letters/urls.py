@@ -8,7 +8,7 @@ from . import views
 urlpatterns = [
     url(r'^$', views.LetterListView.as_view(),
         name="list"),
-    url(r'^~create$', views.LetterCreateView.as_view(),
+    url(r'^~create-(?P<case_pk>[\d-]+)$', views.LetterCreateView.as_view(),
         name="create"),
     url(r'^letter-(?P<pk>[\d-]+)$', views.LetterDetailView.as_view(),
         name="details"),
