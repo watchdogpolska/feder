@@ -63,7 +63,6 @@ class MonitoringCreateView(FormPreview):
 
     @property
     def form(self):
-        import ipdb; ipdb.set_trace()
         return self.form_class
 
     @classmethod
