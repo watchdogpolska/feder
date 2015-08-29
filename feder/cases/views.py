@@ -11,8 +11,7 @@ from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
 from django_filters.views import FilterView
-from guardian.mixins import PermissionRequiredMixin
-
+from feder.main.mixins import RaisePermissionRequiredMixin
 from feder.monitorings.models import Monitoring
 
 from .filters import CaseFilter
@@ -44,12 +43,11 @@ class CaseDetailView(SelectRelatedMixin, PrefetchRelatedMixin, DetailView):
         return context
 
 
-class CaseCreateView(PermissionRequiredMixin, UserFormKwargsMixin,
+class CaseCreateView(RaisePermissionRequiredMixin, UserFormKwargsMixin,
                      CreateMessageMixin, CreateView):
     model = Case
     form_class = CaseForm
     permission_required = 'monitorings.add_case'
-    raise_exception = True
 
     def get_permission_object(self):
         self.monitoring = get_object_or_404(Monitoring, pk=self.kwargs['monitoring'])
@@ -61,23 +59,20 @@ class CaseCreateView(PermissionRequiredMixin, UserFormKwargsMixin,
         return kw
 
 
-class CaseUpdateView(UserFormKwargsMixin, PermissionRequiredMixin,
+class CaseUpdateView(RaisePermissionRequiredMixin, UserFormKwargsMixin,
                      UpdateMessageMixin, FormValidMessageMixin, UpdateView):
     model = Case
     form_class = CaseForm
     permission_required = 'monitorings.change_case'
-    raise_exception = True
 
     def get_permission_object(self):
         return super(CaseUpdateView, self).get_permission_object().monitoring
 
 
-class CaseDeleteView(PermissionRequiredMixin, DeleteMessageMixin,
-                     DeleteView):
+class CaseDeleteView(RaisePermissionRequiredMixin, DeleteMessageMixin, DeleteView):
     model = Case
     success_url = reverse_lazy('cases:list')
     permission_required = 'monitorings.delete_case'
-    raise_exception = True
 
     def get_permission_object(self):
         return super(CaseDeleteView, self).get_permission_object().monitoring

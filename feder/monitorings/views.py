@@ -16,7 +16,7 @@ from formtools.preview import FormPreview
 from guardian.mixins import PermissionRequiredMixin
 
 from feder.cases.models import Case
-from feder.main.mixins import ExtraListMixin
+from feder.main.mixins import ExtraListMixin, RaisePermissionRequiredMixin
 
 from .filters import MonitoringFilter
 from .forms import CreateMonitoringForm, MonitoringForm
@@ -81,17 +81,15 @@ class MonitoringCreateView(FormPreview):
         return _("Monitoring {monitoring} created!").format(monitoring=self.object)
 
 
-class MonitoringUpdateView(PermissionRequiredMixin, UserFormKwargsMixin,
+class MonitoringUpdateView(RaisePermissionRequiredMixin, UserFormKwargsMixin,
                            UpdateMessageMixin, FormValidMessageMixin, UpdateView):
     model = Monitoring
     form_class = MonitoringForm
     permission_required = 'monitorings.change_monitoring'
-    raise_exception = True
 
 
-class MonitoringDeleteView(PermissionRequiredMixin, DeleteMessageMixin,
+class MonitoringDeleteView(RaisePermissionRequiredMixin, DeleteMessageMixin,
                            DeleteView):
     model = Monitoring
     success_url = reverse_lazy('monitorings:list')
     permission_required = 'monitorings.delete_monitoring'
-    raise_exception = True

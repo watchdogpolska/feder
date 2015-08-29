@@ -1,13 +1,11 @@
-from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
-from django.test import RequestFactory, TestCase
+from django.test import TestCase
 from guardian.shortcuts import assign_perm
 
 from feder.cases.models import Case
 from feder.institutions.factory import factory_institution
 from feder.monitorings.models import Monitoring
 from feder.questionaries.models import Questionary
-from feder.tasks import views
 from feder.tasks.models import Task
 
 try:
@@ -17,15 +15,13 @@ except ImportError:
     from django.contrib.auth.models import User
 
 
-class CaseTestCase(TestCase):
-
+class SetUpMixin(object):
     def setUp(self):
-        self.factory = RequestFactory()
         self.user = User.objects.create_user(
-            username='jacob', email='jacob@example.com', password='top_secret')
+            username='user', email='jacob@example.com', password='top_secret')
         assign_perm('monitorings.add_monitoring', self.user)
         self.quest = User.objects.create_user(
-            username='smith', email='smith@example.com', password='top_secret')
+            username='quest', email='smith@example.com', password='top_secret')
         self.monitoring = Monitoring(name="Lor", user=self.user)
         self.monitoring.save()
         self.questionary = Questionary(title="blabla", monitoring=self.monitoring)
@@ -39,37 +35,65 @@ class CaseTestCase(TestCase):
         self.task = Task(case=self.case, questionary=self.questionary)
         self.task.save()
 
+
+class CaseTestCase(SetUpMixin, TestCase):
     def test_list_display(self):
-        request = self.factory.get(reverse('tasks:list'))
-        response = views.TaskListView.as_view()(request)
+        response = self.client.get(reverse('tasks:list'))
         self.assertEqual(response.status_code, 200)
 
     def test_details_display(self):
-        request = self.factory.get(self.task.get_absolute_url())
-        request.user = self.user
-        response = views.TaskDetailView.as_view()(request, pk=self.task.pk)
+        response = self.client.get(self.task.get_absolute_url())
         self.assertEqual(response.status_code, 200)
 
-    def _perm_check(self, view, reverse_name, kwargs={}):
-        request = self.factory.get(reverse(reverse_name,
-                                           kwargs=kwargs))
-        request.user = self.user
-        response = view(request, **kwargs)
-        self.assertEqual(response.status_code, 200)
 
-        request.user = self.quest
-        with self.assertRaises(PermissionDenied):
-            response = view(request, **kwargs)
+class PermCheckMixin(SetUpMixin):
+    url = None
+    contains = False
+    template_name = 'tasks/task_form.html'
+    perm = None
+    anonymous_user_status = 302
+    non_permitted_status = 403
+    permitted_status = 200
 
-    def test_create_permission_check(self):
-        self._perm_check(views.TaskCreateView.as_view(), 'tasks:create',
-                         kwargs={'case': str(self.case.pk)}
-                         )
+    def login(self):
+        self.client.login(username='quest', password='top_secret')
 
-    def test_update_permission_check(self):
-        self._perm_check(views.TaskUpdateView.as_view(), 'tasks:update',
-                         kwargs={'pk': self.task.pk})
+    def login_permitted(self):
+        self.client.login(username='user', password='top_secret')
 
-    def test_delete_permission_check(self):
-        self._perm_check(views.TaskDeleteView.as_view(), 'tasks:delete',
-                         kwargs={'pk': self.task.pk})
+    def _get_url(self):
+        return self.url
+
+    def test_anonymous_user(self):
+        response = self.client.get(self._get_url())
+        self.assertEqual(response.status_code, self.anonymous_user_status)
+
+    def test_non_permitted_user(self):
+        self.login()
+        response = self.client.get(self._get_url())
+        self.assertEqual(response.status_code, self.non_permitted_status)
+
+    def test_permitted_user(self):
+        self.login_permitted()
+        response = self.client.get(self._get_url())
+        self.assertEqual(response.status_code, self.permitted_status)
+        self.assertTemplateUsed(response, self.template_name)
+        if self.contains:
+            self.assertContains(response, self.institution.name)
+
+
+class CreateViewPermTestCase(PermCheckMixin, TestCase):
+    def _get_url(self):
+        return reverse('tasks:create', kwargs={'case': str(self.case.pk)})
+
+
+class UpdateViewPermTestCase(PermCheckMixin, TestCase):
+    def _get_url(self):
+        return reverse('tasks:update', kwargs={'pk': self.task.pk})
+
+
+class DeleteViewPermTestCase(PermCheckMixin, TestCase):
+    template_name = 'tasks/task_confirm_delete.html'
+
+    def _get_url(self):
+        return reverse('tasks:delete', kwargs={'pk': self.task.pk})

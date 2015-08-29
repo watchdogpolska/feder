@@ -13,7 +13,7 @@ from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
 from django_filters.views import FilterView
 
 from feder.cases.models import Case
-from feder.main.mixins import ExtraListMixin
+from feder.main.mixins import ExtraListMixin, RaisePermissionRequiredMixin
 
 from .filters import InstitutionFilter
 from .forms import InstitutionForm
@@ -47,7 +47,7 @@ class InstitutionDetailView(SelectRelatedMixin, ExtraListMixin, PrefetchRelatedM
                 order_by('monitoring').all())
 
 
-class InstitutionCreateView(PermissionRequiredMixin, CreateMessageMixin,
+class InstitutionCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateMessageMixin,
                             UserFormKwargsMixin, CreateView):
     model = Institution
     form_class = InstitutionForm
@@ -55,17 +55,15 @@ class InstitutionCreateView(PermissionRequiredMixin, CreateMessageMixin,
     raise_exception = True
 
 
-class InstitutionUpdateView(PermissionRequiredMixin, UserFormKwargsMixin,
+class InstitutionUpdateView(RaisePermissionRequiredMixin, UserFormKwargsMixin,
                             UpdateMessageMixin, FormValidMessageMixin, UpdateView):
     model = Institution
     form_class = InstitutionForm
     permission_required = "institutions.change_institution"
-    raise_exception = True
 
 
-class InstitutionDeleteView(PermissionRequiredMixin, DeleteMessageMixin,
+class InstitutionDeleteView(RaisePermissionRequiredMixin, DeleteMessageMixin,
                             UpdateMessageMixin, DeleteView):
     model = Institution
     success_url = reverse_lazy('institutions:list')
     permission_required = "institutions.delete_institution"
-    raise_exception = True

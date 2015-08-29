@@ -41,7 +41,6 @@ class LetterCreateView(RaisePermissionRequiredMixin, UserFormKwargsMixin,
     form_class = LetterForm
     permission_attribute = 'case__monitoring'
     permission_required = 'monitorings.add_letter'
-    raise_exception = True
 
     def get_case(self):
         self.case = get_object_or_404(Case.objects.select_related('monitoring'),
@@ -63,14 +62,12 @@ class LetterUpdateView(AttrPermissionRequiredMixin, UserFormKwargsMixin,
     form_class = LetterForm
     permission_attribute = 'case__monitoring'
     permission_required = 'monitorings.change_letter'
-    raise_exception = True
 
 
 class LetterDeleteView(AttrPermissionRequiredMixin, DeleteMessageMixin, DeleteView):
     model = Letter
     permission_attribute = 'case__monitoring'
     permission_required = 'monitorings.delete_letter'
-    raise_exception = True
 
     def get_success_url(self):
         return self.object.case.get_absolute_url()

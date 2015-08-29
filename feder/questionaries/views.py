@@ -155,7 +155,6 @@ class TaskMultiCreateView(RaisePermissionRequiredMixin,
     form_class = MultiTaskForm
     template_name_suffix = '_form'
     permission_required = 'monitorings.add_tasks'
-    raise_exception = True
 
     def get_permission_object(self):
         return super(TaskMultiCreateView, self).get_permission_object().monitoring

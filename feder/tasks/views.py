@@ -15,7 +15,7 @@ from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
 from django_filters.views import FilterView
 
 from feder.cases.models import Case
-from feder.main.mixins import AttrPermissionRequiredMixin, PermissionRequiredMixin
+from feder.main.mixins import AttrPermissionRequiredMixin, RaisePermissionRequiredMixin
 
 from .filters import TaskFilter
 from .forms import AnswerFormSet, SurveyForm, TaskForm
@@ -49,7 +49,7 @@ class TaskDetailView(SelectRelatedMixin, PrefetchRelatedMixin, DetailView):
         context['formset'] = AnswerFormSet(survey=None, questionary=self.object.questionary)
         try:
             context['user_survey'] = (self.object.survey_set.with_full_answer().
-                                      filter(user=self.request.user).get())
+                                      filter(user=self.request.user.pk).get())
         except Survey.DoesNotExist:
             context['user_survey'] = None
         return context
@@ -70,11 +70,10 @@ class TaskSurveyView(SelectRelatedMixin, PrefetchRelatedMixin, DetailView):
         return context
 
 
-class TaskCreateView(PermissionRequiredMixin, UserFormKwargsMixin,
+class TaskCreateView(RaisePermissionRequiredMixin, UserFormKwargsMixin,
                      CreateMessageMixin, CreateView):
     model = Task
     form_class = TaskForm
-    raise_exception = True
     permission_required = 'monitorings.add_task'
 
     def get_case(self):
@@ -97,7 +96,6 @@ class TaskUpdateView(AttrPermissionRequiredMixin, UserFormKwargsMixin,
     form_class = TaskForm
     permission_required = 'change_task'
     permission_attribute = 'case__monitoring'
-    raise_exception = True
 
 
 class TaskDeleteView(AttrPermissionRequiredMixin, DeleteMessageMixin, DeleteView):
@@ -105,7 +103,6 @@ class TaskDeleteView(AttrPermissionRequiredMixin, DeleteMessageMixin, DeleteView
     success_url = reverse_lazy('tasks:list')
     permission_required = 'delete_task'
     permission_attribute = 'case__monitoring'
-    raise_exception = True
 
 
 class SurveyDeleteView(DeleteMessageMixin, DeleteView):

@@ -18,8 +18,7 @@ except ImportError:
     from django.contrib.auth.models import User
 
 
-class CasesTestCase(TestCase):
-
+class SetUpMixin(object):
     def _get_third_level_jst(self):
         jst = AutoFixture(JednostkaAdministracyjna,
                           field_values={'updated_on': '2015-02-12'},
@@ -38,10 +37,10 @@ class CasesTestCase(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
         self.user = User.objects.create_user(
-            username='jacob', email='jacob@example.com', password='top_secret')
+            username='user', email='jacob@example.com', password='top_secret')
         assign_perm('monitorings.add_monitoring', self.user)
         self.quest = User.objects.create_user(
-            username='smith', email='smith@example.com', password='top_secret')
+            username='quest', email='smith@example.com', password='top_secret')
         self.monitoring = Monitoring(name="Lor", user=self.user)
         self.monitoring.save()
         self.institution = self._get_institution()
@@ -49,6 +48,9 @@ class CasesTestCase(TestCase):
                          institution=self.institution,
                          user=self.user)
         self.case.save()
+
+
+class CasesTestCase(SetUpMixin, TestCase):
 
     def test_list_display(self):
         request = self.factory.get(reverse('cases:list'))
@@ -72,14 +74,55 @@ class CasesTestCase(TestCase):
         with self.assertRaises(PermissionDenied):
             view(request, **kwargs)
 
-    def test_create_permission_check(self):
-        self._perm_check(views.CaseCreateView.as_view(), 'cases:create',
-                         kwargs={'monitoring': str(self.case.pk)})
 
-    def test_update_permission_check(self):
-        self._perm_check(views.CaseUpdateView.as_view(), 'cases:update',
-                         kwargs={'slug': self.case.slug})
+class PermCheckMixin(SetUpMixin):
+    url = None
+    contains = False
+    template_name = 'cases/case_form.html'
+    perm = None
+    anonymous_user_status = 302
+    non_permitted_status = 403
+    permitted_status = 200
 
-    def test_delete_permission_check(self):
-        self._perm_check(views.CaseDeleteView.as_view(), 'cases:delete',
-                         kwargs={'slug': self.case.slug})
+    def login(self):
+        self.client.login(username='quest', password='top_secret')
+
+    def login_permitted(self):
+        self.client.login(username='user', password='top_secret')
+
+    def _get_url(self):
+        return self.url
+
+    def test_anonymous_user(self):
+        response = self.client.get(self._get_url())
+        self.assertEqual(response.status_code, self.anonymous_user_status)
+
+    def test_non_permitted_user(self):
+        self.login()
+        response = self.client.get(self._get_url())
+        self.assertEqual(response.status_code, self.non_permitted_status)
+
+    def test_permitted_user(self):
+        self.login_permitted()
+        response = self.client.get(self._get_url())
+        self.assertEqual(response.status_code, self.permitted_status)
+        self.assertTemplateUsed(response, self.template_name)
+        if self.contains:
+            self.assertContains(response, self.institution.name)
+
+
+class CreateViewPermCheck(PermCheckMixin, TestCase):
+    def _get_url(self):
+        return reverse('cases:create', kwargs={'monitoring': str(self.case.pk)})
+
+
+class UpdateViewPermCheck(PermCheckMixin, TestCase):
+    def _get_url(self):
+        return reverse('cases:update', kwargs={'slug': self.case.slug})
+
+
+class DeleteViewPermCheck(PermCheckMixin, TestCase):
+    template_name = 'cases/case_confirm_delete.html'
+
+    def _get_url(self):
+        return reverse('cases:delete', kwargs={'slug': self.case.slug})

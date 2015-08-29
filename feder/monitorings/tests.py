@@ -27,6 +27,9 @@ class PermissionTestMixin(object):
 
     def _perm_check(self, url, template_name='monitorings/monitoring_form.html',
                     contains=True):
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 302)
+
         self.client.login(username='smith', password='top_secret')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 403)
@@ -43,8 +46,7 @@ class MonitoringTestCase(PermissionTestMixin, TestCase):
 
     def setUp(self):
         super(MonitoringTestCase, self).setUp()
-        self.monitoring = Monitoring(name="Lor", user=self.user)
-        self.monitoring.save()
+        self.monitoring = Monitoring.objects.create(name="Lor", user=self.user)
 
     def test_list_display(self):
         response = self.client.get(reverse('monitorings:list'))
