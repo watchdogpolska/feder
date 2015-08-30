@@ -148,7 +148,7 @@ class Letter(TimeStampedModel):
             file_obj = File(attachment.document, attachment.get_filename())
             attachments.append(Attachment(record=obj, attachment=file_obj))
         Attachment.objects.bulk_create(attachments)
-        return obj
+        return obj, attachments
 
 
 class Attachment(AttachmentBase):
