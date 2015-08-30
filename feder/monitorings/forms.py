@@ -30,6 +30,7 @@ class CreateMonitoringForm(SaveButtonMixin, UserKwargModelFormMixin, forms.Model
         self.helper.layout = Layout(
             Fieldset(_("Monitoring"),
                      'name',
+                     'description',
                      ),
             Fieldset(_("Content of new letter"),
                      'recipients',
@@ -54,4 +55,4 @@ class CreateMonitoringForm(SaveButtonMixin, UserKwargModelFormMixin, forms.Model
 
     class Meta:
         model = Monitoring
-        fields = ['name']
+        fields = ['name', 'description']
