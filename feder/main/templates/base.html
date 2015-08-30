@@ -137,6 +137,23 @@
     {% block javascript %}
       <script src="{% static 'js/script.js' %}"></script>
       {% include 'autocomplete_light/static.html' %}
+      <script>
+      $(function(){
+          var show = '<i class="fa fa-plus-square"></i> {%trans "Show quote" %}';
+          var hide = '<i class="fa fa-minus-square"></i> {%trans "Hide quote" %}';
+          $('blockquote.expandable').each(function(index, value){
+              var el = $(value).hide();
+              var new_el = $("<button class='btn btn-primary'>" + show + "</a>");
+              new_el.click(function(event){
+                  event.preventDefault();
+                  el.slideToggle();
+                  console.log(this.innerHTML);
+                  this.innerHTML = this.innerHTML == show ? hide : show;
+              });
+              el.before(new_el);
+          });
+      });
+      </script>
     {% endblock javascript %}
   </body>
 </html>
