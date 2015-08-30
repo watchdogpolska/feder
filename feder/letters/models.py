@@ -159,7 +159,7 @@ class Attachment(AttachmentBase):
 def mail_process(sender, message, **args):
     try:
         case = Case.objects.get(email=message.to[0])
-    except Case.DoesNotExists:
+    except Case.DoesNotExist:
         print("Message #{pk} skip, due not recognized address {to}".
               format(pk=message.pk, to=message.to[0]))
         return
