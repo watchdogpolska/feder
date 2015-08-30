@@ -7,7 +7,7 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('django_mailbox', '0005_auto_20150829_2235'),
+        ('django_mailbox', '0004_bytestring_to_unicode'),
         ('letters', '0008_auto_20150828_2201'),
     ]
 
