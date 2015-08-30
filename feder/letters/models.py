@@ -143,7 +143,7 @@ class Letter(TimeStampedModel):
                                  title=message.subject,
                                  body=text,
                                  quote=quote,
-                                 eml=message.eml)
+                                 eml=File(message.eml, message.eml.name))
         attachments = []
         for attachment in message.attachments.all():
             file_obj = File(attachment.document, attachment.get_filename())
