@@ -1,5 +1,5 @@
 {% load i18n %}
-{% if perms.institutions.can_change_institution or perms.institutions.can_delete_institution %}
+{% if perms.institutions.change_institution or perms.institutions.delete_institution %}
 <div class="clearfix">
     <div class="pull-right btn-group">
     {% if perms.institutions.can_change_institution %}
