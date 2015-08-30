@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-monitorings 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-26 22:47+0000\n"
-"PO-Revision-Date: 2015-08-27 00:48+0100\n"
+"POT-Creation-Date: 2015-08-30 17:35+0000\n"
+"PO-Revision-Date: 2015-08-30 19:36+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -19,100 +19,110 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.5.4\n"
 
-#: filters.py:12 templates/monitorings/_monitoring_small.html:12
+#: filters.py:13 templates/monitorings/_monitoring_small.html:12
 msgid "Creation date"
 msgstr "Data utworzenia"
 
-#: filters.py:29
-#| msgid "Creation date"
+#: filters.py:30
 msgid "Creation date (ascending)"
 msgstr "Data utworzenia (rosnąco)"
 
-#: filters.py:30
-#| msgid "Creation date"
+#: filters.py:31
 msgid "Creation date (descending)"
 msgstr "Data utworzenia (malejąco)"
 
-#: filters.py:31
-#| msgid "Case count"
+#: filters.py:32
 msgid "Cases count (ascending)"
 msgstr "Liczba spraw (rosnąco)"
 
-#: filters.py:32
+#: filters.py:33
 msgid "Cases count (descending)"
 msgstr "Liczba spraw (malejąco)"
 
-#: forms.py:23 templates/monitorings/monitoring_preview.html:12
+#: forms.py:25 templates/monitorings/monitoring_preview.html:12
 msgid "Recipients"
 msgstr "Odbiorcy"
 
-#: forms.py:24
+#: forms.py:26
 msgid "Text"
 msgstr "Treść"
 
-#: forms.py:29 models.py:30 models.py:31
+#: forms.py:31 models.py:29 models.py:30
 msgid "Monitoring"
 msgstr "Monitoring"
 
-#: forms.py:32
+#: forms.py:35
 msgid "Content of new letter"
 msgstr "Treść nowego listu"
 
-#: models.py:14
+#: models.py:12
 msgid "Monitorings index"
 msgstr "Wykaz monitoringów"
 
-#: models.py:23 templates/monitorings/monitoring_preview.html:13
+#: models.py:22 templates/monitorings/monitoring_preview.html:13
 msgid "Name"
 msgstr "Nazwa"
 
-#: models.py:24
+#: models.py:23
 msgid "Slug"
 msgstr "Identyfikator redakcyjny"
 
-#: models.py:25 templates/monitorings/_monitoring_small.html:8
+#: models.py:24 templates/monitorings/_monitoring_small.html:8
 msgid "User"
 msgstr "Użytkownik"
 
-#: models.py:26
+#: models.py:25
 msgid "Description"
 msgstr "Opis"
 
-#: models.py:34 templates/monitorings/_btn.html:19
+#: models.py:33 templates/monitorings/_btn.html:19
 msgid "Add questionary"
 msgstr "Utwórz kwestionariusz"
 
-#: models.py:35
+#: models.py:34
 msgid "Change questionary"
 msgstr "Zmień kwestionariusz"
 
-#: models.py:36
+#: models.py:35
 msgid "Delete questionary"
 msgstr "Usuń kwestionariusz"
 
-#: models.py:37 templates/monitorings/_btn.html:24
+#: models.py:36 templates/monitorings/_btn.html:24
 msgid "Add case"
 msgstr "Utwórz sprawę"
 
-#: models.py:38
+#: models.py:37
 msgid "Change case"
 msgstr "Zmień sprawę"
 
-#: models.py:39
+#: models.py:38
 msgid "Delete case"
 msgstr "Usuń sprawę"
 
-#: models.py:40
+#: models.py:39
 msgid "Add task"
 msgstr "Utwórz zadanie"
 
-#: models.py:41
+#: models.py:40 models.py:44
 msgid "Change task"
 msgstr "Zmień zadanie"
 
-#: models.py:42
+#: models.py:41
 msgid "Delete task"
 msgstr "Usuń zadanie"
+
+#: models.py:42
+msgid "Add letter"
+msgstr "Dodaj list"
+
+#: models.py:43
+msgid "Reply"
+msgstr "Odpowiedź"
+
+#: models.py:45
+#| msgid "Delete case"
+msgid "Delete letter"
+msgstr "Usuń list"
 
 #: templates/monitorings/_btn.html:9
 msgid "Edit"
@@ -129,7 +139,6 @@ msgid "Case count"
 msgstr "Liczba spraw"
 
 #: templates/monitorings/base.html:5
-#| msgid "Monitoring"
 msgid "Monitorings"
 msgstr "Monitoringi"
 
@@ -187,7 +196,7 @@ msgstr "Zgłoś"
 msgid "Or edit it again"
 msgstr "lub edytuj ponownie"
 
-#: views.py:75
+#: views.py:89
 #, python-brace-format
 msgid "Monitoring {monitoring} created!"
 msgstr "Monitoring {monitoring} utworzony!"

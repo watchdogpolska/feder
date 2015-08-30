@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: letters 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-26 22:46+0000\n"
-"PO-Revision-Date: 2015-08-27 00:43+0100\n"
+"POT-Creation-Date: 2015-08-30 17:36+0000\n"
+"PO-Revision-Date: 2015-08-30 19:37+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -19,73 +19,142 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.5.4\n"
 
-#: filters.py:12
+#: filters.py:17
 msgid "Creation date"
 msgstr "Data utworzenia"
 
-#: filters.py:21
+#: filters.py:18
+msgid "Has eml?"
+msgstr "Ma plik .eml?"
+
+#: filters.py:31
 msgid "Creation date (ascending)"
 msgstr "Data utworzenia (rosnąco)"
 
-#: filters.py:22
+#: filters.py:32
 msgid "Creation date (descending)"
 msgstr "Data utworzenia (malejąco)"
 
-#: models.py:20
+#: models.py:47
 msgid "Case"
 msgstr "Sprawa"
 
-#: models.py:21
+#: models.py:48
 msgid "Author (if user)"
 msgstr "Autor (jeżeli użytkownik)"
 
-#: models.py:23
+#: models.py:50
 msgid "Author (if institution)"
 msgstr "Autor (jeżeli instytucja)"
 
-#: models.py:25
+#: models.py:52
 msgid "Title"
 msgstr "Tytuł"
 
-#: models.py:26
+#: models.py:53
 msgid "Text"
 msgstr "Treść"
 
-#: models.py:27
+#: models.py:54
 msgid "Quote"
 msgstr "Cytat"
 
-#: models.py:32
+#: models.py:55
+msgid "E-mail"
+msgstr "E-mail"
+
+#: models.py:57
+msgid "File"
+msgstr "Plik"
+
+#: models.py:61
+msgid "Message"
+msgstr "Wiadomość"
+
+#: models.py:62
+msgid "Message registerd by django-mailbox"
+msgstr "Wiadomość zarejestrowanaa przez django-maiblxo"
+
+#: models.py:66
 msgid "Letter"
 msgstr "List"
 
-#: models.py:33 templates/letter/base.html:5
+#: models.py:67 templates/letters/base.html:5
 msgid "Letters"
 msgstr "Listy"
 
-#: templates/letter/_letter_small.html:12
-msgid "Author"
-msgstr "Autor"
+#: models.py:70
+msgid "Can filter eml"
+msgstr "Może filtrować po eml"
 
-#: templates/letter/_letter_small.html:22
-msgid "Institution"
-msgstr "Instytucja"
-
-#: templates/letter/_object.html:14
-msgid "attachments"
-msgstr "Załączniki"
-
-#: templates/letter/base_object.html:8 templates/letter/base_object.html:15
+#: templates/letters/_btn.html:8 templates/letters/base_object.html:9
 msgid "Edit"
 msgstr "Edytuj"
 
-#: templates/letter/base_object.html:16
+#: templates/letters/_btn.html:13
+#: templates/letters/letter_confirm_delete.html:11
 msgid "Delete"
 msgstr "Usuń"
 
-#: views.py:13
+#: templates/letters/_btn.html:19
+msgid "Reply"
+msgstr "Odpowiedź"
+
+#: templates/letters/_header.html:6 templates/letters/base_object.html:26
+#: templates/letters/letter_preview.html:13
+msgid "by"
+msgstr "przez"
+
+#: templates/letters/_object.html:13
+#| msgid "attachments"
+msgid "Attachments"
+msgstr "Załączniki"
+
+#: templates/letters/letter_confirm_delete.html:4
+msgid "Confirm delete"
+msgstr "Potwierdź usuwanie"
+
+#: templates/letters/letter_detail.html:13
+msgid "Download letter"
+msgstr "Pobierz list<"
+
+#: templates/letters/letter_preview.html:5
+msgid "Preview your submission"
+msgstr "Podejrzyj swoje zgłoszenie"
+
+#: templates/letters/letter_preview.html:30
+msgid "Send"
+msgstr "Wyślij"
+
+#: templates/letters/letter_preview.html:34
+msgid "Or edit it again"
+msgstr "lub edytuj je ponownie"
+
+#: templates/letters/letter_reply.html:6
+#, python-format
+msgid ""
+"\n"
+"    Reply for <a href=\"%(url)s\">%(object)s\n"
+"</a>\n"
+msgstr ""
+"\n"
+"    Odpowiedź na <a href=\"%(url)s\">%(object)s\n"
+"</a>\n"
+
+#: views.py:26
 msgid "Letters index"
 msgstr "Wykaz listów"
+
+#: views.py:131
+#, python-brace-format
+msgid "Reply to {letter} send!"
+msgstr "Odpowiedź na {letter} wysłana!"
+
+#~ msgid "Author"
+#~ msgstr "Autor"
+
+#~ msgid "Institution"
+#~ msgstr "Instytucja"
 
 #~ msgid "{0} updated!"
 #~ msgstr "{0} zaktualizowany!"

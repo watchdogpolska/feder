@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-teryt\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-26 18:38+0000\n"
+"POT-Creation-Date: 2015-08-30 17:36+0000\n"
 "PO-Revision-Date: 2015-08-20 17:48+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -19,39 +19,39 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.5.4\n"
 
-#: models.py:30
+#: models.py:33
 msgid "voivodeship"
 msgstr "województwo"
 
-#: models.py:31
+#: models.py:34
 msgid "county"
 msgstr "powiat"
 
-#: models.py:32
+#: models.py:35
 msgid "community"
 msgstr "gmina"
 
-#: models.py:42
+#: models.py:45
 msgid "Category"
 msgstr "Kategoria"
 
-#: models.py:43
+#: models.py:46
 msgid "Categories"
 msgstr "Kategorie"
 
-#: models.py:50
+#: models.py:54
 msgid "Name"
 msgstr "Nazwa"
 
-#: models.py:53
+#: models.py:57
 msgid "Updated date"
 msgstr "Data aktualizacji"
 
-#: models.py:80
+#: models.py:84
 msgid "Unit of administrative division"
 msgstr "Jednostka podziału terytorialnego"
 
-#: models.py:81
+#: models.py:85
 msgid "Units of administrative division"
 msgstr "Jednostki podziału terytorialnego"
 
@@ -129,22 +129,22 @@ msgstr ""
 "Wybierz województwo, aby uzyskać informacje o nim i aktywnościach na jego "
 "terenie."
 
-#: templates/teryt/jst_detail.html:22
+#: templates/teryt/jst_detail.html:25
 msgid "Voivodeships"
 msgstr "Województwa"
 
-#: templates/teryt/jst_detail.html:27
+#: templates/teryt/jst_detail.html:30
 msgid "Subordinate units"
 msgstr "Jednostki podrzędne"
 
-#: templates/teryt/jst_detail.html:41
+#: templates/teryt/jst_detail.html:44
 msgid "Institutions"
 msgstr "Instytucje"
 
-#: templates/teryt/jst_detail.html:50
+#: templates/teryt/jst_detail.html:53
 msgid "Cases"
 msgstr "Sprawy"
 
-#: templates/teryt/jst_detail.html:59
+#: templates/teryt/jst_detail.html:62
 msgid "Tasks"
 msgstr "Zadania"

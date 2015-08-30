@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-institutions 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-26 22:20+0000\n"
+"POT-Creation-Date: 2015-08-30 17:36+0000\n"
 "PO-Revision-Date: 2015-08-27 00:17+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -19,67 +19,67 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.5.4\n"
 
-#: filters.py:9
+#: filters.py:11
 msgid "Voivodeship"
 msgstr "Województwo"
 
-#: filters.py:10
+#: filters.py:12
 msgid "County"
 msgstr "Powiat"
 
-#: filters.py:11
+#: filters.py:13
 msgid "Community"
 msgstr "Gmina"
 
-#: filters.py:32
+#: filters.py:34
 msgid "Cases count (descending)"
 msgstr "Liczba spraw (malejąco)"
 
-#: filters.py:33
+#: filters.py:35
 msgid "Cases count (ascending)"
 msgstr "Liczba spraw (rosnąco)"
 
-#: filters.py:34
+#: filters.py:36
 msgid "Area"
 msgstr "Obszar"
 
-#: models.py:9
+#: models.py:10
 msgid "Institution index"
 msgstr "Wykaz instytucji"
 
-#: models.py:23 models.py:59
+#: models.py:25 models.py:61
 msgid "Name"
 msgstr "Nazwa"
 
-#: models.py:24 models.py:60
+#: models.py:26 models.py:62
 msgid "Slug"
 msgstr "Identyfikator redakcyjny"
 
-#: models.py:25 models.py:69
+#: models.py:27 models.py:71
 msgid "Tag"
 msgstr "Tag"
 
-#: models.py:26 models.py:47 templates/institutions/institution_detail.html:27
+#: models.py:28 models.py:49 templates/institutions/institution_detail.html:27
 msgid "E-mail"
 msgstr "E-mail"
 
-#: models.py:29 templates/institutions/_institution_small.html:9
+#: models.py:31 templates/institutions/_institution_small.html:9
 msgid "Unit of administrative division"
 msgstr "Jednostka podziału terytorialnego"
 
-#: models.py:34 models.py:35 models.py:46
+#: models.py:36 models.py:37 models.py:48
 msgid "Institution"
 msgstr "Instytucja"
 
-#: models.py:50
+#: models.py:52
 msgid "Email"
 msgstr "E-mail"
 
-#: models.py:51
+#: models.py:53
 msgid "Emails"
 msgstr "E-maile"
 
-#: models.py:70 templates/institutions/institution_detail.html:28
+#: models.py:72 templates/institutions/institution_detail.html:29
 msgid "Tags"
 msgstr "Tagi"
 
@@ -102,40 +102,40 @@ msgid "Institutions"
 msgstr "Instytucje"
 
 #: templates/institutions/base_object.html:14
-#: templates/institutions/institution_filter.html:7
+#: templates/institutions/institution_filter.html:9
 msgid "Add institution"
 msgstr "Dodaj instytucje"
 
-#: templates/institutions/institution_detail.html:33
+#: templates/institutions/institution_detail.html:35
 msgid "E-mails"
 msgstr "Adresy e-mail"
 
-#: templates/institutions/institution_detail.html:36
+#: templates/institutions/institution_detail.html:38
 msgid "Primary"
 msgstr "Podstawowy"
 
-#: templates/institutions/institution_detail.html:43
+#: templates/institutions/institution_detail.html:45
 msgid "Cases and tasks"
 msgstr "Sprawy i zadania"
 
-#: templates/institutions/institution_detail.html:57
+#: templates/institutions/institution_detail.html:59
 msgid "No rows."
 msgstr "Brak wierszy"
 
-#: templates/institutions/institution_detail.html:64
+#: templates/institutions/institution_detail.html:66
 msgid "previous"
 msgstr "poprzednia"
 
-#: templates/institutions/institution_detail.html:67
+#: templates/institutions/institution_detail.html:69
 #, python-format
 msgid "Page %(no)s of %(total)s"
 msgstr "Strona %(no)s z %(total)s"
 
-#: templates/institutions/institution_detail.html:70
+#: templates/institutions/institution_detail.html:72
 msgid "next"
 msgstr "następna"
 
-#: views.py:16
+#: views.py:22
 msgid "Institutions index"
 msgstr "Wykaz instytucji"
 

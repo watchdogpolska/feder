@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cases 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-26 22:15+0000\n"
+"POT-Creation-Date: 2015-08-30 17:37+0000\n"
 "PO-Revision-Date: 2015-08-27 00:08+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -19,45 +19,45 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.5.4\n"
 
-#: filters.py:9 models.py:26 templates/cases/_case_small.html:6
+#: filters.py:10 models.py:30 templates/cases/_case_small.html:6
 #: templates/cases/_desc.html:4
 msgid "Institution"
 msgstr "Instytucja"
 
-#: filters.py:10 models.py:25 templates/cases/_case_small.html:7
+#: filters.py:11 models.py:29 templates/cases/_case_small.html:7
 #: templates/cases/_desc.html:10
 msgid "Monitoring"
 msgstr "Monitoring"
 
-#: filters.py:11
+#: filters.py:12
 msgid "Creation date"
 msgstr "Data utworzenia"
 
-#: filters.py:23
+#: filters.py:24
 msgid "Letter count (descending)"
 msgstr "Liczba listów (malejąco)"
 
-#: filters.py:24
+#: filters.py:25
 msgid "Letter count (ascending)"
 msgstr "Liczba listów (rosnąco)"
 
-#: filters.py:25
+#: filters.py:26
 msgid "creation date (ascending)"
 msgstr "Data utworzenia (od najstarszych)"
 
-#: filters.py:26
+#: filters.py:27
 msgid "creation date (descending)"
 msgstr "Data utworzenia (od najnowszych)"
 
-#: models.py:22
+#: models.py:26
 msgid "Name"
 msgstr "Nazwa"
 
-#: models.py:23
+#: models.py:27
 msgid "Slug"
 msgstr "Identyfikator redakcyjny"
 
-#: models.py:32 models.py:33
+#: models.py:35 models.py:36
 msgid "Case"
 msgstr "Sprawa"
 
@@ -93,6 +93,6 @@ msgstr "Listy"
 msgid "No rows."
 msgstr "Brak wierszy"
 
-#: views.py:16
+#: views.py:21
 msgid "Case index"
 msgstr "Wykaz spraw"

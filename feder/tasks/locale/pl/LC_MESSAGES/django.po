@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tasks 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-26 22:25+0000\n"
+"POT-Creation-Date: 2015-08-30 17:39+0000\n"
 "PO-Revision-Date: 2015-08-27 00:41+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -19,91 +19,89 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.5.4\n"
 
-#: filters.py:13
+#: filters.py:14
 msgid "Creation date"
 msgstr "Data utworzenia"
 
-#: filters.py:14
+#: filters.py:15
 msgid "Is done?"
 msgstr "Czy ukończone?"
 
-#: filters.py:26
-#| msgid "Creation date"
+#: filters.py:27
 msgid "creation date (ascending)"
 msgstr "Data utworzenia (rosnąco)"
 
-#: filters.py:27
-#| msgid "Creation date"
+#: filters.py:28
 msgid "creation date (descending)"
 msgstr "Data utworzenia (malejąco)"
 
-#: forms.py:104
+#: forms.py:107
 msgid "Cases"
 msgstr "Sprawy"
 
-#: forms.py:105
+#: forms.py:108
 msgid "Suffix"
 msgstr "Przedrostek"
 
-#: forms.py:106
+#: forms.py:109
 msgid "Suffix for name in the form \"[suffix] #[no]\"."
 msgstr "Przedrostek dla nazwy w postaci \"[przedrostek] #[numer]\"."
 
-#: forms.py:112
+#: forms.py:115
 msgid "They are available only cases relevant to the monitoring."
 msgstr "Tu są dostępne sprawy wyłącznie właściwe dla danego monitoringu. "
 
-#: models.py:14 templates/tasks/task_filter.html:6
+#: models.py:16 templates/tasks/task_filter.html:6
 msgid "Tasks index"
 msgstr "Wykaz zadań"
 
-#: models.py:55
+#: models.py:58
 msgid "Name"
 msgstr "Nazwa"
 
-#: models.py:56 templates/tasks/_task_small.html:8
+#: models.py:59 templates/tasks/_task_small.html:8
 #: templates/tasks/task_detail.html:26
 msgid "Case"
 msgstr "Sprawa"
 
-#: models.py:57 templates/tasks/_task_small.html:9
+#: models.py:60 templates/tasks/_task_small.html:9
 #: templates/tasks/task_detail.html:31
 msgid "Questionary"
 msgstr "Kwestionariusz"
 
-#: models.py:58
+#: models.py:61
 msgid "Questionary to fill by user as task"
 msgstr "Kwestionariusz do wypełnienia przez użytkownika jako zadanie"
 
-#: models.py:59
+#: models.py:62
 msgid "Required survey count"
 msgstr "Liczba wymaganych ankiet"
 
-#: models.py:60
+#: models.py:63
 msgid "Done survey count"
 msgstr "Liczba ukończonych ankiet"
 
-#: models.py:98
+#: models.py:101
 msgid "Task"
 msgstr "Zadanie"
 
-#: models.py:99 templates/tasks/base.html:5
+#: models.py:102 templates/tasks/base.html:5
 msgid "Tasks"
 msgstr "Zadania"
 
-#: models.py:121
+#: models.py:125
 msgid "Survey"
 msgstr "Ankieta"
 
-#: models.py:122
+#: models.py:126
 msgid "Surveys"
 msgstr "Ankiety"
 
-#: models.py:135
+#: models.py:139
 msgid "Answer"
 msgstr "Odpowiedź"
 
-#: models.py:136 templates/tasks/_btn.html:22
+#: models.py:140 templates/tasks/_btn.html:22
 #: templates/tasks/task_survey.html:6
 msgid "Answers"
 msgstr "Odpowiedzi"
@@ -113,6 +111,7 @@ msgid "Edit"
 msgstr "Edytuj"
 
 #: templates/tasks/_btn.html:13 templates/tasks/survey_confirm_delete.html:16
+#: templates/tasks/task_confirm_delete.html:13
 #: templates/tasks/task_detail.html:43
 msgid "Delete"
 msgstr "Usuń"
@@ -140,6 +139,7 @@ msgid "No rows."
 msgstr "Brak wierszy"
 
 #: templates/tasks/survey_confirm_delete.html:5
+#: templates/tasks/task_confirm_delete.html:5
 msgid "Confirm delete"
 msgstr "Potwierdź usuwanie"
 
@@ -163,14 +163,14 @@ msgstr "Dodaj zadanie"
 msgid "User"
 msgstr "Użytkownik / użytkowniczka"
 
-#: views.py:125
+#: views.py:128
 msgid ""
 "Already done the job. If you want to change the answer - delete answers."
 msgstr ""
 "Wykonałeś to zadanie. Jeżeli chcesz zmienić odpowiedź - usuń poprzednią "
 "odpowiedź."
 
-#: views.py:135
+#: views.py:138
 msgid ""
 "Thank you for your submission. It is approaching us to know the truth, by "
 "obtaining reliable data."
@@ -178,7 +178,7 @@ msgstr ""
 "Dziękujemy za Twoje zgłoszenie. Zbliża ono nas do poznania prawdy, poprzez "
 "pozyskanie wiarygodnych danych."
 
-#: views.py:147
+#: views.py:150
 msgid ""
 "Thank you for your help. Unfortunately, all the tasks for you have been "
 "exhausted."

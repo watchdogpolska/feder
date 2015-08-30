@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: questionaries\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-26 22:48+0000\n"
+"POT-Creation-Date: 2015-08-30 17:39+0000\n"
 "PO-Revision-Date: 2015-08-27 00:49+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -19,70 +19,68 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.5.4\n"
 
-#: filters.py:9
+#: filters.py:14
 msgid "Name"
 msgstr "Nazwa"
 
-#: filters.py:10 models.py:14
+#: filters.py:15 models.py:19
 #: templates/questionaries/_questionary_small.html:7
 msgid "Monitoring"
 msgstr "Monitoring"
 
-#: filters.py:11
+#: filters.py:16
 msgid "Creation date"
 msgstr "Data utworzenia"
 
-#: filters.py:24
-#| msgid "Creation date"
+#: filters.py:28
 msgid "Creation date (ascending)"
 msgstr "Data utworzenia (rosnąco)"
 
-#: filters.py:25
-#| msgid "Creation date"
+#: filters.py:29
 msgid "Creation date (descending)"
 msgstr "Data utworzenia (malejąco)"
 
-#: forms.py:41 models.py:33
+#: forms.py:45 models.py:38
 msgid "Genre"
 msgstr "Rodzaj"
 
-#: models.py:9
+#: models.py:11
 msgid "Questionaries index"
 msgstr "Wykaz kwestionariuszy"
 
 #: models.py:13
-msgid "Title"
-msgstr "Tytuł"
-
-#: models.py:15
-msgid "Lock of edition"
-msgstr "Blokada edycji"
-
-#: models.py:16
 msgid "Prevent of edit question to protect against destruction the data set"
 msgstr "Zapobiega edycji pytań, aby chronić przed zniszczeniem zbioru danych"
 
-#: models.py:26 models.py:31
+#: models.py:18
+msgid "Title"
+msgstr "Tytuł"
+
+#: models.py:20
+msgid "Lock of edition"
+msgstr "Blokada edycji"
+
+#: models.py:31 models.py:36
 msgid "Questionary"
 msgstr "Kwestionariusz"
 
-#: models.py:27 templates/questionaries/base.html:5
+#: models.py:32 templates/questionaries/base.html:5
 msgid "Questionaries"
 msgstr "Kwestionariusze"
 
-#: models.py:32 templates/questionaries/questionary_detail.html:40
+#: models.py:37 templates/questionaries/questionary_detail.html:40
 msgid "Position"
 msgstr "Pozycja"
 
-#: models.py:34
+#: models.py:39
 msgid "Technical definition"
 msgstr "Opis techniczny"
 
-#: models.py:47 modulator.py:26
+#: models.py:52 modulator.py:26
 msgid "Question"
 msgstr "Pytanie"
 
-#: models.py:48
+#: models.py:53
 msgid "Questions"
 msgstr "Pytania"
 
@@ -172,16 +170,16 @@ msgstr "Zaktualizuj kwestionariusz"
 msgid "Add questionary"
 msgstr "Dodaj kwestionariusz"
 
-#: views.py:108
+#: views.py:119
 msgid "Create question"
 msgstr "Utwórz pytanie"
 
-#: views.py:129
+#: views.py:142
 #, python-brace-format
 msgid "Question {object} moved!"
 msgstr "Pytanie {object} przesunięte!"
 
-#: views.py:154
+#: views.py:169
 #, python-brace-format
 msgid "Tasks for {questionary} created!"
 msgstr "Zadania dla {questionary} utworzone!"
