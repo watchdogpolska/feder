@@ -164,5 +164,5 @@ def mail_process(sender, message, **args):
               format(pk=message.pk, to=message.to_addresses[0]))
         return
     letter, attachments = Letter.process_incoming(case, message)
-    print("Message #{message} registered in case #{case} as letter #{letter_pk}".
+    print("Message #{message} registered in case #{case} as letter #{letter}".
           format(message=message.pk, case=case.pk, letter=letter.pk))
