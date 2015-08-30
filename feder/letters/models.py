@@ -158,10 +158,10 @@ class Attachment(AttachmentBase):
 @receiver(message_received)
 def mail_process(sender, message, **args):
     try:
-        case = Case.objects.get(email=message.to[0])
+        case = Case.objects.get(email=message.to_addresses[0])
     except Case.DoesNotExist:
         print("Message #{pk} skip, due not recognized address {to}".
-              format(pk=message.pk, to=message.to[0]))
+              format(pk=message.pk, to=message.to_addresses[0]))
         return
     letter, attachments = Letter.propess_incoming(case, message)
     print("Message #{message} registered in case #{case} as letter #{letter_pk}".
