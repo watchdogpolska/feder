@@ -13,4 +13,4 @@ class InstitutionForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelFor
 
     class Meta:
         model = Institution
-        fields = ['name', 'address']
+        fields = ['name', 'address', 'jst']
