@@ -1,9 +1,10 @@
-{% load i18n %}
+{% load i18n humanize %}
 <h3>
     <i class="fa fa-envelope"></i>
     <a href="{{object.get_absolute_url}}">{{object}}</a>
     <small>
     {% trans 'by' %} <a href="{{object.author.get_absolute_url}}">{{object.author}}</a>
+    {{ object.created | naturaltime }}
     </small>
     {% if object.attachment_count %}
     <span class="badge pull-right">
