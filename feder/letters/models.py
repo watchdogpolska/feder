@@ -163,6 +163,6 @@ def mail_process(sender, message, **args):
         print("Message #{pk} skip, due not recognized address {to}".
               format(pk=message.pk, to=message.to_addresses[0]))
         return
-    letter, attachments = Letter.propess_incoming(case, message)
+    letter, attachments = Letter.process_incoming(case, message)
     print("Message #{message} registered in case #{case} as letter #{letter_pk}".
           format(message=message.pk, case=case.pk, letter=letter.pk))
