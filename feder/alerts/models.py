@@ -8,7 +8,7 @@ from model_utils.models import TimeStampedModel
 
 from feder.monitorings.models import Monitoring
 
-ALERT_INDEX = _("Alerts_index")
+ALERT_INDEX = _("Alerts index")
 
 
 class AlertQuerySet(models.QuerySet):
