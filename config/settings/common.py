@@ -59,6 +59,7 @@ LOCAL_APPS = (
     'feder.questionaries',
     'feder.main',
     'feder.easy_pagination',
+    'feder.alerts',
     # Your stuff: custom apps go here
 )
 

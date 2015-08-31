@@ -1,0 +1,5 @@
+{% extends 'alerts/base.html' %}
+{% load i18n %}
+{% block content %}
+{% include '_filter.html' with title='Alerts index' form=filter.form object_list=object_list object_template='alerts/_alert_small.html' %}
+{% endblock %}

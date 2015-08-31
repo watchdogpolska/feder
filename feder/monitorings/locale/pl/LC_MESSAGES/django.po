@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-monitorings 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-30 17:35+0000\n"
-"PO-Revision-Date: 2015-08-30 19:36+0100\n"
+"POT-Creation-Date: 2015-08-31 02:29+0000\n"
+"PO-Revision-Date: 2015-08-31 04:32+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -75,54 +75,79 @@ msgstr "Użytkownik"
 msgid "Description"
 msgstr "Opis"
 
-#: models.py:33 templates/monitorings/_btn.html:19
-msgid "Add questionary"
-msgstr "Utwórz kwestionariusz"
+#: models.py:33
+#| msgid "Add questionary"
+msgid "Can add questionary"
+msgstr "Może tworzyć kwestionariusz"
 
 #: models.py:34
-msgid "Change questionary"
-msgstr "Zmień kwestionariusz"
+#| msgid "Change questionary"
+msgid "Can change questionary"
+msgstr "Może zmieniać kwestionariusz"
 
 #: models.py:35
-msgid "Delete questionary"
-msgstr "Usuń kwestionariusz"
+#| msgid "Delete questionary"
+msgid "Can delete questionary"
+msgstr "Może usuwać kwestionariusz"
 
-#: models.py:36 templates/monitorings/_btn.html:24
-msgid "Add case"
-msgstr "Utwórz sprawę"
+#: models.py:36
+#| msgid "Add case"
+msgid "Can add case"
+msgstr "Może tworzyć sprawę"
 
 #: models.py:37
-msgid "Change case"
-msgstr "Zmień sprawę"
+#| msgid "Change case"
+msgid "Can change case"
+msgstr "Może zmieniać sprawę"
 
 #: models.py:38
-msgid "Delete case"
-msgstr "Usuń sprawę"
+#| msgid "Delete case"
+msgid "Can delete case"
+msgstr "Może usuwać sprawę"
 
 #: models.py:39
-msgid "Add task"
-msgstr "Utwórz zadanie"
+#| msgid "Add task"
+msgid "Can add task"
+msgstr "Może dodawać zadanie"
 
 #: models.py:40 models.py:44
-msgid "Change task"
-msgstr "Zmień zadanie"
+#| msgid "Change task"
+msgid "Can change task"
+msgstr "Może zmieniać zadanie"
 
 #: models.py:41
-msgid "Delete task"
-msgstr "Usuń zadanie"
+#| msgid "Delete task"
+msgid "Can delete task"
+msgstr "Może usuwać zadanie"
 
 #: models.py:42
-msgid "Add letter"
-msgstr "Dodaj list"
+#| msgid "Add letter"
+msgid "Can add letter"
+msgstr "Może dodawać list"
 
 #: models.py:43
-msgid "Reply"
-msgstr "Odpowiedź"
+msgid "Can reply"
+msgstr "Może odpowiadać"
 
 #: models.py:45
-#| msgid "Delete case"
-msgid "Delete letter"
-msgstr "Usuń list"
+#| msgid "Delete letter"
+msgid "Can delete letter"
+msgstr "Może usuwać list"
+
+#: models.py:46
+#| msgid "Can add alert"
+msgid "Can view alert"
+msgstr "Może dodawać alert"
+
+#: models.py:47
+#| msgid "Change case"
+msgid "Can change alert"
+msgstr "Może zmieniać sprawę"
+
+#: models.py:48
+#| msgid "Delete letter"
+msgid "Can delete alert"
+msgstr "Może usuwać list"
 
 #: templates/monitorings/_btn.html:9
 msgid "Edit"
@@ -133,6 +158,18 @@ msgstr "Edycja"
 #: templates/monitorings/monitoring_confirm_delete.html:10
 msgid "Delete"
 msgstr "Usuń"
+
+#: templates/monitorings/_btn.html:19
+msgid "Add questionary"
+msgstr "Utwórz kwestionariusz"
+
+#: templates/monitorings/_btn.html:24
+msgid "Add case"
+msgstr "Utwórz sprawę"
+
+#: templates/monitorings/_btn.html:28
+msgid "Alerts list"
+msgstr "Lista alertów"
 
 #: templates/monitorings/_monitoring_small.html:18
 msgid "Case count"
@@ -200,6 +237,9 @@ msgstr "lub edytuj ponownie"
 #, python-brace-format
 msgid "Monitoring {monitoring} created!"
 msgstr "Monitoring {monitoring} utworzony!"
+
+#~ msgid "Reply"
+#~ msgstr "Odpowiedź"
 
 #~ msgid "Create questionary"
 #~ msgstr "Utwórz kwestionariusz"

@@ -24,6 +24,10 @@
             {% trans 'Add case' %}
         </a>
         {% endif %}
+        <a class="btn btn-default" href="{% url 'alerts:list' monitoring=object.pk %}">
+            {% trans 'Alerts list' %}
+        </a>
+
     </div>
 </div>
 {% endif %}

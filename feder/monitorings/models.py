@@ -30,19 +30,22 @@ class Monitoring(TimeStampedModel):
         verbose_name_plural = _("Monitoring")
         ordering = ['created', ]
         permissions = (
-            ('add_questionary', _('Add questionary')),
-            ('change_questionary', _('Change questionary')),
-            ('delete_questionary', _('Delete questionary')),
-            ('add_case', _('Add case')),
-            ('change_case', _('Change case')),
-            ('delete_case', _('Delete case')),
-            ('add_task', _('Add task')),
-            ('change_task', _('Change task')),
-            ('delete_task', _('Delete task')),
-            ('add_letter', _('Add letter')),
-            ('reply', _('Reply')),
-            ('change_letter', _('Change task')),
-            ('delete_letter', _('Delete letter')),
+            ('add_questionary', _('Can add questionary')),
+            ('change_questionary', _('Can change questionary')),
+            ('delete_questionary', _('Can delete questionary')),
+            ('add_case', _('Can add case')),
+            ('change_case', _('Can change case')),
+            ('delete_case', _('Can delete case')),
+            ('add_task', _('Can add task')),
+            ('change_task', _('Can change task')),
+            ('delete_task', _('Can delete task')),
+            ('add_letter', _('Can add letter')),
+            ('reply', _('Can reply')),
+            ('change_letter', _('Can change task')),
+            ('delete_letter', _('Can delete letter')),
+            ('view_alert', _('Can view alert')),
+            ('change_alert', _('Can change alert')),
+            ('delete_alert', _('Can delete alert')),
         )
 
     def __unicode__(self):
@@ -66,6 +69,9 @@ def assign_default_perm(sender, instance, created, **kwargs):
         assign_perm('change_task', instance.user, instance)
         assign_perm('delete_task', instance.user, instance)
         assign_perm('reply', instance.user, instance)
+        assign_perm('view_alert', instance.user, instance)
+        assign_perm('change_alert', instance.user, instance)
+        assign_perm('delete_alert', instance.user, instance)
 
 post_save.connect(assign_default_perm, sender=Monitoring, dispatch_uid="assign_default_perm")
 

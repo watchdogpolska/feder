@@ -1,0 +1,16 @@
+{% extends 'alerts/base_alert.html' %}
+{% load crispy_forms_tags i18n %}
+{% block breadcrumbs %}
+{% if object %}
+    {{block.super}}
+{% elif monitoring %}
+<ol class="breadcrumb">
+    <li><a href="{{monitoring.get_absolute_url}}">{{monitoring}}</a></li>
+    <li class="active">{% trans 'Add alert' %}</li>
+</ol>
+{% endif %}
+{% endblock %}
+
+{% block content_object %}
+{% crispy form %}
+{% endblock %}

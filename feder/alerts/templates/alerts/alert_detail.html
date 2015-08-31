@@ -1,0 +1,27 @@
+{% extends 'alerts/base_alert.html' %}
+{% load i18n %}
+{% block content_object %}
+<table class="table table-striped">
+    <tr>
+        <td>{% trans "Creation date"%}</td>
+        <td>{{ object.created }}</td>
+    </tr>
+    <tr>
+        <td>{% trans "Modification date"%}</td>
+        <td>{{ object.modified }}</td>
+    </tr>
+    <tr>
+        <td>{% trans "Author"%}</td>
+        <td>{{ object.author }}</td>
+    </tr>
+    <tr>
+        <td>{% trans "Solver"%}</td>
+        <td>{{ object.solver }}</td>
+    </tr>
+    <tr>
+        <td>{% trans "Status"%}</td>
+        <td>{{ object.get_status_display }}</td>
+    </tr>
+</table>
+{{ object.reason| linebreaks }}
+{% endblock %}

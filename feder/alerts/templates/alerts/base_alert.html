@@ -1,0 +1,31 @@
+{% extends 'alerts/base.html' %}
+{% load i18n %}
+{% block breadcrumbs %}
+<ol class="breadcrumb">
+    <li><a href="{{object.monitoring.get_absolute_url}}">{{object.monitoring}}</a></li>
+    <li><a href="{% url 'alerts:list' monitoring=object.monitoring.pk %}">{% trans 'Alerts index' %}</a>
+    <li class="active">{{object}}</li>
+</ol>
+{% endblock %}
+
+{% block buttons %}
+{% if object %}
+{% include 'alerts/_btn.html' with object=object %}
+{% endif %}
+{% endblock %}
+
+{% block content %}
+{% if object %}
+<div class="page-header">
+    <h1>
+        <i class="fa fa-bolt"></i>
+        {{object}}
+    </h1>
+</div>
+{% endif %}
+<div class="row">
+    <div class="gray">
+        {% block content_object %}{% endblock %}
+    </div>
+</div>
+{% endblock %}
