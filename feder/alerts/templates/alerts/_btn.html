@@ -1,10 +1,10 @@
 {% load i18n %}
 {% load guardian_tags %}
 {% get_obj_perms request.user for object.monitoring as "monitoring_perms" %}
-{% if "change_alert" in monitoring_perms or "delete_alert" in monitoring_perms or True%}
+{% if "change_alert" in monitoring_perms or "delete_alert" in monitoring_perms %}
 <div class="clearfix">
     <div class="pull-right btn-group">
-        {% if "change_alert" in monitoring_perms or True %}
+        {% if "change_alert" in monitoring_perms %}
         <a class="btn btn-default" href="{% url 'alerts:update' pk=object.pk %}">
             {% trans 'Edit' %}
         </a>
