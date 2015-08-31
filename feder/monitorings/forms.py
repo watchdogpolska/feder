@@ -18,7 +18,7 @@ class MonitoringForm(SaveButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
 
     class Meta:
         model = Monitoring
-        fields = ['name', 'description']
+        fields = ['name', 'description', 'notify_alert']
 
 
 class CreateMonitoringForm(SaveButtonMixin, UserKwargModelFormMixin, forms.ModelForm):

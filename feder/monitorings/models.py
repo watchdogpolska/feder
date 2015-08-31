@@ -1,5 +1,6 @@
 from autoslug.fields import AutoSlugField
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models.signals import post_save
@@ -11,9 +12,10 @@ from model_utils.models import TimeStampedModel
 
 _('Monitorings index')
 
+NOTIFY_HELP = _("Notify about new alerts person who can view alerts")
+
 
 class MonitoringQuerySet(models.QuerySet):
-
     def with_case_count(self):
         return self.annotate(case_count=models.Count('case'))
 
@@ -23,6 +25,9 @@ class Monitoring(TimeStampedModel):
     slug = AutoSlugField(populate_from='name', verbose_name=_("Slug"), unique=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("User"))
     description = models.TextField(verbose_name=_("Description"), blank=True)
+    notify_alert = models.BooleanField(default=True,
+                                       verbose_name=_("Notify about alerts"),
+                                       help_text=NOTIFY_HELP)
     objects = PassThroughManager.for_queryset_class(MonitoringQuerySet)()
 
     class Meta:
@@ -50,6 +55,12 @@ class Monitoring(TimeStampedModel):
 
     def __unicode__(self):
         return self.name
+
+    def get_user_with_perm(self, perm):
+        perm_model = 'monitoringuserobjectpermission'
+        param = {perm_model + '__permission__codename': perm,
+                 perm_model + '__content_object': self}
+        return get_user_model().objects.filter(**param).all()
 
     def get_absolute_url(self):
         return reverse('monitorings:details', kwargs={'slug': self.slug})
