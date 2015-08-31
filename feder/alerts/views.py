@@ -92,7 +92,7 @@ class AlertDeleteView(AttrPermissionRequiredMixin, DeleteMessageMixin,
 
 class AlertStatusView(AttrPermissionRequiredMixin, ActionMessageMixin, ActionView):
     template_name_suffix = '_switch'
-    permission_required = 'monitorings.delete_alert'
+    permission_required = 'monitorings.change_alert'
     permission_attribute = 'monitoring'
 
     def get_queryset(self):
