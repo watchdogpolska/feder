@@ -114,11 +114,14 @@ class Letter(TimeStampedModel):
         return self.body.replace('{{EMAIL}}', self.case.email or '')
 
     def _construct_message(self):
+        headers = {'Return-Receipt-To': self.case.email,
+                   'Disposition-Notification-To': self.case.email}
         return EmailMessage(subject=self.case.monitoring,
                             from_email=self.case.email,
                             reply_to=[self.case.email],
                             to=[self.case.institution.address],
-                            body=self.email_body())
+                            body=self.email_body(),
+                            headers=headers)
 
     def send(self, commit=True, only=False):
         message = self._construct_message()
