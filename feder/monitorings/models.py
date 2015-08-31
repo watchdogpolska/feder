@@ -56,7 +56,7 @@ class Monitoring(TimeStampedModel):
     def __unicode__(self):
         return self.name
 
-    def get_user_with_perm(self, perm):
+    def get_users_with_perm(self, perm):
         perm_model = 'monitoringuserobjectpermission'
         param = {perm_model + '__permission__codename': perm,
                  perm_model + '__content_object': self}
