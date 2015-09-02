@@ -24,10 +24,17 @@
             {% trans 'Add case' %}
         </a>
         {% endif %}
+        {% if "manage_perm" in monitoring_perms %}
+        <a class="btn btn-default" href="{% url 'monitorings:perm' slug=object.slug %}">
+            {% trans 'Permissions' %}
+        </a>
+        {% endif %}
+        {% if "view_alert" in monitoring_perms %}
         <a class="btn btn-default" href="{% url 'alerts:list' monitoring=object.pk %}">
             {% trans 'Alerts list' %}
         </a>
-
+       {% endif %}
+ 
     </div>
 </div>
 {% endif %}

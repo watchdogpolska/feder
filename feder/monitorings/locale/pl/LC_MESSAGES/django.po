@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-monitorings 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-31 02:29+0000\n"
-"PO-Revision-Date: 2015-08-31 04:32+0100\n"
+"POT-Creation-Date: 2015-09-02 23:56+0000\n"
+"PO-Revision-Date: 2015-09-03 01:56+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -39,115 +39,125 @@ msgstr "Liczba spraw (rosnąco)"
 msgid "Cases count (descending)"
 msgstr "Liczba spraw (malejąco)"
 
-#: forms.py:25 templates/monitorings/monitoring_preview.html:12
+#: forms.py:26 templates/monitorings/monitoring_preview.html:12
 msgid "Recipients"
 msgstr "Odbiorcy"
 
-#: forms.py:26
+#: forms.py:27
 msgid "Text"
 msgstr "Treść"
 
-#: forms.py:31 models.py:29 models.py:30
+#: forms.py:32 models.py:39 models.py:40
 msgid "Monitoring"
 msgstr "Monitoring"
 
-#: forms.py:35
+#: forms.py:36
 msgid "Content of new letter"
 msgstr "Treść nowego listu"
 
-#: models.py:12
-msgid "Monitorings index"
-msgstr "Wykaz monitoringów"
-
-#: models.py:22 templates/monitorings/monitoring_preview.html:13
-msgid "Name"
-msgstr "Nazwa"
-
-#: models.py:23
-msgid "Slug"
-msgstr "Identyfikator redakcyjny"
-
-#: models.py:24 templates/monitorings/_monitoring_small.html:8
+#: forms.py:63 models.py:31 templates/monitorings/_monitoring_small.html:8
 msgid "User"
 msgstr "Użytkownik"
 
-#: models.py:25
+#: models.py:14
+msgid "Monitorings index"
+msgstr "Wykaz monitoringów"
+
+#: models.py:15
+msgid "Can add Monitoring"
+msgstr "Może dodać monitoring"
+
+#: models.py:16
+msgid "Can change Monitoring"
+msgstr "Może zmieniać monitoring"
+
+#: models.py:17
+msgid "Can delete Monitoring"
+msgstr "Może usunąć monitoring"
+
+#: models.py:19
+msgid "Notify about new alerts person who can view alerts"
+msgstr "Powiadom o nowych alertach osoby, które mogą je widzieć"
+
+#: models.py:29 templates/monitorings/monitoring_preview.html:13
+msgid "Name"
+msgstr "Nazwa"
+
+#: models.py:30
+msgid "Slug"
+msgstr "Identyfikator redakcyjny"
+
+#: models.py:32
 msgid "Description"
 msgstr "Opis"
 
-#: models.py:33
-#| msgid "Add questionary"
+#: models.py:34
+msgid "Notify about alerts"
+msgstr "Powiadamiaj o alertach"
+
+#: models.py:43
 msgid "Can add questionary"
 msgstr "Może tworzyć kwestionariusz"
 
-#: models.py:34
-#| msgid "Change questionary"
+#: models.py:44
 msgid "Can change questionary"
 msgstr "Może zmieniać kwestionariusz"
 
-#: models.py:35
-#| msgid "Delete questionary"
+#: models.py:45
 msgid "Can delete questionary"
 msgstr "Może usuwać kwestionariusz"
 
-#: models.py:36
-#| msgid "Add case"
+#: models.py:46
 msgid "Can add case"
 msgstr "Może tworzyć sprawę"
 
-#: models.py:37
-#| msgid "Change case"
+#: models.py:47
 msgid "Can change case"
 msgstr "Może zmieniać sprawę"
 
-#: models.py:38
-#| msgid "Delete case"
+#: models.py:48
 msgid "Can delete case"
 msgstr "Może usuwać sprawę"
 
-#: models.py:39
-#| msgid "Add task"
+#: models.py:49
 msgid "Can add task"
 msgstr "Może dodawać zadanie"
 
-#: models.py:40 models.py:44
-#| msgid "Change task"
+#: models.py:50 models.py:54
 msgid "Can change task"
 msgstr "Może zmieniać zadanie"
 
-#: models.py:41
-#| msgid "Delete task"
+#: models.py:51
 msgid "Can delete task"
 msgstr "Może usuwać zadanie"
 
-#: models.py:42
-#| msgid "Add letter"
+#: models.py:52
 msgid "Can add letter"
 msgstr "Może dodawać list"
 
-#: models.py:43
+#: models.py:53
 msgid "Can reply"
 msgstr "Może odpowiadać"
 
-#: models.py:45
-#| msgid "Delete letter"
+#: models.py:55
 msgid "Can delete letter"
 msgstr "Może usuwać list"
 
-#: models.py:46
-#| msgid "Can add alert"
+#: models.py:56
 msgid "Can view alert"
 msgstr "Może dodawać alert"
 
-#: models.py:47
-#| msgid "Change case"
+#: models.py:57
 msgid "Can change alert"
 msgstr "Może zmieniać sprawę"
 
-#: models.py:48
-#| msgid "Delete letter"
+#: models.py:58
 msgid "Can delete alert"
 msgstr "Może usuwać list"
+
+#: models.py:59
+msgid "Can manage perms"
+msgstr "Może zarządzać uprawnieniami"
 
 #: templates/monitorings/_btn.html:9
 msgid "Edit"
@@ -167,7 +177,11 @@ msgstr "Utwórz kwestionariusz"
 msgid "Add case"
 msgstr "Utwórz sprawę"
 
-#: templates/monitorings/_btn.html:28
+#: templates/monitorings/_btn.html:29
+msgid "Permissions"
+msgstr "Uprawnienia"
+
+#: templates/monitorings/_btn.html:34
 msgid "Alerts list"
 msgstr "Lista alertów"
 
@@ -221,6 +235,10 @@ msgstr "Aktualizuj"
 msgid "Add"
 msgstr "Dodaj"
 
+#: templates/monitorings/monitoring_permissions.html:6
+msgid "Add user"
+msgstr "Dodaj użytkownika"
+
 #: templates/monitorings/monitoring_preview.html:9
 msgid "Preview your submission"
 msgstr "Pogląd:"
@@ -233,10 +251,38 @@ msgstr "Zgłoś"
 msgid "Or edit it again"
 msgstr "lub edytuj ponownie"
 
-#: views.py:89
+#: templates/monitorings/permission_wizard.html:4
+#, python-format
+msgid "Step %(step)s of %(count)s"
+msgstr "Krok %(step)s z %(count)s"
+
+#: templates/monitorings/permission_wizard.html:18
+msgid "first step"
+msgstr "pierwszy krok"
+
+#: templates/monitorings/permission_wizard.html:19
+msgid "prev step"
+msgstr "poprzedni krok"
+
+#: templates/monitorings/permission_wizard.html:21
+msgid "submit"
+msgstr "Zgłoś"
+
+#: views.py:97
 #, python-brace-format
 msgid "Monitoring {monitoring} created!"
 msgstr "Monitoring {monitoring} utworzony!"
+
+#: views.py:144
+#, python-brace-format
+msgid "Permissions to {monitoring} updated!"
+msgstr "Uprawnienia dla {monitoring} zaktualizowane!"
+
+#: views.py:195
+#, python-brace-format
+#| msgid "Permissions to {monitoring} updated!"
+msgid "Permissions to {monitoring} of {user} updated!"
+msgstr "Uprawnienia do {monitoring} dla {user} zaktualizowane!"
 
 #~ msgid "Reply"
 #~ msgstr "Odpowiedź"

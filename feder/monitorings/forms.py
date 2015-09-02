@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from atom.forms import SaveButtonMixin
-from autocomplete_light import ModelMultipleChoiceField
+from atom.ext.guardian.forms import TranslatedUserObjectPermissionsForm
+from autocomplete_light import ModelMultipleChoiceField, ModelChoiceField
 from braces.forms import UserKwargModelFormMixin
 from crispy_forms.layout import Fieldset, Layout
 from django import forms
@@ -56,3 +57,11 @@ class CreateMonitoringForm(SaveButtonMixin, UserKwargModelFormMixin, forms.Model
     class Meta:
         model = Monitoring
         fields = ['name', 'description']
+
+
+class SelectUserForm(forms.Form):
+    user = ModelChoiceField('UserAutocomplete', label=_("User"))
+
+
+class SaveTranslatedUserObjectPermissionsForm(SaveButtonMixin, TranslatedUserObjectPermissionsForm):
+    pass

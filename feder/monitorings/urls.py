@@ -18,4 +18,13 @@ urlpatterns = [
         name="update"),
     url(r'^monitoring-(?P<slug>[\w-]+)/~delete$', views.MonitoringDeleteView.as_view(),
         name="delete"),
+    url(r'^monitoring-(?P<slug>[\w-]+)/~permission/~add$', views.PermissionWizard.as_view(),
+        name="perm-add"),
+    url(r'^monitoring-(?P<slug>[\w-]+)/~permission-(?P<user_pk>[\d]+)$',
+        views.MonitoringUpdatePermissionView.as_view(),
+        name="perm-update"),
+    url(r'^monitoring-(?P<slug>[\w-]+)/~permission$', views.MonitoringPermissionView.as_view(),
+        name="perm"),
+
+
 ]
