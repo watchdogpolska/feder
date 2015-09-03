@@ -30,7 +30,6 @@ class ReplyForm(SaveButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
         self.fields['quote'].initial = self.get_quote()
         if self.letter:
             self.instance.author_user = self.user
-            print self.letter.pk
             self.instance.case = self.letter.case
 
     def get_quote(self):
