@@ -100,6 +100,13 @@ class ChoiceModulator(BaseSimpleModulator):
         kw['choices'] = enumerate(shlex.split(self.blob['choices'].encode('utf-8')))
         return kw
 
+    def render_answer(self, blob):
+        choices = shlex.split(self.blob['choices'].encode('utf-8'))
+        v = choices[int(blob['value'])]
+        if blob['comment']:
+            return "%s (%s)" % (v, blob['comment'])
+        return v
+
 
 class JSTModulator(BaseSimpleModulator):
     description = _("Question about unit of administrative division")
