@@ -41,13 +41,12 @@ class SetUpMixin(object):
         assign_perm('monitorings.add_monitoring', self.user)
         self.quest = User.objects.create_user(
             username='quest', email='smith@example.com', password='top_secret')
-        self.monitoring = Monitoring(name="Lor", user=self.user)
-        self.monitoring.save()
+        self.monitoring = Monitoring.objects.create(name="Lor", user=self.user)
         self.institution = self._get_institution()
-        self.case = Case(name="blabla", monitoring=self.monitoring,
-                         institution=self.institution,
-                         user=self.user)
-        self.case.save()
+        self.case = Case.objects.create(name="blabla",
+                                        monitoring=self.monitoring,
+                                        institution=self.institution,
+                                        user=self.user)
 
 
 class CasesTestCase(SetUpMixin, TestCase):
@@ -113,7 +112,7 @@ class PermCheckMixin(SetUpMixin):
 
 class CreateViewPermCheck(PermCheckMixin, TestCase):
     def _get_url(self):
-        return reverse('cases:create', kwargs={'monitoring': str(self.case.pk)})
+        return reverse('cases:create', kwargs={'monitoring': str(self.monitoring.pk)})
 
 
 class UpdateViewPermCheck(PermCheckMixin, TestCase):
