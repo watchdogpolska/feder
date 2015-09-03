@@ -58,7 +58,9 @@ class BaseSimpleModulator(BaseBlobFormModulator):
         return {'value': cleaned_data['value'], 'comment': cleaned_data['value']}
 
     def render_answer(self, blob):
-        return blob
+        if blob['comment']:
+            return "%s (%s)" % (blob['value'], blob['comment'])
+        return blob['value']
 
     def render_label(self):
         return self.blob['name']

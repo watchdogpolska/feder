@@ -1,5 +1,5 @@
 from __future__ import division
-
+from itertools import groupby
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db import models
@@ -9,9 +9,12 @@ from jsonfield import JSONField
 from model_utils.managers import PassThroughManager
 from model_utils.models import TimeStampedModel
 
+from feder.alerts.models import Alert
 from feder.cases.models import Case
 from feder.questionaries.models import Question, Questionary
 from feder.questionaries.modulator import modulators
+
+from .utils import all_answer_equal
 
 _('Tasks index')
 
@@ -96,6 +99,20 @@ class Task(TimeStampedModel):
         return (Task.objects.by_monitoring(self.case.monitoring).
                 exclude_by_user(user).first())
 
+    def verify(self):
+        object_list = list(Answer.objects.filter(survey__task=self).
+                           select_related('survey').
+                           order_by('question_id').all())
+        if not object_list:  # empty always pass
+            return True
+        if object_list[0].survey.credibility > 2:  # selected survey always pass
+            return True
+        for question, answer_by_question in groupby(object_list, lambda x: x.question_id):
+            if all_answer_equal(answer_by_question):
+                return True
+            else:
+                return False
+
     class Meta:
         ordering = ['created', ]
         verbose_name = _("Task")
@@ -105,8 +122,8 @@ class Task(TimeStampedModel):
 class SurveyQuerySet(models.QuerySet):
 
     def with_full_answer(self):
-        return self.prefetch_related(models.Prefetch('answer_set',
-                                                     queryset=Answer.objects.select_related('question')))
+        qs = Answer.objects.select_related('question')
+        return self.prefetch_related(models.Prefetch('answer_set', queryset=qs))
 
     def with_user(self):
         return self.select_related('user')
@@ -119,9 +136,10 @@ class Survey(TimeStampedModel):
     task = models.ForeignKey(Task)
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     objects = PassThroughManager.for_queryset_class(SurveyQuerySet)()
+    credibility = models.PositiveIntegerField(default=0, verbose_name=_("Credibility"))
 
     class Meta:
-        ordering = ['created', ]
+        ordering = ['credibility', 'created']
         verbose_name = _("Survey")
         verbose_name_plural = _("Surveys")
         unique_together = [('task', 'user')]
@@ -144,12 +162,21 @@ def increase_task_survey_done(sender, instance, created, **kwargs):
     if created:
         Task.objects.filter(pk=instance.task_id).update(survey_done=models.F('survey_done') + 1)
 
-# register the signal
 post_save.connect(increase_task_survey_done, sender=Survey, dispatch_uid="increase_task_done")
+
+
+def raise_alert_if_mismatch(sender, instance, created, **kwargs):
+    if not instance.task.verify():
+        reason_text = "Answer mismatch - verification fail"
+        Alert.objects.create(monitoring=instance.task.case.monitoring,
+                             reason=reason_text,
+                             author=instance.user,
+                             link_object=instance.task)
+
+post_save.connect(raise_alert_if_mismatch, sender=Survey, dispatch_uid="raise_alert_if_mismatch")
 
 
 def decrease_task_survey_done(sender, instance, **kwargs):
     Task.objects.filter(pk=instance.task_id).update(survey_done=models.F('survey_done') - 1)
 
-# register the signal
 post_delete.connect(decrease_task_survey_done, sender=Survey, dispatch_uid="decrease_task_done")

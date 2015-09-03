@@ -4,6 +4,7 @@ from braces.views import (
     FormValidMessageMixin,
     LoginRequiredMixin,
     SelectRelatedMixin,
+    PrefetchRelatedMixin,
     UserFormKwargsMixin
 )
 from django.shortcuts import get_object_or_404
@@ -29,11 +30,13 @@ class MonitoringMixin(object):
         return self.get_monitoring()
 
 
-class AlertListView(MonitoringMixin, RaisePermissionRequiredMixin, SelectRelatedMixin, FilterView):
+class AlertListView(MonitoringMixin, RaisePermissionRequiredMixin,
+                    PrefetchRelatedMixin, SelectRelatedMixin, FilterView):
     filterset_class = AlertFilter
     model = Alert
     paginate_by = 25
-    select_related = ['solver', 'author', 'monitoring']
+    select_related = ['author', 'monitoring']
+    prefetch_related = ['link_object', ]
     permission_required = 'monitorings.view_alert'
 
     def get_queryset(self, *args, **kwargs):
@@ -43,7 +46,7 @@ class AlertListView(MonitoringMixin, RaisePermissionRequiredMixin, SelectRelated
 
 class AlertDetailView(AttrPermissionRequiredMixin, SelectRelatedMixin, DetailView):
     model = Alert
-    select_related = ['solver', 'author', 'monitoring']
+    select_related = ['author', 'monitoring']
     permission_required = 'monitorings.view_alert'
     permission_attribute = 'monitoring'
 

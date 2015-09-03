@@ -3,6 +3,8 @@ from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models.signals import post_save
 from django.core.mail import send_mail
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from model_utils.managers import PassThroughManager
@@ -25,11 +27,10 @@ class Alert(TimeStampedModel):
                                verbose_name=_("Author"),
                                related_name="alert_author",
                                null=True)
-    solver = models.ForeignKey(settings.AUTH_USER_MODEL,
-                               verbose_name=_("Solver"),
-                               related_name="alert_solver",
-                               null=True)
     status = models.BooleanField(default=False, verbose_name=_("Status"))
+    content_type = models.ForeignKey(ContentType, null=True)
+    object_id = models.PositiveIntegerField(null=True)
+    link_object = GenericForeignKey('content_type', 'object_id')
     objects = PassThroughManager.for_queryset_class(AlertQuerySet)()
 
     class Meta:
@@ -37,7 +38,7 @@ class Alert(TimeStampedModel):
         verbose_name_plural = _("Alerts")
 
     def get_status_display(self):
-        return _("Open") if self.status else _("Closed")
+        return _("Closed") if self.status else _("Open")
 
     def __str__(self):
         return str(self.created)

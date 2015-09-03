@@ -13,6 +13,8 @@
         <thead>
             <tr>
                 <th>{% trans 'User' %}</th>
+                <th>{% trans 'Creation date' %}</th>
+
                 {% for question in object.questionary.question_set.all %}
                 <th>{{question.label}}</th>
                 {% endfor %}
@@ -25,6 +27,9 @@
                     <a href="{{survey.user.get_absolute_url}}">
                         {{survey.user}}
                     </a>
+                </td>
+                <td>
+                    <datetime time="{{survey.created}}">{{survey.created | naturaltime }}</datetime>
                 </td>
                 {% for answer in survey.answer_set.all %}
                 <td>

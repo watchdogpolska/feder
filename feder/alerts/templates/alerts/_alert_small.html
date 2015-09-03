@@ -17,5 +17,11 @@
         <td>{% trans "Status"%}</td>
         <td>{{ object.get_status_display }}</td>
     </tr>
+    {% if object.link_object %}
+    <tr>
+        <td>{% trans "Object" %}</td>
+        <td><a href="{{object.link_object.get_absolute_url}}">{{ object.link_object }}</a></td>
+    </tr>
+    {% endif %}
 </table>
 {{ object.reason| linebreaks }}
