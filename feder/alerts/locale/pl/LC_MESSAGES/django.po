@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: alerts 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-31 02:56+0000\n"
-"PO-Revision-Date: 2015-08-31 04:58+0100\n"
+"POT-Creation-Date: 2015-09-03 02:17+0000\n"
+"PO-Revision-Date: 2015-09-03 04:17+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: pl_PL <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -19,51 +19,51 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.5.4\n"
 
-#: models.py:11 templates/alerts/base_alert.html:6
+#: models.py:14 templates/alerts/base_alert.html:6
 msgid "Alerts index"
 msgstr "Wykaz alertów"
 
-#: models.py:21
+#: models.py:24
 msgid "Monitoring"
 msgstr "Monitoring"
 
-#: models.py:22
+#: models.py:25
 msgid "Reason"
 msgstr "Przyczyna"
 
-#: models.py:24 templates/alerts/_alert_small.html:13
+#: models.py:27 templates/alerts/_alert_small.html:13
 #: templates/alerts/alert_detail.html:14
 msgid "Author"
 msgstr "Autor"
 
-#: models.py:28 templates/alerts/alert_detail.html:18
-msgid "Solver"
-msgstr "Rozwiązywacz/-ka"
-
-#: models.py:31 templates/alerts/_alert_small.html:17
-#: templates/alerts/alert_detail.html:22
+#: models.py:30 templates/alerts/_alert_small.html:17
+#: templates/alerts/alert_detail.html:18
 msgid "Status"
 msgstr "Status"
 
-#: models.py:35
+#: models.py:37
 msgid "Alert"
 msgstr "Alert"
 
-#: models.py:36
+#: models.py:38
 msgid "Alerts"
 msgstr "Alerty"
 
-#: models.py:39
-msgid "Open"
-msgstr "Otwarte"
-
-#: models.py:39
+#: models.py:41
 msgid "Closed"
 msgstr "Zamknięte"
+
+#: models.py:41
+msgid "Open"
+msgstr "Otwarte"
 
 #: templates/alerts/_alert_small.html:9 templates/alerts/alert_detail.html:6
 msgid "Creation date"
 msgstr "Data utworzenia"
+
+#: templates/alerts/_alert_small.html:22 templates/alerts/alert_detail.html:23
+msgid "Object"
+msgstr "Obiekt"
 
 #: templates/alerts/_btn.html:9
 msgid "Edit"
@@ -89,17 +89,20 @@ msgstr "Dodaj alert"
 msgid "Switch"
 msgstr "Przestaw"
 
-#: views.py:66
+#: views.py:69
 #, python-brace-format
 msgid "{object} created!"
 msgstr "{object} utworzony!"
 
-#: views.py:77
+#: views.py:80
 #, python-brace-format
 msgid "{object} updated!"
 msgstr "{object} zaktualizowany!"
 
-#: views.py:87
+#: views.py:90
 #, python-brace-format
 msgid "{object} deleted!"
 msgstr "{object} usunięty!"
+
+#~ msgid "Solver"
+#~ msgstr "Rozwiązywacz/-ka"
