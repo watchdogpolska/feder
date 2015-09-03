@@ -138,6 +138,12 @@ class Survey(TimeStampedModel):
     objects = PassThroughManager.for_queryset_class(SurveyQuerySet)()
     credibility = models.PositiveIntegerField(default=0, verbose_name=_("Credibility"))
 
+    def credibility_update(self, change):
+        self.credibility = models.F('credibility') + change
+
+    def credibility_verified(self):
+        return self.credibility > 3
+
     class Meta:
         ordering = ['credibility', 'created']
         verbose_name = _("Survey")
@@ -166,7 +172,7 @@ post_save.connect(increase_task_survey_done, sender=Survey, dispatch_uid="increa
 
 
 def raise_alert_if_mismatch(sender, instance, created, **kwargs):
-    if not instance.task.verify():
+    if created and not instance.task.verify():
         reason_text = "Answer mismatch - verification fail"
         Alert.objects.create(monitoring=instance.task.case.monitoring,
                              reason=reason_text,

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tasks 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-30 17:39+0000\n"
-"PO-Revision-Date: 2015-08-27 00:41+0100\n"
+"POT-Creation-Date: 2015-09-03 12:28+0000\n"
+"PO-Revision-Date: 2015-09-03 14:29+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -19,7 +19,7 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.5.4\n"
 
-#: filters.py:14
+#: filters.py:14 templates/tasks/task_survey.html:20
 msgid "Creation date"
 msgstr "Data utworzenia"
 
@@ -51,57 +51,61 @@ msgstr "Przedrostek dla nazwy w postaci \"[przedrostek] #[numer]\"."
 msgid "They are available only cases relevant to the monitoring."
 msgstr "Tu są dostępne sprawy wyłącznie właściwe dla danego monitoringu. "
 
-#: models.py:16 templates/tasks/task_filter.html:6
+#: models.py:19 templates/tasks/task_filter.html:6
 msgid "Tasks index"
 msgstr "Wykaz zadań"
 
-#: models.py:58
+#: models.py:61
 msgid "Name"
 msgstr "Nazwa"
 
-#: models.py:59 templates/tasks/_task_small.html:8
+#: models.py:62 templates/tasks/_task_small.html:8
 #: templates/tasks/task_detail.html:26
 msgid "Case"
 msgstr "Sprawa"
 
-#: models.py:60 templates/tasks/_task_small.html:9
+#: models.py:63 templates/tasks/_task_small.html:9
 #: templates/tasks/task_detail.html:31
 msgid "Questionary"
 msgstr "Kwestionariusz"
 
-#: models.py:61
+#: models.py:64
 msgid "Questionary to fill by user as task"
 msgstr "Kwestionariusz do wypełnienia przez użytkownika jako zadanie"
 
-#: models.py:62
+#: models.py:65
 msgid "Required survey count"
 msgstr "Liczba wymaganych ankiet"
 
-#: models.py:63
+#: models.py:66
 msgid "Done survey count"
 msgstr "Liczba ukończonych ankiet"
 
-#: models.py:101
+#: models.py:118
 msgid "Task"
 msgstr "Zadanie"
 
-#: models.py:102 templates/tasks/base.html:5
+#: models.py:119 templates/tasks/base.html:5
 msgid "Tasks"
 msgstr "Zadania"
 
-#: models.py:125
+#: models.py:139 templates/tasks/task_survey.html:24
+msgid "Credibility"
+msgstr "Wiarygodność"
+
+#: models.py:149
 msgid "Survey"
 msgstr "Ankieta"
 
-#: models.py:126
+#: models.py:150
 msgid "Surveys"
 msgstr "Ankiety"
 
-#: models.py:139
+#: models.py:163
 msgid "Answer"
 msgstr "Odpowiedź"
 
-#: models.py:140 templates/tasks/_btn.html:22
+#: models.py:164 templates/tasks/_btn.html:22
 #: templates/tasks/task_survey.html:6
 msgid "Answers"
 msgstr "Odpowiedzi"
@@ -143,6 +147,15 @@ msgstr "Brak wierszy"
 msgid "Confirm delete"
 msgstr "Potwierdź usuwanie"
 
+#: templates/tasks/survey_select.html:5
+#| msgid "Confirm delete"
+msgid "Confirm select answer"
+msgstr "Potwierdź wybranie odpowiedzi"
+
+#: templates/tasks/survey_select.html:14 templates/tasks/task_survey.html:32
+msgid "Credibility update"
+msgstr "Aktualizacja wiarygodności"
+
 #: templates/tasks/task_detail.html:38
 msgid "Analysis"
 msgstr "Analiza"
@@ -159,18 +172,26 @@ msgstr "Zaktualizuj zadanie"
 msgid "Add task"
 msgstr "Dodaj zadanie"
 
-#: templates/tasks/task_survey.html:15
+#: templates/tasks/task_survey.html:17
 msgid "User"
 msgstr "Użytkownik / użytkowniczka"
 
-#: views.py:128
+#: templates/tasks/task_survey.html:67
+msgid "Up"
+msgstr "Do góry"
+
+#: templates/tasks/task_survey.html:73
+msgid "Down"
+msgstr "W dół"
+
+#: views.py:31
 msgid ""
 "Already done the job. If you want to change the answer - delete answers."
 msgstr ""
 "Wykonałeś to zadanie. Jeżeli chcesz zmienić odpowiedź - usuń poprzednią "
 "odpowiedź."
 
-#: views.py:138
+#: views.py:33
 msgid ""
 "Thank you for your submission. It is approaching us to know the truth, by "
 "obtaining reliable data."
@@ -178,13 +199,18 @@ msgstr ""
 "Dziękujemy za Twoje zgłoszenie. Zbliża ono nas do poznania prawdy, poprzez "
 "pozyskanie wiarygodnych danych."
 
-#: views.py:150
+#: views.py:36
 msgid ""
 "Thank you for your help. Unfortunately, all the tasks for you have been "
 "exhausted."
 msgstr ""
 "Dziękujemy za Twoją pomoc. Niestety, wszystkie zadania - w tym monitoringu - "
 "zostały wyczerpane. "
+
+#: views.py:151
+#, python-brace-format
+msgid "Survey {object} selected!"
+msgstr "Ankieta {object} wybrana!"
 
 #~ msgid "Create task"
 #~ msgstr "Utwórz zadanie"

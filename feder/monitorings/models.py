@@ -56,7 +56,8 @@ class Monitoring(TimeStampedModel):
             ('view_alert', _('Can view alert')),
             ('change_alert', _('Can change alert')),
             ('delete_alert', _('Can delete alert')),
-            ('manage_perm', _('Can manage perms'))
+            ('manage_perm', _('Can manage perms')),
+            ('select_survey', _('Can select answer')),
         )
 
     def __unicode__(self):
@@ -102,6 +103,7 @@ def assign_default_perm(sender, instance, created, **kwargs):
         assign_perm('change_alert', instance.user, instance)
         assign_perm('delete_alert', instance.user, instance)
         assign_perm('manage_perm', instance.user, instance)
+        assign_perm('select_survey', instance.user, instance)
 
 post_save.connect(assign_default_perm, sender=Monitoring, dispatch_uid="assign_default_perm")
 

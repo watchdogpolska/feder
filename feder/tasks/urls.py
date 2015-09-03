@@ -22,4 +22,10 @@ urlpatterns = [
         name="fill_survey"),
     url(r'^task-(?P<task_id>[\d]+)/~delete_survey$', views.SurveyDeleteView.as_view(),
         name="delete_survey"),
+    url(r'^task-(?P<task_id>[\d]+)/~select-up-(?P<pk>[\d]+)$',
+        views.SurveySelectView.as_view(direction='up'),
+        name="select_up_survey"),
+    url(r'^task-(?P<task_id>[\d]+)/~select-down-(?P<pk>[\d]+)$',
+        views.SurveySelectView.as_view(direction='down'),
+        name="select_down_survey"),
 ]
