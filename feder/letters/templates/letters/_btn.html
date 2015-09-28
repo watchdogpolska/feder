@@ -14,7 +14,7 @@
         </a>
         {% endif %}
         {% if 'reply' in monitoring_perms %}
-        <a class="btn btn-default" href="{% url 'letters:reply' pk=object.pk %}">
+        <a class="btn btn-primary" href="{% url 'letters:reply' pk=object.pk %}">
             <i class="fa fa-reply"></i>
             {% trans 'Reply' %}
         </a>
