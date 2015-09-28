@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-institutions 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-30 17:36+0000\n"
-"PO-Revision-Date: 2015-08-27 00:17+0100\n"
+"POT-Creation-Date: 2015-09-28 00:42+0000\n"
+"PO-Revision-Date: 2015-09-28 02:43+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -47,49 +47,53 @@ msgstr "Obszar"
 msgid "Institution index"
 msgstr "Wykaz instytucji"
 
-#: models.py:25 models.py:61
+#: models.py:25 models.py:65
 msgid "Name"
 msgstr "Nazwa"
 
-#: models.py:26 models.py:62
+#: models.py:26 models.py:66
 msgid "Slug"
 msgstr "Identyfikator redakcyjny"
 
-#: models.py:27 models.py:71
+#: models.py:30 models.py:75
 msgid "Tag"
 msgstr "Tag"
 
-#: models.py:28 models.py:49 templates/institutions/institution_detail.html:27
+#: models.py:31 models.py:53 templates/institutions/institution_detail.html:27
 msgid "E-mail"
 msgstr "E-mail"
 
-#: models.py:31 templates/institutions/_institution_small.html:9
+#: models.py:32
+msgid "E-mail address used to contact with institutions"
+msgstr "Adres e-mail wykorzystywany do kontaktu z instytucją"
+
+#: models.py:35 templates/institutions/_institution_small.html:9
 msgid "Unit of administrative division"
 msgstr "Jednostka podziału terytorialnego"
 
-#: models.py:36 models.py:37 models.py:48
+#: models.py:40 models.py:41 models.py:52
 msgid "Institution"
 msgstr "Instytucja"
 
-#: models.py:52
+#: models.py:56
 msgid "Email"
 msgstr "E-mail"
 
-#: models.py:53
+#: models.py:57
 msgid "Emails"
 msgstr "E-maile"
 
-#: models.py:72 templates/institutions/institution_detail.html:29
+#: models.py:76 templates/institutions/institution_detail.html:29
 msgid "Tags"
 msgstr "Tagi"
 
 #: templates/institutions/_btn.html:7
-#: templates/institutions/base_object.html:13
+#: templates/institutions/base_object.html:14
 msgid "Edit"
 msgstr "Edycja"
 
 #: templates/institutions/_btn.html:12
-#: templates/institutions/institution_confirm_delete.html:8
+#: templates/institutions/institution_confirm_delete.html:11
 msgid "Delete"
 msgstr "Usuń"
 
@@ -101,10 +105,14 @@ msgstr "Liczba spraw"
 msgid "Institutions"
 msgstr "Instytucje"
 
-#: templates/institutions/base_object.html:14
+#: templates/institutions/base_object.html:15
 #: templates/institutions/institution_filter.html:9
 msgid "Add institution"
 msgstr "Dodaj instytucje"
+
+#: templates/institutions/institution_confirm_delete.html:4
+msgid "Confirm delete"
+msgstr "Potwierdź usuwanie"
 
 #: templates/institutions/institution_detail.html:35
 msgid "E-mails"

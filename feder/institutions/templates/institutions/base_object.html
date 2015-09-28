@@ -10,7 +10,7 @@
       <li><a href="{{object.get_absolute_url}}">{{object}}</a></li>
     {% endif %}
     {% block breadcrumb_row %}
-    <li>{% if headline %}{{ headline }}
+    <li class="active">{% if headline %}{{ headline }}
     {% elif object %}{% trans 'Edit' %}
     {% else %}{% trans 'Add institution'%}
     {% endif %}</li>

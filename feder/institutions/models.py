@@ -24,8 +24,12 @@ class InstitutionQuerySet(models.QuerySet):
 class Institution(models.Model):
     name = models.CharField(max_length=250, verbose_name=_("Name"))
     slug = AutoSlugField(populate_from='name', verbose_name=_("Slug"), unique=True)
-    tags = models.ManyToManyField('Tag', verbose_name=_("Tag"))
-    address = models.EmailField(verbose_name=_("E-mail"))
+    tags = models.ManyToManyField('Tag',
+                                  null=True,
+                                  blank=True,
+                                  verbose_name=_("Tag"))
+    address = models.EmailField(verbose_name=_("E-mail"),
+                                help_text=_("E-mail address used to contact with institutions"))
     jst = models.ForeignKey(JednostkaAdministracyjna,
                             limit_choices_to={'category__level': 3},
                             verbose_name=_('Unit of administrative division'),
