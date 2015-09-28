@@ -14,4 +14,5 @@ autocomplete_light.register(Institution, InstitutionAutocomplete)
 
 class TagAutocomplete(AutocompletePerformanceMixin, autocomplete_light.AutocompleteModelBase):
     search_fields = ['name']
+
 autocomplete_light.register(Tag, TagAutocomplete)
