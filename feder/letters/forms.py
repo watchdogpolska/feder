@@ -38,8 +38,9 @@ class ReplyForm(SaveButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
         return QUOTE_TPL.format(quoted=quoted, **self.letter.__dict__)
 
     def save(self):
-        super(ReplyForm, self).save()
+        obj = super(ReplyForm, self).save()
         self.instance.send()
+        return obj
 
     class Meta:
         model = Letter
