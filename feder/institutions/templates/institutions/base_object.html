@@ -1,6 +1,6 @@
 {% extends 'institutions/base.html' %}
 {% load i18n %}
-{% block content %}
+{% block breadcrumbs %}
 <ol class="breadcrumb">
     {% if object %}
       {% for jst in object.jst.get_ancestors.all %}
@@ -9,11 +9,16 @@
       <li><a href="{{object.jst.get_absolute_url}}">{{object.jst}}</a></li>
       <li><a href="{{object.get_absolute_url}}">{{object}}</a></li>
     {% endif %}
+    {% block breadcrumb_row %}
     <li>{% if headline %}{{ headline }}
     {% elif object %}{% trans 'Edit' %}
     {% else %}{% trans 'Add institution'%}
     {% endif %}</li>
+    {% endblock %}
 </ol>
+{% endblock %}
+
+{% block content %}
 
 {% if object %}
 {% include 'institutions/_btn.html' with object=object %}

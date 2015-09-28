@@ -1,5 +1,8 @@
 {% extends 'institutions/base_object.html' %}
 {% load i18n %}
+{% block breadcrumb_row%}
+<li class="active">{% trans 'Confirm delete' %}</li>
+{% endblock %}
 {% block content_object %}
     <form method="POST">
     <div style="display:none">
