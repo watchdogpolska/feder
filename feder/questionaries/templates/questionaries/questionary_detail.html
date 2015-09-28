@@ -24,7 +24,11 @@
     <div class="col-md-4 col-md-offset-2">
         <div class="red">
             <h2>{% trans 'Tasks' %}</h2>
-            {% include 'tasks/_task_select_list.html' with object_list=object.task_set.all %}
+	    {% if object.task_set.all %}
+           	 {% include 'tasks/_task_select_list.html' with object_list=object.task_set.all %}
+	    {% else %}
+		 <p>{% trans 'No rows.' %}</p>
+	    {% endif %}
         </div>
     </div>
 

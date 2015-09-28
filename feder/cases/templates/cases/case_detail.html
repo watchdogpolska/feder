@@ -28,7 +28,11 @@
                 <i class="fa fa-edit"></i>
                 {% trans 'Tasks' %}
             </h2>
-            {% include 'tasks/_task_select_list.html' with object_list=object.task_set.all %}
+	    {% if object.task_set.all %}
+    	        {% include 'tasks/_task_select_list.html' with object_list=object.task_set.all %}
+	    {% else %}
+    		<p>{% trans 'No rows.' %}</p>
+	    {% endif %}
         </div>
     </div>
 

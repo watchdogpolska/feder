@@ -43,7 +43,11 @@
                 <i class="fa fa-home"></i>
                 {% trans 'Institutions'%}
             </h2>
-            {% include '_select_list.html' with object_list=object.institution_qs.all %}
+	    {% if object.institution_qs.all %}
+         	   {% include '_select_list.html' with object_list=object.institution_qs.all %}
+	    {% else %}
+   		   <p>{% trans 'No rows.' %}</p>
+	    {% endif %}
         </div>
     </div>
     <div class="col-md-3">

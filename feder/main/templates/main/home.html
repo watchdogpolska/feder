@@ -17,7 +17,11 @@
     <div class="col-md-5">
     <div class="gray">
       <h2 class="title"><i class="fa fa-search"></i> {% trans 'Last monitorings' %}</h3>
-      {% include '_select_list.html' with object_list=monitoring_list %}
+	{% if monitoring_list %}
+	        {% include '_select_list.html' with object_list=monitoring_list %}
+	{% else %}
+    		<p>{% trans 'No rows.' %}</p>
+	{% endif %}
     </div>
     </div>
 </div>
