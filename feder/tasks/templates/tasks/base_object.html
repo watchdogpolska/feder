@@ -2,9 +2,14 @@
 {% load i18n %}
 {% block breadcrumbs %}
 <ol class="breadcrumb">
+    {% if object %}
     <li><a href="{{object.case.monitoring.get_absolute_url}}">{{object.case.monitoring}}</a></li>
     <li><a href="{{object.case.get_absolute_url}}">{{object.case}}</a></li>
     <li><a href="{{object.get_absolute_url}}">{{object}}</a></li>
+    {% elif case %}
+    <li><a href="{{case.monitoring.get_absolute_url}}">{{case.monitoring}}</a></li>
+    <li><a href="{{case.get_absolute_url}}">{{case}}</a></li>
+    {% endif %}
     {% block breadcrumbs_row %}{% endblock %}
 </ol>
 {% endblock %}
@@ -16,9 +21,11 @@
 {% endblock %}
 
 {% block content %}
+{% if object %}
 <h1 class="page-header">
   <i class="fa fa-edit"></i>
   <a href="{{object.get_absolute_url}}">{{object}}</a>
 </h1>
+{% endif %}
 {% block content_object %}{% endblock %}
 {% endblock %}

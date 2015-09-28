@@ -19,6 +19,10 @@ from .utils import all_answer_equal
 _('Tasks index')
 
 
+TASK_REQUIRED_TEXT = _("""Define how much answers do you need to mark tasks as done
+ or count progress""")
+
+
 class TaskQuerySet(models.QuerySet):
 
     def survey_count(self):
@@ -62,7 +66,9 @@ class Task(TimeStampedModel):
     case = models.ForeignKey(Case, verbose_name=_("Case"))
     questionary = models.ForeignKey(Questionary, verbose_name=_("Questionary"),
                                     help_text=_("Questionary to fill by user as task"))
-    survey_required = models.SmallIntegerField(verbose_name=_("Required survey count"), default=2)
+    survey_required = models.SmallIntegerField(verbose_name=_("Required survey count"),
+                                               help_text=TASK_REQUIRED_TEXT,
+                                               default=2)
     survey_done = models.SmallIntegerField(verbose_name=_("Done survey count"), default=0)
     objects = PassThroughManager.for_queryset_class(TaskQuerySet)()
 
@@ -108,10 +114,7 @@ class Task(TimeStampedModel):
         if object_list[0].survey.credibility > 2:  # selected survey always pass
             return True
         for question, answer_by_question in groupby(object_list, lambda x: x.question_id):
-            if all_answer_equal(answer_by_question):
-                return True
-            else:
-                return False
+            return all_answer_equal(answer_by_question)
 
     class Meta:
         ordering = ['created', ]

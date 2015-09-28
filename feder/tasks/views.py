@@ -7,7 +7,6 @@ from atom.views import (
 )
 from braces.views import (
     FormValidMessageMixin,
-    LoginRequiredMixin,
     PrefetchRelatedMixin,
     SelectRelatedMixin,
     UserFormKwargsMixin
@@ -103,6 +102,11 @@ class TaskCreateView(RaisePermissionRequiredMixin, UserFormKwargsMixin,
         kw = super(TaskCreateView, self).get_form_kwargs(*args, **kwargs)
         kw['case'] = self.case
         return kw
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(TaskCreateView, self).get_context_data(*args, **kwargs)
+        context['case'] = self.case
+        return context
 
 
 class TaskUpdateView(AttrPermissionRequiredMixin, UserFormKwargsMixin,
