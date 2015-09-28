@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: letters 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-30 17:36+0000\n"
-"PO-Revision-Date: 2015-08-30 19:37+0100\n"
+"POT-Creation-Date: 2015-09-28 01:12+0000\n"
+"PO-Revision-Date: 2015-09-28 03:12+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -106,7 +106,6 @@ msgid "by"
 msgstr "przez"
 
 #: templates/letters/_object.html:13
-#| msgid "attachments"
 msgid "Attachments"
 msgstr "Załączniki"
 
@@ -116,7 +115,7 @@ msgstr "Potwierdź usuwanie"
 
 #: templates/letters/letter_detail.html:13
 msgid "Download letter"
-msgstr "Pobierz list<"
+msgstr "Pobierz list"
 
 #: templates/letters/letter_preview.html:5
 msgid "Preview your submission"
