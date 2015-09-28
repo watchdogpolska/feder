@@ -11,7 +11,8 @@ from braces.views import (
     LoginRequiredMixin,
     PrefetchRelatedMixin,
     SelectRelatedMixin,
-    UserFormKwargsMixin
+    UserFormKwargsMixin,
+    SetHeadlineMixin
 )
 from django.core.exceptions import PermissionDenied
 from django.db.models import F
@@ -150,11 +151,13 @@ class TaskMultiCreateView(RaisePermissionRequiredMixin,
                           FormValidMessageMixin,
                           SingleObjectTemplateResponseMixin,
                           SingleObjectMixin,
+                          SetHeadlineMixin,
                           FormView):
     model = Questionary
     form_class = MultiTaskForm
     template_name_suffix = '_form'
     permission_required = 'monitorings.add_tasks'
+    headline = _("Create tasks")
 
     def get_permission_object(self):
         return super(TaskMultiCreateView, self).get_permission_object().monitoring

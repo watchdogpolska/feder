@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: questionaries\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-02 02:09+0000\n"
-"PO-Revision-Date: 2015-09-02 04:10+0100\n"
+"POT-Creation-Date: 2015-09-28 00:56+0000\n"
+"PO-Revision-Date: 2015-09-28 02:56+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -102,7 +102,6 @@ msgid "Allow comment"
 msgstr "Zezwól na komentarz"
 
 #: modulator.py:38
-#| msgid "Description of question"
 msgid "Description of comment"
 msgstr "Opis pola komentarza"
 
@@ -114,33 +113,31 @@ msgstr "Tekst pomocy dla pola komentarza"
 msgid "Are comment required?"
 msgstr "Czy komentarz jest wymagany?"
 
-#: modulator.py:68
+#: modulator.py:70
 msgid "Question about char"
 msgstr "Pytanie o tekst"
 
-#: modulator.py:73
+#: modulator.py:75
 msgid "Question about integer"
 msgstr "Pytanie o liczbę"
 
-#: modulator.py:78
+#: modulator.py:80
 msgid "Question about e-mail"
 msgstr "Pytanie o adres e-mail"
 
-#: modulator.py:83
-#| msgid "Question about char"
+#: modulator.py:85
 msgid "Question about date"
 msgstr "Pytanie o date"
 
-#: modulator.py:88
-#| msgid "Questionaries"
+#: modulator.py:90
 msgid "Question to choices"
 msgstr "Pytanie wyboru"
 
-#: modulator.py:93
+#: modulator.py:95
 msgid "Choices"
 msgstr "Opcje wyboru"
 
-#: modulator.py:103
+#: modulator.py:112
 msgid "Question about unit of administrative division"
 msgstr "Pytanie o jednostkę podziału terytorialnego"
 
@@ -149,7 +146,7 @@ msgid "Edit"
 msgstr "Edytuj"
 
 #: templates/questionaries/_btn.html:11
-#: templates/questionaries/questionary_confirm_delete.html:8
+#: templates/questionaries/questionary_confirm_delete.html:11
 msgid "Delete"
 msgstr "Usuń"
 
@@ -177,6 +174,10 @@ msgstr "poprzedni krok"
 #: templates/questionaries/question_wizard.html:26
 msgid "submit"
 msgstr "wyślij"
+
+#: templates/questionaries/questionary_confirm_delete.html:4
+msgid "Confirm delete"
+msgstr "Potwierdź usuwanie"
 
 #: templates/questionaries/questionary_detail.html:26
 msgid "Tasks"
@@ -206,22 +207,23 @@ msgstr "Zaktualizuj kwestionariusz"
 msgid "Add questionary"
 msgstr "Dodaj kwestionariusz"
 
-#: views.py:119
+#: views.py:120
 msgid "Create question"
 msgstr "Utwórz pytanie"
 
-#: views.py:142
+#: views.py:143
 #, python-brace-format
 msgid "Question {object} moved!"
 msgstr "Pytanie {object} przesunięte!"
 
-#: views.py:169
+#: views.py:160
+msgid "Create tasks"
+msgstr "Utwórz zadania"
+
+#: views.py:172
 #, python-brace-format
 msgid "Tasks for {questionary} created!"
 msgstr "Zadania dla {questionary} utworzone!"
-
-#~ msgid "Create tasks"
-#~ msgstr "Utwórz zadanie"
 
 #~ msgid "Create questionary"
 #~ msgstr "Utwórz kwestionariusz"
