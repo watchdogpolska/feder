@@ -27,6 +27,7 @@ class ReplyForm(SaveButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.letter = kwargs.pop('letter', None)
         super(ReplyForm, self).__init__(*args, **kwargs)
+        self.fields['title'].initial = "Re: {title}".format(title=self.letter.title)
         self.fields['quote'].initial = self.get_quote()
         if self.letter:
             self.instance.author_user = self.user

@@ -1,8 +1,12 @@
 {% extends 'letters/base_object.html' %}
 {% load i18n %}
 
-{% block breadcrumb_row %}
-<li class="active">{{ object }}</li>
+{% block breadcrumbs %}
+<ol class="breadcrumb">
+    <li><a href="{{object.case.monitoring.get_absolute_url}}">{{object.case.monitoring}}</a></li>
+    <li><a href="{{object.case.get_absolute_url}}">{{object.case}}</a></li>
+    <li class="active">{{object}}</li>
+</ol>
 {% endblock %}
 
 {% block content_object %}

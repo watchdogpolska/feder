@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: letters 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-28 01:12+0000\n"
-"PO-Revision-Date: 2015-09-28 03:12+0100\n"
+"POT-Creation-Date: 2015-09-28 01:20+0000\n"
+"PO-Revision-Date: 2015-09-28 03:20+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -87,7 +87,7 @@ msgstr "Listy"
 msgid "Can filter eml"
 msgstr "Może filtrować po eml"
 
-#: templates/letters/_btn.html:8 templates/letters/base_object.html:9
+#: templates/letters/_btn.html:8 templates/letters/base_object.html:10
 msgid "Edit"
 msgstr "Edytuj"
 
@@ -100,7 +100,7 @@ msgstr "Usuń"
 msgid "Reply"
 msgstr "Odpowiedź"
 
-#: templates/letters/_header.html:6 templates/letters/base_object.html:26
+#: templates/letters/_header.html:6 templates/letters/base_object.html:27
 #: templates/letters/letter_preview.html:13
 msgid "by"
 msgstr "przez"
@@ -113,7 +113,7 @@ msgstr "Załączniki"
 msgid "Confirm delete"
 msgstr "Potwierdź usuwanie"
 
-#: templates/letters/letter_detail.html:13
+#: templates/letters/letter_detail.html:17
 msgid "Download letter"
 msgstr "Pobierz list"
 
@@ -131,14 +131,12 @@ msgstr "lub edytuj je ponownie"
 
 #: templates/letters/letter_reply.html:6
 #, python-format
-msgid ""
-"\n"
-"    Reply for <a href=\"%(url)s\">%(object)s\n"
-"</a>\n"
-msgstr ""
-"\n"
-"    Odpowiedź na <a href=\"%(url)s\">%(object)s\n"
-"</a>\n"
+#| msgid ""
+#| "\n"
+#| "    Reply for <a href=\"%(url)s\">%(object)s\n"
+#| "</a>\n"
+msgid "Reply for <a href=\"%(url)s\">%(object)s</a>"
+msgstr "Odpowiedź na <a href=\"%(url)s\">%(object)s</a>"
 
 #: views.py:26
 msgid "Letters index"
