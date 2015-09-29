@@ -44,8 +44,8 @@ class Question(models.Model):
             raise ValueError("You can't modify this questionary. Some answers exists")
         return super(Question, self).save(*args, **kwargs)
 
-    def label(self):
-        return modulators[self.genre](self.blob).render_label()
+    def label(self, sheet=False):
+        return modulators[self.genre](self.blob).render_label(sheet=sheet)
 
     class Meta:
         ordering = ['position', ]

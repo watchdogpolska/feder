@@ -1,3 +1,5 @@
+import csv
+import itertools
 from atom.ext.django_filters.views import UserKwargFilterSetMixin
 from atom.views import (
     ActionMessageMixin,
@@ -14,6 +16,7 @@ from braces.views import (
     UserFormKwargsMixin,
     SetHeadlineMixin
 )
+from django.http import HttpResponse
 from django.core.exceptions import PermissionDenied
 from django.db.models import F
 from django.shortcuts import get_object_or_404, redirect
@@ -26,6 +29,7 @@ from formtools.wizard.views import SessionWizardView
 from feder.main.mixins import AttrPermissionRequiredMixin, RaisePermissionRequiredMixin
 from feder.monitorings.models import Monitoring
 from feder.tasks.forms import AnswerFormSet, MultiTaskForm
+from feder.tasks.models import Survey
 
 from .filters import QuestionaryFilter
 from .forms import BoolQuestionForm, QuestionaryForm, QuestionForm
@@ -177,3 +181,23 @@ class TaskMultiCreateView(RaisePermissionRequiredMixin,
     def form_valid(self, form, *args, **kwargs):
         form.save()
         return super(TaskMultiCreateView, self).form_valid(form, *args, **kwargs)
+
+
+def save_survey_as_csv(request, pk):
+    questionary = get_object_or_404(Questionary, pk=pk)
+    survey_list = (Survey.objects.filter(task__questionary=questionary).
+                   select_related('task__case__institution', 'user').all())
+
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="questionary-{pk}.csv"'.format(pk=pk)
+
+    col_unflatten = [x.label(sheet=True) for x in questionary.question_set.all()]
+
+    writer = csv.writer(response)
+    writer.writerow(["Office", "Survey PK", "Credibility", 'User'] +
+                    list(itertools.chain.from_iterable(col_unflatten)))
+    for survey in survey_list:
+        row_unflatten = [x.render(sheet=True) for x in survey.answer_set.all()]
+        writer.writerow([survey.task.case.institution, survey.pk, survey.credibility, survey.user] +
+                        list(itertools.chain.from_iterable(row_unflatten)))
+    return response

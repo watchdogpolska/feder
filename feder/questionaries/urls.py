@@ -18,6 +18,8 @@ urlpatterns = [
         name="delete"),
     url(r'^questionary-(?P<pk>[\d]+)/~tasks$', views.TaskMultiCreateView.as_view(),
         name="tasks"),
+    url(r'^questionary-(?P<pk>[\d]+)/~export$', views.save_survey_as_csv,
+        name="export"),
     url(r'^questionary-(?P<pk>[\d]+)/~question-create$', views.QuestionWizard.as_view(),
         name="question_create"),
     url(r'^question-(?P<pk>[\d]+)/~up$', views.QuestionMoveView.as_view(direction='up'),

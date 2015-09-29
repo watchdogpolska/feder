@@ -148,7 +148,7 @@ class Survey(TimeStampedModel):
         return self.credibility > 3
 
     class Meta:
-        ordering = ['credibility', 'created']
+        ordering = ['task', 'credibility', 'created']
         verbose_name = _("Survey")
         verbose_name_plural = _("Surveys")
         unique_together = [('task', 'user')]
@@ -159,8 +159,8 @@ class Answer(models.Model):
     question = models.ForeignKey(Question)
     blob = JSONField()
 
-    def render(self):
-        return modulators[self.question.genre](self.question.blob).render_answer(self.blob)
+    def render(self, sheet=False):
+        return modulators[self.question.genre](self.question.blob).render_answer(self.blob, sheet=sheet)
 
     class Meta:
         verbose_name = _("Answer")

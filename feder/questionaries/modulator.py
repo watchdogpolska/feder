@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 import shlex
 from django import forms
 from django.utils.translation import ugettext_lazy as _
@@ -13,14 +14,27 @@ class BaseBlobFormModulator(object):
         super(BaseBlobFormModulator, self).__init__()
 
     def create(self, fields):
+        """ Method to add fields to create question form"""
         raise NotImplementedError("Provide method 'create' in {name}".
                                   format(name=self.__class__.__name__))
 
     def answer(self, fields):
+        """ Method to add fields to answer form """
         raise NotImplementedError("Provide method 'answer' in {name}".
                                   format(name=self.__class__.__name__))
 
     def read(self, cleaned_data):
+        """ Method to convert answer for dict for store """
+        raise NotImplementedError("Provide method 'read' in {name}".
+                                  format(name=self.__class__.__name__))
+
+    def render_label(self, sheet=False):
+        """ Method to convert question to user-friendly label"""
+        raise NotImplementedError("Provide method 'read' in {name}".
+                                  format(name=self.__class__.__name__))
+
+    def render_answer(self, blob, sheet=False):
+        """ Method to convert answer to user-friendly text"""
         raise NotImplementedError("Provide method 'read' in {name}".
                                   format(name=self.__class__.__name__))
 
@@ -49,7 +63,7 @@ class BaseSimpleModulator(BaseBlobFormModulator):
 
     def answer(self, fields):
         fields['value'] = self.output_field_cls(**self.get_kwargs())
-        if self.blob.get('comment', False):
+        if self.blob.get('comment', True):
             fields['comment'] = forms.CharField(label=self.blob['comment_label'],
                                                 help_text=self.blob['comment_help'],
                                                 required=not self.blob['comment_required'])
@@ -57,13 +71,17 @@ class BaseSimpleModulator(BaseBlobFormModulator):
     def read(self, cleaned_data):
         return {'value': cleaned_data['value'], 'comment': cleaned_data['value']}
 
-    def render_answer(self, blob):
+    def render_label(self, sheet=False):
+        if sheet:
+            return [self.blob['name'], 'Comment']
+        return self.blob['name']
+
+    def render_answer(self, blob, sheet=False):
+        if sheet:
+            return [blob['value'], blob['comment']]
         if blob['comment']:
             return "%s (%s)" % (blob['value'], blob['comment'])
         return blob['value']
-
-    def render_label(self):
-        return self.blob['name']
 
 
 class CharModulator(BaseSimpleModulator):
@@ -100,9 +118,11 @@ class ChoiceModulator(BaseSimpleModulator):
         kw['choices'] = enumerate(shlex.split(self.blob['choices'].encode('utf-8')))
         return kw
 
-    def render_answer(self, blob):
+    def render_answer(self, blob, sheet=False):
         choices = shlex.split(self.blob['choices'].encode('utf-8'))
         v = choices[int(blob['value'])]
+        if sheet:
+            return [v, blob['comment']]
         if blob['comment']:
             return "%s (%s)" % (v, blob['comment'])
         return v
