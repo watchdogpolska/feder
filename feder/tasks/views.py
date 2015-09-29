@@ -1,9 +1,9 @@
 from atom.views import (
+    ActionMessageMixin,
+    ActionView,
     CreateMessageMixin,
     DeleteMessageMixin,
-    UpdateMessageMixin,
-    ActionMessageMixin,
-    ActionView
+    UpdateMessageMixin
 )
 from braces.views import (
     FormValidMessageMixin,
@@ -13,7 +13,7 @@ from braces.views import (
 )
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.core.urlresolvers import reverse_lazy, reverse
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
@@ -25,7 +25,6 @@ from feder.main.mixins import AttrPermissionRequiredMixin, RaisePermissionRequir
 from .filters import TaskFilter
 from .forms import AnswerFormSet, SurveyForm, TaskForm
 from .models import Survey, Task
-
 
 DONE_MESSAGE_TEXT = _("Already done the job. If you want to change the answer - delete answers.")
 

@@ -1,28 +1,27 @@
 from __future__ import print_function
+
 import uuid
 
-from atom.models import AttachmentBase
 import claw
+from atom.models import AttachmentBase
 from claw import quotations
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.core.files import File
 from django.core.files.base import ContentFile
 from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.dispatch import receiver
-from django.core.files import File
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from django_mailbox.models import Message
 from django_mailbox.signals import message_received
-
 from model_utils.managers import PassThroughManager
 from model_utils.models import TimeStampedModel
 
 from feder.cases.models import Case
 from feder.institutions.models import Institution
-
 
 claw.init()
 

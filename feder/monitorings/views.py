@@ -1,24 +1,24 @@
-from atom.views import DeleteMessageMixin, UpdateMessageMixin
 from atom.ext.guardian.forms import TranslatedUserObjectPermissionsForm
+from atom.views import DeleteMessageMixin, UpdateMessageMixin
 from braces.views import (
     FormValidMessageMixin,
     LoginRequiredMixin,
     SelectRelatedMixin,
-    UserFormKwargsMixin,
+    UserFormKwargsMixin
 )
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import HttpResponseRedirect
-from django.utils.translation import ugettext_lazy as _
-from django.views.generic import DeleteView, DetailView, UpdateView, FormView
 from django.shortcuts import get_object_or_404
-from django.core.urlresolvers import reverse
+from django.utils.translation import ugettext_lazy as _
+from django.views.generic import DeleteView, DetailView, FormView, UpdateView
 from django_filters.views import FilterView
 from formtools.preview import FormPreview
 from formtools.wizard.views import SessionWizardView
+
 from feder.cases.models import Case
 from feder.main.mixins import ExtraListMixin, RaisePermissionRequiredMixin
 
@@ -26,8 +26,8 @@ from .filters import MonitoringFilter
 from .forms import (
     CreateMonitoringForm,
     MonitoringForm,
-    SelectUserForm,
-    SaveTranslatedUserObjectPermissionsForm
+    SaveTranslatedUserObjectPermissionsForm,
+    SelectUserForm
 )
 from .models import Monitoring
 

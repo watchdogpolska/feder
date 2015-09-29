@@ -1,4 +1,5 @@
 from itertools import groupby
+
 from autoslug.fields import AutoSlugField
 from django.conf import settings
 from django.contrib.auth import get_user_model

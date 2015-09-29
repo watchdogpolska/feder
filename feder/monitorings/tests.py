@@ -134,4 +134,3 @@ class MonitoringAddViewTestCase(SetUpMixin, TestCase):
         self.assertEqual(len(mail.outbox), 1)
 
         Letter.objects.get().eml.delete()
-

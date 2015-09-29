@@ -1,19 +1,15 @@
 from functools import partial
-from django.shortcuts import get_object_or_404, redirect, render
+
 from atom.ext.django_filters.views import UserKwargFilterSetMixin
 from atom.views import CreateMessageMixin, DeleteMessageMixin, UpdateMessageMixin
-from braces.views import (
-    FormValidMessageMixin,
-    SelectRelatedMixin,
-    UserFormKwargsMixin
-)
+from braces.views import FormValidMessageMixin, SelectRelatedMixin, UserFormKwargsMixin
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
+from django.http import Http404
+from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
 from django_filters.views import FilterView
-from django.http import Http404
-from django.core.exceptions import PermissionDenied
-
 from formtools.preview import FormPreview
 
 from feder.cases.models import Case

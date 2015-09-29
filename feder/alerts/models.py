@@ -1,14 +1,15 @@
 from django.conf import settings
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
+from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models.signals import post_save
-from django.core.mail import send_mail
-from django.contrib.contenttypes.fields import GenericForeignKey
-from django.contrib.contenttypes.models import ContentType
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from model_utils.managers import PassThroughManager
 from model_utils.models import TimeStampedModel
+
 from feder.monitorings.models import Monitoring
 
 ALERT_INDEX = _("Alerts index")

@@ -1,5 +1,5 @@
-from django.core.paginator import EmptyPage, Paginator
 from braces.views import LoginRequiredMixin
+from django.core.paginator import EmptyPage, Paginator
 from guardian.mixins import PermissionRequiredMixin
 
 

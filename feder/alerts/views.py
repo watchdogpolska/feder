@@ -3,8 +3,8 @@ from atom.views import ActionMessageMixin, ActionView, DeleteMessageMixin
 from braces.views import (
     FormValidMessageMixin,
     LoginRequiredMixin,
-    SelectRelatedMixin,
     PrefetchRelatedMixin,
+    SelectRelatedMixin,
     UserFormKwargsMixin
 )
 from django.shortcuts import get_object_or_404
@@ -12,8 +12,8 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
 from django_filters.views import FilterView
 
-from feder.monitorings.models import Monitoring
 from feder.main.mixins import AttrPermissionRequiredMixin, RaisePermissionRequiredMixin
+from feder.monitorings.models import Monitoring
 
 from .filters import AlertFilter
 from .forms import AlertForm

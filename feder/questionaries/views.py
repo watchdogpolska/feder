@@ -1,5 +1,6 @@
 import csv
 import itertools
+
 from atom.ext.django_filters.views import UserKwargFilterSetMixin
 from atom.views import (
     ActionMessageMixin,
@@ -13,12 +14,12 @@ from braces.views import (
     LoginRequiredMixin,
     PrefetchRelatedMixin,
     SelectRelatedMixin,
-    UserFormKwargsMixin,
-    SetHeadlineMixin
+    SetHeadlineMixin,
+    UserFormKwargsMixin
 )
-from django.http import HttpResponse
 from django.core.exceptions import PermissionDenied
 from django.db.models import F
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import CreateView, DeleteView, DetailView, FormView, UpdateView

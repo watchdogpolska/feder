@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+
 from textwrap import wrap
+
 from atom.forms import SaveButtonMixin
 from braces.forms import UserKwargModelFormMixin
 from django import forms

@@ -1,5 +1,7 @@
 from __future__ import division
+
 from itertools import groupby
+
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db import models

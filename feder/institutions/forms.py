@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
+import autocomplete_light
 from atom.forms import SingleButtonMixin
 from braces.forms import UserKwargModelFormMixin
-import autocomplete_light
+
 from .models import Institution
 
 

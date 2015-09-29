@@ -1,9 +1,12 @@
 from __future__ import absolute_import, unicode_literals
+
 from django.core.urlresolvers import reverse
-from django.utils import six
 from django.test import TestCase
+from django.utils import six
+
 from feder.cases.factory import factory_case
 from feder.institutions.factory import factory_institution
+
 from ..models import Letter
 
 try:
