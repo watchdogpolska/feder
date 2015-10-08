@@ -1,0 +1,8 @@
+{% load i18n %}
+{% blocktrans with object=object %}Are you sure you want to remove "{{object}}"?{% endblocktrans %}
+<form method="POST">
+<div style="display:none">
+    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+</div>
+    <input type="submit" class="btn btn-primary" value="{% trans 'Delete' %}">
+</form>
