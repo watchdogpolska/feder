@@ -5,7 +5,7 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from model_utils.managers import PassThroughManager
 
-from feder.teryt.models import JednostkaAdministracyjna
+from feder.teryt.models import JST
 
 _('Institution index')
 
@@ -30,7 +30,7 @@ class Institution(models.Model):
                                   verbose_name=_("Tag"))
     address = models.EmailField(verbose_name=_("E-mail"),
                                 help_text=_("E-mail address used to contact with institutions"))
-    jst = models.ForeignKey(JednostkaAdministracyjna,
+    jst = models.ForeignKey(JST,
                             limit_choices_to={'category__level': 3},
                             verbose_name=_('Unit of administrative division'),
                             db_index=True)

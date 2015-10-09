@@ -14,4 +14,4 @@ class InstitutionForm(SingleButtonMixin, UserKwargModelFormMixin, autocomplete_l
     class Meta:
         model = Institution
         fields = ['name', 'address', 'tags', 'jst']
-        autocomplete_names = {'jst': 'JednostkaAdministracyjnaCommunityAutocomplete'}
+        autocomplete_names = {'jst': 'JSTCommunityAutocomplete'}

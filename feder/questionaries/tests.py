@@ -3,8 +3,6 @@ from django.test import TestCase
 from guardian.shortcuts import assign_perm
 
 from feder.monitorings.models import Monitoring
-# from feder.teryt.models import JednostkaAdministracyjna
-# from feder.institutions.models import Institution
 from feder.questionaries.models import Question, Questionary
 
 try:
@@ -16,11 +14,11 @@ except ImportError:
 
 class QuestionariesTestCase(TestCase):
     # def _get_third_level_jst(self):
-    #     jst = AutoFixture(JednostkaAdministracyjna,
+    #     jst = AutoFixture(JST,
     #         field_values={'updated_on': '2015-02-12'},
     #         generate_fk=True).create_one(commit=False)
     #     jst.save()
-    #     JednostkaAdministracyjna.objects.rebuild()
+    #     JST.objects.rebuild()
     #     return jst
 
     # def _get_institution(self):

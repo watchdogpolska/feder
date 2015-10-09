@@ -2,7 +2,7 @@ import django_filters
 from atom.filters import AutocompleteChoiceFilter, CrispyFilterMixin
 from django.utils.translation import ugettext_lazy as _
 
-from feder.teryt.filters import JSTModelChoice
+from teryt_tree.filters import JSTModelChoice
 
 from .models import Institution
 

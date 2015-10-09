@@ -44,7 +44,8 @@ THIRD_PARTY_APPS = (
     'mptt',
     'atom',
     'guardian',
-    'django_mailbox'
+    'django_mailbox',
+    'teryt_tree',
 )
 
 # Apps specific for this project go here.

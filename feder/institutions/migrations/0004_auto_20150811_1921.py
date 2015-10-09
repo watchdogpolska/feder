@@ -18,6 +18,6 @@ class Migration(migrations.Migration):
             model_name='institution',
             name='jst',
             field=models.ForeignKey(verbose_name='Unit of administrative division',
-                                    to='teryt.JednostkaAdministracyjna'),
+                                    to='teryt.JST'),
         ),
     ]

@@ -1,6 +1,6 @@
 from django.views.generic import DetailView, ListView
 
-from .models import JednostkaAdministracyjna
+from feder.teryt.models import JednostkaAdministracyjna
 
 
 class JSTDetailView(DetailView):
@@ -8,7 +8,7 @@ class JSTDetailView(DetailView):
     template_name = 'teryt/jst_detail.html'
 
 
-class JednostkaAdministracyjnaListView(ListView):
+class JSTListView(ListView):
     model = JednostkaAdministracyjna
 
     def get_queryset(self, *args, **kwargs):

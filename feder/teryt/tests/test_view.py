@@ -3,16 +3,16 @@ from django.core.urlresolvers import reverse
 from django.test import RequestFactory, TestCase
 
 from feder.teryt import views
-from feder.teryt.models import JednostkaAdministracyjna
+from feder.teryt.models import JST
 
 
 class TerytViewTestCase(TestCase):
 
     def _get_third_level_jst(self):
-        jst = AutoFixture(JednostkaAdministracyjna,
+        jst = AutoFixture(JST,
                           field_values={'updated_on': '2015-02-12', 'rght': 0},
                           generate_fk=True).create_one()
-        JednostkaAdministracyjna.objects.rebuild()
+        JST.objects.rebuild()
         return jst
 
     def setUp(self):
@@ -21,7 +21,7 @@ class TerytViewTestCase(TestCase):
 
     def test_list_display(self):
         request = self.factory.get(reverse('teryt:list'))
-        response = views.JednostkaAdministracyjnaListView.as_view()(request)
+        response = views.JSTListView.as_view()(request)
         self.assertEqual(response.status_code, 200)
 
     def test_details_display(self):

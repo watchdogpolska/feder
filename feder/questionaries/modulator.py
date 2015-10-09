@@ -136,7 +136,7 @@ class JSTModulator(BaseSimpleModulator):
     def answer(self, fields):
         import autocomplete_light
         fields['value'] = autocomplete_light.ModelMultipleChoiceField(
-            'JednostkaAdministracyjnaAutocomplete',
+            'JSTAutocomplete',
             label=self.blob['name'],
             help_text=self.blob['help_text'],
             required=self.blob.get('required', True))

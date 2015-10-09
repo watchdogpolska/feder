@@ -2,8 +2,6 @@
 from django.views.generic import TemplateView
 
 from feder.monitorings.models import Monitoring
-from feder.teryt.models import JednostkaAdministracyjna
-
 
 class HomeView(TemplateView):
     template_name = 'main/home.html'

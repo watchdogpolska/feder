@@ -9,7 +9,7 @@ from feder.cases.models import Case
 from feder.institutions.models import Institution
 from feder.monitorings.models import Monitoring
 from feder.questionaries.models import Questionary
-from feder.teryt.models import JednostkaAdministracyjna
+from feder.teryt.models import JST
 
 try:
     from django.contrib.auth import get_user_model
@@ -20,11 +20,11 @@ except ImportError:
 
 class SetUpMixin(object):
     def _get_third_level_jst(self):
-        jst = AutoFixture(JednostkaAdministracyjna,
+        jst = AutoFixture(JST,
                           field_values={'updated_on': '2015-02-12'},
                           generate_fk=True).create_one(commit=False)
         jst.save()
-        JednostkaAdministracyjna.objects.rebuild()
+        JST.objects.rebuild()
         return jst
 
     def _get_institution(self):
