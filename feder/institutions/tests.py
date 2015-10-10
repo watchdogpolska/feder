@@ -5,8 +5,8 @@ from django.test import RequestFactory, TestCase
 from guardian.shortcuts import assign_perm
 
 from feder.institutions.models import Institution
-from feder.teryt.models import JST
 
+from feder.teryt.factory import JSTFactory
 try:
     from django.contrib.auth import get_user_model
     User = get_user_model()
@@ -15,23 +15,13 @@ except ImportError:
 
 
 class SetUpMixin(object):
-    def _get_third_level_jst(self):
-        jst = AutoFixture(JST,
-                          field_values={'name': 'Kłodzko',
-                                        'updated_on': '2015-02-12'},
-                          generate_fk=True).create_one(commit=False)
-        jst.rght = 0
-        jst.save()
-        JST.objects.rebuild()
-        return jst
-
     @staticmethod
     def _assign_all_perm(user):
         assign_perm('institutions.change_institution', user)
         assign_perm('institutions.delete_institution', user)
 
     def _get_institution(self):
-        jst = self._get_third_level_jst()
+        jst = JSTFactory()
         institution = AutoFixture(Institution,
                                   field_values={'user': self.user,
                                                 'jst': jst}).create_one()
