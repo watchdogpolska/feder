@@ -6,7 +6,7 @@ from guardian.shortcuts import assign_perm
 
 from feder.institutions.models import Institution
 
-from feder.teryt.factory import JSTFactory
+from feder.teryt.factories import JSTFactory
 try:
     from django.contrib.auth import get_user_model
     User = get_user_model()

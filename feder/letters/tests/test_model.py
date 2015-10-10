@@ -1,10 +1,10 @@
 from django.core import mail
 from django.test import TestCase
 
-from feder.cases.factory import factory_case
+from feder.cases.factories import factory_case
 from feder.cases.models import Case
-from feder.institutions.factory import factory_institution
-from feder.monitorings.factory import factory_monitoring
+from feder.institutions.factories import factory_institution
+from feder.monitorings.factories import factory_monitoring
 
 from ..models import Letter
 

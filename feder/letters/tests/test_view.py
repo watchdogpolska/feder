@@ -4,8 +4,8 @@ from django.core.urlresolvers import reverse
 from django.test import TestCase
 from django.utils import six
 
-from feder.cases.factory import factory_case
-from feder.institutions.factory import factory_institution
+from feder.cases.factories import factory_case
+from feder.institutions.factories import factory_institution
 
 from ..models import Letter
 

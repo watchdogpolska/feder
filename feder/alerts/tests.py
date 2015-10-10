@@ -3,7 +3,7 @@ from __future__ import absolute_import
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 
-from feder.monitorings.factory import factory_monitoring
+from feder.monitorings.factories import factory_monitoring
 
 from .models import Alert
 

@@ -3,7 +3,7 @@ from django.test import TestCase
 from guardian.shortcuts import assign_perm
 
 from feder.cases.models import Case
-from feder.institutions.factory import factory_institution
+from feder.institutions.factories import factory_institution
 from feder.monitorings.models import Monitoring
 from feder.questionaries.models import Questionary
 from feder.tasks.models import Task

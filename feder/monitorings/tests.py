@@ -4,7 +4,7 @@ from django.test import TestCase
 from formtools.utils import form_hmac
 from guardian.shortcuts import assign_perm
 
-from feder.institutions.factory import factory_institution
+from feder.institutions.factories import factory_institution
 from feder.letters.models import Letter
 from feder.monitorings.forms import CreateMonitoringForm
 from feder.monitorings.models import Monitoring

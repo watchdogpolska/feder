@@ -2,7 +2,7 @@ from django.core.urlresolvers import reverse
 from django.test import RequestFactory, TestCase
 
 from feder.teryt import views
-from feder.teryt.factory import JSTFactory
+from feder.teryt.factories import JSTFactory
 
 
 class TerytViewTestCase(TestCase):

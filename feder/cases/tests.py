@@ -9,7 +9,7 @@ from feder.cases.models import Case
 from feder.institutions.models import Institution
 from feder.monitorings.models import Monitoring
 from feder.questionaries.models import Questionary
-from feder.teryt.factory import JSTFactory
+from feder.teryt.factories import JSTFactory
 
 try:
     from django.contrib.auth import get_user_model
