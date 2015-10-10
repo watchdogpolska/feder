@@ -11,11 +11,10 @@ env:
     - DJANGO_SETTINGS_MODULE="config.settings.tests"
   matrix:
 #    - TOX_ENV=py27-dj17
-    - TOX_ENV=py27-dj18
+    - TOX_ENV=py27-dj18-coverage
 #    - TOX_ENV=py27-djmaster
 #    - TOX_ENV=py33-dj18
 #    - TOX_ENV=py33-djmaster
-    - TOX_ENV=coverage
     - TOX_ENV=flake8
 
 matrix:
