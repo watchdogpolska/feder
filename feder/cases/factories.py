@@ -2,7 +2,7 @@ from feder.cases import models
 from feder.institutions.factories import factory_institution
 from feder.monitorings.factories import factory_monitoring
 import factory
-from feder.users.factory import UserFactory
+from feder.users.factories import UserFactory
 
 
 class CaseFactory(factory.django.DjangoModelFactory):
