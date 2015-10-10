@@ -1,5 +1,5 @@
 from feder.teryt import models
-from teryt_tree.factory import JednostkaAdministracyjnaFactory
+from teryt_tree.factories import JednostkaAdministracyjnaFactory
 
 
 class JSTFactory(JednostkaAdministracyjnaFactory):
