@@ -1,4 +1,4 @@
-from users import models
+from feder.users import models
 import factory
 
 
