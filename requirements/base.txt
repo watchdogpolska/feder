@@ -2,21 +2,21 @@
 # django==1.8.3
 
 # Configuration
-django-environ==0.3.0
+django-environ==0.4.0
 django-secure==1.0.1
 
 
 
 # Forms
 django-braces==1.8.1
-django-crispy-forms==1.5.1
+django-crispy-forms==1.5.2
 django-floppyforms==1.5.2
 
 # Models
 django-model-utils==2.3.1
 
 # Images
-Pillow==2.9.0
+Pillow==3.0.0
 
 # For user registration, either via email or social
 # Well-built with regular release cycles!
@@ -28,23 +28,23 @@ mysqlclient==1.3.6
 
 # Unicode slugification
 unicode-slugify==0.1.3
-django-autoslug==1.8.0
+django-autoslug==1.9.3
 
 # Time zones support
-pytz==2015.4
+pytz==2015.6
 
 
 
 # Your custom requirements go here
-django-filter==0.10.0
-django-autocomplete-light==2.2.5
+django-filter==0.11.0
+django-autocomplete-light==2.2.10
 https://github.com/ad-m/django-atom/archive/v0.5.0.zip
 django-formtools==1.0
 django-mptt==0.7.4
-django-tinycontent==0.5.0
+django-tinycontent==0.5.1
 django-autofixture==0.10.1
 jsonfield==1.0.3
 https://github.com/TailorDev/django-guardian/archive/036238fc59576044ff70ff21b069e87ccd7ef6df.zip
-claw==1.2.0
+claw==1.3.0
 django-mailbox==4.4.4
 https://github.com/ad-m/django-teryt-tree/archive/master.zip
