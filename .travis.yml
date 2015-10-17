@@ -13,6 +13,8 @@ env:
     - TOX_ENV=py27-dj18-coverage
     - TOX_ENV=py33-dj18
     - TOX_ENV=py27-djmaster
+    - TOX_ENV=pypy-dj18
+    - TOX_ENV=pypy-djmaster
     - TOX_ENV=flake8
 
 matrix:
@@ -20,6 +22,8 @@ matrix:
     - env: TOX_ENV=flake8
     - env: TOX_ENV=py33-dj18
     - env: TOX_ENV=py27-djmaster
+    - env: TOX_ENV=pypy-dj18
+    - env: TOX_ENV=pypy-djmaster
 
 install:
   - pip install -U pip wheel
