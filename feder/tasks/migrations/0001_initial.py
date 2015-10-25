@@ -1,27 +1,24 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import django.utils.timezone
-import jsonfield.fields
-import model_utils.fields
-from django.conf import settings
 from django.db import migrations, models
+import jsonfield.fields
+import django.utils.timezone
+import model_utils.fields
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('cases', '0005_auto_20150804_0016'),
-        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('monitorings', '0004_auto_20150803_2303'),
+        ('questionaries', '0001_initial'),
+        ('cases', '0003_case_monitoring'),
     ]
 
     operations = [
         migrations.CreateModel(
             name='Answer',
             fields=[
-                ('id', models.AutoField(verbose_name='ID',
-                                        serialize=False, auto_created=True, primary_key=True)),
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('blob', jsonfield.fields.JSONField()),
             ],
             options={
@@ -30,51 +27,15 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name='Question',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID',
-                                        serialize=False, auto_created=True, primary_key=True)),
-                ('position', models.SmallIntegerField()),
-                ('blob', jsonfield.fields.JSONField()),
-            ],
-            options={
-                'ordering': ['position'],
-                'verbose_name': 'Question',
-                'verbose_name_plural': 'Questions',
-            },
-        ),
-        migrations.CreateModel(
-            name='Questionary',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID',
-                                        serialize=False, auto_created=True, primary_key=True)),
-                ('created', model_utils.fields.AutoCreatedField(
-                    default=django.utils.timezone.now, verbose_name='created', editable=False)),
-                ('modified', model_utils.fields.AutoLastModifiedField(
-                    default=django.utils.timezone.now, verbose_name='modified', editable=False)),
-                ('title', models.CharField(max_length=250)),
-                ('lock', models.BooleanField()),
-                ('monitoring', models.ForeignKey(to='monitorings.Monitoring')),
-            ],
-            options={
-                'ordering': ['created'],
-                'verbose_name': 'Questionary',
-                'verbose_name_plural': 'Questionaries',
-            },
-        ),
-        migrations.CreateModel(
             name='Survey',
             fields=[
-                ('id', models.AutoField(verbose_name='ID',
-                                        serialize=False, auto_created=True, primary_key=True)),
-                ('created', model_utils.fields.AutoCreatedField(
-                    default=django.utils.timezone.now, verbose_name='created', editable=False)),
-                ('modified', model_utils.fields.AutoLastModifiedField(
-                    default=django.utils.timezone.now, verbose_name='modified', editable=False)),
-                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('created', model_utils.fields.AutoCreatedField(default=django.utils.timezone.now, verbose_name='created', editable=False)),
+                ('modified', model_utils.fields.AutoLastModifiedField(default=django.utils.timezone.now, verbose_name='modified', editable=False)),
+                ('credibility', models.PositiveIntegerField(default=0, verbose_name='Credibility')),
             ],
             options={
-                'ordering': ['created'],
+                'ordering': ['task', 'credibility', 'created'],
                 'verbose_name': 'Survey',
                 'verbose_name_plural': 'Surveys',
             },
@@ -82,14 +43,14 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Task',
             fields=[
-                ('id', models.AutoField(verbose_name='ID',
-                                        serialize=False, auto_created=True, primary_key=True)),
-                ('created', model_utils.fields.AutoCreatedField(
-                    default=django.utils.timezone.now, verbose_name='created', editable=False)),
-                ('modified', model_utils.fields.AutoLastModifiedField(
-                    default=django.utils.timezone.now, verbose_name='modified', editable=False)),
-                ('case', models.ForeignKey(to='cases.Case')),
-                ('questionary', models.ForeignKey(to='tasks.Questionary')),
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('created', model_utils.fields.AutoCreatedField(default=django.utils.timezone.now, verbose_name='created', editable=False)),
+                ('modified', model_utils.fields.AutoLastModifiedField(default=django.utils.timezone.now, verbose_name='modified', editable=False)),
+                ('name', models.CharField(max_length=75, verbose_name='Name')),
+                ('survey_required', models.SmallIntegerField(default=2, help_text='Define how much answers do you need to mark tasks as done\n or count progress', verbose_name='Required survey count')),
+                ('survey_done', models.SmallIntegerField(default=0, verbose_name='Done survey count')),
+                ('case', models.ForeignKey(verbose_name='Case', to='cases.Case')),
+                ('questionary', models.ForeignKey(verbose_name='Questionary', to='questionaries.Questionary', help_text='Questionary to fill by user as task')),
             ],
             options={
                 'ordering': ['created'],
@@ -98,13 +59,8 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.AddField(
-            model_name='answer',
-            name='question',
-            field=models.ForeignKey(to='tasks.Question'),
-        ),
-        migrations.AddField(
-            model_name='answer',
-            name='survey',
-            field=models.ForeignKey(to='tasks.Survey'),
+            model_name='survey',
+            name='task',
+            field=models.ForeignKey(to='tasks.Task'),
         ),
     ]
