@@ -3,6 +3,7 @@ from django.test import RequestFactory, TestCase
 
 from feder.teryt import views
 from feder.teryt.factories import JSTFactory
+from django.core.urlresolvers import reverse_lazy
 
 
 class TerytViewTestCase(TestCase):
@@ -19,3 +20,34 @@ class TerytViewTestCase(TestCase):
         request = self.factory.get(self.jst.get_absolute_url())
         response = views.JSTDetailView.as_view()(request, slug=self.jst.slug)
         self.assertEqual(response.status_code, 200)
+
+
+class JSTDetailViewTestCase(TestCase):
+    def setUp(self):
+        self.object = JSTFactory()
+        self.url = self.object.get_absolute_url()
+
+    def test_template_used(self):
+        resp = self.client.get(self.url)
+        self.assertTemplateUsed(resp, 'teryt/jst_detail.html')
+
+    def test_contains_name(self):
+        resp = self.client.get(self.url)
+        self.assertContains(resp, self.object.name)
+
+
+class JSTListViewTestCase(TestCase):
+    url = reverse_lazy('teryt:list')
+
+    def setUp(self):
+        self.object = JSTFactory()
+        self.object_list = JSTFactory.create_batch(size=25, parent=self.object)
+
+    def test_template_used(self):
+        resp = self.client.get(self.url)
+        self.assertTemplateUsed(resp, 'teryt/jst_list.html')
+
+    def test_contains_name(self):
+        resp = self.client.get(self.url)
+        self.assertContains(resp, self.object.name)
+        self.assertContains(resp, self.object_list[0].name)

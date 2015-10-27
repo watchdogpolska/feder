@@ -1,15 +1,14 @@
 from django.views.generic import DetailView, ListView
 
-from feder.teryt.models import JednostkaAdministracyjna
+from feder.teryt.models import JST
 
 
 class JSTDetailView(DetailView):
-    model = JednostkaAdministracyjna
-    template_name = 'teryt/jst_detail.html'
+    model = JST
 
 
 class JSTListView(ListView):
-    model = JednostkaAdministracyjna
+    model = JST
 
     def get_queryset(self, *args, **kwargs):
         qs = super(JSTListView, self).get_queryset(*args, **kwargs)
