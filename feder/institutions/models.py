@@ -7,6 +7,7 @@ from model_utils.managers import PassThroughManager
 
 _('Institution index')
 
+from feder.teryt.models import JST
 
 class InstitutionQuerySet(models.QuerySet):
 
@@ -28,7 +29,7 @@ class Institution(models.Model):
                                   verbose_name=_("Tag"))
     address = models.EmailField(verbose_name=_("E-mail"),
                                 help_text=_("E-mail address used to contact with institutions"))
-    jst = models.ForeignKey('teryt.JST',
+    jst = models.ForeignKey(JST,
                             limit_choices_to={'category__level': 3},
                             verbose_name=_('Unit of administrative division'),
                             db_index=True)
