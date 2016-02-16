@@ -45,5 +45,5 @@ https://github.com/ad-m/django-autofixture/archive/master.zip
 jsonfield==1.0.3
 https://github.com/TailorDev/django-guardian/archive/036238fc59576044ff70ff21b069e87ccd7ef6df.zip
 claw==1.3.0
-django-mailbox==4.4.5
+django-mailbox==4.4.6
 https://github.com/ad-m/django-teryt-tree/archive/master.zip
