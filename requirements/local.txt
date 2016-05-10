@@ -1,7 +1,7 @@
 # Local development dependencies go here
 -r base.txt
 Sphinx
-django-extensions==1.6.6
+django-extensions==1.6.7
 Werkzeug==0.11.9
 
 # django-debug-toolbar that works with Django 1.5+
