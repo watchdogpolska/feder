@@ -10,20 +10,22 @@ env:
     - DATABASE_URL="mysql://root:@localhost/test_feder"
     - DJANGO_SETTINGS_MODULE="config.settings.travis"
   matrix:
-    - TOX_ENV=py27-dj18
-    - TOX_ENV=py33-dj18
+    - TOX_ENV=py27-dj19  # required
     - TOX_ENV=py27-djmaster
-    - TOX_ENV=pypy-dj18
+    - TOX_ENV=py33-dj19
+    - TOX_ENV=py33-djmaster
+    - TOX_ENV=pypy-dj19
     - TOX_ENV=pypy-djmaster
     - TOX_ENV=flake8
 
 matrix:
   allow_failures:
-    - env: TOX_ENV=flake8
-    - env: TOX_ENV=py33-dj18
     - env: TOX_ENV=py27-djmaster
-    - env: TOX_ENV=pypy-dj18
+    - env: TOX_ENV=py33-dj19
+    - env: TOX_ENV=py33-djmaster
+    - env: TOX_ENV=pypy-dj19
     - env: TOX_ENV=pypy-djmaster
+    - env: TOX_ENV=flake8
 
 install:
   - pip install -U pip wheel
