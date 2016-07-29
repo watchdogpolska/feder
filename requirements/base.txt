@@ -8,22 +8,22 @@ django-secure==1.0.1
 
 
 # Forms
-django-braces==1.8.1
-django-crispy-forms==1.5.2
-django-floppyforms==1.5.2
+django-braces==1.9.0
+django-crispy-forms==1.6.0
+django-floppyforms==1.6.2
 
 # Models
-django-model-utils==2.3.1
+django-model-utils==2.5
 
 # Images
-Pillow==3.0.0
+Pillow==3.3.0
 
 # For user registration, either via email or social
 # Well-built with regular release cycles!
-django-allauth==0.23.0
+django-allauth==0.26.1
 
 # For the persistence stores
-mysqlclient==1.3.6
+mysqlclient==1.3.7
 
 
 # Unicode slugification
@@ -31,19 +31,19 @@ unicode-slugify==0.1.3
 django-autoslug==1.9.3
 
 # Time zones support
-pytz==2015.7
+pytz==2016.6.1
 
 
 
 # Your custom requirements go here
-django-filter==0.11.0
-django-autocomplete-light==2.2.10
+django-filter==0.13.0
+django-autocomplete-light==3.1.6
 https://github.com/ad-m/django-atom/archive/v0.11.0.zip
 django-formtools==1.0
-django-mptt==0.7.4
+django-mptt==0.8.5
 https://github.com/ad-m/django-autofixture/archive/master.zip
 jsonfield==1.0.3
 django-guardian==1.4.4
 claw==1.3.0
-django-mailbox==4.4.4
+django-mailbox==4.5.4
 https://github.com/ad-m/django-teryt-tree/archive/master.zip
