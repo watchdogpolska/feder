@@ -17,8 +17,6 @@ import os
 import sys
 
 from django.core.wsgi import get_wsgi_application
-from raven.contrib.django.raven_compat.middleware.wsgi import Sentry
-
 sys.path.append(os.path.normpath(os.path.join(__file__, '../../')))
 
 
@@ -32,8 +30,6 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.production")
 # file. This includes Django's development server, if the WSGI_APPLICATION
 # setting points here.
 application = get_wsgi_application()
-
-application = Sentry(application)
 # Apply WSGI middleware here.
 # from helloworld.wsgi import HelloWorldApplication
 # application = HelloWorldApplication(application)
