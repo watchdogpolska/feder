@@ -10,6 +10,9 @@
      :target: https://requires.io/github/watchdogpolska/feder/requirements/?branch=master
      :alt: Requirements Status
 
+ .. image:: https://david-dm.org/watchdogpolska/feder/dev-status.svg
+     :target: https://david-dm.org/watchdogpolska/feder#info=devDependencies
+     :alt: devDependency Status
 Feder
 ==============================
 

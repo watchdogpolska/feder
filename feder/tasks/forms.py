@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from atom.forms import HelperMixin, SaveButtonMixin
+from atom.ext.crispy_forms.forms import HelperMixin, SingleButtonMixin
 from braces.forms import UserKwargModelFormMixin
 from django import forms
 from django.utils.functional import cached_property
@@ -11,7 +11,7 @@ from feder.questionaries.modulator import modulators
 from .models import Answer, Survey, Task
 
 
-class TaskForm(SaveButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
+class TaskForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         self.case = kwargs.pop('case', None)
@@ -103,7 +103,7 @@ class AnswerFormSet(object):  # How use django formsets?
         raise NotImplementedError("")  # TODO
 
 
-class MultiTaskForm(SaveButtonMixin, UserKwargModelFormMixin, forms.Form):
+class MultiTaskForm(SingleButtonMixin, UserKwargModelFormMixin, forms.Form):
     cases = forms.ModelMultipleChoiceField(queryset=Case.objects.none(), label=_("Cases"))
     suffix = forms.CharField(max_length=50, label=_("Suffix"),
                              help_text=_('Suffix for name in the form "[suffix] #[no]".'))
@@ -124,7 +124,7 @@ class MultiTaskForm(SaveButtonMixin, UserKwargModelFormMixin, forms.Form):
         return Task.objects.bulk_create(objs)
 
 
-class SurveyForm(SaveButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
+class SurveyForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         self.task = kwargs.pop('task')

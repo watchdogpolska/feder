@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-from atom.forms import SaveButtonMixin
+from atom.ext.crispy_forms.forms import HelperMixin, SingleButtonMixin
 from braces.forms import UserKwargModelFormMixin
 from django import forms
 
 from .models import Alert
 
 
-class AlertForm(SaveButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
+class AlertForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.monitoring = kwargs.pop('monitoring', None)
         super(AlertForm, self).__init__(*args, **kwargs)

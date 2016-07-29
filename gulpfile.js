@@ -84,15 +84,11 @@ gulp.task('js', function () {
 });
 
 gulp.task('scss', function () {
-    return sass(
-        config.scss.input,
-        {
-            style: 'expanded',
-            loadPath: config.scss.include,
-            sourcemap: true
-        }
-    )
-        .pipe(prefix("last 1 version", "> 1%", "ie 8", "ie 7"))
+   return gulp.src(config.scss.input)
+        .pipe(plugins.sass({
+            style: "expanded",
+            includePaths: config.scss.include
+        }))
         .pipe(gulp.dest(config.scss.output))
         .pipe(livereload())
         .pipe(rename({extname: '.min.css'}))
