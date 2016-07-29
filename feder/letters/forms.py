@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from textwrap import wrap
 
-from atom.forms import SaveButtonMixin
+from atom.ext.crispy_forms.forms import SingleButtonMixin
 from braces.forms import UserKwargModelFormMixin
 from django import forms
 
@@ -12,7 +12,7 @@ from .models import Letter
 QUOTE_TPL = "W nawiązaniu do pisma z dnia {created} z adresu {email}:\n{quoted}"
 
 
-class LetterForm(SaveButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
+class LetterForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         case = kwargs.pop('case', None)
@@ -25,7 +25,7 @@ class LetterForm(SaveButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
         fields = ['title', 'body']
 
 
-class ReplyForm(SaveButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
+class ReplyForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.letter = kwargs.pop('letter', None)
         super(ReplyForm, self).__init__(*args, **kwargs)

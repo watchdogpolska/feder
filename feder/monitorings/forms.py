@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from atom.ext.guardian.forms import TranslatedUserObjectPermissionsForm
-from atom.forms import SaveButtonMixin
-from autocomplete_light import ModelChoiceField, ModelMultipleChoiceField
+from atom.ext.crispy_forms.forms import SingleButtonMixin
+from autocomplete_light import shortcuts as autocomplete_light
 from braces.forms import UserKwargModelFormMixin
 from crispy_forms.layout import Fieldset, Layout
 from django import forms
@@ -12,7 +12,7 @@ from feder.letters.models import Letter
 from .models import Monitoring
 
 
-class MonitoringForm(SaveButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
+class MonitoringForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(MonitoringForm, self).__init__(*args, **kwargs)
@@ -22,8 +22,8 @@ class MonitoringForm(SaveButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
         fields = ['name', 'description', 'notify_alert']
 
 
-class CreateMonitoringForm(SaveButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
-    recipients = ModelMultipleChoiceField('InstitutionAutocomplete', label=_("Recipients"))
+class CreateMonitoringForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
+    recipients = autocomplete_light.ModelMultipleChoiceField('InstitutionAutocomplete', label=_("Recipients"))
     text = forms.CharField(widget=forms.Textarea, label=_("Text"))
 
     def __init__(self, *args, **kwargs):
@@ -60,8 +60,9 @@ class CreateMonitoringForm(SaveButtonMixin, UserKwargModelFormMixin, forms.Model
 
 
 class SelectUserForm(forms.Form):
-    user = ModelChoiceField('UserAutocomplete', label=_("User"))
+    user = autocomplete_light.ModelChoiceField('UserAutocomplete', label=_("User"))
 
 
-class SaveTranslatedUserObjectPermissionsForm(SaveButtonMixin, TranslatedUserObjectPermissionsForm):
+class SaveTranslatedUserObjectPermissionsForm(SingleButtonMixin,
+                                              TranslatedUserObjectPermissionsForm):
     pass

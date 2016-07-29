@@ -134,7 +134,7 @@ class JSTModulator(BaseSimpleModulator):
     description = _("Question about unit of administrative division")
 
     def answer(self, fields):
-        import autocomplete_light
+        from autocomplete_light import shortcuts as autocomplete_light
         fields['value'] = autocomplete_light.ModelMultipleChoiceField(
             'JSTAutocomplete',
             label=self.blob['name'],

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from atom.forms import HelperMixin, SaveButtonMixin
+from atom.ext.crispy_forms.forms import HelperMixin, SingleButtonMixin
 from braces.forms import UserKwargModelFormMixin
 from django import forms
 from django.utils.translation import ugettext as _
@@ -8,7 +8,7 @@ from .models import Question, Questionary
 from .modulator import modulators
 
 
-class QuestionaryForm(SaveButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
+class QuestionaryForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         self.monitoring = kwargs.pop('monitoring', None)

@@ -1,5 +1,5 @@
 from __future__ import print_function
-
+import os
 import uuid
 
 import claw
@@ -133,13 +133,16 @@ class Letter(TimeStampedModel):
 
     @classmethod
     def process_incoming(cls, case, message):
+        # Extract text and quote
         if message.text:
             text = quotations.extract_from(message.text, 'text/plain')
             quote = message.text.replace(text, '')
         else:
             text = quotations.extract_from(message.html, 'text/html')
             quote = message.text.replace(text, '')
-        obj = cls.objects.create(author_institution=case.institution,
+
+        # Create Letter
+        obj = cls.objects.create(author_institution=case.office,
                                  email=message.from_address[0],
                                  case=case,
                                  title=message.subject,
@@ -147,15 +150,21 @@ class Letter(TimeStampedModel):
                                  quote=quote,
                                  eml=File(message.eml, message.eml.name))
         attachments = []
+        # Append attachments
         for attachment in message.attachments.all():
-            file_obj = File(attachment.document, attachment.get_filename())
-            attachments.append(Attachment(record=obj, attachment=file_obj))
+            name = attachment.get_filename() or 'Unknown.bin'
+            if len(name) > 70:
+                name, ext = os.path.splitext(name)
+                ext = ext[:70]
+                name = name[:70 - len(ext)] + ext
+            file_obj = File(attachment.document, name)
+            attachments.append(Attachment(letter=obj, attachment=file_obj))
         Attachment.objects.bulk_create(attachments)
         return obj, attachments
 
 
 class Attachment(AttachmentBase):
-    record = models.ForeignKey(Letter)
+    letter = models.ForeignKey(Letter)
 
 
 @receiver(message_received)
