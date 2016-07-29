@@ -8,7 +8,6 @@ from django.db import models
 from django.db.models.signals import post_delete, post_save
 from django.utils.translation import ugettext_lazy as _
 from jsonfield import JSONField
-from model_utils.managers import PassThroughManager
 from model_utils.models import TimeStampedModel
 
 from feder.alerts.models import Alert
@@ -72,7 +71,7 @@ class Task(TimeStampedModel):
                                                help_text=TASK_REQUIRED_TEXT,
                                                default=2)
     survey_done = models.SmallIntegerField(verbose_name=_("Done survey count"), default=0)
-    objects = PassThroughManager.for_queryset_class(TaskQuerySet)()
+    objects = TaskQuerySet.as_manager()
 
     def __unicode__(self):
         return self.name
@@ -140,7 +139,7 @@ class SurveyQuerySet(models.QuerySet):
 class Survey(TimeStampedModel):
     task = models.ForeignKey(Task)
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
-    objects = PassThroughManager.for_queryset_class(SurveyQuerySet)()
+    objects = SurveyQuerySet.as_manager()
     credibility = models.PositiveIntegerField(default=0, verbose_name=_("Credibility"))
 
     def credibility_update(self, change):

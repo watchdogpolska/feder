@@ -9,7 +9,6 @@ from django.db.models.signals import post_save
 from django.utils.translation import ugettext_lazy as _
 from guardian.models import GroupObjectPermissionBase, UserObjectPermissionBase
 from guardian.shortcuts import assign_perm
-from model_utils.managers import PassThroughManager
 from model_utils.models import TimeStampedModel
 
 _('Monitorings index')
@@ -34,7 +33,7 @@ class Monitoring(TimeStampedModel):
     notify_alert = models.BooleanField(default=True,
                                        verbose_name=_("Notify about alerts"),
                                        help_text=NOTIFY_HELP)
-    objects = PassThroughManager.for_queryset_class(MonitoringQuerySet)()
+    objects = MonitoringQuerySet.as_manager()
 
     class Meta:
         verbose_name = _("Monitoring")

@@ -5,7 +5,6 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
-from model_utils.managers import PassThroughManager
 from model_utils.models import TimeStampedModel
 
 from feder.institutions.models import Institution
@@ -29,7 +28,7 @@ class Case(TimeStampedModel):
     monitoring = models.ForeignKey(Monitoring, verbose_name=_("Monitoring"))
     institution = models.ForeignKey(Institution, verbose_name=_("Institution"))
     email = models.CharField(max_length=75, db_index=True, unique=True)
-    objects = PassThroughManager.for_queryset_class(CaseQuerySet)()
+    objects = CaseQuerySet.as_manager()
 
     class Meta:
         verbose_name = _("Case")

@@ -7,7 +7,6 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
-from model_utils.managers import PassThroughManager
 from model_utils.models import TimeStampedModel
 
 from feder.monitorings.models import Monitoring
@@ -32,7 +31,7 @@ class Alert(TimeStampedModel):
     content_type = models.ForeignKey(ContentType, null=True)
     object_id = models.PositiveIntegerField(null=True)
     link_object = GenericForeignKey('content_type', 'object_id')
-    objects = PassThroughManager.for_queryset_class(AlertQuerySet)()
+    objects = AlertQuerySet.as_manager()
 
     class Meta:
         verbose_name = _("Alert")

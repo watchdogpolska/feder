@@ -17,7 +17,6 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from django_mailbox.models import Message
 from django_mailbox.signals import message_received
-from model_utils.managers import PassThroughManager
 from model_utils.models import TimeStampedModel
 
 from feder.cases.models import Case
@@ -59,7 +58,7 @@ class Letter(TimeStampedModel):
                                 null=True,
                                 verbose_name=_("Message"),
                                 help_text=_("Message registerd by django-mailbox"))
-    objects = PassThroughManager.for_queryset_class(LetterQuerySet)()
+    objects = LetterQuerySet.as_manager()
 
     class Meta:
         verbose_name = _("Letter")

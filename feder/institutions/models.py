@@ -3,7 +3,6 @@ from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
-from model_utils.managers import PassThroughManager
 
 _('Institution index')
 
@@ -33,7 +32,7 @@ class Institution(models.Model):
                             limit_choices_to={'category__level': 3},
                             verbose_name=_('Unit of administrative division'),
                             db_index=True)
-    objects = PassThroughManager.for_queryset_class(InstitutionQuerySet)()
+    objects = InstitutionQuerySet.as_manager()
 
     class Meta:
         verbose_name = _("Institution")
