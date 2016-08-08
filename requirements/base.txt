@@ -43,7 +43,7 @@ django-formtools==1.0
 django-mptt==0.8.5
 https://github.com/ad-m/django-autofixture/archive/master.zip
 jsonfield==1.0.3
-django-guardian==1.4.4
+django-guardian==1.4.5
 claw==1.3.0
 django-mailbox==4.5.4
 https://github.com/ad-m/django-teryt-tree/archive/master.zip
