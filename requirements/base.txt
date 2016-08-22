@@ -37,7 +37,7 @@ pytz==2016.6.1
 
 # Your custom requirements go here
 django-filter==0.14.0
-django-autocomplete-light==2.3.3 # rq.filter: <3
+django-autocomplete-light==3.1.8
 https://github.com/ad-m/django-atom/archive/v0.11.0.zip
 django-formtools==1.0
 django-mptt==0.8.5

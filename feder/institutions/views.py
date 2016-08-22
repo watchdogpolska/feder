@@ -7,6 +7,7 @@ from braces.views import (
     SelectRelatedMixin,
     UserFormKwargsMixin
 )
+from dal import autocomplete
 from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
@@ -17,7 +18,7 @@ from feder.main.mixins import ExtraListMixin, RaisePermissionRequiredMixin
 
 from .filters import InstitutionFilter
 from .forms import InstitutionForm
-from .models import Institution
+from .models import Institution, Tag
 
 _('Institutions index')
 
@@ -67,3 +68,19 @@ class InstitutionDeleteView(RaisePermissionRequiredMixin, DeleteMessageMixin,
     model = Institution
     success_url = reverse_lazy('institutions:list')
     permission_required = "institutions.delete_institution"
+
+
+class InstitutionAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        qs = Institution.objects
+        if self.q:
+            qs = qs.filter(name__icontains=self.q)
+        return qs.all()
+
+
+class TagAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        qs = Tag.objects
+        if self.q:
+            qs = qs.filter(name__icontains=self.q)
+        return qs.all()

@@ -1,18 +1,22 @@
 import django_filters
-from atom.filters import AutocompleteChoiceFilter, CrispyFilterMixin
+from dal import autocomplete
 from django.utils.translation import ugettext_lazy as _
-
+from django_filters.filters import ModelChoiceFilter
 from teryt_tree.filters import JSTModelChoice
 
-from .models import Institution
+from .models import Institution, Tag
 
 
-class InstitutionFilter(CrispyFilterMixin, django_filters.FilterSet):
+class InstitutionFilter(django_filters.FilterSet):
     voivodeship = JSTModelChoice(level=1, label=_("Voivodeship"))
     county = JSTModelChoice(level=2, label=_("County"))
     community = JSTModelChoice(level=3, label=_("Community"))
-    tags = AutocompleteChoiceFilter('TagAutocomplete')
-    form_class = None
+    tags = ModelChoiceFilter(
+        label=_("Tags"),
+        required=False,
+        queryset=Tag.objects.all(),
+        widget=autocomplete.ModelSelect2(url='institutions:tag_autocomplete'),
+    )
 
     def __init__(self, *args, **kwargs):
         super(InstitutionFilter, self).__init__(*args, **kwargs)

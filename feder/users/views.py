@@ -2,6 +2,7 @@
 from __future__ import absolute_import, unicode_literals
 
 from braces.views import LoginRequiredMixin
+from dal import autocomplete
 from django.core.urlresolvers import reverse
 from django.views.generic import DetailView, ListView, RedirectView, UpdateView
 
@@ -46,3 +47,12 @@ class UserListView(LoginRequiredMixin, ListView):
     # These next two lines tell the view to index lookups by username
     slug_field = "username"
     slug_url_kwarg = "username"
+
+
+class UserAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        qs = User.objects.all()
+        if self.q:
+            qs = qs.filter(username__istartswith=self.q)
+
+        return qs

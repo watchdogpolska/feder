@@ -39,7 +39,8 @@ THIRD_PARTY_APPS = (
     'allauth.account',  # registration
     'allauth.socialaccount',  # registration
     'autofixture',
-    'autocomplete_light',
+    'dal',
+    'dal_select2',
     'formtools',
     'mptt',
     'atom',

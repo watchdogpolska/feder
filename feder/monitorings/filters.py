@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import django_filters
-from atom.filters import CrispyFilterMixin
 from django.contrib.auth import get_user_model
 from django.db.models import Count
 from django.utils.translation import ugettext_lazy as _
@@ -8,7 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 from .models import Monitoring
 
 
-class MonitoringFilter(CrispyFilterMixin, django_filters.FilterSet):
+class MonitoringFilter(django_filters.FilterSet):
     form_class = None
     created = django_filters.DateRangeFilter(label=_("Creation date"))
 

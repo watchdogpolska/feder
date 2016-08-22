@@ -16,4 +16,8 @@ urlpatterns = [
         name="update"),
     url(r'^institution-(?P<slug>[\w-]+)/~delete$', views.InstitutionDeleteView.as_view(),
         name="delete"),
+    url(r'^~autocomplete$', views.InstitutionAutocomplete.as_view(),
+        name="autocomplete"),
+    url(r'^~autocomplete-tag$', views.TagAutocomplete.as_view(),
+        name="tag_autocomplete"),
 ]
