@@ -283,3 +283,6 @@ CASE_EMAIL_TEMPLATE = "sprawa-{0}@dane.siecobywatelska.pl"
 DJANGO_MAILBOX_STORE_ORIGINAL_MESSAGE = True
 
 FILTERS_HELP_TEXT_FILTER = False
+
+SILENCED_SYSTEM_CHECKS = ["1_8.W001",  # we added TEMPLATES settings
+                          ]
