@@ -8,22 +8,28 @@ cache:
 env:
   global:
     - DATABASE_URL="mysql://root:@localhost/test_feder"
-    - DJANGO_SETTINGS_MODULE="config.settings.travis"
+    - DJANGO_SETTINGS_MODULE="config.settings.local"
   matrix:
     - TOX_ENV=py27-dj19  # required
+    - TOX_ENV=py27-dj110
     - TOX_ENV=py27-djmaster
     - TOX_ENV=py33-dj19
+    - TOX_ENV=py33-dj110
     - TOX_ENV=py33-djmaster
     - TOX_ENV=pypy-dj19
+    - TOX_ENV=py27-dj110
     - TOX_ENV=pypy-djmaster
     - TOX_ENV=flake8
 
 matrix:
   allow_failures:
+    - env: TOX_ENV=py27-dj110
     - env: TOX_ENV=py27-djmaster
     - env: TOX_ENV=py33-dj19
+    - env: TOX_ENV=py33-dj110
     - env: TOX_ENV=py33-djmaster
     - env: TOX_ENV=pypy-dj19
+    - env: TOX_ENV=py27-dj110
     - env: TOX_ENV=pypy-djmaster
     - env: TOX_ENV=flake8
 
