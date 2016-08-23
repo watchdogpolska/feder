@@ -7,36 +7,25 @@ from feder.institutions.factories import factory_institution
 from feder.monitorings.models import Monitoring
 from feder.questionaries.models import Questionary
 from feder.tasks.models import Task
-
-try:
-    from django.contrib.auth import get_user_model
-    User = get_user_model()
-except ImportError:
-    from django.contrib.auth.models import User
+from feder.users.factories import UserFactory
 
 
-class SetUpMixin(object):
+class ObjectMixin(object):
     def setUp(self):
-        self.user = User.objects.create_user(
-            username='user', email='jacob@example.com', password='top_secret')
-        assign_perm('monitorings.add_monitoring', self.user)
-        self.quest = User.objects.create_user(
-            username='quest', email='smith@example.com', password='top_secret')
-        self.monitoring = Monitoring(name="Lor", user=self.user)
-        self.monitoring.save()
-        self.questionary = Questionary(title="blabla", monitoring=self.monitoring)
-        self.questionary.save()
+        self.user = UserFactory(username='john')
+        self.monitoring = Monitoring.objects.create(name="Lor", user=self.user)
+        self.questionary = Questionary.objects.create(title="blabla",
+                                                      monitoring=self.monitoring)
         self.institution = factory_institution(self.user)
-        self.case = Case(name="blabla",
-                         monitoring=self.monitoring,
-                         institution=self.institution,
-                         user=self.user)
-        self.case.save()
-        self.task = Task(case=self.case, questionary=self.questionary)
-        self.task.save()
+        self.case = Case.objects.create(name="blabla",
+                                        monitoring=self.monitoring,
+                                        institution=self.institution,
+                                        user=self.user)
+        self.task = Task.objects.create(case=self.case,
+                                        questionary=self.questionary)
 
 
-class CaseTestCase(SetUpMixin, TestCase):
+class CaseTestCase(ObjectMixin, TestCase):
     def test_list_display(self):
         response = self.client.get(reverse('tasks:list'))
         self.assertEqual(response.status_code, 200)
@@ -46,51 +35,49 @@ class CaseTestCase(SetUpMixin, TestCase):
         self.assertEqual(response.status_code, 200)
 
 
-class PermCheckMixin(SetUpMixin):
+class PermCheckMixin(ObjectMixin):
     url = None
     template_name = 'tasks/task_form.html'
-    perm = None
-    anonymous_user_status = 302
-    non_permitted_status = 403
-    permitted_status = 200
+    permission = []
 
-    def login(self):
-        self.client.login(username='quest', password='top_secret')
-
-    def login_permitted(self):
-        self.client.login(username='user', password='top_secret')
-
-    def _get_url(self):
-        return self.url
+    def get_url(self):
+        raise NotImplementedError()
 
     def test_anonymous_user(self):
-        response = self.client.get(self._get_url())
-        self.assertEqual(response.status_code, self.anonymous_user_status)
+        response = self.client.get(self.get_url())
+        self.assertEqual(response.status_code, 302)
 
     def test_non_permitted_user(self):
-        self.login()
-        response = self.client.get(self._get_url())
-        self.assertEqual(response.status_code, self.non_permitted_status)
+        self.client.login(username='john', password='pass')
+        response = self.client.get(self.get_url())
+        self.assertEqual(response.status_code, 403)
 
     def test_permitted_user(self):
-        self.login_permitted()
-        response = self.client.get(self._get_url())
-        self.assertEqual(response.status_code, self.permitted_status)
+        for perm in self.permission:
+            assign_perm(perm, self.user, self.monitoring)
+        self.client.login(username='john', password='pass')
+        response = self.client.get(self.get_url())
+        self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, self.template_name)
 
 
 class CreateViewPermTestCase(PermCheckMixin, TestCase):
-    def _get_url(self):
+    permission = ['monitorings.add_task', ]
+
+    def get_url(self):
         return reverse('tasks:create', kwargs={'case': str(self.case.pk)})
 
 
 class UpdateViewPermTestCase(PermCheckMixin, TestCase):
-    def _get_url(self):
+    permission = ['monitorings.change_task', ]
+
+    def get_url(self):
         return reverse('tasks:update', kwargs={'pk': self.task.pk})
 
 
 class DeleteViewPermTestCase(PermCheckMixin, TestCase):
+    permission = ['monitorings.delete_task', ]
     template_name = 'tasks/task_confirm_delete.html'
 
-    def _get_url(self):
+    def get_url(self):
         return reverse('tasks:delete', kwargs={'pk': self.task.pk})
