@@ -30,6 +30,7 @@ class Monitoring(TimeStampedModel):
     slug = AutoSlugField(populate_from='name', verbose_name=_("Slug"), unique=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("User"))
     description = models.TextField(verbose_name=_("Description"), blank=True)
+    template = models.TextField(verbose_name=_("Template"))
     notify_alert = models.BooleanField(default=True,
                                        verbose_name=_("Notify about alerts"),
                                        help_text=NOTIFY_HELP)

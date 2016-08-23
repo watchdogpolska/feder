@@ -1,31 +1,30 @@
 from atom.ext.guardian.forms import TranslatedUserObjectPermissionsForm
 from atom.views import DeleteMessageMixin, UpdateMessageMixin
-from braces.views import (
-    FormValidMessageMixin,
-    LoginRequiredMixin,
-    SelectRelatedMixin,
-    UserFormKwargsMixin
-)
+from braces.views import (FormValidMessageMixin, LoginRequiredMixin,
+                          SelectRelatedMixin, UserFormKwargsMixin)
+from cached_property import cached_property
+from dal import autocomplete
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse, reverse_lazy
+from django.db.models import Count
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext_lazy as _
-from django.views.generic import DeleteView, DetailView, FormView, UpdateView
+from django.views.generic import (CreateView, DeleteView, DetailView, FormView,
+                                  UpdateView)
 from django_filters.views import FilterView
 from formtools.wizard.views import SessionWizardView
 
 from feder.cases.models import Case
+from feder.institutions.filters import InstitutionFilter
+from feder.institutions.models import Institution
+from feder.letters.models import Letter
 from feder.main.mixins import ExtraListMixin, RaisePermissionRequiredMixin
-
 from .filters import MonitoringFilter
-from .forms import (
-    MonitoringForm,
-    SaveTranslatedUserObjectPermissionsForm,
-    SelectUserForm
-)
+from .forms import (MonitoringForm, SaveTranslatedUserObjectPermissionsForm,
+                    SelectUserForm)
 from .models import Monitoring
 
 
@@ -164,3 +163,67 @@ class MonitoringUpdatePermissionView(RaisePermissionRequiredMixin, SelectRelated
         messages.success(self.request, self.get_success_message())
         url = reverse('monitorings:perm', kwargs={'slug': self.get_monitoring().slug})
         return HttpResponseRedirect(url)
+
+
+class MonitoringAssignView(RaisePermissionRequiredMixin, FilterView):
+    model = Institution
+    filterset_class = InstitutionFilter
+    permission_required = 'monitorings.change_monitoring'
+    template_name = 'monitorings/institution_assign.html'
+
+    def get_queryset(self, *args, **kwargs):
+        qs = super(MonitoringAssignView, self).get_queryset(*args, **kwargs)
+        return (qs.exclude(case__monitoring=self.monitoring.pk).
+                with_case_count().
+                select_related('jst'))
+
+    @cached_property
+    def monitoring(self):
+        return get_object_or_404(Monitoring, slug=self.kwargs['slug'])
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(MonitoringAssignView, self).get_context_data(*args, **kwargs)
+        context['monitoring'] = self.monitoring
+        return context
+
+    def get_filterset_kwargs(self, filterset_class):
+        kw = super(MonitoringAssignView, self).get_filterset_kwargs(filterset_class)
+        return kw
+
+    def post(self, request, *args, **kwargs):
+        ids = request.POST.getlist('to_assign')
+        qs = Institution.objects.filter(pk__in=ids).exclude(case__monitoring=self.monitoring.pk)
+        num = self.monitoring.case_set.count()
+        count = 0
+
+        for institution in qs:
+            postfix = " #%d" % (num + count, )
+            Letter.send_new_case(user=self.request.user,
+                                 monitoring=self.monitoring,
+                                 postfix=postfix,
+                                 institution=institution,
+                                 text=self.monitoring.template)
+            count += 1
+        msg = _("%(count)d institutions was assigned " +
+                "to %(monitoring)s") % {'count': count,
+                                        'monitoring': self.monitoring}
+        messages.success(self.request, msg)
+        return HttpResponseRedirect(request.get_full_path())
+
+
+class MonitoringAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        qs = Monitoring.objects
+        if self.q:
+            qs = qs.filter(name__icontains=self.q)
+        return qs.all()
+
+
+class UserMonitoringAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        qs = (get_user_model().objects.
+              annotate(case_count=Count('case')).
+              filter(case_count__gt=0).all())
+        if self.q:
+            qs = qs.filter(name__icontains=self.q)
+        return qs.all()

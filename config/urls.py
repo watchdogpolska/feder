@@ -28,7 +28,6 @@ urlpatterns = [
     url(r'^questionaries/', include('feder.questionaries.urls', namespace="questionaries")),
     url(r'^alerts/', include('feder.alerts.urls', namespace="alerts")),
     url(r'^letters/', include('feder.letters.urls', namespace="letters")),
-    url(r'^autocomplete/', include('autocomplete_light.urls')),
     url(r'^teryt/', include('feder.teryt.urls', namespace="teryt")),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

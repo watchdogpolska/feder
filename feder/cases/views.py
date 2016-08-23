@@ -6,6 +6,7 @@ from braces.views import (
     SelectRelatedMixin,
     UserFormKwargsMixin
 )
+from dal import autocomplete
 from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext_lazy as _
@@ -77,3 +78,13 @@ class CaseDeleteView(RaisePermissionRequiredMixin, DeleteMessageMixin, DeleteVie
 
     def get_permission_object(self):
         return super(CaseDeleteView, self).get_permission_object().monitoring
+
+
+class CaseAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        qs = Case.objects.all()
+
+        if self.q:
+            qs = qs.filter(name__istartswith=self.q)
+
+        return qs

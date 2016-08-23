@@ -25,6 +25,12 @@ urlpatterns = [
         name="perm-update"),
     url(r'^monitoring-(?P<slug>[\w-]+)/~permission$', views.MonitoringPermissionView.as_view(),
         name="perm"),
+    url(r'^monitoring-(?P<slug>[\w-]+)/~assign$', views.MonitoringAssignView.as_view(),
+        name="assign"),
+    url(r'^~autocomplete$', views.MonitoringAutocomplete.as_view(),
+        name="autocomplete"),
+    url(r'^~autocomplete/user$', views.UserMonitoringAutocomplete.as_view(),
+        name="autocomplete_user"),
 
 
 ]

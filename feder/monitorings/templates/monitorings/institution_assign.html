@@ -13,16 +13,7 @@
   <h1>{% trans 'Assign institutions' %}</h1>
 </div>
 <div class="row">
-    <div class="col-sm-4">
-            <form method="GET">
-                {{ filter.form | crispy }}
-                <button type="submit" class="btn btn-primary">
-                    <i class="fa fa-search" aria-hidden="true"></i>
-                    {% trans 'Filtr' %}
-                </button>
-            </form>
-    </div>
-    <div class="col-sm-8">
+    <div class="col-sm-8 col-sm-push-4">
     {% if object_list %}
     <form method="POST">
         <button type="submit" class="btn btn-primary">
@@ -56,6 +47,19 @@
     </form>
     {% endif %}
     </div>
+
+    <div class="col-sm-4 col-sm-pull-8">
+        <div class="red">
+            <form method="GET">
+                {{ filter.form | crispy }}
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                    {% trans 'Filtr' %}
+                </button>
+            </form>
+        </div>
+    </div>
+
 </div>
 {% endblock %}
 

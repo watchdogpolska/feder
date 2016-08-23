@@ -16,4 +16,6 @@ urlpatterns = [
         name="update"),
     url(r'^case-(?P<slug>[\w-]+)/~delete$', views.CaseDeleteView.as_view(),
         name="delete"),
+    url(r'^~autocomplete$', views.CaseAutocomplete.as_view(),
+        name="autocomplete"),
 ]

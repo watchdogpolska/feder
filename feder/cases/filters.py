@@ -1,21 +1,21 @@
 # -*- coding: utf-8 -*-
 import django_filters
-from atom.filters import AutocompleteChoiceFilter, CrispyFilterMixin
 from django.utils.translation import ugettext_lazy as _
+from dal import autocomplete
 
 from .models import Case
 
 
-class CaseFilter(CrispyFilterMixin, django_filters.FilterSet):
-    institution = AutocompleteChoiceFilter('InstitutionAutocomplete', label=_("Institution"))
-    monitoring = AutocompleteChoiceFilter('MonitoringAutocomplete', label=_("Monitoring"))
+class CaseFilter(django_filters.FilterSet):
     created = django_filters.DateRangeFilter(label=_("Creation date"))
-
-    form_class = None
 
     def __init__(self, *args, **kwargs):
         super(CaseFilter, self).__init__(*args, **kwargs)
         self.filters['name'].lookup_type = 'icontains'
+        self.filters['monitoring'].widget = autocomplete.ModelSelect2(
+            url='monitorings:autocomplete')
+        self.filters['institution'].widget = autocomplete.ModelSelect2(
+            url='institutions:autocomplete')
 
     class Meta:
         model = Case

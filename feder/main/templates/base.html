@@ -136,7 +136,6 @@
     <!-- Placed at the end of the document so the pages load faster -->
     {% block javascript %}
       <script src="{% static 'js/script.js' %}"></script>
-      {% include 'autocomplete_light/static.html' %}
       <script>
       $(function(){
           var show = '<i class="fa fa-plus-square"></i> {%trans "Show quote" %}';
@@ -154,6 +153,7 @@
           });
       });
       </script>
+      {{ filter.form.media }}
     {% endblock javascript %}
   </body>
 </html>

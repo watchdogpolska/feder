@@ -8,6 +8,9 @@
         <a class="btn btn-default" href="{% url 'monitorings:update' slug=object.slug %}">
             {% trans 'Edit' %}
         </a>
+        <a class="btn btn-default" href="{% url 'monitorings:assign' slug=object.slug %}">
+            {% trans 'Assign' %}
+        </a>
         {% endif %}
         {% if "delete_monitoring" in monitoring_perms %}
         <a class="btn btn-warning" href="{% url 'monitorings:delete' slug=object.slug %}">

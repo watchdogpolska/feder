@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
-from autocomplete_light import shortcuts as autocomplete_light
 from atom.ext.crispy_forms.forms import SingleButtonMixin
 from braces.forms import UserKwargModelFormMixin
 
 from .models import Case
 
 
-class CaseForm(SingleButtonMixin, UserKwargModelFormMixin, autocomplete_light.ModelForm):
+class CaseForm(SingleButtonMixin, UserKwargModelFormMixin):
 
     def __init__(self, *args, **kwargs):
         self.monitoring = kwargs.pop('monitoring', None)

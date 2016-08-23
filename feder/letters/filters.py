@@ -1,19 +1,13 @@
 # -*- coding: utf-8 -*-
-from atom.ext.django_filters.filters import (
-    AutocompleteChoiceFilter,
-    CrispyFilterMixin,
-    UserKwargFilterSetMixin
-)
+from atom.ext.django_filters.filters import UserKwargFilterSetMixin
+from dal import autocomplete
 from django.utils.translation import ugettext_lazy as _
 from django_filters import BooleanFilter, DateRangeFilter, FilterSet
 
 from .models import Letter
 
 
-class LetterFilter(UserKwargFilterSetMixin, CrispyFilterMixin, FilterSet):
-    form_class = None
-    institution = AutocompleteChoiceFilter('InstitutionAutocomplete',
-                                           name='case__institution')
+class LetterFilter(UserKwargFilterSetMixin, FilterSet):
     created = DateRangeFilter(label=_("Creation date"))
     eml = BooleanFilter(label=_("Has eml?"),
                         action=lambda qs, v: qs.filter(eml='') if v else qs.exclude(eml=''))
@@ -21,6 +15,8 @@ class LetterFilter(UserKwargFilterSetMixin, CrispyFilterMixin, FilterSet):
     def __init__(self, *args, **kwargs):
         super(LetterFilter, self).__init__(*args, **kwargs)
         self.filters['title'].lookup_type = 'icontains'
+        self.filters['case__institution'].widget = autocomplete.ModelSelect2(
+            url='institutions:autocomplete')
 
         if not self.user.has_perm('letters.can_filter_eml'):
             del self.filters['eml']
@@ -31,4 +27,4 @@ class LetterFilter(UserKwargFilterSetMixin, CrispyFilterMixin, FilterSet):
             ('created', _('Creation date (ascending)')),
             ('-created', _('Creation date (descending)')),
         ]
-        fields = ['title', 'created']
+        fields = ['title', 'created', 'case__institution']
