@@ -4,40 +4,16 @@ from guardian.shortcuts import assign_perm
 
 from feder.monitorings.models import Monitoring
 from feder.questionaries.models import Question, Questionary
-
-try:
-    from django.contrib.auth import get_user_model
-    User = get_user_model()
-except ImportError:
-    from django.contrib.auth.models import User
+from feder.users.factories import UserFactory
 
 
 class QuestionariesTestCase(TestCase):
-    # def _get_third_level_jst(self):
-    #     jst = AutoFixture(JST,
-    #         field_values={'updated_on': '2015-02-12'},
-    #         generate_fk=True).create_one(commit=False)
-    #     jst.save()
-    #     JST.objects.rebuild()
-    #     return jst
-
-    # def _get_institution(self):
-    #     self._get_third_level_jst()
-    #     institution = AutoFixture(Institution,
-    #         field_values={'user': self.user},
-    #         generate_fk=True).create_one()
-    #     return institution
-
     def setUp(self):
-        self.user = User.objects.create_user(
-            username='jacob', email='jacob@example.com', password='top_secret')
-        assign_perm('monitorings.add_monitoring', self.user)
-        self.quest = User.objects.create_user(
-            username='smith', email='smith@example.com', password='top_secret')
-        self.monitoring = Monitoring(name="Lor", user=self.user)
-        self.monitoring.save()
-        self.questionary = Questionary(title="blabla", monitoring=self.monitoring)
-        self.questionary.save()
+        self.user = UserFactory(username='john',)
+        self.monitoring = Monitoring.objects.create(name="Lor",
+                                                    user=self.user)
+        self.questionary = Questionary.objects.create(title="blabla",
+                                                      monitoring=self.monitoring)
 
     def test_list_display(self):
         response = self.client.get(reverse('questionaries:list'))
@@ -51,15 +27,21 @@ class QuestionariesTestCase(TestCase):
         self.assertTemplateUsed(response, 'questionaries/questionary_detail.html')
         self.assertContains(response, self.questionary.title)
 
-    def _perm_check(self, url, template_name='questionaries/questionary_form.html', contains=True):
+    def _perm_check(self, url,
+                    template_name='questionaries/questionary_form.html',
+                    contains=True,
+                    permission=None):
+        permission = permission or []
+
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
 
-        self.client.login(username='smith', password='top_secret')
+        self.client.login(username='john', password='pass')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 403)
-
-        self.client.login(username='jacob', password='top_secret')
+        for perm in permission:
+            assign_perm(perm, self.user, self.monitoring)
+        self.client.login(username='john', password='pass')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, template_name)
@@ -69,26 +51,31 @@ class QuestionariesTestCase(TestCase):
     def test_create_permission_check(self):
         self._perm_check(reverse('questionaries:create',
                                  kwargs={'monitoring': str(self.monitoring.pk)}),
-                         contains=False)
+                         contains=False,
+                         permission=['monitorings.add_questionary', ])
 
     def test_update_permission_check(self):
         self._perm_check(reverse('questionaries:update',
-                                 kwargs={'pk': self.questionary.pk}))
+                                 kwargs={'pk': self.questionary.pk}),
+                         permission=['monitorings.change_questionary', ])
 
     def test_delete_permission_check(self):
         self._perm_check(reverse('questionaries:delete',
                                  kwargs={'pk': self.questionary.pk}),
-                         template_name='questionaries/questionary_confirm_delete.html')
+                         template_name='questionaries/questionary_confirm_delete.html',
+                         permission=['monitorings.delete_questionary', ])
 
     def test_question_create_permission_check(self):
         self._perm_check(reverse('questionaries:question_create',
                                  kwargs={'pk': self.questionary.pk}),
-                         template_name='questionaries/question_wizard.html')
+                         template_name='questionaries/question_wizard.html',
+                         permission=['monitorings.change_questionary', ])
 
     def test_delete_post(self):
+        assign_perm('monitoring.delete_questionary', self.user, self.monitoring)
         url = reverse('questionaries:delete', kwargs={'pk': self.questionary.pk})
         self.assertTrue(Questionary.objects.filter(pk=self.questionary.pk).exists())
-        self.client.login(username='jacob', password='top_secret')
+        self.client.login(username='john', password='pass')
         response = self.client.post(url, follow=True)
         self.assertRedirects(response, self.monitoring.get_absolute_url())
         self.assertFalse(Questionary.objects.filter(pk=self.questionary.pk).exists())
@@ -97,15 +84,13 @@ class QuestionariesTestCase(TestCase):
 class QuestionTestCase(TestCase):
 
     def setUp(self):
-        self.user = User.objects.create_user(
-            username='jacob', email='jacob@example.com', password='top_secret')
-        self.monitoring = Monitoring(name="Lor", user=self.user)
-        self.monitoring.save()
-        self.questionary = Questionary(title="blabla", monitoring=self.monitoring)
-        self.questionary.save()
-        self.client.login(username='jacob', password='top_secret')
+        self.user = UserFactory(username='john')
+        self.monitoring = Monitoring.objects.create(name="Lor", user=self.user)
+        self.questionary = Questionary.objects.create(title="blabla", monitoring=self.monitoring)
 
     def test_question_create(self):  # TODO: Add lock test
+        assign_perm('monitoring.change_questionary', self.user, self.monitoring)
+        self.client.login(username='john', password='pass')
         url = reverse('questionaries:question_create', kwargs={'pk': self.questionary.pk})
         self.client.get(url)
         param = {'question_wizard-current_step': '0',
@@ -135,6 +120,8 @@ class QuestionTestCase(QuestionTestCase):
                                                 blob=blob)
 
     def _test_question_move(self, direction, target):
+        assign_perm('monitoring.change_questionary', self.user, self.monitoring)
+        self.client.login(username='john', password='pass')
         url = reverse('questionaries:question_' + direction,
                       kwargs={'pk': self.question.pk})
         response = self.client.get(url)
