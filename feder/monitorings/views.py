@@ -1,7 +1,8 @@
 from atom.ext.guardian.forms import TranslatedUserObjectPermissionsForm
 from atom.views import DeleteMessageMixin, UpdateMessageMixin
 from braces.views import (FormValidMessageMixin, LoginRequiredMixin,
-                          SelectRelatedMixin, UserFormKwargsMixin)
+                          PermissionRequiredMixin, SelectRelatedMixin,
+                          UserFormKwargsMixin)
 from cached_property import cached_property
 from dal import autocomplete
 from django.contrib import messages
@@ -16,12 +17,14 @@ from django.views.generic import (CreateView, DeleteView, DetailView, FormView,
                                   UpdateView)
 from django_filters.views import FilterView
 from formtools.wizard.views import SessionWizardView
+from guardian.shortcuts import assign_perm
 
 from feder.cases.models import Case
 from feder.institutions.filters import InstitutionFilter
 from feder.institutions.models import Institution
 from feder.letters.models import Letter
 from feder.main.mixins import ExtraListMixin, RaisePermissionRequiredMixin
+
 from .filters import MonitoringFilter
 from .forms import (MonitoringForm, SaveTranslatedUserObjectPermissionsForm,
                     SelectUserForm)
@@ -52,12 +55,29 @@ class MonitoringDetailView(SelectRelatedMixin, ExtraListMixin, DetailView):
                 order_by('institution').all())
 
 
-class MonitoringCreateView(LoginRequiredMixin, UserFormKwargsMixin, CreateView):
+class MonitoringCreateView(LoginRequiredMixin, PermissionRequiredMixin,
+                           UserFormKwargsMixin, CreateView):
+    model = Monitoring
     template_name = 'monitorings/monitoring_form.html'
     form_class = MonitoringForm
+    permission_required = 'monitorings.add_monitoring'
+    raise_exception = True
+    redirect_unauthenticated_users = True
 
     def get_form_valid_message(self):
         return _("{0} created!").format(self.object)
+
+    def form_valid(self, form, *args, **kwargs):
+        output = super(MonitoringCreateView, self).form_valid(form, *args, **kwargs)
+        default_perm = ['change_monitoring', 'delete_monitoring', 'add_questionary',
+                        'change_questionary', 'delete_questionary', 'add_case',
+                        'change_case', 'delete_case', 'add_task', 'change_task',
+                        'delete_task', 'reply', 'view_alert', 'change_alert',
+                        'delete_alert', 'manage_perm',
+                        'select_survey']
+        for perm in default_perm:
+            assign_perm(perm, self.request.user, form.instance)
+        return output
 
 
 class MonitoringUpdateView(RaisePermissionRequiredMixin, UserFormKwargsMixin,
@@ -80,17 +100,16 @@ class PermissionWizard(LoginRequiredMixin, SessionWizardView):
 
     def perm_check(self):
         if not self.request.user.has_perm('monitorings.manage_perm',
-                                          self.get_monitoring()):
+                                          self.monitoring):
             raise PermissionDenied()
 
-    def get_monitoring(self):
-        if not getattr(self, 'monitoring', None):
-            self.monitoring = Monitoring.objects.get(slug=self.kwargs['slug'])
-        return self.monitoring
+    @cached_property
+    def monitoring(self):
+        return Monitoring.objects.get(slug=self.kwargs['slug'])
 
     def get_context_data(self, *args, **kwargs):
         context = super(PermissionWizard, self).get_context_data(*args, **kwargs)
-        context['object'] = self.get_monitoring()
+        context['object'] = self.monitoring
         return context
 
     def get_form_kwargs(self, step, *args, **kwargs):
@@ -100,7 +119,7 @@ class PermissionWizard(LoginRequiredMixin, SessionWizardView):
             user_pk = self.storage.get_step_data('0').get('0-user')[0]
             user = get_user_model().objects.get(pk=user_pk)
             kw['user'] = user
-            kw['obj'] = self.get_monitoring()
+            kw['obj'] = self.monitoring
         return kw
 
     def get_success_message(self):
@@ -118,7 +137,7 @@ class MonitoringPermissionView(RaisePermissionRequiredMixin, SelectRelatedMixin,
     model = Monitoring
     template_name_suffix = '_permissions'
     select_related = ['user', ]
-    permission_required = 'monitorings.change_monitoring'
+    permission_required = 'monitorings.manage_perm'
 
     def get_context_data(self, *args, **kwargs):
         context = super(MonitoringPermissionView, self).get_context_data(*args, **kwargs)
@@ -129,7 +148,7 @@ class MonitoringPermissionView(RaisePermissionRequiredMixin, SelectRelatedMixin,
 class MonitoringUpdatePermissionView(RaisePermissionRequiredMixin, SelectRelatedMixin, FormView):
     form_class = SaveTranslatedUserObjectPermissionsForm
     template_name = 'monitorings/monitoring_form.html'
-    permission_required = 'monitorings.change_monitoring'
+    permission_required = 'monitorings.manage_perm'
 
     def get_permission_object(self):
         return self.get_monitoring()

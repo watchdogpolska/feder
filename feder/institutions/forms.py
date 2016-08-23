@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
-from dal import autocomplete
 from atom.ext.crispy_forms.forms import SingleButtonMixin
 from braces.forms import UserKwargModelFormMixin
+from dal import autocomplete
+from django import forms
 
 from .models import Institution
 
 
-class InstitutionForm(SingleButtonMixin, UserKwargModelFormMixin):
+class InstitutionForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(InstitutionForm, self).__init__(*args, **kwargs)
 
@@ -14,5 +15,5 @@ class InstitutionForm(SingleButtonMixin, UserKwargModelFormMixin):
         model = Institution
         fields = ['name', 'address', 'tags', 'jst']
         widgets = {
-            'jst': autocomplete.ModelSelect2(url='country-autocomplete')
+            'jst': autocomplete.ModelSelect2(url='teryt:community-autocomplete')
         }

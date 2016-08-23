@@ -1,137 +1,150 @@
-from django.core import mail
 from django.core.urlresolvers import reverse
 from django.test import TestCase
-from formtools.utils import form_hmac
 from guardian.shortcuts import assign_perm
-from unittest import skip
-from feder.institutions.factories import factory_institution
-from feder.letters.models import Letter
-from feder.monitorings.forms import CreateMonitoringForm
+
 from feder.monitorings.models import Monitoring
-
-try:
-    from django.contrib.auth import get_user_model
-    User = get_user_model()
-except ImportError:
-    from django.contrib.auth.models import User
+from feder.users.factories import UserFactory
 
 
-class SetUpMixin(object):
-    monitoring_create = True
-
+class ObjectMixin(object):
     def setUp(self):
-        self.user = User.objects.create_user(
-            username='jacob', email='jacob@example.com', password='top_secret')
-        assign_perm('monitorings.add_monitoring', self.user)
-        self.quest = User.objects.create_user(
-            username='smith', email='smith@example.com', password='top_secret')
-        if self.monitoring_create:
-            self.monitoring = Monitoring.objects.create(name="Lor", user=self.user)
+        self.user = UserFactory(username='john')
+        self.monitoring = Monitoring.objects.create(name="Lor", user=self.user)
 
 
-class PermissionTestMixin(SetUpMixin):
-    url = None
-    template_name = 'monitorings/monitoring_form.html'
-    contains = True
-
-    def get_url(self):
-        return self.url
-
-    def test_anonymous_user(self):
-        response = self.client.get(self.get_url())
+class MonitoringCreateViewTestCase(ObjectMixin, TestCase):
+    def test_perm_anonymouse(self):
+        response = self.client.get(reverse('monitorings:create'))
         self.assertEqual(response.status_code, 302)
 
     def test_non_permitted_user(self):
-        self.client.login(username='smith', password='top_secret')
-        response = self.client.get(self.get_url())
+        self.client.login(username='john', password='pass')
+        response = self.client.get(reverse('monitorings:create'))
         self.assertEqual(response.status_code, 403)
 
     def test_permitted_user(self):
-        self.client.login(username='jacob', password='top_secret')
-        response = self.client.get(self.get_url())
+        assign_perm('monitorings.add_monitoring', self.user)
+        self.client.login(username='john', password='pass')
+        response = self.client.get(reverse('monitorings:create'))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, self.template_name)
-        if self.contains:
-            self.assertContains(response, self.monitoring)
+        self.assertTemplateUsed(response, "monitorings/monitoring_form.html")
 
 
-class MonitoringTestCase(SetUpMixin, TestCase):
+class MonitoringListViewTestCase(ObjectMixin, TestCase):
     def test_list_display(self):
         response = self.client.get(reverse('monitorings:list'))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, self.monitoring)
 
+
+class MonitoringDetailViewTestCase(ObjectMixin, TestCase):
     def test_details_display(self):
         response = self.client.get(self.monitoring.get_absolute_url())
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, self.monitoring)
 
 
-class UpdateViewPermTestCase(PermissionTestMixin, TestCase):
+class MonitoringUpdateViewTestCase(ObjectMixin, TestCase):
     def get_url(self):
         return reverse('monitorings:update', kwargs={'slug': self.monitoring.slug})
 
+    def test_perm_anonymouse(self):
+        response = self.client.get(self.get_url())
+        self.assertEqual(response.status_code, 302)
 
-class DeleteViewPermTestCase(PermissionTestMixin, TestCase):
-    template_name = 'monitorings/monitoring_confirm_delete.html'
-    contains = False  # TODO: Debug that!
+    def test_non_permitted_user(self):
+        self.client.login(username='john', password='pass')
+        response = self.client.get(self.get_url())
+        self.assertEqual(response.status_code, 403)
 
+    def test_permitted_user(self):
+        assign_perm('monitorings.change_monitoring', self.user, self.monitoring)
+        self.client.login(username='john', password='pass')
+        response = self.client.get(self.get_url())
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "monitorings/monitoring_form.html")
+
+
+class MonitoringDeleteViewTestCase(ObjectMixin, TestCase):
     def get_url(self):
         return reverse('monitorings:delete', kwargs={'slug': self.monitoring.slug})
 
+    def test_perm_anonymouse(self):
+        response = self.client.get(self.get_url())
+        self.assertEqual(response.status_code, 302)
 
-class CreateViewPermTestCase(PermissionTestMixin, TestCase):
-    url = reverse('monitorings:create')
-    contains = False
+    def test_non_permitted_user(self):
+        self.client.login(username='john', password='pass')
+        response = self.client.get(self.get_url())
+        self.assertEqual(response.status_code, 403)
+
+    def test_permitted_user(self):
+        assign_perm('monitorings.delete_monitoring', self.user, self.monitoring)
+        self.client.login(username='john', password='pass')
+        response = self.client.get(self.get_url())
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "monitorings/monitoring_confirm_delete.html")
 
 
-class PermissionWizardPermTestCase(PermissionTestMixin, TestCase):
-    template_name = 'monitorings/permission_wizard.html'
-
+class PermissionWizardTestCase(ObjectMixin, TestCase):
     def get_url(self):
         return reverse('monitorings:perm-add', kwargs={'slug': self.monitoring.slug})
 
+    def test_perm_anonymouse(self):
+        response = self.client.get(self.get_url())
+        self.assertEqual(response.status_code, 302)
 
-class MonitoringPermissionViewPermTestCase(PermissionTestMixin, TestCase):
-    template_name = 'monitorings/monitoring_permissions.html'
+    def test_non_permitted_user(self):
+        self.client.login(username='john', password='pass')
+        response = self.client.get(self.get_url())
+        self.assertEqual(response.status_code, 403)
 
+    def test_permitted_user(self):
+        assign_perm('monitorings.manage_perm', self.user, self.monitoring)
+        self.client.login(username='john', password='pass')
+        response = self.client.get(self.get_url())
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'monitorings/permission_wizard.html')
+
+
+class MonitoringPermissionViewTestCase(ObjectMixin, TestCase):
     def get_url(self):
         return reverse('monitorings:perm', kwargs={'slug': self.monitoring.slug})
 
+    def test_perm_anonymouse(self):
+        response = self.client.get(self.get_url())
+        self.assertEqual(response.status_code, 302)
 
-class MonitoringUpdatePermissionView(PermissionTestMixin, TestCase):
-    template_name = 'monitorings/monitoring_form.html'
+    def test_non_permitted_user(self):
+        self.client.login(username='john', password='pass')
+        response = self.client.get(self.get_url())
+        self.assertEqual(response.status_code, 403)
 
+    def test_permitted_user(self):
+        assign_perm('monitorings.manage_perm', self.user, self.monitoring)
+        self.client.login(username='john', password='pass')
+        response = self.client.get(self.get_url())
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'monitorings/monitoring_permissions.html')
+
+
+class MonitoringUpdatePermissionViewTestCase(ObjectMixin, TestCase):
     def get_url(self):
         return reverse('monitorings:perm-update', kwargs={'slug': self.monitoring.slug,
                        'user_pk': self.user.pk})
 
-
-class MonitoringAddViewTestCase(SetUpMixin, TestCase):
-    monitoring_create = False
-
-    def test_create(self):
-        institution = factory_institution(self.user)
-        param = {'text': 'Example text {{EMAIL}}',
-                 'recipients': [institution.pk],
-                 'name': 'Example name'}
-        assign_perm('monitorings.add_monitoring', self.user)
-
-        self.client.login(username='jacob', password='top_secret')
-        response = self.client.post(reverse('monitorings:create'), param)
-
-        self.assertEqual(response.status_code, 200)
-
-        self.assertEqual(Monitoring.objects.count(), 0)
-
-        security = form_hmac(CreateMonitoringForm(param))
-        param.update({'stage': 2, 'hash': security})
-        response = self.client.post(reverse('monitorings:create'), param)
-
+    def test_perm_anonymouse(self):
+        response = self.client.get(self.get_url())
         self.assertEqual(response.status_code, 302)
 
-        self.assertEqual(Monitoring.objects.count(), 1)
+    def test_non_permitted_user(self):
+        self.client.login(username='john', password='pass')
+        response = self.client.get(self.get_url())
+        self.assertEqual(response.status_code, 403)
 
-        self.assertEqual(len(mail.outbox), 1)
-
-        Letter.objects.get().eml.delete()
+    def test_permitted_user(self):
+        assign_perm('monitorings.manage_perm', self.user, self.monitoring)
+        self.client.login(username='john', password='pass')
+        response = self.client.get(self.get_url())
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'monitorings/monitoring_form.html')

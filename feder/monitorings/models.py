@@ -86,29 +86,6 @@ class Monitoring(TimeStampedModel):
         return user_list, index_generate()
 
 
-def assign_default_perm(sender, instance, created, **kwargs):
-    if created:
-        assign_perm('change_monitoring', instance.user, instance)
-        assign_perm('delete_monitoring', instance.user, instance)
-        assign_perm('add_questionary', instance.user, instance)
-        assign_perm('change_questionary', instance.user, instance)
-        assign_perm('delete_questionary', instance.user, instance)
-        assign_perm('add_case', instance.user, instance)
-        assign_perm('change_case', instance.user, instance)
-        assign_perm('delete_case', instance.user, instance)
-        assign_perm('add_task', instance.user, instance)
-        assign_perm('change_task', instance.user, instance)
-        assign_perm('delete_task', instance.user, instance)
-        assign_perm('reply', instance.user, instance)
-        assign_perm('view_alert', instance.user, instance)
-        assign_perm('change_alert', instance.user, instance)
-        assign_perm('delete_alert', instance.user, instance)
-        assign_perm('manage_perm', instance.user, instance)
-        assign_perm('select_survey', instance.user, instance)
-
-post_save.connect(assign_default_perm, sender=Monitoring, dispatch_uid="assign_default_perm")
-
-
 class MonitoringUserObjectPermission(UserObjectPermissionBase):
     content_object = models.ForeignKey(Monitoring)
 

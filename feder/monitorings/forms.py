@@ -10,9 +10,6 @@ from feder.users.models import User
 
 
 class MonitoringForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super(MonitoringForm, self).__init__(*args, **kwargs)
-
     class Meta:
         model = Monitoring
         fields = ['name', 'description', 'notify_alert', 'template']
@@ -21,7 +18,7 @@ class MonitoringForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm
 class SelectUserForm(forms.Form):
     user = forms.ModelChoiceField(
         queryset=User.objects.all(),
-        widget=autocomplete.ModelSelect2(url='users:user-autocomplete'),
+        widget=autocomplete.ModelSelect2(url='users:autocomplete'),
         label=_("User")
     )
 

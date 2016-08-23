@@ -42,12 +42,12 @@ class AttrPermissionRequiredMixin(RaisePermissionRequiredMixin):
         return obj
 
     def get_permission_object(self):
-        obj = super(PermissionRequiredMixin, self).get_object()
+        obj = super(AttrPermissionRequiredMixin, self).get_object()
         return self._resolve_path(obj, self.permission_attribute)
 
     def get_object(self):
         if not hasattr(self, 'object'):
-            self.object = super(PermissionRequiredMixin, self).get_object()
+            self.object = super(AttrPermissionRequiredMixin, self).get_object()
         return self.object
 
 
