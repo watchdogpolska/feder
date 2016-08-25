@@ -4,7 +4,7 @@ from django.test import TestCase
 from feder.cases.factories import factory_case
 from feder.cases.models import Case
 from feder.institutions.factories import factory_institution
-from feder.monitorings.factories import factory_monitoring
+from feder.monitorings.factories import MonitoringFactory
 
 from ..models import Letter
 
@@ -75,7 +75,7 @@ class NewLetterTestCase(TestCase):
 
     def test_send_new(self):
         Letter.send_new_case(user=self.user,
-                             monitoring=factory_monitoring(self.user),
+                             monitoring=MonitoringFactory(user=self.user),
                              institution=factory_institution(self.user),
                              text="Przeslac informacje szybko")
         self.assertEqual(Case.objects.count(), 1)

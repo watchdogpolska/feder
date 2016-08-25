@@ -4,23 +4,15 @@ from django.core.urlresolvers import reverse
 from django.test import TestCase
 from guardian.shortcuts import assign_perm
 
-from feder.monitorings.factories import factory_monitoring
-
-from .models import Alert
-
-try:
-    from django.contrib.auth import get_user_model
-    User = get_user_model()
-except ImportError:
-    from django.contrib.auth.models import User
-
+from feder.monitorings.factories import MonitoringFactory
 from feder.users.factories import UserFactory
+from .models import Alert
 
 
 class ObjectMixin(object):
     def setUp(self):
         self.user = UserFactory(username="john", password="pass")
-        self.monitoring = factory_monitoring(self.user)
+        self.monitoring = MonitoringFactory(user=self.user)
         self.alert = Alert.objects.create(reason="lorem",
                                           author=self.user,
                                           monitoring=self.monitoring)

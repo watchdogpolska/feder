@@ -1,5 +1,12 @@
 from .models import Monitoring
+from feder.users.factories import UserFactory
+import factory
 
 
-def factory_monitoring(user):
-    return Monitoring.objects.create(name="Lor", user=user)
+class MonitoringFactory(factory.django.DjangoModelFactory):
+    name = factory.Sequence(lambda n: 'monitoring-%04d' % n)
+    user = factory.SubFactory(UserFactory)
+
+    class Meta:
+        model = Monitoring
+        django_get_or_create = ('name', )

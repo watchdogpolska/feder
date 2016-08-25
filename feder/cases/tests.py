@@ -3,7 +3,7 @@ from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.test import RequestFactory, TestCase
 from guardian.shortcuts import assign_perm
-
+from feder.monitorings.factories import MonitoringFactory
 from feder.cases import views
 from feder.cases.models import Case
 from feder.institutions.models import Institution
@@ -24,7 +24,7 @@ class SetUpMixin(object):
     def setUp(self):
         self.factory = RequestFactory()
         self.user = UserFactory(username="john")
-        self.monitoring = Monitoring.objects.create(name="Lor", user=self.user)
+        self.monitoring = MonitoringFactory(user=self.user)
         self.institution = self._get_institution()
         self.case = Case.objects.create(name="blabla",
                                         monitoring=self.monitoring,
