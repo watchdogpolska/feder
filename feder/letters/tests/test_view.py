@@ -2,114 +2,82 @@ from __future__ import absolute_import, unicode_literals
 
 from django.core.urlresolvers import reverse
 from django.test import TestCase
-from django.utils import six
-
-from feder.cases.factories import factory_case
-from feder.institutions.factories import factory_institution
-
+from feder.main.mixins import PermissionStatusMixin
+from feder.cases.factories import CaseFactory
+from feder.institutions.factories import InstitutionFactory
+from feder.users.factories import UserFactory
+from feder.monitorings.factories import MonitoringFactory
 from ..models import Letter
 
-try:
-    from django.contrib.auth import get_user_model
-    User = get_user_model()
-except ImportError:
-    from django.contrib.auth.models import User
+
+class ObjectMixin(object):
+    def setUp(self):
+        self.user = UserFactory(username='john')
+        self.monitoring = self.permission_object = MonitoringFactory()
+        self.case = CaseFactory(monitoring=self.monitoring)
+        self.from_user = Letter.objects.create(author_user=self.user,
+                                               case=self.case,
+                                               title="Wniosek",
+                                               body="Prosze przeslac informacje",
+                                               email="X@wykop.pl")
+        self.from_institution = Letter.objects.create(author_institution=InstitutionFactory(),
+                                                      case=self.case,
+                                                      title="Odpowiedz",
+                                                      body="W zalaczeniu.",
+                                                      email="karyna@gmina.pl")
 
 
-class SetUpMixin(object):
-      def setUp(self):
-        self.user = User.objects.create_user(username='jacob',
-                                             email='jacob@example.com',
-                                             password='top_secret')
-        self.sudo = User.objects.create_superuser(username="X",
-                                                  email='xx@example.com',
-                                                  password="top_secret")
-        self.quest = User.objects.create_user(username="q",
-                                              password="top_secret")
-        self.case = factory_case(self.user)
-        self.l_user = Letter.objects.create(author_user=self.user,
-                                            case=self.case,
-                                            title="Wniosek",
-                                            body="Prosze przeslac informacje",
-                                            email="X@wykop.pl")
+class LetterListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
+    status_anonymous = 200
+    status_no_permission = 200
 
-        self.institution = factory_institution(self.user)
-        self.l_institution = Letter.objects.create(author_institution=self.institution,
-                                                   case=self.case,
-                                                   title="Odpowiedz",
-                                                   body="W zalaczeniu.",
-                                                   email="karyna@gmina.pl")
+    def get_url(self):
+        return reverse('letters:list')
 
-
-class ViewTestCase(SetUpMixin, TestCase):
-    def test_list_display(self):
-        response = self.client.get(reverse('letters:list'))
-        self.assertEqual(response.status_code, 200)
+    def test_content(self):
+        response = self.client.get(self.get_url())
         self.assertTemplateUsed(response, 'letters/letter_filter.html')
         self.assertContains(response, 'Odpowiedz')
         self.assertContains(response, 'Wniosek')
 
-    def test_details_display(self):
-        response = self.client.get(self.l_user.get_absolute_url())
+
+class LetterDetailViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
+    status_anonymous = 200
+    status_no_permission = 200
+
+    def get_url(self):
+        return self.from_user.get_absolute_url()
+
+    def test_content(self):
+        response = self.client.get(self.get_url())
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'letters/letter_detail.html')
-        self.assertContains(response, self.l_user.title)
+        self.assertContains(response, self.from_user.title)
 
 
-class PermCheckMixin(SetUpMixin):
-    url = None
-    contains = True
-    template_name = 'letters/letter_form.html'
-    perm = None
-    anonymous_user_status = 302
-    non_permitted_status = 403
-    permitted_status = 200
+class LetterCreateViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
+    permission = ['monitorings.add_letter', ]
 
-    def login(self):
-        self.client.login(username='q', password='top_secret')
-
-    def login_permitted(self):
-        self.client.login(username='X', password='top_secret')
-
-    def test_anonymous_user(self):
-        response = self.client.get(self._get_url())
-        self.assertEqual(response.status_code, self.anonymous_user_status)
-
-    def test_non_permitted_user(self):
-        self.login()
-        response = self.client.get(self._get_url())
-        self.assertEqual(response.status_code, self.non_permitted_status)
-
-    def test_permitted_user(self):
-        self.login_permitted()
-        response = self.client.get(self._get_url())
-        self.assertEqual(response.status_code, self.permitted_status)
-        self.assertTemplateUsed(response, self.template_name)
-        if self.contains:
-            self.assertContains(response, six.text_type(self.l_user.title))
-
-
-class CreatePermissionTestCase(PermCheckMixin, TestCase):
-    contains = False
-
-    def _get_url(self):
+    def get_url(self):
         return reverse('letters:create', kwargs={'case_pk': self.case.pk})
 
 
-class UpdatePermissionTestCase(PermCheckMixin, TestCase):
-    def _get_url(self):
-        return reverse('letters:update', kwargs={'pk': self.l_user.pk})
+class LetterUpdateViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
+    permission = ['monitorings.change_letter', ]
+
+    def get_url(self):
+        return reverse('letters:update', kwargs={'pk': self.from_user.pk})
 
 
-class DeletePermissionTestCase(PermCheckMixin, TestCase):
-    template_name = 'letters/letter_confirm_delete.html'
+class LetterDeleteViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
+    permission = ['monitorings.delete_letter', ]
 
-    def _get_url(self):
-        return reverse('letters:delete', kwargs={'pk': self.l_user.pk})
+    def get_url(self):
+        return reverse('letters:delete', kwargs={'pk': self.from_user.pk})
 
 
-class ReplyPermissionTestCase(PermCheckMixin, TestCase):
-    template_name = 'letters/letter_reply.html'
+class LetterReplyViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
+    permission = ['monitorings.reply', ]
 
-    def _get_url(self):
-        return reverse('letters:reply', kwargs={'pk': self.l_user.pk})
+    def get_url(self):
+        return reverse('letters:reply', kwargs={'pk': self.from_user.pk})

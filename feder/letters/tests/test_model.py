@@ -1,31 +1,26 @@
 from django.core import mail
 from django.test import TestCase
 
-from feder.cases.factories import factory_case
+from feder.cases.factories import CaseFactory
 from feder.cases.models import Case
-from feder.institutions.factories import factory_institution
+from feder.institutions.factories import InstitutionFactory
 from feder.monitorings.factories import MonitoringFactory
+from feder.users.factories import UserFactory
 
 from ..models import Letter
-
-try:
-    from django.contrib.auth import get_user_model
-    User = get_user_model()
-except ImportError:
-    from django.contrib.auth.models import User
 
 
 class ModelTestCase(TestCase):
     def setUp(self):
-        self.user = User.objects.create(username="rob")
+        self.user = UserFactory(username="rob")
         self.l_u = Letter.objects.create(author_user=self.user,
-                                         case=factory_case(self.user),
+                                         case=CaseFactory(user=self.user),
                                          title="Wniosek",
                                          body="Prosze przeslac informacje",
                                          email="X@wykop.pl")
 
-        self.l_i = Letter.objects.create(author_institution=factory_institution(self.user),
-                                         case=factory_case(self.user),
+        self.l_i = Letter.objects.create(author_institution=InstitutionFactory(),
+                                         case=CaseFactory(user=self.user),
                                          title="Odpowiedz",
                                          body="W zalaczeniu.",
                                          email="karyna@gmina.pl")
@@ -43,11 +38,11 @@ class ModelTestCase(TestCase):
         self.assertEqual(self.l_i.author, self.l_i.author_institution)
 
     def test_author_setter(self):
-        u = User.objects.create(username="smith")
+        u = UserFactory(username="smith")
         self.l_u.author = u
         self.assertEqual(self.l_u.author_user, u)
 
-        i = factory_institution(u)
+        i = InstitutionFactory()
         self.l_i.author = i
         self.assertEqual(self.l_i.author_institution, i)
 
@@ -71,12 +66,12 @@ class ModelTestCase(TestCase):
 
 class NewLetterTestCase(TestCase):
     def setUp(self):
-        self.user = User.objects.create(username="tom")
+        self.user = UserFactory(username="tom")
 
     def test_send_new(self):
         Letter.send_new_case(user=self.user,
                              monitoring=MonitoringFactory(user=self.user),
-                             institution=factory_institution(self.user),
+                             institution=InstitutionFactory(),
                              text="Przeslac informacje szybko")
         self.assertEqual(Case.objects.count(), 1)
         self.assertEqual(Letter.objects.count(), 1)

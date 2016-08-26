@@ -1,5 +1,5 @@
 from feder.cases import models
-from feder.institutions.factories import factory_institution
+from feder.institutions.factories import InstitutionFactory
 from feder.monitorings.factories import MonitoringFactory
 import factory
 from feder.users.factories import UserFactory
@@ -15,11 +15,7 @@ class CaseFactory(factory.django.DjangoModelFactory):
 
     @factory.lazy_attribute
     def institution(self):
-        return factory_institution(self.user)
+        return InstitutionFactory()
 
     class Meta:
         model = models.Case
-
-
-def factory_case(user):
-        return CaseFactory(user=user)

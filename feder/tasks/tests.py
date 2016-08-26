@@ -3,7 +3,7 @@ from django.test import TestCase
 from guardian.shortcuts import assign_perm
 
 from feder.cases.models import Case
-from feder.institutions.factories import factory_institution
+from feder.institutions.factories import InstitutionFactory
 from feder.monitorings.models import Monitoring
 from feder.questionaries.models import Questionary
 from feder.tasks.models import Task
@@ -16,7 +16,7 @@ class ObjectMixin(object):
         self.monitoring = Monitoring.objects.create(name="Lor", user=self.user)
         self.questionary = Questionary.objects.create(title="blabla",
                                                       monitoring=self.monitoring)
-        self.institution = factory_institution(self.user)
+        self.institution = InstitutionFactory()
         self.case = Case.objects.create(name="blabla",
                                         monitoring=self.monitoring,
                                         institution=self.institution,

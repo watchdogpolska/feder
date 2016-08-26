@@ -1,11 +1,13 @@
-from autofixture import AutoFixture
-
-from .models import Institution
+import factory
 from feder.teryt.factories import JSTFactory
 
+from .models import Institution
 
-def factory_institution(user):
-    jst = JSTFactory()
-    institution = AutoFixture(Institution,
-                              field_values={'user': user, 'jst': jst}).create_one()
-    return institution
+
+class InstitutionFactory(factory.django.DjangoModelFactory):
+    name = factory.Sequence('institution-{0}'.format)
+    address = factory.Sequence('institution-{0}@example.com'.format)
+    jst = factory.SubFactory(JSTFactory)
+
+    class Meta:
+        model = Institution
