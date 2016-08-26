@@ -1,12 +1,8 @@
-from atom.views import CreateMessageMixin, DeleteMessageMixin, UpdateMessageMixin
-from braces.views import (
-    FormValidMessageMixin,
-    LoginRequiredMixin,
-    PermissionRequiredMixin,
-    PrefetchRelatedMixin,
-    SelectRelatedMixin,
-    UserFormKwargsMixin
-)
+from atom.views import (CreateMessageMixin, DeleteMessageMixin,
+                        UpdateMessageMixin)
+from braces.views import (FormValidMessageMixin, LoginRequiredMixin,
+                          PermissionRequiredMixin, PrefetchRelatedMixin,
+                          SelectRelatedMixin, UserFormKwargsMixin)
 from dal import autocomplete
 from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
@@ -14,7 +10,7 @@ from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
 from django_filters.views import FilterView
 
 from feder.cases.models import Case
-from feder.main.mixins import ExtraListMixin, RaisePermissionRequiredMixin
+from feder.main.mixins import ExtraListMixin
 
 from .filters import InstitutionFilter
 from .forms import InstitutionForm
@@ -54,20 +50,25 @@ class InstitutionCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateM
     form_class = InstitutionForm
     permission_required = "institutions.add_institution"
     raise_exception = True
+    redirect_unauthenticated_users = True
 
 
-class InstitutionUpdateView(RaisePermissionRequiredMixin, UserFormKwargsMixin,
+class InstitutionUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UserFormKwargsMixin,
                             UpdateMessageMixin, FormValidMessageMixin, UpdateView):
     model = Institution
     form_class = InstitutionForm
     permission_required = "institutions.change_institution"
+    raise_exception = True
+    redirect_unauthenticated_users = True
 
 
-class InstitutionDeleteView(RaisePermissionRequiredMixin, DeleteMessageMixin,
+class InstitutionDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteMessageMixin,
                             UpdateMessageMixin, DeleteView):
     model = Institution
     success_url = reverse_lazy('institutions:list')
     permission_required = "institutions.delete_institution"
+    raise_exception = True
+    redirect_unauthenticated_users = True
 
 
 class InstitutionAutocomplete(autocomplete.Select2QuerySetView):

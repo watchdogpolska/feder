@@ -41,7 +41,6 @@ class AttrPermissionRequiredMixin(RaisePermissionRequiredMixin):
         if path:
             for attr_name in path.split('__'):
                 obj = getattr(obj, attr_name)
-#        print "View used %s" % (obj, )
         return obj
 
     def get_permission_object(self):
@@ -79,20 +78,11 @@ class PermissionStatusMixin(object):
         return self.url
 
     def get_permission_object(self):
-        if hasattr(self, 'permission_object'):
-            return getattr(self, 'permission_object')
-
-        if hasattr(self, 'object'):
-            return getattr(self, 'object')
-        raise ImproperlyConfigured(
-            '{0} is missing a object to grant permission. Define '
-            '{0}.permission_object or override '
-            '{0}.get_permission_object().'.format(self.__class__.__name__))
+        return getattr(self, 'permission_object', None)
 
     def grant_permission(self):
         for perm in self.permission:
             obj = self.get_permission_object()
-#            print "Granted perm %s for %s" % (perm, obj)
             assign_perm(perm, self.user, obj)
 
     def test_status_code_for_anonymous_user(self):

@@ -1,111 +1,56 @@
 # -*- coding: utf-8 -*-
-from autofixture import AutoFixture
-from django.core.urlresolvers import reverse, reverse_lazy
-from django.test import RequestFactory, TestCase
-from guardian.shortcuts import assign_perm
+from django.core.urlresolvers import reverse
+from django.test import TestCase
+from feder.users.factories import UserFactory
+from feder.main.mixins import PermissionStatusMixin
 
-from feder.institutions.models import Institution
-
-from feder.teryt.factories import JSTFactory
-try:
-    from django.contrib.auth import get_user_model
-    User = get_user_model()
-except ImportError:
-    from django.contrib.auth.models import User
+from .factories import InstitutionFactory
 
 
-class SetUpMixin(object):
-    @staticmethod
-    def _assign_all_perm(user):
-        assign_perm('institutions.change_institution', user)
-        assign_perm('institutions.delete_institution', user)
-
-    def _get_institution(self):
-        jst = JSTFactory()
-        institution = AutoFixture(Institution,
-                                  field_values={'user': self.user,
-                                                'jst': jst}).create_one()
-        return institution
-
+class ObjectMixin(object):
     def setUp(self):
-        self.factory = RequestFactory()
-        self.user = User.objects.create_user(username='user', password='top_secret')
-        self.sudo = User.objects.create_superuser(username="sudo",
-                                                  email="wykop@wykop.pl",
-                                                  password="top_secret")
-        self.quest = User.objects.create_user(username='quest', password='top_secret')
-        self.institution = self._get_institution()
+        self.user = UserFactory(username='john')
+        self.institution = InstitutionFactory()
 
 
-class InstitutionViewTestCase(SetUpMixin, TestCase):
-    def test_list_loads(self):
-        response = self.client.get(reverse('institutions:list'))
-        self.assertEqual(response.status_code, 200)
+class InstitutionListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
+    url = reverse('institutions:list')
+    status_anonymous = 200
+    status_no_permission = 200
+
+    def test_content(self):
+        response = self.client.get(self.get_url())
         self.assertTemplateUsed(response, 'institutions/institution_filter.html')
         self.assertContains(response, self.institution.name)
 
-    def test_details_display(self):
-        response = self.client.get(self.institution.get_absolute_url())
-        self.assertEqual(response.status_code, 200)
+
+class InstitutionDetailViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
+    status_anonymous = 200
+    status_no_permission = 200
+
+    def get_url(self):
+        return self.institution.get_absolute_url()
+
+    def test_content(self):
+        response = self.client.get(self.get_url())
         self.assertTemplateUsed(response, 'institutions/institution_detail.html')
         self.assertContains(response, self.institution.name)
 
-    def test_delete_post(self):
-        url = reverse('institutions:delete', kwargs={'slug': self.institution.slug})
-        self.assertTrue(Institution.objects.filter(pk=self.institution.pk).exists())
-        self.client.login(username='sudo', password='top_secret')
-        response = self.client.post(url, follow=True)
-        self.assertRedirects(response, reverse('institutions:list'))
-        self.assertFalse(Institution.objects.filter(pk=self.institution.pk).exists())
 
-
-class PermCheckMixin(SetUpMixin):
-    url = None
-    contains = False
-    template_name = 'institutions/institution_form.html'
-    perm = None
-    anonymous_user_status = 302
-    non_permitted_status = 403
-    permitted_status = 200
-
-    def _get_url(self):
-        return self.url
-
-    def test_anonymous_user(self):
-        response = self.client.get(self._get_url())
-        self.assertEqual(response.status_code, self.anonymous_user_status)
-
-    def test_non_permitted_user(self):
-        self.client.login(username='quest', password='top_secret')
-        response = self.client.get(self._get_url())
-        self.assertEqual(response.status_code, self.non_permitted_status)
-
-    def test_permitted_user(self):
-        self.client.login(username='sudo', password='top_secret')
-        response = self.client.get(self._get_url())
-        self.assertEqual(response.status_code, self.permitted_status)
-        self.assertTemplateUsed(response, self.template_name)
-        if self.contains:
-            self.assertContains(response, self.institution.name)
-
-
-class CreateViewPermTest(PermCheckMixin, TestCase):
+class InstitutionCreateViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     url = reverse('institutions:create')
-    perm = 'institutions.add_institution'
-    contains = False
-    anonymous_user_status = 403
+    permission = ['institutions.add_institution', ]
 
 
-class UpdateViewPermTest(PermCheckMixin, TestCase):
-    perm = 'institutions.change_institution'
+class InstitutionUpdateViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
+    permission = ['institutions.change_institution', ]
 
-    def _get_url(self):
+    def get_url(self):
         return reverse('institutions:update', kwargs={'slug': self.institution.slug})
 
 
-class DeleteViewPermTest(PermCheckMixin, TestCase):
-    perm = 'institutions.delete_institution'
-    template_name = 'institutions/institution_confirm_delete.html'
+class InstitutionDeleteViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
+    permission = ['institutions.delete_institution', ]
 
-    def _get_url(self):
+    def get_url(self):
         return reverse('institutions:delete', kwargs={'slug': self.institution.slug})
