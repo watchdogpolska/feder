@@ -1,22 +1,15 @@
 from django.core.urlresolvers import reverse
-from django.test import RequestFactory, TestCase
-from feder.monitorings.factories import MonitoringFactory
-from feder.cases.models import Case
+from django.test import TestCase
 from feder.users.factories import UserFactory
-from feder.institutions.factories import InstitutionFactory
 from feder.main.mixins import PermissionStatusMixin
+from .factories import CaseFactory
 
 
 class ObjectMixin(object):
     def setUp(self):
-        self.factory = RequestFactory()
         self.user = UserFactory(username="john")
-        self.monitoring = self.permission_object = MonitoringFactory(user=self.user)
-        self.institution = InstitutionFactory()
-        self.case = Case.objects.create(name="blabla",
-                                        monitoring=self.monitoring,
-                                        institution=self.institution,
-                                        user=self.user)
+        self.case = CaseFactory()
+        self.permission_object = self.case.monitoring
 
 
 class CaseListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
@@ -39,7 +32,7 @@ class CaseCreateViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     permission = ['monitorings.add_case', ]
 
     def get_url(self):
-        return reverse('cases:create', kwargs={'monitoring': str(self.monitoring.pk)})
+        return reverse('cases:create', kwargs={'monitoring': str(self.case.monitoring.pk)})
 
 
 class CaseUpdateViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
