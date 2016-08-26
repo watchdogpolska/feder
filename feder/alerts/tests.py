@@ -2,7 +2,6 @@ from __future__ import absolute_import
 
 from django.core.urlresolvers import reverse
 from django.test import TestCase
-from guardian.shortcuts import assign_perm
 
 from feder.monitorings.factories import MonitoringFactory
 from feder.users.factories import UserFactory
