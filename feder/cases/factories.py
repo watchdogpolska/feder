@@ -1,8 +1,8 @@
-from feder.cases import models
 from feder.institutions.factories import InstitutionFactory
 from feder.monitorings.factories import MonitoringFactory
 import factory
 from feder.users.factories import UserFactory
+from .models import Case
 
 
 class CaseFactory(factory.django.DjangoModelFactory):
@@ -15,4 +15,4 @@ class CaseFactory(factory.django.DjangoModelFactory):
         return MonitoringFactory(user=self.user)
 
     class Meta:
-        model = models.Case
+        model = Case
