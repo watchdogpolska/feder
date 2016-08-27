@@ -1,5 +1,16 @@
+import factory
+
+from feder.monitorings.factories import MonitoringFactory
+
 from .models import Questionary
 
 
-def factory_questionary(monitoring):
-    return Questionary.objects.create(title="blabla", monitoring=monitoring)
+class QuestionaryFactory(factory.django.DjangoModelFactory):
+    title = factory.Sequence('questionary-{0}'.format)
+
+    @factory.lazy_attribute
+    def monitoring(self):
+        return MonitoringFactory()
+
+    class Meta:
+        model = Questionary
