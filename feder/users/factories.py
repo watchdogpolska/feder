@@ -3,7 +3,7 @@ import factory
 
 
 class UserFactory(factory.django.DjangoModelFactory):
-    username = factory.Sequence(lambda n: 'user-%04d' % n)
+    username = factory.Sequence('user-%04d'.format)
     email = factory.LazyAttribute(lambda o: '%s@example.com' % o.username)
     password = factory.PostGenerationMethodCall('set_password', 'pass')
 
