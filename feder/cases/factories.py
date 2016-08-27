@@ -8,14 +8,11 @@ from feder.users.factories import UserFactory
 class CaseFactory(factory.django.DjangoModelFactory):
     name = factory.Sequence('case-{0}'.format)
     user = factory.SubFactory(UserFactory)
+    institution = factory.SubFactory(InstitutionFactory)
 
     @factory.lazy_attribute
     def monitoring(self):
         return MonitoringFactory(user=self.user)
-
-    @factory.lazy_attribute
-    def institution(self):
-        return InstitutionFactory()
 
     class Meta:
         model = models.Case
