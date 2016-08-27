@@ -2,35 +2,28 @@ import csv
 import itertools
 
 from atom.ext.django_filters.views import UserKwargFilterSetMixin
-from atom.views import (
-    ActionMessageMixin,
-    ActionView,
-    CreateMessageMixin,
-    DeleteMessageMixin,
-    UpdateMessageMixin
-)
-from braces.views import (
-    FormValidMessageMixin,
-    LoginRequiredMixin,
-    PrefetchRelatedMixin,
-    SelectRelatedMixin,
-    SetHeadlineMixin,
-    UserFormKwargsMixin
-)
+from atom.views import (ActionMessageMixin, ActionView, CreateMessageMixin,
+                        DeleteMessageMixin, UpdateMessageMixin)
+from braces.views import (FormValidMessageMixin, LoginRequiredMixin,
+                          PrefetchRelatedMixin, SelectRelatedMixin,
+                          SetHeadlineMixin, UserFormKwargsMixin)
+from cached_property import cached_property
 from django.core.exceptions import PermissionDenied
 from django.db.models import F
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.translation import ugettext_lazy as _
-from django.views.generic import CreateView, DeleteView, DetailView, FormView, UpdateView
-from django.views.generic.detail import SingleObjectMixin, SingleObjectTemplateResponseMixin
+from django.views.generic import (CreateView, DeleteView, DetailView, FormView,
+                                  UpdateView)
+from django.views.generic.detail import (SingleObjectMixin,
+                                         SingleObjectTemplateResponseMixin)
 from django_filters.views import FilterView
-from formtools.wizard.views import SessionWizardView
-
-from feder.main.mixins import AttrPermissionRequiredMixin, RaisePermissionRequiredMixin
+from feder.main.mixins import (AttrPermissionRequiredMixin,
+                               RaisePermissionRequiredMixin)
 from feder.monitorings.models import Monitoring
 from feder.tasks.forms import AnswerFormSet, MultiTaskForm
 from feder.tasks.models import Survey
+from formtools.wizard.views import SessionWizardView
 
 from .filters import QuestionaryFilter
 from .forms import BoolQuestionForm, QuestionaryForm, QuestionForm
@@ -65,12 +58,12 @@ class QuestionaryCreateView(RaisePermissionRequiredMixin, UserFormKwargsMixin,
     form_class = QuestionaryForm
     permission_required = 'monitorings.add_questionary'
 
-    def get_monitoring(self):
-        self.monitoring = get_object_or_404(Monitoring, pk=self.kwargs['monitoring'])
-        return self.monitoring
+    @cached_property
+    def monitoring(self):
+        return get_object_or_404(Monitoring, pk=self.kwargs['monitoring'])
 
     def get_permission_object(self):
-        return self.get_monitoring()
+        return self.monitoring
 
     def get_form_kwargs(self, *args, **kwargs):
         kw = super(QuestionaryCreateView, self).get_form_kwargs(*args, **kwargs)
