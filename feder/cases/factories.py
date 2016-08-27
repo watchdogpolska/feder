@@ -6,7 +6,7 @@ from feder.users.factories import UserFactory
 
 
 class CaseFactory(factory.django.DjangoModelFactory):
-    name = factory.Sequence(lambda n: 'case-{0}'.format(n))
+    name = factory.Sequence('case-{0}'.format)
     user = factory.SubFactory(UserFactory)
 
     @factory.lazy_attribute
