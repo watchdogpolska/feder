@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from atom.ext.crispy_forms.forms import HelperMixin, SingleButtonMixin
+from atom.ext.crispy_forms.forms import SingleButtonMixin
 from braces.forms import UserKwargModelFormMixin
 from django import forms
 
