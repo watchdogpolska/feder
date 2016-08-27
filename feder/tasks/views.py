@@ -11,6 +11,7 @@ from braces.views import (
     SelectRelatedMixin,
     UserFormKwargsMixin
 )
+from cached_property import cached_property
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse, reverse_lazy
@@ -45,11 +46,6 @@ class TaskListView(SelectRelatedMixin, FilterView):
         context = super(TaskListView, self).get_context_data(**kwargs)
         context['stats'] = self.object_list.survey_stats()
         return context
-"""
-class TaskListView(SelectRelatedMixin, ListView):
-    model = Task
-    select_related = ['']
-"""
 
 
 class TaskDetailView(SelectRelatedMixin, PrefetchRelatedMixin, DetailView):
@@ -89,13 +85,13 @@ class TaskCreateView(RaisePermissionRequiredMixin, UserFormKwargsMixin,
     form_class = TaskForm
     permission_required = 'monitorings.add_task'
 
-    def get_case(self):
-        self.case = get_object_or_404(Case.objects.select_related('monitoring'),
-                                      pk=self.kwargs['case'])
-        return self.case
+    @cached_property
+    def case(self):
+        return get_object_or_404(Case.objects.select_related('monitoring'),
+                                 pk=self.kwargs['case'])
 
     def get_permission_object(self):
-        return self.get_case().monitoring
+        return self.case.monitoring
 
     def get_form_kwargs(self, *args, **kwargs):
         kw = super(TaskCreateView, self).get_form_kwargs(*args, **kwargs)
