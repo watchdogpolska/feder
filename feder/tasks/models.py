@@ -161,7 +161,8 @@ class Answer(models.Model):
     blob = JSONField()
 
     def render(self, sheet=False):
-        return modulators[self.question.genre](self.question.blob).render_answer(self.blob, sheet=sheet)
+        modulator = modulators[self.question.genre](self.question.blob)
+        return modulator.render_answer(self.blob, sheet=sheet)
 
     class Meta:
         verbose_name = _("Answer")

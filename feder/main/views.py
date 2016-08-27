@@ -1,7 +1,7 @@
 
 from django.views.generic import TemplateView
-
 from feder.monitorings.models import Monitoring
+
 
 class HomeView(TemplateView):
     template_name = 'main/home.html'

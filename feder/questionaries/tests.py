@@ -1,13 +1,11 @@
 from django.core.urlresolvers import reverse
 from django.test import TestCase
+from feder.main.mixins import PermissionStatusMixin
+from feder.users.factories import UserFactory
 from guardian.shortcuts import assign_perm
 
-from feder.main.mixins import PermissionStatusMixin
-from feder.monitorings.models import Monitoring
-from feder.questionaries.models import Question, Questionary
-from feder.users.factories import UserFactory
-
 from .factories import QuestionaryFactory
+from .models import Question
 
 
 class ObjectMixin(object):
