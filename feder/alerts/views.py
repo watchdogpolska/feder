@@ -1,11 +1,11 @@
 from atom.views import ActionMessageMixin, ActionView, DeleteMessageMixin
-from braces.views import (FormValidMessageMixin, PrefetchRelatedMixin, SelectRelatedMixin,
-                          UserFormKwargsMixin)
+from braces.views import (FormValidMessageMixin, PrefetchRelatedMixin,
+                          SelectRelatedMixin, UserFormKwargsMixin)
+from cached_property import cached_property
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
 from django_filters.views import FilterView
-
 from feder.main.mixins import (AttrPermissionRequiredMixin,
                                RaisePermissionRequiredMixin)
 from feder.monitorings.models import Monitoring
@@ -16,13 +16,12 @@ from .models import Alert
 
 
 class MonitoringMixin(object):
-    def get_monitoring(self):
-        if not getattr(self, 'monitoring', None):
-            self.monitoring = get_object_or_404(Monitoring, pk=self.kwargs['monitoring'])
-        return self.monitoring
+    @cached_property
+    def monitoring(self):
+        return get_object_or_404(Monitoring, pk=self.kwargs['monitoring'])
 
     def get_permission_object(self):
-        return self.get_monitoring()
+        return self.monitoring
 
 
 class AlertListView(MonitoringMixin, RaisePermissionRequiredMixin,
@@ -36,7 +35,7 @@ class AlertListView(MonitoringMixin, RaisePermissionRequiredMixin,
 
     def get_queryset(self, *args, **kwargs):
         qs = super(AlertListView, self).get_queryset(*args, **kwargs)
-        return qs.monitoring(self.get_monitoring())
+        return qs.monitoring(self.monitoring)
 
 
 class AlertDetailView(AttrPermissionRequiredMixin, SelectRelatedMixin, DetailView):
@@ -52,12 +51,12 @@ class AlertCreateView(MonitoringMixin, UserFormKwargsMixin, CreateView):
 
     def get_form_kwargs(self, *args, **kwargs):
         r = super(AlertCreateView, self).get_form_kwargs(*args, **kwargs)
-        r['monitoring'] = self.get_monitoring()
+        r['monitoring'] = self.monitoring
         return r
 
     def get_context_data(self, **kwargs):
         context = super(AlertCreateView, self).get_context_data(**kwargs)
-        context['monitoring'] = self.get_monitoring()
+        context['monitoring'] = self.monitoring
         return context
 
     def get_form_valid_message(self):
