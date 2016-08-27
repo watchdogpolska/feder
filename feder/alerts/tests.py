@@ -3,19 +3,17 @@ from __future__ import absolute_import
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 
-from feder.monitorings.factories import MonitoringFactory
 from feder.users.factories import UserFactory
-from .models import Alert
 from feder.main.mixins import PermissionStatusMixin
+
+from .factories import AlertFactory
 
 
 class ObjectMixin(object):
     def setUp(self):
-        self.user = UserFactory(username="john", password="pass")
-        self.monitoring = self.permission_object = MonitoringFactory(user=self.user)
-        self.alert = Alert.objects.create(reason="lorem",
-                                          author=self.user,
-                                          monitoring=self.monitoring)
+        self.user = UserFactory(username="john")
+        self.alert = AlertFactory()
+        self.monitoring = self.permission_object = self.alert.monitoring
 
 
 class AlertListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
