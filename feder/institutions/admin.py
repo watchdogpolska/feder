@@ -11,6 +11,7 @@ class EmailInline(admin.StackedInline):
     model = Email
 
 
+@admin.register(Institution)
 class InstitutionAdmin(admin.ModelAdmin):
     '''
         Admin View for Institution
@@ -28,9 +29,9 @@ class InstitutionAdmin(admin.ModelAdmin):
     def get_queryset(self, *args, **kwargs):
         qs = super(InstitutionAdmin, self).get_queryset(*args, **kwargs)
         return qs.annotate(email_count=Count('email'))
-admin.site.register(Institution, InstitutionAdmin)
 
 
+@admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
     list_display = ('name', 'get_institution_count')
 
@@ -40,4 +41,3 @@ class TagAdmin(admin.ModelAdmin):
     def get_queryset(self, *args, **kwargs):
         qs = super(TagAdmin, self).get_queryset(*args, **kwargs)
         return qs.annotate(institution_count=Count('institution'))
-admin.site.register(Tag, TagAdmin)
