@@ -6,6 +6,7 @@ from feder.users.factories import UserFactory
 from guardian.shortcuts import assign_perm
 
 from .factories import MonitoringFactory
+from .models import Monitoring
 
 
 class ObjectMixin(object):
@@ -26,6 +27,18 @@ class MonitoringCreateViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
         self.client.login(username='john', password='pass')
         response = self.client.get(self.get_url())
         self.assertTemplateUsed(response, "monitorings/monitoring_form.html")
+
+    def test_assign_perm_for_creator(self):
+        assign_perm('monitorings.add_monitoring', self.user)
+        self.client.login(username='john', password='pass')
+        data = {'name': 'foo-bar-monitoring',
+                'description': 'xyz',
+                'notify_alert': True,
+                'template': 'xyz'}
+        response = self.client.post(self.get_url(), data=data)
+        self.assertEqual(response.status_code, 302)
+        monitoring = Monitoring.objects.get(name='foo-bar-monitoring')
+        self.assertTrue(self.user.has_perm('monitorings.reply', monitoring))
 
 
 class MonitoringListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):

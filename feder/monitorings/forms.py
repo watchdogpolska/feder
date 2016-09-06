@@ -10,6 +10,10 @@ from feder.users.models import User
 
 
 class MonitoringForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(MonitoringForm, self).__init__(*args, **kwargs)
+        self.instance.user = self.user
+
     class Meta:
         model = Monitoring
         fields = ['name', 'description', 'notify_alert', 'template']
