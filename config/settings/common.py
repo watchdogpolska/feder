@@ -47,6 +47,7 @@ THIRD_PARTY_APPS = (
     'guardian',
     'django_mailbox',
     'teryt_tree',
+    'bootstrap_pagination',
 )
 
 # Apps specific for this project go here.
@@ -60,7 +61,6 @@ LOCAL_APPS = (
     'feder.letters',
     'feder.questionaries',
     'feder.main',
-    'feder.easy_pagination',
     'feder.alerts',
     # Your stuff: custom apps go here
 )

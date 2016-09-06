@@ -1,4 +1,4 @@
-{% load i18n crispy_forms_tags easy_pagination_tags %}
+{% load i18n crispy_forms_tags bootstrap_pagination %}
 {# task_filter.html use own copy #}
 <div class="page-header">
     <h1>{% trans title %}</h1>
@@ -18,7 +18,8 @@
         </div>
         {% endfor %}
 
-        {% paginator %}
+        {% bootstrap_pager page_obj %}
+
     </div>
 
     <div class="col-sm-4 col-sm-pull-8">

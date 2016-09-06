@@ -1,5 +1,5 @@
 {% extends 'tasks/base.html' %}
-{% load i18n crispy_forms_tags easy_pagination_tags %}
+{% load i18n crispy_forms_tags bootstrap_pagination %}
 
 {% block content %}
 <div class="page-header">
@@ -16,7 +16,8 @@
             </div>
             {% endfor %}
 
-            {% paginator %}
+            {% bootstrap_pager page_obj %}
+
         {% else %}
         <div class="gray">
             <p>
