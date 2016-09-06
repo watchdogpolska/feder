@@ -34,10 +34,9 @@ class CaseDetailView(SelectRelatedMixin, PrefetchRelatedMixin, DetailView):
     select_related = ['user', 'monitoring', 'institution']
     prefetch_related = ['letter_set']
 
-    def get_context_data(self, **kwargs):
-        context = super(CaseDetailView, self).get_context_data(**kwargs)
-        context['letter_list'] = (self.object.letter_set.for_milestone().all())
-        return context
+    def get_queryset(self, *args, **kwargs):
+        qs = super(CaseDetailView, self).get_queryset(*args, **kwargs)
+        return qs.with_milestone()
 
 
 class CaseCreateView(RaisePermissionRequiredMixin, UserFormKwargsMixin,

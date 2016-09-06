@@ -2,6 +2,7 @@ from autoslug.fields import AutoSlugField
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db import models
+from django.db.models import Prefetch
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
@@ -19,6 +20,13 @@ class CaseQuerySet(models.QuerySet):
     def area(self, jst):
         return self.filter(institution__jst__tree_id=jst.tree_id,
                            institution__jst__lft__range=(jst.lft, jst.rght))
+
+    def with_milestone(self):
+        from feder.letters.models import Letter
+        queryset = Letter.objects.for_milestone().all()
+        return self.prefetch_related(Prefetch(lookup='letter_set',
+                                              queryset=queryset,
+                                              to_attr='milestone'))
 
 
 class Case(TimeStampedModel):

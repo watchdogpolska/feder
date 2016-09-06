@@ -42,8 +42,8 @@
             {% trans 'Letters' %}
         </h2>
 
-        {% if letter_list %}
-        {% include 'letters/_milestone_list.html' with object_list=letter_list %}
+        {% if object.milestone %}
+        {% include 'letters/_milestone_list.html' with object_list=object.milestone %}
         {% else %}
         <div class="gray">
             {% trans 'No rows.' %}
