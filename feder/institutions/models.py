@@ -3,6 +3,7 @@ from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
+from model_utils.models import TimeStampedModel
 
 from feder.teryt.models import JST
 
@@ -18,6 +19,9 @@ class InstitutionQuerySet(models.QuerySet):
         return self.filter(jst__tree_id=jst.tree_id,
                            jst__lft__range=(jst.lft, jst.rght))
 
+    def with_accurate_email(self):
+        return self.prefetch_related('email_set')
+
 
 @python_2_unicode_compatible
 class Institution(models.Model):
@@ -26,8 +30,6 @@ class Institution(models.Model):
     tags = models.ManyToManyField('Tag',
                                   blank=True,
                                   verbose_name=_("Tag"))
-    address = models.EmailField(verbose_name=_("E-mail"),
-                                help_text=_("E-mail address used to contact with institutions"))
     jst = models.ForeignKey(JST,
                             limit_choices_to={'category__level': 3},
                             verbose_name=_('Unit of administrative division'),
@@ -44,11 +46,26 @@ class Institution(models.Model):
     def get_absolute_url(self):
         return reverse('institutions:details', kwargs={'slug': self.slug})
 
+    @property
+    def accurate_email(self):
+        try:
+            self._prefetched_objects_cache['email']
+            return max(self.email_set.all(), key=(lambda x: (x.priority, x.created)))
+        except (ValueError):  # max() arg is an empty sequence
+            return None
+        except (AttributeError, KeyError):
+            try:
+                return self.email_set.order_by('priority', 'created')[:1].get()
+            except Email.DoesNotExist:
+                return None
+
 
 @python_2_unicode_compatible
-class Email(models.Model):
+class Email(TimeStampedModel):
     institution = models.ForeignKey(Institution, verbose_name=_("Institution"))
     email = models.EmailField(verbose_name=_("E-mail"), unique=True)
+    priority = models.SmallIntegerField(verbose_name=_("Priority of usage"),
+                                        default=0)
 
     class Meta:
         verbose_name = _("Email")

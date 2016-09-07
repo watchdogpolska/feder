@@ -8,6 +8,17 @@ from django.contrib import admin
 from django.http import HttpResponseServerError
 from django.template import Context, loader
 from django.views.generic import TemplateView
+from rest_framework import routers
+from teryt_tree.rest_framework_ext.viewsets import \
+    JednostkaAdministracyjnaViewSet
+
+from feder.institutions.viewsets import InstitutionViewSet, TagViewSet, EmailViewSet
+
+router = routers.DefaultRouter()
+router.register(r'institutions', InstitutionViewSet)
+router.register(r'tags', TagViewSet)
+router.register(r'teryt', JednostkaAdministracyjnaViewSet)
+router.register(r'email', EmailViewSet)
 
 urlpatterns = [
     url(r'^', include('feder.main.urls', namespace="main")),
@@ -29,7 +40,7 @@ urlpatterns = [
     url(r'^alerts/', include('feder.alerts.urls', namespace="alerts")),
     url(r'^letters/', include('feder.letters.urls', namespace="letters")),
     url(r'^teryt/', include('feder.teryt.urls', namespace="teryt")),
-
+    url(r'^api/', include(router.urls)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

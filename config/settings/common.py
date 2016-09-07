@@ -48,6 +48,7 @@ THIRD_PARTY_APPS = (
     'django_mailbox',
     'teryt_tree',
     'bootstrap_pagination',
+    'rest_framework'
 )
 
 # Apps specific for this project go here.
@@ -287,3 +288,18 @@ FILTERS_HELP_TEXT_FILTER = False
 
 SILENCED_SYSTEM_CHECKS = ["1_8.W001",  # we added TEMPLATES settings
                           ]
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 100,
+    'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',)
+}

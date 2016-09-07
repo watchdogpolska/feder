@@ -117,14 +117,14 @@ class Letter(TimeStampedModel):
         return EmailMessage(subject=self.case.monitoring,
                             from_email=self.case.email,
                             reply_to=[self.case.email],
-                            to=[self.case.institution.address],
+                            to=[self.case.institution.accurate_email.email],
                             body=self.email_body(),
                             headers=headers)
 
     def send(self, commit=True, only=False):
         message = self._construct_message()
         text = message.message().as_bytes()
-        self.email = self.case.institution.address
+        self.email = self.case.institution.accurate_email.email
         self.eml.save('%s.eml' % uuid.uuid4(), ContentFile(text), save=False)
         if commit:
             self.save(update_fields=['eml', 'email'] if only else None)
