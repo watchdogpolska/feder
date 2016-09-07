@@ -1,4 +1,5 @@
 from autoslug.fields import AutoSlugField
+from cached_property import cached_property
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
@@ -45,7 +46,7 @@ class Institution(models.Model):
     def get_absolute_url(self):
         return reverse('institutions:details', kwargs={'slug': self.slug})
 
-    @property
+    @cached_property
     def accurate_email(self):
         try:
             self._prefetched_objects_cache['email']
@@ -54,7 +55,7 @@ class Institution(models.Model):
             return None
         except (AttributeError, KeyError):
             try:
-                return self.email_set.order_by('priority', 'created')[:1].get()
+                return self.email_set.order_by('-priority', 'created')[:1].get()
             except Email.DoesNotExist:
                 return None
 
@@ -69,6 +70,8 @@ class Email(TimeStampedModel):
     class Meta:
         verbose_name = _("Email")
         verbose_name_plural = _("Emails")
+        unique_together = (('institution', 'email', ))
+        ordering = ['priority', 'institution', ]
 
     def __str__(self):
         return self.email
@@ -76,7 +79,7 @@ class Email(TimeStampedModel):
 
 @python_2_unicode_compatible
 class Tag(models.Model):
-    name = models.CharField(max_length=15, verbose_name=_("Name"))
+    name = models.CharField(max_length=15, unique=True, verbose_name=_("Name"))
     slug = AutoSlugField(populate_from='name', verbose_name=_("Slug"))
 
     def __str__(self):
@@ -88,3 +91,4 @@ class Tag(models.Model):
     class Meta:
         verbose_name = _("Tag")
         verbose_name_plural = _("Tags")
+        ordering = ['name', ]

@@ -1,7 +1,7 @@
 import factory
 from feder.teryt.factories import JSTFactory
 
-from .models import Institution, Email
+from .models import Institution, Email, Tag
 
 
 class EmailFactory(factory.django.DjangoModelFactory):
@@ -16,7 +16,12 @@ class InstitutionFactory(factory.django.DjangoModelFactory):
     name = factory.Sequence('institution-{0}'.format)
     jst = factory.SubFactory(JSTFactory)
 
-    email = factory.RelatedFactory(EmailFactory, 'institution')
-
     class Meta:
         model = Institution
+
+
+class TagFactory(factory.django.DjangoModelFactory):
+    name = factory.Sequence('tag-{0}'.format)
+
+    class Meta:
+        model = Tag

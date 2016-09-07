@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from .models import Email, Institution, Tag
+from feder.teryt.models import JednostkaAdministracyjna
 
 
 class EmailSerializer(serializers.HyperlinkedModelSerializer):
@@ -9,10 +10,34 @@ class EmailSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('pk', 'email', 'priority', 'institution')
 
 
+class EmailNestedSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Email
+        fields = ('pk', 'email', 'priority')
+
+
+class TagNestedSerializer(serializers.StringRelatedField):
+    def to_internal_value(self, value):
+        tag, _ = Tag.objects.get_or_create(name=value)
+        return tag
+
+
 class InstitutionSerializer(serializers.HyperlinkedModelSerializer):
     on_site = serializers.CharField(source='get_absolute_url', read_only=True)
     slug = serializers.CharField(read_only=True)
     accurate_email = EmailSerializer(read_only=True)
+    tags = TagNestedSerializer(many=True, required=False)
+    email_set = EmailNestedSerializer(many=True, required=False)
+    jst = serializers.PrimaryKeyRelatedField(queryset=JednostkaAdministracyjna.objects)
+
+    def create(self, validated_data):
+        tags_data = validated_data.pop('tags', [])
+        emails_data = validated_data.pop('email_set', [])
+        institution = Institution.objects.create(**validated_data)
+        institution.tags.set(tags_data)
+        for email_data in emails_data:
+            Email.objects.create(institution=institution, **email_data)
+        return institution
 
     class Meta:
         model = Institution
