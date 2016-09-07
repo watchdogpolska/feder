@@ -1,6 +1,8 @@
 from __future__ import print_function
+
 import os
 import uuid
+from textwrap import TextWrapper
 
 import claw
 from atom.models import AttachmentBase
@@ -21,6 +23,7 @@ from model_utils.models import TimeStampedModel
 
 from feder.cases.models import Case
 from feder.institutions.models import Institution
+from .utils import email_wrapper
 
 claw.init()
 
@@ -109,7 +112,8 @@ class Letter(TimeStampedModel):
         return letter
 
     def email_body(self):
-        return self.body.replace('{{EMAIL}}', self.case.email or '')
+        body = self.body.replace('{{EMAIL}}', self.case.email)
+        return "{0}\n{1}".format(body, email_wrapper(self.quote))
 
     def _construct_message(self):
         headers = {'Return-Receipt-To': self.case.email,
