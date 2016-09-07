@@ -1,78 +1,76 @@
 from django.core import mail
 from django.test import TestCase
 
-from feder.cases.factories import CaseFactory
 from feder.cases.models import Case
-from feder.institutions.factories import InstitutionFactory
+from feder.institutions.factories import EmailFactory, InstitutionFactory
 from feder.monitorings.factories import MonitoringFactory
 from feder.users.factories import UserFactory
 
 from ..models import Letter
+from ..factories import IncomingLetterFactory, OutgoingLetterFactory, LetterFactory
 
 
 class ModelTestCase(TestCase):
-    def setUp(self):
-        self.user = UserFactory(username="rob")
-        self.l_u = Letter.objects.create(author_user=self.user,
-                                         case=CaseFactory(user=self.user),
-                                         title="Wniosek",
-                                         body="Prosze przeslac informacje",
-                                         email="X@wykop.pl")
-
-        self.l_i = Letter.objects.create(author_institution=InstitutionFactory(),
-                                         case=CaseFactory(user=self.user),
-                                         title="Odpowiedz",
-                                         body="W zalaczeniu.",
-                                         email="karyna@gmina.pl")
-
     def test_is_incoming(self):
-        self.assertTrue(self.l_i.is_incoming)
-        self.assertFalse(self.l_u.is_incoming)
+        self.assertTrue(IncomingLetterFactory().is_incoming)
+        self.assertFalse(OutgoingLetterFactory().is_incoming)
 
     def test_is_outgoing(self):
-        self.assertTrue(self.l_u.is_outgoing)
-        self.assertFalse(self.l_i.is_outgoing)
+        self.assertTrue(OutgoingLetterFactory().is_outgoing)
+        self.assertFalse(IncomingLetterFactory().is_outgoing)
 
-    def test_author(self):
-        self.assertEqual(self.l_u.author, self.l_u.author_user)
-        self.assertEqual(self.l_i.author, self.l_i.author_institution)
+    def test_author_for_user(self):
+        obj = OutgoingLetterFactory()
+        self.assertEqual(obj.author, obj.author_user)
 
-    def test_author_setter(self):
-        u = UserFactory(username="smith")
-        self.l_u.author = u
-        self.assertEqual(self.l_u.author_user, u)
+    def test_author_for_institution(self):
+        obj = IncomingLetterFactory()
+        self.assertEqual(obj.author, obj.author_institution)
 
-        i = InstitutionFactory()
-        self.l_i.author = i
-        self.assertEqual(self.l_i.author_institution, i)
+    def test_author_setter_for_user(self):
+        obj = LetterFactory()
+        user = UserFactory(username="smith")
+        obj.author = user
+        self.assertEqual(obj.author_user, user)
 
+    def test_authr_setter_for_institution(self):
+        obj = LetterFactory()
+        institution = InstitutionFactory()
+        obj.author = institution
+        self.assertEqual(obj.author_institution, institution)
+
+    def test_author_setter_for_failable(self):
         with self.assertRaises(ValueError):
-            self.l_i.author = self.l_i
+            LetterFactory().author = MonitoringFactory()
 
     def test_queryset_is_incoming(self):
-        self.assertEqual(Letter.objects.is_outgoing().get(), self.l_u)
+        self.assertTrue(Letter.objects.is_incoming().
+                        filter(pk=IncomingLetterFactory().pk).exists())
+        self.assertFalse(Letter.objects.is_incoming().
+                         filter(pk=OutgoingLetterFactory().pk).exists())
 
     def test_queryset_is_outgoing(self):
-        self.assertEqual(Letter.objects.is_incoming().get(), self.l_i)
+        self.assertFalse(Letter.objects.is_outgoing().
+                         filter(pk=IncomingLetterFactory().pk).exists())
+        self.assertTrue(Letter.objects.is_outgoing().
+                        filter(pk=OutgoingLetterFactory().pk).exists())
 
     def test_send(self):
-        self.l_u.send()
+        outgoing = OutgoingLetterFactory()
+        email = EmailFactory(priority=25, institution=outgoing.case.institution)
+        outgoing.send()
         self.assertEqual(len(mail.outbox), 1)
-        self.assertIn(self.l_u.email, mail.outbox[0].to)
+        self.assertIn(email.email, mail.outbox[0].to)
+        self.assertEqual(outgoing.email, email.email)
 
-    def test_attachment_count(self):
-        self.assertFalse(hasattr(Letter.objects.all()[0], 'attachment_count'))
-
-
-class NewLetterTestCase(TestCase):
-    def setUp(self):
-        self.user = UserFactory(username="tom")
-
-    def test_send_new(self):
-        Letter.send_new_case(user=self.user,
-                             monitoring=MonitoringFactory(user=self.user),
-                             institution=InstitutionFactory(),
+    def test_send_new_case(self):
+        user = UserFactory(username="tom")
+        email = EmailFactory()
+        Letter.send_new_case(user=user,
+                             monitoring=MonitoringFactory(),
+                             institution=email.institution,
                              text="Przeslac informacje szybko")
         self.assertEqual(Case.objects.count(), 1)
         self.assertEqual(Letter.objects.count(), 1)
         self.assertEqual(len(mail.outbox), 1)
+        self.assertIn(email.email, mail.outbox[0].to)
