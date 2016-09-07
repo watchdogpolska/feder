@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from .models import Email, Institution, Tag
-from feder.teryt.models import JednostkaAdministracyjna
+from feder.teryt.models import JST
 
 
 class EmailSerializer(serializers.HyperlinkedModelSerializer):
@@ -28,7 +28,7 @@ class InstitutionSerializer(serializers.HyperlinkedModelSerializer):
     accurate_email = EmailSerializer(read_only=True)
     tags = TagNestedSerializer(many=True, required=False)
     email_set = EmailNestedSerializer(many=True, required=False)
-    jst = serializers.PrimaryKeyRelatedField(queryset=JednostkaAdministracyjna.objects)
+    jst = serializers.PrimaryKeyRelatedField(queryset=JST.objects)
 
     def create(self, validated_data):
         tags_data = validated_data.pop('tags', [])

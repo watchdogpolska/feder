@@ -1,15 +1,16 @@
 # -*- coding: utf-8 -*-
 from django.core.urlresolvers import reverse
-from django.test import TestCase
+from django.test import RequestFactory, TestCase
 from django.utils.encoding import force_text
 
 from feder.main.mixins import PermissionStatusMixin
+from feder.teryt.factories import JSTFactory
 from feder.users.factories import UserFactory
 
 from .factories import EmailFactory, InstitutionFactory, TagFactory
 from .models import Institution
 from .serializers import InstitutionSerializer
-from feder.teryt.factories import JSTFactory
+from .views import InstitutionAutocomplete, TagAutocomplete
 
 
 class InstitutionTestCase(TestCase):
@@ -163,3 +164,29 @@ class InstitutionDeleteViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase
 
     def get_url(self):
         return reverse('institutions:delete', kwargs={'slug': self.institution.slug})
+
+
+class InstitutionAutocompleteTestCase(TestCase):
+    def setUp(self):
+        self.factory = RequestFactory()
+
+    def test_filter_by_name(self):
+        InstitutionFactory(name='123')
+        InstitutionFactory(name='456')
+        request = self.factory.get('/customer/details', data={'q': '123'})
+        response = InstitutionAutocomplete.as_view()(request)
+        self.assertContains(response, '123')
+        self.assertNotContains(response, '456')
+
+
+class TagAutocompleteTestCase(TestCase):
+    def setUp(self):
+        self.factory = RequestFactory()
+
+    def test_filter_by_name(self):
+        TagFactory(name='123')
+        TagFactory(name='456')
+        request = self.factory.get('/customer/details', data={'q': '123'})
+        response = TagAutocomplete.as_view()(request)
+        self.assertContains(response, '123')
+        self.assertNotContains(response, '456')
