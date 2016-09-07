@@ -28,6 +28,13 @@ class CaseQuerySet(models.QuerySet):
                                               queryset=queryset,
                                               to_attr='milestone'))
 
+    def by_msg(self, message):
+        email_object = message.get_email_object()
+        address = [message.to_addresses]
+        if 'Envelope-To' in email_object:
+            address += [email_object.get('Envelope-To'), ]
+        return self.filter(email__in=address)
+
 
 class Case(TimeStampedModel):
     name = models.CharField(verbose_name=_("Name"), max_length=50)

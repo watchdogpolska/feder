@@ -1,13 +1,19 @@
+from os.path import dirname, join
+
 from django.core import mail
 from django.test import TestCase
+from django_mailbox.models import Mailbox
 
+from email import message_from_file
+from feder.cases.factories import CaseFactory
 from feder.cases.models import Case
 from feder.institutions.factories import EmailFactory, InstitutionFactory
 from feder.monitorings.factories import MonitoringFactory
 from feder.users.factories import UserFactory
 
-from ..models import Letter
-from ..factories import IncomingLetterFactory, OutgoingLetterFactory, LetterFactory
+from ..factories import (IncomingLetterFactory, LetterFactory,
+                         OutgoingLetterFactory)
+from ..models import Letter, mail_process
 
 
 class ModelTestCase(TestCase):
@@ -78,3 +84,28 @@ class ModelTestCase(TestCase):
         self.assertEqual(Letter.objects.count(), 1)
         self.assertEqual(len(mail.outbox), 1)
         self.assertIn(email.email, mail.outbox[0].to)
+
+
+class IncomingEmailTestCase(TestCase):
+    def setUp(self):
+        self.mailbox = Mailbox.objects.create(from_email='from@example.com')
+
+    @staticmethod
+    def _get_email_object(filename):  # See coddingtonbear/django-mailbox#89
+        path = join(dirname(__file__), 'messages', filename)
+        fp = open(path, 'rb')
+        return message_from_file(fp)
+
+    def get_message(self, filename):
+        message = self._get_email_object(filename)
+        msg = self.mailbox._process_message(message)
+        msg.save()
+        return msg
+
+    def test_case_identification(self):
+        case = CaseFactory(email='porady@REDACTED')
+        message = self.get_message('basic_message.eml')
+        mail_process(sender=self.mailbox, message=message)
+        letter = message.letter_set.all()[0]
+        self.assertEqual(letter.case, case)
+        self.assertEqual(letter.attachment_set.count(), 2)

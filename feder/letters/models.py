@@ -145,13 +145,14 @@ class Letter(TimeStampedModel):
             quote = message.text.replace(text, '')
 
         # Create Letter
-        obj = cls.objects.create(author_institution=case.office,
+        obj = cls.objects.create(author_institution=case.institution,
                                  email=message.from_address[0],
                                  case=case,
                                  title=message.subject,
                                  body=text,
                                  quote=quote,
-                                 eml=File(message.eml, message.eml.name))
+                                 eml=File(message.eml, message.eml.name),
+                                 message=message)
         attachments = []
         # Append attachments
         for attachment in message.attachments.all():
@@ -173,10 +174,10 @@ class Attachment(AttachmentBase):
 @receiver(message_received)
 def mail_process(sender, message, **args):
     try:
-        case = Case.objects.get(email=message.to_addresses[0])
+        case = Case.objects.by_msg(message).get()
     except Case.DoesNotExist:
         print("Message #{pk} skip, due not recognized address {to}".
-              format(pk=message.pk, to=message.to_addresses[0]))
+              format(pk=message.pk, to=message.to_addresses))
         return
     letter, attachments = Letter.process_incoming(case, message)
     print("Message #{message} registered in case #{case} as letter #{letter}".
