@@ -60,30 +60,27 @@ class InstitutionTestCase(TestCase):
 
 class InstitutionSerializerTestCase(TestCase):
     def setUp(self):
-        self.jst = JSTFactory()
-
-    def test_create_institution(self):
-        serializer = InstitutionSerializer(data={
-            'name': 'X',
-            'jst': self.jst.pk,
-        })
-        self.assertTrue(serializer.is_valid(), serializer.errors)
-        self.assertTrue(serializer.save())
-
-    def test_create_institution_with_tags_and_email(self):
-        TagFactory(name="X")
-        serializer = InstitutionSerializer(data={
+        self.data = {
             "name": "xxx",
             "slug": "xxx",
             "tags": [
                 "blabla", "X", "Z"
             ],
-            "jst": self.jst.pk,
-            "email_set": [{
-                "email": "example-2@example.com",
-            }
-            ]
+            "jst": JSTFactory().pk,
+            "email_set": [{"email": "example-2@example.com"}, ]
+        }
+
+    def test_create_institution(self):
+        serializer = InstitutionSerializer(data={
+            'name': 'X',
+            'jst': JSTFactory().pk,
         })
+        self.assertTrue(serializer.is_valid(), serializer.errors)
+        self.assertTrue(serializer.save())
+
+    def test_create_institution_with_tags_and_email(self):
+        TagFactory(name="X")  # for colission tag name
+        serializer = InstitutionSerializer(data=self.data)
         self.assertTrue(serializer.is_valid(), serializer.errors)
         obj = serializer.save()
         self.assertQuerysetEqual(qs=obj.tags.all(),
@@ -92,6 +89,31 @@ class InstitutionSerializerTestCase(TestCase):
         self.assertQuerysetEqual(qs=obj.email_set.all(),
                                  values=["example-2@example.com"],
                                  transform=force_text)
+
+    def test_update_institution_with_tags_and_email(self):
+        institution = InstitutionFactory()
+
+        self.data['pk'] = institution.pk
+        del self.data['email_set']
+
+        serializer = InstitutionSerializer(institution, data=self.data)
+        self.assertTrue(serializer.is_valid(), serializer.errors)
+        obj = serializer.save()
+        self.assertQuerysetEqual(qs=obj.tags.all(),
+                                 values=["blabla", "X", "Z"],
+                                 transform=force_text)
+        self.assertEqual(Institution.objects.count(), 1)  # updated
+
+    def test_update_email_set_protected(self):
+        institution = InstitutionFactory()
+        email = EmailFactory(institution=institution)
+        self.data['pk'] = institution.pk
+        serializer = InstitutionSerializer(institution, data=self.data)
+        self.assertTrue(serializer.is_valid())
+        with self.assertRaises(AssertionError):
+            serializer.save()
+        institution.refresh_from_db()
+        self.assertQuerysetEqual(institution.email_set.all(), [repr(email)])
 
 
 class ObjectMixin(object):
