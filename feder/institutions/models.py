@@ -31,7 +31,6 @@ class Institution(models.Model):
                                   blank=True,
                                   verbose_name=_("Tag"))
     jst = models.ForeignKey(JST,
-                            limit_choices_to={'category__level': 3},
                             verbose_name=_('Unit of administrative division'),
                             db_index=True)
     objects = InstitutionQuerySet.as_manager()
