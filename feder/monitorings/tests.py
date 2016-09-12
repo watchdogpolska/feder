@@ -7,6 +7,30 @@ from guardian.shortcuts import assign_perm
 
 from .factories import MonitoringFactory
 from .models import Monitoring
+from .forms import MonitoringForm
+
+EXAMPLE_DATA = {'name': 'foo-bar-monitoring',
+                'description': 'xyz',
+                'notify_alert': True,
+                'template': 'xyz {{EMAIL}}'}
+
+
+class MonitoringFormTestCase(TestCase):
+    def setUp(self):
+        self.user = UserFactory(username="john")
+
+    def test_form_save_user(self):
+        form = MonitoringForm(EXAMPLE_DATA.copy(), user=self.user)
+        self.assertTrue(form.is_valid(), msg=form.errors)
+        obj = form.save()
+        self.assertEqual(obj.user, self.user)
+
+    def test_form_template_validator(self):
+        data = EXAMPLE_DATA.copy()
+        data['template'] = 'xyzyyz'
+        form = MonitoringForm(data, user=self.user)
+        self.assertFalse(form.is_valid())
+        self.assertIn('template', form.errors)
 
 
 class ObjectMixin(object):
@@ -31,10 +55,7 @@ class MonitoringCreateViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
     def test_assign_perm_for_creator(self):
         assign_perm('monitorings.add_monitoring', self.user)
         self.client.login(username='john', password='pass')
-        data = {'name': 'foo-bar-monitoring',
-                'description': 'xyz',
-                'notify_alert': True,
-                'template': 'xyz'}
+        data = EXAMPLE_DATA.copy()
         response = self.client.post(self.get_url(), data=data)
         self.assertEqual(response.status_code, 302)
         monitoring = Monitoring.objects.get(name='foo-bar-monitoring')
