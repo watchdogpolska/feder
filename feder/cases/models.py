@@ -57,7 +57,7 @@ class Case(TimeStampedModel):
         return reverse('cases:details', kwargs={'slug': self.slug})
 
     def update_email(self, commit=True):
-        self.email = settings.CASE_EMAIL_TEMPLATE.format(self.pk)
+        self.email = settings.CASE_EMAIL_TEMPLATE.format(pk=self.pk)
         if commit:
             self.save()
 

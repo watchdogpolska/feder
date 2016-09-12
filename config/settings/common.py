@@ -280,7 +280,7 @@ LOGGING = {
 ANONYMOUS_USER_ID = -1
 GUARDIAN_RAISE_403 = True
 
-CASE_EMAIL_TEMPLATE = "sprawa-{0}@dane.siecobywatelska.pl"
+CASE_EMAIL_TEMPLATE = env("CASE_EMAIL_TEMPLATE", default="sprawa-{pk}@example.com")
 
 DJANGO_MAILBOX_STORE_ORIGINAL_MESSAGE = True
 
