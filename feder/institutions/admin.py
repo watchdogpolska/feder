@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.db.models import Count
+from django.utils.translation import ugettext_lazy as _
 
 from .models import Email, Institution, Tag
 
@@ -25,6 +26,8 @@ class InstitutionAdmin(admin.ModelAdmin):
 
     def get_email_count(self, obj):
         return obj.email_count
+    get_email_count.admin_order_field = 'email_count'
+    get_email_count.short_description = _("Email count")
 
     def get_queryset(self, *args, **kwargs):
         qs = super(InstitutionAdmin, self).get_queryset(*args, **kwargs)
@@ -37,6 +40,8 @@ class TagAdmin(admin.ModelAdmin):
 
     def get_institution_count(self, obj):
         return obj.institution_count
+    get_institution_count.admin_order_field = 'institution_count'
+    get_institution_count.short_description = _("Institution count")
 
     def get_queryset(self, *args, **kwargs):
         qs = super(TagAdmin, self).get_queryset(*args, **kwargs)
