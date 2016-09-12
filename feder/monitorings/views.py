@@ -224,8 +224,8 @@ class MonitoringAssignView(RaisePermissionRequiredMixin, FilterView):
                                  text=self.monitoring.template)
             count += 1
         msg = _("%(count)d institutions was assigned " +
-                "to %(monitoring)s") % {'count': count,
-                                        'monitoring': self.monitoring}
+                "to %(monitoring)s. The request was sent.") % \
+            {'count': count, 'monitoring': self.monitoring}
         messages.success(self.request, msg)
         return HttpResponseRedirect(request.get_full_path())
 
