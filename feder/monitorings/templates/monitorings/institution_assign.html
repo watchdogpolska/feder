@@ -45,7 +45,9 @@
           {% blocktrans with monitoring=monitoring %}Assign selected institutions to {{monitoring}} and send request{%endblocktrans %}
         </button>
     </form>
-        {% bootstrap_paginate page_obj %}
+
+    {% bootstrap_paginate page_obj %}
+
     {% endif %}
     </div>
 
