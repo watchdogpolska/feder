@@ -1,5 +1,5 @@
 {% extends 'monitorings/base.html' %}
-{% load crispy_forms_tags i18n %}
+{% load crispy_forms_tags i18n bootstrap_pagination  %}
 
 {% block breadcrumbs %}
 <ol class="breadcrumb">
@@ -45,6 +45,7 @@
           {% blocktrans with monitoring=monitoring %}Assign selected institutions to {{monitoring}} and send request{%endblocktrans %}
         </button>
     </form>
+        {% bootstrap_paginate page_obj %}
     {% endif %}
     </div>
 
