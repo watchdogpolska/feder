@@ -189,6 +189,7 @@ class MonitoringAssignView(RaisePermissionRequiredMixin, FilterView):
     filterset_class = InstitutionFilter
     permission_required = 'monitorings.change_monitoring'
     template_name = 'monitorings/institution_assign.html'
+    paginate_by = 50
 
     def get_queryset(self, *args, **kwargs):
         qs = super(MonitoringAssignView, self).get_queryset(*args, **kwargs)
