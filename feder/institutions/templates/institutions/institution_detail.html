@@ -24,7 +24,7 @@
 <div class="row">
     <div class="col-md-4">
         <div class="red">
-            <p>{% trans "E-mail"%}: {{object.address}}</p>
+            <p>{% trans "E-mail"%}: {{object.accurate_email.email}}</p>
             {% if object.tags.all %}
                 <p>{% trans "Tags"%}: {% for tag in object.tags.all %}<a class="link-tag" href="{{tag.get_absolute_url}}">{{tag}}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</p>
             {% endif %}
