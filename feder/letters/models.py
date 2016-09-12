@@ -113,7 +113,7 @@ class Letter(TimeStampedModel):
 
     def email_body(self):
         body = self.body.replace('{{EMAIL}}', self.case.email)
-        return "{0}\n{1}".format(body, email_wrapper(self.quote))
+        return u"{0}\n{1}".format(body, email_wrapper(self.quote))
 
     def _construct_message(self):
         headers = {'Return-Receipt-To': self.case.email,
