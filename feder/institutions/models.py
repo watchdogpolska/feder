@@ -65,7 +65,8 @@ class Email(TimeStampedModel):
     institution = models.ForeignKey(Institution, verbose_name=_("Institution"))
     email = models.EmailField(verbose_name=_("E-mail"), unique=True)
     priority = models.SmallIntegerField(verbose_name=_("Priority of usage"),
-                                        default=0)
+                                        default=0,
+                                        help_text=_("Respect of confidence"))
 
     class Meta:
         verbose_name = _("Email")
