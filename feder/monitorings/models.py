@@ -9,6 +9,8 @@ from django.utils.translation import ugettext_lazy as _
 from guardian.models import GroupObjectPermissionBase, UserObjectPermissionBase
 from model_utils.models import TimeStampedModel
 
+from .validators import validate_template_syntax
+
 _('Monitorings index')
 _('Can add Monitoring')
 _('Can change Monitoring')
@@ -28,7 +30,9 @@ class Monitoring(TimeStampedModel):
     slug = AutoSlugField(populate_from='name', verbose_name=_("Slug"), unique=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("User"))
     description = models.TextField(verbose_name=_("Description"), blank=True)
-    template = models.TextField(verbose_name=_("Template"))
+    template = models.TextField(verbose_name=_("Template"),
+                                help_text=_("Use {{EMAIL}} for insert reply address"),
+                                validators=[validate_template_syntax])
     notify_alert = models.BooleanField(default=True,
                                        verbose_name=_("Notify about alerts"),
                                        help_text=NOTIFY_HELP)
@@ -65,7 +69,7 @@ class Monitoring(TimeStampedModel):
     def get_users_with_perm(self, perm=None):
         qs = get_user_model().objects.filter(**{self.perm_model + '__content_object': self})
         if perm:
-            qs = qs.filter(**{self.perm_model+'__permission__codename': perm})
+            qs = qs.filter(**{self.perm_model + '__permission__codename': perm})
         return qs.distinct().all()
 
     def get_absolute_url(self):
