@@ -1,20 +1,29 @@
 import django_filters
 from dal import autocomplete
 from django.utils.translation import ugettext_lazy as _
-from teryt_tree.filters import JSTModelChoice
+from teryt_tree.dal_ext.filters import VoivodeshipFilter, CountyFilter, CommunityFilter
 
 from .models import Institution
 
 
 class InstitutionFilter(django_filters.FilterSet):
-    voivodeship = JSTModelChoice(level=1, label=_("Voivodeship"))
-    county = JSTModelChoice(level=2, label=_("County"))
-    community = JSTModelChoice(level=3, label=_("Community"))
+    voivodeship = VoivodeshipFilter(
+        widget=autocomplete.ModelSelect2(url='teryt:voivodeship-autocomplete')
+    )
+    county = CountyFilter(
+        widget=autocomplete.ModelSelect2(url='teryt:county-autocomplete',
+                                         forward=['voivodeship'])
+    )
+    community = CommunityFilter(
+        widget=autocomplete.ModelSelect2(url='teryt:community-autocomplete',
+                                         forward=['county'])
+    )
 
     def __init__(self, *args, **kwargs):
         super(InstitutionFilter, self).__init__(*args, **kwargs)
         self.filters['name'].lookup_type = 'icontains'
-        self.filters['tags'].widget = autocomplete.ModelSelect2(url='institutions:tag_autocomplete')
+        widget = autocomplete.Select2Multiple(url='institutions:tag_autocomplete')
+        self.filters['tags'].widget = widget
 
     class Meta:
         model = Institution
