@@ -7,12 +7,13 @@ import requests
 # TODO: Load community and voivodeship
 
 
-def insert_row(s, host, name, email, code):
-    code = "%7d" % (int(code))
-    code = code[:2] if code[2:] == '0' * 5 else code  # voivodeship
+def insert_row(s, host, name, email, code, tags):
+    code = "%07d" % (int(code))
+    code = code[:2] if code[2:] == "0" * 5 else code  # voivodeship
+    code = code[:4] if code[4:] == "0" * 3 else code  # community (TODO: Test)
     response = s.post(url="%s/api/institutions/" % (host,), json={
         "name": name,
-        "tags": ["wojewoda"],
+        "tags": tags,
         "jst": code,
         "email_set": [{'email': x} for x in email.split(',')]
     })
@@ -59,7 +60,8 @@ def main():
                    host=args.host,
                    name=unicode(row['Organ'], 'utf-8'),
                    email=unicode(row['E-mail'], 'utf-8'),
-                   code=unicode(row['TERC'], 'utf-8'))
+                   code=unicode(row['TERC'], 'utf-8'),
+                   tags=args.tags)
 
 
 if __name__ == "__main__":
