@@ -5,10 +5,11 @@ from braces.views import (FormValidMessageMixin, LoginRequiredMixin,
                           SelectRelatedMixin, UserFormKwargsMixin)
 from dal import autocomplete
 from django.core.urlresolvers import reverse_lazy
+from django.db.models import Count
+from django.utils import six
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
 from django_filters.views import FilterView
-
 from feder.cases.models import Case
 from feder.main.mixins import ExtraListMixin
 
@@ -81,7 +82,10 @@ class InstitutionAutocomplete(autocomplete.Select2QuerySetView):
 
 class TagAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
-        qs = Tag.objects
+        qs = Tag.objects.annotate(institution_count=Count('institution'))
         if self.q:
             qs = qs.filter(name__icontains=self.q)
-        return qs.all()
+        return qs.order_by('-institution_count').all()
+
+    def get_result_label(self, result):
+        return "%s (%d)" % (six.text_type(result), result.institution_count)
