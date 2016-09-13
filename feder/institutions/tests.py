@@ -190,3 +190,18 @@ class TagAutocompleteTestCase(TestCase):
         response = TagAutocomplete.as_view()(request)
         self.assertContains(response, '123')
         self.assertNotContains(response, '456')
+
+    def test_get_result_label_without_institution(self):
+        TagFactory(name='123')
+        request = self.factory.get('/customer/details', data={'q': '123'})
+        response = TagAutocomplete.as_view()(request)
+        self.assertContains(response, '123 (0)')
+
+    def test_get_result_label_with_institution(self):
+        institution = InstitutionFactory()
+        institution.tags.add(TagFactory(name='123'))
+        institution.save()
+
+        request = self.factory.get('/customer/details', data={'q': '123'})
+        response = TagAutocomplete.as_view()(request)
+        self.assertContains(response, '123 (1)')
