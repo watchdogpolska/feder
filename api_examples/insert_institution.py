@@ -1,8 +1,27 @@
 #!/bin/python2.7
-# pip install requests
+"""
+A tool to insert institutions from CSV files.
+
+Requirements:
+ - requests
+
+Example usage:
+
+To run help text use:
+$ python insert_institution.py -h
+
+To insert prefiltered database use:
+$ (cat /tmp/wojewodowie.csv | grep -E 'Wojewoda|TERC') | python insert_institution.py \
+                                                        --host="http://localhost:8000" \
+                                                        --user="xyz" \
+                                                        --password="xyz" \
+                                                        --tags="wojewoda" \
+                                                        --input=-
+"""
 import argparse
 import csv
 import requests
+
 
 # TODO: Load community and voivodeship
 
