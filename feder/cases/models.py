@@ -66,3 +66,6 @@ class Case(TimeStampedModel):
 def my_callback(sender, instance, *args, **kwargs):
     if not instance.email:
         instance.update_email()
+
+
+
