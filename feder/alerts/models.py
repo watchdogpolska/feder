@@ -5,11 +5,11 @@ from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
-from model_utils.models import TimeStampedModel
-
 from feder.monitorings.models import Monitoring
+from model_utils.models import TimeStampedModel
 
 ALERT_INDEX = _("Alerts index")
 
@@ -47,6 +47,7 @@ class Alert(TimeStampedModel):
         return reverse('alerts:details', kwargs={'pk': self.pk})
 
 
+@receiver(post_save, sender=Alert, dispatch_uid="notify_users")
 def notify_users(sender, instance, created, **kwargs):
     if created and instance.monitoring.notify_alert:
         recipient_list = [x.email for x in instance.monitoring.get_users_with_perm('view_alert')]
@@ -54,4 +55,3 @@ def notify_users(sender, instance, created, **kwargs):
                   message='in monitoring {monitoring}'.format(monitoring=instance.monitoring),
                   from_email=settings.EMAIL_NOTIFICATION,
                   recipient_list=recipient_list)
-post_save.connect(notify_users, sender=Alert, dispatch_uid="notify_users")
