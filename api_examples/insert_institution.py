@@ -39,10 +39,9 @@ def insert_row(s, host, name, email, code, tags):
     if response.status_code == 201:
         print u"{name} created as PK {pk}".format(name=name, pk=str(response.json()['pk']))
     else:
-        print u"{name} response {code} returned " +\
-            u"with body {status}".format(name=name,
-                                         code=response.status_code,
-                                         status=str(response.json()))
+        print u"{name} response {code} ".format(name=name,
+                                                code=response.status_code) + \
+            u"returned with body {status}".format(status=str(response.json()))
 
 
 def fields_validation(fields):
