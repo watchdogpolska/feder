@@ -36,10 +36,13 @@ def insert_row(s, host, name, email, code, tags):
         "jst": code,
         "email_set": [{'email': x} for x in email.split(',')]
     })
-    if response.status_code == 200:
-        print u"{name} saved as PK {status}".format(name=name, status=str(response.json()['pk']))
+    if response.status_code == 201:
+        print u"{name} created as PK {pk}".format(name=name, pk=str(response.json()['pk']))
     else:
-        print u"{name} response returned {status}".format(name=name, status=str(response.json()))
+        print u"{name} response {code} returned " +\
+            u"with body {status}".format(name=name,
+                                         code=response.status_code,
+                                         status=str(response.json()))
 
 
 def fields_validation(fields):
@@ -56,7 +59,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--input', nargs='?', type=argparse.FileType('r'),
                         help="Input CSV-file")
-    parser.add_argument('--host',  nargs='?',
+    parser.add_argument('--host', nargs='?',
                         help="Host of instance")
     parser.add_argument('--user', nargs='?',
                         help="User to authentication")
