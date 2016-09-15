@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from atom.ext.crispy_forms.forms import HelperMixin, SingleButtonMixin
+from atom.ext.crispy_forms.forms import SingleButtonMixin
 from braces.forms import UserKwargModelFormMixin
 from django import forms
 from django.utils.translation import ugettext as _
@@ -26,29 +26,32 @@ class QuestionaryForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelFor
         fields = ['title', 'lock']
 
 
-class BoolQuestionForm(HelperMixin, UserKwargModelFormMixin, forms.Form):
-
-    def __init__(self, genre, *args, **kwargs):
-        self.genre = genre
-        super(BoolQuestionForm, self).__init__(*args, **kwargs)
-        self.helper.form_tag = False
-        modulators[genre]().create(self.fields)
-
-
-class QuestionForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
+class QuestionForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         questionary = kwargs.pop('questionary')
         super(QuestionForm, self).__init__(*args, **kwargs)
-        self.helper.form_tag = False
         choices = [(key, mod.description) for key, mod in modulators.items()]
         self.fields['genre'] = forms.ChoiceField(choices=choices, label=_("Genre"))
         self.instance.questionary = questionary
 
-    def save(self, blob, *args, **kwargs):
-        self.instance.blob = blob
-        return super(QuestionForm, self).save(*args, **kwargs)
-
     class Meta:
         model = Question
         fields = ['position', 'genre']
+
+
+class QuestionDefinitionForm(SingleButtonMixin, UserKwargModelFormMixin, forms.Form):
+    def __init__(self, *args, **kwargs):
+        self.instance = kwargs.pop('instance')
+        kwargs['initial'] = self.instance.definition
+        super(QuestionDefinitionForm, self).__init__(*args, **kwargs)
+        self.construct_form()
+
+    def construct_form(self):
+        for name, field in modulators[self.instance.genre].list_create_question_fields():
+            self.fields[name] = field
+
+    def save(self):
+        self.instance.definition = self.cleaned_data
+        self.instance.save()
+        return self.instance

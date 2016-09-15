@@ -6,9 +6,10 @@ from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
 from feder.cases.models import Case
-from feder.questionaries.modulator import modulators
 
 from .models import Answer, Survey, Task
+
+from feder.questionaries.modulator import modulators
 
 
 class TaskForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
@@ -25,23 +26,24 @@ class TaskForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
 
 
 class AnswerForm(HelperMixin, forms.Form):
-
-    def __init__(self, question, survey=None, *args, **kwargs):
-        self.question = question
-        self.survey = survey
+    def __init__(self, *args, **kwargs):
+        self.question = kwargs.pop('question')
+        self.modulator = modulators[self.question.genre]
+        self.survey = kwargs.pop('survey', None)
         super(AnswerForm, self).__init__(*args, **kwargs)
-        self.modulator = modulators[question.genre](question.blob)
-        self.modulator.answer(self.fields)
+        fields = self.modulator.list_create_answer_fields(self.question.definition)
+        for name, field in fields:
+            self.fields[name] = field
 
     def save(self, commit=True):
         obj = Answer(survey=self.survey, question=self.question)
-        obj.blob = self.modulator.read(self.cleaned_data)
+        obj.content = self.modulator.get_content(self.question.definition, self.cleaned_data)
         if commit:
             obj.save()
         return obj
 
 
-class AnswerFormSet(object):  # How use django formsets?
+class AnswerFormSet(object):
 
     def __init__(self, questionary, survey=None, *args, **kwargs):
         self.questionary = questionary
@@ -78,7 +80,8 @@ class AnswerFormSet(object):  # How use django formsets?
         """
         forms = []
         for question in self.questionary.question_set.all():
-            form = AnswerForm(*self.get_form_args(question), **self.get_form_kwargs(question))
+            form = AnswerForm(*self.get_form_args(question),
+                              **self.get_form_kwargs(question))
             if hasattr(form, 'helper'):
                 form.helper.form_tag = False
             forms.append(form)

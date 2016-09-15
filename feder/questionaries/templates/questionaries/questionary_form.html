@@ -1,4 +1,4 @@
-{% extends 'questionaries/base_questionary.html' %}
+{% extends 'questionaries/questionary_single.html' %}
 {% load crispy_forms_tags i18n %}
 {% block breadcrumbs_row %}
 <li class="active">{% if headline %}{{headline}}{% elif object%}{% trans 'Update questionary' %}{% else %}{% trans 'Add questionary' %}{% endif %}

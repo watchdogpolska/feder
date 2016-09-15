@@ -2,7 +2,6 @@ from __future__ import print_function
 
 import os
 import uuid
-from textwrap import TextWrapper
 
 import claw
 from atom.models import AttachmentBase

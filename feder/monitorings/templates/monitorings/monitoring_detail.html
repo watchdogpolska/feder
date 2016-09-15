@@ -35,11 +35,10 @@
             {{object.description|linebreaks}}
         </div>
         {% endif %}
-
         {% if object.questionary_set.all %}
         <div class="gray">
             <h2 class="title"><i class="fa fa-list-alt"></i> {% trans 'Questionaries' %}</h2>
-	    {% if oject.questionary_set.all %}
+	    {% if object.questionary_set.all %}
 	    	{% include '_select_list.html' with object_list=object.questionary_set.all %}
 	    {% else %}
     		<p>{% trans 'No rows.' %}</p>

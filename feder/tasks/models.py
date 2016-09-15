@@ -6,6 +6,7 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models.signals import post_delete, post_save
+from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
 from jsonfield import JSONField
 from model_utils.models import TimeStampedModel
@@ -158,24 +159,25 @@ class Survey(TimeStampedModel):
 class Answer(models.Model):
     survey = models.ForeignKey(Survey)
     question = models.ForeignKey(Question)
-    blob = JSONField()
+    content = JSONField()
 
-    def render(self, sheet=False):
-        modulator = modulators[self.question.genre](self.question.blob)
-        return modulator.render_answer(self.blob, sheet=sheet)
+    def get_answer_text(self):
+        modulator = modulators[self.question.genre]()
+        return modulator.get_answer_text(self.question.definition, self.content)
 
     class Meta:
         verbose_name = _("Answer")
         verbose_name_plural = _("Answers")
+        unique_together = [('survey', 'question')]
 
 
+@receiver(post_save, sender=Survey, dispatch_uid="increase_task_done")
 def increase_task_survey_done(sender, instance, created, **kwargs):
     if created:
         Task.objects.filter(pk=instance.task_id).update(survey_done=models.F('survey_done') + 1)
 
-post_save.connect(increase_task_survey_done, sender=Survey, dispatch_uid="increase_task_done")
 
-
+@receiver(post_save, sender=Survey, dispatch_uid="raise_alert_if_mismatch")
 def raise_alert_if_mismatch(sender, instance, created, **kwargs):
     if created and not instance.task.verify():
         reason_text = "Answer mismatch - verification fail"
@@ -184,10 +186,7 @@ def raise_alert_if_mismatch(sender, instance, created, **kwargs):
                              author=instance.user,
                              link_object=instance.task)
 
-post_save.connect(raise_alert_if_mismatch, sender=Survey, dispatch_uid="raise_alert_if_mismatch")
 
-
+@receiver(post_delete, sender=Survey, dispatch_uid="decrease_task_done")
 def decrease_task_survey_done(sender, instance, **kwargs):
     Task.objects.filter(pk=instance.task_id).update(survey_done=models.F('survey_done') - 1)
-
-post_delete.connect(decrease_task_survey_done, sender=Survey, dispatch_uid="decrease_task_done")

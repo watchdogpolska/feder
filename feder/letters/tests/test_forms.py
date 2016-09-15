@@ -6,7 +6,6 @@ from feder.users.factories import UserFactory
 from django.core import mail
 
 from ..factories import IncomingLetterFactory
-from feder.institutions.factories import EmailFactory
 from ..forms import ReplyForm
 
 try:
