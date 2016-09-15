@@ -74,7 +74,7 @@ class MonitoringCreateView(LoginRequiredMixin, PermissionRequiredMixin,
                         'change_case', 'delete_case', 'add_task', 'change_task',
                         'delete_task', 'reply', 'view_alert', 'change_alert',
                         'delete_alert', 'manage_perm',
-                        'select_survey']
+                        'select_survey', 'add_draft']
         for perm in default_perm:
             assign_perm(perm, self.request.user, form.instance)
         return output
