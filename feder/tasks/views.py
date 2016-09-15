@@ -53,14 +53,17 @@ class TaskDetailView(SelectRelatedMixin, PrefetchRelatedMixin, DetailView):
     select_related = ['case__monitoring', 'case__institution', 'questionary']
     prefetch_related = ['survey_set', 'questionary__question_set']
 
+    def get_user_survey(self):
+        try:
+            return (self.object.survey_set.with_full_answer().
+                    filter(user=self.request.user.pk).get())
+        except Survey.DoesNotExist:
+            return None
+
     def get_context_data(self, *args, **kwargs):
         context = super(TaskDetailView, self).get_context_data(*args, **kwargs)
         context['formset'] = AnswerFormSet(survey=None, questionary=self.object.questionary)
-        try:
-            context['user_survey'] = (self.object.survey_set.with_full_answer().
-                                      filter(user=self.request.user.pk).get())
-        except Survey.DoesNotExist:
-            context['user_survey'] = None
+        context['user_survey'] = self.get_user_survey()
         return context
 
 
