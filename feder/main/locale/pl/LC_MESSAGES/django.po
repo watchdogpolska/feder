@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: main 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-15 01:34+0000\n"
-"PO-Revision-Date: 2016-09-15 03:36+0200\n"
+"POT-Creation-Date: 2016-09-15 01:39+0000\n"
+"PO-Revision-Date: 2016-09-15 03:40+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -245,7 +245,7 @@ msgid "Signup"
 msgstr "Zarejestruj się"
 
 #: templates/account/signup.html:11 templates/account/signup.html:23
-#: templates/base.html:96
+#: templates/base.html:95
 msgid "Sign Up"
 msgstr "Zarejestuj się"
 
@@ -316,51 +316,63 @@ msgstr ""
 msgid "Civil data mining"
 msgstr "Obywatelskie fedrowanie danych"
 
-#: templates/base.html:50
+#: templates/base.html:33
+msgid "Toggle navigation"
+msgstr "Przełącz nawigacje"
+
+#: templates/base.html:46
+msgid "Homepage"
+msgstr "Strona główna"
+
+#: templates/base.html:49
 msgid "Search"
 msgstr "Szukaj"
 
-#: templates/base.html:55
+#: templates/base.html:54
 msgid "Cases"
 msgstr "Sprawy"
 
-#: templates/base.html:61
+#: templates/base.html:60
 msgid "Monitorings"
 msgstr "Monitoringi"
 
-#: templates/base.html:67
+#: templates/base.html:66
 msgid "Letters"
 msgstr "Listy"
 
-#: templates/base.html:73
+#: templates/base.html:72
 msgid "Institutions"
 msgstr "Instytucje"
 
-#: templates/base.html:78
+#: templates/base.html:77
 msgid "Questionaries"
 msgstr "Kwestionariusze"
 
-#: templates/base.html:84
+#: templates/base.html:83
 msgid "Tasks"
 msgstr "Zadania"
 
-#: templates/base.html:93
+#: templates/base.html:92
 msgid "My Profile"
 msgstr "Mój profil"
 
-#: templates/base.html:94
+#: templates/base.html:93
 msgid "Logout"
 msgstr "Wyloguj"
 
-#: templates/base.html:97
+#: templates/base.html:96
 msgid "Log In"
 msgstr "Zaloguj"
 
-#: templates/base.html:141
+#: templates/base.html:124
+msgid "This site uses cookies."
+msgstr "Ta strona wykorzystuje cookies."
+
+#: templates/base.html:140
 msgid "Show quote"
 msgstr "Pokaż cytat"
 
-#: templates/base.html:142
+#: templates/base.html:141
 msgid "Hide quote"
 msgstr "Ukryj cytat"
 
