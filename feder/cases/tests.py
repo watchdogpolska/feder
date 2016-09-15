@@ -1,8 +1,11 @@
 from django.core.urlresolvers import reverse
-from django.test import TestCase
-from feder.users.factories import UserFactory
+from django.test import RequestFactory, TestCase
+
 from feder.main.mixins import PermissionStatusMixin
+from feder.users.factories import UserFactory
+
 from .factories import CaseFactory
+from .views import CaseAutocomplete
 
 
 class ObjectMixin(object):
@@ -47,3 +50,16 @@ class CaseDeleteViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
 
     def get_url(self):
         return reverse('cases:delete', kwargs={'slug': self.case.slug})
+
+
+class CaseAutocompleteTestCase(TestCase):
+    def setUp(self):
+        self.factory = RequestFactory()
+
+    def test_filter_by_name(self):
+        CaseFactory(name='123')
+        CaseFactory(name='456')
+        request = self.factory.get('/customer/details', data={'q': '123'})
+        response = CaseAutocomplete.as_view()(request)
+        self.assertContains(response, '123')
+        self.assertNotContains(response, '456')
