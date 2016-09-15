@@ -57,3 +57,15 @@ class AlertStatusViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
 
     def get_url(self):
         return reverse('alerts:status', kwargs={'pk': self.alert.pk})
+
+    def test_status_action(self):
+        self.grant_permission()
+        self.client.login(username='john', password='pass')
+        self.client.post(self.get_url())
+        self.alert.refresh_from_db()
+        self.assertEqual(self.alert.solver, self.user)
+        self.assertEqual(self.alert.status, True)
+
+        self.client.post(self.get_url(), {})
+        self.alert.refresh_from_db()
+        self.assertEqual(self.alert.status, False)

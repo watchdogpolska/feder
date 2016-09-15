@@ -96,7 +96,7 @@ class AlertStatusView(AttrPermissionRequiredMixin, ActionMessageMixin, ActionVie
         return Alert.objects.filter(pk=self.kwargs['pk'])
 
     def action(self):
-        if not self.object.status:
+        if self.object.is_open:
             self.object.solver = self.request.user
         self.object.status = not self.object.status
         self.object.save()

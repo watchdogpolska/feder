@@ -27,6 +27,10 @@ class Alert(TimeStampedModel):
                                verbose_name=_("Author"),
                                related_name="alert_author",
                                null=True)
+    solver = models.ForeignKey(settings.AUTH_USER_MODEL,
+                               verbose_name=_("Solver"),
+                               related_name="alert_solver",
+                               null=True)
     status = models.BooleanField(default=False, verbose_name=_("Status"))
     content_type = models.ForeignKey(ContentType, null=True)
     object_id = models.PositiveIntegerField(null=True)
@@ -39,6 +43,14 @@ class Alert(TimeStampedModel):
 
     def get_status_display(self):
         return _("Closed") if self.status else _("Open")
+
+    @property
+    def is_closed(self):
+        return self.status
+
+    @property
+    def is_open(self):
+        return not self.status
 
     def __str__(self):
         return str(self.created)
