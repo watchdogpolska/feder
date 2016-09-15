@@ -71,7 +71,6 @@ class ModelTestCase(TestCase):
         self.assertIn(email.email, mail.outbox[0].to)
         self.assertIn(outgoing.body, mail.outbox[0].body)
         self.assertIn(outgoing.quote, mail.outbox[0].body)
-        self.assertEqual(mail.outbox[0].body, "body-13\n> quote-13")
 
     def test_send_new_case(self):
         user = UserFactory(username="tom")

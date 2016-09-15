@@ -1,13 +1,15 @@
 from __future__ import absolute_import, unicode_literals
 
+from django.core import mail
 from django.core.urlresolvers import reverse
 from django.test import TestCase
-from feder.main.mixins import PermissionStatusMixin
+
 from feder.cases.factories import CaseFactory
-from feder.institutions.factories import InstitutionFactory
-from feder.users.factories import UserFactory
+from feder.main.mixins import PermissionStatusMixin
 from feder.monitorings.factories import MonitoringFactory
-from ..models import Letter
+from feder.users.factories import UserFactory
+
+from ..factories import OutgoingLetterFactory, IncomingLetterFactory
 
 
 class ObjectMixin(object):
@@ -15,16 +17,10 @@ class ObjectMixin(object):
         self.user = UserFactory(username='john')
         self.monitoring = self.permission_object = MonitoringFactory()
         self.case = CaseFactory(monitoring=self.monitoring)
-        self.from_user = Letter.objects.create(author_user=self.user,
-                                               case=self.case,
-                                               title="Wniosek",
-                                               body="Prosze przeslac informacje",
-                                               email="X@wykop.pl")
-        self.from_institution = Letter.objects.create(author_institution=InstitutionFactory(),
-                                                      case=self.case,
-                                                      title="Odpowiedz",
-                                                      body="W zalaczeniu.",
-                                                      email="karyna@gmina.pl")
+        self.from_user = OutgoingLetterFactory(title='Wniosek',
+                                               case__monitoring=self.monitoring)
+        self.from_institution = IncomingLetterFactory(title='Odpowiedz',
+                                                      case__monitoring=self.monitoring)
 
 
 class LetterListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
@@ -80,4 +76,12 @@ class LetterReplyViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     permission = ['monitorings.reply', ]
 
     def get_url(self):
-        return reverse('letters:reply', kwargs={'pk': self.from_user.pk})
+        return reverse('letters:reply', kwargs={'pk': self.from_institution.pk})
+
+    def test_send_reply(self):
+        self.grant_permission()
+        self.client.login(username='john', password='pass')
+        response = self.client.post(self.get_url(),
+                                    {'body': 'Lorem', 'title': 'Lorem', 'send': 'yes'})
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(len(mail.outbox), 1)

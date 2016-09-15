@@ -23,6 +23,7 @@ from model_utils.models import TimeStampedModel
 
 from feder.cases.models import Case
 from feder.institutions.models import Institution
+
 from .utils import email_wrapper
 
 claw.init()
@@ -70,6 +71,10 @@ class Letter(TimeStampedModel):
         permissions = (
             ("can_filter_eml", _("Can filter eml")),
         )
+
+    @property
+    def is_draft(self):
+        return self.is_outgoing and not bool(self.eml)
 
     @property
     def is_incoming(self):

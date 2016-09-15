@@ -54,6 +54,7 @@ class Monitoring(TimeStampedModel):
             ('delete_task', _('Can delete task')),
             ('add_letter', _('Can add letter')),
             ('reply', _('Can reply')),
+            ('add_draft', _('Add reply draft')),
             ('change_letter', _('Can change task')),
             ('delete_letter', _('Can delete letter')),
             ('view_alert', _('Can view alert')),

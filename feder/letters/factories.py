@@ -1,7 +1,7 @@
 import factory
 
 from feder.cases.factories import CaseFactory
-from feder.institutions.factories import InstitutionFactory
+from feder.institutions.factories import InstitutionFactory, EmailFactory
 from feder.users.factories import UserFactory
 
 from .models import Letter
@@ -19,6 +19,14 @@ class LetterFactory(factory.django.DjangoModelFactory):
 
 class IncomingLetterFactory(LetterFactory):
     author_institution = factory.SubFactory(InstitutionFactory)
+    email = factory.Sequence('xxx-{0}'.format)
+
+    @factory.post_generation
+    def email_obj(self, create, extracted, **kwargs):
+        if not create:
+            return
+        EmailFactory(institution=self.case.institution,
+                     email=self.email)
 
 
 class OutgoingLetterFactory(LetterFactory):
