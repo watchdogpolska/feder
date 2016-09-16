@@ -13,9 +13,13 @@
             {% trans 'Delete' %}
         </a>
         {% endif %}
-        {% if not user_survey %}
         <a class="btn btn-primary" href="{% url 'tasks:fill_survey' pk=object.pk %}">
-            {% trans 'Fill survey' %}
+            {% if not user_survey %}{% trans 'Fill survey' %}
+            {% else %}{% trans 'Update answer' %}{% endif %}
+        </a>
+        {% if user_survey %}
+        <a href="{% url 'tasks:delete_survey' task_id=object.pk %}" class="btn btn-warning">
+            {% trans 'Delete answer' %}
         </a>
         {% endif %}
         <a class="btn btn-default" href="{% url 'tasks:survey' pk=object.pk %}">
