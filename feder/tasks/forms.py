@@ -30,17 +30,26 @@ class AnswerForm(HelperMixin, forms.Form):
         self.question = kwargs.pop('question')
         self.modulator = modulators[self.question.genre]
         self.survey = kwargs.pop('survey', None)
+        self.instance = kwargs.pop('instance', Answer())
         super(AnswerForm, self).__init__(*args, **kwargs)
+        self.instance.survey = self.survey
+        self.instance.question = self.question
+        self.construct_form()
+        self.helper.form_tag = False
+
+    def construct_form(self):
         fields = self.modulator.list_create_answer_fields(self.question.definition)
         for name, field in fields:
             self.fields[name] = field
+            if name in self.initial:
+                self.fields[name].initial = self.initial[name]
 
     def save(self, commit=True):
-        obj = Answer(survey=self.survey, question=self.question)
-        obj.content = self.modulator.get_content(self.question.definition, self.cleaned_data)
+        self.instance.content = self.modulator.get_content(self.question.definition,
+                                                           self.cleaned_data)
         if commit:
-            obj.save()
-        return obj
+            self.instance.save()
+        return self.instance
 
 
 class AnswerFormSet(object):
@@ -57,35 +66,55 @@ class AnswerFormSet(object):
         return self.as_table()
 
     def __iter__(self):
-        """Yields the forms in the order they should be rendered"""
         return iter(self.forms)
 
     def __getitem__(self, index):
-        """Returns the form at the given index, based on the rendering order"""
         return self.forms[index]
 
     def __len__(self):
         return len(self.forms)
 
     def get_form_kwargs(self, question):
-        return dict(question=question, survey=self.survey, prefix=str(question.pk), **self.kwargs)
+        return dict(question=question,
+                    survey=self.survey,
+                    prefix=str(question.pk),
+                    initial=self.initial.get(question.pk, {}),
+                    instance=self.instances.get(question.pk, Answer()),
+                    **self.kwargs)
 
-    def get_form_args(self, question):
-        return self.args
+    @cached_property
+    def instances(self):
+        """
+        Identifiy instances each form at first property access.
+        """
+        if not self.survey:
+            return {}
+        items = []
+        for x in self.survey.answer_set.all():
+            items.append((x.question.pk, x))
+        return dict(items)
+
+    @cached_property
+    def initial(self):
+        """
+        Generate initial values for each form at first property access.
+        """
+        if not self.survey:
+            return {}
+        items = []
+        for x in self.survey.answer_set.all():
+            modulator = modulators[x.question.genre]
+            initial = modulator.get_initial(x.question.definition, x.content)
+            items.append((x.question.pk, initial))
+        return dict(items)
 
     @cached_property
     def forms(self):
         """
         Instantiate forms at first property access.
         """
-        forms = []
-        for question in self.questionary.question_set.all():
-            form = AnswerForm(*self.get_form_args(question),
-                              **self.get_form_kwargs(question))
-            if hasattr(form, 'helper'):
-                form.helper.form_tag = False
-            forms.append(form)
-        return forms
+        return [AnswerForm(*self.args, **self.get_form_kwargs(question))
+                for question in self.questionary.question_set.all()]
 
     def is_valid(self):
         """
@@ -101,9 +130,6 @@ class AnswerFormSet(object):
 
     def save(self, commit=True):
         return [form.save(commit=commit) for form in self.forms]
-
-    def bulk_save(self):
-        raise NotImplementedError("")  # TODO
 
 
 class MultiTaskForm(SingleButtonMixin, UserKwargModelFormMixin, forms.Form):
@@ -132,11 +158,8 @@ class SurveyForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.task = kwargs.pop('task')
         super(SurveyForm, self).__init__(*args, **kwargs)
-
-    def save(self, *args, **kwargs):
         self.instance.task = self.task
         self.instance.user = self.user
-        return super(SurveyForm, self).save(*args, **kwargs)
 
     class Meta:
         model = Survey

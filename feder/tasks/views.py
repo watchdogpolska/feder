@@ -161,12 +161,15 @@ def fill_survey(request, pk):  # TODO: Convert to CBV eg. TemplateView
     context = {}
     task = get_object_or_404(Task, pk=pk)
     context['object'] = task
-    if Survey.objects.filter(task=task, user=request.user).exists():
-        messages.warning(request, DONE_MESSAGE_TEXT)
-        return redirect(task)
+    try:
+        survey = Survey.objects.get(task=task, user=request.user)
+    except Survey.DoesNotExist:
+        survey = None
     form = SurveyForm(data=request.POST or None,
                       task=task,
+                      instance=survey,
                       user=request.user)
+
     context['form'] = form
     if request.POST and form.is_valid():
         obj = form.save(commit=False)
@@ -188,6 +191,8 @@ def fill_survey(request, pk):  # TODO: Convert to CBV eg. TemplateView
                     messages.success(request, EXHAUSTED_TEXT)
                     return redirect(task.case.monitoring)
     else:
-        formset = AnswerFormSet(data=request.POST or None, questionary=task.questionary)
+        formset = AnswerFormSet(data=request.POST or None,
+                                survey=survey,
+                                questionary=task.questionary)
         context['formset'] = formset
     return render(request, 'tasks/task_fill.html', context)
