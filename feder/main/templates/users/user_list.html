@@ -1,6 +1,6 @@
 {% extends "base.html" %}
-{% load static %}{% load i18n %}
-{% block title %}Members{% endblock %}
+{% load static %}{% load i18n %}{% load i18n %}
+{% block title %}{% trans 'Members' %}{% endblock %}
 
 {% block content %}
 
@@ -8,7 +8,7 @@
 
   <div class="row">
     <div class="col-xs-12">
-      <h2>Users</h2>
+      <h2>{% trans 'Users' %}</h2>
     </div>
   </div>
 

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: main 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-15 01:39+0000\n"
-"PO-Revision-Date: 2016-09-15 03:40+0200\n"
+"POT-Creation-Date: 2016-09-16 21:46+0000\n"
+"PO-Revision-Date: 2016-09-16 23:47+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -396,6 +396,31 @@ msgstr "Województwa"
 msgid "Last monitorings"
 msgstr "Ostatnie monitoringi"
 
+#: templates/users/user_detail.html:5 templates/users/user_form.html:5
+#: templates/users/user_form.html:12
+msgid "User"
+msgstr "Użytkownik / użytkowniczka"
+
+#: templates/users/user_detail.html:22
+msgid "My Info"
+msgstr "O mnie"
+
+#: templates/users/user_detail.html:23
+msgid "E-Mail"
+msgstr "E-mail"
+
+#: templates/users/user_form.html:18
+msgid "Update"
+msgstr "Aktualizuj"
+
+#: templates/users/user_list.html:3
+msgid "Members"
+msgstr "Członkowie"
+
+#: templates/users/user_list.html:11
+msgid "Users"
+msgstr "Użytkownicy / użytkowniczki"
+
 #~ msgid "Usernames can only contain letters, digits and @/./+/-/_."
 #~ msgstr ""
 #~ "Nazwa użytkownika może zawierać tylko litery, cyfry oraz znaki @/./+/-/_."
@@ -436,9 +461,6 @@ msgstr "Ostatnie monitoringi"
 
 #~ msgid "E-mail"
 #~ msgstr "E-mail"
-
-#~ msgid "Username"
-#~ msgstr "Nazwa użytkownika"
 
 #~ msgid "Username or e-mail"
 #~ msgstr "Nazwa użytkownika lub e-mail"
