@@ -102,6 +102,10 @@ class BaseSimpleModulator(BaseBlobFormModulator):
         return content.get('value', '')
 
     @classmethod
+    def get_initial(cls, definition, content):
+        return content
+
+    @classmethod
     def get_label_column(cls, definition):
         definition = definition or {}
         return [definition.get('name', ''), "Comment"]

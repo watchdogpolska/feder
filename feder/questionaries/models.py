@@ -31,6 +31,7 @@ class Questionary(TimeStampedModel):
         verbose_name = _("Questionary")
         verbose_name_plural = _("Questionaries")
 
+
 @python_2_unicode_compatible
 class Question(models.Model):
     questionary = models.ForeignKey(Questionary, verbose_name=_("Questionary"))
@@ -56,7 +57,7 @@ class Question(models.Model):
 
         if not self.is_configured:
             return _("Undefined question - {description}").format(
-                     description=modulators[self.genre].description)
+                description=modulators[self.genre].description)
         return modulators[self.genre].get_label_text(self.definition)
 
     class Meta:

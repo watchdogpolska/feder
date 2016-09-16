@@ -65,12 +65,12 @@ class QuestionDefinitionFormTestCase(QuestionObjectMixin, TestCase):
         self.assertIsInstance(form.save(), Question)
         self.assertNotEqual(self.question.definition, {})
         self.assertEqual(self.question.definition['comment'], False)
-        self.assertEqual(self.question.definition['name'], u'Foo bar')
+        self.assertEqual(self.question.definition['name'], 'Foo bar')
         self.assertEqual(self.question.definition['required'], False)
         self.assertEqual(self.question.definition['comment_required'], False)
-        self.assertEqual(self.question.definition['comment_label'], u'')
-        self.assertEqual(self.question.definition['comment_help'], u'')
-        self.assertEqual(self.question.definition['help_text'], u'Foo')
+        self.assertEqual(self.question.definition['comment_label'], '')
+        self.assertEqual(self.question.definition['comment_help'], '')
+        self.assertEqual(self.question.definition['help_text'], 'Foo')
 
 
 class QuestionCreateViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
