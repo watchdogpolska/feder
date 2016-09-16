@@ -65,7 +65,7 @@ class AutocompletePerformanceMixin(object):
 
 class PermissionStatusMixin(object):
     url = None
-    permission = []
+    permission = None
     status_anonymous = 302
     status_no_permission = 403
     status_has_permission = 200
@@ -77,11 +77,18 @@ class PermissionStatusMixin(object):
                 'or override {0}.get_url().'.format(self.__class__.__name__))
         return self.url
 
+    def get_permission(self):
+        if self.permission is None:
+            raise ImproperlyConfigured(
+                '{0} is missing a permissions to assign. Define {0}.permission '
+                'or override {0}.get_permission().'.format(self.__class__.__name__))
+        return self.permission
+
     def get_permission_object(self):
         return getattr(self, 'permission_object', None)
 
     def grant_permission(self):
-        for perm in self.permission:
+        for perm in self.get_permission():
             obj = self.get_permission_object()
             assign_perm(perm, self.user, obj)
 

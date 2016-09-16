@@ -31,6 +31,7 @@ class AlertDetailViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
 
 
 class AlertCreateViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
+    permission = []
     status_anonymous = 200
     status_no_permission = 200
 

@@ -16,6 +16,7 @@ class ObjectMixin(object):
 
 
 class CaseListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
+    permission = []
     status_anonymous = 200
     status_no_permission = 200
 
@@ -24,6 +25,7 @@ class CaseListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
 
 
 class CaseDetailViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
+    permission = []
     status_anonymous = 200
     status_no_permission = 200
 

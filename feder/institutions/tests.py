@@ -127,6 +127,7 @@ class InstitutionListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     url = reverse('institutions:list')
     status_anonymous = 200
     status_no_permission = 200
+    permission = []
 
     def test_content(self):
         response = self.client.get(self.get_url())
@@ -137,6 +138,7 @@ class InstitutionListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
 class InstitutionDetailViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     status_anonymous = 200
     status_no_permission = 200
+    permission = []
 
     def get_url(self):
         return self.institution.get_absolute_url()

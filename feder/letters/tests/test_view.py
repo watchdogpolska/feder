@@ -26,6 +26,7 @@ class ObjectMixin(object):
 class LetterListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     status_anonymous = 200
     status_no_permission = 200
+    permission = []
 
     def get_url(self):
         return reverse('letters:list')
@@ -40,6 +41,7 @@ class LetterListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
 class LetterDetailViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     status_anonymous = 200
     status_no_permission = 200
+    permission = []
 
     def get_url(self):
         return self.from_user.get_absolute_url()

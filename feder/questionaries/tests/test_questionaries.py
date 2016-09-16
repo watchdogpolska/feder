@@ -17,6 +17,7 @@ class QuestionaryCreateTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
 
 
 class QuestionaryListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
+    permission = []
     status_anonymous = 200
     status_no_permission = 200
 
@@ -31,6 +32,7 @@ class QuestionaryListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
 
 
 class QuestionaryDetailsViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
+    permission = []
     status_anonymous = 200
     status_no_permission = 200
 

@@ -65,6 +65,7 @@ class MonitoringCreateViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
 class MonitoringListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     status_anonymous = 200
     status_no_permission = 200
+    permission = []
 
     def get_url(self):
         return reverse('monitorings:list')
@@ -78,6 +79,7 @@ class MonitoringListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
 class MonitoringDetailViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     status_anonymous = 200
     status_no_permission = 200
+    permission = []
 
     def get_url(self):
         return self.monitoring.get_absolute_url()
