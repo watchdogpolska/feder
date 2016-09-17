@@ -1,13 +1,15 @@
+from django.core import mail
 from django.core.urlresolvers import reverse
 from django.test import TestCase
-
-from feder.main.mixins import PermissionStatusMixin
-from feder.users.factories import UserFactory
 from guardian.shortcuts import assign_perm
 
+from feder.institutions.factories import EmailFactory, InstitutionFactory
+from feder.main.mixins import PermissionStatusMixin
+from feder.users.factories import UserFactory
+
 from .factories import MonitoringFactory
-from .models import Monitoring
 from .forms import MonitoringForm
+from .models import Monitoring
 
 EXAMPLE_DATA = {'name': 'foo-bar-monitoring',
                 'description': 'xyz',
@@ -35,6 +37,7 @@ class MonitoringFormTestCase(TestCase):
 
 class ObjectMixin(object):
     def setUp(self):
+        super(ObjectMixin, (self)).setUp()
         self.user = UserFactory(username="john")
         self.monitoring = self.permission_object = MonitoringFactory()
 
@@ -149,7 +152,41 @@ class MonitoringUpdatePermissionViewTestCase(ObjectMixin, PermissionStatusMixin,
                                                           'user_pk': self.user.pk})
 
     def test_template_used(self):
-        assign_perm('monitorings.manage_perm', self.user, self.monitoring)
+        self.grant_permission()
         self.client.login(username='john', password='pass')
         response = self.client.get(self.get_url())
         self.assertTemplateUsed(response, 'monitorings/monitoring_form.html')
+
+
+class MonitoringAssignViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
+    permission = ['monitorings.change_monitoring', ]
+
+    def get_url(self):
+        return reverse('monitorings:assign', kwargs={'slug': self.monitoring.slug})
+
+    def test_assign_display_institutions(self):
+        self.login_permitted_user()
+        institution_1 = EmailFactory().institution
+        institution_2 = EmailFactory().institution
+        response = self.client.get(self.get_url())
+        self.assertContains(response, institution_1.name)
+        self.assertContains(response, institution_2.name)
+
+    def test_send_to_all(self):
+        self.login_permitted_user()
+        EmailFactory().institution
+        EmailFactory().institution
+        EmailFactory().institution
+        self.client.post(self.get_url(), data={'all': 'yes'})
+        self.assertEqual(len(mail.outbox), 3)
+
+    def test_send_to_selected(self):
+        self.login_permitted_user()
+        institution_1 = EmailFactory().institution
+        institution_2 = EmailFactory().institution
+        EmailFactory().institution
+        to_send_ids = [institution_1.pk, institution_2.pk]
+        self.client.post(self.get_url(), data={'to_assign': to_send_ids})
+        self.assertEqual(len(mail.outbox), 2)
+        self.assertEqual(mail.outbox[0].to[0], institution_1.accurate_email.email)
+        self.assertEqual(mail.outbox[1].to[0], institution_2.accurate_email.email)

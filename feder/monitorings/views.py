@@ -195,7 +195,11 @@ class MonitoringAssignView(RaisePermissionRequiredMixin, FilterView):
         qs = super(MonitoringAssignView, self).get_queryset(*args, **kwargs)
         return (qs.exclude(case__monitoring=self.monitoring.pk).
                 with_case_count().
-                select_related('jst'))
+                select_related('jst').
+                with_any_email())
+
+    def get_permission_object(self):
+        return self.monitoring
 
     @cached_property
     def monitoring(self):
@@ -211,10 +215,14 @@ class MonitoringAssignView(RaisePermissionRequiredMixin, FilterView):
         return kw
 
     def post(self, request, *args, **kwargs):
-        ids = request.POST.getlist('to_assign')
-        qs = Institution.objects.filter(pk__in=ids).exclude(case__monitoring=self.monitoring.pk)
+        if request.POST.get('all', 'no') == 'yes':
+            qs = self.get_filterset(self.get_filterset_class()).qs
+        else:
+            ids = request.POST.getlist('to_assign')
+            qs = Institution.objects.filter(pk__in=ids)
+        qs = qs.exclude(case__monitoring=self.monitoring.pk)
         num = self.monitoring.case_set.count()
-        count = 0
+        count = 1
 
         for institution in qs:
             postfix = " #%d" % (num + count, )
@@ -225,7 +233,7 @@ class MonitoringAssignView(RaisePermissionRequiredMixin, FilterView):
                                  text=self.monitoring.template)
             count += 1
         msg = _("%(count)d institutions was assigned " +
-                "to %(monitoring)s. The request was sent.") % \
+                "to %(monitoring)s. The requests was sent.") % \
             {'count': count, 'monitoring': self.monitoring}
         messages.success(self.request, msg)
         return HttpResponseRedirect(request.get_full_path())

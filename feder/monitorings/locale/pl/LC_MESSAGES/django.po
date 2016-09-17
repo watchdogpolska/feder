@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-monitorings 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-12 21:34+0000\n"
-"PO-Revision-Date: 2016-09-12 23:35+0200\n"
+"POT-Creation-Date: 2016-09-17 12:06+0000\n"
+"PO-Revision-Date: 2016-09-17 14:06+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -120,7 +120,7 @@ msgstr "Może usuwać sprawę"
 msgid "Can add task"
 msgstr "Może dodawać zadanie"
 
-#: models.py:53 models.py:57
+#: models.py:53 models.py:58
 msgid "Can change task"
 msgstr "Może zmieniać zadanie"
 
@@ -136,27 +136,31 @@ msgstr "Może dodawać list"
 msgid "Can reply"
 msgstr "Może odpowiadać"
 
-#: models.py:58
+#: models.py:57
+msgid "Add reply draft"
+msgstr ""
+
+#: models.py:59
 msgid "Can delete letter"
 msgstr "Może usuwać list"
 
-#: models.py:59
+#: models.py:60
 msgid "Can view alert"
 msgstr "Może dodawać alert"
 
-#: models.py:60
+#: models.py:61
 msgid "Can change alert"
 msgstr "Może zmieniać sprawę"
 
-#: models.py:61
+#: models.py:62
 msgid "Can delete alert"
 msgstr "Może usuwać list"
 
-#: models.py:62
+#: models.py:63
 msgid "Can manage perms"
 msgstr "Może zarządzać uprawnieniami"
 
-#: models.py:63
+#: models.py:64
 msgid "Can select answer"
 msgstr "Może  wybierać odpowiedź"
 
@@ -211,7 +215,7 @@ msgstr "Przypisz wybrane instytucje do %(monitoring)s i wyślij wniosek"
 msgid "Region"
 msgstr "Region"
 
-#: templates/monitorings/institution_assign.html:57
+#: templates/monitorings/institution_assign.html:60
 msgid "Filtr"
 msgstr "Filtruj"
 
@@ -223,29 +227,29 @@ msgstr "Potwierdz usuwanie"
 msgid "by"
 msgstr "przez"
 
-#: templates/monitorings/monitoring_detail.html:41
+#: templates/monitorings/monitoring_detail.html:40
 msgid "Questionaries"
 msgstr "Kwestionariusze"
 
-#: templates/monitorings/monitoring_detail.html:45
-#: templates/monitorings/monitoring_detail.html:77
+#: templates/monitorings/monitoring_detail.html:44
+#: templates/monitorings/monitoring_detail.html:76
 msgid "No rows."
 msgstr "Brak wierszy."
 
-#: templates/monitorings/monitoring_detail.html:52
+#: templates/monitorings/monitoring_detail.html:51
 msgid "Institutions, cases and tasks"
 msgstr "Instytucje, sprawy i zadania"
 
-#: templates/monitorings/monitoring_detail.html:64
+#: templates/monitorings/monitoring_detail.html:63
 msgid "previous"
 msgstr "poprzednia"
 
-#: templates/monitorings/monitoring_detail.html:67
+#: templates/monitorings/monitoring_detail.html:66
 #, python-format
 msgid "Page %(no)s of %(total)s"
 msgstr "Strona %(no)s z %(total)s"
 
-#: templates/monitorings/monitoring_detail.html:70
+#: templates/monitorings/monitoring_detail.html:69
 msgid "next"
 msgstr "następna"
 
@@ -318,10 +322,10 @@ msgstr "Uprawnienia dla {monitoring} zaktualizowane!"
 msgid "Permissions to {monitoring} of {user} updated!"
 msgstr "Uprawnienia do {monitoring} dla {user} zaktualizowane!"
 
-#: views.py:226
+#: views.py:235
 #, python-format
 msgid ""
-"%(count)d institutions was assigned to %(monitoring)s. The request was sent."
+"%(count)d institutions was assigned to %(monitoring)s. The requests was sent."
 msgstr ""
 "%(count)d instytucji zostało przypisanych do %(monitoring)s. Wnioski zostały "
 "wysłane."

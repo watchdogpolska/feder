@@ -2,6 +2,7 @@ from autoslug.fields import AutoSlugField
 from cached_property import cached_property
 from django.core.urlresolvers import reverse
 from django.db import models
+from django.db.models import Count
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from model_utils.models import TimeStampedModel
@@ -22,6 +23,9 @@ class InstitutionQuerySet(models.QuerySet):
 
     def with_accurate_email(self):
         return self.prefetch_related('email_set')
+
+    def with_any_email(self):
+        return self.annotate(email_count=Count('email')).filter(email_count__gte=1)
 
 
 @python_2_unicode_compatible
