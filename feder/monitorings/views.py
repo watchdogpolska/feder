@@ -196,7 +196,8 @@ class MonitoringAssignView(RaisePermissionRequiredMixin, FilterView):
         return (qs.exclude(case__monitoring=self.monitoring.pk).
                 with_case_count().
                 select_related('jst').
-                with_any_email())
+                with_any_email().
+                with_accurate_email())
 
     def get_permission_object(self):
         return self.monitoring
@@ -222,7 +223,7 @@ class MonitoringAssignView(RaisePermissionRequiredMixin, FilterView):
             qs = Institution.objects.filter(pk__in=ids)
         qs = qs.exclude(case__monitoring=self.monitoring.pk)
         num = self.monitoring.case_set.count()
-        count = 1
+        count = Case.objects.filter(monitoring=self.monitoring).count() or 1
 
         for institution in qs:
             postfix = " #%d" % (num + count, )

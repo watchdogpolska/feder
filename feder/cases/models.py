@@ -49,6 +49,7 @@ class Case(TimeStampedModel):
         verbose_name = _("Case")
         verbose_name_plural = _("Case")
         ordering = ['created', ]
+        get_latest_by = 'created'
 
     def __unicode__(self):
         return self.name

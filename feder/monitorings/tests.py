@@ -1,9 +1,11 @@
 from django.core import mail
 from django.core.urlresolvers import reverse
 from django.test import TestCase
+from django.utils.encoding import force_text
 from guardian.shortcuts import assign_perm
 
-from feder.institutions.factories import EmailFactory, InstitutionFactory
+from feder.cases.models import Case
+from feder.institutions.factories import EmailFactory
 from feder.main.mixins import PermissionStatusMixin
 from feder.users.factories import UserFactory
 
@@ -190,3 +192,18 @@ class MonitoringAssignViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
         self.assertEqual(len(mail.outbox), 2)
         self.assertEqual(mail.outbox[0].to[0], institution_1.accurate_email.email)
         self.assertEqual(mail.outbox[1].to[0], institution_2.accurate_email.email)
+
+    def test_constant_increment_local_id(self):
+        self.login_permitted_user()
+        institution_1 = EmailFactory().institution
+        institution_2 = EmailFactory().institution
+        institution_3 = EmailFactory().institution
+        self.client.post(self.get_url(), data={'to_assign': [institution_1.pk]})
+        self.assertEqual(len(mail.outbox), 1)
+
+        self.assertTrue(Case.objects.latest().name.endswith(' #1'))
+
+        self.client.post(self.get_url(), data={'to_assign': [institution_2.pk,
+                                                             institution_3.pk]})
+        self.assertEqual(len(mail.outbox), 3)
+        self.assertTrue(Case.objects.latest().name.endswith(' #3'))
