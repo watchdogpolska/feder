@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: letters 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-28 01:20+0000\n"
-"PO-Revision-Date: 2015-09-28 03:20+0100\n"
+"POT-Creation-Date: 2016-09-17 19:19+0000\n"
+"PO-Revision-Date: 2016-09-17 21:18+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -17,73 +17,99 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.8.7.1\n"
 
-#: filters.py:17
+#: filters.py:11
 msgid "Creation date"
 msgstr "Data utworzenia"
 
-#: filters.py:18
+#: filters.py:12
 msgid "Has eml?"
 msgstr "Ma plik .eml?"
 
-#: filters.py:31
+#: filters.py:27
 msgid "Creation date (ascending)"
 msgstr "Data utworzenia (rosnąco)"
 
-#: filters.py:32
+#: filters.py:28
 msgid "Creation date (descending)"
 msgstr "Data utworzenia (malejąco)"
 
-#: models.py:47
+#: forms.py:49 forms.py:52
+msgid "Save draft"
+msgstr "Zapisz szkic"
+
+#: forms.py:50 forms.py:54
+msgid "Send reply"
+msgstr "Wyślij odpowiedź"
+
+#: forms.py:59
+msgid ""
+"Nothing to do. You do not have permission to save draft or send replies."
+msgstr ""
+"Nic do zrobienia. Nie masz uprawnień, aby zapisać szkic lub wysłać odpowiedź."
+
+#: forms.py:63
+msgid "You do not have permission to send replies."
+msgstr "Nie masz uprawnień, aby wysłać odpowiedzi."
+
+#: forms.py:67
+msgid "You do not have permission to save draft."
+msgstr "Nie masz odpowiedzi, aby wysłać odpowiedź."
+
+#: forms.py:71
+msgid "There is no mail to institution. Unable to send emails."
+msgstr "Brak adresu e-mail do instytucji, więc nie mogę wysłać e-maila."
+
+#: models.py:49
 msgid "Case"
 msgstr "Sprawa"
 
-#: models.py:48
+#: models.py:50
 msgid "Author (if user)"
 msgstr "Autor (jeżeli użytkownik)"
 
-#: models.py:50
+#: models.py:52
 msgid "Author (if institution)"
 msgstr "Autor (jeżeli instytucja)"
 
-#: models.py:52
+#: models.py:54
 msgid "Title"
 msgstr "Tytuł"
 
-#: models.py:53
+#: models.py:55
 msgid "Text"
 msgstr "Treść"
 
-#: models.py:54
+#: models.py:56
 msgid "Quote"
 msgstr "Cytat"
 
-#: models.py:55
+#: models.py:57
 msgid "E-mail"
 msgstr "E-mail"
 
-#: models.py:57
+#: models.py:59
 msgid "File"
 msgstr "Plik"
 
-#: models.py:61
+#: models.py:63
 msgid "Message"
 msgstr "Wiadomość"
 
-#: models.py:62
+#: models.py:64
 msgid "Message registerd by django-mailbox"
 msgstr "Wiadomość zarejestrowanaa przez django-maiblxo"
 
-#: models.py:66
+#: models.py:68
 msgid "Letter"
 msgstr "List"
 
-#: models.py:67 templates/letters/base.html:5
+#: models.py:69 templates/letters/base.html:5
 msgid "Letters"
 msgstr "Listy"
 
-#: models.py:70
+#: models.py:72
 msgid "Can filter eml"
 msgstr "Może filtrować po eml"
 
@@ -92,16 +118,14 @@ msgid "Edit"
 msgstr "Edytuj"
 
 #: templates/letters/_btn.html:13
-#: templates/letters/letter_confirm_delete.html:11
 msgid "Delete"
 msgstr "Usuń"
 
-#: templates/letters/_btn.html:19
+#: templates/letters/_btn.html:19 templates/letters/letter_reply.html:5
 msgid "Reply"
 msgstr "Odpowiedź"
 
-#: templates/letters/_header.html:6 templates/letters/base_object.html:27
-#: templates/letters/letter_preview.html:13
+#: templates/letters/_header.html:6 templates/letters/letter_preview.html:13
 msgid "by"
 msgstr "przez"
 
@@ -109,7 +133,22 @@ msgstr "przez"
 msgid "Attachments"
 msgstr "Załączniki"
 
-#: templates/letters/letter_confirm_delete.html:4
+#: templates/letters/base_object.html:25
+#, python-format
+msgid ""
+"<a href=\"%(object_url)s\">%(object)s</a>\n"
+"        <small>by <a href=\"%(author_url)s\"> %(author)s </a> <time datetime="
+"\"%(created)s\" title=\"%(created)s\">%(created_natural)s</time> in case  <a "
+"href=\"%(case_url)s\">%(case)s</a> with <a href=\"%(institution_url)s\">"
+"%(institution)s</a></small>"
+msgstr ""
+"<a href=\"%(object_url)s\">%(object)s</a>\n"
+"        <small>przez <a href=\"%(author_url)s\"> %(author)s </a><time "
+"datetime=\"%(created)s\" title=\"%(created)s\">%(created_natural)s</time> w "
+"sprawie  <a href=\"%(case_url)s\">%(case)s</a> z <a href="
+"\"%(institution_url)s\">%(institution)s</a></small>"
+
+#: templates/letters/letter_confirm_delete.html:3
 msgid "Confirm delete"
 msgstr "Potwierdź usuwanie"
 
@@ -129,23 +168,19 @@ msgstr "Wyślij"
 msgid "Or edit it again"
 msgstr "lub edytuj je ponownie"
 
-#: templates/letters/letter_reply.html:6
+#: templates/letters/letter_reply.html:11
 #, python-format
-#| msgid ""
-#| "\n"
-#| "    Reply for <a href=\"%(url)s\">%(object)s\n"
-#| "</a>\n"
 msgid "Reply for <a href=\"%(url)s\">%(object)s</a>"
 msgstr "Odpowiedź na <a href=\"%(url)s\">%(object)s</a>"
 
-#: views.py:26
+#: views.py:18
 msgid "Letters index"
 msgstr "Wykaz listów"
 
-#: views.py:131
+#: views.py:83
 #, python-brace-format
-msgid "Reply to {letter} send!"
-msgstr "Odpowiedź na {letter} wysłana!"
+msgid "Reply {reply} to {letter} saved and send!"
+msgstr "Odpowiedź {reply} na {letter} zapisana i wysłana!"
 
 #~ msgid "Author"
 #~ msgstr "Autor"
