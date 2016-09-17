@@ -21,3 +21,6 @@ coverage_html: coverage
 
 server:
 	python manage.py runserver
+
+drop_test_databases:
+	echo "drop database test_feder; drop database test_feder_1; drop database test_feder_2; drop database test_feder_3; drop database test_feder_4;" | python manage.py dbshell
