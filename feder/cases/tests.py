@@ -1,10 +1,12 @@
 from django.core.urlresolvers import reverse
 from django.test import RequestFactory, TestCase
 
+from feder.institutions.factories import InstitutionFactory
 from feder.main.mixins import PermissionStatusMixin
 from feder.users.factories import UserFactory
 
 from .factories import CaseFactory
+from .forms import CaseForm
 from .views import CaseAutocomplete
 
 
@@ -13,6 +15,20 @@ class ObjectMixin(object):
         self.user = UserFactory(username="john")
         self.case = CaseFactory()
         self.permission_object = self.case.monitoring
+
+
+class CaseFormTestCase(ObjectMixin, TestCase):
+    def test_standard_save(self):
+        data = {'name': 'example',
+                'institution': InstitutionFactory().pk}
+        form = CaseForm(monitoring=self.case.monitoring,
+                        user=self.user,
+                        data=data)
+        self.assertTrue(form.is_valid(), msg=form.errors)
+        obj = form.save()
+        self.assertEqual(obj.name, "example")
+        self.assertEqual(obj.monitoring, self.case.monitoring)
+        self.assertEqual(obj.user, self.case.user)
 
 
 class CaseListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):

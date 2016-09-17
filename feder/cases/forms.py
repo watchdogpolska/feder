@@ -11,6 +11,7 @@ class CaseForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.monitoring = kwargs.pop('monitoring', None)
         super(CaseForm, self).__init__(*args, **kwargs)
+        self.instance.user = self.user
         if self.monitoring:
             self.instance.monitoring = self.monitoring
 
