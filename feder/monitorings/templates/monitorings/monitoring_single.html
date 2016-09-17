@@ -18,9 +18,14 @@
 <div class="page-header">
     <h2>
         <i class="fa fa-search"></i>
-        <a href="{{object.get_absolute_url}}">{{object}}</a>
+        {% if object %}
+            <a href="{{object.get_absolute_url}}">{{object}}</a>
+        {% else %}
+            {% trans 'Add monitoring' %}
+        {% endif %}
     </h2>
 </div>
+
 <div class="gray">
     {% block content_object %}{% endblock %}
 </div>

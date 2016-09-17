@@ -1,10 +1,10 @@
-{% extends 'monitorings/base_case.html' %}
+{% extends 'monitorings/monitoring_single.html' %}
 {% load crispy_forms_tags i18n %}
 {% block breadcrumbs_row %}
 <li class="active">
-{% if headline %}{{headline }}
-{% elif object %}{% trans 'Update' %}
-{% else %}{% trans 'Add' %}
+{% if headline %}{{ headline }}
+{% elif object %}{% trans 'Update monitoring' %}
+{% else %}{% trans 'Add monitoring' %}
 {% endif %}</li>
 {% endblock %} 
 

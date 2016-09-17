@@ -1,4 +1,4 @@
-{% extends 'monitorings/base_case.html' %}
+{% extends 'monitorings/monitoring_single.html' %}
 {% load i18n crispy_forms_tags %}
 {% block content_object %}
 <p>{% blocktrans with step=wizard.steps.step1 count=wizard.steps.count %}Step {{ step }} of {{ count }}{% endblocktrans %}</p>
