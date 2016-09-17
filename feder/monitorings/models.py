@@ -30,6 +30,7 @@ class Monitoring(TimeStampedModel):
     slug = AutoSlugField(populate_from='name', verbose_name=_("Slug"), unique=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("User"))
     description = models.TextField(verbose_name=_("Description"), blank=True)
+    subject = models.CharField(verbose_name=_("Subject"), max_length=80)
     template = models.TextField(verbose_name=_("Template"),
                                 help_text=_("Use {{EMAIL}} for insert reply address"),
                                 validators=[validate_template_syntax])

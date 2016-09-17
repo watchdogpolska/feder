@@ -16,6 +16,7 @@ from .models import Monitoring
 EXAMPLE_DATA = {'name': 'foo-bar-monitoring',
                 'description': 'xyz',
                 'notify_alert': True,
+                'subject': 'example subject',
                 'template': 'xyz {{EMAIL}}'}
 
 
@@ -41,7 +42,7 @@ class ObjectMixin(object):
     def setUp(self):
         super(ObjectMixin, (self)).setUp()
         self.user = UserFactory(username="john")
-        self.monitoring = self.permission_object = MonitoringFactory()
+        self.monitoring = self.permission_object = MonitoringFactory(subject="Wniosek")
 
 
 class MonitoringCreateViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
@@ -192,6 +193,8 @@ class MonitoringAssignViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
         self.assertEqual(len(mail.outbox), 2)
         self.assertEqual(mail.outbox[0].to[0], institution_1.accurate_email.email)
         self.assertEqual(mail.outbox[1].to[0], institution_2.accurate_email.email)
+        for x in (0, 1):
+            self.assertEqual(mail.outbox[x].subject, "Wniosek")
 
     def test_constant_increment_local_id(self):
         self.login_permitted_user()
@@ -207,3 +210,6 @@ class MonitoringAssignViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
                                                              institution_3.pk]})
         self.assertEqual(len(mail.outbox), 3)
         self.assertTrue(Case.objects.latest().name.endswith(' #3'))
+
+        for x in (0, 1, 2):
+            self.assertEqual(mail.outbox[x].subject, "Wniosek")

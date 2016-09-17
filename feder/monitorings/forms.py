@@ -16,7 +16,7 @@ class MonitoringForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm
 
     class Meta:
         model = Monitoring
-        fields = ['name', 'description', 'notify_alert', 'template']
+        fields = ['name', 'description', 'notify_alert', 'subject', 'template']
 
 
 class SelectUserForm(forms.Form):
