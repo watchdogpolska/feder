@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-monitorings 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-17 14:25+0000\n"
-"PO-Revision-Date: 2016-09-17 16:25+0200\n"
+"POT-Creation-Date: 2016-09-17 20:02+0000\n"
+"PO-Revision-Date: 2016-09-17 22:03+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -64,7 +64,6 @@ msgid "Notify about new alerts person who can view alerts"
 msgstr "Powiadom o nowych alertach osoby, które mogą je widzieć"
 
 #: models.py:29 templates/monitorings/institution_assign.html:27
-#: templates/monitorings/monitoring_preview.html:13
 msgid "Name"
 msgstr "Nazwa"
 
@@ -142,7 +141,7 @@ msgstr "Może odpowiadać"
 
 #: models.py:58
 msgid "Add reply draft"
-msgstr ""
+msgstr "Dodaj szkic odpowiedzi"
 
 #: models.py:60
 msgid "Can delete letter"
@@ -246,11 +245,11 @@ msgstr "Instytucje, sprawy i zadania"
 
 #: templates/monitorings/monitoring_detail.html:60
 msgid "Tasks"
-msgstr ""
+msgstr "Zadania"
 
 #: templates/monitorings/monitoring_detail.html:79
 msgid "Letters"
-msgstr ""
+msgstr "Listy"
 
 #: templates/monitorings/monitoring_detail.html:104
 msgid "previous"
@@ -266,37 +265,18 @@ msgid "next"
 msgstr "następna"
 
 #: templates/monitorings/monitoring_filter.html:7
-#: templates/monitorings/monitoring_preview.html:6
+#: templates/monitorings/monitoring_form.html:7
+#: templates/monitorings/monitoring_single.html:24
 msgid "Add monitoring"
 msgstr "Dodaj monitoring"
 
 #: templates/monitorings/monitoring_form.html:6
-msgid "Update"
-msgstr "Aktualizuj"
-
-#: templates/monitorings/monitoring_form.html:7
-msgid "Add"
-msgstr "Dodaj"
+msgid "Update monitoring"
+msgstr "Zaktualizuj monitoring"
 
 #: templates/monitorings/monitoring_permissions.html:6
 msgid "Add user"
 msgstr "Dodaj użytkownika"
-
-#: templates/monitorings/monitoring_preview.html:9
-msgid "Preview your submission"
-msgstr "Pogląd:"
-
-#: templates/monitorings/monitoring_preview.html:12
-msgid "Recipients"
-msgstr "Odbiorcy"
-
-#: templates/monitorings/monitoring_preview.html:21
-msgid "Submit"
-msgstr "Zgłoś"
-
-#: templates/monitorings/monitoring_preview.html:25
-msgid "Or edit it again"
-msgstr "lub edytuj ponownie"
 
 #: templates/monitorings/permission_wizard.html:4
 #, python-format
@@ -341,6 +321,24 @@ msgid ""
 msgstr ""
 "%(count)d instytucji zostało przypisanych do %(monitoring)s. Wnioski zostały "
 "wysłane."
+
+#~ msgid "Update"
+#~ msgstr "Aktualizuj"
+
+#~ msgid "Add"
+#~ msgstr "Dodaj"
+
+#~ msgid "Preview your submission"
+#~ msgstr "Pogląd:"
+
+#~ msgid "Recipients"
+#~ msgstr "Odbiorcy"
+
+#~ msgid "Submit"
+#~ msgstr "Zgłoś"
+
+#~ msgid "Or edit it again"
+#~ msgstr "lub edytuj ponownie"
 
 #~ msgid "Text"
 #~ msgstr "Treść"

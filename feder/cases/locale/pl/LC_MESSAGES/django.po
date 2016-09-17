@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cases 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-30 17:37+0000\n"
-"PO-Revision-Date: 2015-08-27 00:08+0100\n"
+"POT-Creation-Date: 2016-09-17 20:02+0000\n"
+"PO-Revision-Date: 2016-09-17 22:02+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -17,19 +17,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.8.7.1\n"
 
-#: filters.py:10 models.py:30 templates/cases/_case_small.html:6
-#: templates/cases/_desc.html:4
-msgid "Institution"
-msgstr "Instytucja"
-
-#: filters.py:11 models.py:29 templates/cases/_case_small.html:7
-#: templates/cases/_desc.html:10
-msgid "Monitoring"
-msgstr "Monitoring"
-
-#: filters.py:12
+#: filters.py:10
 msgid "Creation date"
 msgstr "Data utworzenia"
 
@@ -49,15 +39,24 @@ msgstr "Data utworzenia (od najstarszych)"
 msgid "creation date (descending)"
 msgstr "Data utworzenia (od najnowszych)"
 
-#: models.py:26
+#: models.py:49
 msgid "Name"
 msgstr "Nazwa"
 
-#: models.py:27
+#: models.py:50
 msgid "Slug"
 msgstr "Identyfikator redakcyjny"
 
-#: models.py:35 models.py:36
+#: models.py:52 templates/cases/_case_small.html:7
+#: templates/cases/_desc.html:10
+msgid "Monitoring"
+msgstr "Monitoring"
+
+#: models.py:53 templates/cases/_case_small.html:6 templates/cases/_desc.html:4
+msgid "Institution"
+msgstr "Instytucja"
+
+#: models.py:58 models.py:59
 msgid "Case"
 msgstr "Sprawa"
 
@@ -65,7 +64,7 @@ msgstr "Sprawa"
 msgid "Edit"
 msgstr "Edytuj"
 
-#: templates/cases/_btn.html:14 templates/cases/case_confirm_delete.html:8
+#: templates/cases/_btn.html:14
 msgid "Delete"
 msgstr "Usuń"
 
@@ -81,18 +80,30 @@ msgstr "Liczba listów"
 msgid "Cases"
 msgstr "Sprawy"
 
+#: templates/cases/case_confirm_delete.html:4
+msgid "Confirm delete"
+msgstr "Potwierdź usunięcie"
+
 #: templates/cases/case_detail.html:29
 msgid "Tasks"
 msgstr "Zadania"
 
-#: templates/cases/case_detail.html:38
-msgid "Letters"
-msgstr "Listy"
-
-#: templates/cases/case_detail.html:45
+#: templates/cases/case_detail.html:34 templates/cases/case_detail.html:49
 msgid "No rows."
 msgstr "Brak wierszy"
 
-#: views.py:21
+#: templates/cases/case_detail.html:42
+msgid "Letters"
+msgstr "Listy"
+
+#: templates/cases/case_form.html:12
+msgid "Update case"
+msgstr "Zaktualizuj sprawę"
+
+#: templates/cases/case_form.html:13
+msgid "Add case"
+msgstr "Utwórz sprawę"
+
+#: views.py:20
 msgid "Case index"
 msgstr "Wykaz spraw"

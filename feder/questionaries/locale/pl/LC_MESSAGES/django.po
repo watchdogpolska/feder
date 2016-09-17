@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: questionaries\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-28 01:09+0000\n"
-"PO-Revision-Date: 2015-09-28 02:56+0100\n"
+"POT-Creation-Date: 2016-09-17 20:04+0000\n"
+"PO-Revision-Date: 2016-09-17 22:04+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -17,30 +17,25 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.8.7.1\n"
 
-#: filters.py:14
+#: filters.py:10
 msgid "Name"
 msgstr "Nazwa"
 
-#: filters.py:15 models.py:19
-#: templates/questionaries/_questionary_small.html:7
-msgid "Monitoring"
-msgstr "Monitoring"
-
-#: filters.py:16
+#: filters.py:11
 msgid "Creation date"
 msgstr "Data utworzenia"
 
-#: filters.py:28
+#: filters.py:24
 msgid "Creation date (ascending)"
 msgstr "Data utworzenia (rosnąco)"
 
-#: filters.py:29
+#: filters.py:25
 msgid "Creation date (descending)"
 msgstr "Data utworzenia (malejąco)"
 
-#: forms.py:45 models.py:38
+#: forms.py:35 models.py:39
 msgid "Genre"
 msgstr "Rodzaj"
 
@@ -56,11 +51,15 @@ msgstr "Zapobiega edycji pytań, aby chronić przed zniszczeniem zbioru danych"
 msgid "Title"
 msgstr "Tytuł"
 
+#: models.py:19 templates/questionaries/_questionary_small.html:7
+msgid "Monitoring"
+msgstr "Monitoring"
+
 #: models.py:20
 msgid "Lock of edition"
 msgstr "Blokada edycji"
 
-#: models.py:31 models.py:36
+#: models.py:31 models.py:37
 msgid "Questionary"
 msgstr "Kwestionariusz"
 
@@ -68,76 +67,81 @@ msgstr "Kwestionariusz"
 msgid "Questionaries"
 msgstr "Kwestionariusze"
 
-#: models.py:37 templates/questionaries/questionary_detail.html:40
+#: models.py:38 templates/questionaries/questionary_detail.html:44
 msgid "Position"
 msgstr "Pozycja"
 
-#: models.py:39
+#: models.py:40
 msgid "Technical definition"
 msgstr "Opis techniczny"
 
-#: models.py:52 modulator.py:32
+#: models.py:59
+#, python-brace-format
+msgid "Undefined question - {description}"
+msgstr "Niezdefiniowane pytanie - {description}"
+
+#: models.py:65 modulator.py:57
 msgid "Question"
 msgstr "Pytanie"
 
-#: models.py:53
+#: models.py:66
 msgid "Questions"
 msgstr "Pytania"
 
-#: modulator.py:5
+#: modulator.py:10
 msgid "Enter as space-seperated text. Use quotes to pass sentences."
 msgstr ""
 "Wpisz tekst oddzielony spacjami. Użyj cudzysłowów, aby wprowadzić zdania."
 
-#: modulator.py:33
+#: modulator.py:58
 msgid "Description of question"
 msgstr "Opis pytania"
 
-#: modulator.py:34
+#: modulator.py:59
 msgid "This fields will be required?"
 msgstr "To pole będzie wymagane?"
 
-#: modulator.py:36
+#: modulator.py:61
 msgid "Allow comment"
 msgstr "Zezwól na komentarz"
 
-#: modulator.py:38
+#: modulator.py:63
 msgid "Description of comment"
 msgstr "Opis pola komentarza"
 
-#: modulator.py:40
+#: modulator.py:65
 msgid "Help text of comment"
 msgstr "Tekst pomocy dla pola komentarza"
 
-#: modulator.py:42
+#: modulator.py:67
 msgid "Are comment required?"
 msgstr "Czy komentarz jest wymagany?"
 
-#: modulator.py:70
+#: modulator.py:120
 msgid "Question about char"
 msgstr "Pytanie o tekst"
 
-#: modulator.py:75
+#: modulator.py:126
 msgid "Question about integer"
 msgstr "Pytanie o liczbę"
 
-#: modulator.py:80
+#: modulator.py:132
 msgid "Question about e-mail"
 msgstr "Pytanie o adres e-mail"
 
-#: modulator.py:85
+#: modulator.py:138
 msgid "Question about date"
 msgstr "Pytanie o date"
 
-#: modulator.py:90
+#: modulator.py:144
 msgid "Question to choices"
 msgstr "Pytanie wyboru"
 
-#: modulator.py:95
+#: modulator.py:150
 msgid "Choices"
 msgstr "Opcje wyboru"
 
-#: modulator.py:112
+#: modulator.py:178
 msgid "Question about unit of administrative division"
 msgstr "Pytanie o jednostkę podziału terytorialnego"
 
@@ -146,12 +150,11 @@ msgid "Edit"
 msgstr "Edytuj"
 
 #: templates/questionaries/_btn.html:11
-#: templates/questionaries/questionary_confirm_delete.html:11
+#: templates/questionaries/questionary_detail.html:48
 msgid "Delete"
 msgstr "Usuń"
 
 #: templates/questionaries/_btn.html:15 templates/questionaries/_btn.html:17
-#: templates/questionaries/question_wizard.html:5
 msgid "Add question"
 msgstr "Dodaj pytanie"
 
@@ -159,45 +162,40 @@ msgstr "Dodaj pytanie"
 msgid "Add tasks"
 msgstr "Dodaj zadania"
 
-#: templates/questionaries/question_move.html:15
-msgid "Move"
-msgstr "Przesuń"
-
-#: templates/questionaries/question_wizard.html:23
-msgid "first step"
-msgstr "pierwszy krok"
-
-#: templates/questionaries/question_wizard.html:24
-msgid "prev step"
-msgstr "poprzedni krok"
-
-#: templates/questionaries/question_wizard.html:26
-msgid "submit"
-msgstr "wyślij"
-
+#: templates/questionaries/question_confirm_delete.html:4
 #: templates/questionaries/questionary_confirm_delete.html:4
 msgid "Confirm delete"
 msgstr "Potwierdź usuwanie"
+
+#: templates/questionaries/question_move.html:15
+msgid "Move"
+msgstr "Przesuń"
 
 #: templates/questionaries/questionary_detail.html:26
 msgid "Tasks"
 msgstr "Zadania"
 
-#: templates/questionaries/questionary_detail.html:33
+#: templates/questionaries/questionary_detail.html:30
+#: templates/questionaries/questionary_detail.html:54
+msgid "No rows."
+msgstr "Brak wierszy"
+
+#: templates/questionaries/questionary_detail.html:37
 msgid "Form preview"
 msgstr "Podgląd formularza"
 
-#: templates/questionaries/questionary_detail.html:39
+#: templates/questionaries/questionary_detail.html:43
 msgid "Move up"
 msgstr "Przesuń wyżej"
 
-#: templates/questionaries/questionary_detail.html:41
+#: templates/questionaries/questionary_detail.html:45
+#: templates/questionaries/questionary_detail.html:46
 msgid "Move down"
 msgstr "Przesuń niżej"
 
-#: templates/questionaries/questionary_detail.html:46
-msgid "No rows."
-msgstr "Brak wierszy"
+#: templates/questionaries/questionary_detail.html:47
+msgid "Update"
+msgstr "Zaktualizuj"
 
 #: templates/questionaries/questionary_form.html:4
 msgid "Update questionary"
@@ -207,23 +205,31 @@ msgstr "Zaktualizuj kwestionariusz"
 msgid "Add questionary"
 msgstr "Dodaj kwestionariusz"
 
-#: views.py:120
-msgid "Create question"
-msgstr "Utwórz pytanie"
-
-#: views.py:143
+#: views/questions.py:61
 #, python-brace-format
 msgid "Question {object} moved!"
 msgstr "Pytanie {object} przesunięte!"
 
-#: views.py:160
+#: views/utils.py:31
 msgid "Create tasks"
 msgstr "Utwórz zadania"
 
-#: views.py:172
+#: views/utils.py:43
 #, python-brace-format
 msgid "Tasks for {questionary} created!"
 msgstr "Zadania dla {questionary} utworzone!"
+
+#~ msgid "first step"
+#~ msgstr "pierwszy krok"
+
+#~ msgid "prev step"
+#~ msgstr "poprzedni krok"
+
+#~ msgid "submit"
+#~ msgstr "wyślij"
+
+#~ msgid "Create question"
+#~ msgstr "Utwórz pytanie"
 
 #~ msgid "Create questionary"
 #~ msgstr "Utwórz kwestionariusz"
