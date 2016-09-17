@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-monitorings 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-17 12:06+0000\n"
-"PO-Revision-Date: 2016-09-17 14:06+0200\n"
+"POT-Creation-Date: 2016-09-17 14:25+0000\n"
+"PO-Revision-Date: 2016-09-17 16:25+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -77,90 +77,94 @@ msgid "Description"
 msgstr "Opis"
 
 #: models.py:33
+msgid "Subject"
+msgstr "Tytuł"
+
+#: models.py:34
 msgid "Template"
 msgstr "Szablon"
 
-#: models.py:34
+#: models.py:35
 msgid "Use {{EMAIL}} for insert reply address"
 msgstr "Użyj {{EMAIL}} aby umieścić adres odpowiedzi."
 
-#: models.py:37
+#: models.py:38
 msgid "Notify about alerts"
 msgstr "Powiadamiaj o alertach"
 
-#: models.py:42 models.py:43
+#: models.py:43 models.py:44
 msgid "Monitoring"
 msgstr "Monitoring"
 
-#: models.py:46
+#: models.py:47
 msgid "Can add questionary"
 msgstr "Może tworzyć kwestionariusz"
 
-#: models.py:47
+#: models.py:48
 msgid "Can change questionary"
 msgstr "Może zmieniać kwestionariusz"
 
-#: models.py:48
+#: models.py:49
 msgid "Can delete questionary"
 msgstr "Może usuwać kwestionariusz"
 
-#: models.py:49
+#: models.py:50
 msgid "Can add case"
 msgstr "Może tworzyć sprawę"
 
-#: models.py:50
+#: models.py:51
 msgid "Can change case"
 msgstr "Może zmieniać sprawę"
 
-#: models.py:51
+#: models.py:52
 msgid "Can delete case"
 msgstr "Może usuwać sprawę"
 
-#: models.py:52
+#: models.py:53
 msgid "Can add task"
 msgstr "Może dodawać zadanie"
 
-#: models.py:53 models.py:58
+#: models.py:54 models.py:59
 msgid "Can change task"
 msgstr "Może zmieniać zadanie"
 
-#: models.py:54
+#: models.py:55
 msgid "Can delete task"
 msgstr "Może usuwać zadanie"
 
-#: models.py:55
+#: models.py:56
 msgid "Can add letter"
 msgstr "Może dodawać list"
 
-#: models.py:56
+#: models.py:57
 msgid "Can reply"
 msgstr "Może odpowiadać"
 
-#: models.py:57
+#: models.py:58
 msgid "Add reply draft"
 msgstr ""
 
-#: models.py:59
+#: models.py:60
 msgid "Can delete letter"
 msgstr "Może usuwać list"
 
-#: models.py:60
+#: models.py:61
 msgid "Can view alert"
 msgstr "Może dodawać alert"
 
-#: models.py:61
+#: models.py:62
 msgid "Can change alert"
 msgstr "Może zmieniać sprawę"
 
-#: models.py:62
+#: models.py:63
 msgid "Can delete alert"
 msgstr "Może usuwać list"
 
-#: models.py:63
+#: models.py:64
 msgid "Can manage perms"
 msgstr "Może zarządzać uprawnieniami"
 
-#: models.py:64
+#: models.py:65
 msgid "Can select answer"
 msgstr "Może  wybierać odpowiedź"
 
@@ -223,33 +227,41 @@ msgstr "Filtruj"
 msgid "Confirm delete"
 msgstr "Potwierdz usuwanie"
 
-#: templates/monitorings/monitoring_detail.html:21
+#: templates/monitorings/monitoring_detail.html:20
 msgid "by"
 msgstr "przez"
 
-#: templates/monitorings/monitoring_detail.html:40
+#: templates/monitorings/monitoring_detail.html:38
 msgid "Questionaries"
 msgstr "Kwestionariusze"
 
-#: templates/monitorings/monitoring_detail.html:44
-#: templates/monitorings/monitoring_detail.html:76
+#: templates/monitorings/monitoring_detail.html:42
+#: templates/monitorings/monitoring_detail.html:115
 msgid "No rows."
 msgstr "Brak wierszy."
 
-#: templates/monitorings/monitoring_detail.html:51
+#: templates/monitorings/monitoring_detail.html:48
 msgid "Institutions, cases and tasks"
 msgstr "Instytucje, sprawy i zadania"
 
-#: templates/monitorings/monitoring_detail.html:63
+#: templates/monitorings/monitoring_detail.html:60
+msgid "Tasks"
+msgstr ""
+
+#: templates/monitorings/monitoring_detail.html:79
+msgid "Letters"
+msgstr ""
+
+#: templates/monitorings/monitoring_detail.html:104
 msgid "previous"
 msgstr "poprzednia"
 
-#: templates/monitorings/monitoring_detail.html:66
+#: templates/monitorings/monitoring_detail.html:106
 #, python-format
 msgid "Page %(no)s of %(total)s"
 msgstr "Strona %(no)s z %(total)s"
 
-#: templates/monitorings/monitoring_detail.html:69
+#: templates/monitorings/monitoring_detail.html:108
 msgid "next"
 msgstr "następna"
 
@@ -307,22 +319,22 @@ msgstr "Zgłoś"
 msgid "Using field {{EMAIL}} is mandatory."
 msgstr "Użycie pola {{EMAIL}} jest obowiązkowe."
 
-#: views.py:68
+#: views.py:73
 #, python-brace-format
 msgid "{0} created!"
 msgstr "{0} utworzony!"
 
-#: views.py:126
+#: views.py:131
 #, python-brace-format
 msgid "Permissions to {monitoring} updated!"
 msgstr "Uprawnienia dla {monitoring} zaktualizowane!"
 
-#: views.py:177
+#: views.py:182
 #, python-brace-format
 msgid "Permissions to {monitoring} of {user} updated!"
 msgstr "Uprawnienia do {monitoring} dla {user} zaktualizowane!"
 
-#: views.py:235
+#: views.py:241
 #, python-format
 msgid ""
 "%(count)d institutions was assigned to %(monitoring)s. The requests was sent."
