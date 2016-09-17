@@ -19,7 +19,6 @@ from django.utils.translation import ugettext_lazy as _
 from django_mailbox.models import Message
 from django_mailbox.signals import message_received
 from model_utils.models import TimeStampedModel
-from django.utils.encoding import force_text
 from feder.cases.models import Case
 from feder.institutions.models import Institution
 

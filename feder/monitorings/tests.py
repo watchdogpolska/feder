@@ -209,7 +209,8 @@ class MonitoringAssignViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
         self.client.post(self.get_url(), data={'to_assign': [institution_2.pk,
                                                              institution_3.pk]})
         self.assertEqual(len(mail.outbox), 3)
-        self.assertTrue(Case.objects.latest().name.endswith(' #3'))
+        self.assertTrue(institution_2.case_set.all()[0].name.endswith(' #2'))
+        self.assertTrue(institution_3.case_set.all()[0].name.endswith(' #3'))
 
         for x in (0, 1, 2):
             self.assertEqual(mail.outbox[x].subject, "Wniosek")
