@@ -6,13 +6,13 @@ install_devs:
 	pip install -r requirements/test.txt
 
 test:
-	time python manage.py test --keepdb $@
+	time python manage.py test --keepdb
 
 test_parallel:
-	time python manage.py test --keepdb $@ --parallel $(grep -c ^processor /proc/cpuinfo)
+	time python manage.py test --keepdb --parallel $(grep -c ^processor /proc/cpuinfo)
 
 coverage:
-	time python manage.py test --keepdb $@
+	time python manage.py test --keepdb
 	coverage run --branch --omit=*/site-packages/* manage.py test --verbosity=2 --keepdb
 
 coverage_html: coverage
