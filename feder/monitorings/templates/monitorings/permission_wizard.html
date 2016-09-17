@@ -21,3 +21,11 @@
 <input type="submit" class="btn btn-primary" value="{% trans "submit" %}"/>
 </form>
 {% endblock %}
+
+{% block javascript %}
+{{ block.super }}
+{% for form in wizard.form.forms %}
+    {{ form.media }}
+{% endfor %}
+{{ wizard.form.media }}
+{% endblock %}

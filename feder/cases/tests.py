@@ -28,7 +28,7 @@ class CaseFormTestCase(ObjectMixin, TestCase):
         obj = form.save()
         self.assertEqual(obj.name, "example")
         self.assertEqual(obj.monitoring, self.case.monitoring)
-        self.assertEqual(obj.user, self.case.user)
+        self.assertEqual(obj.user, self.user)
 
 
 class CaseListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):

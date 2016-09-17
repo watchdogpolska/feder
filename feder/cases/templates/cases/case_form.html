@@ -1,5 +1,27 @@
 {% extends 'cases/base_object.html' %}
-{% load crispy_forms_tags %}
+{% load crispy_forms_tags i18n %}
+{% block breadcrumbs %}
+<ol class="breadcrumb">
+    {% if monitoring %}
+    <li><a href="{{monitoring.get_absolute_url}}">{{monitoring}}</a></li>
+    {% elif object %}
+    <li><a href="{{object.monitoring.get_absolute_url}}">{{object.monitoring}}</a></li>
+    {% endif %}
+    <li class="active">
+        {% if headline %}{{ headline }}
+        {% elif object %}{% trans 'Update case' %}
+        {% else %}{% trans 'Add case' %}
+        {% endif %}
+    </li>
+</ol>
+{% endblock %}
+
+
 {% block content_object %}
 {% crispy form %}
+{% endblock %}
+
+{% block javascript %}
+{{block.super}}
+{{form.media}}
 {% endblock %}
