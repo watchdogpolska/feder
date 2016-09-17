@@ -5,6 +5,7 @@ from django.conf import settings
 from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.contrib.sitemaps.views import index, sitemap
 from django.http import HttpResponseServerError
 from django.template import Context, loader
 from django.views.generic import TemplateView
@@ -12,7 +13,17 @@ from rest_framework import routers
 from teryt_tree.rest_framework_ext.viewsets import \
     JednostkaAdministracyjnaViewSet
 
-from feder.institutions.viewsets import InstitutionViewSet, TagViewSet, EmailViewSet
+from feder.cases.sitemaps import CaseSitemap
+from feder.institutions.sitemaps import InstitutionSitemap, TagSitemap
+from feder.institutions.viewsets import (EmailViewSet, InstitutionViewSet,
+                                         TagViewSet)
+from feder.letters.sitemaps import LetterSitemap
+from feder.main.sitemaps import StaticSitemap
+from feder.monitorings.sitemaps import (MonitoringPagesSitemap,
+                                        MonitoringSitemap)
+from feder.questionaries.sitemaps import QuestionarySitemap
+from feder.tasks.sitemaps import TaskSitemap
+from feder.teryt.sitemaps import JSTSitemap
 
 router = routers.DefaultRouter()
 router.register(r'institutions', InstitutionViewSet)
@@ -42,6 +53,23 @@ urlpatterns = [
     url(r'^teryt/', include('feder.teryt.urls', namespace="teryt")),
     url(r'^api/', include(router.urls)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+sitemaps = {'cases': CaseSitemap,
+            'institutions': InstitutionSitemap,
+            'institutions_tags': TagSitemap,
+            'letters': LetterSitemap,
+            'main': StaticSitemap,
+            'monitorings': MonitoringSitemap,
+            'monitorings_pages': MonitoringPagesSitemap,
+            'questionaries': QuestionarySitemap,
+            'tasks': TaskSitemap,
+            'teryt': JSTSitemap}
+
+urlpatterns += [
+    url(r'^sitemap\.xml$', index, {'sitemaps': sitemaps, 'sitemap_url_name': 'sitemaps'}),
+    url(r'^sitemap-(?P<section>.+)\.xml$', sitemap, {'sitemaps': sitemaps}, name='sitemaps'),
+]
 
 
 def handler500(request):

@@ -82,10 +82,17 @@ class Email(TimeStampedModel):
         return self.email
 
 
+class TagQuerySet(models.QuerySet):
+    def used(self):
+        return (self.annotate(institution_count=Count('institution')).
+                filter(institution_count__gte=1))
+
+
 @python_2_unicode_compatible
 class Tag(models.Model):
     name = models.CharField(max_length=15, unique=True, verbose_name=_("Name"))
     slug = AutoSlugField(populate_from='name', verbose_name=_("Slug"))
+    objects = TagQuerySet.as_manager()
 
     def __str__(self):
         return self.name
