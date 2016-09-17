@@ -32,9 +32,11 @@ class LetterQuerySet(models.QuerySet):
     def attachment_count(self):
         return self.annotate(attachment_count=models.Count('attachment'))
 
+    def with_author(self):
+        return self.select_related('author_user', 'author_institution')
+
     def for_milestone(self):
-        return (self.prefetch_related('attachment_set').
-                select_related('author_user', 'author_institution'))
+        return self.prefetch_related('attachment_set').with_author()
 
     def is_outgoing(self):
         return self.filter(author_user__isnull=False)

@@ -2,7 +2,7 @@ from atom.ext.guardian.forms import TranslatedUserObjectPermissionsForm
 from atom.views import DeleteMessageMixin, UpdateMessageMixin
 from braces.views import (FormValidMessageMixin, LoginRequiredMixin,
                           PermissionRequiredMixin, SelectRelatedMixin,
-                          UserFormKwargsMixin)
+                          UserFormKwargsMixin, PrefetchRelatedMixin)
 from cached_property import cached_property
 from dal import autocomplete
 from django.contrib import messages
@@ -42,9 +42,11 @@ class MonitoringListView(SelectRelatedMixin, FilterView):
         return qs.with_case_count()
 
 
-class MonitoringDetailView(SelectRelatedMixin, ExtraListMixin, DetailView):
+class MonitoringDetailView(SelectRelatedMixin, PrefetchRelatedMixin,
+                           ExtraListMixin, DetailView):
     model = Monitoring
     select_related = ['user', ]
+    prefetch_related = ['questionary_set', ]
     paginate_by = 25
 
     @staticmethod
@@ -52,7 +54,10 @@ class MonitoringDetailView(SelectRelatedMixin, ExtraListMixin, DetailView):
         return (Case.objects.filter(monitoring=obj).
                 select_related('institution').
                 prefetch_related('task_set').
-                order_by('institution').all())
+                with_letter_max().
+                with_letter().
+                order_by('letter_max').
+                all())
 
 
 class MonitoringCreateView(LoginRequiredMixin, PermissionRequiredMixin,
