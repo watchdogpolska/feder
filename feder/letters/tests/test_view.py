@@ -141,3 +141,11 @@ class LetterCaseAtomFeedTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
 
     def get_url(self):
         return reverse('letters:atom', kwargs={'case_pk': self.case.pk})
+
+
+class SitemapTestCase(ObjectMixin, TestCase):
+    def test_letters(self):
+        url = reverse('sitemaps', kwargs={'section': 'letters'})
+        needle = reverse('letters:details', kwargs={'pk': self.from_user.pk})
+        response = self.client.get(url)
+        self.assertContains(response, needle)

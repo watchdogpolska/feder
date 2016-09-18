@@ -214,3 +214,18 @@ class MonitoringAssignViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
 
         for x in (0, 1, 2):
             self.assertEqual(mail.outbox[x].subject, "Wniosek")
+
+
+class SitemapTestCase(ObjectMixin, TestCase):
+    def test_monitorings(self):
+        url = reverse('sitemaps', kwargs={'section': 'monitorings'})
+        needle = reverse('monitorings:details', kwargs={'slug': self.monitoring})
+        response = self.client.get(url)
+        self.assertContains(response, needle)
+
+    def test_monitorings_pages(self):
+        url = reverse('sitemaps', kwargs={'section': 'monitorings_pages'})
+        needle = reverse('monitorings:details', kwargs={'slug': self.monitoring,
+                                                        'page': 1})
+        response = self.client.get(url)
+        self.assertContains(response, needle)

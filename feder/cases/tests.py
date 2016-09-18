@@ -81,3 +81,11 @@ class CaseAutocompleteTestCase(TestCase):
         response = CaseAutocomplete.as_view()(request)
         self.assertContains(response, '123')
         self.assertNotContains(response, '456')
+
+
+class SitemapTestCase(ObjectMixin, TestCase):
+    def test_cases(self):
+        url = reverse('sitemaps', kwargs={'section': 'cases'})
+        needle = reverse('cases:details', kwargs={'slug': self.case.slug})
+        response = self.client.get(url)
+        self.assertContains(response, needle)

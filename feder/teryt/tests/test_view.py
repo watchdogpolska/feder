@@ -51,3 +51,13 @@ class JSTListViewTestCase(TestCase):
         resp = self.client.get(self.url)
         self.assertContains(resp, self.object.name)
         self.assertContains(resp, self.object_list[0].name)
+
+
+class SitemapTestCase(TestCase):
+    def setUp(self):
+        self.teryt = JSTFactory()
+
+    def test_letters(self):
+        url = reverse('sitemaps', kwargs={'section': 'teryt'})
+        response = self.client.get(url)
+        self.assertContains(response, self.teryt.get_absolute_url())

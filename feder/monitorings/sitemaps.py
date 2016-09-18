@@ -21,7 +21,7 @@ class MonitoringPagesSitemap(Sitemap):
     def items(self):
         items = []
         for obj in Monitoring.objects.with_case_count().all():
-            for page in xrange(0, self.ceildiv(obj.case_count, self.paginate_by)):
+            for page in xrange(0, self.ceildiv(obj.case_count, self.paginate_by) + 1):
                 items.append((obj, page + 1))
         return items
 

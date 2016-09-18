@@ -69,3 +69,10 @@ class QuestionaryDeleteTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
         self.assertRedirects(response,
                              '/monitorings/%s' %
                              (self.questionary.monitoring.slug))
+
+
+class SitemapTestCase(ObjectMixin, TestCase):
+    def test_institutions(self):
+        url = reverse('sitemaps', kwargs={'section': 'questionaries'})
+        response = self.client.get(url)
+        self.assertContains(response, self.questionary.get_absolute_url())

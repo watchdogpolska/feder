@@ -207,3 +207,22 @@ class TagAutocompleteTestCase(TestCase):
         request = self.factory.get('/customer/details', data={'q': '123'})
         response = TagAutocomplete.as_view()(request)
         self.assertContains(response, '123 (1)')
+
+
+class SitemapTestCase(ObjectMixin, TestCase):
+    def test_institutions(self):
+        url = reverse('sitemaps', kwargs={'section': 'institutions'})
+        needle = reverse('institutions:details', kwargs={'slug': self.institution})
+        response = self.client.get(url)
+        self.assertContains(response, needle)
+
+    def test_tags(self):
+        tag_used = TagFactory()
+        institution = InstitutionFactory()
+        institution.tags.add(tag_used)
+        institution.save()
+        tag_free = TagFactory()
+        url = reverse('sitemaps', kwargs={'section': 'institutions_tags'})
+        response = self.client.get(url)
+        self.assertContains(response, tag_used.get_absolute_url())
+        self.assertNotContains(response, tag_free.get_absolute_url())

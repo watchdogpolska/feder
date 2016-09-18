@@ -44,3 +44,10 @@ class TaskDeleteViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
 
     def get_url(self):
         return reverse('tasks:delete', kwargs={'pk': self.task.pk})
+
+
+class SitemapTestCase(ObjectMixin, TestCase):
+    def test_letters(self):
+        url = reverse('sitemaps', kwargs={'section': 'tasks'})
+        response = self.client.get(url)
+        self.assertContains(response, self.task.get_absolute_url())
