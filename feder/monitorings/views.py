@@ -56,7 +56,7 @@ class MonitoringDetailView(SelectRelatedMixin, PrefetchRelatedMixin,
                 prefetch_related('task_set').
                 with_letter_max().
                 with_letter().
-                order_by('letter_max').
+                order_by('-letter_max').
                 all())
 
 
