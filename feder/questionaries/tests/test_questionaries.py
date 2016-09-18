@@ -67,5 +67,5 @@ class QuestionaryDeleteTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
         response = self.client.post(self.get_url())
         self.assertFalse(Questionary.objects.filter(pk=self.questionary.pk).exists())
         self.assertRedirects(response,
-                             '/monitorings/monitoring-%s' %
+                             '/monitorings/%s' %
                              (self.questionary.monitoring.slug))

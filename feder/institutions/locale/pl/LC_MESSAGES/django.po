@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-institutions 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-17 20:03+0000\n"
-"PO-Revision-Date: 2016-09-17 22:04+0200\n"
+"POT-Creation-Date: 2016-09-17 23:55+0000\n"
+"PO-Revision-Date: 2016-09-18 01:55+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -43,15 +43,15 @@ msgstr "Obszar"
 msgid "Institution index"
 msgstr "Wykaz instytucji"
 
-#: models.py:33 models.py:87
+#: models.py:33 models.py:93
 msgid "Name"
 msgstr "Nazwa"
 
-#: models.py:34 models.py:88
+#: models.py:34 models.py:94
 msgid "Slug"
 msgstr "Identyfikator redakcyjny"
 
-#: models.py:37 models.py:97
+#: models.py:37 models.py:104
 msgid "Tag"
 msgstr "Tag"
 
@@ -83,7 +83,7 @@ msgstr "E-mail"
 msgid "Emails"
 msgstr "E-maile"
 
-#: models.py:98 templates/institutions/institution_detail.html:29
+#: models.py:105 templates/institutions/institution_detail.html:29
 msgid "Tags"
 msgstr "Tagi"
 
@@ -142,6 +142,38 @@ msgstr "Strona %(no)s z %(total)s"
 msgid "next"
 msgstr "następna"
 
+#: urls.py:10
+msgid "^$"
+msgstr "^$"
+
+#: urls.py:11
+msgid "^~create$"
+msgstr "^~utworz$"
+
+#: urls.py:13
+msgid "^(?P<slug>[\\w-]+)$"
+msgstr "^(?P<slug>[\\w-]+)$"
+
+#: urls.py:16
+msgid "^(?P<slug>[\\w-]+)/(?P<page>[\\d]+)$"
+msgstr "^(?P<slug>[\\w-]+)/(?P<page>[\\d]+)$"
+
+#: urls.py:18
+msgid "^(?P<slug>[\\w-]+)/~update$"
+msgstr "^(?P<slug>[\\w-]+)/~edytuj$"
+
+#: urls.py:20
+msgid "^(?P<slug>[\\w-]+)/~delete$"
+msgstr "^(?P<slug>[\\w-]+)/~usun$"
+
+#: urls.py:22
+msgid "^~autocomplete$"
+msgstr "^~autocomplete$"
+
+#: urls.py:24
+msgid "^~autocomplete-tag$"
+msgstr "^~autocomplete-tag$"
+
 #: views.py:20
 msgid "Institutions index"
 msgstr "Wykaz instytucji"
@@ -172,9 +204,6 @@ msgstr "Wykaz instytucji"
 
 #~ msgid "{0} deleted!"
 #~ msgstr "{0} usunięty!"
-
-#~ msgid "Create"
-#~ msgstr "Dodaj"
 
 #~ msgid "jst"
 #~ msgstr "Jednostka podziału administracyjnego"

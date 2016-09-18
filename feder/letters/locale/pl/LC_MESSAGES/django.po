@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: letters 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-17 20:02+0000\n"
-"PO-Revision-Date: 2016-09-17 21:18+0200\n"
+"POT-Creation-Date: 2016-09-17 23:54+0000\n"
+"PO-Revision-Date: 2016-09-18 01:54+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -172,6 +172,30 @@ msgstr "lub edytuj je ponownie"
 #, python-format
 msgid "Reply for <a href=\"%(url)s\">%(object)s</a>"
 msgstr "Odpowiedź na <a href=\"%(url)s\">%(object)s</a>"
+
+#: urls.py:10
+msgid "^$"
+msgstr "^$"
+
+#: urls.py:12
+msgid "^~create-(?P<case_pk>[\\d-]+)$"
+msgstr "^~utworz-(?P<case_pk>[\\d-]+)$"
+
+#: urls.py:14
+msgid "^(?P<pk>[\\d-]+)$"
+msgstr "^(?P<pk>[\\d-]+)$"
+
+#: urls.py:16
+msgid "^(?P<pk>[\\d-]+)/~update$"
+msgstr "^(?P<pk>[\\d-]+)/~edytuj$"
+
+#: urls.py:18
+msgid "^(?P<pk>[\\d-]+)/~delete$"
+msgstr "^(?P<pk>[\\d-]+)/~usun$"
+
+#: urls.py:20
+msgid "^(?P<pk>[\\d-]+)/~reply$"
+msgstr "^(?P<pk>[\\d-]+)/~odpowiedz$"
 
 #: views.py:18
 msgid "Letters index"

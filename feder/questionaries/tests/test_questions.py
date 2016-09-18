@@ -114,5 +114,5 @@ class QuestionDeleteViewTestCase(QuestionObjectMixin, PermissionStatusMixin, Tes
         response = self.client.post(self.get_url())
         self.assertFalse(Question.objects.filter(pk=self.question.pk).exists())
         self.assertRedirects(response,
-                             '/questionaries/questionary-%s' %
+                             '/questionaries/%s' %
                              (self.questionary.pk))

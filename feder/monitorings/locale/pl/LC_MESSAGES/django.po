@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-monitorings 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-17 20:02+0000\n"
-"PO-Revision-Date: 2016-09-17 22:03+0200\n"
+"POT-Creation-Date: 2016-09-17 23:54+0000\n"
+"PO-Revision-Date: 2016-09-18 01:55+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -294,6 +294,54 @@ msgstr "poprzedni krok"
 #: templates/monitorings/permission_wizard.html:21
 msgid "submit"
 msgstr "Zgłoś"
+
+#: urls.py:10
+msgid "^$"
+msgstr "^$"
+
+#: urls.py:12
+msgid "^~create$"
+msgstr "^~utworz$"
+
+#: urls.py:14
+msgid "^~autocomplete$"
+msgstr "^~autocomplete$"
+
+#: urls.py:16
+msgid "^~autocomplete/user$"
+msgstr "^~autocomplete/uzytkownicy$"
+
+#: urls.py:18
+msgid "^(?P<slug>[\\w-]+)$"
+msgstr "^(?P<slug>[\\w-]+)$"
+
+#: urls.py:20
+msgid "^(?P<slug>[\\w-]+)/page-(?P<page>[\\d]+)$"
+msgstr "^(?P<slug>[\\w-]+)/strona-(?P<page>[\\d]+)$"
+
+#: urls.py:23
+msgid "^(?P<slug>[\\w-]+)/~update$"
+msgstr "^(?P<slug>[\\w-]+)/~edytuj$"
+
+#: urls.py:25
+msgid "^(?P<slug>[\\w-]+)/~delete$"
+msgstr "^(?P<slug>[\\w-]+)/~usun$"
+
+#: urls.py:27
+msgid "^(?P<slug>[\\w-]+)/~permission/~add$"
+msgstr "^(?P<slug>[\\w-]+)/~uprawnienia/~dodaj$"
+
+#: urls.py:29
+msgid "^(?P<slug>[\\w-]+)/~permission-(?P<user_pk>[\\d]+)$"
+msgstr "^(?P<slug>[\\w-]+)/~uprawnienia-(?P<user_pk>[\\d]+)$"
+
+#: urls.py:32
+msgid "^(?P<slug>[\\w-]+)/~permission$"
+msgstr "^(?P<slug>[\\w-]+)/~uprawnienia$"
+
+#: urls.py:34
+msgid "^(?P<slug>[\\w-]+)/~assign$"
+msgstr "^(?P<slug>[\\w-]+)/~przypisz$"
 
 #: validators.py:7
 msgid "Using field {{EMAIL}} is mandatory."

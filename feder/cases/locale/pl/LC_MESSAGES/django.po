@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cases 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-17 20:02+0000\n"
-"PO-Revision-Date: 2016-09-17 22:02+0200\n"
+"POT-Creation-Date: 2016-09-17 23:54+0000\n"
+"PO-Revision-Date: 2016-09-18 01:54+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -103,6 +103,30 @@ msgstr "Zaktualizuj sprawę"
 #: templates/cases/case_form.html:13
 msgid "Add case"
 msgstr "Utwórz sprawę"
+
+#: urls.py:10
+msgid "^$"
+msgstr "^$"
+
+#: urls.py:12
+msgid "^~create-(?P<monitoring>[\\d]+)$"
+msgstr "^~utworz-(?P<monitoring>[\\d]+)$"
+
+#: urls.py:14
+msgid "^(?P<slug>[\\w-]+)$"
+msgstr "^(?P<slug>[\\w-]+)$"
+
+#: urls.py:16
+msgid "^(?P<slug>[\\w-]+)/~update$"
+msgstr "^(?P<slug>[\\w-]+)/~edytuj$"
+
+#: urls.py:18
+msgid "^(?P<slug>[\\w-]+)/~delete$"
+msgstr "^(?P<slug>[\\w-]+)/~usun$"
+
+#: urls.py:20
+msgid "^~autocomplete$"
+msgstr "^~autocomplete$"
 
 #: views.py:20
 msgid "Case index"

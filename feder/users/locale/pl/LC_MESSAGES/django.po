@@ -1,0 +1,222 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-09-17 23:57+0000\n"
+"PO-Revision-Date: 2016-09-18 01:57+0200\n"
+"Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
+"Language-Team: \n"
+"Language: pl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2);\n"
+"X-Generator: Poedit 1.8.7.1\n"
+
+#: templates/users/user_detail.html:5 templates/users/user_form.html:5
+#: templates/users/user_form.html:12
+msgid "User"
+msgstr "Użytkownik / użytkowniczka"
+
+#: templates/users/user_detail.html:22
+msgid "My Info"
+msgstr "O mnie"
+
+#: templates/users/user_detail.html:23
+msgid "E-Mail"
+msgstr "E-mail"
+
+#: templates/users/user_form.html:18
+msgid "Update"
+msgstr "Aktualizuj"
+
+#: templates/users/user_list.html:3
+msgid "Members"
+msgstr "Członkowie"
+
+#: templates/users/user_list.html:11
+msgid "Users"
+msgstr "Użytkownicy / użytkowniczki"
+
+#: urls.py:11
+msgid "^$"
+msgstr "^$"
+
+#: urls.py:14
+msgid "^~redirect/$"
+msgstr "^~przekieruj/$"
+
+#: urls.py:17
+msgid "^(?P<username>[\\w.@+-]+)/$"
+msgstr "^(?P<username>[\\w.@+-]+)/$"
+
+#: urls.py:20
+msgid "^~update/$"
+msgstr "^~aktualizuj/$"
+
+#: urls.py:23
+msgid "^~autocomplete$"
+msgstr "^~autocomplete$"
+
+#~ msgid "Creation date"
+#~ msgstr "Data utworzenia"
+
+#~ msgid "Has eml?"
+#~ msgstr "Ma plik .eml?"
+
+#~ msgid "Creation date (ascending)"
+#~ msgstr "Data utworzenia (rosnąco)"
+
+#~ msgid "Creation date (descending)"
+#~ msgstr "Data utworzenia (malejąco)"
+
+#~ msgid "Save draft"
+#~ msgstr "Zapisz szkic"
+
+#~ msgid "Send reply"
+#~ msgstr "Wyślij odpowiedź"
+
+#~ msgid ""
+#~ "Nothing to do. You do not have permission to save draft or send replies."
+#~ msgstr ""
+#~ "Nic do zrobienia. Nie masz uprawnień, aby zapisać szkic lub wysłać "
+#~ "odpowiedź."
+
+#~ msgid "You do not have permission to send replies."
+#~ msgstr "Nie masz uprawnień, aby wysłać odpowiedzi."
+
+#~ msgid "You do not have permission to save draft."
+#~ msgstr "Nie masz odpowiedzi, aby wysłać odpowiedź."
+
+#~ msgid "There is no mail to institution. Unable to send emails."
+#~ msgstr "Brak adresu e-mail do instytucji, więc nie mogę wysłać e-maila."
+
+#~ msgid "Case"
+#~ msgstr "Sprawa"
+
+#~ msgid "Author (if user)"
+#~ msgstr "Autor (jeżeli użytkownik)"
+
+#~ msgid "Author (if institution)"
+#~ msgstr "Autor (jeżeli instytucja)"
+
+#~ msgid "Title"
+#~ msgstr "Tytuł"
+
+#~ msgid "Text"
+#~ msgstr "Treść"
+
+#~ msgid "Quote"
+#~ msgstr "Cytat"
+
+#~ msgid "E-mail"
+#~ msgstr "E-mail"
+
+#~ msgid "File"
+#~ msgstr "Plik"
+
+#~ msgid "Message"
+#~ msgstr "Wiadomość"
+
+#~ msgid "Message registerd by django-mailbox"
+#~ msgstr "Wiadomość zarejestrowanaa przez django-maiblxo"
+
+#~ msgid "Letter"
+#~ msgstr "List"
+
+#~ msgid "Letters"
+#~ msgstr "Listy"
+
+#~ msgid "Can filter eml"
+#~ msgstr "Może filtrować po eml"
+
+#~ msgid "Edit"
+#~ msgstr "Edytuj"
+
+#~ msgid "Delete"
+#~ msgstr "Usuń"
+
+#~ msgid "Reply"
+#~ msgstr "Odpowiedź"
+
+#~ msgid "by"
+#~ msgstr "przez"
+
+#~ msgid "Attachments"
+#~ msgstr "Załączniki"
+
+#~ msgid ""
+#~ "<a href=\"%(object_url)s\">%(object)s</a>\n"
+#~ "        <small>by <a href=\"%(author_url)s\"> %(author)s </a> <time "
+#~ "datetime=\"%(created)s\" title=\"%(created)s\">%(created_natural)s</time> "
+#~ "in case  <a href=\"%(case_url)s\">%(case)s</a> with <a href="
+#~ "\"%(institution_url)s\">%(institution)s</a></small>"
+#~ msgstr ""
+#~ "<a href=\"%(object_url)s\">%(object)s</a>\n"
+#~ "        <small>przez <a href=\"%(author_url)s\"> %(author)s </a><time "
+#~ "datetime=\"%(created)s\" title=\"%(created)s\">%(created_natural)s</time> "
+#~ "w sprawie  <a href=\"%(case_url)s\">%(case)s</a> z <a href="
+#~ "\"%(institution_url)s\">%(institution)s</a></small>"
+
+#~ msgid "Confirm delete"
+#~ msgstr "Potwierdź usuwanie"
+
+#~ msgid "Download letter"
+#~ msgstr "Pobierz list"
+
+#~ msgid "Preview your submission"
+#~ msgstr "Podejrzyj swoje zgłoszenie"
+
+#~ msgid "Send"
+#~ msgstr "Wyślij"
+
+#~ msgid "Or edit it again"
+#~ msgstr "lub edytuj je ponownie"
+
+#~ msgid "Reply for <a href=\"%(url)s\">%(object)s</a>"
+#~ msgstr "Odpowiedź na <a href=\"%(url)s\">%(object)s</a>"
+
+#~ msgid "^~create-(?P<case_pk>[\\d-]+)$"
+#~ msgstr "^~utworz-(?P<case_pk>[\\d-]+)$"
+
+#~ msgid "^letter-(?P<pk>[\\d-]+)$"
+#~ msgstr "^list-(?P<pk>[\\d-]+)$"
+
+#~ msgid "^letter-(?P<pk>[\\d-]+)/~update$"
+#~ msgstr "^list-(?P<pk>[\\d-]+)/~edytuj$"
+
+#~ msgid "^letter-(?P<pk>[\\d-]+)/~delete$"
+#~ msgstr "^list-(?P<pk>[\\d-]+)/~usun$"
+
+#~ msgid "^letter-(?P<pk>[\\d-]+)/~reply$"
+#~ msgstr "^list-(?P<pk>[\\d-]+)/~odpowiedz$"
+
+#~ msgid "Letters index"
+#~ msgstr "Wykaz listów"
+
+#~ msgid "Reply {reply} to {letter} saved and send!"
+#~ msgstr "Odpowiedź {reply} na {letter} zapisana i wysłana!"
+
+#~ msgid "Author"
+#~ msgstr "Autor"
+
+#~ msgid "Institution"
+#~ msgstr "Instytucja"
+
+#~ msgid "{0} updated!"
+#~ msgstr "{0} zaktualizowany!"
+
+#~ msgid "{0} deleted!"
+#~ msgstr "{0} usunięty!"
+
+#~ msgid "{0} created!"
+#~ msgstr "{0} utworzony!"
+
+#~ msgid "No rows."
+#~ msgstr "Brak wierszy"

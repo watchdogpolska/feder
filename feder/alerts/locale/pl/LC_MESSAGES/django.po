@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: alerts 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-17 20:05+0000\n"
-"PO-Revision-Date: 2016-09-17 22:05+0200\n"
+"POT-Creation-Date: 2016-09-17 23:57+0000\n"
+"PO-Revision-Date: 2016-09-18 01:57+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: pl_PL <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -96,6 +96,30 @@ msgstr "Dodaj alert"
 #: templates/alerts/alert_switch.html:9
 msgid "Switch"
 msgstr "Przestaw"
+
+#: urls.py:10
+msgid "^monitoring-(?P<monitoring>[\\d]+)$"
+msgstr "^monitoring-(?P<monitoring>[\\d]+)$"
+
+#: urls.py:12
+msgid "^monitoring-(?P<monitoring>[\\d]+)/~create$"
+msgstr "^monitoring-(?P<monitoring>[\\d]+)/~utworz$"
+
+#: urls.py:14
+msgid "^(?P<pk>[\\d]+)$"
+msgstr "^(?P<pk>[\\d]+)$"
+
+#: urls.py:16
+msgid "^(?P<pk>[\\d]+)/~update$"
+msgstr "^(?P<pk>[\\d]+)/~aktualizuj$"
+
+#: urls.py:18
+msgid "^(?P<pk>[\\d]+)/~delete$"
+msgstr "^(?P<pk>[\\d]+)/~usun$"
+
+#: urls.py:20
+msgid "^(?P<pk>[\\d]+)/~status$"
+msgstr "^(?P<pk>[\\d]+)/~status$"
 
 #: views.py:63
 #, python-brace-format

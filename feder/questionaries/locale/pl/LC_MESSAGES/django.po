@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: questionaries\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-17 20:04+0000\n"
-"PO-Revision-Date: 2016-09-17 22:04+0200\n"
+"POT-Creation-Date: 2016-09-17 23:55+0000\n"
+"PO-Revision-Date: 2016-09-18 01:56+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -205,6 +205,54 @@ msgstr "Zaktualizuj kwestionariusz"
 msgid "Add questionary"
 msgstr "Dodaj kwestionariusz"
 
+#: urls.py:10
+msgid "^$"
+msgstr "^$"
+
+#: urls.py:12
+msgid "^~create-(?P<monitoring>[\\d]+)$"
+msgstr "^~utworz-(?P<monitoring>[\\d]+)$"
+
+#: urls.py:14
+msgid "^(?P<pk>[\\d]+)$"
+msgstr "^(?P<pk>[\\d]+)$"
+
+#: urls.py:16
+msgid "^(?P<pk>[\\d]+)/~update$"
+msgstr "^(?P<pk>[\\d]+)/~edytuj$"
+
+#: urls.py:18
+msgid "^(?P<pk>[\\d]+)/~delete$"
+msgstr "^(?P<pk>[\\d]+)/~delete$"
+
+#: urls.py:20
+msgid "^(?P<pk>[\\d]+)/~tasks$"
+msgstr "^(?P<pk>[\\d]+)/~zadania$"
+
+#: urls.py:22
+msgid "^(?P<pk>[\\d]+)/~export$"
+msgstr "^(?P<pk>[\\d]+)/~eksportuj$"
+
+#: urls.py:27
+msgid "^(?P<pk>[\\d]+)/~question-create$"
+msgstr "^(?P<pk>[\\d]+)/~pytanie-utworz$"
+
+#: urls.py:29
+msgid "^question-(?P<pk>[\\d]+)/~up$"
+msgstr "^pytanie-(?P<pk>[\\d]+)/~wyzej$"
+
+#: urls.py:31
+msgid "^question-(?P<pk>[\\d]+)/~down$"
+msgstr "^pytanie-(?P<pk>[\\d]+)/~nizej$"
+
+#: urls.py:33
+msgid "^question-(?P<pk>[\\d]+)/~update$"
+msgstr "^pytanie-(?P<pk>[\\d]+)/~edytuj$"
+
+#: urls.py:35
+msgid "^question-(?P<pk>[\\d]+)/~delete$"
+msgstr "^pytanie-(?P<pk>[\\d]+)/~delete$"
+
 #: views/questions.py:61
 #, python-brace-format
 msgid "Question {object} moved!"
@@ -218,6 +266,12 @@ msgstr "Utwórz zadania"
 #, python-brace-format
 msgid "Tasks for {questionary} created!"
 msgstr "Zadania dla {questionary} utworzone!"
+
+#~ msgid "^questionary-(?P<pk>[\\d]+)/~update$"
+#~ msgstr "^kwestionariusz-(?P<pk>[\\d]+)/~edytuj$"
+
+#~ msgid "^questionary-(?P<pk>[\\d]+)/~delete$"
+#~ msgstr "^kwestionariusz-(?P<pk>[\\d]+)/~usun$"
 
 #~ msgid "first step"
 #~ msgstr "pierwszy krok"
