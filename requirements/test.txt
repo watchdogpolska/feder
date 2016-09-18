@@ -1,3 +1,6 @@
 # Test dependencies go here.
 -r local.txt
 lxml==3.6.3
+django-coverage-plugin
+coverage
+coveralls
