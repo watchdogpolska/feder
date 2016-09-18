@@ -1,19 +1,27 @@
 from atom.ext.django_filters.views import UserKwargFilterSetMixin
-from atom.views import CreateMessageMixin, DeleteMessageMixin, UpdateMessageMixin
-from braces.views import FormValidMessageMixin, SelectRelatedMixin, UserFormKwargsMixin
+from atom.views import (CreateMessageMixin, DeleteMessageMixin,
+                        UpdateMessageMixin)
+from braces.views import (FormValidMessageMixin, SelectRelatedMixin,
+                          UserFormKwargsMixin)
+from cached_property import cached_property
+from django.contrib.syndication.views import Feed
+from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import get_object_or_404
+from django.utils.encoding import force_text
+from django.utils.feedgenerator import Atom1Feed, Enclosure
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
 from django_filters.views import FilterView
 
 from feder.cases.models import Case
-from feder.main.mixins import AttrPermissionRequiredMixin, RaisePermissionRequiredMixin
+from feder.main.mixins import (AttrPermissionRequiredMixin,
+                               RaisePermissionRequiredMixin)
+from feder.monitorings.models import Monitoring
 
 from .filters import LetterFilter
 from .forms import LetterForm, ReplyForm
+from .mixins import LetterObjectFeedMixin
 from .models import Letter
-from cached_property import cached_property
-
 
 _("Letters index")
 
@@ -81,8 +89,8 @@ class LetterReplyView(RaisePermissionRequiredMixin, UserFormKwargsMixin,
 
     def get_form_valid_message(self):
         return _("Reply {reply} to {letter} saved and send!").format(
-                letter=self.letter,
-                reply=self.object)
+            letter=self.letter,
+            reply=self.object)
 
 
 class LetterUpdateView(AttrPermissionRequiredMixin, UserFormKwargsMixin,
@@ -100,3 +108,89 @@ class LetterDeleteView(AttrPermissionRequiredMixin, DeleteMessageMixin, DeleteVi
 
     def get_success_url(self):
         return self.object.case.get_absolute_url()
+
+
+class LetterRssFeed(Feed):
+    title = _("Latest letters on whole site")
+    link = reverse_lazy("letters:list")
+    description = _("Updates on new letters on site including " +
+                    "receving and sending in all monitorings.")
+    feed_url = reverse_lazy("letters:rss")
+    description_template = "letters/_letter_feed_item.html"
+
+    def items(self):
+        return Letter.objects.with_feed_items().order_by('-created')[:30]
+
+    def item_title(self, item):
+        return item.title
+
+    def item_author_name(self, item):
+        return force_text(item.author)
+
+    def item_author_link(self, item):
+        return item.author.get_absolute_url()
+
+    def item_pubdate(self, item):
+        return item.created
+
+    def item_updateddate(self, item):
+        return item.modified
+
+    def item_categories(self, item):
+        return [item.case,
+                item.case.monitoring,
+                item.case.institution,
+                item.case.institution.jst]
+
+    def item_enclosures(self, item):
+        encs = []
+        for attachment in item.attachment_set.all():
+            enc = Enclosure(
+                    length=force_text(0),
+                    url=force_text(attachment.get_absolute_url),
+                    mime_type="application/octet-stream"
+            )
+            encs.append(enc)
+        return encs
+
+
+class LetterAtomFeed(LetterRssFeed):
+    feed_type = Atom1Feed
+    subtitle = LetterRssFeed.description
+    feed_url = reverse_lazy("letters:atom")
+
+
+class LetterMonitoringRssFeed(LetterObjectFeedMixin, LetterRssFeed):
+    model = Monitoring
+    filter_field = 'case__monitoring'
+    kwargs_name = 'monitoring_pk'
+
+    def title(self, obj):
+        return _("Letter for monitoring %s") % force_text(obj)
+
+    def description(self, obj):
+        return _("Archive of letter for cases which involved in monitoring %s") % force_text(obj)
+
+
+class LetterMonitoringAtomFeed(LetterRssFeed):
+    feed_type = Atom1Feed
+    subtitle = LetterMonitoringRssFeed.description
+    feed_url = reverse_lazy("letters:atom")
+
+
+class LetterCaseRssFeed(LetterObjectFeedMixin, LetterRssFeed):
+    model = Case
+    filter_field = 'case'
+    kwargs_name = 'case_pk'
+
+    def title(self, obj):
+        return _("Letter for case %s") % force_text(obj)
+
+    def description(self, obj):
+        return _("Archive of letter for case %s") % force_text(obj)
+
+
+class LetterCaseAtomFeed(LetterCaseRssFeed):
+    feed_type = Atom1Feed
+    subtitle = LetterCaseRssFeed.description
+    feed_url = reverse_lazy("letters:atom")

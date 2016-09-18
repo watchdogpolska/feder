@@ -1,14 +1,10 @@
-{% extends 'cases/base.html' %}
+{% extends 'cases/base_object.html' %}
 {% load i18n %}
 {% block breadcrumbs %}
 <ol class="breadcrumb">
     <li><a href="{{object.monitoring.get_absolute_url}}">{{object.monitoring}}</a></li>
     <li class="active">{{object}}</li>
 </ol>
-{% endblock %}
-
-{% block buttons %}
-{% include 'cases/_btn.html' with object=object %}
 {% endblock %}
 
 {% block content %}

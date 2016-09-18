@@ -12,12 +12,11 @@
     <!--[if lt IE 9]>
       <script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+    <link rel="alternate" type="application/rss+xml" title="RSS Feed of letters" href="{% url 'letters:rss' %}" />
+    <link rel="alternate" type="application/atom+xml" title="Atom Feed of letters" href="{% url 'letters:atom' %}" />
 
+    {% block feed %}{% endblock %}
     {% block css %}
-
-    <!-- Your stuff: Third-party css libraries go here -->
-
-    <!-- This file store project specific CSS -->
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
     {% endblock %}
 

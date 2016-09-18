@@ -1,6 +1,14 @@
 {% extends 'monitorings/base.html' %}
 {% load i18n %}
 
+{% block feed %}
+{% if object %}
+<link rel="alternate" type="application/rss+xml" title="RSS Feed of letters for {{object}}" href="{% url 'letters:rss' monitoring_pk=object.pk %}" />
+<link rel="alternate" type="application/atom+xml" title="Atom Feed of letters for {{object}}" href="{% url 'letters:atom' monitoring_pk=object.pk %}" />
+{% endif %}
+{% endblock %}
+
+
 {% block breadcrumbs %}
 <ol class="breadcrumb">
   {% if object %}<li><a href="{{object.get_absolute_url}}">{{object}}</a></li>{% endif %}

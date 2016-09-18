@@ -43,6 +43,11 @@ class LetterQuerySet(models.QuerySet):
     def is_incoming(self):
         return self.filter(author_user__isnull=True)
 
+    def with_feed_items(self):
+        return (self.with_author().
+                select_related('case__institution__jst', 'case__monitoring').
+                prefetch_related('attachment_set'))
+
 
 @python_2_unicode_compatible
 class Letter(TimeStampedModel):

@@ -87,3 +87,57 @@ class LetterReplyViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
                                     {'body': 'Lorem', 'title': 'Lorem', 'send': 'yes'})
         self.assertEqual(response.status_code, 302)
         self.assertEqual(len(mail.outbox), 1)
+
+
+class LetterRssFeedTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
+    status_anonymous = 200
+    status_no_permission = 200
+    permission = []
+
+    def get_url(self):
+        return reverse('letters:rss')
+
+
+class LetterAtomFeedTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
+    status_anonymous = 200
+    status_no_permission = 200
+    permission = []
+
+    def get_url(self):
+        return reverse('letters:atom')
+
+
+class LetterMonitoringRssFeedTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
+    status_anonymous = 200
+    status_no_permission = 200
+    permission = []
+
+    def get_url(self):
+        return reverse('letters:rss', kwargs={'monitoring_pk': self.monitoring.pk})
+
+
+class LetterMonitoringAtomFeedTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
+    status_anonymous = 200
+    status_no_permission = 200
+    permission = []
+
+    def get_url(self):
+        return reverse('letters:rss', kwargs={'monitoring_pk': self.monitoring.pk})
+
+
+class LetterCaseRssFeedTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
+    status_anonymous = 200
+    status_no_permission = 200
+    permission = []
+
+    def get_url(self):
+        return reverse('letters:rss', kwargs={'case_pk': self.case.pk})
+
+
+class LetterCaseAtomFeedTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
+    status_anonymous = 200
+    status_no_permission = 200
+    permission = []
+
+    def get_url(self):
+        return reverse('letters:atom', kwargs={'case_pk': self.case.pk})
