@@ -87,7 +87,7 @@ class BaseSimpleModulator(BaseBlobFormModulator):
     @classmethod
     def get_content(cls, definition, cleaned_data):
         definition = definition or {}
-        return {'value': cleaned_data['value'], 'comment': cleaned_data['value']}
+        return {'value': cleaned_data['value'], 'comment': cleaned_data['comment']}
 
     @classmethod
     def get_label_text(cls, definition):

@@ -14,8 +14,8 @@ from ..forms import QuestionDefinitionForm, QuestionForm
 from ..models import Question, Questionary
 
 
-class QuestionCreateView(AttrPermissionRequiredMixin, FormValidMessageMixin,
-                         CreateMessageMixin, CreateView):
+class QuestionCreateView(AttrPermissionRequiredMixin, CreateMessageMixin,
+                         FormValidMessageMixin, CreateView):
     model = Question
     template_name = 'questionaries/question_form.html'
     form_class = QuestionForm

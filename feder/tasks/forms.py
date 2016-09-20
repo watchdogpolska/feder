@@ -32,8 +32,6 @@ class AnswerForm(HelperMixin, forms.Form):
         self.survey = kwargs.pop('survey', None)
         self.instance = kwargs.pop('instance', Answer())
         super(AnswerForm, self).__init__(*args, **kwargs)
-        self.instance.survey = self.survey
-        self.instance.question = self.question
         self.construct_form()
         self.helper.form_tag = False
 
@@ -45,6 +43,8 @@ class AnswerForm(HelperMixin, forms.Form):
                 self.fields[name].initial = self.initial[name]
 
     def save(self, commit=True):
+        self.instance.survey = self.survey
+        self.instance.question = self.question
         self.instance.content = self.modulator.get_content(self.question.definition,
                                                            self.cleaned_data)
         if commit:

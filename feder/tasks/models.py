@@ -104,8 +104,11 @@ class Task(TimeStampedModel):
         return super(Task, self).save(*args, **kwargs)
 
     def get_next_for_user(self, user):
-        return (Task.objects.by_monitoring(self.case.monitoring).
+        task = (Task.objects.by_monitoring(self.case.monitoring).
                 exclude_by_user(user).first())
+        if not task:
+            raise Task.DoesNotExist
+        return task
 
     def verify(self):
         object_list = list(Answer.objects.filter(survey__task=self).

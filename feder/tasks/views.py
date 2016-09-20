@@ -1,27 +1,20 @@
-from atom.views import (
-    ActionMessageMixin,
-    ActionView,
-    CreateMessageMixin,
-    DeleteMessageMixin,
-    UpdateMessageMixin
-)
-from braces.views import (
-    FormValidMessageMixin,
-    PrefetchRelatedMixin,
-    SelectRelatedMixin,
-    UserFormKwargsMixin
-)
+from atom.views import (ActionMessageMixin, ActionView, CreateMessageMixin,
+                        DeleteMessageMixin, UpdateMessageMixin)
+from braces.views import (FormValidMessageMixin, PrefetchRelatedMixin,
+                          SelectRelatedMixin, UserFormKwargsMixin)
 from cached_property import cached_property
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.urlresolvers import reverse, reverse_lazy
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import get_object_or_404, redirect
 from django.utils.translation import ugettext_lazy as _
-from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
+from django.views.generic import (CreateView, DeleteView, DetailView, FormView,
+                                  UpdateView)
 from django_filters.views import FilterView
 
 from feder.cases.models import Case
-from feder.main.mixins import AttrPermissionRequiredMixin, RaisePermissionRequiredMixin
+from feder.main.mixins import (AttrPermissionRequiredMixin,
+                               RaisePermissionRequiredMixin)
 
 from .filters import TaskFilter
 from .forms import AnswerFormSet, SurveyForm, TaskForm
@@ -156,43 +149,66 @@ class SurveySelectView(AttrPermissionRequiredMixin, ActionMessageMixin,
         return reverse('tasks:survey', kwargs={'pk': self.object.task_id})
 
 
-@login_required
-def fill_survey(request, pk):  # TODO: Convert to CBV eg. TemplateView
-    context = {}
-    task = get_object_or_404(Task, pk=pk)
-    context['object'] = task
-    try:
-        survey = Survey.objects.get(task=task, user=request.user)
-    except Survey.DoesNotExist:
-        survey = None
-    form = SurveyForm(data=request.POST or None,
-                      task=task,
-                      instance=survey,
-                      user=request.user)
+class SurveyFillView(LoginRequiredMixin, FormView):
+    template_name = 'tasks/survey_fill.html'
+    form_class = SurveyForm
+    formset_class = AnswerFormSet
 
-    context['form'] = form
-    if request.POST and form.is_valid():
-        obj = form.save(commit=False)
-        formset = AnswerFormSet(data=request.POST or None,
-                                survey=obj,
-                                questionary=task.questionary)
-        context['formset'] = formset
-        if formset.is_valid():
-            messages.success(request, THANK_TEXT)
-            obj.save()
-            formset.save()
-            if 'save' in request.POST:
-                return redirect(obj.task)
-            else:
-                next_task = task.get_next_for_user(request.user)
-                if next_task:
-                    return redirect(next_task)
-                else:
-                    messages.success(request, EXHAUSTED_TEXT)
-                    return redirect(task.case.monitoring)
-    else:
-        formset = AnswerFormSet(data=request.POST or None,
-                                survey=survey,
-                                questionary=task.questionary)
-        context['formset'] = formset
-    return render(request, 'tasks/task_fill.html', context)
+    @cached_property
+    def task(self):
+        return get_object_or_404(Task, pk=self.kwargs['pk'])
+
+    @cached_property
+    def object(self):
+        try:
+            return Survey.objects.get(task=self.task,
+                                      user=self.request.user)
+        except Survey.DoesNotExist:
+            return None
+
+    def get_form_kwargs(self):
+        kwargs = super(SurveyFillView, self).get_form_kwargs()
+        kwargs['task'] = self.task
+        kwargs['instance'] = self.object
+        kwargs['user'] = self.request.user
+        return kwargs
+
+    def get_success_url(self):
+        if 'save' in self.request.POST:  # only save
+            return self.object.task.get_absolute_url()
+
+        # find next task
+        try:
+            next_task = self.task.get_next_for_user(self.request.user)
+            return next_task.get_absolute_url()
+        except Task.DoesNotExist:
+            messages.success(self.request, EXHAUSTED_TEXT)
+            return self.task.case.monitoring.get_absolute_url()
+
+    @cached_property
+    def formset(self):
+        return self.formset_class(data=self.request.POST or None,
+                                  survey=self.object,
+                                  questionary=self.task.questionary)
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        if self.formset.is_valid():
+            self.object.save()
+            self.formset.save()
+            messages.success(self.request, THANK_TEXT)
+            return self.formset_valid(form, self.object, self.formset)
+        return self.render_to_response(self.get_context_data())
+
+    def formset_valid(self, form, obj, formset):
+        messages.success(self.request, THANK_TEXT)
+        obj.save()
+        formset.save()
+        return redirect(self.get_success_url())
+
+    def get_context_data(self, **kwargs):
+        context = super(SurveyFillView, self).get_context_data(**kwargs)
+        context['formset'] = self.formset
+        context['object'] = self.object
+        context['task'] = self.task
+        return context

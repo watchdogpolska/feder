@@ -19,7 +19,7 @@ urlpatterns = [
         name="delete"),
     url(_(r'^(?P<pk>[\d]+)/~survey_list$'), views.TaskSurveyView.as_view(),
         name="survey"),
-    url(_(r'^(?P<pk>[\d]+)/~fill_survey$'), views.fill_survey,
+    url(_(r'^(?P<pk>[\d]+)/~fill_survey$'), views.SurveyFillView.as_view(),
         name="fill_survey"),
     url(_(r'^(?P<task_id>[\d]+)/~delete_survey$'), views.SurveyDeleteView.as_view(),
         name="delete_survey"),
