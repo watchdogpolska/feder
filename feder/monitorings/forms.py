@@ -7,12 +7,19 @@ from django.utils.translation import ugettext as _
 from dal import autocomplete
 from .models import Monitoring
 from feder.users.models import User
+from crispy_forms.layout import Layout, Fieldset
 
 
 class MonitoringForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(MonitoringForm, self).__init__(*args, **kwargs)
+        if not self.instance.pk:  # disable fields for create
+            del self.fields['notify_alert']
         self.instance.user = self.user
+        self.helper.layout = Layout(
+            Fieldset(_("Monitoring"), 'name', 'description', 'notify_alert'),
+            Fieldset(_("Template"), 'subject', 'template')
+        )
 
     class Meta:
         model = Monitoring
