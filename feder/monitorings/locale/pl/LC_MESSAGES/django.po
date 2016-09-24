@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-monitorings 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-17 23:54+0000\n"
-"PO-Revision-Date: 2016-09-18 01:55+0200\n"
+"POT-Creation-Date: 2016-09-24 16:28+0000\n"
+"PO-Revision-Date: 2016-09-24 18:29+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -39,7 +39,15 @@ msgstr "Liczba spraw (rosnąco)"
 msgid "Cases count (descending)"
 msgstr "Liczba spraw (malejąco)"
 
-#: forms.py:26 models.py:31 templates/monitorings/_monitoring_small.html:8
+#: forms.py:20 models.py:43 models.py:44
+msgid "Monitoring"
+msgstr "Monitoring"
+
+#: forms.py:21 models.py:34
+msgid "Template"
+msgstr "Szablon"
+
+#: forms.py:33 models.py:31 templates/monitorings/_monitoring_small.html:8
 msgid "User"
 msgstr "Użytkownik"
 
@@ -79,10 +87,6 @@ msgstr "Opis"
 msgid "Subject"
 msgstr "Tytuł"
 
-#: models.py:34
-msgid "Template"
-msgstr "Szablon"
-
 #: models.py:35
 msgid "Use {{EMAIL}} for insert reply address"
 msgstr "Użyj {{EMAIL}} aby umieścić adres odpowiedzi."
@@ -90,10 +94,6 @@ msgstr "Użyj {{EMAIL}} aby umieścić adres odpowiedzi."
 #: models.py:38
 msgid "Notify about alerts"
 msgstr "Powiadamiaj o alertach"
-
-#: models.py:43 models.py:44
-msgid "Monitoring"
-msgstr "Monitoring"
 
 #: models.py:47
 msgid "Can add questionary"
@@ -153,11 +153,11 @@ msgstr "Może dodawać alert"
 
 #: models.py:62
 msgid "Can change alert"
-msgstr "Może zmieniać sprawę"
+msgstr "Może zmieniać alert"
 
 #: models.py:63
 msgid "Can delete alert"
-msgstr "Może usuwać list"
+msgstr "Może usuwać alert"
 
 #: models.py:64
 msgid "Can manage perms"
@@ -266,7 +266,7 @@ msgstr "następna"
 
 #: templates/monitorings/monitoring_filter.html:7
 #: templates/monitorings/monitoring_form.html:7
-#: templates/monitorings/monitoring_single.html:24
+#: templates/monitorings/monitoring_single.html:32
 msgid "Add monitoring"
 msgstr "Dodaj monitoring"
 
