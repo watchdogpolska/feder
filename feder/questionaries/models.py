@@ -7,6 +7,7 @@ from model_utils.models import TimeStampedModel
 
 from feder.monitorings.models import Monitoring
 
+from .modulator import modulators
 
 _('Questionaries index')
 
@@ -52,13 +53,15 @@ class Question(models.Model):
     def is_configured(self):
         return bool(self.definition)
 
-    def __str__(self):
-        from .modulator import modulators
+    @property
+    def modulator(self):
+        return modulators[self.genre]()
 
+    def __str__(self):
         if not self.is_configured:
             return _("Undefined question - {description}").format(
-                description=modulators[self.genre].description)
-        return modulators[self.genre].get_label_text(self.definition)
+                description=self.modulator.description)
+        return self.modulator.get_label_text(self.definition)
 
     class Meta:
         ordering = ['position', ]

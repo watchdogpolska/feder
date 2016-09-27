@@ -48,7 +48,7 @@ class QuestionDefinitionForm(SingleButtonMixin, UserKwargModelFormMixin, forms.F
         self.construct_form()
 
     def construct_form(self):
-        for name, field in modulators[self.instance.genre].list_create_question_fields():
+        for name, field in self.instance.modulator.list_create_question_fields():
             self.fields[name] = field
 
     def save(self):

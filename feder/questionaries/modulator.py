@@ -4,7 +4,6 @@ import shlex
 
 from django import forms
 from django.utils.translation import ugettext_lazy as _
-
 from feder.teryt.models import JST
 
 SHLEX_TEXT = _("Enter as space-seperated text. Use quotes to pass sentences.")
@@ -19,40 +18,43 @@ def register(name):
     return decorator
 
 
-class BaseBlobFormModulator(object):
-    description = None
+class AbstractModulator(object):
 
     @classmethod
+    @property
+    def description(self):
+        raise NotImplementedError("Provide property 'description' in {name}".
+                                  format(name=self.__class__.__name__))
+
     def list_create_question_fields(self):
-        """ Method to list fields used in create question form"""
-        raise NotImplementedError("Provide method 'create' in {name}".
-                                  format(name=self.__class__.__name__))
-
-    def list_answer_fields(self, definition, fields):
-        """ Method to list fields used in create answer form"""
-        raise NotImplementedError("Provide method 'answer' in {name}".
-                                  format(name=self.__class__.__name__))
-
-    def get_content(self, definition, cleaned_data):
-        """ Method to parse input to answer"""
         raise NotImplementedError("Provide method 'read' in {name}".
                                   format(name=self.__class__.__name__))
 
-    def get_short_label(self):
-        """ Method to convert question to user-friendly label"""
-        raise NotImplementedError("Provide method 'read' in {name}".
-                                  format(name=self.__class__.__name__))
+    def list_create_answer_fields(cls, definition):
+        pass
 
-    def render_answer(self, questionary, sheet=False):
-        """ Method to convert answer to user-friendly text"""
-        raise NotImplementedError("Provide method 'read' in {name}".
-                                  format(name=self.__class__.__name__))
+    def get_content(cls, definition, cleaned_data):
+        pass
+
+    def get_label_text(cls, definition):
+        pass
+
+    def get_answer_text(cls, definition, content):
+        pass
+
+    def get_initial(cls, definition, content):
+        pass
+
+    def get_label_column(cls, definition):
+        pass
+
+    def get_answer_columns(cls, definition, content):
+        pass
 
 
-class BaseSimpleModulator(BaseBlobFormModulator):
+class BaseSimpleModulator(object):
     output_field_cls = None
 
-    @classmethod
     def list_create_question_fields(self):
         return (('name', forms.CharField(label=_("Question"))),
                 ('help_text', forms.CharField(label=_("Description of question"))),
@@ -67,13 +69,11 @@ class BaseSimpleModulator(BaseBlobFormModulator):
                 ('comment_required', forms.BooleanField(label=_("Are comment required?"),
                                                         required=False)))
 
-    @classmethod
     def get_kwargs(cls, definition):
         return dict(label=definition.get('name', ""),
                     help_text=definition.get('help_text', ""),
                     required=definition.get('required', True))
 
-    @classmethod
     def list_create_answer_fields(cls, definition):
         definition = definition or {}
         fields = [('value', cls.output_field_cls(**cls.get_kwargs(definition))), ]
@@ -84,33 +84,27 @@ class BaseSimpleModulator(BaseBlobFormModulator):
             fields.append(('comment', commend_field), )
         return fields
 
-    @classmethod
     def get_content(cls, definition, cleaned_data):
         definition = definition or {}
         return {'value': cleaned_data['value'], 'comment': cleaned_data['comment']}
 
-    @classmethod
     def get_label_text(cls, definition):
         definition = definition or {}
         return definition.get('name', '')
 
-    @classmethod
     def get_answer_text(cls, definition, content):
         definition = definition or {}
         if definition.get('comment', False):
             return u"%s (%s)" % (content.get('value', ''), content.get('comment', ''))
         return content.get('value', '')
 
-    @classmethod
     def get_initial(cls, definition, content):
         return content
 
-    @classmethod
     def get_label_column(cls, definition):
         definition = definition or {}
         return [definition.get('name', ''), "Comment"]
 
-    @classmethod
     def get_answer_columns(cls, definition, content):
         return [content['value'], content['comment']]
 
@@ -144,7 +138,6 @@ class ChoiceModulator(BaseSimpleModulator):
     description = _("Question to choices")
     output_field_cls = forms.ChoiceField
 
-    @classmethod
     def list_create_question_fields(self, fields):
         items = super(ChoiceModulator, self).create(fields)
         choices_field = forms.CharField(label=_("Choices"),

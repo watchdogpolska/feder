@@ -28,7 +28,7 @@ class TaskForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
 class AnswerForm(HelperMixin, forms.Form):
     def __init__(self, *args, **kwargs):
         self.question = kwargs.pop('question')
-        self.modulator = modulators[self.question.genre]
+        self.modulator = self.question.modulator
         self.survey = kwargs.pop('survey', None)
         self.instance = kwargs.pop('instance', Answer())
         super(AnswerForm, self).__init__(*args, **kwargs)
