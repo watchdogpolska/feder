@@ -24,22 +24,11 @@
 <div class="row">
     <div class="col-md-4">
         <div class="red">
-            <p>{% trans "E-mail"%}: {{object.accurate_email.email}}</p>
+            <p>{% trans "E-mail"%}: {{object.email}}</p>
             {% if object.tags.all %}
                 <p>{% trans "Tags"%}: {% for tag in object.tags.all %}<a class="link-tag" href="{{tag.get_absolute_url}}">{{tag}}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</p>
             {% endif %}
         </div>
-
-        {% if object.email_set.all %}
-        <div class="red">
-            <h3>{% trans 'E-mails' %}</h3>
-            <ul>
-                {% for email in object.email_set.all %}
-                <li>{{email}} {% if email.email == object.address %}( {%trans 'Primary' %} ){% endif %}</li>
-                {% endfor %}
-            </ul>
-        </div>
-        {% endif %}
     </div>
     <div class="col-md-8">
         <h2>{% trans 'Cases and tasks' %}</h2>

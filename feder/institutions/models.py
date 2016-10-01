@@ -1,5 +1,4 @@
 from autoslug.fields import AutoSlugField
-from cached_property import cached_property
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models import Count
@@ -21,15 +20,9 @@ class InstitutionQuerySet(models.QuerySet):
         return self.filter(jst__tree_id=jst.tree_id,
                            jst__lft__range=(jst.lft, jst.rght))
 
-    def with_accurate_email(self):
-        return self.prefetch_related('email_set')
-
-    def with_any_email(self):
-        return self.annotate(email_count=Count('email')).filter(email_count__gte=1)
-
 
 @python_2_unicode_compatible
-class Institution(models.Model):
+class Institution(TimeStampedModel):
     name = models.CharField(max_length=250, verbose_name=_("Name"))
     slug = AutoSlugField(populate_from='name', verbose_name=_("Slug"), unique=True)
     tags = models.ManyToManyField('Tag',
@@ -38,6 +31,7 @@ class Institution(models.Model):
     jst = models.ForeignKey(JST,
                             verbose_name=_('Unit of administrative division'),
                             db_index=True)
+    email = models.EmailField(verbose_name=_("Email of institution"))
     objects = InstitutionQuerySet.as_manager()
 
     class Meta:
@@ -49,37 +43,6 @@ class Institution(models.Model):
 
     def get_absolute_url(self):
         return reverse('institutions:details', kwargs={'slug': self.slug})
-
-    @cached_property
-    def accurate_email(self):
-        try:
-            self._prefetched_objects_cache['email']
-            return max(self.email_set.all(), key=(lambda x: (x.priority, x.created)))
-        except (ValueError):  # max() arg is an empty sequence
-            return None
-        except (AttributeError, KeyError):
-            try:
-                return self.email_set.order_by('-priority', 'created')[:1].get()
-            except Email.DoesNotExist:
-                return None
-
-
-@python_2_unicode_compatible
-class Email(TimeStampedModel):
-    institution = models.ForeignKey(Institution, verbose_name=_("Institution"))
-    email = models.EmailField(verbose_name=_("E-mail"), unique=True)
-    priority = models.SmallIntegerField(verbose_name=_("Priority of usage"),
-                                        default=0,
-                                        help_text=_("Respect of confidence"))
-
-    class Meta:
-        verbose_name = _("Email")
-        verbose_name_plural = _("Emails")
-        unique_together = (('institution', 'email', ))
-        ordering = ['priority', 'institution', ]
-
-    def __str__(self):
-        return self.email
 
 
 class TagQuerySet(models.QuerySet):

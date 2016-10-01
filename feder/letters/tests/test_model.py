@@ -7,7 +7,7 @@ from django_mailbox.models import Mailbox
 from email import message_from_file
 from feder.cases.factories import CaseFactory
 from feder.cases.models import Case
-from feder.institutions.factories import EmailFactory, InstitutionFactory
+from feder.institutions.factories import InstitutionFactory
 from feder.monitorings.factories import MonitoringFactory
 from feder.users.factories import UserFactory
 
@@ -63,26 +63,25 @@ class ModelTestCase(TestCase):
 
     def test_send(self):
         outgoing = OutgoingLetterFactory()
-        email = EmailFactory(priority=25, institution=outgoing.case.institution)
         outgoing.send()
         self.assertEqual(len(mail.outbox), 1)
-        self.assertEqual(outgoing.email, email.email)
+        self.assertEqual(outgoing.email, outgoing.case.institution.email)
 
-        self.assertIn(email.email, mail.outbox[0].to)
+        self.assertIn(outgoing.case.institution.email, mail.outbox[0].to)
         self.assertIn(outgoing.body, mail.outbox[0].body)
         self.assertIn(outgoing.quote, mail.outbox[0].body)
 
     def test_send_new_case(self):
         user = UserFactory(username="tom")
-        email = EmailFactory()
+        institution = InstitutionFactory()
         Letter.send_new_case(user=user,
                              monitoring=MonitoringFactory(),
-                             institution=email.institution,
+                             institution=institution,
                              text="Przeslac informacje szybko")
         self.assertEqual(Case.objects.count(), 1)
         self.assertEqual(Letter.objects.count(), 1)
         self.assertEqual(len(mail.outbox), 1)
-        self.assertIn(email.email, mail.outbox[0].to)
+        self.assertIn(institution.email, mail.outbox[0].to)
 
 
 class IncomingEmailTestCase(TestCase):

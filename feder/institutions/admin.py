@@ -2,14 +2,7 @@ from django.contrib import admin
 from django.db.models import Count
 from django.utils.translation import ugettext_lazy as _
 
-from .models import Email, Institution, Tag
-
-
-class EmailInline(admin.StackedInline):
-    '''
-        Stacked Inline View for Email
-    '''
-    model = Email
+from .models import Institution, Tag
 
 
 @admin.register(Institution)
@@ -17,21 +10,9 @@ class InstitutionAdmin(admin.ModelAdmin):
     '''
         Admin View for Institution
     '''
-    list_display = ('name', 'jst', 'get_email_count')
+    list_display = ('name', 'jst', 'email',)
     search_fields = ['name', ]
     raw_id_fields = ('jst', )
-    inlines = [
-        EmailInline,
-    ]
-
-    def get_email_count(self, obj):
-        return obj.email_count
-    get_email_count.admin_order_field = 'email_count'
-    get_email_count.short_description = _("Email count")
-
-    def get_queryset(self, *args, **kwargs):
-        qs = super(InstitutionAdmin, self).get_queryset(*args, **kwargs)
-        return qs.annotate(email_count=Count('email'))
 
 
 @admin.register(Tag)

@@ -8,7 +8,6 @@ from braces.forms import UserKwargModelFormMixin
 from crispy_forms.layout import Submit
 from django import forms
 from django.utils.translation import ugettext_lazy as _
-from feder.institutions.models import Email
 from .models import Letter
 
 QUOTE_TPL = "W nawiązaniu do pisma z dnia {created} z adresu {email}:\n{quoted}"
@@ -65,10 +64,6 @@ class ReplyForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
         if not self.user_can_save and 'save' in self.data:
             raise forms.ValidationError(_(
                 "You do not have permission to save draft."
-            ))
-        if not Email.objects.filter(institution=self.letter.case.institution).exists():
-            raise forms.ValidationError(_(
-                "There is no mail to institution. Unable to send emails."
             ))
         return super(ReplyForm, self).clean()
 

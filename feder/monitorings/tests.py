@@ -1,11 +1,10 @@
 from django.core import mail
 from django.core.urlresolvers import reverse
 from django.test import TestCase
-from django.utils.encoding import force_text
 from guardian.shortcuts import assign_perm
 
 from feder.cases.models import Case
-from feder.institutions.factories import EmailFactory
+from feder.institutions.factories import InstitutionFactory
 from feder.main.mixins import PermissionStatusMixin
 from feder.users.factories import UserFactory
 
@@ -169,38 +168,38 @@ class MonitoringAssignViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
 
     def test_assign_display_institutions(self):
         self.login_permitted_user()
-        institution_1 = EmailFactory().institution
-        institution_2 = EmailFactory().institution
+        institution_1 = InstitutionFactory()
+        institution_2 = InstitutionFactory()
         response = self.client.get(self.get_url())
         self.assertContains(response, institution_1.name)
         self.assertContains(response, institution_2.name)
 
     def test_send_to_all(self):
         self.login_permitted_user()
-        EmailFactory().institution
-        EmailFactory().institution
-        EmailFactory().institution
+        InstitutionFactory()
+        InstitutionFactory()
+        InstitutionFactory()
         self.client.post(self.get_url(), data={'all': 'yes'})
         self.assertEqual(len(mail.outbox), 3)
 
     def test_send_to_selected(self):
         self.login_permitted_user()
-        institution_1 = EmailFactory().institution
-        institution_2 = EmailFactory().institution
-        EmailFactory().institution
+        institution_1 = InstitutionFactory()
+        institution_2 = InstitutionFactory()
+        InstitutionFactory()
         to_send_ids = [institution_1.pk, institution_2.pk]
         self.client.post(self.get_url(), data={'to_assign': to_send_ids})
         self.assertEqual(len(mail.outbox), 2)
-        self.assertEqual(mail.outbox[0].to[0], institution_1.accurate_email.email)
-        self.assertEqual(mail.outbox[1].to[0], institution_2.accurate_email.email)
+        self.assertEqual(mail.outbox[0].to[0], institution_1.email)
+        self.assertEqual(mail.outbox[1].to[0], institution_2.email)
         for x in (0, 1):
             self.assertEqual(mail.outbox[x].subject, "Wniosek")
 
     def test_constant_increment_local_id(self):
         self.login_permitted_user()
-        institution_1 = EmailFactory().institution
-        institution_2 = EmailFactory().institution
-        institution_3 = EmailFactory().institution
+        institution_1 = InstitutionFactory()
+        institution_2 = InstitutionFactory()
+        institution_3 = InstitutionFactory()
         self.client.post(self.get_url(), data={'to_assign': [institution_1.pk]})
         self.assertEqual(len(mail.outbox), 1)
 

@@ -200,9 +200,7 @@ class MonitoringAssignView(RaisePermissionRequiredMixin, FilterView):
         qs = super(MonitoringAssignView, self).get_queryset(*args, **kwargs)
         return (qs.exclude(case__monitoring=self.monitoring.pk).
                 with_case_count().
-                select_related('jst').
-                with_any_email().
-                with_accurate_email())
+                select_related('jst'))
 
     def get_permission_object(self):
         return self.monitoring

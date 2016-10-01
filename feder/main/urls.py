@@ -15,7 +15,7 @@ from teryt_tree.rest_framework_ext.viewsets import \
 
 from feder.cases.sitemaps import CaseSitemap
 from feder.institutions.sitemaps import InstitutionSitemap, TagSitemap
-from feder.institutions.viewsets import (EmailViewSet, InstitutionViewSet,
+from feder.institutions.viewsets import (InstitutionViewSet,
                                          TagViewSet)
 from feder.letters.sitemaps import LetterSitemap
 from feder.main.sitemaps import StaticSitemap
@@ -32,7 +32,6 @@ router = routers.DefaultRouter()
 router.register(r'institutions', InstitutionViewSet)
 router.register(r'tags', TagViewSet)
 router.register(r'teryt', JednostkaAdministracyjnaViewSet)
-router.register(r'email', EmailViewSet)
 
 urlpatterns = [
     url(_(r'^$'), views.HomeView.as_view(), name="home"),

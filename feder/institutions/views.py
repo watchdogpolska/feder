@@ -37,10 +37,6 @@ class InstitutionDetailView(SelectRelatedMixin, ExtraListMixin, PrefetchRelatedM
     select_related = []
     extra_list_context = 'case_list'
 
-    def get_queryset(self, *args, **kwargs):
-        qs = super(InstitutionDetailView, self).get_queryset(*args, **kwargs)
-        return qs.with_accurate_email()
-
     @staticmethod
     def get_object_list(obj):
         return (Case.objects.filter(institution=obj).

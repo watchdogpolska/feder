@@ -10,7 +10,7 @@ from .models import Institution
 class InstitutionForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
     class Meta:
         model = Institution
-        fields = ['name', 'tags', 'jst']
+        fields = ['name', 'tags', 'jst', 'email']
         widgets = {
             'jst': autocomplete.ModelSelect2(url='teryt:community-autocomplete')
         }
