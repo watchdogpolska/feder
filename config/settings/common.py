@@ -49,7 +49,8 @@ THIRD_PARTY_APPS = (
     'django_mailbox',
     'teryt_tree',
     'bootstrap_pagination',
-    'rest_framework'
+    'rest_framework',
+    'reversion',
 )
 
 # Apps specific for this project go here.
@@ -80,6 +81,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'reversion.middleware.RevisionMiddleware',
 )
 
 # MIGRATIONS CONFIGURATION

@@ -1,10 +1,11 @@
 from django.contrib import admin
+from reversion.admin import VersionAdmin
 
 from .models import Monitoring
 
 
 @admin.register(Monitoring)
-class MonitoringAdmin(admin.ModelAdmin):
+class MonitoringAdmin(VersionAdmin):
     '''
         Admin View for Monitoring
     '''

@@ -8,6 +8,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from guardian.models import GroupObjectPermissionBase, UserObjectPermissionBase
 from model_utils.models import TimeStampedModel
+import reversion
 
 from .validators import validate_template_syntax
 
@@ -24,6 +25,7 @@ class MonitoringQuerySet(models.QuerySet):
         return self.annotate(case_count=models.Count('case'))
 
 
+@reversion.register()
 class Monitoring(TimeStampedModel):
     perm_model = 'monitoringuserobjectpermission'
     name = models.CharField(verbose_name=_("Name"), max_length=50)

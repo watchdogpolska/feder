@@ -1,12 +1,13 @@
 from django.contrib import admin
 from django.db.models import Count
 from django.utils.translation import ugettext_lazy as _
+from reversion.admin import VersionAdmin
 
 from .models import Institution, Tag
 
 
 @admin.register(Institution)
-class InstitutionAdmin(admin.ModelAdmin):
+class InstitutionAdmin(VersionAdmin):
     '''
         Admin View for Institution
     '''
