@@ -14,9 +14,9 @@ def forwards_func(apps, schema_editor):
     Email = apps.get_model("institutions", "Email")
     db_alias = schema_editor.connection.alias
     for institution in Institution.objects.using(db_alias).all():
-        emails = list(Email.objects.order_by('priority').all())
+        emails = list(Email.objects.filter(institution=institution.pk).order_by('priority').all())
         if emails:
-            institution.email = max(emails, key=lambda x: x.priority)
+            institution.email = max(emails, key=lambda x: x.priority).email
             institution.save()
 
 
@@ -31,6 +31,13 @@ class Migration(migrations.Migration):
             name='email',
             unique_together=set([]),
         ),
+        migrations.AddField(
+            model_name='institution',
+            name='email',
+            field=models.EmailField(default='default-email@example.com', max_length=254, verbose_name='Email of institution'),
+            preserve_default=False,
+        ),
+        migrations.RunPython(forwards_func),
         migrations.RemoveField(
             model_name='email',
             name='institution',
@@ -40,13 +47,6 @@ class Migration(migrations.Migration):
             name='created',
             field=model_utils.fields.AutoCreatedField(default=django.utils.timezone.now, editable=False, verbose_name='created'),
         ),
-        migrations.AddField(
-            model_name='institution',
-            name='email',
-            field=models.EmailField(default='default-email@example.com', max_length=254, verbose_name='Email of institution'),
-            preserve_default=False,
-        ),
-        migrations.RunPython(forwards_func),
         migrations.AddField(
             model_name='institution',
             name='modified',
