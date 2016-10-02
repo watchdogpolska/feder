@@ -81,7 +81,11 @@ class SitemapTestCase(ObjectMixin, TestCase):
         self.assertContains(response, self.questionary.get_absolute_url())
 
 
-class SurveyCSVView(ObjectMixin, TestCase):
+class SurveyCSVViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
+    permission = []
+    status_anonymous = 200
+    status_no_permission = 200
+
     def get_url(self):
         return reverse('questionaries:export',
                        kwargs={'pk': self.questionary.pk})
