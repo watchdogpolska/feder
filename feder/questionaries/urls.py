@@ -19,7 +19,7 @@ questionaries_urlpatterns = [
         name="delete"),
     url(_(r'^(?P<pk>[\d]+)/~tasks$'), utils.TaskMultiCreateView.as_view(),
         name="tasks"),
-    url(_(r'^(?P<pk>[\d]+)/~export$'), utils.save_survey_as_csv,
+    url(_(r'^(?P<pk>[\d]+)/~export$'), utils.SurveyCSVView.as_view(),
         name="export"),
 ]
 

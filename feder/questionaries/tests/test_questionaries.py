@@ -2,10 +2,13 @@ from django.core.urlresolvers import reverse
 from django.test import TestCase
 
 from feder.main.mixins import PermissionStatusMixin
+from feder.tasks.factories import (CharAnswerFactory, JSTAnswerFactory,
+                                   SurveyFactory)
+from feder.teryt.factories import JSTFactory
 
-from .test_general import ObjectMixin
-
+from ..factories import CharQuestionFactory, JSTQuestionFactory
 from ..models import Questionary
+from .test_general import ObjectMixin
 
 
 class QuestionaryCreateTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
@@ -76,3 +79,31 @@ class SitemapTestCase(ObjectMixin, TestCase):
         url = reverse('sitemaps', kwargs={'section': 'questionaries'})
         response = self.client.get(url)
         self.assertContains(response, self.questionary.get_absolute_url())
+
+
+class SurveyCSVView(ObjectMixin, TestCase):
+    def get_url(self):
+        return reverse('questionaries:export',
+                       kwargs={'pk': self.questionary.pk})
+
+    def test_no_question(self):
+        response = self.client.get(self.get_url())
+        self.assertEqual(response.status_code, 200)
+
+    def test_no_answer_but_has_questions(self):
+        char_q = CharQuestionFactory(questionary=self.questionary)
+        jst_q = JSTQuestionFactory(questionary=self.questionary)
+        response = self.client.get(self.get_url())
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, char_q.definition['name'])
+        self.assertContains(response, jst_q.definition['name'])
+
+    def test_save_answer(self):
+        survey = SurveyFactory(task__questionary=self.questionary)
+        char_a = CharAnswerFactory(survey=survey)
+        jst = JSTFactory()
+        JSTAnswerFactory(survey=survey, value=jst.pk)
+        response = self.client.get(self.get_url())
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, char_a.content['value'])
+        self.assertContains(response, jst.name)

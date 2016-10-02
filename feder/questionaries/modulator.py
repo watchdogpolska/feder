@@ -2,8 +2,10 @@ from __future__ import unicode_literals
 
 import shlex
 
+from dal import autocomplete
 from django import forms
 from django.utils.translation import ugettext_lazy as _
+
 from feder.teryt.models import JST
 
 SHLEX_TEXT = _("Enter as space-seperated text. Use quotes to pass sentences.")
@@ -18,7 +20,7 @@ def register(name):
     return decorator
 
 
-class AbstractModulator(object):
+class BaseModulator(object):
 
     @classmethod
     @property
@@ -27,32 +29,37 @@ class AbstractModulator(object):
                                   format(name=self.__class__.__name__))
 
     def list_create_question_fields(self):
-        raise NotImplementedError("Provide method 'read' in {name}".
+        raise NotImplementedError("Provide method 'list_create_question_fields' in {name}".
                                   format(name=self.__class__.__name__))
 
-    def list_create_answer_fields(cls, definition):
-        pass
+    def list_create_answer_fields(self, definition):
+        raise NotImplementedError("Provide method 'list_create_answer_fields' in {name}".
+                                  format(name=self.__class__.__name__))
 
-    def get_content(cls, definition, cleaned_data):
-        pass
+    def get_content(self, definition, cleaned_data):
+        return cleaned_data
 
-    def get_label_text(cls, definition):
-        pass
+    def get_label_text(self, definition):
+        raise NotImplementedError("Provide method 'get_label_text' in {name}".
+                                  format(name=self.__class__.__name__))
 
-    def get_answer_text(cls, definition, content):
-        pass
+    def get_answer_text(self, definition, content):
+        raise NotImplementedError("Provide method 'get_answer_text' in {name}".
+                                  format(name=self.__class__.__name__))
 
-    def get_initial(cls, definition, content):
-        pass
+    def get_initial(self, definition, content):
+        return content
 
-    def get_label_column(cls, definition):
-        pass
+    def get_label_column(self, definition):
+        raise NotImplementedError("Provide method 'get_label_column' in {name}".
+                                  format(name=self.__class__.__name__))
 
-    def get_answer_columns(cls, definition, content):
-        pass
+    def get_answer_columns(self, definition, content):
+        raise NotImplementedError("Provide method 'get_answer_columns' in {name}".
+                                  format(name=self.__class__.__name__))
 
 
-class BaseSimpleModulator(object):
+class BaseSimpleModulator(BaseModulator):
     output_field_cls = None
 
     def list_create_question_fields(self):
@@ -84,10 +91,6 @@ class BaseSimpleModulator(object):
             fields.append(('comment', commend_field), )
         return fields
 
-    def get_content(cls, definition, cleaned_data):
-        definition = definition or {}
-        return {'value': cleaned_data['value'], 'comment': cleaned_data['comment']}
-
     def get_label_text(cls, definition):
         definition = definition or {}
         return definition.get('name', '')
@@ -97,9 +100,6 @@ class BaseSimpleModulator(object):
         if definition.get('comment', False):
             return u"%s (%s)" % (content.get('value', ''), content.get('comment', ''))
         return content.get('value', '')
-
-    def get_initial(cls, definition, content):
-        return content
 
     def get_label_column(cls, definition):
         definition = definition or {}
@@ -150,9 +150,6 @@ class ChoiceModulator(BaseSimpleModulator):
         kw['choices'] = enumerate(shlex.split(definition['choices'].encode('utf-8')))
         return kw
 
-    def get_content(self, definition, cleaned_data):
-        return {'value': cleaned_data['value'], 'comment': cleaned_data['value']}
-
     def get_label_text(self, definition):
         return definition['name']
 
@@ -170,6 +167,66 @@ class ChoiceModulator(BaseSimpleModulator):
 class JSTModulator(BaseSimpleModulator):
     description = _("Question about unit of administrative division")
     output_fields_cls = forms.ModelChoiceField
+    CHOICES = {'voivodeship': _("Voivodeship"),
+               'community': _("Community"),
+               'county': _("County"),
+               'all': _("All")}
 
-    def answer(self, fields):
-        fields['value'].widget = forms.ModelChoiceField(queryset=JST.objects.all())
+    def list_create_question_fields(self):
+        return (('name', forms.CharField(label=_("Question"))),
+                ('help_text', forms.CharField(label=_("Description of question"))),
+                ('required', forms.BooleanField(label=_("This fields will be required?"),
+                                                required=False)),
+                ('area', forms.ChoiceField(choices=self.CHOICES.items(),
+                                           label=("Area"))),
+                ('autocomplete', forms.BooleanField(label=_("Display as autocomplete?"),
+                                                    required=False))
+                )
+
+    def list_create_answer_fields(self, definition):
+        definition.setdefault('name', '')
+        definition.setdefault('help_text', '')
+        definition.setdefault('area', 'voivodeship')
+        definition.setdefault('required', True)
+        kwargs = {}
+        kwargs['label'] = definition['name']
+        kwargs['help_text'] = definition['help_text']
+        kwargs['required'] = definition['required']
+
+        if definition['area'] == 'voivodeship':
+            # kwargs['widget'] = autocomplete.ModelSelect2(
+            #         url='teryt:voivodeship-autocomplete')
+            kwargs['queryset'] = JST.objects.voivodeship().all()
+        elif definition['area'] == 'community':
+            # kwargs['widget'] = autocomplete.ModelSelect2(
+            #         url='teryt:community-autocomplete')
+            kwargs['queryset'] = JST.objects.community().all()
+        elif definition['area'] == 'county':
+            # kwargs['widget'] = autocomplete.ModelSelect2(
+            #         url='teryt:county-autocomplete')
+            kwargs['queryset'] = JST.objects.county().all()
+        else:
+            kwargs['queryset'] = JST.objects.all()
+        return (('value', forms.ModelChoiceField(**kwargs)),
+                )
+
+    def get_content(self, definition, content):
+        if isinstance(content['value'], JST):
+            content['value'] = content['value'].pk
+        return content
+
+    def get_label_text(self, definition):
+        return definition['name']
+
+    def get_answer_text(self, definition, content):
+        return JST.objects.get(pk=content['value'])
+
+    def get_initial(self, definition, content):
+        return content
+        return {'value': JST.objects.get(pk=content['value']).pk}
+
+    def get_label_column(self, definition):
+        return [definition['name'], "JST-id"]
+
+    def get_answer_columns(self, definition, content):
+        return [JST.objects.get(pk=content['value']), content['value']]

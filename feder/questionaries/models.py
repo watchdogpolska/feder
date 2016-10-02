@@ -40,12 +40,6 @@ class Question(models.Model):
     genre = models.CharField(max_length=25, verbose_name=_("Genre"))
     definition = JSONField(verbose_name=_("Technical definition"))
 
-    def save(self, lock_protection=True, *args, **kwargs):
-        # The final protection against destruction of the data set
-        if lock_protection is True and self.pk is None and self.questionary.lock:
-            raise ValueError("You can't modify this questionary. Some answers exists")
-        return super(Question, self).save(*args, **kwargs)
-
     def get_absolute_url(self):
         return reverse('questionaries:question_update', kwargs={'pk': self.pk})
 

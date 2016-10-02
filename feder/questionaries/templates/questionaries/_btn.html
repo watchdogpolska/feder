@@ -20,6 +20,8 @@
     {% if 'add_task' in monitoring_perms %}
     <a class="btn btn-primary" href="{% url 'questionaries:tasks' pk=object.pk %}">{% trans 'Add tasks' %}</a>
     {% endif %}
+    <a class="btn btn-default" href="{% url 'questionaries:export' pk=object.pk %}">{% trans 'Export answer' %}</a>
+    
 </div>
 </div>
 {% endif %}

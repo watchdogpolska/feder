@@ -14,7 +14,6 @@ from model_utils.models import TimeStampedModel
 from feder.alerts.models import Alert
 from feder.cases.models import Case
 from feder.questionaries.models import Question, Questionary
-from feder.questionaries.modulator import modulators
 
 from .utils import all_answer_equal
 
@@ -165,8 +164,12 @@ class Answer(models.Model):
     content = JSONField()
 
     def get_answer_text(self):
-        modulator = modulators[self.question.genre]()
-        return modulator.get_answer_text(self.question.definition, self.content)
+        return (self.question.modulator.
+                get_answer_text(self.question.definition, self.content))
+
+    def get_answer_columns(self):
+        return (self.question.modulator.
+                get_answer_columns(self.question.definition, self.content))
 
     class Meta:
         verbose_name = _("Answer")

@@ -103,8 +103,7 @@ class AnswerFormSet(object):
             return {}
         items = []
         for x in self.survey.answer_set.all():
-            modulator = modulators[x.question.genre]
-            initial = modulator.get_initial(x.question.definition, x.content)
+            initial = x.question.modulator.get_initial(x.question.definition, x.content)
             items.append((x.question.pk, initial))
         return dict(items)
 
