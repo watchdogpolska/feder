@@ -36,7 +36,7 @@ pytz==2016.6.1
 
 
 # Your custom requirements go here
-django-filter==0.14.0
+django-filter==0.15.2
 django-autocomplete-light==3.1.8
 https://github.com/ad-m/django-atom/archive/v0.11.0.zip
 https://github.com/django/django-formtools/archive/52ae3a583b61a1c81c8fad8f7f327fc1fa750147.zip # see https://github.com/django/django-formtools/issues/75
