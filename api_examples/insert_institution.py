@@ -29,7 +29,6 @@ import unicodecsv as csv
 
 # TODO: Load community and voivodeship
 
-
 def insert_row(s, host, name, email, code, tags):
     code = "%07d" % (int(code))
     code = code[:2] if code[2:] == "0" * 5 else code  # voivodeship
@@ -40,6 +39,11 @@ def insert_row(s, host, name, email, code, tags):
         "jst": code,
         "email": email
     })
+    if response.status_code == 500:
+        print(name.encode('utf-8'), " response 500", response.status_code, ":", file=sys.stderr)
+        print(response.text, file=sys.stderr)
+        return
+
     json = response.json()
     if response.status_code == 201:
         print(name.encode('utf-8'), " created as PK", json['pk'])
