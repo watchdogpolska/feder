@@ -357,7 +357,7 @@ class LetterChoiceModulator(BaseSimpleModulator):
         kwargs = {}
         kwargs['label'] = definition.get('name', '')
         kwargs['help_text'] = definition.get('help_text', '')
-        kwargs['required'] = definition('required', True)
+        kwargs['required'] = definition.get('required', True)
         if survey is None:
             kwargs['queryset'] = Letter.objects.none()
         else:
