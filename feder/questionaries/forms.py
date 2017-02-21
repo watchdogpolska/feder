@@ -31,7 +31,7 @@ class QuestionForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
     def __init__(self, *args, **kwargs):
         questionary = kwargs.pop('questionary')
         super(QuestionForm, self).__init__(*args, **kwargs)
-        choices = [(key, mod.description) for key, mod in get_modulators.items()]
+        choices = [(key, mod.description) for key, mod in get_modulators().items()]
         self.fields['genre'] = forms.ChoiceField(choices=choices, label=_("Genre"))
         self.instance.questionary = questionary
 
