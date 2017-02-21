@@ -18,9 +18,13 @@ $ (cat /tmp/wojewodowie.csv | grep -E 'Wojewoda|TERC') | python insert_instituti
                                                         --tags="wojewoda" \
                                                         --input=-
 """
+from __future__ import print_function
+
 import argparse
-import csv
+import sys
+
 import requests
+import unicodecsv as csv
 
 
 # TODO: Load community and voivodeship
@@ -34,42 +38,47 @@ def insert_row(s, host, name, email, code, tags):
         "name": name,
         "tags": tags,
         "jst": code,
-        "email_set": [{'email': x} for x in email.split(',')]
+        "email": email
     })
+    json = response.json()
     if response.status_code == 201:
-        print u"{name} created as PK {pk}".format(name=name, pk=str(response.json()['pk']))
+        print(name.encode('utf-8'), " created as PK", json['pk'])
     else:
-        print u"{name} response {code} ".format(name=name,
-                                                code=response.status_code) + \
-            u"returned with body {status}".format(status=str(response.json()))
+        print(name.encode('utf-8'), "response ", response.status_code, ":", file=sys.stderr)
+        print(json, file=sys.stderr)
 
 
 def fields_validation(fields):
     result = True
-    for field_name in ['Organ', 'E-mail', 'TERC']:
-        if 'TERC' not in fields:
-            print("There is missing %s field. " % (field_name, ) +
-                  "Required fields name is Organ, E-mail, TERC")
-            result = False
+    for field_name in {'Organ', 'E-mail', 'TERC'} - set(fields):
+        print("There is missing %s field. " % (field_name, ) +
+              "Required fields name is Organ, E-mail, TERC")
+        result = False
     return result
 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--input', nargs='?', type=argparse.FileType('r'),
+    parser.add_argument('--input',
+                        required=True,
+                        type=argparse.FileType('r'),
                         help="Input CSV-file")
-    parser.add_argument('--host', nargs='?',
+    parser.add_argument('--host',
+                        required=True,
                         help="Host of instance")
-    parser.add_argument('--user', nargs='?',
+    parser.add_argument('--user',
+                        required=True,
                         help="User to authentication")
-    parser.add_argument('--password', nargs='?',
+    parser.add_argument('--password',
+                        required=True,
                         help="Password to authentication")
-    parser.add_argument('--tags', '-t', nargs='+')
+    parser.add_argument('-t', '--tags',
+                        required=True,
+                        nargs='+')
     args = parser.parse_args()
 
     s = requests.Session()
     s.auth = (args.user, args.password)
-
     reader = csv.DictReader(args.input)
 
     if not fields_validation(reader.fieldnames):
@@ -79,9 +88,9 @@ def main():
     for row in reader:
         insert_row(s=s,
                    host=args.host,
-                   name=unicode(row['Organ'], 'utf-8'),
-                   email=unicode(row['E-mail'], 'utf-8'),
-                   code=unicode(row['TERC'], 'utf-8'),
+                   name=row['Organ'],
+                   email=row['E-mail'],
+                   code=row['TERC'],
                    tags=args.tags)
 
 
