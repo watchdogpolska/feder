@@ -33,6 +33,11 @@ class QuestionCreateView(AttrPermissionRequiredMixin, CreateMessageMixin,
         kw['questionary'] = self.questionary
         return kw
 
+    def get_success_url(self):
+        if not self.object.definition:
+            return self.object.get_absolute_url()
+        return self.questionary.get_absolute_url()
+
 
 class QuestionUpdateView(AttrPermissionRequiredMixin,  UpdateMessageMixin,
                          FormValidMessageMixin, UpdateView):
@@ -41,6 +46,9 @@ class QuestionUpdateView(AttrPermissionRequiredMixin,  UpdateMessageMixin,
     form_class = QuestionDefinitionForm
     permission_required = 'monitorings.change_questionary'
     permission_attribute = 'questionary__monitoring'
+
+    def get_success_url(self):
+        return self.object.questionary.get_absolute_url()
 
 
 class QuestionMoveView(AttrPermissionRequiredMixin, ActionMessageMixin,

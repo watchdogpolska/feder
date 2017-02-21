@@ -1,19 +1,18 @@
-import csv
+import unicodecsv as csv
 
 from braces.views import (FormValidMessageMixin, SetHeadlineMixin,
                           UserFormKwargsMixin)
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
-from django.utils.encoding import force_text
 from django.utils.translation import ugettext_lazy as _
-from django.views.generic import FormView
+from django.views.generic import FormView, View
 from django.views.generic.detail import (SingleObjectMixin,
                                          SingleObjectTemplateResponseMixin)
 
 from feder.main.mixins import RaisePermissionRequiredMixin
 from feder.tasks.forms import MultiTaskForm
 from feder.tasks.models import Survey
-from django.views.generic import View
+
 from ..models import Questionary
 
 
@@ -83,7 +82,7 @@ class SurveyCSVView(View):
         self.questionary = get_object_or_404(Questionary, pk=pk)
         response = HttpResponse(content_type='text/csv')
         response['Content-Disposition'] = self.get_filename()
-        writer = csv.writer(response)
+        writer = csv.writer(response, encoding='utf-8')
         self.header(writer)
         self.body(writer)
         return response

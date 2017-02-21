@@ -9,8 +9,6 @@ from feder.cases.models import Case
 
 from .models import Answer, Survey, Task
 
-from feder.questionaries.modulator import modulators
-
 
 class TaskForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
 

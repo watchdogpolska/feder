@@ -7,7 +7,7 @@ from model_utils.models import TimeStampedModel
 
 from feder.monitorings.models import Monitoring
 
-from .modulator import modulators
+from .utils import get_modulators
 
 _('Questionaries index')
 
@@ -49,7 +49,7 @@ class Question(models.Model):
 
     @property
     def modulator(self):
-        return modulators[self.genre]()
+        return get_modulators()[self.genre]()
 
     def __str__(self):
         if not self.is_configured:

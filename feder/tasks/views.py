@@ -196,7 +196,6 @@ class SurveyFillView(LoginRequiredMixin, FormView):
         if self.formset.is_valid():
             self.object.save()
             self.formset.save()
-            messages.success(self.request, THANK_TEXT)
             return self.formset_valid(form, self.object, self.formset)
         return self.render_to_response(self.get_context_data())
 

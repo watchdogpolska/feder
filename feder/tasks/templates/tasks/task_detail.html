@@ -60,4 +60,10 @@
         {% endif %}
     </div>
 </div>
+
+{% endblock %}
+
+{% block javascript %}
+{{ block.super }}
+{% for form in formset %}{{ form.media }}{% endfor %}
 {% endblock %}
