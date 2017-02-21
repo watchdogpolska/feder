@@ -43,7 +43,6 @@
                     <a href="{% url 'questionaries:question_up' pk=form.question.pk%}" class="btn btn-default"><i class="fa fa-hand-up"></i> {% trans 'Move up'%}</a>
                     <p class="btn btn-default">{% trans 'Position' %}: {{form.question.position}}</p>
                     <a href="{% url 'questionaries:question_down' pk=form.question.pk%}" class="btn btn-default"><i class="fa fa-hand-down"></i> {% trans 'Move down'%}</a>
-                    <a href="{% url 'questionaries:question_down' pk=form.question.pk%}" class="btn btn-default"><i class="fa fa-hand-down"></i> {% trans 'Move down'%}</a>
                     <a href="{% url 'questionaries:question_update' pk=form.question.pk%}" class="btn btn-primary">{% trans 'Update'%}</a>
                     <a href="{% url 'questionaries:question_delete' pk=form.question.pk%}" class="btn btn-warning">{% trans 'Delete'%}</a>
 

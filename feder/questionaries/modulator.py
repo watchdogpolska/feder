@@ -145,7 +145,7 @@ class BaseSimpleModulator(BaseModulator):
         if definition.get('comment', True):
             commend_field = forms.CharField(label=definition.get('comment_label', ""),
                                             help_text=definition.get('comment_help', ""),
-                                            required=not definition.get('comment_required', False))
+                                            required=definition.get('comment_required', False))
             fields.append(('comment', commend_field), )
         return fields
 
@@ -240,7 +240,7 @@ class JSTModulator(BaseSimpleModulator):
 
     def list_create_question_fields(self):
         return (('name', forms.CharField(label=_("Question"))),
-                ('help_text', forms.CharField(label=_("Description of question"))),
+                ('help_text', forms.CharField(label=_("Description of question"), required=False)),
                 ('required', forms.BooleanField(label=_("This fields will be required?"),
                                                 required=False)),
                 ('area', forms.ChoiceField(choices=self.CHOICES.items(),
@@ -354,18 +354,15 @@ class LetterChoiceModulator(BaseSimpleModulator):
         Returns:
             TYPE: Description
         """
-        definition.setdefault('name', '')
-        definition.setdefault('help_text', '')
-        definition.setdefault('required', True)
-        definition.setdefault('filter', 'all')
         kwargs = {}
-        kwargs['label'] = definition['name']
-        kwargs['help_text'] = definition['help_text']
-        kwargs['required'] = definition['required']
+        kwargs['label'] = definition.get('name', '')
+        kwargs['help_text'] = definition.get('help_text', '')
+        kwargs['required'] = definition('required', True)
         if survey is None:
             kwargs['queryset'] = Letter.objects.none()
         else:
-            kwargs['queryset'] = self.choice_map(survey.case.letter_set.all(), definition['filter'])
+            kwargs['queryset'] = self.choice_map(survey.case.letter_set.all(),
+                                                 definition.get('filter', 'all'))
         return (('value', forms.ModelChoiceField(**kwargs)), )
 
     def get_content(self, definition, content):
