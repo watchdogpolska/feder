@@ -122,7 +122,8 @@ class BaseSimpleModulator(BaseModulator):
 
     def list_create_question_fields(self):
         return (('name', forms.CharField(label=_("Question"))),
-                ('help_text', forms.CharField(label=_("Description of question"))),
+                ('help_text', forms.CharField(label=_("Description of question"),
+                                              required=False)),
                 ('required', forms.BooleanField(label=_("This fields will be required?"),
                                                 required=False)),
                 ('comment', forms.BooleanField(label=_("Allow comment"),
@@ -240,7 +241,8 @@ class JSTModulator(BaseSimpleModulator):
 
     def list_create_question_fields(self):
         return (('name', forms.CharField(label=_("Question"))),
-                ('help_text', forms.CharField(label=_("Description of question"), required=False)),
+                ('help_text', forms.CharField(label=_("Description of question"),
+                                              required=False)),
                 ('required', forms.BooleanField(label=_("This fields will be required?"),
                                                 required=False)),
                 ('area', forms.ChoiceField(choices=self.CHOICES.items(),
@@ -320,7 +322,8 @@ class LetterChoiceModulator(BaseSimpleModulator):
             TYPE: Description
         """
         return (('name', forms.CharField(label=_("Question"))),
-                ('help_text', forms.CharField(label=_("Description of question"))),
+                ('help_text', forms.CharField(label=_("Description of question"),
+                                              required=False)),
                 ('required', forms.BooleanField(label=_("This fields will be required?"),
                                                 required=False)),
                 ('filter', forms.ChoiceField(choices=self.CHOICES.items(),
