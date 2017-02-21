@@ -240,7 +240,8 @@ class MonitoringAssignView(RaisePermissionRequiredMixin, FilterView):
                 "to %(monitoring)s. The requests was sent.") % \
             {'count': count, 'monitoring': self.monitoring}
         messages.success(self.request, msg)
-        return HttpResponseRedirect(request.get_full_path())
+        url = reverse('monitorings:assign', kwargs={'slug': self.monitoring.slug})
+        return HttpResponseRedirect(url)
 
 
 class MonitoringAutocomplete(autocomplete.Select2QuerySetView):
