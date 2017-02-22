@@ -143,15 +143,13 @@ class LetterRssFeed(Feed):
                 item.case.institution.jst]
 
     def item_enclosures(self, item):
-        encs = []
-        for attachment in item.attachment_set.all():
-            enc = Enclosure(
+        if item.eml:
+            return Enclosure(
                     length=force_text(0),
-                    url=force_text(attachment.get_absolute_url),
+                    url=force_text(item.eml.get_absolute_url()),
                     mime_type="application/octet-stream"
             )
-            encs.append(enc)
-        return encs
+        return None
 
 
 class LetterAtomFeed(LetterRssFeed):
