@@ -146,7 +146,7 @@ class LetterRssFeed(Feed):
         if item.eml:
             return Enclosure(
                     length=force_text(0),
-                    url=force_text(item.eml.get_absolute_url()),
+                    url=force_text(item.eml.url),
                     mime_type="application/octet-stream"
             )
         return None
