@@ -1,6 +1,7 @@
 from __future__ import absolute_import, unicode_literals
 
 from django.core import mail
+from django.core.files.base import ContentFile
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 
@@ -9,7 +10,7 @@ from feder.main.mixins import PermissionStatusMixin
 from feder.monitorings.factories import MonitoringFactory
 from feder.users.factories import UserFactory
 
-from ..factories import OutgoingLetterFactory, IncomingLetterFactory
+from ..factories import IncomingLetterFactory, OutgoingLetterFactory
 
 
 class ObjectMixin(object):
@@ -18,9 +19,9 @@ class ObjectMixin(object):
         self.monitoring = self.permission_object = MonitoringFactory()
         self.case = CaseFactory(monitoring=self.monitoring)
         self.from_user = OutgoingLetterFactory(title='Wniosek',
-                                               case__monitoring=self.monitoring)
+                                               case=self.case)
         self.from_institution = IncomingLetterFactory(title='Odpowiedz',
-                                                      case__monitoring=self.monitoring)
+                                                      case=self.case)
 
 
 class LetterListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
@@ -105,6 +106,11 @@ class LetterAtomFeedTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
 
     def get_url(self):
         return reverse('letters:atom')
+
+    def test_item_enclosure_url(self):
+        self.from_institution.eml.save('msg.eml', ContentFile("Foo"), save=True)
+        resp = self.client.get(self.get_url())
+        self.assertContains(resp, self.from_institution.eml.name)
 
 
 class LetterMonitoringRssFeedTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
