@@ -22,5 +22,5 @@ class LetterObjectFeedMixin(object):
 
     def get_items(self, obj):
         return (Letter.objects.with_feed_items().
-                filter(case__monitoring=obj).
+                filter(**{self.filter_field: obj}).
                 order_by('-created')[:30])

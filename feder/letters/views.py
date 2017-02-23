@@ -164,7 +164,7 @@ class LetterMonitoringRssFeed(LetterObjectFeedMixin, LetterRssFeed):
         return _("Archive of letter for cases which involved in monitoring %s") % force_text(obj)
 
 
-class LetterMonitoringAtomFeed(LetterRssFeed):
+class LetterMonitoringAtomFeed(LetterMonitoringRssFeed):
     feed_type = Atom1Feed
     subtitle = LetterMonitoringRssFeed.description
     feed_url = reverse_lazy("letters:atom")
