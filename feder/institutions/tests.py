@@ -19,7 +19,7 @@ class InstitutionTestCase(TestCase):
 
     def test_get_absolute_url(self):
         self.assertEqual(self.obj.get_absolute_url(),
-                         '/institutions/example-institution')
+                         '/instytucje/example-institution')
 
     def test_get_str(self):
         self.assertEqual(force_text(self.obj),
