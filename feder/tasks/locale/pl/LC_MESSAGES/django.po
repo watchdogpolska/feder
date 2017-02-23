@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tasks 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-17 23:56+0000\n"
+"POT-Creation-Date: 2017-02-23 03:36+0000\n"
 "PO-Revision-Date: 2016-09-18 01:57+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -35,27 +35,27 @@ msgstr "Data utworzenia (rosnąco)"
 msgid "creation date (descending)"
 msgstr "Data utworzenia (malejąco)"
 
-#: forms.py:136
+#: forms.py:133
 msgid "Cases"
 msgstr "Sprawy"
 
-#: forms.py:137
+#: forms.py:134
 msgid "Suffix"
 msgstr "Przedrostek"
 
-#: forms.py:138
+#: forms.py:135
 msgid "Suffix for name in the form \"[suffix] #[no]\"."
 msgstr "Przedrostek dla nazwy w postaci \"[przedrostek] #[numer]\"."
 
-#: forms.py:144
+#: forms.py:141
 msgid "They are available only cases relevant to the monitoring."
 msgstr "Tu są dostępne sprawy wyłącznie właściwe dla danego monitoringu. "
 
-#: models.py:21 templates/tasks/task_filter.html:6
+#: models.py:20 templates/tasks/task_filter.html:6
 msgid "Tasks index"
 msgstr "Wykaz zadań"
 
-#: models.py:24
+#: models.py:23
 msgid ""
 "Define how much answers do you need to mark tasks as done\n"
 " or count progress"
@@ -63,57 +63,57 @@ msgstr ""
 "Określ jak wiele odpowiedzi, aby oznaczyć odpowiedź jako wykonaną lub do "
 "liczenia postępu."
 
-#: models.py:67
+#: models.py:66
 msgid "Name"
 msgstr "Nazwa"
 
-#: models.py:68 templates/tasks/_task_small.html:8
+#: models.py:67 templates/tasks/_task_small.html:8
 #: templates/tasks/task_detail.html:26
 msgid "Case"
 msgstr "Sprawa"
 
-#: models.py:69 templates/tasks/_task_small.html:9
+#: models.py:68 templates/tasks/_task_small.html:9
 #: templates/tasks/task_detail.html:31
 msgid "Questionary"
 msgstr "Kwestionariusz"
 
-#: models.py:70
+#: models.py:69
 msgid "Questionary to fill by user as task"
 msgstr "Kwestionariusz do wypełnienia przez użytkownika jako zadanie"
 
-#: models.py:71
+#: models.py:70
 msgid "Required survey count"
 msgstr "Liczba wymaganych ankiet"
 
-#: models.py:74
+#: models.py:73
 msgid "Done survey count"
 msgstr "Liczba ukończonych ankiet"
 
-#: models.py:123
+#: models.py:125
 msgid "Task"
 msgstr "Zadanie"
 
-#: models.py:124 templates/tasks/base.html:5
+#: models.py:126 templates/tasks/base.html:5
 msgid "Tasks"
 msgstr "Zadania"
 
-#: models.py:144 templates/tasks/task_survey.html:24
+#: models.py:146 templates/tasks/task_survey.html:24
 msgid "Credibility"
 msgstr "Wiarygodność"
 
-#: models.py:154
+#: models.py:156
 msgid "Survey"
 msgstr "Ankieta"
 
-#: models.py:155
+#: models.py:157
 msgid "Surveys"
 msgstr "Ankiety"
 
-#: models.py:169
+#: models.py:175
 msgid "Answer"
 msgstr "Odpowiedź"
 
-#: models.py:170 templates/tasks/_btn.html:26
+#: models.py:176 templates/tasks/_btn.html:26
 #: templates/tasks/task_survey.html:6
 msgid "Answers"
 msgstr "Odpowiedzi"
@@ -139,11 +139,11 @@ msgstr "Zaktualizuj odpowiedź"
 msgid "Delete answer"
 msgstr "Usuń odpowiedź"
 
-#: templates/tasks/_formset.html:11
+#: templates/tasks/_formset.html:11 templates/tasks/survey_fill.html:27
 msgid "Save"
 msgstr "Zapisz"
 
-#: templates/tasks/_formset.html:12
+#: templates/tasks/_formset.html:12 templates/tasks/survey_fill.html:28
 msgid "Save and go next"
 msgstr "Zapisz i przejdź do następnego"
 
@@ -162,6 +162,10 @@ msgstr "Brak wierszy"
 msgid "Confirm delete"
 msgstr "Potwierdź usuwanie"
 
+#: templates/tasks/survey_fill.html:9
+msgid "Survey fill"
+msgstr "Wypełnianie ankiety"
+
 #: templates/tasks/survey_select.html:5
 msgid "Confirm select answer"
 msgstr "Potwierdź wybranie odpowiedzi"
@@ -173,10 +177,6 @@ msgstr "Aktualizacja wiarygodności"
 #: templates/tasks/task_detail.html:38
 msgid "Analysis"
 msgstr "Analiza"
-
-#: templates/tasks/task_fill.html:9
-msgid "Survey fill"
-msgstr "Wypełnianie ankiety"
 
 #: templates/tasks/task_form.html:4
 msgid "Update task"
@@ -238,14 +238,14 @@ msgstr "^(?P<task_id>[\\d]+)/~wybierz-wyzej-(?P<pk>[\\d]+)$"
 msgid "^(?P<task_id>[\\d]+)/~select-down-(?P<pk>[\\d]+)$"
 msgstr "^(?P<task_id>[\\d]+)/~wybierz-nizej-(?P<pk>[\\d]+)$"
 
-#: views.py:30
+#: views.py:23
 msgid ""
 "Already done the job. If you want to change the answer - delete answers."
 msgstr ""
 "Wykonałeś to zadanie. Jeżeli chcesz zmienić odpowiedź - usuń poprzednią "
 "odpowiedź."
 
-#: views.py:32
+#: views.py:25
 msgid ""
 "Thank you for your submission. It is approaching us to know the truth, by "
 "obtaining reliable data."
@@ -253,7 +253,7 @@ msgstr ""
 "Dziękujemy za Twoje zgłoszenie. Zbliża ono nas do poznania prawdy, poprzez "
 "pozyskanie wiarygodnych danych."
 
-#: views.py:35
+#: views.py:28
 msgid ""
 "Thank you for your help. Unfortunately, all the tasks for you have been "
 "exhausted."
@@ -261,7 +261,7 @@ msgstr ""
 "Dziękujemy za Twoją pomoc. Niestety, wszystkie zadania - w tym monitoringu - "
 "zostały wyczerpane. "
 
-#: views.py:153
+#: views.py:146
 #, python-brace-format
 msgid "Survey {object} selected!"
 msgstr "Ankieta {object} wybrana!"

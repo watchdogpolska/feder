@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-monitorings 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-24 16:28+0000\n"
+"POT-Creation-Date: 2017-02-23 03:35+0000\n"
 "PO-Revision-Date: 2016-09-24 18:29+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -39,131 +39,131 @@ msgstr "Liczba spraw (rosnąco)"
 msgid "Cases count (descending)"
 msgstr "Liczba spraw (malejąco)"
 
-#: forms.py:20 models.py:43 models.py:44
+#: forms.py:20 models.py:45 models.py:46
 msgid "Monitoring"
 msgstr "Monitoring"
 
-#: forms.py:21 models.py:34
+#: forms.py:21 models.py:36
 msgid "Template"
 msgstr "Szablon"
 
-#: forms.py:33 models.py:31 templates/monitorings/_monitoring_small.html:8
+#: forms.py:33 models.py:33 templates/monitorings/_monitoring_small.html:8
 msgid "User"
 msgstr "Użytkownik"
 
-#: models.py:14
+#: models.py:15
 msgid "Monitorings index"
 msgstr "Wykaz monitoringów"
 
-#: models.py:15
+#: models.py:16
 msgid "Can add Monitoring"
 msgstr "Może dodać monitoring"
 
-#: models.py:16
+#: models.py:17
 msgid "Can change Monitoring"
 msgstr "Może zmieniać monitoring"
 
-#: models.py:17
+#: models.py:18
 msgid "Can delete Monitoring"
 msgstr "Może usunąć monitoring"
 
-#: models.py:19
+#: models.py:20
 msgid "Notify about new alerts person who can view alerts"
 msgstr "Powiadom o nowych alertach osoby, które mogą je widzieć"
 
-#: models.py:29 templates/monitorings/institution_assign.html:27
+#: models.py:31 templates/monitorings/institution_assign.html:27
 msgid "Name"
 msgstr "Nazwa"
 
-#: models.py:30
+#: models.py:32
 msgid "Slug"
 msgstr "Identyfikator redakcyjny"
 
-#: models.py:32
+#: models.py:34
 msgid "Description"
 msgstr "Opis"
 
-#: models.py:33
+#: models.py:35
 msgid "Subject"
 msgstr "Tytuł"
 
-#: models.py:35
+#: models.py:37
 msgid "Use {{EMAIL}} for insert reply address"
 msgstr "Użyj {{EMAIL}} aby umieścić adres odpowiedzi."
 
-#: models.py:38
+#: models.py:40
 msgid "Notify about alerts"
 msgstr "Powiadamiaj o alertach"
 
-#: models.py:47
+#: models.py:49
 msgid "Can add questionary"
 msgstr "Może tworzyć kwestionariusz"
 
-#: models.py:48
+#: models.py:50
 msgid "Can change questionary"
 msgstr "Może zmieniać kwestionariusz"
 
-#: models.py:49
+#: models.py:51
 msgid "Can delete questionary"
 msgstr "Może usuwać kwestionariusz"
 
-#: models.py:50
+#: models.py:52
 msgid "Can add case"
 msgstr "Może tworzyć sprawę"
 
-#: models.py:51
+#: models.py:53
 msgid "Can change case"
 msgstr "Może zmieniać sprawę"
 
-#: models.py:52
+#: models.py:54
 msgid "Can delete case"
 msgstr "Może usuwać sprawę"
 
-#: models.py:53
+#: models.py:55
 msgid "Can add task"
 msgstr "Może dodawać zadanie"
 
-#: models.py:54 models.py:59
+#: models.py:56 models.py:61
 msgid "Can change task"
 msgstr "Może zmieniać zadanie"
 
-#: models.py:55
+#: models.py:57
 msgid "Can delete task"
 msgstr "Może usuwać zadanie"
 
-#: models.py:56
+#: models.py:58
 msgid "Can add letter"
 msgstr "Może dodawać list"
 
-#: models.py:57
+#: models.py:59
 msgid "Can reply"
 msgstr "Może odpowiadać"
 
-#: models.py:58
+#: models.py:60
 msgid "Add reply draft"
 msgstr "Dodaj szkic odpowiedzi"
 
-#: models.py:60
+#: models.py:62
 msgid "Can delete letter"
 msgstr "Może usuwać list"
 
-#: models.py:61
+#: models.py:63
 msgid "Can view alert"
 msgstr "Może dodawać alert"
 
-#: models.py:62
+#: models.py:64
 msgid "Can change alert"
 msgstr "Może zmieniać alert"
 
-#: models.py:63
+#: models.py:65
 msgid "Can delete alert"
 msgstr "Może usuwać alert"
 
-#: models.py:64
+#: models.py:66
 msgid "Can manage perms"
 msgstr "Może zarządzać uprawnieniami"
 
-#: models.py:65
+#: models.py:67
 msgid "Can select answer"
 msgstr "Może  wybierać odpowiedź"
 
@@ -362,7 +362,7 @@ msgstr "Uprawnienia dla {monitoring} zaktualizowane!"
 msgid "Permissions to {monitoring} of {user} updated!"
 msgstr "Uprawnienia do {monitoring} dla {user} zaktualizowane!"
 
-#: views.py:241
+#: views.py:239
 #, python-format
 msgid ""
 "%(count)d institutions was assigned to %(monitoring)s. The requests was sent."

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: main 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-17 23:47+0000\n"
-"PO-Revision-Date: 2016-09-18 01:47+0200\n"
+"POT-Creation-Date: 2017-02-23 03:37+0000\n"
+"PO-Revision-Date: 2017-02-23 04:38+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -245,7 +245,7 @@ msgid "Signup"
 msgstr "Zarejestruj się"
 
 #: templates/account/signup.html:11 templates/account/signup.html:23
-#: templates/base.html:95
+#: templates/base.html:94
 msgid "Sign Up"
 msgstr "Zarejestuj się"
 
@@ -316,63 +316,63 @@ msgstr ""
 msgid "Civil data mining"
 msgstr "Obywatelskie fedrowanie danych"
 
-#: templates/base.html:33
+#: templates/base.html:32
 msgid "Toggle navigation"
 msgstr "Przełącz nawigacje"
 
-#: templates/base.html:46
+#: templates/base.html:45
 msgid "Homepage"
 msgstr "Strona główna"
 
-#: templates/base.html:49
+#: templates/base.html:48
 msgid "Search"
 msgstr "Szukaj"
 
-#: templates/base.html:54
+#: templates/base.html:53
 msgid "Cases"
 msgstr "Sprawy"
 
-#: templates/base.html:60
+#: templates/base.html:59
 msgid "Monitorings"
 msgstr "Monitoringi"
 
-#: templates/base.html:66
+#: templates/base.html:65
 msgid "Letters"
 msgstr "Listy"
 
-#: templates/base.html:72
+#: templates/base.html:71
 msgid "Institutions"
 msgstr "Instytucje"
 
-#: templates/base.html:77
+#: templates/base.html:76
 msgid "Questionaries"
 msgstr "Kwestionariusze"
 
-#: templates/base.html:83
+#: templates/base.html:82
 msgid "Tasks"
 msgstr "Zadania"
 
-#: templates/base.html:92
+#: templates/base.html:91
 msgid "My Profile"
 msgstr "Mój profil"
 
-#: templates/base.html:93
+#: templates/base.html:92
 msgid "Logout"
 msgstr "Wyloguj"
 
-#: templates/base.html:96
+#: templates/base.html:95
 msgid "Log In"
 msgstr "Zaloguj"
 
-#: templates/base.html:124
+#: templates/base.html:123
 msgid "This site uses cookies."
 msgstr "Ta strona wykorzystuje cookies."
 
-#: templates/base.html:140
+#: templates/base.html:139
 msgid "Show quote"
 msgstr "Pokaż cytat"
 
-#: templates/base.html:141
+#: templates/base.html:140
 msgid "Hide quote"
 msgstr "Ukryj cytat"
 
@@ -396,9 +396,53 @@ msgstr "Województwa"
 msgid "Last monitorings"
 msgstr "Ostatnie monitoringi"
 
-#: urls.py:10
+#: urls.py:37
 msgid "^$"
 msgstr "^$"
+
+#: urls.py:41
+msgid "^about/$"
+msgstr "^o-stronie/"
+
+#: urls.py:47
+msgid "^users/"
+msgstr "^uzytkownik/"
+
+#: urls.py:48
+msgid "^accounts/"
+msgstr "^konto/"
+
+#: urls.py:51
+msgid "^institutions/"
+msgstr "^instytucje/"
+
+#: urls.py:52
+msgid "^monitorings/"
+msgstr "^monitoringi/"
+
+#: urls.py:53
+msgid "^cases/"
+msgstr "^sprawy/"
+
+#: urls.py:54
+msgid "^tasks/"
+msgstr "^zadania/"
+
+#: urls.py:55
+msgid "^questionaries/"
+msgstr "^kwestionariusze/"
+
+#: urls.py:56
+msgid "^alerts/"
+msgstr "^alerty/"
+
+#: urls.py:57
+msgid "^letters/"
+msgstr "^listy/"
+
+#: urls.py:58
+msgid "^teryt/"
+msgstr "^jst/"
 
 #~ msgid "User"
 #~ msgstr "Użytkownik / użytkowniczka"
@@ -427,10 +471,6 @@ msgstr "^$"
 
 #~ msgid "Password must be a minimum of {0} characters."
 #~ msgstr "Hasło musi składać się minimalnie z {0} znaków."
-
-#, fuzzy
-#~ msgid "Accounts"
-#~ msgstr "Konto"
 
 #~ msgid "You must type the same password each time."
 #~ msgstr "Musisz wpisać za każdym razem to samo hasło"
@@ -502,9 +542,6 @@ msgstr "^$"
 
 #~ msgid "The e-mail address is not assigned to any user account"
 #~ msgstr "Adres e-mail nie jest powiązany z żadnym kontem użytkownika"
-
-#~ msgid "user"
-#~ msgstr "użytkownik"
 
 #~ msgid "e-mail address"
 #~ msgstr "adres e-mail"

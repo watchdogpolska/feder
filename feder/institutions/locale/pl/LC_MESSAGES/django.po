@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-institutions 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-17 23:55+0000\n"
-"PO-Revision-Date: 2016-09-18 01:55+0200\n"
+"POT-Creation-Date: 2017-02-23 03:36+0000\n"
+"PO-Revision-Date: 2017-02-23 04:36+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -19,11 +19,7 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.8.7.1\n"
 
-#: admin.py:30
-msgid "Email count"
-msgstr "Liczba spraw"
-
-#: admin.py:44
+#: admin.py:26
 msgid "Institution count"
 msgstr "Liczba instytucji"
 
@@ -43,47 +39,31 @@ msgstr "Obszar"
 msgid "Institution index"
 msgstr "Wykaz instytucji"
 
-#: models.py:33 models.py:93
+#: models.py:28 models.py:58
 msgid "Name"
 msgstr "Nazwa"
 
-#: models.py:34 models.py:94
+#: models.py:29 models.py:59
 msgid "Slug"
 msgstr "Identyfikator redakcyjny"
 
-#: models.py:37 models.py:104
+#: models.py:32 models.py:69
 msgid "Tag"
 msgstr "Tag"
 
-#: models.py:39 templates/institutions/_institution_small.html:9
+#: models.py:34 templates/institutions/_institution_small.html:9
 msgid "Unit of administrative division"
 msgstr "Jednostka podziału terytorialnego"
 
-#: models.py:44 models.py:45 models.py:69
+#: models.py:36
+msgid "Email of institution"
+msgstr "Adres e-mail instytucji"
+
+#: models.py:40 models.py:41
 msgid "Institution"
 msgstr "Instytucja"
 
-#: models.py:70 templates/institutions/institution_detail.html:27
-msgid "E-mail"
-msgstr "E-mail"
-
-#: models.py:71
-msgid "Priority of usage"
-msgstr "Priorytet użycia"
-
-#: models.py:73
-msgid "Respect of confidence"
-msgstr "Poziom ufności"
-
-#: models.py:76
-msgid "Email"
-msgstr "E-mail"
-
-#: models.py:77
-msgid "Emails"
-msgstr "E-maile"
-
-#: models.py:105 templates/institutions/institution_detail.html:29
+#: models.py:70 templates/institutions/institution_detail.html:29
 msgid "Tags"
 msgstr "Tagi"
 
@@ -113,32 +93,28 @@ msgstr "Dodaj instytucje"
 msgid "Confirm delete"
 msgstr "Potwierdź usuwanie"
 
-#: templates/institutions/institution_detail.html:35
-msgid "E-mails"
-msgstr "Adresy e-mail"
+#: templates/institutions/institution_detail.html:27
+msgid "E-mail"
+msgstr "E-mail"
 
-#: templates/institutions/institution_detail.html:38
-msgid "Primary"
-msgstr "Podstawowy"
-
-#: templates/institutions/institution_detail.html:45
+#: templates/institutions/institution_detail.html:34
 msgid "Cases and tasks"
 msgstr "Sprawy i zadania"
 
-#: templates/institutions/institution_detail.html:59
+#: templates/institutions/institution_detail.html:48
 msgid "No rows."
 msgstr "Brak wierszy"
 
-#: templates/institutions/institution_detail.html:66
+#: templates/institutions/institution_detail.html:55
 msgid "previous"
 msgstr "poprzednia"
 
-#: templates/institutions/institution_detail.html:69
+#: templates/institutions/institution_detail.html:58
 #, python-format
 msgid "Page %(no)s of %(total)s"
 msgstr "Strona %(no)s z %(total)s"
 
-#: templates/institutions/institution_detail.html:72
+#: templates/institutions/institution_detail.html:61
 msgid "next"
 msgstr "następna"
 
@@ -177,6 +153,27 @@ msgstr "^~autocomplete-tag$"
 #: views.py:20
 msgid "Institutions index"
 msgstr "Wykaz instytucji"
+
+#~ msgid "Email count"
+#~ msgstr "Liczba spraw"
+
+#~ msgid "Priority of usage"
+#~ msgstr "Priorytet użycia"
+
+#~ msgid "Respect of confidence"
+#~ msgstr "Poziom ufności"
+
+#~ msgid "Email"
+#~ msgstr "E-mail"
+
+#~ msgid "Emails"
+#~ msgstr "E-maile"
+
+#~ msgid "E-mails"
+#~ msgstr "Adresy e-mail"
+
+#~ msgid "Primary"
+#~ msgstr "Podstawowy"
 
 #~ msgid "Voivodeship"
 #~ msgstr "Województwo"

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: letters 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-17 23:54+0000\n"
-"PO-Revision-Date: 2016-09-18 01:54+0200\n"
+"POT-Creation-Date: 2017-02-23 03:31+0000\n"
+"PO-Revision-Date: 2017-02-23 04:35+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -35,81 +35,77 @@ msgstr "Data utworzenia (rosnąco)"
 msgid "Creation date (descending)"
 msgstr "Data utworzenia (malejąco)"
 
-#: forms.py:49 forms.py:52
+#: forms.py:48 forms.py:51
 msgid "Save draft"
 msgstr "Zapisz szkic"
 
-#: forms.py:50 forms.py:54
+#: forms.py:49 forms.py:53
 msgid "Send reply"
 msgstr "Wyślij odpowiedź"
 
-#: forms.py:59
+#: forms.py:58
 msgid ""
 "Nothing to do. You do not have permission to save draft or send replies."
 msgstr ""
 "Nic do zrobienia. Nie masz uprawnień, aby zapisać szkic lub wysłać odpowiedź."
 
-#: forms.py:63
+#: forms.py:62
 msgid "You do not have permission to send replies."
 msgstr "Nie masz uprawnień, aby wysłać odpowiedzi."
 
-#: forms.py:67
+#: forms.py:66
 msgid "You do not have permission to save draft."
 msgstr "Nie masz odpowiedzi, aby wysłać odpowiedź."
 
-#: forms.py:71
-msgid "There is no mail to institution. Unable to send emails."
-msgstr "Brak adresu e-mail do instytucji, więc nie mogę wysłać e-maila."
-
-#: models.py:49
+#: models.py:54
 msgid "Case"
 msgstr "Sprawa"
 
-#: models.py:50
+#: models.py:55
 msgid "Author (if user)"
 msgstr "Autor (jeżeli użytkownik)"
 
-#: models.py:52
+#: models.py:57
 msgid "Author (if institution)"
 msgstr "Autor (jeżeli instytucja)"
 
-#: models.py:54
+#: models.py:59
 msgid "Title"
 msgstr "Tytuł"
 
-#: models.py:55
+#: models.py:60
 msgid "Text"
 msgstr "Treść"
 
-#: models.py:56
+#: models.py:61
 msgid "Quote"
 msgstr "Cytat"
 
-#: models.py:57
+#: models.py:62
 msgid "E-mail"
 msgstr "E-mail"
 
-#: models.py:59
+#: models.py:64
 msgid "File"
 msgstr "Plik"
 
-#: models.py:63
+#: models.py:68
 msgid "Message"
 msgstr "Wiadomość"
 
-#: models.py:64
+#: models.py:69
 msgid "Message registerd by django-mailbox"
 msgstr "Wiadomość zarejestrowanaa przez django-maiblxo"
 
-#: models.py:68
+#: models.py:73
 msgid "Letter"
 msgstr "List"
 
-#: models.py:69 templates/letters/base.html:5
+#: models.py:74 templates/letters/base.html:5
 msgid "Letters"
 msgstr "Listy"
 
-#: models.py:72
+#: models.py:77
 msgid "Can filter eml"
 msgstr "Może filtrować po eml"
 
@@ -178,33 +174,92 @@ msgid "^$"
 msgstr "^$"
 
 #: urls.py:12
+msgid "^feed$"
+msgstr "^kanal$"
+
+#: urls.py:14
+msgid "^feed/atom$"
+msgstr "^kanal/atom$"
+
+#: urls.py:16
+msgid "^feed/monitoring-(?P<monitoring_pk>[\\d-]+)/$"
+msgstr "^kanal/monitoring-(?P<monitoring_pk>[\\d-]+)/$"
+
+#: urls.py:18
+msgid "^feed/monitoring-(?P<monitoring_pk>[\\d-]+)/atom$"
+msgstr "^kanal/monitoring-(?P<monitoring_pk>[\\d-]+)/atom$"
+
+#: urls.py:20
+msgid "^feed/case-(?P<case_pk>[\\d-]+)/$"
+msgstr "^kanal/sprawa-(?P<case_pk>[\\d-]+)/$"
+
+#: urls.py:22
+msgid "^feed/case-(?P<case_pk>[\\d-]+)/atom$"
+msgstr "^kanal/sprawa-(?P<case_pk>[\\d-]+)/atom$"
+
+#: urls.py:24
 msgid "^~create-(?P<case_pk>[\\d-]+)$"
 msgstr "^~utworz-(?P<case_pk>[\\d-]+)$"
 
-#: urls.py:14
+#: urls.py:26
 msgid "^(?P<pk>[\\d-]+)$"
 msgstr "^(?P<pk>[\\d-]+)$"
 
-#: urls.py:16
+#: urls.py:28
 msgid "^(?P<pk>[\\d-]+)/~update$"
 msgstr "^(?P<pk>[\\d-]+)/~edytuj$"
 
-#: urls.py:18
+#: urls.py:30
 msgid "^(?P<pk>[\\d-]+)/~delete$"
 msgstr "^(?P<pk>[\\d-]+)/~usun$"
 
-#: urls.py:20
+#: urls.py:32
 msgid "^(?P<pk>[\\d-]+)/~reply$"
 msgstr "^(?P<pk>[\\d-]+)/~odpowiedz$"
 
-#: views.py:18
+#: views.py:26
 msgid "Letters index"
 msgstr "Wykaz listów"
 
-#: views.py:83
+#: views.py:91
 #, python-brace-format
 msgid "Reply {reply} to {letter} saved and send!"
 msgstr "Odpowiedź {reply} na {letter} zapisana i wysłana!"
+
+#: views.py:114
+msgid "Latest letters on whole site"
+msgstr "Ostatnie listy na całej stronie"
+
+#: views.py:116
+msgid ""
+"Updates on new letters on site including receving and sending in all "
+"monitorings."
+msgstr ""
+"Aktualizacje wszystkich listów na stronie włączając w to listy przychodzące "
+"i wychodzące w wszystkich monitoringach."
+
+#: views.py:161
+#, python-format
+msgid "Letter for monitoring %s"
+msgstr "Listy monitoringu %s "
+
+#: views.py:164
+#, python-format
+msgid "Archive of letter for cases which involved in monitoring %s"
+msgstr "Archiwum listów w sprawach z monitoringu %s"
+
+#: views.py:179
+#, python-format
+msgid "Letter for case %s"
+msgstr "Listy w sprawie %s"
+
+#: views.py:182
+#, python-format
+msgid "Archive of letter for case %s"
+msgstr "Archiwum listów w sprawie %s"
+
+#~ msgid "There is no mail to institution. Unable to send emails."
+#~ msgstr "Brak adresu e-mail do instytucji, więc nie mogę wysłać e-maila."
 
 #~ msgid "Author"
 #~ msgstr "Autor"

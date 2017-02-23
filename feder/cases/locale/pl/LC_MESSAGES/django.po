@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cases 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-17 23:54+0000\n"
+"POT-Creation-Date: 2017-02-23 03:31+0000\n"
 "PO-Revision-Date: 2016-09-18 01:54+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -84,15 +84,15 @@ msgstr "Sprawy"
 msgid "Confirm delete"
 msgstr "Potwierdź usunięcie"
 
-#: templates/cases/case_detail.html:29
+#: templates/cases/case_detail.html:25
 msgid "Tasks"
 msgstr "Zadania"
 
-#: templates/cases/case_detail.html:34 templates/cases/case_detail.html:49
+#: templates/cases/case_detail.html:30 templates/cases/case_detail.html:45
 msgid "No rows."
 msgstr "Brak wierszy"
 
-#: templates/cases/case_detail.html:42
+#: templates/cases/case_detail.html:38
 msgid "Letters"
 msgstr "Listy"
 
