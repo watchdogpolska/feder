@@ -42,7 +42,7 @@ https://github.com/ad-m/django-atom/archive/v0.11.0.zip
 https://github.com/django/django-formtools/archive/52ae3a583b61a1c81c8fad8f7f327fc1fa750147.zip # see https://github.com/django/django-formtools/issues/75
 django-mptt==0.8.6
 https://github.com/ad-m/django-autofixture/archive/master.zip
-jsonfield==1.0.3
+jsonfield==2.0.0
 django-guardian==1.4.5
 claw==1.3.0
 django-mailbox==4.5.4
