@@ -2,7 +2,7 @@
 -r base.txt
 Sphinx==1.4.5
 django-extensions==1.7.4
-Werkzeug==0.11.11
+Werkzeug==0.11.15
 
 # django-debug-toolbar that works with Django 1.5+
 django-debug-toolbar==1.5
