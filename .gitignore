@@ -54,3 +54,4 @@ node_modules/
 
 # virtual environments
 .env
+docs/_build
