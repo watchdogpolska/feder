@@ -1,1 +1,1 @@
-sphinxcontrib-programoutput==0.8
+sphinxcontrib-programoutput==0.10
