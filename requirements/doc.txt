@@ -1,1 +1,2 @@
+-r local.txt
 sphinxcontrib-programoutput==0.10
