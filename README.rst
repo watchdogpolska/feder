@@ -6,9 +6,9 @@
     
  .. image:: https://img.shields.io/github/license/watchdogpolska/feder.svg
  
- .. image:: https://requires.io/github/watchdogpolska/feder/requirements.svg?branch=master
-     :target: https://requires.io/github/watchdogpolska/feder/requirements/?branch=master
-     :alt: Requirements Status
+ .. image:: https://pyup.io/repos/github/watchdogpolska/feder/shield.svg
+     :target: https://pyup.io/repos/github/watchdogpolska/feder/
+     :alt: Updates
 
  .. image:: https://david-dm.org/watchdogpolska/feder/dev-status.svg
      :target: https://david-dm.org/watchdogpolska/feder#info=devDependencies
