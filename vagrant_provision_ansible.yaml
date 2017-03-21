@@ -1,0 +1,67 @@
+---
+- hosts: all
+  become: yes
+  become_user: root
+  vars:
+    db_name: feder
+    db_user: feder
+    db_pass: feder
+    settings: {
+      DJANGO_SETTINGS_MODULE: "config.local",
+      DATABASE_URL: "mysql://{{db_user}}:{{db_pass}}@localhost/{{db_name}}"
+    }
+  tasks:
+  - name: Install OS-level libraries and application
+    apt: 
+      name: "{{item}}"
+      state: latest
+    with_items:
+      - python2.7
+      - mariadb-server
+      - git
+      - libmariadb-client-lgpl-dev
+      - virtualenv
+      - python-dev
+      - libffi-dev
+      - libssl-dev
+      - libjpeg-dev
+      - libpng12-dev
+      - libxml2-dev
+      - libxslt1-dev
+      - build-essential
+      - libjpeg62
+  - name: Install OS-level Python dependencies
+    pip: name={{item}} state=present
+    with_items:
+      - pip
+      - wheel
+
+  - name: Create a new MariaDB database 
+    mysql_db:
+      name: "{{ db_name }}"
+      state: "present"
+
+  - name: Create a new MariaDB user
+    mysql_user:
+      name: "{{ db_user }}"
+      password: "{{ db_pass }}"
+      host: "%"
+      priv: '{{ db_name }}.*:ALL'
+      state: present
+
+  - name: Create virtualenv
+    pip: 
+      requirements: "/vagrant/requirements/local.txt"
+      virtualenv: "env"
+
+  - name: execute database migrations
+    django_manage: command=migrate
+            app_path=/vagrant
+            virtualenv=env
+    environment: "{{ settings }}"
+
+  - name: execute collectstatic
+    django_manage: command=collectstatic
+            app_path=/vagrant
+            virtualenv=env
+    environment: "{{ settings }}"
