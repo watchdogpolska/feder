@@ -15,12 +15,12 @@ Cele społeczne
 * Masowa edukacja obywatelska na temat tego, jakie informacje można uzyskać od władz i jak wyglądają ich odpowiedzi oraz korespondencja z nimi, a także jak sprawdzać wypowiedzi pojawiające się w debacie publicznej.
 
 Cele dodatkowe
-----
+--------------
 
 Aplikacja uniwersalna, do przystosowania dla różnych akcji przez różne organizacje.
 
 Zasada działania
-----
+----------------
 
 W pierwszej kolejności użycie aplikacji wymaga dostarczenia danych adresowych instytucji, co zapewnia moduł :ref:`institutions`. Po wypełnieniu bazy adresowej wymagane jest utworzenie monitoringu (zob. :ref:`monitorings`), co zapewnia jednocześnie utworzenie spraw (zob. :ref:`cases`), a także wysłanie stworzenie w nich pierwszych listów (zob. :ref:`letters`).
 
@@ -56,7 +56,7 @@ System wyposażony winien być w mechanizm weryfikacji rozbieżności w ankietac
 Ankiety związane z danym kwestionariuszem mogą być wyeksportowane i analizowane z wykorzystaniem właściwych narzędzi.
 
 Przykłady zastosowań
-----
+--------------------
 
 Przepisywanie skróconych informacji i dostarczanie danych liczbowych
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
