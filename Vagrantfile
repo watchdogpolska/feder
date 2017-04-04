@@ -20,6 +20,7 @@ Vagrant.configure("2") do |config|
   config.vm.define "mgmt" do |web|
     web.vm.network "private_network", ip: "192.168.33.10"
     web.vm.network :forwarded_port, guest: 22, host: 2210
+    web.vm.network :forwarded_port, guest: 8888, host: 8080
     web.vm.provider "virxtualbox" do |vb|
         vb.memory = 1024
     end
