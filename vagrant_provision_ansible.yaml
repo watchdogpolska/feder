@@ -4,6 +4,9 @@
     db_name: feder
     db_user: feder
     db_pass: feder
+    db_names:
+      - "{{ db_name }}"
+      - "test-{{ db_name }}"
     env_path: "~/env"
     src_path: "/vagrant"
     requirements_path: "{{src_path}}/requirements/local.txt"
@@ -12,15 +15,15 @@
       DATABASE_URL: "mysql://{{db_user}}:{{db_pass}}@localhost/{{db_name}}"
     }
   tasks:
-  - name: Install MariaDB repository
-    apt_repository: 
-      repo: 'deb http://ftp.igh.cnrs.fr/pub/mariadb/repo/10.0/ubuntu xenial main' 
-      state: present
-    become: yes
-
   - name: Add repository key to the system
     apt_key: keyserver=keyserver.ubuntu.com id=0xF1656F24C74CD1D8
     register: repository_status
+    become: yes
+
+  - name: Install MariaDB repository
+    apt_repository: 
+      repo: 'deb [arch=amd64,i386,ppc64el] http://mariadb.kisiek.net/repo/10.1/ubuntu xenial main' 
+      state: present
     become: yes
 
   - name: Update repository info
@@ -63,28 +66,52 @@
 
   - name: Create a new MariaDB database 
     mysql_db:
-      name: "{{ db_name }}"
+      name: "{{ item }}"
+      encoding: utf8
       state: "present"
     become: yes
+    items: "{{ db_names }}"
 
   - name: Create a new MariaDB user
     mysql_user:
       name: "{{ db_user }}"
       password: "{{ db_pass }}"
-      host: "%"
-      priv: '{{ db_name }}.*:ALL'
+      host: "localhost"
+      priv: '*.*:ALL'
       state: present
     become: yes
 
+  - name: Flush privileges
+    command: mysql -e "FLUSH PRIVILEGES;"
+    become: yes
+    
   - name: Create virtualenv
     pip: 
-      requirements: "{{requirements_path}}"
+      requirements: "{{ requirements_path }}"
       virtualenv: "{{ env_path }}"
 
   - name: Create virtualenv
     pip: 
       name: "django"
       virtualenv: "{{ env_path }}"
+
+  - name: Update activator
+    lineinfile:
+      dest: "{{ env_path }}/bin/activate"
+      state: present
+      regexp: '^export {{ item.key }}='
+      line: 'export {{ item.key }}="{{ item.value }}"'
+    with_dict: "{{ settings }}"
+  
+  - name: Update ~/.bashrc to autostart in project
+    lineinfile:
+      dest: "~/.bashrc"
+      state: present
+      regexp: '^{{item}}$'
+      line: '{{item}}'
+    with_items:
+      - "source {{ env_path }}/bin/activate;"
+      - "cd {{src_path }};"
 
   - name: execute database migrations
     django_manage:

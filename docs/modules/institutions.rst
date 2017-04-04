@@ -12,10 +12,9 @@ Moduł stanowi mechanizm gromadzenia danych adresowych o instytucjach i przedsta
 Dane testowe
 ############
 
-Dla modułu nie możliwe jest w środowisku deweloperskim dynamicznie wygenerowanie generowanych danych testowych.
+Generowanie testowych danych możliwe jest przykładowo z wykorzystaniem::
 
- .. todo::
-    Opracować generowanie danych testowych.
+    python manage.py loadtestdata institutions.Institution:25
 
 Architektura
 ############

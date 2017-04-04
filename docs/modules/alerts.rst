@@ -28,11 +28,11 @@ Model
    :members:
 
 
-Panel administracyjny
----------------------
+.. Panel administracyjny
+.. ---------------------
 
-.. automodule:: feder.alerts.admin
-   :members:
+.. .. automodule:: feder.alerts.admin
+..    :members:
 
 Procesorzy kontekstu
 --------------------

@@ -12,10 +12,9 @@ Moduł odpowiedzialny jest za mechanizm "wątków" odnoszących się do konkretn
 Dane testowe
 ############
 
-Dla modułu nie możliwe jest w środowisku deweloperskim dynamicznie wygenerowanie generowanych danych testowych.
+Wygenerowanie testowych danych dla modułu jest możliwe przykładowo z wykorzystaniem::
 
- .. todo::
-    Opracować generowanie danych testowych.
+    python manage.py loadtestdata cases.Case:25
 
 Architektura
 ############

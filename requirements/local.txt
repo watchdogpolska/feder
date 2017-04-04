@@ -1,5 +1,6 @@
 # Local development dependencies go here
 -r base.txt
+Django==1.9.13
 Sphinx==1.5.5
 django-extensions==1.7.4
 Werkzeug==0.12.1

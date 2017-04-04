@@ -12,10 +12,9 @@ Moduł stanowi komponent, który agreguje sprawy związane z różnymi urzędami
 Dane testowe
 ############
 
-Dla modułu nie możliwe jest w środowisku deweloperskim dynamicznie wygenerowanie generowanych danych testowych.
+Wygenerowanie danych testowych może zostać przeprowadzone z wykorzystaniem polecenia::
 
- .. todo::
-    Opracować generowanie danych testowych.
+    python manage.py loadtestdata monitorings.Monitoring:25
 
 Architektura
 ############
