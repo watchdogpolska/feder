@@ -9,3 +9,4 @@ django-debug-toolbar==1.7
 
 # improved REPL
 ipdb==0.10.1
+factory==1.2
