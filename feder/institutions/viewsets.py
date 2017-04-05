@@ -7,7 +7,7 @@ from teryt_tree.rest_framework_ext.viewsets import custom_area_filter
 
 
 class InstitutionFilter(filters.FilterSet):
-    jst = django_filters.CharFilter(action=custom_area_filter)
+    jst = django_filters.CharFilter(method=custom_area_filter)
 
     class Meta:
         model = Institution

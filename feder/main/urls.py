@@ -7,7 +7,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.sitemaps.views import index, sitemap
 from django.http import HttpResponseServerError
-from django.template import Context, loader
+from django.template import loader
 from django.views.generic import TemplateView
 from rest_framework import routers
 from teryt_tree.rest_framework_ext.viewsets import \
@@ -85,6 +85,6 @@ def handler500(request):
     """
 
     t = loader.get_template('500.html')
-    return HttpResponseServerError(t.render(Context({
+    return HttpResponseServerError(t.render({
         'request': request,
-    })))
+    }))
