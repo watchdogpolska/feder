@@ -20,7 +20,7 @@ class ObjectMixin(object):
         self.permission_object = self.task.case.monitoring
 
 
-class CaseTestCase(ObjectMixin, TestCase):
+class TaskTestCase(ObjectMixin, TestCase):
     def test_list_display(self):
         response = self.client.get(reverse('tasks:list'))
         self.assertEqual(response.status_code, 200)
