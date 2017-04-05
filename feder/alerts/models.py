@@ -40,6 +40,7 @@ class Alert(TimeStampedModel):
     class Meta:
         verbose_name = _("Alert")
         verbose_name_plural = _("Alerts")
+        ordering = ['created']
 
     def get_status_display(self):
         return _("Closed") if self.status else _("Open")

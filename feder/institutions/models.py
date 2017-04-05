@@ -39,6 +39,7 @@ class Institution(TimeStampedModel):
     class Meta:
         verbose_name = _("Institution")
         verbose_name_plural = _("Institution")
+        ordering = ['name']
 
     def __str__(self):
         return self.name
