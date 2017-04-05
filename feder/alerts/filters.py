@@ -7,7 +7,7 @@ from .models import Alert
 class AlertFilter(django_filters.FilterSet):
     def __init__(self, *args, **kwargs):
         super(AlertFilter, self).__init__(*args, **kwargs)
-        self.filters['reason'].lookup_type = 'icontains'
+        self.filters['reason'].lookup_expr = 'icontains'
         self.filters['author'].widget = autocomplete.ModelSelect2(url='users:autocomplete')
 
     class Meta:

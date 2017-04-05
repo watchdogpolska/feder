@@ -7,7 +7,7 @@ from .models import Questionary
 
 
 class QuestionaryFilter(UserKwargFilterSetMixin, FilterSet):
-    title = CharFilter(lookup_type='icontains', label=_("Name"))
+    title = CharFilter(lookup_expr='icontains', label=_("Name"))
     created = DateRangeFilter(label=_("Creation date"))
 
     def __init__(self, *args, **kwargs):

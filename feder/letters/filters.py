@@ -10,11 +10,11 @@ from .models import Letter
 class LetterFilter(UserKwargFilterSetMixin, FilterSet):
     created = DateRangeFilter(label=_("Creation date"))
     eml = BooleanFilter(label=_("Has eml?"),
-                        action=lambda qs, v: qs.filter(eml='') if v else qs.exclude(eml=''))
+                        method=lambda qs, v: qs.filter(eml='') if v else qs.exclude(eml=''))
 
     def __init__(self, *args, **kwargs):
         super(LetterFilter, self).__init__(*args, **kwargs)
-        self.filters['title'].lookup_type = 'icontains'
+        self.filters['title'].lookup_expr = 'icontains'
         self.filters['case__institution'].widget = autocomplete.ModelSelect2(
             url='institutions:autocomplete')
 

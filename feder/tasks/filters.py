@@ -8,11 +8,11 @@ from .models import Task
 class TaskFilter(django_filters.FilterSet):
     created = django_filters.DateRangeFilter(label=_("Creation date"))
     done = django_filters.BooleanFilter(label=_("Is done?"),
-                                        action=lambda qs, v: qs.is_done(exclude=not v))
+                                        method=lambda qs, v: qs.is_done(exclude=not v))
 
     def __init__(self, *args, **kwargs):
         super(TaskFilter, self).__init__(*args, **kwargs)
-        self.filters['name'].lookup_type = 'icontains'
+        self.filters['name'].lookup_expr = 'icontains'
         self.filters['case'].widget = autocomplete.ModelSelect2(url='cases:autocomplete')
         self.filters['case__monitoring'].widget = autocomplete.ModelSelect2(
             url='monitorings:autocomplete')

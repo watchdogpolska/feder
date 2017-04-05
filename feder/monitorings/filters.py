@@ -13,7 +13,7 @@ class MonitoringFilter(django_filters.FilterSet):
 
     def __init__(self, *args, **kwargs):
         super(MonitoringFilter, self).__init__(*args, **kwargs)
-        self.filters['name'].lookup_type = 'icontains'
+        self.filters['name'].lookup_expr = 'icontains'
         # Limit users select to which have any cases
         qs = (get_user_model().objects.
               annotate(case_count=Count('case')).
