@@ -2,16 +2,16 @@
 {% load i18n %}
 
 {% block breadcrumbs_row %}
-<li class="active">{% trans 'Confirm select answer' %}</li>
+    <li class="active">{% trans 'Confirm select answer' %}</li>
 {% endblock %}
 
 {% block content %}
-<div class="gray">
-    <form method="POST">
-        <div style="display:none">
-            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-        </div>
-        <input type="submit" class="btn btn-primary" value="{% trans 'Credibility update' %}">
-    </form>
-</div>
+    <div class="gray">
+        <form method="POST">
+            <div style="display:none">
+                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+            </div>
+            <input type="submit" class="btn btn-primary" value="{% trans 'Credibility update' %}">
+        </form>
+    </div>
 {% endblock %}

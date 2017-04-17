@@ -9,7 +9,6 @@ from guardian.mixins import GuardianUserMixin
 
 @python_2_unicode_compatible
 class User(GuardianUserMixin, AbstractUser):
-
     def __str__(self):
         return self.username
 

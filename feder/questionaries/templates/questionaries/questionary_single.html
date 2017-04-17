@@ -1,30 +1,30 @@
 {% extends 'questionaries/base.html' %}
 {% load i18n %}
 {% block breadcrumbs %}
-<ol class="breadcrumb">
-    {% if object %}
-    <li><a href="{{object.monitoring.get_absolute_url}}">{{object.monitoring}}</a></li>
-    <li><a href="{{object.get_absolute_url}}">{{object}}</a></li>
-    {% endif %}
-    {% block breadcrumbs_row %}{% endblock %} 
-</ol>
+    <ol class="breadcrumb">
+        {% if object %}
+            <li><a href="{{ object.monitoring.get_absolute_url }}">{{ object.monitoring }}</a></li>
+            <li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
+        {% endif %}
+        {% block breadcrumbs_row %}{% endblock %}
+    </ol>
 {% endblock %}
 
 {% block content %}
 
-{% if object %}
-{% include 'questionaries/_btn.html' %}
-<div class="page-header">
-    <h2>
-        <i class="fa fa-list-alt"></i>
-        <a href="{{object.get_absolute_url}}">{{object}}</a>
-    </h2>
-</div>
+    {% if object %}
+        {% include 'questionaries/_btn.html' %}
+        <div class="page-header">
+            <h2>
+                <i class="fa fa-list-alt"></i>
+                <a href="{{ object.get_absolute_url }}">{{ object }}</a>
+            </h2>
+        </div>
 
-{% endif %}
+    {% endif %}
 
 
-<div class="gray">
-  {% block content_object %}{% endblock %}
-</div>
+    <div class="gray">
+        {% block content_object %}{% endblock %}
+    </div>
 {% endblock %}

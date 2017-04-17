@@ -2,35 +2,35 @@
 {% load i18n crispy_forms_tags bootstrap_pagination %}
 
 {% block content %}
-<div class="page-header">
-    <h1>{% trans 'Tasks index' %}</h1>
-</div>
-<div class="row">
+    <div class="page-header">
+        <h1>{% trans 'Tasks index' %}</h1>
+    </div>
+    <div class="row">
 
-    <div class="col-sm-9 col-sm-push-3">
-        {% if object_list %}
-            {% include 'tasks/_progress.html' with progress=stats.progress max=stats.required_count value=stats.done_count %}
-            {% for object in object_list %}
-            <div class="gray">
-                {% include 'tasks/_task_small.html' with object=object %}
+        <div class="col-sm-9 col-sm-push-3">
+            {% if object_list %}
+                {% include 'tasks/_progress.html' with progress=stats.progress max=stats.required_count value=stats.done_count %}
+                {% for object in object_list %}
+                    <div class="gray">
+                        {% include 'tasks/_task_small.html' with object=object %}
+                    </div>
+                {% endfor %}
+
+                {% bootstrap_pager page_obj %}
+
+            {% else %}
+                <div class="gray">
+                    <p>
+                        {% trans 'No rows.' %}
+                    </p>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="col-sm-3 col-sm-pull-9">
+            <div class="red">
+                {% crispy filter.form %}
             </div>
-            {% endfor %}
-
-            {% bootstrap_pager page_obj %}
-
-        {% else %}
-        <div class="gray">
-            <p>
-                {% trans 'No rows.' %}
-            </p>
-        </div>
-        {% endif %}
-    </div>
-
-    <div class="col-sm-3 col-sm-pull-9">
-        <div class="red">
-            {% crispy filter.form %}
         </div>
     </div>
-</div>
 {% endblock %}

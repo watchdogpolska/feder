@@ -1,5 +1,5 @@
-{%extends 'letters/base.html' %}
+{% extends 'letters/base.html' %}
 {% load i18n crispy_forms_tags %}
 {% block content %}
-{% include '_filter.html' with title='Letters index' form=filter.form object_list=object_list object_template='letters/_letter_small.html' %}
+    {% include '_filter.html' with title='Letters index' form=filter.form object_list=object_list object_template='letters/_letter_small.html' %}
 {% endblock %}

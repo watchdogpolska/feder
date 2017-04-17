@@ -8,13 +8,13 @@ from braces.forms import UserKwargModelFormMixin
 from crispy_forms.layout import Submit
 from django import forms
 from django.utils.translation import ugettext_lazy as _
+
 from .models import Letter
 
 QUOTE_TPL = "W nawiązaniu do pisma z dnia {created} z adresu {email}:\n{quoted}"
 
 
 class LetterForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
-
     def __init__(self, *args, **kwargs):
         case = kwargs.pop('case', None)
         super(LetterForm, self).__init__(*args, **kwargs)

@@ -6,14 +6,14 @@ from django.db import migrations, models
 
 try:
     import django.contrib.auth.validators
+
     version_depend_kwargs = {'validators':
-                             [django.contrib.auth.validators.ASCIIUsernameValidator()]}
+                                 [django.contrib.auth.validators.ASCIIUsernameValidator()]}
 except ImportError:
     version_depend_kwargs = {}
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('users', '0002_auto_20160729_2008'),
     ]

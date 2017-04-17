@@ -6,7 +6,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('institutions', '0005_auto_20160907_1814'),
     ]
@@ -22,6 +21,6 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterUniqueTogether(
             name='email',
-            unique_together=set([('institution', 'email')]),
+            unique_together={('institution', 'email')},
         ),
     ]

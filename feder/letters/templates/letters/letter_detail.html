@@ -2,19 +2,19 @@
 {% load i18n %}
 
 {% block breadcrumbs %}
-<ol class="breadcrumb">
-    <li><a href="{{object.case.monitoring.get_absolute_url}}">{{object.case.monitoring}}</a></li>
-    <li><a href="{{object.case.get_absolute_url}}">{{object.case}}</a></li>
-    <li class="active">{{object}}</li>
-</ol>
+    <ol class="breadcrumb">
+        <li><a href="{{ object.case.monitoring.get_absolute_url }}">{{ object.case.monitoring }}</a></li>
+        <li><a href="{{ object.case.get_absolute_url }}">{{ object.case }}</a></li>
+        <li class="active">{{ object }}</li>
+    </ol>
 {% endblock %}
 
 {% block content_object %}
-{% include 'letters/_object.html' with object=object %}
-{% if object.eml %}
-<a class="btn btn-default" href="{{object.eml.url}}">
-    <i class="fa fa-download"></i>
-    {% trans 'Download letter' %}
-</a>
-{% endif %}
+    {% include 'letters/_object.html' with object=object %}
+    {% if object.eml %}
+        <a class="btn btn-default" href="{{ object.eml.url }}">
+            <i class="fa fa-download"></i>
+            {% trans 'Download letter' %}
+        </a>
+    {% endif %}
 {% endblock %}

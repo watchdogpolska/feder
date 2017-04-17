@@ -1,8 +1,9 @@
 from braces.views import LoginRequiredMixin
+from django.core.exceptions import ImproperlyConfigured
 from django.core.paginator import EmptyPage, Paginator
 from guardian.mixins import PermissionRequiredMixin
 from guardian.shortcuts import assign_perm
-from django.core.exceptions import ImproperlyConfigured
+
 from feder.users.factories import UserFactory
 
 
@@ -44,8 +45,8 @@ class ExtraListMixin(object):
             ImproperlyConfigured: The method was not overrided.
         """
         raise ImproperlyConfigured(
-                '{0} is missing a permissions to assign. Define {0}.permission '
-                'or override {0}.get_permission().'.format(self.__class__.__name__))
+            '{0} is missing a permissions to assign. Define {0}.permission '
+            'or override {0}.get_permission().'.format(self.__class__.__name__))
 
     def get_context_data(self, **kwargs):
         context = super(ExtraListMixin, self).get_context_data(**kwargs)

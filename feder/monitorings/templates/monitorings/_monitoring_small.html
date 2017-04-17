@@ -1,22 +1,22 @@
 {% load i18n humanize %}
 <h2>
     <i class="fa fa-search"></i>
-    <a href="{{object.get_absolute_url}}">{{object}}</a>
+    <a href="{{ object.get_absolute_url }}">{{ object }}</a>
 </h2>
 
 <p>
-    {% trans 'User'%}:
-    <a href="{{object.user.get_absolute_url}}">{{object.user}}</a>
+    {% trans 'User' %}:
+    <a href="{{ object.user.get_absolute_url }}">{{ object.user }}</a>
 </p>
 <p>
-    {% trans 'Creation date'%}:
-    <time datetime="{{object.created}}">
-        {{object.created|naturaltime}}
+    {% trans 'Creation date' %}:
+    <time datetime="{{ object.created }}">
+        {{ object.created|naturaltime }}
     </time>
 </p>
 <p>
-    {% trans 'Case count'%}:
-    <time datetime="{{object.created|date:'PTDHMS'}}">
-        {{object.case_count}}
+    {% trans 'Case count' %}:
+    <time datetime="{{ object.created|date:'PTDHMS'}}">
+        {{ object.case_count }}
     </time>
 </p>

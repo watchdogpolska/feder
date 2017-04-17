@@ -6,10 +6,10 @@ from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
 from django_filters.views import FilterView
+
 from feder.main.mixins import (AttrPermissionRequiredMixin,
                                RaisePermissionRequiredMixin)
 from feder.monitorings.models import Monitoring
-
 from .filters import AlertFilter
 from .forms import AlertForm
 from .models import Alert
@@ -33,8 +33,8 @@ class AlertListView(MonitoringMixin, RaisePermissionRequiredMixin,
     prefetch_related = ['link_object', ]
     permission_required = 'monitorings.view_alert'
 
-    def get_queryset(self, *args, **kwargs):
-        qs = super(AlertListView, self).get_queryset(*args, **kwargs)
+    def get_queryset(self):
+        qs = super(AlertListView, self).get_queryset()
         return qs.monitoring(self.monitoring)
 
 
@@ -49,8 +49,8 @@ class AlertCreateView(MonitoringMixin, UserFormKwargsMixin, CreateView):
     model = Alert
     form_class = AlertForm
 
-    def get_form_kwargs(self, *args, **kwargs):
-        r = super(AlertCreateView, self).get_form_kwargs(*args, **kwargs)
+    def get_form_kwargs(self):
+        r = super(AlertCreateView, self).get_form_kwargs()
         r['monitoring'] = self.monitoring
         return r
 

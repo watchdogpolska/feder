@@ -1,7 +1,6 @@
 import factory
 
 from feder.monitorings.factories import MonitoringFactory
-
 from .models import Questionary, Question
 
 
@@ -60,7 +59,6 @@ class JSTQuestionFactory(factory.django.DjangoModelFactory):
         default = {u'name': 'Standard name no. {0}'.format(n),
                    u'help_text': 'Standard help text no. {0}'.format(n),
                    u'required': n % 2 == 0,
-                   u'help_text': u'Answer me, please!',
                    u'area': 'all'}
         result = {}
         for key, value in default.items():

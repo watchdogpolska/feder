@@ -1,15 +1,16 @@
 {% extends 'questionaries/question_single.html' %}
 {% load crispy_forms_tags i18n %}
 {% block breadcrumbs %}
-<ol class="breadcrumb">
-    {% if object %}
-    <li><a href="{{object.questionary.monitoring.get_absolute_url}}">{{object.questionary.monitoring}}</a></li>
-    <li><a href="{{object.questionary.get_absolute_url}}">{{object.questionary}}</a></li>
-    {% endif %}
-    {% block breadcrumbs_row %}
-    <li>{{object}}</li>
-    {% endblock %} 
-</ol>
+    <ol class="breadcrumb">
+        {% if object %}
+            <li><a href="{{ object.questionary.monitoring.get_absolute_url }}">{{ object.questionary.monitoring }}</a>
+            </li>
+            <li><a href="{{ object.questionary.get_absolute_url }}">{{ object.questionary }}</a></li>
+        {% endif %}
+        {% block breadcrumbs_row %}
+            <li>{{ object }}</li>
+        {% endblock %}
+    </ol>
 {% endblock %}
 
 

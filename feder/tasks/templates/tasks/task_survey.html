@@ -2,16 +2,16 @@
 {% load i18n humanize guardian_tags %}
 
 {% block breadcrumbs_row %}
-<li class="active">
-    {% trans 'Answers' %}
-</li>
+    <li class="active">
+        {% trans 'Answers' %}
+    </li>
 {% endblock %}
 
 {% block content_object %}
-{% get_obj_perms request.user for object.case.monitoring as "monitoring_perms" %}
-<div class="gray">
-    <table class="table table-striped">
-        <thead>
+    {% get_obj_perms request.user for object.case.monitoring as "monitoring_perms" %}
+    <div class="gray">
+        <table class="table table-striped">
+            <thead>
             <tr>
                 <th>
                     {% trans 'User' %}
@@ -20,63 +20,65 @@
                     {% trans 'Creation date' %}
                 </th>
                 {% if 'select_survey' in monitoring_perms %}
-                <th>
-                {% trans 'Credibility' %}
-                </th>
+                    <th>
+                        {% trans 'Credibility' %}
+                    </th>
                 {% endif %}
                 {% for question in object.questionary.question_set.all %}
-                <th>{{question.label}}</th>
+                    <th>{{ question.label }}</th>
                 {% endfor %}
                 {% if 'select_survey' in monitoring_perms %}
-                <th>
-                {% trans 'Credibility update' %}
-                </th>
+                    <th>
+                        {% trans 'Credibility update' %}
+                    </th>
                 {% endif %}
 
             </tr>
-        </thead>
-        <tbody>
+            </thead>
+            <tbody>
             {% for survey in survey_list %}
-            <tr {% if 'select_survey' in monitoring_perms and survey.credibility_verified %}
-                class="success"
-            {% endif %}>
-                <td>
-                    <a href="{{survey.user.get_absolute_url}}">
-                        {{survey.user}}
-                    </a>
-                </td>
-                <td>
-                    <datetime time="{{survey.created}}">{{survey.created | naturaltime }}</datetime>
-                </td>
-                {% if "select_survey" in monitoring_perms %}
-                <td>
-                    {{survey.credibility}}
-                </td>
-                {% endif %}
-                {% for answer in survey.answer_set.all %}
-                <td>
-                    {{answer.render}}
-                </td>
-                {% endfor %}
-                {% if "select_survey" in monitoring_perms %}
-                <td>
-                    <form method="POST" action="{% url 'tasks:select_up_survey' task_id=object.pk pk=survey.pk %}">
-                        <div style="display:none">
-                            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-                        </div>
-                        <input type="submit" class="btn btn-primary" value="{% trans 'Up' %}">
-                    </form>
-                    <form method="POST" action="{% url 'tasks:select_down_survey' task_id=object.pk pk=survey.pk %}">
-                        <div style="display:none">
-                            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-                        </div>
-                        <input type="submit" class="btn btn-primary" value="{% trans 'Down' %}">
-                    </form>
-                </td>
-                {% endif %}
-            </tr>
+                <tr {% if 'select_survey' in monitoring_perms and survey.credibility_verified %}
+                    class="success"
+                {% endif %}>
+                    <td>
+                        <a href="{{ survey.user.get_absolute_url }}">
+                            {{ survey.user }}
+                        </a>
+                    </td>
+                    <td>
+                        <datetime time="{{ survey.created }}">{{ survey.created | naturaltime }}</datetime>
+                    </td>
+                    {% if "select_survey" in monitoring_perms %}
+                        <td>
+                            {{ survey.credibility }}
+                        </td>
+                    {% endif %}
+                    {% for answer in survey.answer_set.all %}
+                        <td>
+                            {{ answer.render }}
+                        </td>
+                    {% endfor %}
+                    {% if "select_survey" in monitoring_perms %}
+                        <td>
+                            <form method="POST"
+                                  action="{% url 'tasks:select_up_survey' task_id=object.pk pk=survey.pk %}">
+                                <div style="display:none">
+                                    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                                </div>
+                                <input type="submit" class="btn btn-primary" value="{% trans 'Up' %}">
+                            </form>
+                            <form method="POST"
+                                  action="{% url 'tasks:select_down_survey' task_id=object.pk pk=survey.pk %}">
+                                <div style="display:none">
+                                    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                                </div>
+                                <input type="submit" class="btn btn-primary" value="{% trans 'Down' %}">
+                            </form>
+                        </td>
+                    {% endif %}
+                </tr>
             {% endfor %}
-        </tbody>
-    </table>
-</div>
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

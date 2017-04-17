@@ -6,7 +6,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('questionaries', '0002_auto_20160915_0432'),
         ('tasks', '0003_auto_20160915_0613'),
@@ -15,6 +14,6 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterUniqueTogether(
             name='answer',
-            unique_together=set([('survey', 'question')]),
+            unique_together={('survey', 'question')},
         ),
     ]

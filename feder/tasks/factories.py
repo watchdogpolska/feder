@@ -6,7 +6,6 @@ from feder.questionaries.factories import (CharQuestionFactory,
                                            QuestionaryFactory)
 from feder.teryt.factories import JSTFactory
 from feder.users.factories import UserFactory
-
 from .models import Answer, Survey, Task
 
 

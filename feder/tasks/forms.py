@@ -6,12 +6,10 @@ from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
 from feder.cases.models import Case
-
 from .models import Answer, Survey, Task
 
 
 class TaskForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
-
     def __init__(self, *args, **kwargs):
         self.case = kwargs.pop('case', None)
         super(TaskForm, self).__init__(*args, **kwargs)
@@ -51,7 +49,6 @@ class AnswerForm(HelperMixin, forms.Form):
 
 
 class AnswerFormSet(object):
-
     def __init__(self, questionary, survey=None, *args, **kwargs):
         self.questionary = questionary
         self.survey = survey
@@ -151,7 +148,6 @@ class MultiTaskForm(SingleButtonMixin, UserKwargModelFormMixin, forms.Form):
 
 
 class SurveyForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
-
     def __init__(self, *args, **kwargs):
         self.task = kwargs.pop('task')
         super(SurveyForm, self).__init__(*args, **kwargs)

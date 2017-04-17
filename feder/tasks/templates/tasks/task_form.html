@@ -1,10 +1,12 @@
 {% extends 'tasks/task_single.html' %}
 {% load crispy_forms_tags i18n %}
 
-{% block breadcrumbs_row %}<li class="active">{% if object %}{% trans 'Update task' %}{% else %}{% trans 'Add task' %}{% endif %}</li>{% endblock %}
+{% block breadcrumbs_row %}
+    <li class="active">
+        {% if object %}{% trans 'Update task' %}{% else %}{% trans 'Add task' %}{% endif %}</li>{% endblock %}
 
 {% block content_object %}
-<div class="gray">
-{% crispy form %}
-</div>
+    <div class="gray">
+        {% crispy form %}
+    </div>
 {% endblock %}

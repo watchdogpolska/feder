@@ -6,13 +6,12 @@ from django.test import TestCase
 
 from feder.teryt.factories import JSTFactory
 from feder.teryt.models import JST
-
-from ...tasks.forms import AnswerForm
 from ..forms import QuestionDefinitionForm
 from ..models import Question
 from ..modulator import (CharModulator, ChoiceModulator, DateModulator,
                          EmailModulator, IntegerModulator, JSTModulator,
                          LetterChoiceModulator)
+from ...tasks.forms import AnswerForm
 
 
 class ModulatorMixin(object):

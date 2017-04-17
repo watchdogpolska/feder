@@ -4,11 +4,10 @@ from django.test import TestCase
 from guardian.shortcuts import assign_perm
 
 from feder.main.mixins import PermissionStatusMixin
-
+from .test_general import ObjectMixin
 from ..factories import CharQuestionFactory
 from ..forms import QuestionForm, QuestionDefinitionForm
 from ..models import Question
-from .test_general import ObjectMixin
 
 try:
     from django.template.loader import get_template_from_string
@@ -35,7 +34,6 @@ class QuestionObjectMixin(ObjectMixin):
 
 
 class QuestionFormTestCase(ObjectMixin, TestCase):
-
     def test_construct_form(self):
         form = QuestionForm(questionary=self.questionary)
         html = render_form(form)

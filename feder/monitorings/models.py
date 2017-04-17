@@ -1,5 +1,6 @@
 from itertools import groupby
 
+import reversion
 from autoslug.fields import AutoSlugField
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -8,7 +9,6 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from guardian.models import GroupObjectPermissionBase, UserObjectPermissionBase
 from model_utils.models import TimeStampedModel
-import reversion
 
 from .validators import validate_template_syntax
 
@@ -89,6 +89,7 @@ class Monitoring(TimeStampedModel):
             for perm, users in grouped:
                 user_perm_list = [x.user for x in users]
                 yield perm, [(perm, (user in user_perm_list)) for user in user_list]
+
         return user_list, index_generate()
 
 

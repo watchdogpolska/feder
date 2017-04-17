@@ -2,12 +2,12 @@
 {% load i18n %}
 
 {% block breadcrumbs_row %}
-<li class="active">{% trans 'Confirm delete' %}</li>
+    <li class="active">{% trans 'Confirm delete' %}</li>
 {% endblock %}
 
 {% block content_object %}
     <div class="well">
-    {% include 'tasks/_answer.html' with object_list=object.answer_set.all %}
+        {% include 'tasks/_answer.html' with object_list=object.answer_set.all %}
     </div>
     <form method="POST">
         <div style="display:none">

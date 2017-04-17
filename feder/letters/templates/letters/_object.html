@@ -1,25 +1,25 @@
 {% load i18n %}
-{{object.body|linebreaks}}
+{{ object.body|linebreaks }}
 
 {% if object.quote %}
-<blockquote class="expandable">
-    {{object.quote|linebreaks}}
-</blockquote>
+    <blockquote class="expandable">
+        {{ object.quote|linebreaks }}
+    </blockquote>
 {% endif %}
 
 {% if object.attachment_set.all %}
-<div class="attachment-list">
-    <h4>
-        {% trans 'Attachments' %}
-    </h4>
-    <ul>
-        {% for attachment in object.attachment_set.all %}
-        <li>
-            <a href="{{attachment.attachment.url}}">
-                {{attachment}}
-            </a>
-        </li>
-        {% endfor %}
-    </ul>
-</div>
+    <div class="attachment-list">
+        <h4>
+            {% trans 'Attachments' %}
+        </h4>
+        <ul>
+            {% for attachment in object.attachment_set.all %}
+                <li>
+                    <a href="{{ attachment.attachment.url }}">
+                        {{ attachment }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
 {% endif %}

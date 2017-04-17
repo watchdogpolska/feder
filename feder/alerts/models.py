@@ -8,8 +8,9 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
-from feder.monitorings.models import Monitoring
 from model_utils.models import TimeStampedModel
+
+from feder.monitorings.models import Monitoring
 
 ALERT_INDEX = _("Alerts index")
 
@@ -34,7 +35,7 @@ class Alert(TimeStampedModel):
     status = models.BooleanField(default=False, verbose_name=_("Status"))
     content_type = models.ForeignKey(ContentType, null=True)
     object_id = models.PositiveIntegerField(null=True)
-    link_object = GenericForeignKey('content_type', 'object_id')
+    link_object = GenericForeignKey()
     objects = AlertQuerySet.as_manager()
 
     class Meta:

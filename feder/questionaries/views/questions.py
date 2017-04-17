@@ -1,4 +1,3 @@
-
 from atom.views import (ActionMessageMixin, ActionView, CreateMessageMixin,
                         UpdateMessageMixin, DeleteMessageMixin)
 from braces.views import FormValidMessageMixin, SelectRelatedMixin
@@ -9,7 +8,6 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.generic import CreateView, UpdateView, DeleteView
 
 from feder.main.mixins import AttrPermissionRequiredMixin
-
 from ..forms import QuestionDefinitionForm, QuestionForm
 from ..models import Question, Questionary
 
@@ -28,8 +26,8 @@ class QuestionCreateView(AttrPermissionRequiredMixin, CreateMessageMixin,
     def get_permission_object(self):
         return self.questionary.monitoring
 
-    def get_form_kwargs(self, *args, **kwargs):
-        kw = super(QuestionCreateView, self).get_form_kwargs(*args, **kwargs)
+    def get_form_kwargs(self):
+        kw = super(QuestionCreateView, self).get_form_kwargs()
         kw['questionary'] = self.questionary
         return kw
 
@@ -39,7 +37,7 @@ class QuestionCreateView(AttrPermissionRequiredMixin, CreateMessageMixin,
         return self.questionary.get_absolute_url()
 
 
-class QuestionUpdateView(AttrPermissionRequiredMixin,  UpdateMessageMixin,
+class QuestionUpdateView(AttrPermissionRequiredMixin, UpdateMessageMixin,
                          FormValidMessageMixin, UpdateView):
     model = Question
     template_name = 'questionaries/question_form.html'

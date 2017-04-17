@@ -1,6 +1,7 @@
+import factory
+
 from feder.institutions.factories import InstitutionFactory
 from feder.monitorings.factories import MonitoringFactory
-import factory
 from feder.users.factories import UserFactory
 from .models import Case
 

@@ -13,7 +13,7 @@ class InstitutionAdmin(VersionAdmin):
     '''
     list_display = ('name', 'jst', 'email',)
     search_fields = ['name', ]
-    raw_id_fields = ('jst', )
+    raw_id_fields = ('jst',)
 
 
 @admin.register(Tag)
@@ -22,6 +22,7 @@ class TagAdmin(admin.ModelAdmin):
 
     def get_institution_count(self, obj):
         return obj.institution_count
+
     get_institution_count.admin_order_field = 'institution_count'
     get_institution_count.short_description = _("Institution count")
 

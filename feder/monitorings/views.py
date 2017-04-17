@@ -24,7 +24,6 @@ from feder.institutions.filters import InstitutionFilter
 from feder.institutions.models import Institution
 from feder.letters.models import Letter
 from feder.main.mixins import ExtraListMixin, RaisePermissionRequiredMixin
-
 from .filters import MonitoringFilter
 from .forms import (MonitoringForm, SaveTranslatedUserObjectPermissionsForm,
                     SelectUserForm)
@@ -37,8 +36,8 @@ class MonitoringListView(SelectRelatedMixin, FilterView):
     select_related = ['user', ]
     paginate_by = 25
 
-    def get_queryset(self, *args, **kwargs):
-        qs = super(MonitoringListView, self).get_queryset(*args, **kwargs)
+    def get_queryset(self):
+        qs = super(MonitoringListView, self).get_queryset()
         return qs.with_case_count()
 
 
@@ -72,8 +71,8 @@ class MonitoringCreateView(LoginRequiredMixin, PermissionRequiredMixin,
     def get_form_valid_message(self):
         return _("{0} created!").format(self.object)
 
-    def form_valid(self, form, *args, **kwargs):
-        output = super(MonitoringCreateView, self).form_valid(form, *args, **kwargs)
+    def form_valid(self, form):
+        output = super(MonitoringCreateView, self).form_valid(form)
         default_perm = ['change_monitoring', 'delete_monitoring', 'add_questionary',
                         'change_questionary', 'delete_questionary', 'add_case',
                         'change_case', 'delete_case', 'add_task', 'change_task',
@@ -117,8 +116,8 @@ class PermissionWizard(LoginRequiredMixin, SessionWizardView):
         context['object'] = self.monitoring
         return context
 
-    def get_form_kwargs(self, step, *args, **kwargs):
-        kw = super(PermissionWizard, self).get_form_kwargs(step, *args, **kwargs)
+    def get_form_kwargs(self, step=None):
+        kw = super(PermissionWizard, self).get_form_kwargs(step)
         self.perm_check()
         if step == '1':
             user_pk = self.storage.get_step_data('0').get('0-user')[0]
@@ -144,8 +143,8 @@ class MonitoringPermissionView(RaisePermissionRequiredMixin, SelectRelatedMixin,
     select_related = ['user', ]
     permission_required = 'monitorings.manage_perm'
 
-    def get_context_data(self, *args, **kwargs):
-        context = super(MonitoringPermissionView, self).get_context_data(*args, **kwargs)
+    def get_context_data(self,  **kwargs):
+        context = super(MonitoringPermissionView, self).get_context_data(**kwargs)
         context['user_list'], context['index'] = self.object.permission_map()
         return context
 
@@ -168,13 +167,13 @@ class MonitoringUpdatePermissionView(RaisePermissionRequiredMixin, SelectRelated
             self.monitoring = get_object_or_404(Monitoring, slug=self.kwargs['slug'])
         return self.monitoring
 
-    def get_context_data(self, *args, **kwargs):
-        context = super(MonitoringUpdatePermissionView, self).get_context_data(*args, **kwargs)
+    def get_context_data(self, **kwargs):
+        context = super(MonitoringUpdatePermissionView, self).get_context_data(**kwargs)
         context['object'] = self.get_monitoring()
         return context
 
-    def get_form_kwargs(self, *args, **kwargs):
-        kw = super(MonitoringUpdatePermissionView, self).get_form_kwargs(*args, **kwargs)
+    def get_form_kwargs(self):
+        kw = super(MonitoringUpdatePermissionView, self).get_form_kwargs()
         kw.update({'user': self.get_user(), 'obj': self.get_monitoring()})
         return kw
 
@@ -196,8 +195,8 @@ class MonitoringAssignView(RaisePermissionRequiredMixin, FilterView):
     template_name = 'monitorings/institution_assign.html'
     paginate_by = 50
 
-    def get_queryset(self, *args, **kwargs):
-        qs = super(MonitoringAssignView, self).get_queryset(*args, **kwargs)
+    def get_queryset(self):
+        qs = super(MonitoringAssignView, self).get_queryset()
         return (qs.exclude(case__monitoring=self.monitoring.pk).
                 with_case_count().
                 select_related('jst'))
@@ -209,8 +208,8 @@ class MonitoringAssignView(RaisePermissionRequiredMixin, FilterView):
     def monitoring(self):
         return get_object_or_404(Monitoring, slug=self.kwargs['slug'])
 
-    def get_context_data(self, *args, **kwargs):
-        context = super(MonitoringAssignView, self).get_context_data(*args, **kwargs)
+    def get_context_data(self, **kwargs):
+        context = super(MonitoringAssignView, self).get_context_data(**kwargs)
         context['monitoring'] = self.monitoring
         return context
 
@@ -229,7 +228,7 @@ class MonitoringAssignView(RaisePermissionRequiredMixin, FilterView):
         count = Case.objects.filter(monitoring=self.monitoring).count() or 1
 
         for institution in qs:
-            postfix = " #%d" % (num + count, )
+            postfix = " #%d" % (num + count,)
             Letter.send_new_case(user=self.request.user,
                                  monitoring=self.monitoring,
                                  postfix=postfix,
@@ -238,7 +237,7 @@ class MonitoringAssignView(RaisePermissionRequiredMixin, FilterView):
             count += 1
         msg = _("%(count)d institutions was assigned " +
                 "to %(monitoring)s. The requests was sent.") % \
-            {'count': count, 'monitoring': self.monitoring}
+              {'count': count, 'monitoring': self.monitoring}
         messages.success(self.request, msg)
         url = reverse('monitorings:assign', kwargs={'slug': self.monitoring.slug})
         return HttpResponseRedirect(url)

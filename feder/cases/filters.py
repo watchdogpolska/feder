@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import django_filters
-from django.utils.translation import ugettext_lazy as _
 from dal import autocomplete
+from django.utils.translation import ugettext_lazy as _
 
 from .models import Case
 

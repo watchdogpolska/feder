@@ -8,7 +8,6 @@ from feder.questionaries.factories import (CharQuestionFactory,
                                            QuestionaryFactory)
 from feder.teryt.factories import JSTFactory
 from feder.users.factories import UserFactory
-
 from .factories import TaskFactory
 from .models import Answer, Survey
 

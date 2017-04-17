@@ -1,9 +1,9 @@
 from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse_lazy
 from django.test import RequestFactory, TestCase
 
 from feder.teryt import views
 from feder.teryt.factories import JSTFactory
-from django.core.urlresolvers import reverse_lazy
 
 
 class TerytViewTestCase(TestCase):

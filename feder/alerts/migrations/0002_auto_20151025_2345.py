@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.db import migrations, models
 from django.conf import settings
+from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('monitorings', '0001_initial'),
         ('alerts', '0001_initial'),
@@ -18,7 +17,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='alert',
             name='author',
-            field=models.ForeignKey(related_name='alert_author', verbose_name='Author', to=settings.AUTH_USER_MODEL, null=True),
+            field=models.ForeignKey(related_name='alert_author', verbose_name='Author', to=settings.AUTH_USER_MODEL,
+                                    null=True),
         ),
         migrations.AddField(
             model_name='alert',

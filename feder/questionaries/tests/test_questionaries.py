@@ -5,10 +5,9 @@ from feder.main.mixins import PermissionStatusMixin
 from feder.tasks.factories import (CharAnswerFactory, JSTAnswerFactory,
                                    SurveyFactory)
 from feder.teryt.factories import JSTFactory
-
+from .test_general import ObjectMixin
 from ..factories import CharQuestionFactory, JSTQuestionFactory
 from ..models import Questionary
-from .test_general import ObjectMixin
 
 
 class QuestionaryCreateTestCase(ObjectMixin, PermissionStatusMixin, TestCase):

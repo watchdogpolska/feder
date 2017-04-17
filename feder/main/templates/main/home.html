@@ -1,28 +1,28 @@
 {% extends 'base.html' %}
 {% load i18n static %}
 {% block content %}
-<div class="jumbotron gray">
-  <h1>{% trans "Let's civil data mining!" %}</h1>
-  <p>{% trans 'Move debates to new age together!' %}</p>
-  <p><a class="btn btn-primary btn-lg" href="{% url 'about' %}" role="button">{% trans 'Learn more'%}</a></p>
-</div>
+    <div class="jumbotron gray">
+        <h1>{% trans "Let's civil data mining!" %}</h1>
+        <p>{% trans 'Move debates to new age together!' %}</p>
+        <p><a class="btn btn-primary btn-lg" href="{% url 'about' %}" role="button">{% trans 'Learn more' %}</a></p>
+    </div>
 
-<div class="row">
-    <div class="col-md-7">
-      <div class="red">
-        <h2 class="title"><i class="fa fa-globe"></i> {% trans 'Voivodeships' %}</h3>
-        {% include 'teryt/_voivodeship_map.svg.html' %}
-      </div>
+    <div class="row">
+        <div class="col-md-7">
+            <div class="red">
+                <h2 class="title"><i class="fa fa-globe"></i> {% trans 'Voivodeships' %}</h2>
+                    {% include 'teryt/_voivodeship_map.svg.html' %}
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="gray">
+                <h2 class="title"><i class="fa fa-search"></i> {% trans 'Last monitorings' %}</h2>
+                    {% if monitoring_list %}
+                        {% include '_select_list.html' with object_list=monitoring_list %}
+                    {% else %}
+                        <p>{% trans 'No rows.' %}</p>
+                    {% endif %}
+            </div>
+        </div>
     </div>
-    <div class="col-md-5">
-    <div class="gray">
-      <h2 class="title"><i class="fa fa-search"></i> {% trans 'Last monitorings' %}</h3>
-	{% if monitoring_list %}
-	        {% include '_select_list.html' with object_list=monitoring_list %}
-	{% else %}
-    		<p>{% trans 'No rows.' %}</p>
-	{% endif %}
-    </div>
-    </div>
-</div>
 {% endblock %}

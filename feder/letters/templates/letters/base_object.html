@@ -2,33 +2,37 @@
 {% load i18n humanize %}
 
 {% block breadcrumbs %}
-<ol class="breadcrumb">
-    <li><a href="{{object.case.monitoring.get_absolute_url}}">{{object.case.monitoring}}</a></li>
-    <li><a href="{{object.case.get_absolute_url}}">{{object.case}}</a></li>
-    <li><a href="{{object.get_absolute_url}}">{{object}}</a></li>
-    {% block breadcrumb_row %}
-    <li class="active">{% if headline %}{{ headline }}{% else %}{% trans 'Edit' %}{% endif %}</li>
-    {% endblock %}
-</ol>
+    <ol class="breadcrumb">
+        <li><a href="{{ object.case.monitoring.get_absolute_url }}">{{ object.case.monitoring }}</a></li>
+        <li><a href="{{ object.case.get_absolute_url }}">{{ object.case }}</a></li>
+        <li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
+        {% block breadcrumb_row %}
+            <li class="active">{% if headline %}{{ headline }}{% else %}{% trans 'Edit' %}{% endif %}</li>
+        {% endblock %}
+    </ol>
 {% endblock %}
 
 {% block buttons %}
-{% if object %}
-{% include 'letters/_btn.html' with object=object %}
-{% endif %}
+    {% if object %}
+        {% include 'letters/_btn.html' with object=object %}
+    {% endif %}
 {% endblock %}
 
 {% block content %}
-<div class="page-header">
-    <h3>
-        <i class="fa fa-envelope"></i>
-        {% blocktrans with object=object object_url=object.get_absolute_url author=object.author author_url=object.author.get_absolute_url case=object.case case_url=object.case.get_absolute_url institution=object.case.institution institution=object.case.institution created=object.created created_natural=object.created|naturaltime %}<a href="{{object_url}}">{{object}}</a>
-        <small>by <a href="{{author_url}}"> {{author}} </a> <time datetime="{{created}}" title="{{created}}">{{created_natural}}</time> in case  <a href="{{case_url}}">{{case}}</a> with <a href="{{institution_url}}">{{institution}}</a></small>{% endblocktrans %}
-    </h3>
-</div>
-<div class="gray">
+    <div class="page-header">
+        <h3>
+            <i class="fa fa-envelope"></i>
+            {% blocktrans with object=object object_url=object.get_absolute_url author=object.author author_url=object.author.get_absolute_url case=object.case case_url=object.case.get_absolute_url institution=object.case.institution institution=object.case.institution created=object.created created_natural=object.created|naturaltime %}
+                <a href="{{ object_url }}">{{ object }}</a>
+                <small>by <a href="{{ author_url }}"> {{ author }} </a>
+                    <time datetime="{{ created }}" title="{{ created }}">{{ created_natural }}</time>
+                    in case <a href="{{ case_url }}">{{ case }}</a> with <a
+                            href="{{ institution_url }}">{{ institution }}</a></small>{% endblocktrans %}
+        </h3>
+    </div>
+    <div class="gray">
 
-    {% block content_object %}{% endblock %}
-</div>
+        {% block content_object %}{% endblock %}
+    </div>
 
 {% endblock %}

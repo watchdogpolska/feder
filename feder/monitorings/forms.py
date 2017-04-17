@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
-from atom.ext.guardian.forms import TranslatedUserObjectPermissionsForm
 from atom.ext.crispy_forms.forms import SingleButtonMixin
+from atom.ext.guardian.forms import TranslatedUserObjectPermissionsForm
 from braces.forms import UserKwargModelFormMixin
+from crispy_forms.layout import Layout, Fieldset
+from dal import autocomplete
 from django import forms
 from django.utils.translation import ugettext as _
-from dal import autocomplete
-from .models import Monitoring
+
 from feder.users.models import User
-from crispy_forms.layout import Layout, Fieldset
+from .models import Monitoring
 
 
 class MonitoringForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):

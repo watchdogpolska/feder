@@ -1,5 +1,4 @@
 import unicodecsv as csv
-
 from braces.views import (FormValidMessageMixin, SetHeadlineMixin,
                           UserFormKwargsMixin)
 from django.http import HttpResponse
@@ -12,7 +11,6 @@ from django.views.generic.detail import (SingleObjectMixin,
 from feder.main.mixins import RaisePermissionRequiredMixin
 from feder.tasks.forms import MultiTaskForm
 from feder.tasks.models import Survey
-
 from ..models import Questionary
 
 
@@ -50,9 +48,9 @@ class TaskMultiCreateView(RaisePermissionRequiredMixin,
     def get_success_url(self):
         return self.object.get_absolute_url()
 
-    def form_valid(self, form, *args, **kwargs):
+    def form_valid(self, form):
         form.save()
-        return super(TaskMultiCreateView, self).form_valid(form, *args, **kwargs)
+        return super(TaskMultiCreateView, self).form_valid(form)
 
 
 class SurveyCSVView(View):
@@ -82,7 +80,7 @@ class SurveyCSVView(View):
         self.questionary = get_object_or_404(Questionary, pk=pk)
         response = HttpResponse(content_type='text/csv')
         response['Content-Disposition'] = self.get_filename()
-        writer = csv.writer(response, encoding='utf-8')
+        writer = csv.writer(response)
         self.header(writer)
         self.body(writer)
         return response

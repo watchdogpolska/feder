@@ -1,12 +1,12 @@
 {% load i18n %}
 {% if object_list %}
-<ul class="select-list">
-    {% for task in object_list %}
-    <li><a href="{{task.get_absolute_url}}">{{task}}</a>
-        {% include 'tasks/_task_progress.html' with object=task %}
-    </li>
-    {% endfor %}
-</ul>
+    <ul class="select-list">
+        {% for task in object_list %}
+            <li><a href="{{ task.get_absolute_url }}">{{ task }}</a>
+                {% include 'tasks/_task_progress.html' with object=task %}
+            </li>
+        {% endfor %}
+    </ul>
 {% else %}
-<p>{% trans 'No rows.' %}</p>
+    <p>{% trans 'No rows.' %}</p>
 {% endif %}

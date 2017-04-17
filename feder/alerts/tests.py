@@ -3,9 +3,8 @@ from __future__ import absolute_import
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 
-from feder.users.factories import UserFactory
 from feder.main.mixins import PermissionStatusMixin
-
+from feder.users.factories import UserFactory
 from .factories import AlertFactory
 
 

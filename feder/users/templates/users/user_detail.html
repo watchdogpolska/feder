@@ -5,30 +5,30 @@
 {% block title %}{% trans 'User' %}: {{ object.username }}{% endblock %}
 
 {% block content %}
-<div class="container">
+    <div class="container">
 
-  <div class="row">
-    <div class="col-sm-12">
+        <div class="row">
+            <div class="col-sm-12">
 
-      <h2>{{ object.username }}</h2>
+                <h2>{{ object.username }}</h2>
+            </div>
+        </div>
+
+        {% if object == request.user %}
+            <!-- Action buttons -->
+            <div class="row">
+
+                <div class="col-sm-12 gray">
+                    <a class="btn btn-primary" href="{% url 'users:update' %}">{% trans 'My Info' %}</a>
+                    <a class="btn btn-primary" href="{% url 'account_email' %}">{% trans 'E-Mail' %}</a>
+                    <!-- Your Stuff: Custom user template urls -->
+                </div>
+
+            </div>
+            <!-- End Action buttons -->
+        {% endif %}
+
+
     </div>
-  </div>
-
-{% if object == request.user %}
-<!-- Action buttons -->
-<div class="row">
-
-  <div class="col-sm-12 gray">
-    <a class="btn btn-primary" href="{% url 'users:update' %}">{% trans 'My Info' %}</a>
-    <a class="btn btn-primary" href="{% url 'account_email' %}">{% trans 'E-Mail' %}</a>
-    <!-- Your Stuff: Custom user template urls -->
-  </div>
-
-</div>
-<!-- End Action buttons -->
-{% endif %}
-
-
-</div>
 {% endblock content %}
 

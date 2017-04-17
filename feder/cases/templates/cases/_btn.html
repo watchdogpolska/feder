@@ -2,23 +2,23 @@
 {% load guardian_tags %}
 {% get_obj_perms request.user for object.monitoring as "monitoring_perms" %}
 {% if "change_task" in monitoring_perms or "delete_task" in monitoring_perms %}
-<div class="clearfix">
-    <div class="pull-right btn-group">
-        {% if "change_case" in monitoring_perms %}
-        <a class="btn btn-default" href="{% url 'cases:update' slug=object.slug %}">
-            {% trans 'Edit' %}
-        </a>
-        {% endif %}
-        {% if "delete_case" in monitoring_perms %}
-        <a class="btn btn-warning" href="{% url 'cases:delete' slug=object.slug %}">
-            {% trans 'Delete' %}
-        </a>
-        {% endif %}
-        {% if "add_task" in monitoring_perms %}
-        <a class="btn btn-primary" href="{% url 'tasks:create' case=object.pk %}">
-            {% trans 'Add tasks' %}
-        </a>
-        {% endif %}
+    <div class="clearfix">
+        <div class="pull-right btn-group">
+            {% if "change_case" in monitoring_perms %}
+                <a class="btn btn-default" href="{% url 'cases:update' slug=object.slug %}">
+                    {% trans 'Edit' %}
+                </a>
+            {% endif %}
+            {% if "delete_case" in monitoring_perms %}
+                <a class="btn btn-warning" href="{% url 'cases:delete' slug=object.slug %}">
+                    {% trans 'Delete' %}
+                </a>
+            {% endif %}
+            {% if "add_task" in monitoring_perms %}
+                <a class="btn btn-primary" href="{% url 'tasks:create' case=object.pk %}">
+                    {% trans 'Add tasks' %}
+                </a>
+            {% endif %}
+        </div>
     </div>
-</div>
 {% endif %}

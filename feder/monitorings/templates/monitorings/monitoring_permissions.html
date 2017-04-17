@@ -1,20 +1,21 @@
 {% extends 'monitorings/monitoring_single.html' %}
 {% load i18n %}
 {% block content_object %}
-<table class="table table-striped">
-    <tr>
-        <td><a class="btn btn-primary" href="{% url 'monitorings:perm-add' slug=object.slug %}">{% trans 'Add user' %}</a></td>
-        {% for user in user_list %}
-        <th><a href="{% url 'monitorings:perm-update' slug=object.slug user_pk=user.pk %}">{{user}}</a></th>
+    <table class="table table-striped">
+        <tr>
+            <td><a class="btn btn-primary"
+                   href="{% url 'monitorings:perm-add' slug=object.slug %}">{% trans 'Add user' %}</a></td>
+            {% for user in user_list %}
+                <th><a href="{% url 'monitorings:perm-update' slug=object.slug user_pk=user.pk %}">{{ user }}</a></th>
+            {% endfor %}
+        </tr>
+        {% for perm, users in index %}
+            <tr>
+                <th>{% trans perm.name %}</th>
+                {% for user, test in users %}
+                    <td><i class="fa fa-{{ test|yesno:'check,remove'}}"></i></td>
+                {% endfor %}
+            </tr>
         {% endfor %}
-    </tr>
-    {% for perm, users in index %}
-    <tr>
-        <th>{% trans perm.name %}</th>
-        {% for user, test in users %}
-        <td><i class="fa fa-{{test|yesno:'check,remove'}}"></i></td>
-        {% endfor %}
-    </tr>
-    {% endfor %}
-</table>
+    </table>
 {% endblock %}

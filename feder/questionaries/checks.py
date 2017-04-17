@@ -1,7 +1,7 @@
+from django.core.checks import Error
 from django.utils.module_loading import import_string
 
 from .settings import MODULATORS_LIST
-from django.core.checks import Error
 
 
 def test_modulators_list_settings(app_configs, **kwargs):

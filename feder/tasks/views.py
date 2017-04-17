@@ -15,7 +15,6 @@ from django_filters.views import FilterView
 from feder.cases.models import Case
 from feder.main.mixins import (AttrPermissionRequiredMixin,
                                RaisePermissionRequiredMixin)
-
 from .filters import TaskFilter
 from .forms import AnswerFormSet, SurveyForm, TaskForm
 from .models import Survey, Task
@@ -50,12 +49,12 @@ class TaskDetailView(SelectRelatedMixin, PrefetchRelatedMixin, DetailView):
         try:
             return (self.object.survey_set.with_full_answer().
                     filter(user=self.request.user.pk).get())
-        except Survey.DoesNotExist:
+        except Survey.DoesNotExists:
             return None
 
-    def get_context_data(self, *args, **kwargs):
-        context = super(TaskDetailView, self).get_context_data(*args, **kwargs)
-        context['formset'] = AnswerFormSet(survey=None, questionary=self.object.questionary)
+    def get_context_data(self, **kwargs):
+        context = super(TaskDetailView, self).get_context_data(**kwargs)
+        context['formset'] = AnswerFormSet(questionary=self.object.questionary)
         context['user_survey'] = self.get_user_survey()
         return context
 
@@ -66,8 +65,8 @@ class TaskSurveyView(SelectRelatedMixin, PrefetchRelatedMixin, DetailView):
     prefetch_related = ['questionary__question_set']
     template_name_suffix = '_survey'
 
-    def get_context_data(self, *args, **kwargs):
-        context = super(TaskSurveyView, self).get_context_data(*args, **kwargs)
+    def get_context_data(self, **kwargs):
+        context = super(TaskSurveyView, self).get_context_data(**kwargs)
         survey_list = (Survey.objects.for_task(self.object).with_user().with_full_answer().all())
         context['survey_list'] = survey_list
         user_survey_list = [x for x in survey_list if x.user == self.request.user]  # TODO: Lazy
@@ -89,13 +88,13 @@ class TaskCreateView(RaisePermissionRequiredMixin, UserFormKwargsMixin,
     def get_permission_object(self):
         return self.case.monitoring
 
-    def get_form_kwargs(self, *args, **kwargs):
-        kw = super(TaskCreateView, self).get_form_kwargs(*args, **kwargs)
+    def get_form_kwargs(self):
+        kw = super(TaskCreateView, self).get_form_kwargs()
         kw['case'] = self.case
         return kw
 
-    def get_context_data(self, *args, **kwargs):
-        context = super(TaskCreateView, self).get_context_data(*args, **kwargs)
+    def get_context_data(self, **kwargs):
+        context = super(TaskCreateView, self).get_context_data(**kwargs)
         context['case'] = self.case
         return context
 
@@ -120,8 +119,8 @@ class SurveyDeleteView(DeleteMessageMixin, DeleteView):
     slug_url_kwarg = 'task_id'
     slug_field = 'task_id'
 
-    def get_queryset(self, *args, **kwargs):
-        qs = super(SurveyDeleteView, self).get_queryset(*args, **kwargs)
+    def get_queryset(self):
+        qs = super(SurveyDeleteView, self).get_queryset()
         return qs.filter(user=self.request.user).with_full_answer()
 
     def get_success_url(self):

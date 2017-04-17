@@ -1,7 +1,8 @@
 from django.contrib.sitemaps import Sitemap
+from django.core.urlresolvers import reverse
+
 from .models import Monitoring
 from .views import MonitoringDetailView
-from django.core.urlresolvers import reverse
 
 
 class MonitoringSitemap(Sitemap):
@@ -21,7 +22,7 @@ class MonitoringPagesSitemap(Sitemap):
     def items(self):
         items = []
         for obj in Monitoring.objects.with_case_count().all():
-            for page in xrange(0, self.ceildiv(obj.case_count, self.paginate_by) + 1):
+            for page in range(0, self.ceildiv(obj.case_count, self.paginate_by) + 1):
                 items.append((obj, page + 1))
         return items
 

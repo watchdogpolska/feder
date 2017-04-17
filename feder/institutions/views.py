@@ -10,9 +10,9 @@ from django.utils import six
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
 from django_filters.views import FilterView
+
 from feder.cases.models import Case
 from feder.main.mixins import ExtraListMixin
-
 from .filters import InstitutionFilter
 from .forms import InstitutionForm
 from .models import Institution, Tag
@@ -26,8 +26,8 @@ class InstitutionListView(SelectRelatedMixin, FilterView):
     select_related = ['jst', 'jst__category']
     paginate_by = 25
 
-    def get_queryset(self, *args, **kwargs):
-        qs = super(InstitutionListView, self).get_queryset(*args, **kwargs)
+    def get_queryset(self):
+        qs = super(InstitutionListView, self).get_queryset()
         return qs.with_case_count()
 
 

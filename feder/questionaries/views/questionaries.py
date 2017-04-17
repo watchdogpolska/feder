@@ -9,11 +9,11 @@ from django.shortcuts import get_object_or_404
 from django.views.generic import (CreateView, DeleteView, DetailView,
                                   UpdateView)
 from django_filters.views import FilterView
+
 from feder.main.mixins import (AttrPermissionRequiredMixin,
                                RaisePermissionRequiredMixin)
 from feder.monitorings.models import Monitoring
 from feder.tasks.forms import AnswerFormSet
-
 from ..filters import QuestionaryFilter
 from ..forms import QuestionaryForm
 from ..models import Questionary
@@ -54,8 +54,8 @@ class QuestionaryCreateView(RaisePermissionRequiredMixin, UserFormKwargsMixin,
     def get_permission_object(self):
         return self.monitoring
 
-    def get_form_kwargs(self, *args, **kwargs):
-        kw = super(QuestionaryCreateView, self).get_form_kwargs(*args, **kwargs)
+    def get_form_kwargs(self):
+        kw = super(QuestionaryCreateView, self).get_form_kwargs()
         kw['monitoring'] = self.monitoring
         return kw
 

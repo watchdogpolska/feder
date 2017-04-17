@@ -1,10 +1,10 @@
 {% extends 'institutions/base_object.html' %}
 {% load crispy_forms_tags %}
 {% block content_object %}
-{% crispy form %}
+    {% crispy form %}
 {% endblock %}
 
 {% block javascript %}
-{{block.super}}
-{{form.media}}
+    {{ block.super }}
+    {{ form.media }}
 {% endblock %}

@@ -8,7 +8,7 @@ from django.contrib.syndication.views import Feed
 from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import get_object_or_404
 from django.utils.encoding import force_text
-from django.utils.feedgenerator import Atom1Feed, Enclosure
+from django.utils.feedgenerator import Atom1Feed
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
 from django_filters.views import FilterView
@@ -17,7 +17,6 @@ from feder.cases.models import Case
 from feder.main.mixins import (AttrPermissionRequiredMixin,
                                RaisePermissionRequiredMixin)
 from feder.monitorings.models import Monitoring
-
 from .filters import LetterFilter
 from .forms import LetterForm, ReplyForm
 from .mixins import LetterObjectFeedMixin
@@ -32,8 +31,8 @@ class LetterListView(UserKwargFilterSetMixin, SelectRelatedMixin, FilterView):
     select_related = ['author_user', 'author_institution', 'case__institution']
     paginate_by = 25
 
-    def get_queryset(self, *args, **kwargs):
-        qs = super(LetterListView, self).get_queryset(*args, **kwargs)
+    def get_queryset(self):
+        qs = super(LetterListView, self).get_queryset()
         return qs.attachment_count()
 
 

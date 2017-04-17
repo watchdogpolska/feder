@@ -1,5 +1,5 @@
-from teryt_tree.models import JednostkaAdministracyjna
 from django.core.urlresolvers import reverse
+from teryt_tree.models import JednostkaAdministracyjna
 
 
 class JST(JednostkaAdministracyjna):

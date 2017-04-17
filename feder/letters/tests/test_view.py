@@ -9,7 +9,6 @@ from feder.cases.factories import CaseFactory
 from feder.main.mixins import PermissionStatusMixin
 from feder.monitorings.factories import MonitoringFactory
 from feder.users.factories import UserFactory
-
 from ..factories import IncomingLetterFactory, OutgoingLetterFactory
 
 

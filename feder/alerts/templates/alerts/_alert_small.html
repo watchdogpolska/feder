@@ -1,27 +1,27 @@
 {% load i18n humanize %}
 <h3>
     <i class="fa fa-bolt"></i>
-    <a href="{{object.get_absolute_url}}">{{object}}</a>
+    <a href="{{ object.get_absolute_url }}">{{ object }}</a>
 </h3>
 
 <table class="table table-striped">
     <tr>
-        <td>{% trans "Creation date"%}</td>
+        <td>{% trans "Creation date" %}</td>
         <td>{{ object.created }}</td>
     </tr>
     <tr>
-        <td>{% trans "Author"%}</td>
+        <td>{% trans "Author" %}</td>
         <td>{{ object.author }}</td>
     </tr>
     <tr>
-        <td>{% trans "Status"%}</td>
+        <td>{% trans "Status" %}</td>
         <td>{{ object.get_status_display }}</td>
     </tr>
     {% if object.link_object %}
-    <tr>
-        <td>{% trans "Object" %}</td>
-        <td><a href="{{object.link_object.get_absolute_url}}">{{ object.link_object }}</a></td>
-    </tr>
+        <tr>
+            <td>{% trans "Object" %}</td>
+            <td><a href="{{ object.link_object.get_absolute_url }}">{{ object.link_object }}</a></td>
+        </tr>
     {% endif %}
 </table>
 {{ object.reason| linebreaks }}

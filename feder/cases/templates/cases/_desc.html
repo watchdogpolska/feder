@@ -1,13 +1,13 @@
 {% load i18n %}
 <p>
     <i class="fa fa-home"></i>
-    {% trans 'Institution'%}:
-    <a href="{{object.institution.get_absolute_url}}">{{object.institution}}</a>
+    {% trans 'Institution' %}:
+    <a href="{{ object.institution.get_absolute_url }}">{{ object.institution }}</a>
 </p>
 
 <p>
     <i class="fa fa-search"></i>
-    {% trans 'Monitoring'%}:
-    <a href="{{object.monitoring.get_absolute_url}}">{{object.monitoring}}</a>
+    {% trans 'Monitoring' %}:
+    <a href="{{ object.monitoring.get_absolute_url }}">{{ object.monitoring }}</a>
 </p>
 

@@ -1,10 +1,9 @@
+from django.core import mail
 from django.template import Context
 from django.test import TestCase
 from guardian.shortcuts import assign_perm
 
 from feder.users.factories import UserFactory
-from django.core import mail
-
 from ..factories import IncomingLetterFactory
 from ..forms import ReplyForm
 

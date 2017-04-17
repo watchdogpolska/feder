@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('monitorings', '0001_initial'),
         ('cases', '0002_case_institution'),

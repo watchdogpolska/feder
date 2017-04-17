@@ -1,67 +1,74 @@
 {% extends 'institutions/base.html' %}
 {% load i18n %}
 {% block breadcrumbs %}
-<ol class="breadcrumb">
-    {% for jst in object.jst.get_ancestors.all %}
-    <li><a href="{{jst.get_absolute_url}}">{{jst}}</a></li>
-    {% endfor %}
-    <li><a href="{{object.jst.get_absolute_url}}">{{object.jst}}</a></li>
-    <li class="active">{{object}}</li>
+    <ol class="breadcrumb">
+        {% for jst in object.jst.get_ancestors.all %}
+            <li><a href="{{ jst.get_absolute_url }}">{{ jst }}</a></li>
+        {% endfor %}
+        <li><a href="{{ object.jst.get_absolute_url }}">{{ object.jst }}</a></li>
+        <li class="active">{{ object }}</li>
 
-</ol>
+    </ol>
 {% endblock %}
 
 {% block buttons %}
-{% if object %}
-{% include 'institutions/_btn.html' with object=object %}
-{% endif %}
+    {% if object %}
+        {% include 'institutions/_btn.html' with object=object %}
+    {% endif %}
 {% endblock %}
 
 {% block content %}
-<div class="page-header">
-    <h2><i class="fa fa-home"></i>{{object}}</h2>
-</div>
-<div class="row">
-    <div class="col-md-4">
-        <div class="red">
-            <p>{% trans "E-mail"%}: {{object.email}}</p>
-            {% if object.tags.all %}
-                <p>{% trans "Tags"%}: {% for tag in object.tags.all %}<a class="link-tag" href="{{tag.get_absolute_url}}">{{tag}}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</p>
-            {% endif %}
-        </div>
+    <div class="page-header">
+        <h2><i class="fa fa-home"></i>{{ object }}</h2>
     </div>
-    <div class="col-md-8">
-        <h2>{% trans 'Cases and tasks' %}</h2>
-        {% regroup case_list by monitoring as case_list_grouped %}
-        {% for monitoring in case_list_grouped %}
-            <div class="gray">
-                <h3>
-                    <i class="fa fa-search"></i>
-                    <a href="{{monitoring.grouper.get_absolute_url}}">{{monitoring.grouper}}</a>
-                </h3>
-            {% for case in monitoring.list %}
-            {% include 'cases/_case_panel.html' with object=case %}
-            {% endfor %}
+    <div class="row">
+        <div class="col-md-4">
+            <div class="red">
+                <p>{% trans "E-mail" %}: {{ object.email }}</p>
+                {% if object.tags.all %}
+                    <p>{% trans "Tags" %}: {% for tag in object.tags.all %}
+                        <a class="link-tag" href="{{ tag.get_absolute_url }}">{{ tag }}</a>{% if not forloop.last %},
+                        {% endif %}{% endfor %}</p>
+                {% endif %}
             </div>
-        {% empty %}
-        <div class="gray">
-            {% trans 'No rows.' %}
         </div>
-        {% endfor %}
+        <div class="col-md-8">
+            <h2>{% trans 'Cases and tasks' %}</h2>
+            {% regroup case_list by monitoring as case_list_grouped %}
+            {% for monitoring in case_list_grouped %}
+                <div class="gray">
+                    <h3>
+                        <i class="fa fa-search"></i>
+                        <a href="{{ monitoring.grouper.get_absolute_url }}">{{ monitoring.grouper }}</a>
+                    </h3>
+                    {% for case in monitoring.list %}
+                        {% include 'cases/_case_panel.html' with object=case %}
+                    {% endfor %}
+                </div>
+                {% empty %}
+                <div class="gray">
+                    {% trans 'No rows.' %}
+                </div>
+            {% endfor %}
 
-        {% if case_list.has_previous or case_list.has_next %}
-        <ul class="pager">
-            {% if case_list.has_previous %}
-            <li><a href="{% url 'institutions:details' slug=object.slug page=case_list.previous_page_number %}">&laquo; {% trans 'previous' %}</a></li>
+            {% if case_list.has_previous or case_list.has_next %}
+                <ul class="pager">
+                    {% if case_list.has_previous %}
+                        <li>
+                            <a href="{% url 'institutions:details' slug=object.slug page=case_list.previous_page_number %}">&laquo; {% trans 'previous' %}</a>
+                        </li>
+                    {% endif %}
+
+                    <li>{% blocktrans with no=case_list.number total=case_list.paginator.num_pages %}Page {{ no }} of
+                        {{ total }}{% endblocktrans %}</li>
+
+                    {% if case_list.has_next %}
+                        <li>
+                            <a href="{% url 'institutions:details' slug=object.slug page=case_list.next_page_number %}">{% trans 'next' %}
+                                &raquo; </a></li>
+                    {% endif %}
+                </ul>
             {% endif %}
-
-            <li>{% blocktrans with no=case_list.number total=case_list.paginator.num_pages %}Page {{ no }} of {{ total }}{% endblocktrans %}</li>
-
-            {% if case_list.has_next %}
-            <li><a href="{% url 'institutions:details' slug=object.slug page=case_list.next_page_number %}">{% trans 'next' %} &raquo; </a></li>
-            {% endif %}
-        </ul>
-        {% endif %}
+        </div>
     </div>
-</div>
 {% endblock %}

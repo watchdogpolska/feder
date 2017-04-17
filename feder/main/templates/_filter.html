@@ -7,29 +7,29 @@
 <div class="row">
     <div class="col-sm-8 col-sm-push-4">
         {% for object in object_list %}
-        <div class="gray">
-            {% include object_template with object=object %}
-        </div>
-        {% empty %}
-        <div class="gray">
-            <p>
-                {% trans 'No rows.' %}
-            </p>
-        </div>
+            <div class="gray">
+                {% include object_template with object=object %}
+            </div>
+            {% empty %}
+            <div class="gray">
+                <p>
+                    {% trans 'No rows.' %}
+                </p>
+            </div>
         {% endfor %}
 
-    {% bootstrap_paginate page_obj %}
+        {% bootstrap_paginate page_obj %}
 
     </div>
 
     <div class="col-sm-4 col-sm-pull-8">
         <div class="red">
             <form method="GET">
-            {{ filter.form | crispy }}
-            <button type="submit" class="btn btn-primary">
-                <i class="fa fa-search" aria-hidden="true"></i>
-                {% trans 'Filtr' %}
-            </button>
+                {{ filter.form | crispy }}
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                    {% trans 'Filtr' %}
+                </button>
             </form>
         </div>
     </div>

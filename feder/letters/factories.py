@@ -3,7 +3,6 @@ import factory
 from feder.cases.factories import CaseFactory
 from feder.institutions.factories import InstitutionFactory
 from feder.users.factories import UserFactory
-
 from .models import Letter
 
 

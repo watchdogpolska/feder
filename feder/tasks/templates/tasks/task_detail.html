@@ -1,69 +1,69 @@
 {% extends 'tasks/task_single.html' %}
 {% load i18n %}
 {% block breadcrumbs %}
-<ol class="breadcrumb">
-    <li><a href="{{object.case.monitoring.get_absolute_url}}">{{object.case.monitoring}}</a></li>
-    <li><a href="{{object.case.get_absolute_url}}">{{object.case}}</a></li>
-    <li class="active">{{object}}</li>
-</ol>
+    <ol class="breadcrumb">
+        <li><a href="{{ object.case.monitoring.get_absolute_url }}">{{ object.case.monitoring }}</a></li>
+        <li><a href="{{ object.case.get_absolute_url }}">{{ object.case }}</a></li>
+        <li class="active">{{ object }}</li>
+    </ol>
 {% endblock %}
 
 {% block buttons %}
-{% if object %}
-{% include 'tasks/_btn.html' %}
-{% endif %}
+    {% if object %}
+        {% include 'tasks/_btn.html' %}
+    {% endif %}
 {% endblock %}
 
 {% block content %}
-<div class="page-header">
-    <h1><i class="fa fa-edit"></i> {{object}}</h1>
-</div>
-<div class="row">
-    <div class="col-sm-5">
-        <div class="red">
-            <p>
-                <i class="fa fa-folder-open"></i>
-                {% trans "Case"%}:
-                <a href="{{object.case.get_absolute_url}}">{{object.case}}</a>
-            </p>
-            <p>
-                <i class="fa fa-list-alt"></i>
-                {% trans "Questionary"%}:
-                <a href="{{object.questionary.get_absolute_url}}">{{object.questionary}}</a>
-            </p>
-            {% include 'cases/_desc.html' with object=object.case %}
+    <div class="page-header">
+        <h1><i class="fa fa-edit"></i> {{ object }}</h1>
+    </div>
+    <div class="row">
+        <div class="col-sm-5">
+            <div class="red">
+                <p>
+                    <i class="fa fa-folder-open"></i>
+                    {% trans "Case" %}:
+                    <a href="{{ object.case.get_absolute_url }}">{{ object.case }}</a>
+                </p>
+                <p>
+                    <i class="fa fa-list-alt"></i>
+                    {% trans "Questionary" %}:
+                    <a href="{{ object.questionary.get_absolute_url }}">{{ object.questionary }}</a>
+                </p>
+                {% include 'cases/_desc.html' with object=object.case %}
+            </div>
+
+            <div class="gray">
+                <h2>{% trans 'Analysis' %}</h2>
+                {% include 'tasks/_task_progress.html' with object=object %}
+                {% if user_survey %}
+                    {% include 'tasks/_answer.html' with object_list=user_survey.answer_set.all %}
+                    <a href="{% url 'tasks:delete_survey' task_id=object.pk %}" class="btn btn-default">
+                        {% trans 'Delete' %}
+                    </a>
+                {% else %}
+                    {# TODO: Cache it per-questionary #}
+                    {% include 'tasks/_formset.html' with object=formset %}
+                {% endif %}
+            </div>
+
         </div>
 
-        <div class="gray">
-            <h2>{% trans 'Analysis' %}</h2>
-            {% include 'tasks/_task_progress.html' with object=object %}
-            {% if user_survey %}
-                {% include 'tasks/_answer.html' with object_list=user_survey.answer_set.all %}
-                <a href="{% url 'tasks:delete_survey' task_id=object.pk %}" class="btn btn-default">
-                    {% trans 'Delete' %}
-                </a>
+        <div class="col-sm-7">
+            {% if object.case.letter_set.for_milestone.all %}
+                {% include 'letters/_milestone_list.html' with object_list=object.case.letter_set.for_milestone.all %}
             {% else %}
-                {# TODO: Cache it per-questionary #}
-                {% include 'tasks/_formset.html' with object=formset %}
+                <div class="gray">
+                    <p>{% trans 'No rows.' %}</p>
+                </div>
             {% endif %}
         </div>
-
     </div>
-
-    <div class="col-sm-7">
-        {% if object.case.letter_set.for_milestone.all %}
-        {% include 'letters/_milestone_list.html' with object_list=object.case.letter_set.for_milestone.all %}
-        {% else %}
-        <div class="gray">
-            <p>{% trans 'No rows.' %}</p>
-        </div>
-        {% endif %}
-    </div>
-</div>
 
 {% endblock %}
 
 {% block javascript %}
-{{ block.super }}
-{% for form in formset %}{{ form.media }}{% endfor %}
+    {{ block.super }}
+    {% for form in formset %}{{ form.media }}{% endfor %}
 {% endblock %}

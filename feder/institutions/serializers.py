@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
-from .models import Institution, Tag
 from feder.teryt.models import JST
+from .models import Institution, Tag
 
 
 class TagNestedSerializer(serializers.StringRelatedField):
@@ -41,4 +41,4 @@ class TagSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Tag
-        fields = ('pk', 'name', 'slug', )
+        fields = ('pk', 'name', 'slug',)

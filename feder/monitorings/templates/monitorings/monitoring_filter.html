@@ -1,15 +1,15 @@
 {% extends 'monitorings/base.html' %}
 {% load i18n crispy_forms_tags humanize %}
 {% block buttons %}
-{% if perms.monitorings.add_monitoring %}
-<div class="clearfix">
-    <div class="pull-right btn-group">
-        <a class="btn btn-default" href="{% url 'monitorings:create' %}">{% trans 'Add monitoring' %}</a>
-    </div>
-</div>
-{% endif %}
+    {% if perms.monitorings.add_monitoring %}
+        <div class="clearfix">
+            <div class="pull-right btn-group">
+                <a class="btn btn-default" href="{% url 'monitorings:create' %}">{% trans 'Add monitoring' %}</a>
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}
 
 {% block content %}
-{% include '_filter.html' with title='Monitorings index' form=filter.form object_list=object_list object_template='monitorings/_monitoring_small.html' %}
+    {% include '_filter.html' with title='Monitorings index' form=filter.form object_list=object_list object_template='monitorings/_monitoring_small.html' %}
 {% endblock %}

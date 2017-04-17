@@ -12,7 +12,6 @@ from django_filters.views import FilterView
 
 from feder.main.mixins import RaisePermissionRequiredMixin
 from feder.monitorings.models import Monitoring
-
 from .filters import CaseFilter
 from .forms import CaseForm
 from .models import Case
@@ -26,9 +25,8 @@ class CaseListView(SelectRelatedMixin, FilterView):
     select_related = ['user', 'monitoring', 'institution']
     paginate_by = 25
 
-    def get_queryset(self, *args, **kwargs):
-        qs = super(CaseListView, self).get_queryset(*args, **kwargs)
-        return qs.with_letter_count()
+    def get_queryset(self):
+        return super(CaseListView, self).get_queryset().with_letter_count()
 
 
 class CaseDetailView(SelectRelatedMixin, PrefetchRelatedMixin, DetailView):
@@ -36,9 +34,8 @@ class CaseDetailView(SelectRelatedMixin, PrefetchRelatedMixin, DetailView):
     select_related = ['user', 'monitoring', 'institution']
     prefetch_related = ['letter_set']
 
-    def get_queryset(self, *args, **kwargs):
-        qs = super(CaseDetailView, self).get_queryset(*args, **kwargs)
-        return qs.with_milestone()
+    def get_queryset(self):
+        return super(CaseDetailView, self).get_queryset().with_milestone()
 
 
 class CaseCreateView(RaisePermissionRequiredMixin, UserFormKwargsMixin,
@@ -54,8 +51,8 @@ class CaseCreateView(RaisePermissionRequiredMixin, UserFormKwargsMixin,
     def get_permission_object(self):
         return self.monitoring
 
-    def get_form_kwargs(self, *args, **kwargs):
-        kw = super(CaseCreateView, self).get_form_kwargs(*args, **kwargs)
+    def get_form_kwargs(self):
+        kw = super(CaseCreateView, self).get_form_kwargs()
         kw['monitoring'] = self.monitoring
         return kw
 

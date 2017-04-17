@@ -1,6 +1,6 @@
 {% load staticfiles i18n %}<!DOCTYPE html>
 <html lang="en" ng-app>
-  <head>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>{% block title %}{% trans 'Civil data mining' %}{% endblock title %}</title>
@@ -12,147 +12,150 @@
     <!--[if lt IE 9]>
       <script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <link rel="alternate" type="application/rss+xml" title="RSS Feed of letters" href="{% url 'letters:rss' %}" />
-    <link rel="alternate" type="application/atom+xml" title="Atom Feed of letters" href="{% url 'letters:atom' %}" />
+    <link rel="alternate" type="application/rss+xml" title="RSS Feed of letters" href="{% url 'letters:rss' %}"/>
+    <link rel="alternate" type="application/atom+xml" title="Atom Feed of letters" href="{% url 'letters:atom' %}"/>
 
     {% block feed %}{% endblock %}
     {% block css %}
-    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+        <link href="{% static 'css/style.css' %}" rel="stylesheet">
     {% endblock %}
 
-  </head>
+</head>
 
-  <body>
+<body>
 
-    <div class="navbar navbar-default">
-      <div class="container">
+<div class="navbar navbar-default">
+    <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar-collapse-1" aria-expanded="false">
-            <span class="sr-only">{% trans 'Toggle navigation' %}</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="{% url 'home'%}">
-          <img alt="Fedrowanie" src="{% static 'images/logo-short.svg' %}" height="25px">
-          </a>
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">{% trans 'Toggle navigation' %}</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <img alt="Fedrowanie" src="{% static 'images/logo-short.svg' %}" height="25px">
+            </a>
         </div>
-          
+
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-navbar-collapse-1">
-          <ul class="nav navbar-nav">
-            <li><a href="{% url 'home' %}">{% trans 'Homepage' %}</a></li>
+            <ul class="nav navbar-nav">
+                <li><a href="{% url 'home' %}">{% trans 'Homepage' %}</a></li>
 
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{% trans 'Search' %} <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li>
-                  <a href="{% url 'cases:list' %}">
-                    <i class="fa fa-folder-open"></i> 
-                    {% trans 'Cases' %}
-                  </a>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">{% trans 'Search' %} <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="{% url 'cases:list' %}">
+                                <i class="fa fa-folder-open"></i>
+                                {% trans 'Cases' %}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'monitorings:list' %}">
+                                <i class="fa fa-search"></i>
+                                {% trans 'Monitorings' %}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'letters:list' %}">
+                                <i class="fa fa-envelope"></i>
+                                {% trans 'Letters' %}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'institutions:list' %}">
+                                <i class="fa fa-home"></i>
+                                {% trans 'Institutions' %}</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'questionaries:list' %}">
+                                <i class="fa fa-list-alt"></i>
+                                {% trans 'Questionaries' %}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'tasks:list' %}">
+                                <i class="fa fa-edit"></i>
+                                {% trans 'Tasks' %}
+                            </a>
+                        </li>
+                    </ul>
                 </li>
-                <li>
-                  <a href="{% url 'monitorings:list' %}">
-                    <i class="fa fa-search"></i> 
-                    {% trans 'Monitorings' %}
-                  </a>
-                </li>
-                <li>
-                  <a href="{% url 'letters:list' %}">
-                    <i class="fa fa-envelope"></i> 
-                    {% trans 'Letters' %}
-                  </a>
-                </li>
-                <li>
-                  <a href="{% url 'institutions:list' %}">
-                    <i class="fa fa-home"></i> 
-                    {% trans 'Institutions' %}</a>
-                  </li>
-                  <li>
-                    <a href="{% url 'questionaries:list' %}">
-                      <i class="fa fa-list-alt"></i> 
-                      {% trans 'Questionaries' %}
-                    </a>
-                  </li>
-                  <li>
-                    <a href="{% url 'tasks:list' %}">
-                      <i class="fa fa-edit"></i> 
-                      {% trans 'Tasks' %}
-                    </a>
-                  </li>
-                </ul>
-            </li>
-          </ul>
-        
-          <ul class="nav navbar-nav navbar-right">
-            {% if request.user.is_authenticated %}
-              <li><a href="{% url 'users:detail' request.user.username  %}">{% trans "My Profile" %}</a></li>
-              <li><a href="{% url 'account_logout' %}">{% trans "Logout" %}</a></li>
-            {% else %}
-              <li><a href="{% url 'account_signup' %}">{% trans "Sign Up" %}</a></li>
-              <li><a href="{% url 'account_login' %}?next={{request.get_full_path}}">{% trans "Log In" %}</a></li>
-            {% endif %}
-          </ul>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                {% if request.user.is_authenticated %}
+                    <li><a href="{% url 'users:detail' request.user.username %}">{% trans "My Profile" %}</a></li>
+                    <li><a href="{% url 'account_logout' %}">{% trans "Logout" %}</a></li>
+                {% else %}
+                    <li><a href="{% url 'account_signup' %}">{% trans "Sign Up" %}</a></li>
+                    <li><a href="{% url 'account_login' %}?next={{ request.get_full_path }}">{% trans "Log In" %}</a>
+                    </li>
+                {% endif %}
+            </ul>
         </div>
-      </div>
     </div>
+</div>
 
-    <div class="container">
+<div class="container">
 
-      {% if messages %}
-          {% for message in messages %}
-              <div class="alert {% if message.tags %}alert-{{ message.tags }}"{% endif %}>{{ message }}</div>
-          {% endfor %}
-      {% endif %}
-      {% block breadcrumbs %}{% endblock %}
-      {% block buttons %}{% endblock %}
-      {% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}"{% endif %}>{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    {% block breadcrumbs %}{% endblock %}
+    {% block buttons %}{% endblock %}
+    {% block content %}
         <p>Use this document as a way to quick start any new project.</p>
-      {% endblock content %}
+    {% endblock content %}
 
-   <div class="footer">
-      <div class="footer-right">Sieć Obywatelska - Watchdog Polska<br>
-        ul. Ursynowska 22/2<br>
-        02-605 Warszawa</div>
+    <div class="footer">
+        <div class="footer-right">Sieć Obywatelska - Watchdog Polska<br>
+            ul. Ursynowska 22/2<br>
+            02-605 Warszawa
+        </div>
         <div class="footer-left">
-          silnik: <a href="http://jawne.info.pl">jawne.info.pl</a> |
-          <a href="https://github.com/watchdogpolska/feder"><i class="fa fa-github"></i> GitHub</a>
+            silnik: <a href="http://jawne.info.pl">jawne.info.pl</a> |
+            <a href="https://github.com/watchdogpolska/feder"><i class="fa fa-github"></i> GitHub</a>
         </div>
         <div class="footer-center">{% trans 'This site uses cookies.' %}</div>
 
-      </div>
-    </div> <!-- /container -->
+    </div>
+</div> <!-- /container -->
 
 
+{% block modal %}{% endblock modal %}
 
-    {% block modal %}{% endblock modal %}
-
-    <!-- Le javascript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    {% block javascript %}
-      <script src="{% static 'js/script.js' %}"></script>
-      <script>
-      $(function(){
-          var show = '<i class="fa fa-plus-square"></i> {%trans "Show quote" %}';
-          var hide = '<i class="fa fa-minus-square"></i> {%trans "Hide quote" %}';
-          $('blockquote.expandable').each(function(index, value){
-              var el = $(value).hide();
-              var new_el = $("<button class='btn btn-primary'>" + show + "</a>");
-              new_el.click(function(event){
-                  event.preventDefault();
-                  el.slideToggle();
-                  console.log(this.innerHTML);
-                  this.innerHTML = this.innerHTML == show ? hide : show;
-              });
-              el.before(new_el);
-          });
-      });
-      </script>
-      {{ filter.form.media }}
-    {% endblock javascript %}
-  </body>
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+{% block javascript %}
+    <script src="{% static 'js/script.js' %}"></script>
+    <script>
+        $(function () {
+            var show = '<i class="fa fa-plus-square"></i> {%trans "Show quote" %}';
+            var hide = '<i class="fa fa-minus-square"></i> {%trans "Hide quote" %}';
+            $('blockquote.expandable').each(function (index, value) {
+                var el = $(value).hide();
+                var new_el = $("<button class='btn btn-primary'>" + show + "</a>");
+                new_el.click(function (event) {
+                    event.preventDefault();
+                    el.slideToggle();
+                    console.log(this.innerHTML);
+                    this.innerHTML = this.innerHTML == show ? hide : show;
+                });
+                el.before(new_el);
+            });
+        });
+    </script>
+    {{ filter.form.media }}
+{% endblock javascript %}
+</body>
 </html>
- 
+

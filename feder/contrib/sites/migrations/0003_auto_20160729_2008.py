@@ -7,7 +7,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('sites', '0002_set_site_domain_and_name'),
     ]
@@ -16,6 +15,8 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='site',
             name='domain',
-            field=models.CharField(max_length=100, unique=True, validators=[django.contrib.sites.models._simple_domain_name_validator], verbose_name='domain name'),
+            field=models.CharField(max_length=100, unique=True,
+                                   validators=[django.contrib.sites.models._simple_domain_name_validator],
+                                   verbose_name='domain name'),
         ),
     ]

@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.db import migrations, models
 from django.conf import settings
+from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('django_mailbox', '0004_bytestring_to_unicode'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
@@ -18,7 +17,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='letter',
             name='author_user',
-            field=models.ForeignKey(verbose_name='Author (if user)', blank=True, to=settings.AUTH_USER_MODEL, null=True),
+            field=models.ForeignKey(verbose_name='Author (if user)', blank=True, to=settings.AUTH_USER_MODEL,
+                                    null=True),
         ),
         migrations.AddField(
             model_name='letter',
@@ -28,7 +28,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='letter',
             name='message',
-            field=models.ForeignKey(verbose_name='Message', to='django_mailbox.Message', help_text='Message registerd by django-mailbox', null=True),
+            field=models.ForeignKey(verbose_name='Message', to='django_mailbox.Message',
+                                    help_text='Message registerd by django-mailbox', null=True),
         ),
         migrations.AddField(
             model_name='attachment',

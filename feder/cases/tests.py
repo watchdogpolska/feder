@@ -4,7 +4,6 @@ from django.test import RequestFactory, TestCase
 from feder.institutions.factories import InstitutionFactory
 from feder.main.mixins import PermissionStatusMixin
 from feder.users.factories import UserFactory
-
 from .factories import CaseFactory
 from .forms import CaseForm
 from .views import CaseAutocomplete

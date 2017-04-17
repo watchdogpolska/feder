@@ -6,7 +6,6 @@ from jsonfield import JSONField
 from model_utils.models import TimeStampedModel
 
 from feder.monitorings.models import Monitoring
-
 from .utils import get_modulators
 
 _('Questionaries index')

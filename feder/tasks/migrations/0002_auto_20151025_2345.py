@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.db import migrations, models
 from django.conf import settings
+from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('questionaries', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
@@ -31,6 +30,6 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterUniqueTogether(
             name='survey',
-            unique_together=set([('task', 'user')]),
+            unique_together={('task', 'user')},
         ),
     ]

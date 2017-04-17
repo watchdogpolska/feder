@@ -3,6 +3,7 @@ from atom.ext.django_filters.filters import UserKwargFilterSetMixin
 from dal import autocomplete
 from django.utils.translation import ugettext_lazy as _
 from django_filters import CharFilter, DateRangeFilter, FilterSet
+
 from .models import Questionary
 
 

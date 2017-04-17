@@ -1,6 +1,7 @@
-from .models import Monitoring
-from feder.users.factories import UserFactory
 import factory
+
+from feder.users.factories import UserFactory
+from .models import Monitoring
 
 
 class MonitoringFactory(factory.django.DjangoModelFactory):
@@ -13,4 +14,4 @@ class MonitoringFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = Monitoring
-        django_get_or_create = ('name', )
+        django_get_or_create = ('name',)

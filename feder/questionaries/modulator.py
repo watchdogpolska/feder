@@ -16,6 +16,7 @@ SHLEX_TEXT = _("Enter as space-seperated text. Use quotes to pass sentences.")
 class BaseModulator(object):
     """Abstract modulator which define interface
     """
+
     @classmethod
     @property
     def description(self):
@@ -201,7 +202,7 @@ class ChoiceModulator(BaseSimpleModulator):
         items = super(ChoiceModulator, self).list_create_question_fields()
         choices_field = forms.CharField(label=_("Choices"),
                                         help_text=SHLEX_TEXT)
-        items += (('choices', choices_field), )
+        items += (('choices', choices_field),)
         return items
 
     def get_kwargs(self, definition):
@@ -256,10 +257,9 @@ class JSTModulator(BaseSimpleModulator):
         definition.setdefault('help_text', '')
         definition.setdefault('area', 'voivodeship')
         definition.setdefault('required', True)
-        kwargs = {}
-        kwargs['label'] = definition['name']
-        kwargs['help_text'] = definition['help_text']
-        kwargs['required'] = definition['required']
+        kwargs = {'label': definition['name'],
+                  'help_text': definition['help_text'],
+                  'required': definition['required']}
 
         if definition['area'] == 'voivodeship':
             kwargs['widget'] = autocomplete.ModelSelect2(
@@ -357,16 +357,15 @@ class LetterChoiceModulator(BaseSimpleModulator):
         Returns:
             TYPE: Description
         """
-        kwargs = {}
-        kwargs['label'] = definition.get('name', '')
-        kwargs['help_text'] = definition.get('help_text', '')
-        kwargs['required'] = definition.get('required', True)
+        kwargs = {'label': definition.get('name', ''),
+                  'help_text': definition.get('help_text', ''),
+                  'required': definition.get('required', True)}
         if survey is None:
             kwargs['queryset'] = Letter.objects.none()
         else:
             kwargs['queryset'] = self.choice_map(survey.case.letter_set.all(),
                                                  definition.get('filter', 'all'))
-        return (('value', forms.ModelChoiceField(**kwargs)), )
+        return (('value', forms.ModelChoiceField(**kwargs)),)
 
     def get_content(self, definition, content):
         """Summary

@@ -1,35 +1,35 @@
 {% extends 'institutions/base.html' %}
 {% load i18n %}
 {% block breadcrumbs %}
-<ol class="breadcrumb">
-    {% if object %}
-      {% for jst in object.jst.get_ancestors.all %}
-      <li><a href="{{jst.get_absolute_url}}">{{jst}}</a></li>
-      {% endfor %}
-      <li><a href="{{object.jst.get_absolute_url}}">{{object.jst}}</a></li>
-      <li><a href="{{object.get_absolute_url}}">{{object}}</a></li>
-    {% endif %}
-    {% block breadcrumb_row %}
-    <li class="active">{% if headline %}{{ headline }}
-    {% elif object %}{% trans 'Edit' %}
-    {% else %}{% trans 'Add institution'%}
-    {% endif %}</li>
-    {% endblock %}
-</ol>
+    <ol class="breadcrumb">
+        {% if object %}
+            {% for jst in object.jst.get_ancestors.all %}
+                <li><a href="{{ jst.get_absolute_url }}">{{ jst }}</a></li>
+            {% endfor %}
+            <li><a href="{{ object.jst.get_absolute_url }}">{{ object.jst }}</a></li>
+            <li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
+        {% endif %}
+        {% block breadcrumb_row %}
+            <li class="active">{% if headline %}{{ headline }}
+                {% elif object %}{% trans 'Edit' %}
+                {% else %}{% trans 'Add institution' %}
+            {% endif %}</li>
+        {% endblock %}
+    </ol>
 {% endblock %}
 
 {% block content %}
 
-{% if object %}
-{% include 'institutions/_btn.html' with object=object %}
-<div class="page-header">
-<h2><i class="fa fa-home"></i> <a href="{{object.get_absolute_url}}">{{object}}</a></h2>
-</div>
+    {% if object %}
+        {% include 'institutions/_btn.html' with object=object %}
+        <div class="page-header">
+            <h2><i class="fa fa-home"></i> <a href="{{ object.get_absolute_url }}">{{ object }}</a></h2>
+        </div>
 
-{% endif %}
+    {% endif %}
 
 
-<div class="gray">
-{% block content_object %}{% endblock %}
-</div>
+    <div class="gray">
+        {% block content_object %}{% endblock %}
+    </div>
 {% endblock %}

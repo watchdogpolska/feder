@@ -21,7 +21,7 @@ class LetterAdmin(admin.ModelAdmin):
         AttachmentInline,
     ]
     search_fields = ('title', 'body')
-    readonly_fields = ('message', )
+    readonly_fields = ('message',)
 
     def get_queryset(self, *args, **kwargs):
         qs = super(LetterAdmin, self).get_queryset(*args, **kwargs)

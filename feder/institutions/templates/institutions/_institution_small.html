@@ -1,15 +1,15 @@
 {% load i18n %}
 <h2>
     <i class="fa fa-home"></i>
-    <a href="{{object.get_absolute_url}}">
-        {{object}}
+    <a href="{{ object.get_absolute_url }}">
+        {{ object }}
     </a>
 </h2>
 <p>
-    <i class="fa fa-globe"></i> {% trans 'Unit of administrative division' %}: 
-    <a href="{{object.jst.get_absolute_url}}">{{object.jst}}</a>
+    <i class="fa fa-globe"></i> {% trans 'Unit of administrative division' %}:
+    <a href="{{ object.jst.get_absolute_url }}">{{ object.jst }}</a>
 </p>
 <p>
-    {% trans 'Case count'%}:
-    {{object.case_count}}
+    {% trans 'Case count' %}:
+    {{ object.case_count }}
 </p>

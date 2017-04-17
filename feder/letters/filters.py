@@ -7,10 +7,14 @@ from django_filters import BooleanFilter, DateRangeFilter, FilterSet
 from .models import Letter
 
 
+def has_eml(qs, v):
+    return qs.filter(eml='') if v else qs.exclude(eml='')
+
+
 class LetterFilter(UserKwargFilterSetMixin, FilterSet):
     created = DateRangeFilter(label=_("Creation date"))
     eml = BooleanFilter(label=_("Has eml?"),
-                        method=lambda qs, v: qs.filter(eml='') if v else qs.exclude(eml=''))
+                        method=has_eml)
 
     def __init__(self, *args, **kwargs):
         super(LetterFilter, self).__init__(*args, **kwargs)

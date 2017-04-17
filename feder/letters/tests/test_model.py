@@ -1,16 +1,15 @@
+from email import message_from_file
 from os.path import dirname, join
 
 from django.core import mail
 from django.test import TestCase
 from django_mailbox.models import Mailbox
 
-from email import message_from_file
 from feder.cases.factories import CaseFactory
 from feder.cases.models import Case
 from feder.institutions.factories import InstitutionFactory
 from feder.monitorings.factories import MonitoringFactory
 from feder.users.factories import UserFactory
-
 from ..factories import (IncomingLetterFactory, LetterFactory,
                          OutgoingLetterFactory)
 from ..models import Letter, mail_process

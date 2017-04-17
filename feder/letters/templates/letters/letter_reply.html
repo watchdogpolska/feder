@@ -6,13 +6,14 @@
 {% endblock %}
 
 {% block content %}
-<h2>
-    <i class="fa fa-reply"></i>
-    {% blocktrans with object=object url=object.get_absolute_url %}Reply for <a href="{{ url }}">{{ object }}</a>{% endblocktrans %}
-</h2>
-{% block content_object %}
-<div class="gray">
-{% crispy form %}
-</div>
-{% endblock %}
+    <h2>
+        <i class="fa fa-reply"></i>
+        {% blocktrans with object=object url=object.get_absolute_url %}Reply for
+            <a href="{{ url }}">{{ object }}</a>{% endblocktrans %}
+    </h2>
+    {% block content_object %}
+        <div class="gray">
+            {% crispy form %}
+        </div>
+    {% endblock %}
 {% endblock %}

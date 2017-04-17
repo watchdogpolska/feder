@@ -2,17 +2,17 @@
 {% load i18n crispy_forms_tags %}
 
 {% block buttons %}
-{% if perms.institutions.add_institution %}
-<div class="clearfix">
-    <div class="pull-right btn-group">
-        <a class="btn btn-default" href="{% url 'institutions:create' %}">
-            {% trans 'Add institution' %}
-        </a>
-    </div>
-</div>
-{% endif %}
+    {% if perms.institutions.add_institution %}
+        <div class="clearfix">
+            <div class="pull-right btn-group">
+                <a class="btn btn-default" href="{% url 'institutions:create' %}">
+                    {% trans 'Add institution' %}
+                </a>
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}
 
 {% block content %}
-{% include '_filter.html' with title='Institutions index' form=filter.form object_list=object_list object_template='institutions/_institution_small.html' %}
+    {% include '_filter.html' with title='Institutions index' form=filter.form object_list=object_list object_template='institutions/_institution_small.html' %}
 {% endblock %}

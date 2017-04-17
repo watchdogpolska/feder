@@ -2,6 +2,7 @@
 import django_filters
 from dal import autocomplete
 from django.utils.translation import ugettext_lazy as _
+
 from .models import Task
 
 

@@ -14,9 +14,9 @@ urlpatterns = [
     url(_(r'^$'), views.JSTListView.as_view(), name="list"),
     url(_(r'^$'), views.JSTListView.as_view(), name="voivodeship"),
     url(_(r'^voivodeship-autocomplete/$'), VoivodeshipAutocomplete.as_view(),
-        name='voivodeship-autocomplete',),
+        name='voivodeship-autocomplete', ),
     url(_(r'^county-autocomplete/$'), CountyAutocomplete.as_view(),
-        name='county-autocomplete',),
+        name='county-autocomplete', ),
     url(_(r'^community-autocomplete/$'), CommunityAutocomplete.as_view(),
-        name='community-autocomplete',),
+        name='community-autocomplete', ),
 ]

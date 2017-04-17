@@ -19,9 +19,9 @@ from django.utils.translation import ugettext_lazy as _
 from django_mailbox.models import Message
 from django_mailbox.signals import message_received
 from model_utils.models import TimeStampedModel
+
 from feder.cases.models import Case
 from feder.institutions.models import Institution
-
 from .utils import email_wrapper
 
 claw.init()
@@ -151,7 +151,7 @@ class Letter(TimeStampedModel):
     def process_incoming(cls, case, message):
         # Extract text and quote
         if message.text:
-            text = quotations.extract_from(message.text, 'text/plain')
+            text = quotations.extract_from(message.text)
             quote = message.text.replace(text, '')
         else:
             text = quotations.extract_from(message.html, 'text/html')

@@ -1,11 +1,11 @@
-{%extends 'alerts/base_alert.html' %}
+{% extends 'alerts/base_alert.html' %}
 {% load i18n %}
 
 {% block content_object %}
-<form method="POST">
-    <div style="display:none">
-        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-    </div>
-    <input type="submit" class="btn btn-primary" value="{% trans 'Switch' %}">
-</form>
+    <form method="POST">
+        <div style="display:none">
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+        </div>
+        <input type="submit" class="btn btn-primary" value="{% trans 'Switch' %}">
+    </form>
 {% endblock %}

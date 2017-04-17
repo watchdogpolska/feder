@@ -8,6 +8,7 @@ from django.contrib import admin
 from django.contrib.sitemaps.views import index, sitemap
 from django.http import HttpResponseServerError
 from django.template import loader
+from django.utils.translation import ugettext_lazy as _
 from django.views.generic import TemplateView
 from rest_framework import routers
 from teryt_tree.rest_framework_ext.viewsets import \
@@ -25,8 +26,6 @@ from feder.questionaries.sitemaps import QuestionarySitemap
 from feder.tasks.sitemaps import TaskSitemap
 from feder.teryt.sitemaps import JSTSitemap
 from . import views
-from django.utils.translation import ugettext_lazy as _
-
 
 router = routers.DefaultRouter()
 router.register(r'institutions', InstitutionViewSet)
@@ -38,27 +37,26 @@ urlpatterns = [
 ]
 
 urlpatterns += [
-    url(_(r'^about/$'), TemplateView.as_view(template_name='pages/about.html'), name="about"),
+                   url(_(r'^about/$'), TemplateView.as_view(template_name='pages/about.html'), name="about"),
 
-    # Django Admin
-    url(r'^admin/', include(admin.site.urls)),
+                   # Django Admin
+                   url(r'^admin/', include(admin.site.urls)),
 
-    # User management
-    url(_(r'^users/'), include("feder.users.urls", namespace="users")),
-    url(_(r'^accounts/'), include('allauth.urls')),
+                   # User management
+                   url(_(r'^users/'), include("feder.users.urls", namespace="users")),
+                   url(_(r'^accounts/'), include('allauth.urls')),
 
-    # Your stuff: custom urls includes go here
-    url(_(r'^institutions/'), include('feder.institutions.urls', namespace="institutions")),
-    url(_(r'^monitorings/'), include('feder.monitorings.urls', namespace="monitorings")),
-    url(_(r'^cases/'), include('feder.cases.urls', namespace="cases")),
-    url(_(r'^tasks/'), include('feder.tasks.urls', namespace="tasks")),
-    url(_(r'^questionaries/'), include('feder.questionaries.urls', namespace="questionaries")),
-    url(_(r'^alerts/'), include('feder.alerts.urls', namespace="alerts")),
-    url(_(r'^letters/'), include('feder.letters.urls', namespace="letters")),
-    url(_(r'^teryt/'), include('feder.teryt.urls', namespace="teryt")),
-    url(r'^api/', include(router.urls)),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
+                   # Your stuff: custom urls includes go here
+                   url(_(r'^institutions/'), include('feder.institutions.urls', namespace="institutions")),
+                   url(_(r'^monitorings/'), include('feder.monitorings.urls', namespace="monitorings")),
+                   url(_(r'^cases/'), include('feder.cases.urls', namespace="cases")),
+                   url(_(r'^tasks/'), include('feder.tasks.urls', namespace="tasks")),
+                   url(_(r'^questionaries/'), include('feder.questionaries.urls', namespace="questionaries")),
+                   url(_(r'^alerts/'), include('feder.alerts.urls', namespace="alerts")),
+                   url(_(r'^letters/'), include('feder.letters.urls', namespace="letters")),
+                   url(_(r'^teryt/'), include('feder.teryt.urls', namespace="teryt")),
+                   url(r'^api/', include(router.urls)),
+               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 sitemaps = {'cases': CaseSitemap,
             'institutions': InstitutionSitemap,

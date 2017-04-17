@@ -1,9 +1,9 @@
 import django_filters
 from rest_framework import filters, viewsets
+from teryt_tree.rest_framework_ext.viewsets import custom_area_filter
 
 from .models import Institution, Tag
 from .serializers import InstitutionSerializer, TagSerializer
-from teryt_tree.rest_framework_ext.viewsets import custom_area_filter
 
 
 class InstitutionFilter(filters.FilterSet):
@@ -20,7 +20,7 @@ class InstitutionViewSet(viewsets.ModelViewSet):
                 prefetch_related('tags').
                 all())
     serializer_class = InstitutionSerializer
-    filter_backends = (filters.DjangoFilterBackend, )
+    filter_backends = (filters.DjangoFilterBackend,)
     filter_class = InstitutionFilter
 
 

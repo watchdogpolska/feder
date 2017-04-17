@@ -14,18 +14,15 @@ from model_utils.models import TimeStampedModel
 from feder.alerts.models import Alert
 from feder.cases.models import Case
 from feder.questionaries.models import Question, Questionary
-
 from .utils import all_answer_equal
 
 _('Tasks index')
-
 
 TASK_REQUIRED_TEXT = _("""Define how much answers do you need to mark tasks as done
  or count progress""")
 
 
 class TaskQuerySet(models.QuerySet):
-
     def survey_count(self):
         return self.annotate(survey_count=models.Count('survey'))
 
@@ -127,7 +124,6 @@ class Task(TimeStampedModel):
 
 
 class SurveyQuerySet(models.QuerySet):
-
     def with_full_answer(self):
         qs = Answer.objects.select_related('question')
         return self.prefetch_related(models.Prefetch('answer_set', queryset=qs))

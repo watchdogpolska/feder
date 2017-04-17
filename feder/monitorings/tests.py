@@ -7,7 +7,6 @@ from feder.cases.models import Case
 from feder.institutions.factories import InstitutionFactory
 from feder.main.mixins import PermissionStatusMixin
 from feder.users.factories import UserFactory
-
 from .factories import MonitoringFactory
 from .forms import MonitoringForm
 from .models import Monitoring

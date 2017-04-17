@@ -1,3 +1,4 @@
+import reversion
 from autoslug.fields import AutoSlugField
 from django.core.urlresolvers import reverse
 from django.db import models
@@ -5,7 +6,6 @@ from django.db.models import Count
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from model_utils.models import TimeStampedModel
-import reversion
 
 from feder.teryt.models import JST
 
@@ -13,7 +13,6 @@ _('Institution index')
 
 
 class InstitutionQuerySet(models.QuerySet):
-
     def with_case_count(self):
         return self.annotate(case_count=models.Count('case'))
 

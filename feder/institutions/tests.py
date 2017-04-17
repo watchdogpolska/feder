@@ -6,7 +6,6 @@ from django.utils.encoding import force_text
 from feder.main.mixins import PermissionStatusMixin
 from feder.teryt.factories import JSTFactory
 from feder.users.factories import UserFactory
-
 from .factories import InstitutionFactory, TagFactory
 from .models import Institution
 from .serializers import InstitutionSerializer

@@ -2,39 +2,42 @@
 {% load i18n %}
 
 {% block feed %}
-{% if object %}
-<link rel="alternate" type="application/rss+xml" title="RSS Feed of letters for {{object}}" href="{% url 'letters:rss' monitoring_pk=object.pk %}" />
-<link rel="alternate" type="application/atom+xml" title="Atom Feed of letters for {{object}}" href="{% url 'letters:atom' monitoring_pk=object.pk %}" />
-{% endif %}
+    {% if object %}
+        <link rel="alternate" type="application/rss+xml" title="RSS Feed of letters for {{ object }}"
+              href="{% url 'letters:rss' monitoring_pk=object.pk %}"/>
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed of letters for {{ object }}"
+              href="{% url 'letters:atom' monitoring_pk=object.pk %}"/>
+    {% endif %}
 {% endblock %}
 
 
 {% block breadcrumbs %}
-<ol class="breadcrumb">
-  {% if object %}<li><a href="{{object.get_absolute_url}}">{{object}}</a></li>{% endif %}
-  {% block breadcrumbs_row %}{% endblock %} 
-</ol>
+    <ol class="breadcrumb">
+        {% if object %}
+            <li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>{% endif %}
+        {% block breadcrumbs_row %}{% endblock %}
+    </ol>
 {% endblock %}
 
 {% block buttons %}
-{% if object %}
-{% include 'monitorings/_btn.html' with object=object %}
-{% endif %}
+    {% if object %}
+        {% include 'monitorings/_btn.html' with object=object %}
+    {% endif %}
 {% endblock %}
 
 {% block content %}
-<div class="page-header">
-    <h2>
-        <i class="fa fa-search"></i>
-        {% if object %}
-            <a href="{{object.get_absolute_url}}">{{object}}</a>
-        {% else %}
-            {% trans 'Add monitoring' %}
-        {% endif %}
-    </h2>
-</div>
+    <div class="page-header">
+        <h2>
+            <i class="fa fa-search"></i>
+            {% if object %}
+                <a href="{{ object.get_absolute_url }}">{{ object }}</a>
+            {% else %}
+                {% trans 'Add monitoring' %}
+            {% endif %}
+        </h2>
+    </div>
 
-<div class="gray">
-    {% block content_object %}{% endblock %}
-</div>
+    <div class="gray">
+        {% block content_object %}{% endblock %}
+    </div>
 {% endblock %}

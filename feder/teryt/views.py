@@ -10,6 +10,6 @@ class JSTDetailView(DetailView):
 class JSTListView(ListView):
     model = JST
 
-    def get_queryset(self, *args, **kwargs):
-        qs = super(JSTListView, self).get_queryset(*args, **kwargs)
+    def get_queryset(self):
+        qs = super(JSTListView, self).get_queryset()
         return qs.voivodeship()

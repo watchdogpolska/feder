@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.db import migrations, models
 import autoslug.fields
+from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
     ]
 
@@ -27,8 +26,11 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=250, verbose_name='Name')),
-                ('slug', autoslug.fields.AutoSlugField(editable=False, populate_from=b'name', unique=True, verbose_name='Slug')),
-                ('address', models.EmailField(help_text='E-mail address used to contact with institutions', max_length=254, verbose_name='E-mail')),
+                ('slug', autoslug.fields.AutoSlugField(editable=False, populate_from=b'name', unique=True,
+                                                       verbose_name='Slug')),
+                ('address',
+                 models.EmailField(help_text='E-mail address used to contact with institutions', max_length=254,
+                                   verbose_name='E-mail')),
             ],
             options={
                 'verbose_name': 'Institution',
