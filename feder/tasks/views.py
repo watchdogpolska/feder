@@ -49,7 +49,7 @@ class TaskDetailView(SelectRelatedMixin, PrefetchRelatedMixin, DetailView):
         try:
             return (self.object.survey_set.with_full_answer().
                     filter(user=self.request.user.pk).get())
-        except Survey.DoesNotExists:
+        except Survey.DoesNotExist:
             return None
 
     def get_context_data(self, **kwargs):
@@ -119,7 +119,7 @@ class SurveyDeleteView(DeleteMessageMixin, DeleteView):
     slug_url_kwarg = 'task_id'
     slug_field = 'task_id'
 
-    def get_queryset(self):
+    def get_queryset(self, *args, **kwargs):
         qs = super(SurveyDeleteView, self).get_queryset()
         return qs.filter(user=self.request.user).with_full_answer()
 
