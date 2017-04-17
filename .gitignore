@@ -56,3 +56,4 @@ node_modules/
 .env
 docs/_build
 staticfiles
+*.retry
