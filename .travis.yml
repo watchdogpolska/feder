@@ -14,10 +14,10 @@ env:
     - TOX_ENV=py27-dj110  # required
     - TOX_ENV=py27-dj111
     - TOX_ENV=py27-djmaster
-#    - TOX_ENV=py34-dj19
-#    - TOX_ENV=py34-dj110
-#    - TOX_ENV=py34-dj111
-#    - TOX_ENV=py34-djmaster
+    - TOX_ENV=py34-dj19
+    - TOX_ENV=py34-dj110
+    - TOX_ENV=py34-dj111
+    - TOX_ENV=py34-djmaster
 #    - TOX_ENV=pypy-dj19
 #    - TOX_ENV=pypy-dj110
 #    - TOX_ENV=pypy-dj111
@@ -27,10 +27,10 @@ env:
 matrix:
   allow_failures:
     - env: TOX_ENV=py27-djmaster
-#    - env: TOX_ENV=py34-dj19
-#    - env: TOX_ENV=py34-dj110
-#    - env: TOX_ENV=py34-dj111
-#    - env: TOX_ENV=py34-djmaster
+    - env: TOX_ENV=py34-dj19
+    - env: TOX_ENV=py34-dj110
+    - env: TOX_ENV=py34-dj111
+    - env: TOX_ENV=py34-djmaster
 #    - env: TOX_ENV=pypy-dj19
 #    - env: TOX_ENV=pypy-dj110
 #    - env: TOX_ENV=pypy-dj111
