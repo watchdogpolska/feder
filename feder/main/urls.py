@@ -74,6 +74,12 @@ urlpatterns += [
     url(r'^sitemap-(?P<section>.+)\.xml$', sitemap, {'sitemaps': sitemaps}, name='sitemaps'),
 ]
 
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns = [
+        url(r'^__debug__/', include(debug_toolbar.urls)),
+    ] + urlpatterns
+
 
 def handler500(request):
     """500 error handler which includes ``request`` in the context.
