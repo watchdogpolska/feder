@@ -12,7 +12,7 @@ from feder.monitorings.factories import MonitoringFactory
 from feder.users.factories import UserFactory
 from ..factories import (IncomingLetterFactory, LetterFactory,
                          OutgoingLetterFactory)
-from ..models import Letter, mail_process
+from ..models import Letter, MessageParser
 
 
 class ModelTestCase(TestCase):
@@ -102,7 +102,6 @@ class IncomingEmailTestCase(TestCase):
     def test_case_identification(self):
         case = CaseFactory(email='porady@REDACTED')
         message = self.get_message('basic_message.eml')
-        mail_process(sender=self.mailbox, message=message)
-        letter = message.letter_set.all()[0]
+        letter = MessageParser(message).insert()
         self.assertEqual(letter.case, case)
         self.assertEqual(letter.attachment_set.count(), 2)

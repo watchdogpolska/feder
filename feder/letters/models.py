@@ -1,10 +1,12 @@
 from __future__ import print_function
 
+import logging
 import os
 import uuid
 
 import claw
 from atom.models import AttachmentBase
+from cached_property import cached_property
 from claw import quotations
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -25,6 +27,8 @@ from feder.institutions.models import Institution
 from .utils import email_wrapper
 
 claw.init()
+
+logger = logging.getLogger(__name__)
 
 
 class LetterQuerySet(models.QuerySet):
@@ -121,7 +125,7 @@ class Letter(TimeStampedModel):
                      case=case,
                      title=monitoring.subject,
                      body=text)
-        letter.send(commit=True, only=False)
+        letter.send(commit=True, only_email=False)
         return letter
 
     def email_body(self):
@@ -138,60 +142,82 @@ class Letter(TimeStampedModel):
                             body=self.email_body(),
                             headers=headers)
 
-    def send(self, commit=True, only=False):
+    def send(self, commit=True, only_email=False):
         message = self._construct_message()
         text = message.message().as_bytes()
         self.email = self.case.institution.email
         self.eml.save('%s.eml' % uuid.uuid4(), ContentFile(text), save=False)
         if commit:
-            self.save(update_fields=['eml', 'email'] if only else None)
+            self.save(update_fields=['eml', 'email'] if only_email else None)
         return message.send()
-
-    @classmethod
-    def process_incoming(cls, case, message):
-        # Extract text and quote
-        if message.text:
-            text = quotations.extract_from(message.text)
-            quote = message.text.replace(text, '')
-        else:
-            text = quotations.extract_from(message.html, 'text/html')
-            quote = message.text.replace(text, '')
-
-        # Create Letter
-        obj = cls.objects.create(author_institution=case.institution,
-                                 email=message.from_address[0],
-                                 case=case,
-                                 title=message.subject,
-                                 body=text,
-                                 quote=quote,
-                                 eml=File(message.eml, message.eml.name),
-                                 message=message)
-        attachments = []
-        # Append attachments
-        for attachment in message.attachments.all():
-            name = attachment.get_filename() or 'Unknown.bin'
-            if len(name) > 70:
-                name, ext = os.path.splitext(name)
-                ext = ext[:70]
-                name = name[:70 - len(ext)] + ext
-            file_obj = File(attachment.document, name)
-            attachments.append(Attachment(letter=obj, attachment=file_obj))
-        Attachment.objects.bulk_create(attachments)
-        return obj, attachments
 
 
 class Attachment(AttachmentBase):
     letter = models.ForeignKey(Letter)
 
 
-@receiver(message_received)
-def mail_process(sender, message, **args):
-    try:
-        case = Case.objects.by_msg(message).get()
-    except Case.DoesNotExist:
-        print("Message #{pk} skip, due not recognized address {to}".
-              format(pk=message.pk, to=message.to_addresses))
-        return
-    letter, attachments = Letter.process_incoming(case, message)
-    print("Message #{message} registered in case #{case} as letter #{letter}".
-          format(message=message.pk, case=case.pk, letter=letter.pk))
+class MessageParser(object):
+    def __init__(self, message):
+        self.message = message
+
+    @cached_property
+    def quote(self):
+        if self.message.text:
+            return self.message.text.replace(self.text, '')
+        return self.message.text.replace(self.text, '')
+
+    @cached_property
+    def text(self):
+        if self.message.text:
+            return quotations.extract_from(self.message.text)
+        return quotations.extract_from(self.message.html, 'text/html')
+
+    def get_case(self):
+        try:
+            return Case.objects.by_msg(self.message).get()
+        except Case.DoesNotExist:
+            return
+
+    def save_attachments(self, letter):
+        # Create Letter
+        attachments = []
+        # Append attachments
+        for attachment in self.message.attachments.all():
+            name = attachment.get_filename() or 'Unknown.bin'
+            if len(name) > 70:
+                name, ext = os.path.splitext(name)
+                ext = ext[:70]
+                name = name[:70 - len(ext)] + ext
+            file_obj = File(attachment.document, name)
+            attachments.append(Attachment(letter=letter, attachment=file_obj))
+        Attachment.objects.bulk_create(attachments)
+        return attachments
+
+    def save_object(self):
+        return Letter.objects.create(author_institution=self.case.institution,
+                                     email=self.message.from_address[0],
+                                     case=self.case,
+                                     title=self.message.subject,
+                                     body=self.text,
+                                     quote=self.quote,
+                                     eml=File(self.message.eml, self.message.eml.name),
+                                     message=self.message)
+
+    @classmethod
+    @receiver(message_received)
+    def receive_signal(cls, sender, message, **args):
+        cls(message).insert()
+
+    def insert(self):
+        self.case = self.get_case()
+        if not self.case:
+            logger.info("Message #{pk} skip, due not recognized address {to}".
+                        format(pk=self.message.pk, to=self.message.to_addresses))
+            return
+        letter = self.save_object()
+        logger.info("Message #{message} registered in case #{case} as letter #{letter}".
+                    format(message=self.message.pk, case=self.case.pk, letter=letter.pk))
+        attachments = self.save_attachments(letter)
+        logger.info("Saved #{attachment_count} for letter #{letter}".format(attachment_count=len(attachments),
+                                                                            letter=letter.pk))
+        return letter
