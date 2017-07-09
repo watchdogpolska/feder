@@ -45,11 +45,10 @@ https://github.com/ad-m/django-autofixture/archive/master.zip
 jsonfield==2.0.2
 django-guardian==1.4.9
 claw==1.3.0
-django-mailbox==4.5.4
+git+https://github.com/coddingtonbear/django-mailbox.git@utf8-failing
 django-teryt-tree==0.12.1
 cached-property==1.3.0
 django-bootstrap-pagination==1.6.2
 djangorestframework==3.6.3
 django-reversion==2.0.9
 unicodecsv==0.14.1
-
