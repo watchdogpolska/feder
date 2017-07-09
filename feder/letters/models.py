@@ -60,10 +60,10 @@ class Letter(TimeStampedModel):
                                     null=True, blank=True)
     author_institution = models.ForeignKey(Institution, verbose_name=_("Author (if institution)"),
                                            null=True, blank=True)
-    title = models.CharField(verbose_name=_("Title"), max_length=50)
+    title = models.CharField(verbose_name=_("Title"), max_length=200)
     body = models.TextField(verbose_name=_("Text"))
     quote = models.TextField(verbose_name=_("Quote"), blank=True)
-    email = models.EmailField(verbose_name=_("E-mail"), max_length=50, blank=True)
+    email = models.EmailField(verbose_name=_("E-mail"), max_length=100, blank=True)
     eml = models.FileField(upload_to="messages/%Y/%m/%d",
                            verbose_name=_("File"),
                            null=True)
@@ -191,33 +191,36 @@ class MessageParser(object):
             file_obj = File(attachment.document, name)
             attachments.append(Attachment(letter=letter, attachment=file_obj))
         Attachment.objects.bulk_create(attachments)
+        for att in attachments:  # Force close file descriptor to avoid "Too many open files"
+            att.attachment.close()
         return attachments
 
     def save_object(self):
-        return Letter.objects.create(author_institution=self.case.institution,
-                                     email=self.message.from_address[0],
-                                     case=self.case,
-                                     title=self.message.subject,
-                                     body=self.text,
-                                     quote=self.quote,
-                                     eml=File(self.message.eml, self.message.eml.name),
-                                     message=self.message)
+        with File(self.message.eml, self.message.eml.name) as eml:
+            return Letter.objects.create(author_institution=self.case.institution,
+                                         email=self.message.from_address[0],
+                                         case=self.case,
+                                         title=self.message.subject,
+                                         body=self.text,
+                                         quote=self.quote,
+                                         eml=eml,
+                                         message=self.message)
 
-    @classmethod
+    @staticmethod
     @receiver(message_received)
-    def receive_signal(cls, sender, message, **args):
-        cls(message).insert()
+    def receive_signal(sender, message, **kwargs):
+        MessageParser(message).insert()
 
     def insert(self):
         self.case = self.get_case()
         if not self.case:
-            logger.info("Message #{pk} skip, due not recognized address {to}".
-                        format(pk=self.message.pk, to=self.message.to_addresses))
+            logger.warning("Message #{pk} skip, due not recognized address {to}".
+                           format(pk=self.message.pk, to=self.message.to_addresses))
             return
         letter = self.save_object()
         logger.info("Message #{message} registered in case #{case} as letter #{letter}".
                     format(message=self.message.pk, case=self.case.pk, letter=letter.pk))
         attachments = self.save_attachments(letter)
-        logger.info("Saved #{attachment_count} for letter #{letter}".format(attachment_count=len(attachments),
-                                                                            letter=letter.pk))
+        logger.debug("Saved {attachment_count} attachments for letter #{letter}".
+                     format(attachment_count=len(attachments), letter=letter.pk))
         return letter

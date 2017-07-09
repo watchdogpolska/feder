@@ -269,7 +269,10 @@ LOGGING = {
             'level': 'ERROR',
             'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
-        }
+        },
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
     },
     'loggers': {
         'django.request': {
@@ -277,6 +280,10 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': True,
         },
+        'feder.letters.models': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        }
     }
 }
 
@@ -289,9 +296,6 @@ CASE_EMAIL_TEMPLATE = env("CASE_EMAIL_TEMPLATE", default="sprawa-{pk}@example.co
 DJANGO_MAILBOX_STORE_ORIGINAL_MESSAGE = True
 
 FILTERS_HELP_TEXT_FILTER = False
-
-SILENCED_SYSTEM_CHECKS = ["1_8.W001",  # we added TEMPLATES settings
-                          ]
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
