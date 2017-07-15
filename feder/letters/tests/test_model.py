@@ -9,6 +9,7 @@ from django_mailbox.models import Mailbox
 from feder.cases.factories import CaseFactory
 from feder.cases.models import Case
 from feder.institutions.factories import InstitutionFactory
+from feder.letters.tests.base import MessageMixin
 from feder.monitorings.factories import MonitoringFactory
 from feder.users.factories import UserFactory
 from ..factories import (IncomingLetterFactory, LetterFactory,
@@ -84,22 +85,7 @@ class ModelTestCase(TestCase):
         self.assertIn(institution.email, mail.outbox[0].to)
 
 
-class IncomingEmailTestCase(TestCase):
-    def setUp(self):
-        self.mailbox = Mailbox.objects.create(from_email='from@example.com')
-
-    @staticmethod
-    def _get_email_object(filename):  # See coddingtonbear/django-mailbox#89
-        path = join(dirname(__file__), 'messages', filename)
-        fp = open(path, 'rb')
-        return message_from_file(fp)
-
-    def get_message(self, filename):
-        message = self._get_email_object(filename)
-        msg = self.mailbox._process_message(message)
-        msg.save()
-        return msg
-
+class IncomingEmailTestCase(MessageMixin, TestCase):
     def test_case_identification(self):
         case = CaseFactory(email='porady@REDACTED')
         message = self.get_message('basic_message.eml')

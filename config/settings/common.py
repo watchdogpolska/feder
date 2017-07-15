@@ -281,7 +281,7 @@ LOGGING = {
             'propagate': True,
         },
         'feder.letters.models': {
-            'handlers': ['console'],
+            'handlers': ['console'] if 'test' not in environ.sys.argv else [],
             'level': 'INFO',
         }
     }
