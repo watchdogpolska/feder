@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 from email import message_from_file
 from os.path import dirname, join
 
@@ -105,3 +106,23 @@ class IncomingEmailTestCase(TestCase):
         letter = MessageParser(message).insert()
         self.assertEqual(letter.case, case)
         self.assertEqual(letter.attachment_set.count(), 2)
+
+    def test_case_text_identification(self):
+        CaseFactory(email='porady@REDACTED')
+        message = self.get_message('basic_message.eml')
+        letter = MessageParser(message).insert()
+        self.assertEqual(letter.title, 'Odpowied\u017a od burmistrza na wniosek stowarzyszenia')
+        self.assertEqual(letter.body, 'REDACTED')
+        self.assertEqual(letter.quote, '')
+
+    def test_case_text_identification_validation(self):
+        """
+        Validate regression of #280
+        """
+        CaseFactory(email='sprawa-REDACTED@fedrowanie.siecobywatelska.pl')
+        message = self.get_message('message-with-content.eml')
+        letter = MessageParser(message).insert()
+        letter.refresh_from_db()
+        self.assertEqual(letter.title, u'Przeczytano: Wniosek o udost\u0119pnienie informacji publicznej')
+        self.assertIn('odczytano w dniu ', letter.body)
+        self.assertEqual(letter.quote, '')
