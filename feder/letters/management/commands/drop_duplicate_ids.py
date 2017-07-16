@@ -22,7 +22,7 @@ class Command(BaseCommand):
                 for letter in case.letter_set.select_related('message').order_by('created').all():
                     if not letter.message.message_id:  # Skip messages without Message-ID
                         continue
-                    if letter.message.message_id in ids:
+                    if letter.message and letter.message.message_id in ids:
                         self.delete(letter)
                         deleted_count += 1
                     ids.append(letter.message.message_id)
