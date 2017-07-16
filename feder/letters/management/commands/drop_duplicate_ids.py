@@ -9,32 +9,34 @@ class Command(BaseCommand):
     help = "Delete the message with a duplicate ID in case."
 
     def add_arguments(self, parser):
-        parser.add_argument('--dry-run', dest='dry_run', action='store_true',
-                            help="Perform a trial run with no changes made")
+        parser.add_argument('--delete', dest='delete', action='store_true',
+                            help="Really delete messages.")
         parser.add_argument('--no-progress', dest='no_progress', action='store_false')
 
-    def handle(self, dry_run, no_progress, *args, **options):
-        self.dry_run = dry_run
+    def handle(self, delete, no_progress, *args, **options):
+        self.delete = delete
+        self.no_progress = no_progress
         case_count, letter_count, deleted_count = 0, 0, 0
-        for case in self.get_iter(self.get_queryset(), no_progress):
+        for case in self.get_iter(self.get_queryset()):
             ids = []
             with transaction.atomic():
                 for letter in case.letter_set.select_related('message').order_by('created').all():
-                    if not letter.message.message_id:  # Skip messages without Message-ID
+                    letter_count += 1
+                    if not letter.message or not letter.message.message_id:  # Skip messages without Message-ID
                         continue
-                    if letter.message and letter.message.message_id in ids:
-                        self.delete(letter)
+                    if letter.message.message_id in ids:
+                        self.delete_letter(letter)
                         deleted_count += 1
                     ids.append(letter.message.message_id)
-                    letter_count += 1
             case_count += 1
-        self.stdout.write("There is {} cases containing {} letters of which {} were removed.".
+        self.stdout.write("There is {} cases containing {} letters of which {} {} removed.".
                           format(case_count,
                                  letter_count,
-                                 deleted_count))
+                                 deleted_count,
+                                 'were' if self.delete else 'will be'))
 
-    def get_iter(self, qs, no_progress, **kwargs):
-        if no_progress:
+    def get_iter(self, qs, **kwargs):
+        if not self.no_progress:
             return qs
         try:
             from tqdm import tqdm
@@ -47,9 +49,11 @@ class Command(BaseCommand):
         qs = qs.annotate(letter_count=Count('letter')).filter(letter_count__gt=1)  # Skip empty cases
         return qs.all()
 
-    def delete(self, letter):
-        self.stdout.write("Going  to delete message {} in case {}".format(letter.id, letter.case_id))
-        if self.dry_run:
+    def delete_letter(self, letter):
+        if not self.no_progress:
+            self.stdout.write("Going  to delete letter {} in case {}".format(letter.id, letter.case_id))
+
+        if not self.delete:
             return
 
         [x.attachment.delete() for x in letter.attachment_set.all()]  # Delete file
