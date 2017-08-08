@@ -19,8 +19,9 @@ class ObjectMixin(object):
         self.case = CaseFactory(monitoring=self.monitoring)
         self.from_user = OutgoingLetterFactory(title='Wniosek',
                                                case=self.case)
-        self.from_institution = IncomingLetterFactory(title='Odpowiedz',
-                                                      case=self.case)
+
+        self.letter = self.from_institution = IncomingLetterFactory(title='Odpowiedz',
+                                                                    case=self.case)
 
 
 class LetterListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
@@ -44,13 +45,17 @@ class LetterDetailViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     permission = []
 
     def get_url(self):
-        return self.from_user.get_absolute_url()
+        return self.letter.get_absolute_url()
 
     def test_content(self):
         response = self.client.get(self.get_url())
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'letters/letter_detail.html')
-        self.assertContains(response, self.from_user.title)
+        self.assertContains(response, self.letter.title)
+
+    def test_show_note(self):
+        response = self.client.get(self.get_url())
+        self.assertContains(response, self.letter.note)
 
 
 class LetterCreateViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):

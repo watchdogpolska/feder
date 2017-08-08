@@ -2,6 +2,7 @@ from django.core.urlresolvers import reverse
 from django.test import RequestFactory, TestCase
 
 from feder.institutions.factories import InstitutionFactory
+from feder.letters.factories import IncomingLetterFactory
 from feder.main.mixins import PermissionStatusMixin
 from feder.users.factories import UserFactory
 from .factories import CaseFactory
@@ -46,6 +47,11 @@ class CaseDetailViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
 
     def get_url(self):
         return reverse('cases:details', kwargs={'slug': self.case.slug})
+
+    def test_show_note_on_letter(self):
+        letter = IncomingLetterFactory(case=self.case)
+        response = self.client.get(self.get_url())
+        self.assertContains(response, letter.note)
 
 
 class CaseCreateViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):

@@ -64,9 +64,11 @@ class Letter(TimeStampedModel):
     body = models.TextField(verbose_name=_("Text"))
     quote = models.TextField(verbose_name=_("Quote"), blank=True)
     email = models.EmailField(verbose_name=_("E-mail"), max_length=100, blank=True)
+    note = models.TextField(verbose_name=_("Comments from editor"), blank=True)
     eml = models.FileField(upload_to="messages/%Y/%m/%d",
                            verbose_name=_("File"),
-                           null=True)
+                           null=True,
+                           blank=True)
     message = models.ForeignKey(Message,
                                 null=True,
                                 verbose_name=_("Message"),
@@ -152,8 +154,18 @@ class Letter(TimeStampedModel):
         return message.send()
 
 
+@python_2_unicode_compatible
 class Attachment(AttachmentBase):
     letter = models.ForeignKey(Letter)
+
+    def delete(self, *args, **kwargs):
+        self.attachment.delete()
+        super(Attachment, self).delete(*args, **kwargs)
+
+    def __str__(self):
+        if self.attachment:
+            return u"{}".format(self.filename)
+        return "None"
 
 
 class MessageParser(object):
