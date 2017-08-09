@@ -53,3 +53,5 @@ djangorestframework==3.6.3
 django-reversion==2.0.9
 unicodecsv==0.14.1
 tqdm==4.14.0
+djangorestframework-filters==0.10.1
+

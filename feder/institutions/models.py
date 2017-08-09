@@ -5,6 +5,7 @@ from django.db import models
 from django.db.models import Count
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
+from jsonfield import JSONField
 from model_utils.models import TimeStampedModel
 
 from feder.teryt.models import JST
@@ -32,6 +33,9 @@ class Institution(TimeStampedModel):
     jst = models.ForeignKey(JST,
                             verbose_name=_('Unit of administrative division'),
                             db_index=True)
+    regon = models.CharField(max_length=14, verbose_name=_("REGON number"), unique=True, null=True, blank=True)
+    parents = models.ManyToManyField('self', verbose_name=_("Parent institutions"), blank=True, null=True)
+    extra = JSONField(verbose_name="Unorganized additional information", blank=True)
     email = models.EmailField(verbose_name=_("Email of institution"))
     objects = InstitutionQuerySet.as_manager()
 
