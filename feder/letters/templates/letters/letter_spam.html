@@ -16,7 +16,7 @@
         <div style="display:none">
             <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
         </div>
-     <input type="submit" class="btn btn-primary" name="valid" value="Report spam">
+     <input type="submit" class="btn btn-primary" name="spam" value="Report spam">
         {% if request.user.is_superuser %}
             <input type="submit" class="btn btn-default" name="valid" value="{% trans 'Mark as valid' %}">
         {% endif %}
