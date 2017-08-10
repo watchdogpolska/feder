@@ -214,7 +214,6 @@ class ReportSpamView(ActionMessageMixin, ActionView):
     def get_success_message(self):
         if self.request.user.is_superuser:
             if 'valid' in self.request.POST:
-                import ipdb; ipdb.set_trace();
                 return _("The letter {object} has been marked as valid.").format(object=self.object)
             return _("The message {object} has been marked "
                      "as spam and hidden.").format(object=self.object)

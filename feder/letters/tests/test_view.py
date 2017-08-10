@@ -12,6 +12,7 @@ from feder.main.mixins import PermissionStatusMixin
 from feder.monitorings.factories import MonitoringFactory
 from feder.users.factories import UserFactory
 from ..factories import IncomingLetterFactory, OutgoingLetterFactory
+from django.utils.translation import ugettext_lazy as _
 
 
 class ObjectMixin(object):
@@ -61,7 +62,7 @@ class LetterDetailViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
 
     def test_contains_link_to_report_spam(self):
         response = self.client.get(self.get_url())
-        self.assertContains(response, "Report spam")
+        self.assertContains(response, _("Report spam"))
         self.assertContains(response, reverse('letters:spam', kwargs={'pk': self.letter.pk}))
 
 
@@ -186,7 +187,7 @@ class ReportSpamViewTestCase (ObjectMixin, PermissionStatusMixin, TestCase):
         self.client.login(username=UserFactory(is_superuser=True).username,
                           password='pass')
         response = self.client.post(self.get_url())
-        self.from_institution.refresh_from_db()
+        self.from_institution = Letter.objects_with_spam.get(pk=self.from_institution.pk)
         self.assertEqual(self.from_institution.is_spam, Letter.SPAM.spam)
 
     def test_mark_as_valid(self):
@@ -195,5 +196,3 @@ class ReportSpamViewTestCase (ObjectMixin, PermissionStatusMixin, TestCase):
         response = self.client.post(self.get_url(), data={'valid': 'x'})
         self.from_institution.refresh_from_db()
         self.assertEqual(self.from_institution.is_spam, Letter.SPAM.non_spam)
-
-

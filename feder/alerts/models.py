@@ -70,6 +70,6 @@ def notify_users(sender, instance, created, **kwargs):
     if created and instance.monitoring.notify_alert:
         recipient_list = [x.email for x in instance.monitoring.get_users_with_perm('view_alert')]
         send_mail(subject='New alert',
-                  message='in monitoring {monitoring}'.format(monitoring=instance.monitoring),
+                  message=u'in monitoring {monitoring}'.format(monitoring=instance.monitoring),
                   from_email=settings.EMAIL_NOTIFICATION,
                   recipient_list=recipient_list)
