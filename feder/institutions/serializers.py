@@ -41,7 +41,7 @@ class InstitutionSerializer(serializers.HyperlinkedModelSerializer):
                                                      source='parents'
                                                  )
     jst = serializers.PrimaryKeyRelatedField(queryset=JST.objects)
-    extra = serializers.JSONField()
+    extra = serializers.JSONField(required=False)
 
     def create(self, validated_data):
         tags_data = validated_data.pop('tags', [])
@@ -52,7 +52,7 @@ class InstitutionSerializer(serializers.HyperlinkedModelSerializer):
     def update(self, instance, validated_data):
         if 'parents' in validated_data:
             instance.parents.set(validated_data['parents'])
-        return instance
+        return super(InstitutionSerializer, self).update(instance, validated_data)
 
     class Meta:
         model = Institution

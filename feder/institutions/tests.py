@@ -33,6 +33,7 @@ class InstitutionSerializerTestCase(TestCase):
             "tags": [
                 "blabla", "X", "Z"
             ],
+            'regon': '0'*14,
             "jst": JSTFactory().pk,
             "email": "example-2@example.com",
         }
@@ -41,6 +42,7 @@ class InstitutionSerializerTestCase(TestCase):
         serializer = InstitutionSerializer(data={
             'name': 'X',
             "email": "example-2@example.com",
+            'regon': '0' * 14,
             'jst': JSTFactory().pk,
         })
         self.assertTrue(serializer.is_valid(), serializer.errors)
