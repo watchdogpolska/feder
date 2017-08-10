@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: letters 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-08 00:22+0000\n"
-"PO-Revision-Date: 2017-08-08 02:23+0200\n"
+"POT-Creation-Date: 2017-08-10 22:58+0000\n"
+"PO-Revision-Date: 2017-08-11 00:59+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -19,7 +19,7 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.8.7.1\n"
 
-#: apps.py:8 models.py:79
+#: apps.py:8 models.py:97
 msgid "Letter"
 msgstr "List"
 
@@ -61,69 +61,85 @@ msgstr "Nie masz uprawnień, aby wysłać odpowiedzi."
 msgid "You do not have permission to save draft."
 msgstr "Nie masz odpowiedzi, aby wysłać odpowiedź."
 
-#: models.py:58
+#: models.py:69
+msgid "Unknown"
+msgstr "Nieznane"
+
+#: models.py:70
+msgid "Spam"
+msgstr "Spam"
+
+#: models.py:71
+msgid "Non-spam"
+msgstr "Nie-spam"
+
+#: models.py:72
 msgid "Case"
 msgstr "Sprawa"
 
-#: models.py:59
+#: models.py:73
 msgid "Author (if user)"
 msgstr "Autor (jeżeli użytkownik)"
 
-#: models.py:61
+#: models.py:75
 msgid "Author (if institution)"
 msgstr "Autor (jeżeli instytucja)"
 
-#: models.py:63
+#: models.py:77
 msgid "Title"
 msgstr "Tytuł"
 
-#: models.py:64
+#: models.py:78
 msgid "Text"
 msgstr "Treść"
 
-#: models.py:65
+#: models.py:79
 msgid "Quote"
 msgstr "Cytat"
 
-#: models.py:66
+#: models.py:80
 msgid "E-mail"
 msgstr "E-mail"
 
-#: models.py:67
+#: models.py:81
 msgid "Comments from editor"
 msgstr "Komentarz od redakcji"
 
-#: models.py:69
+#: models.py:84
 msgid "File"
 msgstr "Plik"
 
-#: models.py:74
+#: models.py:89
 msgid "Message"
 msgstr "Wiadomość"
 
-#: models.py:75
+#: models.py:90
 msgid "Message registerd by django-mailbox"
 msgstr "Wiadomość zarejestrowanaa przez django-maiblxo"
 
-#: models.py:80 templates/letters/base.html:5
+#: models.py:98 templates/letters/base.html:5
 msgid "Letters"
 msgstr "Listy"
 
-#: models.py:83
+#: models.py:101
 msgid "Can filter eml"
 msgstr "Może filtrować po eml"
 
-#: templates/letters/_btn.html:8 templates/letters/base_object.html:10
+#: templates/letters/_btn.html:7 templates/letters/base_object.html:10
 msgid "Edit"
 msgstr "Edytuj"
 
-#: templates/letters/_btn.html:13
+#: templates/letters/_btn.html:12
 msgid "Delete"
 msgstr "Usuń"
 
-#: templates/letters/_btn.html:19 templates/letters/letter_reply.html:5
+#: templates/letters/_btn.html:18 templates/letters/letter_reply.html:5
 msgid "Reply"
 msgstr "Odpowiedź"
+
+#: templates/letters/_btn.html:24 templates/letters/letter_spam.html:10
+msgid "Report spam"
+msgstr "Zgłoś spam"
 
 #: templates/letters/_header.html:6 templates/letters/letter_preview.html:13
 msgid "by"
@@ -154,7 +170,7 @@ msgstr ""
 "                            href=\"%(institution_url)s\">%(institution)s</"
 "a></small>"
 
-#: templates/letters/letter_confirm_delete.html:3
+#: templates/letters/letter_confirm_delete.html:5
 msgid "Confirm delete"
 msgstr "Potwierdź usuwanie"
 
@@ -182,6 +198,15 @@ msgid ""
 msgstr ""
 "Odpowiedź na \n"
 "            <a href=\"%(url)s\">%(object)s</a>"
+
+#: templates/letters/letter_spam.html:14
+#, python-format
+msgid "Are you sure you want to report as spam \"%(object)s\"?"
+msgstr "Czy jesteś pewien, że chcesz zgłosić \"%(object)s\" jako spam?"
+
+#: templates/letters/letter_spam.html:21
+msgid "Mark as valid"
+msgstr "Oznacz jako prawidłowy"
 
 #: urls.py:10
 msgid "^$"
@@ -231,20 +256,24 @@ msgstr "^(?P<pk>[\\d-]+)/~usun$"
 msgid "^(?P<pk>[\\d-]+)/~reply$"
 msgstr "^(?P<pk>[\\d-]+)/~odpowiedz$"
 
-#: views.py:25
+#: urls.py:34
+msgid "^(?P<pk>[\\d-]+)/~spam"
+msgstr "^(?P<pk>[\\d-]+)/~spam"
+
+#: views.py:26
 msgid "Letters index"
 msgstr "Wykaz listów"
 
-#: views.py:90
+#: views.py:91
 #, python-brace-format
 msgid "Reply {reply} to {letter} saved and send!"
 msgstr "Odpowiedź {reply} na {letter} zapisana i wysłana!"
 
-#: views.py:113
+#: views.py:114
 msgid "Latest letters on whole site"
 msgstr "Ostatnie listy na całej stronie"
 
-#: views.py:115
+#: views.py:116
 msgid ""
 "Updates on new letters on site including receving and sending in all "
 "monitorings."
@@ -252,25 +281,44 @@ msgstr ""
 "Aktualizacje wszystkich listów na stronie włączając w to listy przychodzące "
 "i wychodzące w wszystkich monitoringach."
 
-#: views.py:160
+#: views.py:161
 #, python-format
 msgid "Letter for monitoring %s"
 msgstr "Listy monitoringu %s "
 
-#: views.py:163
+#: views.py:164
 #, python-format
 msgid "Archive of letter for cases which involved in monitoring %s"
 msgstr "Archiwum listów w sprawach z monitoringu %s"
 
-#: views.py:178
+#: views.py:179
 #, python-format
 msgid "Letter for case %s"
 msgstr "Listy w sprawie %s"
 
-#: views.py:181
+#: views.py:182
 #, python-format
 msgid "Archive of letter for case %s"
 msgstr "Archiwum listów w sprawie %s"
+
+#: views.py:210
+msgid "SPAM"
+msgstr "SPAM"
+
+#: views.py:218
+#, python-brace-format
+msgid "The letter {object} has been marked as valid."
+msgstr "List {object} został oznaczony jako spam i ukryty."
+
+#: views.py:219
+#, python-brace-format
+msgid "The message {object} has been marked as spam and hidden."
+msgstr "List {object} został oznaczony jako spam i ukryty."
+
+#: views.py:221
+msgid "Thanks for your help. The report was forwarded to responsible persons."
+msgstr ""
+"Dziękujemy za pomoc. Zgłoszenie zostało przekazane do odpowiedzialnych osób."
 
 #~ msgid "There is no mail to institution. Unable to send emails."
 #~ msgstr "Brak adresu e-mail do instytucji, więc nie mogę wysłać e-maila."

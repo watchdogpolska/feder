@@ -5,7 +5,9 @@ from django.core.files.base import ContentFile
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 
+from feder.alerts.models import Alert
 from feder.cases.factories import CaseFactory
+from feder.letters.models import Letter
 from feder.main.mixins import PermissionStatusMixin
 from feder.monitorings.factories import MonitoringFactory
 from feder.users.factories import UserFactory
@@ -56,6 +58,11 @@ class LetterDetailViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     def test_show_note(self):
         response = self.client.get(self.get_url())
         self.assertContains(response, self.letter.note)
+
+    def test_contains_link_to_report_spam(self):
+        response = self.client.get(self.get_url())
+        self.assertContains(response, "Report spam")
+        self.assertContains(response, reverse('letters:spam', kwargs={'pk': self.letter.pk}))
 
 
 class LetterCreateViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
@@ -159,3 +166,34 @@ class SitemapTestCase(ObjectMixin, TestCase):
         needle = reverse('letters:details', kwargs={'pk': self.from_user.pk})
         response = self.client.get(url)
         self.assertContains(response, needle)
+
+
+class ReportSpamViewTestCase (ObjectMixin, PermissionStatusMixin, TestCase):
+    status_anonymous = 200
+    status_no_permission = 200
+    permission = []
+
+    def get_url(self):
+        return reverse('letters:spam', kwargs={'pk':  self.from_institution.pk})
+
+    def test_create_report_for_anonymous(self):
+        response = self.client.post(self.get_url())
+        self.assertEqual(Alert.objects.count(), 1)
+        alert = Alert.objects.get()
+        self.assertEqual(alert.link_object, self.from_institution)
+
+    def test_hide_by_admin(self):
+        self.client.login(username=UserFactory(is_superuser=True).username,
+                          password='pass')
+        response = self.client.post(self.get_url())
+        self.from_institution.refresh_from_db()
+        self.assertEqual(self.from_institution.is_spam, Letter.SPAM.spam)
+
+    def test_mark_as_valid(self):
+        self.client.login(username=UserFactory(is_superuser=True).username,
+                          password='pass')
+        response = self.client.post(self.get_url(), data={'valid': 'x'})
+        self.from_institution.refresh_from_db()
+        self.assertEqual(self.from_institution.is_spam, Letter.SPAM.non_spam)
+
+

@@ -109,6 +109,6 @@ class IncomingEmailTestCase(MessageMixin, TestCase):
         message = self.get_message('message-with-content.eml')
         letter = MessageParser(message).insert()
         letter.refresh_from_db()
-        self.assertEqual(letter.title, u'Przeczytano: Wniosek o udost?pnienie informacji publicznej')
+        self.assertEqual(letter.title, "Przeczytano: Wniosek o udost\u0119pnienie informacji publicznej")
         self.assertIn('odczytano w dniu ', letter.body)
         self.assertEqual(letter.quote, '')

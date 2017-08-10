@@ -31,4 +31,7 @@ urlpatterns = [
         name="delete"),
     url(_(r'^(?P<pk>[\d-]+)/~reply$'), views.LetterReplyView.as_view(),
         name="reply"),
+    url(_(r'^(?P<pk>[\d-]+)/~spam'), views.ReportSpamView.as_view(),
+        name="spam"),
+
 ]

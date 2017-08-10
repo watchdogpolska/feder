@@ -19,6 +19,10 @@ class AlertQuerySet(models.QuerySet):
     def monitoring(self, monitoring):
         return self.filter(monitoring=monitoring)
 
+    def link_object(self, obj):
+        obj_type = ContentType.objects.get_for_model(obj)
+        return self.filter(content_type__pk=obj_type.id, object_id=obj.id)
+
 
 @python_2_unicode_compatible
 class Alert(TimeStampedModel):

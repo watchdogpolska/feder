@@ -10,18 +10,22 @@ from cached_property import cached_property
 from claw import quotations
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.contrib.contenttypes.fields import GenericRelation
 from django.core.files import File
 from django.core.files.base import ContentFile
 from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse
 from django.db import models
+from django.db.models.manager import BaseManager
 from django.dispatch import receiver
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from django_mailbox.models import Message
 from django_mailbox.signals import message_received
+from model_utils import Choices
 from model_utils.models import TimeStampedModel
 
+from feder.alerts.models import Alert
 from feder.cases.models import Case
 from feder.institutions.models import Institution
 from .utils import email_wrapper
@@ -29,6 +33,8 @@ from .utils import email_wrapper
 claw.init()
 
 logger = logging.getLogger(__name__)
+
+
 
 
 class LetterQuerySet(models.QuerySet):
@@ -53,8 +59,16 @@ class LetterQuerySet(models.QuerySet):
                 prefetch_related('attachment_set'))
 
 
+class LetterManager(BaseManager.from_queryset(LetterQuerySet)):
+    def get_queryset(self):
+        return super(LetterManager, self).get_queryset().filter(is_spam__in=[Letter.SPAM.unknown, Letter.SPAM.non_spam])
+
+
 @python_2_unicode_compatible
 class Letter(TimeStampedModel):
+    SPAM = Choices((0, 'unknown', _('Unknown')),
+                   (1, 'spam', _('Spam')),
+                   (2, 'non_spam', _('Non-spam'), ))
     case = models.ForeignKey(Case, verbose_name=_("Case"))
     author_user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("Author (if user)"),
                                     null=True, blank=True)
@@ -65,6 +79,7 @@ class Letter(TimeStampedModel):
     quote = models.TextField(verbose_name=_("Quote"), blank=True)
     email = models.EmailField(verbose_name=_("E-mail"), max_length=100, blank=True)
     note = models.TextField(verbose_name=_("Comments from editor"), blank=True)
+    is_spam = models.IntegerField(choices=SPAM, default=SPAM.unknown, db_index=True)
     eml = models.FileField(upload_to="messages/%Y/%m/%d",
                            verbose_name=_("File"),
                            null=True,
@@ -73,7 +88,11 @@ class Letter(TimeStampedModel):
                                 null=True,
                                 verbose_name=_("Message"),
                                 help_text=_("Message registerd by django-mailbox"))
-    objects = LetterQuerySet.as_manager()
+    objects = LetterManager()
+    objects_with_spam = LetterQuerySet.as_manager()
+
+    def is_spam_validated(self):
+        return self.is_spam != Letter.SPAM.unknown
 
     class Meta:
         verbose_name = _("Letter")

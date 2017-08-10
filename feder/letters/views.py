@@ -1,6 +1,6 @@
 from atom.ext.django_filters.views import UserKwargFilterSetMixin
 from atom.views import (CreateMessageMixin, DeleteMessageMixin,
-                        UpdateMessageMixin)
+                        UpdateMessageMixin, ActionView, ActionMessageMixin)
 from braces.views import (FormValidMessageMixin, SelectRelatedMixin,
                           UserFormKwargsMixin)
 from cached_property import cached_property
@@ -13,6 +13,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
 from django_filters.views import FilterView
 
+from feder.alerts.models import Alert
 from feder.cases.models import Case
 from feder.main.mixins import (AttrPermissionRequiredMixin,
                                RaisePermissionRequiredMixin)
@@ -185,3 +186,39 @@ class LetterCaseAtomFeed(LetterCaseRssFeed):
     feed_type = Atom1Feed
     subtitle = LetterCaseRssFeed.description
     feed_url = reverse_lazy("letters:atom")
+
+
+class ReportSpamView(ActionMessageMixin, ActionView):
+    template_name_suffix = '_spam'
+    model = Letter
+
+    def get_queryset(self):
+        return super(ReportSpamView, self).get_queryset().filter(is_spam=Letter.SPAM.unknown)
+
+    def action(self):
+        if self.request.user.is_superuser:
+            if 'valid' in self.request.POST:
+                self.object.is_spam = Letter.SPAM.non_spam
+            else:
+                self.object.is_spam = Letter.SPAM.spam
+            self.object.save(update_fields=['is_spam'])
+            Alert.objects.link_object(self.object).update(solver=self.request.user,
+                                                          status=True)
+            return
+        author = None if self.request.user.is_anonymous() else self.request.user
+        Alert.objects.create(monitoring=self.object.case.monitoring,
+                             reason=_("SPAM"),
+                             author=None,
+                             link_object=self.object)
+
+    def get_success_message(self):
+        if self.request.user.is_superuser:
+            if 'valid' in self.request.POST:
+                import ipdb; ipdb.set_trace();
+                return _("The letter {object} has been marked as valid.").format(object=self.object)
+            return _("The message {object} has been marked "
+                     "as spam and hidden.").format(object=self.object)
+        return _("Thanks for your help. The report was forwarded to responsible persons.")
+
+    def get_success_url(self):
+        return self.object.case.get_absolute_url()

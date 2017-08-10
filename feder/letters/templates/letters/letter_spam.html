@@ -1,0 +1,24 @@
+{% extends 'letters/base_object.html' %}
+
+{% load i18n %}
+
+{% block meta %}
+    <meta name="robots" content="noindex">
+{% endblock %}
+
+{% block breadcrumb_row %}
+    <li class="active">{% trans 'Report spam' %}</li>
+{% endblock %}
+
+{% block content_object %}
+    {% blocktrans with object=object %}Are you sure you want to report as spam "{{ object }}"?{% endblocktrans %}
+    <form method="POST">
+        <div style="display:none">
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+        </div>
+     <input type="submit" class="btn btn-primary" name="valid" value="Report spam">
+        {% if request.user.is_superuser %}
+            <input type="submit" class="btn btn-default" name="valid" value="{% trans 'Mark as valid' %}">
+        {% endif %}
+    </form>
+{% endblock %}
