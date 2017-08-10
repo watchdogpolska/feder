@@ -35,8 +35,6 @@ claw.init()
 logger = logging.getLogger(__name__)
 
 
-
-
 class LetterQuerySet(models.QuerySet):
     def attachment_count(self):
         return self.annotate(attachment_count=models.Count('attachment'))
