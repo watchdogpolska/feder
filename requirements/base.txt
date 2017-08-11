@@ -46,7 +46,7 @@ jsonfield==2.0.2
 django-guardian==1.4.9
 claw==1.3.0
 git+https://github.com/watchdogpolska/django-mailbox.git@masterfull
-django-teryt-tree==0.12.1
+django-teryt-tree==0.13.1
 cached-property==1.3.0
 django-bootstrap-pagination==1.6.2
 djangorestframework==3.6.3
