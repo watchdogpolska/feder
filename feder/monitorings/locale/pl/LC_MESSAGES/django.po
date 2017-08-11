@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-monitorings 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-11 01:25+0000\n"
-"PO-Revision-Date: 2016-09-24 18:29+0200\n"
+"POT-Creation-Date: 2017-08-11 02:20+0000\n"
+"PO-Revision-Date: 2017-08-11 04:21+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -210,12 +210,13 @@ msgstr "Przypisz instytucje"
 
 #: templates/monitorings/institution_assign.html:21
 #: templates/monitorings/institution_assign.html:47
-#, fuzzy, python-format
-#| msgid "Assign selected institutions to %(monitoring)s and send request"
+#, python-format
 msgid ""
 "Assign selected institutions to %(monitoring)s and\n"
 "                            send request"
-msgstr "Przypisz wybrane instytucje do %(monitoring)s i wyślij wniosek"
+msgstr ""
+"Przypisz wybrane instytucje do %(monitoring)s i\n"
+"                            wyślij wniosek"
 
 #: templates/monitorings/institution_assign.html:29
 msgid "Region"
@@ -259,8 +260,7 @@ msgid "previous"
 msgstr "poprzednia"
 
 #: templates/monitorings/monitoring_detail.html:108
-#, fuzzy, python-format
-#| msgid "Page %(no)s of %(total)s"
+#, python-format
 msgid ""
 "Page\n"
 "                            %(no)s of %(total)s"
@@ -285,8 +285,7 @@ msgid "Add user"
 msgstr "Dodaj użytkownika"
 
 #: templates/monitorings/permission_wizard.html:4
-#, fuzzy, python-format
-#| msgid "Step %(step)s of %(count)s"
+#, python-format
 msgid ""
 "Step %(step)s of\n"
 "        %(count)s"
