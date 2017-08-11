@@ -1,4 +1,5 @@
 import factory
+import factory.fuzzy
 
 from feder.cases.factories import CaseFactory
 from feder.institutions.factories import InstitutionFactory
@@ -19,6 +20,7 @@ class LetterFactory(factory.django.DjangoModelFactory):
 class IncomingLetterFactory(LetterFactory):
     author_institution = factory.SubFactory(InstitutionFactory)
     email = factory.Sequence('xxx-{0}@example.com'.format)
+    note = factory.fuzzy.FuzzyText()
 
 
 class OutgoingLetterFactory(LetterFactory):

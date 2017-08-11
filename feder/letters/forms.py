@@ -23,7 +23,7 @@ class LetterForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
 
     class Meta:
         model = Letter
-        fields = ['title', 'body']
+        fields = ['title', 'body', 'note']
 
 
 class ReplyForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
@@ -71,8 +71,8 @@ class ReplyForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
         quoted = "> " + "\n> ".join(wrap(self.letter.body, width=80))
         return QUOTE_TPL.format(quoted=quoted, **self.letter.__dict__)
 
-    def save(self):
-        obj = super(ReplyForm, self).save()
+    def save(self, *args, **kwargs):
+        obj = super(ReplyForm, self).save(*args, **kwargs)
         if 'send' in self.data:
             self.instance.send()
         return obj

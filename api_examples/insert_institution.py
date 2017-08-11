@@ -29,10 +29,14 @@ import unicodecsv as csv
 
 # TODO: Load community and voivodeship
 
-def insert_row(s, host, name, email, code, tags):
+def normalize_jst(code):
     code = "%07d" % (int(code))
     code = code[:2] if code[2:] == "0" * 5 else code  # voivodeship
     code = code[:4] if code[4:] == "0" * 3 else code  # community (TODO: Test)
+    return code
+
+
+def insert_row(s, host, name, email, code, tags):
     response = s.post(url="%s/api/institutions/" % (host,), json={
         "name": name,
         "tags": tags,

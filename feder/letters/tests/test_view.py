@@ -5,11 +5,14 @@ from django.core.files.base import ContentFile
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 
+from feder.alerts.models import Alert
 from feder.cases.factories import CaseFactory
+from feder.letters.models import Letter
 from feder.main.mixins import PermissionStatusMixin
 from feder.monitorings.factories import MonitoringFactory
 from feder.users.factories import UserFactory
 from ..factories import IncomingLetterFactory, OutgoingLetterFactory
+from django.utils.translation import ugettext_lazy as _
 
 
 class ObjectMixin(object):
@@ -19,8 +22,9 @@ class ObjectMixin(object):
         self.case = CaseFactory(monitoring=self.monitoring)
         self.from_user = OutgoingLetterFactory(title='Wniosek',
                                                case=self.case)
-        self.from_institution = IncomingLetterFactory(title='Odpowiedz',
-                                                      case=self.case)
+
+        self.letter = self.from_institution = IncomingLetterFactory(title='Odpowiedz',
+                                                                    case=self.case)
 
 
 class LetterListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
@@ -44,13 +48,22 @@ class LetterDetailViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     permission = []
 
     def get_url(self):
-        return self.from_user.get_absolute_url()
+        return self.letter.get_absolute_url()
 
     def test_content(self):
         response = self.client.get(self.get_url())
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'letters/letter_detail.html')
-        self.assertContains(response, self.from_user.title)
+        self.assertContains(response, self.letter.title)
+
+    def test_show_note(self):
+        response = self.client.get(self.get_url())
+        self.assertContains(response, self.letter.note)
+
+    def test_contains_link_to_report_spam(self):
+        response = self.client.get(self.get_url())
+        self.assertContains(response, _("Report spam"))
+        self.assertContains(response, reverse('letters:spam', kwargs={'pk': self.letter.pk}))
 
 
 class LetterCreateViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
@@ -154,3 +167,32 @@ class SitemapTestCase(ObjectMixin, TestCase):
         needle = reverse('letters:details', kwargs={'pk': self.from_user.pk})
         response = self.client.get(url)
         self.assertContains(response, needle)
+
+
+class ReportSpamViewTestCase (ObjectMixin, PermissionStatusMixin, TestCase):
+    status_anonymous = 200
+    status_no_permission = 200
+    permission = []
+
+    def get_url(self):
+        return reverse('letters:spam', kwargs={'pk':  self.from_institution.pk})
+
+    def test_create_report_for_anonymous(self):
+        response = self.client.post(self.get_url())
+        self.assertEqual(Alert.objects.count(), 1)
+        alert = Alert.objects.get()
+        self.assertEqual(alert.link_object, self.from_institution)
+
+    def test_hide_by_admin(self):
+        self.client.login(username=UserFactory(is_superuser=True).username,
+                          password='pass')
+        response = self.client.post(self.get_url())
+        self.from_institution = Letter.objects_with_spam.get(pk=self.from_institution.pk)
+        self.assertEqual(self.from_institution.is_spam, Letter.SPAM.spam)
+
+    def test_mark_as_valid(self):
+        self.client.login(username=UserFactory(is_superuser=True).username,
+                          password='pass')
+        response = self.client.post(self.get_url(), data={'valid': 'x'})
+        self.from_institution.refresh_from_db()
+        self.assertEqual(self.from_institution.is_spam, Letter.SPAM.non_spam)

@@ -51,6 +51,7 @@ THIRD_PARTY_APPS = (
     'bootstrap_pagination',
     'rest_framework',
     'reversion',
+    'django_filters'
 )
 
 # Apps specific for this project go here.

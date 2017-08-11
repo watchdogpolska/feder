@@ -15,8 +15,8 @@ class LetterAdmin(admin.ModelAdmin):
     '''
         Admin View for Letter
     '''
-    list_display = ('title', 'author', 'created', 'modified', 'is_draft', 'is_incoming')
-    list_filter = ('created', 'modified')
+    list_display = ('title', 'author', 'created', 'modified', 'is_draft', 'is_incoming', 'is_spam')
+    list_filter = ('created', 'modified', 'is_spam')
     inlines = [
         AttachmentInline,
     ]
