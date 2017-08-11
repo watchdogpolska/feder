@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cases 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-23 03:31+0000\n"
+"POT-Creation-Date: 2017-08-11 01:25+0000\n"
 "PO-Revision-Date: 2016-09-18 01:54+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -39,24 +39,24 @@ msgstr "Data utworzenia (od najstarszych)"
 msgid "creation date (descending)"
 msgstr "Data utworzenia (od najnowszych)"
 
-#: models.py:49
+#: models.py:48
 msgid "Name"
 msgstr "Nazwa"
 
-#: models.py:50
+#: models.py:49
 msgid "Slug"
 msgstr "Identyfikator redakcyjny"
 
-#: models.py:52 templates/cases/_case_small.html:7
+#: models.py:51 templates/cases/_case_small.html:7
 #: templates/cases/_desc.html:10
 msgid "Monitoring"
 msgstr "Monitoring"
 
-#: models.py:53 templates/cases/_case_small.html:6 templates/cases/_desc.html:4
+#: models.py:52 templates/cases/_case_small.html:6 templates/cases/_desc.html:4
 msgid "Institution"
 msgstr "Instytucja"
 
-#: models.py:58 models.py:59
+#: models.py:57 models.py:58
 msgid "Case"
 msgstr "Sprawa"
 
@@ -128,6 +128,6 @@ msgstr "^(?P<slug>[\\w-]+)/~usun$"
 msgid "^~autocomplete$"
 msgstr "^~autocomplete$"
 
-#: views.py:20
+#: views.py:19
 msgid "Case index"
 msgstr "Wykaz spraw"

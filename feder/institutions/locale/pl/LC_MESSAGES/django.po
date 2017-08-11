@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-institutions 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-23 03:36+0000\n"
-"PO-Revision-Date: 2017-02-23 04:36+0100\n"
+"POT-Creation-Date: 2017-08-11 01:25+0000\n"
+"PO-Revision-Date: 2017-08-11 03:25+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -19,7 +19,7 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.8.7.1\n"
 
-#: admin.py:26
+#: admin.py:27
 msgid "Institution count"
 msgstr "Liczba instytucji"
 
@@ -35,19 +35,19 @@ msgstr "Liczba spraw (rosnąco)"
 msgid "Area"
 msgstr "Obszar"
 
-#: models.py:12
+#: models.py:13
 msgid "Institution index"
 msgstr "Wykaz instytucji"
 
-#: models.py:28 models.py:58
+#: models.py:28 models.py:62
 msgid "Name"
 msgstr "Nazwa"
 
-#: models.py:29 models.py:59
+#: models.py:29 models.py:63
 msgid "Slug"
 msgstr "Identyfikator redakcyjny"
 
-#: models.py:32 models.py:69
+#: models.py:32 models.py:73
 msgid "Tag"
 msgstr "Tag"
 
@@ -56,14 +56,22 @@ msgid "Unit of administrative division"
 msgstr "Jednostka podziału terytorialnego"
 
 #: models.py:36
+msgid "REGON number"
+msgstr "Kod REGON"
+
+#: models.py:37
+msgid "Parent institutions"
+msgstr "Instytucja nadrzędna"
+
+#: models.py:39
 msgid "Email of institution"
 msgstr "Adres e-mail instytucji"
 
-#: models.py:40 models.py:41
+#: models.py:43 models.py:44
 msgid "Institution"
 msgstr "Instytucja"
 
-#: models.py:70 templates/institutions/institution_detail.html:29
+#: models.py:74 templates/institutions/institution_detail.html:29
 msgid "Tags"
 msgstr "Tagi"
 
@@ -97,24 +105,26 @@ msgstr "Potwierdź usuwanie"
 msgid "E-mail"
 msgstr "E-mail"
 
-#: templates/institutions/institution_detail.html:34
+#: templates/institutions/institution_detail.html:36
 msgid "Cases and tasks"
 msgstr "Sprawy i zadania"
 
-#: templates/institutions/institution_detail.html:48
+#: templates/institutions/institution_detail.html:50
 msgid "No rows."
 msgstr "Brak wierszy"
 
-#: templates/institutions/institution_detail.html:55
+#: templates/institutions/institution_detail.html:58
 msgid "previous"
 msgstr "poprzednia"
 
-#: templates/institutions/institution_detail.html:58
+#: templates/institutions/institution_detail.html:62
 #, python-format
-msgid "Page %(no)s of %(total)s"
+msgid ""
+"Page %(no)s of\n"
+"                        %(total)s"
 msgstr "Strona %(no)s z %(total)s"
 
-#: templates/institutions/institution_detail.html:61
+#: templates/institutions/institution_detail.html:67
 msgid "next"
 msgstr "następna"
 
@@ -189,9 +199,6 @@ msgstr "Wykaz instytucji"
 
 #~ msgid "Filter"
 #~ msgstr "Filtruj"
-
-#~ msgid "Create institution"
-#~ msgstr "Utwórz instytucje"
 
 #~ msgid "{0} created!"
 #~ msgstr "{0} dodany!"

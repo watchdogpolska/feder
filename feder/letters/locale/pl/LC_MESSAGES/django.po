@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: letters 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-10 22:58+0000\n"
+"POT-Creation-Date: 2017-08-11 01:25+0000\n"
 "PO-Revision-Date: 2017-08-11 00:59+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.8.7.1\n"
 
-#: apps.py:8 models.py:97
+#: apps.py:8 models.py:96
 msgid "Letter"
 msgstr "List"
 
@@ -61,67 +61,67 @@ msgstr "Nie masz uprawnień, aby wysłać odpowiedzi."
 msgid "You do not have permission to save draft."
 msgstr "Nie masz odpowiedzi, aby wysłać odpowiedź."
 
-#: models.py:69
+#: models.py:67
 msgid "Unknown"
 msgstr "Nieznane"
 
-#: models.py:70
+#: models.py:68
 msgid "Spam"
 msgstr "Spam"
 
-#: models.py:71
+#: models.py:69
 msgid "Non-spam"
 msgstr "Nie-spam"
 
-#: models.py:72
+#: models.py:70
 msgid "Case"
 msgstr "Sprawa"
 
-#: models.py:73
+#: models.py:71
 msgid "Author (if user)"
 msgstr "Autor (jeżeli użytkownik)"
 
-#: models.py:75
+#: models.py:73
 msgid "Author (if institution)"
 msgstr "Autor (jeżeli instytucja)"
 
-#: models.py:77
+#: models.py:75
 msgid "Title"
 msgstr "Tytuł"
 
-#: models.py:78
+#: models.py:76
 msgid "Text"
 msgstr "Treść"
 
-#: models.py:79
+#: models.py:77
 msgid "Quote"
 msgstr "Cytat"
 
-#: models.py:80
+#: models.py:78
 msgid "E-mail"
 msgstr "E-mail"
 
-#: models.py:81
+#: models.py:79
 msgid "Comments from editor"
 msgstr "Komentarz od redakcji"
 
-#: models.py:84
+#: models.py:82
 msgid "File"
 msgstr "Plik"
 
-#: models.py:89
+#: models.py:87
 msgid "Message"
 msgstr "Wiadomość"
 
-#: models.py:90
+#: models.py:88
 msgid "Message registerd by django-mailbox"
 msgstr "Wiadomość zarejestrowanaa przez django-maiblxo"
 
-#: models.py:98 templates/letters/base.html:5
+#: models.py:97 templates/letters/base.html:5
 msgid "Letters"
 msgstr "Listy"
 
-#: models.py:101
+#: models.py:100
 msgid "Can filter eml"
 msgstr "Może filtrować po eml"
 
@@ -138,6 +138,7 @@ msgid "Reply"
 msgstr "Odpowiedź"
 
 #: templates/letters/_btn.html:24 templates/letters/letter_spam.html:10
+#: tests/test_view.py:65
 msgid "Report spam"
 msgstr "Zgłoś spam"
 
@@ -305,17 +306,17 @@ msgstr "Archiwum listów w sprawie %s"
 msgid "SPAM"
 msgstr "SPAM"
 
-#: views.py:218
+#: views.py:217
 #, python-brace-format
 msgid "The letter {object} has been marked as valid."
 msgstr "List {object} został oznaczony jako spam i ukryty."
 
-#: views.py:219
+#: views.py:218
 #, python-brace-format
 msgid "The message {object} has been marked as spam and hidden."
 msgstr "List {object} został oznaczony jako spam i ukryty."
 
-#: views.py:221
+#: views.py:220
 msgid "Thanks for your help. The report was forwarded to responsible persons."
 msgstr ""
 "Dziękujemy za pomoc. Zgłoszenie zostało przekazane do odpowiedzialnych osób."
