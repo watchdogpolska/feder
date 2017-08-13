@@ -135,7 +135,6 @@ DATABASES = {
 }
 DATABASES['default']['ATOMIC_REQUESTS'] = True
 
-
 # GENERAL CONFIGURATION
 # ------------------------------------------------------------------------------
 # Local time zone for this installation. Choices can be found here:
@@ -174,7 +173,6 @@ TEMPLATE_CONTEXT_PROCESSORS = [
     'django.contrib.messages.context_processors.messages',
     # Your stuff: custom template context processors go here
 ]
-
 
 TEMPLATE_LOADERS = [
     'django.template.loaders.filesystem.Loader',
@@ -246,7 +244,7 @@ AUTHENTICATION_BACKENDS = (
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
-SOCIALACCOUNT_EMAIL_REQUIRED = 'optional'
+SOCIALACCOUNT_EMAIL_VERIFICATION = 'optional'
 # Custom user app defaults
 # Select the correct user model
 AUTH_USER_MODEL = 'users.User'
@@ -255,7 +253,6 @@ LOGIN_URL = 'account_login'
 
 # SLUGLIFIER
 AUTOSLUG_SLUGIFY_FUNCTION = 'feder.main.slugifier.ascii_slugify'
-
 
 # LOGGING CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -322,11 +319,11 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',)
 }
 
-
 SOCIALACCOUNT_PROVIDERS = {
     'github': {
         'SCOPE': [
             'user',
         ],
-    }
+    },
+    'gilab': {'SCOPE': ['read_user', 'openid']}
 }
