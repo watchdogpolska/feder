@@ -16,7 +16,7 @@ $gray: #F0F0F0;
   position: absolute;
   top: 0;
   right: 0;
-  border: 20px solid darken($gray, 15%); 
+  border: 20px solid darken($gray, 15%);
   border-right-color: #fff;
   border-top-color: #fff;
 }
@@ -30,7 +30,7 @@ $gray: #F0F0F0;
        display: block;
     }
   }
-  li:after { // How to write it up? 
+  li:after { // How to write it up?
     content: "";
     display: block;
     width: 25px;
@@ -44,14 +44,14 @@ $gray: #F0F0F0;
 .red {
   @extend .block;
   background-color: $red;
-  color: $gray;
-  a { 
+  color: lighten($gray, 15%);
+  a {
     color: darken(#fff, 10%);
   }
   a:hover{
     color: darken(#fff, 20%);
   }
-  
+
   .page-title {
     color: #fff;
   }
@@ -82,7 +82,7 @@ $gray: #F0F0F0;
 .footer {
     padding: 12px 6px;
     margin: 12px 0px;
-    border-top: 1px solid #F5F5F5;
+    border-top: 1px solid darken(#767676, 15%);
     color: #888;
     font-size: 10px;
 }
