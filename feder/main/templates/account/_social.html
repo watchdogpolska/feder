@@ -1,0 +1,20 @@
+{% load socialaccount i18n %}
+
+<div class="btn-group" role="group">
+    <a class="btn btn-default" href="{% provider_login_url "twitter" %}">
+        <i class="fa fa-twitter" aria-hidden="true"></i>
+        {% trans 'Twitter' %}
+    </a>
+    <a class="btn btn-default" href="{% provider_login_url "gitlab" %}">
+        <i class="fa fa-gitlab" aria-hidden="true"></i>
+        {% trans 'GitLab' %}
+    </a>
+    <a class="btn btn-default" href="{% provider_login_url "google" %}">
+        <i class="fa fa-google" aria-hidden="true"></i>
+        {% trans 'Google' %}
+    </a>
+    <a class="btn btn-default" href="{% provider_login_url "github" %}">
+        <i class="fa fa-github" aria-hidden="true"></i>
+        {% trans 'GitHub' %}
+    </a>
+</div>

@@ -44,7 +44,7 @@ urlpatterns += [
 
                    # User management
                    url(_(r'^users/'), include("feder.users.urls", namespace="users")),
-                   url(_(r'^accounts/'), include('allauth.urls')),
+                   url(r'^accounts/', include('allauth.urls')),
 
                    # Your stuff: custom urls includes go here
                    url(_(r'^institutions/'), include('feder.institutions.urls', namespace="institutions")),

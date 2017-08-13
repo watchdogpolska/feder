@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: main 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-23 03:37+0000\n"
-"PO-Revision-Date: 2017-02-23 04:38+0100\n"
+"POT-Creation-Date: 2017-08-13 22:54+0000\n"
+"PO-Revision-Date: 2017-08-14 00:54+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -36,6 +36,22 @@ msgstr "Brak wierszy"
 msgid "Filtr"
 msgstr "Filtruj"
 
+#: templates/account/_social.html:6
+msgid "Twitter"
+msgstr "Twitter"
+
+#: templates/account/_social.html:10
+msgid "GitLab"
+msgstr "GitLab"
+
+#: templates/account/_social.html:14
+msgid "Google"
+msgstr "Google"
+
+#: templates/account/_social.html:18
+msgid "GitHub"
+msgstr "GitHub"
+
 #: templates/account/email.html:6
 msgid "Account"
 msgstr "Konto"
@@ -48,35 +64,35 @@ msgstr "Adresy e-mail"
 msgid "The following e-mail addresses are associated with your account:"
 msgstr "Poniższe adresy e-mail są powiązane z Twoim kontem:"
 
-#: templates/account/email.html:28
+#: templates/account/email.html:31
 msgid "Verified"
 msgstr "Zweryfikowany"
 
-#: templates/account/email.html:30
+#: templates/account/email.html:33
 msgid "Unverified"
 msgstr "Brak weryfikacji"
 
-#: templates/account/email.html:32
+#: templates/account/email.html:36
 msgid "Primary"
 msgstr "Podstawowy"
 
-#: templates/account/email.html:38
+#: templates/account/email.html:43
 msgid "Make Primary"
 msgstr "Uczyń podstawowym"
 
-#: templates/account/email.html:39
+#: templates/account/email.html:45
 msgid "Re-send Verification"
 msgstr "Prześlij ponownie wiadomość weryfikacyjną"
 
-#: templates/account/email.html:40
+#: templates/account/email.html:47
 msgid "Remove"
 msgstr "Usuń"
 
-#: templates/account/email.html:47
+#: templates/account/email.html:55
 msgid "Warning:"
 msgstr "Uwaga:"
 
-#: templates/account/email.html:47
+#: templates/account/email.html:55
 msgid ""
 "You currently do not have any e-mail address set up. You should really add "
 "an e-mail address so you can receive notifications, reset your password, etc."
@@ -85,15 +101,15 @@ msgstr ""
 "Powinieneś je dodać, aby otrzymywać informacje administracyjne, wiadomości o "
 "zmianie hasła, itd."
 
-#: templates/account/email.html:52
+#: templates/account/email.html:61
 msgid "Add E-mail Address"
 msgstr "Dodaj adres e-mail"
 
-#: templates/account/email.html:57
+#: templates/account/email.html:66
 msgid "Add E-mail"
 msgstr "Dodaj e-mail"
 
-#: templates/account/email.html:68
+#: templates/account/email.html:77
 msgid "Do you really want to remove the selected e-mail address?"
 msgstr "Czy naprawdę chcesz usunąć wybrany adres e-mail?"
 
@@ -107,59 +123,77 @@ msgstr "Potwierdź adres e-mail"
 #: templates/account/email_confirm.html:19
 #, python-format
 msgid ""
-"Please confirm that <a href=\"mailto:%(email)s\">%(email)s</a> is an e-mail "
-"address for user %(user_display)s."
+"Please confirm that\n"
+"                        <a href=\"mailto:%(email)s\">%(email)s</a> is an e-"
+"mail address for user %(user_display)s\n"
+"                        ."
 msgstr ""
 "Proszę potwierdź, że adres <a href=\"mailto:%(email)s\">%(email)s</a> jest "
 "adresem e-mail dla użytkownika %(user_display)s."
 
-#: templates/account/email_confirm.html:23
+#: templates/account/email_confirm.html:25
 msgid "Confirm"
 msgstr "Potwierdź"
 
-#: templates/account/email_confirm.html:30
+#: templates/account/email_confirm.html:32
 #, python-format
 msgid ""
-"This e-mail confirmation link expired or is invalid. Please <a href="
-"\"%(email_url)s\">issue a new e-mail confirmation request</a>."
+"This e-mail confirmation link expired or is invalid. Please\n"
+"                        <a href=\"%(email_url)s\">issue a new e-mail "
+"confirmation request</a>."
 msgstr ""
-"Łącze z adresem do zresetowania hasła wygasło lub jest niepoprawne. Musisz "
-"<a href=\"%(email_url)s\">wygenerować nowe łącze dla Twojego adresu. </a>."
+"Łącze z adresem do zresetowania hasła wygasło lub jest niepoprawne. "
+"Powinieneś <a href=\"%(email_url)s\">wygenerować nowe łącze dla Twojego "
+"adresu. </a>."
 
 #: templates/account/email_confirmed.html:17
 #, python-format
 msgid ""
-"You have confirmed that <a href=\"mailto:%(email)s\">%(email)s</a> is an e-"
-"mail address for user %(user_display)s."
+"You have confirmed that\n"
+"                    <a href=\"mailto:%(email)s\">%(email)s</a> is an e-mail "
+"address for user %(user_display)s\n"
+"                    ."
 msgstr ""
 "Potwierdziłeś, że adres <a href=\"mailto:%(email)s\">%(email)s</a> jest "
 "adresem e-mail użytkownika %(user_display)s."
 
-#: templates/account/login.html:7 templates/account/login.html:14
-#: templates/account/login.html:41
+#: templates/account/login.html:7 templates/account/login.html:29
 msgid "Sign In"
 msgstr "Zaloguj"
 
-#: templates/account/login.html:17
+#: templates/account/login.html:14
+msgid "Sign In using Social Media"
+msgstr "Zaloguj poprzez media społecznościowe"
+
+#: templates/account/login.html:15
 #, python-format
 msgid ""
 "Please sign in with one\n"
-"          of your existing third party accounts. Or, <a href=\"%(signup_url)s"
-"\">sign up</a>\n"
-"          for a %(site_name)s account and sign in below:"
+"                        of your existing third party accounts. Or, <a href="
+"\"%(signup_url)s\">sign up</a>\n"
+"                        for a account and sign in below."
 msgstr ""
 "Proszę zaloguj się jednym\n"
-"z Twoich zewnętrznych kont. Lub <a href=\"%(signup_url)s\">zarejestruj się</"
-"a> \n"
-"w %(site_name)s i zaloguj poniżej:"
+"z Twoich kont społecznościowcyh. Lub <a href=\"%(signup_url)s\">zarejestruj "
+"się</a> \n"
+"na stronie i zaloguj się poniżej:"
 
-#: templates/account/login.html:27
-msgid "or"
-msgstr "lub"
+#: templates/account/login.html:21
+msgid "… or use user account"
+msgstr "… lub użyj konta użytkownika"
 
-#: templates/account/login.html:42
+#: templates/account/login.html:31
 msgid "Forgot Password?"
 msgstr "Zapomniałeś hasła?"
+
+#: templates/account/login.html:33
+#, python-format
+msgid ""
+"If you do not have a user account,\n"
+"                            <a href=\"%(signup_url)s\">sign up</a>"
+msgstr ""
+"Jeżeli nie masz jeszcze konta, to proszę <a href=\"%(signup_url)s"
+"\">zarejestruj się</a>."
 
 #: templates/account/logout.html:5 templates/account/logout.html:12
 #: templates/account/logout.html:21
@@ -200,17 +234,20 @@ msgid "Reset My Password"
 msgstr "Zresetuj moje hasło"
 
 #: templates/account/password_reset.html:27
-msgid "Please contact us if you have any trouble resetting your password."
+msgid ""
+"Please contact us if you have any trouble resetting your\n"
+"                    password."
 msgstr ""
 "Skontaktuj się z nami, jeśli masz problem ze zresetowaniem swojego hasła."
 
 #: templates/account/password_reset_done.html:18
 msgid ""
 "We have sent you an e-mail. Please contact us if you do not receive it "
-"within a few minutes."
+"within a few\n"
+"                    minutes."
 msgstr ""
-"Wysłaliśmy Tobie email. Proszę skontaktuj się z nami, jeśli go nie otrzymasz "
-"w ciągu paru minut."
+"Wysłaliśmy Tobie e-mail. Proszę skontaktuj się z nami, jeśli go nie "
+"otrzymasz w ciągu paru minut."
 
 #: templates/account/password_reset_from_key.html:12
 msgid "Bad Token"
@@ -220,23 +257,24 @@ msgstr "Zły klucz"
 #, python-format
 msgid ""
 "The password reset link was invalid, possibly because it has already been "
-"used.  Please request a <a href=\"%(passwd_reset_url)s\">new password reset</"
-"a>."
+"used.\n"
+"                        Please request a <a href=\"%(passwd_reset_url)s"
+"\">new password reset</a>."
 msgstr ""
 "Łącze resetujące hasło jest niepoprawne, prawdopodobnie już go użyłeś.  <a "
 "href=\"%(passwd_reset_url)s\">Zresetuj hasło jeszcze raz.</a>"
 
-#: templates/account/password_reset_from_key.html:22
+#: templates/account/password_reset_from_key.html:23
 msgid "change password"
 msgstr "zmień hasło"
 
-#: templates/account/password_reset_from_key.html:25
+#: templates/account/password_reset_from_key.html:26
 #: templates/account/password_reset_from_key_done.html:11
 msgid "Your password is now changed."
 msgstr "Twoje hasło zostało zmienione."
 
-#: templates/account/password_set.html:6 templates/account/password_set.html:12
-#: templates/account/password_set.html:17
+#: templates/account/password_set.html:5 templates/account/password_set.html:11
+#: templates/account/password_set.html:16
 msgid "Set Password"
 msgstr "Ustaw hasło"
 
@@ -244,17 +282,27 @@ msgstr "Ustaw hasło"
 msgid "Signup"
 msgstr "Zarejestruj się"
 
-#: templates/account/signup.html:11 templates/account/signup.html:23
-#: templates/base.html:94
+#: templates/account/signup.html:10 templates/account/signup.html:22
+#: templates/base.html:111
 msgid "Sign Up"
 msgstr "Zarejestuj się"
 
-#: templates/account/signup.html:14
+#: templates/account/signup.html:12
 #, python-format
 msgid ""
-"Already have an account? Then please <a href=\"%(login_url)s\">sign in</a>."
+"Already have an account? Then please <a href=\"%(login_url)s\">sign in</a>\n"
+"            ."
 msgstr ""
 "Masz już konto? Jeżeli tak, to <a href=\"%(login_url)s\">zaloguj się</a>."
+
+#: templates/account/signup.html:25
+msgid "Social media assist"
+msgstr "Wsparcie mediów społecznościowcyh"
+
+#: templates/account/signup.html:26
+msgid "If you want to speed up your registration - you can use social media."
+msgstr ""
+"Jeżeli chcesz przyspieszyć rejestracje - możesz użyć konta społecznościowego."
 
 #: templates/account/signup_closed.html:5
 #: templates/account/signup_closed.html:11
@@ -275,9 +323,10 @@ msgstr "Zweryfikuj swój adres e-mail"
 #: templates/account/verification_sent.html:13
 #, python-format
 msgid ""
-"We have sent an e-mail to <a href=\"mailto:%(email)s\">%(email)s</a> for "
-"verification. Follow the link provided to finalize the signup process. "
-"Please contact us if you do not receive it within a few minutes."
+"We have sent an e-mail to <a href=\"mailto:%(email)s\">%(email)s</a> for\n"
+"                    verification. Follow the link provided to finalize the "
+"signup process. Please contact us if you do\n"
+"                    not receive it within a few minutes."
 msgstr ""
 "Przesłaliśmy weryfikacyjny e-mail na adres <a href=\"mailto:%(email)s\">"
 "%(email)s</a>. Kliknij w łącze w wiadomości, aby zakończyć proces "
@@ -287,8 +336,9 @@ msgstr ""
 #: templates/account/verified_email_required.html:15
 msgid ""
 "This part of the site requires us to verify that\n"
-"        you are who you claim to be. For this purpose, we require that you\n"
-"        verify ownership of your e-mail address. "
+"                    you are who you claim to be. For this purpose, we "
+"require that you\n"
+"                    verify ownership of your e-mail address. "
 msgstr ""
 "Ta część strony wymaga weryfikacji tego, kim jesteś. Dlatego wymagamy "
 "weryfikacji Twojego adresu e-mail"
@@ -296,8 +346,9 @@ msgstr ""
 #: templates/account/verified_email_required.html:19
 msgid ""
 "We have sent an e-mail to you for\n"
-"        verification. Please click on the link inside this e-mail. Please\n"
-"        contact us if you do not receive it within a few minutes."
+"                    verification. Please click on the link inside this e-"
+"mail. Please\n"
+"                    contact us if you do not receive it within a few minutes."
 msgstr ""
 "Wysłaliśmy Tobie wiadomość e-mail.\n"
 "W celu weryfikacji musisz kliknąć w łącze zawarte w wiadomości. Proszę "
@@ -306,73 +357,81 @@ msgstr ""
 #: templates/account/verified_email_required.html:23
 #, python-format
 msgid ""
-"<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your e-"
-"mail address</a>."
+"<strong>Note:</strong> you can still\n"
+"                    <a href=\"%(email_url)s\">change your e-mail address</a>."
 msgstr ""
-"<strong>Uwaga:</strong> możesz ciągle <a href=\"%(email_url)s\">zmienić Twój "
+"<strong>Uwaga:</strong> możesz ciągle <a href=\"%(email_url)s\">zmienić swój "
 "adres e-mail</a>."
 
-#: templates/base.html:6
+#: templates/base.html:6 templates/base.html:41
 msgid "Civil data mining"
 msgstr "Obywatelskie fedrowanie danych"
 
-#: templates/base.html:32
+#: templates/base.html:33
 msgid "Toggle navigation"
 msgstr "Przełącz nawigacje"
 
-#: templates/base.html:45
+#: templates/base.html:50
 msgid "Homepage"
 msgstr "Strona główna"
 
-#: templates/base.html:48
+#: templates/base.html:57
 msgid "Search"
 msgstr "Szukaj"
 
-#: templates/base.html:53
+#: templates/base.html:64
 msgid "Cases"
 msgstr "Sprawy"
 
-#: templates/base.html:59
+#: templates/base.html:70
 msgid "Monitorings"
 msgstr "Monitoringi"
 
-#: templates/base.html:65
+#: templates/base.html:76
 msgid "Letters"
 msgstr "Listy"
 
-#: templates/base.html:71
+#: templates/base.html:82
 msgid "Institutions"
 msgstr "Instytucje"
 
-#: templates/base.html:76
+#: templates/base.html:87
 msgid "Questionaries"
 msgstr "Kwestionariusze"
 
-#: templates/base.html:82
+#: templates/base.html:93
 msgid "Tasks"
 msgstr "Zadania"
 
-#: templates/base.html:91
+#: templates/base.html:100
+msgid "Information about the site you are currently visiting"
+msgstr "Informacje o stronie którą właśnie odwiedzasz"
+
+#: templates/base.html:101
+msgid "About page"
+msgstr "O stronie"
+
+#: templates/base.html:108
 msgid "My Profile"
 msgstr "Mój profil"
 
-#: templates/base.html:92
+#: templates/base.html:109
 msgid "Logout"
 msgstr "Wyloguj"
 
-#: templates/base.html:95
+#: templates/base.html:112
 msgid "Log In"
 msgstr "Zaloguj"
 
-#: templates/base.html:123
+#: templates/base.html:142
 msgid "This site uses cookies."
 msgstr "Ta strona wykorzystuje cookies."
 
-#: templates/base.html:139
+#: templates/base.html:160
 msgid "Show quote"
 msgstr "Pokaż cytat"
 
-#: templates/base.html:140
+#: templates/base.html:161
 msgid "Hide quote"
 msgstr "Ukryj cytat"
 
@@ -396,53 +455,58 @@ msgstr "Województwa"
 msgid "Last monitorings"
 msgstr "Ostatnie monitoringi"
 
-#: urls.py:37
+#: urls.py:36
 msgid "^$"
 msgstr "^$"
 
-#: urls.py:41
+#: urls.py:40
 msgid "^about/$"
 msgstr "^o-stronie/"
 
-#: urls.py:47
+#: urls.py:46
 msgid "^users/"
 msgstr "^uzytkownik/"
 
-#: urls.py:48
-msgid "^accounts/"
-msgstr "^konto/"
-
-#: urls.py:51
+#: urls.py:50
 msgid "^institutions/"
 msgstr "^instytucje/"
 
-#: urls.py:52
+#: urls.py:51
 msgid "^monitorings/"
 msgstr "^monitoringi/"
 
-#: urls.py:53
+#: urls.py:52
 msgid "^cases/"
 msgstr "^sprawy/"
 
-#: urls.py:54
+#: urls.py:53
 msgid "^tasks/"
 msgstr "^zadania/"
 
-#: urls.py:55
+#: urls.py:54
 msgid "^questionaries/"
 msgstr "^kwestionariusze/"
 
-#: urls.py:56
+#: urls.py:55
 msgid "^alerts/"
 msgstr "^alerty/"
 
-#: urls.py:57
+#: urls.py:56
 msgid "^letters/"
 msgstr "^listy/"
 
-#: urls.py:58
+#: urls.py:57
 msgid "^teryt/"
 msgstr "^jst/"
+
+#~ msgid "… lub wykorzystaj konto użytkownika"
+#~ msgstr "… lub wykorzystaj konto użytkownika"
+
+#~ msgid "or"
+#~ msgstr "lub"
+
+#~ msgid "^accounts/"
+#~ msgstr "^konto/"
 
 #~ msgid "User"
 #~ msgstr "Użytkownik / użytkowniczka"
@@ -724,13 +788,6 @@ msgstr "^jst/"
 
 #~ msgid "Password Reset E-mail"
 #~ msgstr "E-mail z łączem do zmiany hasła."
-
-#~ msgid ""
-#~ "If you have not created an account yet, then please\n"
-#~ "<a href=\"%(signup_url)s\">sign up</a> first."
-#~ msgstr ""
-#~ "Jeżeli nie masz jeszcze konta, to proszę <a href=\"%(signup_url)s"
-#~ "\">zarejestruj się</a>."
 
 #~ msgid "You cannot remove your primary e-mail address (%(email)s)."
 #~ msgstr "Nie możesz usunąć postawowego adresu e-mail (%(email)s)."

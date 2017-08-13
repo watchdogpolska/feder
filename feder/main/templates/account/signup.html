@@ -1,15 +1,13 @@
 {% extends "account/base.html" %}
 
 {% load i18n %}
-{% load crispy_forms_tags %}
+{% load crispy_forms_tags i18n %}
 
 {% block title %}{% trans "Signup" %}{% endblock title %}
 
 {% block content %}
     <div class="gray">
-        <h2 class="title">
-            {% trans "Sign Up" %}
-        </h2>
+        <h2>{% trans "Sign Up" %}</h2>
 
         <p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>
             .{% endblocktrans %}</p>
@@ -24,6 +22,9 @@
                 {% trans "Sign Up" %} &raquo;
             </button>
         </form>
+        <h2>{% trans 'Social media assist' %}</h2>
+        <p>{% trans 'If you want to speed up your registration - you can use social media.' %}</p>
+        {% include 'account/_social.html' %}
     </div>
 
 {% endblock content %}
