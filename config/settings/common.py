@@ -74,6 +74,8 @@ ALLAUTH_PROVIDERS_APPS = (
     'allauth.socialaccount.providers.gitlab',
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.twitter',
+    'allauth.socialaccount.providers.facebook',
+
 )
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS + ALLAUTH_PROVIDERS_APPS

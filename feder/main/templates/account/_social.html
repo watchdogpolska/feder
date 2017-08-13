@@ -1,6 +1,10 @@
 {% load socialaccount i18n %}
 
 <div class="btn-group" role="group">
+    <a class="btn btn-default" href="{% provider_login_url "facebook" method="oauth2" %}">
+        <i class="fa fa-facebook" aria-hidden="true"></i>
+        {% trans 'Facebook' %}
+    </a>
     <a class="btn btn-default" href="{% provider_login_url "twitter" %}">
         <i class="fa fa-twitter" aria-hidden="true"></i>
         {% trans 'Twitter' %}

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: main 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-13 22:54+0000\n"
-"PO-Revision-Date: 2017-08-14 00:54+0200\n"
+"POT-Creation-Date: 2017-08-13 23:07+0000\n"
+"PO-Revision-Date: 2017-08-14 01:07+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -37,18 +37,22 @@ msgid "Filtr"
 msgstr "Filtruj"
 
 #: templates/account/_social.html:6
+msgid "Facebook"
+msgstr "Facebook"
+
+#: templates/account/_social.html:10
 msgid "Twitter"
 msgstr "Twitter"
 
-#: templates/account/_social.html:10
+#: templates/account/_social.html:14
 msgid "GitLab"
 msgstr "GitLab"
 
-#: templates/account/_social.html:14
+#: templates/account/_social.html:18
 msgid "Google"
 msgstr "Google"
 
-#: templates/account/_social.html:18
+#: templates/account/_social.html:22
 msgid "GitHub"
 msgstr "GitHub"
 
@@ -296,13 +300,14 @@ msgstr ""
 "Masz już konto? Jeżeli tak, to <a href=\"%(login_url)s\">zaloguj się</a>."
 
 #: templates/account/signup.html:25
-msgid "Social media assist"
-msgstr "Wsparcie mediów społecznościowcyh"
+msgid "Sign Up through social media"
+msgstr "Rejestracja poprzez media społecznościowe"
 
 #: templates/account/signup.html:26
-msgid "If you want to speed up your registration - you can use social media."
+msgid "If you want, you can use social media to sign up. Select below:"
 msgstr ""
-"Jeżeli chcesz przyspieszyć rejestracje - możesz użyć konta społecznościowego."
+"Jeżeli chcesz, możesz skorzystać z mediów społecznościowych do rejestracji. "
+"Wybierz poniżej:"
 
 #: templates/account/signup_closed.html:5
 #: templates/account/signup_closed.html:11
@@ -498,6 +503,15 @@ msgstr "^listy/"
 #: urls.py:57
 msgid "^teryt/"
 msgstr "^jst/"
+
+#~ msgid "Social media assist"
+#~ msgstr "Wsparcie mediów społecznościowcyh"
+
+#~ msgid ""
+#~ "If you want to speed up your registration - you can use social media."
+#~ msgstr ""
+#~ "Jeżeli chcesz przyspieszyć rejestracje - możesz użyć konta "
+#~ "społecznościowego."
 
 #~ msgid "… lub wykorzystaj konto użytkownika"
 #~ msgstr "… lub wykorzystaj konto użytkownika"
