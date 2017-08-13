@@ -93,6 +93,7 @@ class MonitoringDetailViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
         response = self.client.get(self.get_url())
         self.assertContains(response, self.monitoring)
 
+
 class LetterListMonitoringViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     status_anonymous = 200
     status_no_permission = 200
@@ -111,6 +112,7 @@ class LetterListMonitoringViewTestCase(ObjectMixin, PermissionStatusMixin, TestC
         response = self.client.get(self.get_url())
         self.assertContains(response, letter.body)
         self.assertContains(response, letter.note)
+
 
 class MonitoringUpdateViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     permission = ['monitorings.change_monitoring', ]
