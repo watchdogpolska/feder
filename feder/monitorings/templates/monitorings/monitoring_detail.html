@@ -31,18 +31,20 @@
         <div class="col-md-4">
             {% if object.description %}
                 <div class="red">
+                <h3>{% trans 'Description' %}</h3>
                     {{ object.description|linebreaks }}
                 </div>
-            {% endif %} {% if object.questionary_set.all %}
-            <div class="gray">
-                <h2 class="title"><i class="fa fa-list-alt"></i> {% trans 'Questionaries' %}</h2>
-                {% if object.questionary_set.all %}
-                    {% include '_select_list.html' with object_list=object.questionary_set.all %}
-                {% else %}
-                    <p>{% trans 'No rows.' %}</p>
-                {% endif %}
-            </div>
-        {% endif %}
+            {% endif %}
+            {% if object.questionary_set.all %}
+                <div class="gray">
+                    <h3 class="title"><i class="fa fa-list-alt"></i> {% trans 'Questionaries' %}</h3>
+                    {% if object.questionary_set.all %}
+                        {% include '_select_list.html' with object_list=object.questionary_set.all %}
+                    {% else %}
+                        <p>{% trans 'No rows.' %}</p>
+                    {% endif %}
+                </div>
+            {% endif %}
         </div>
         <div class="col-md-8">
             <h3>{% trans 'Institutions, cases and tasks' %}</h3>

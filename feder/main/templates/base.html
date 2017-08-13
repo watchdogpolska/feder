@@ -24,7 +24,7 @@
 
 <body>
 
-<div class="navbar navbar-default">
+<div class="navbar navbar-default" role="navigation">
     <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -38,6 +38,7 @@
             <a class="navbar-brand" href="{% url 'home' %}">
                 <img alt="Fedrowanie" src="{% static 'images/logo-short.svg' %}" height="25px">
             </a>
+            <h1 class="sr-only">{% trans 'Civil data mining' %}</h1>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->

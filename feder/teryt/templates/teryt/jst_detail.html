@@ -14,9 +14,9 @@
 
 {% block content %}
     <div class="page-header">
-        <h1><i class="fa fa-globe"></i> {{ object }}
+        <h2><i class="fa fa-globe"></i> {{ object }}
             <small>{{ object.category }}</small>
-        </h1>
+        </h2>
     </div>
 
     <div class="row">
@@ -24,12 +24,12 @@
             <div class="col-md-3">
                 {% if object.level < 2 %}
                     <div class="gray">
-                        <h2 class="title">{% trans 'Voivodeships' %}</h2>
+                        <h3 class="title">{% trans 'Voivodeships' %}</h3>
                         {% include 'teryt/_voivodeship_map.svg.html' with selected=object %}
                     </div>
                 {% endif %}
                 <div class="gray">
-                    <h2 class="title">{% trans 'Subordinate units' %}</h2>
+                    <h3 class="title">{% trans 'Subordinate units' %}</h3>
                     <ul class="select-list">
                         {% for jst in object.children.with_category.all %}
                             <li><a href="{{ jst.get_absolute_url }}">{{ jst }} ({{ jst.category }})</a></li>
@@ -41,10 +41,10 @@
 
         <div class="col-md-3">
             <div class="red">
-                <h2 class="title">
+                <h3 class="title">
                     <i class="fa fa-home"></i>
                     {% trans 'Institutions' %}
-                </h2>
+                </h3>
                 {% if object.institution_qs.all %}
                     {% include '_select_list.html' with object_list=object.institution_qs.all %}
                 {% else %}
@@ -54,19 +54,19 @@
         </div>
         <div class="col-md-3">
             <div class="gray">
-                <h2 class="title">
+                <h3 class="title">
                     <i class="fa fa-search"></i>
                     {% trans 'Cases' %}
-                </h2>
+                </h3>
                 {% include '_select_list.html' with object_list=object.case_qs.all %}
             </div>
         </div>
         <div class="col-md-3">
             <div class="red">
-                <h2 class="title">
+                <h3 class="title">
                     <i class="fa fa-folder-open"></i>
                     {% trans 'Tasks' %}
-                </h2>
+                </h3>
                 {% include '_select_list.html' with object_list=object.task_qs.all %}
             </div>
         </div>
