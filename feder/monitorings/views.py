@@ -14,7 +14,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import (CreateView, DeleteView, DetailView, FormView,
-                                  UpdateView)
+                                  UpdateView, ListView)
 from django_filters.views import FilterView
 from formtools.wizard.views import SessionWizardView
 from guardian.shortcuts import assign_perm
@@ -48,14 +48,29 @@ class MonitoringDetailView(SelectRelatedMixin, PrefetchRelatedMixin,
     prefetch_related = ['questionary_set', ]
     paginate_by = 25
 
-    @staticmethod
-    def get_object_list(obj):
+    def get_object_list(self, obj):
         return (Case.objects.filter(monitoring=obj).
                 select_related('institution').
                 prefetch_related('task_set').
                 with_letter_max().
                 with_letter().
                 order_by('-letter_max').
+                all())
+
+
+class LetterListMonitoringView(SelectRelatedMixin, PrefetchRelatedMixin, ExtraListMixin, DetailView):
+    model = Monitoring
+    template_name_suffix = '_letter_list'
+    select_related = ['user', ]
+    prefetch_related = ['questionary_set', ]
+    paginate_by = 25
+
+    def get_object_list(self, obj):
+        return (Letter.objects.filter(case__monitoring=obj).
+                select_related('case').
+                with_author().
+                attachment_count().
+                order_by('-created').
                 all())
 
 

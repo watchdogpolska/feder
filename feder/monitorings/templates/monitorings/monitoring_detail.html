@@ -1,128 +1,85 @@
-{% extends 'monitorings/monitoring_single.html' %}
+{% extends 'monitorings/base_monitoring_detail.html' %}
 {% load i18n humanize %}
-{% block breadcrumbs %}
-    <ol class="breadcrumb">
-        <li class="active">{{ object }}</li>
-    </ol>
-{% endblock %}
+{% block content_object %}
+    <ul class="nav nav-tabs" role="nav">
+        <li class="active"><a>{% trans 'Institutions, cases and tasks' %}</a></li>
+        <li><a href="{% url 'monitorings:letters' slug=object.slug %}">{% trans 'Letters' %}</a></li>
+    </ul>
+    <h3 class="sr-only">{% trans 'Institutions, cases and tasks' %}</h3>
+    {% if object_list %}
+        {% for case in object_list %}
+            <div class="gray">
+                <h4>
+                    <i class="fa fa-folder-open"></i>
+                    <a href="{{ case.get_absolute_url }}">{{ case.institution }}</a>
+                </h4>
 
-{% block buttons %}
-    {% if object %}
-        {% include 'monitorings/_btn.html' with object=object %}
-    {% endif %}
-{% endblock %}
-{% block content %}
-    <div class="page-header">
-        <h2>
-            <i class="fa fa-search"></i>
-            {{ object }}
-            <small>
-                {% trans 'by' %}
-                <a href="{{ object.user.get_absolute_url }}">
-                    {{ object.user }}
-                </a>
-                <time datetime="{{ object.created }}" title="{{ object.created }}">
-                    {{ object.created|naturaltime }}
-                </time>
-            </small>
-        </h2>
-    </div>
-    <div class="row">
-        <div class="col-md-4">
-            {% if object.description %}
-                <div class="red">
-                <h3>{% trans 'Description' %}</h3>
-                    {{ object.description|linebreaks }}
-                </div>
-            {% endif %}
-            {% if object.questionary_set.all %}
-                <div class="gray">
-                    <h3 class="title"><i class="fa fa-list-alt"></i> {% trans 'Questionaries' %}</h3>
-                    {% if object.questionary_set.all %}
-                        {% include '_select_list.html' with object_list=object.questionary_set.all %}
-                    {% else %}
-                        <p>{% trans 'No rows.' %}</p>
-                    {% endif %}
-                </div>
-            {% endif %}
-        </div>
-        <div class="col-md-8">
-            <h3>{% trans 'Institutions, cases and tasks' %}</h3>
-            {% if object_list %}
-                {% for case in object_list %}
-                    <div class="gray">
-                        <h4>
-                            <i class="fa fa-folder-open"></i>
-                            <a href="{{ case.get_absolute_url }}">{{ case.institution }}</a>
-                        </h4>
-
-                        {% if case.task_set.all %}
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    {% trans 'Tasks' %}
-                                </div>
-                                <table class="table">
-                                    {% for task in case.task_set.all %}
-                                        <tr>
-                                            <td>
-                                                {% include 'tasks/_task_progress.html' with object=task %}
-                                                <i class="fa fa-edit"></i>
-                                                <a href="{{ task.get_absolute_url }}">{{ task }}</a>
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
-                                </table>
-                            </div>
-                        {% endif %}
-
-                        {% if case.letter_set.all %}
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    {% trans 'Letters' %}
-                                </div>
-                                <table class="table">
-                                    {% for letter in case.letter_set.all %}
-                                        <tr>
-                                            <td>
-                                                <i class="fa fa fa-envelope"></i>
-                                                <a href="{{ letter.get_absolute_url }}">{{ letter }}</a>
-                                            </td>
-                                            <td>
-                                                <i class="fa fa fa-{{ letter.author_user | yesno:'user,home' }}"></i>
-                                                <a href="{{ letter.author.get_absolute_url }}">{{ letter.author }}</a>
-                                                <span title="{{ letter.created }}">{{ letter.created | naturaltime }}</span>
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
-                                </table>
-                            </div>
-                        {% endif %}
-
+                {% if case.task_set.all %}
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            {% trans 'Tasks' %}
+                        </div>
+                        <table class="table">
+                            {% for task in case.task_set.all %}
+                                <tr>
+                                    <td>
+                                        {% include 'tasks/_task_progress.html' with object=task %}
+                                        <i class="fa fa-edit"></i>
+                                        <a href="{{ task.get_absolute_url }}">{{ task }}</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </table>
                     </div>
-                {% endfor %}
-                {% if object_list.has_previous or object_list.has_next %}
-                    <ul class="pager">
-                        {% if object_list.has_previous %}
-                            <li>
-                                <a href="{% url 'monitorings:details' slug=object.slug page=object_list.previous_page_number %}">&laquo; {% trans 'previous' %}</a>
-                            </li>
-                        {% endif %}
-                        <li>{% blocktrans with no=object_list.number total=object_list.paginator.num_pages %}Page
-                            {{ no }} of {{ total }}{% endblocktrans %}</li>
-                        {% if object_list.has_next %}
-                            <li>
-                                <a href="{% url 'monitorings:details' slug=object.slug page=object_list.next_page_number %}">{% trans 'next' %}
-                                    &raquo; </a></li>
-                        {% endif %}
-                    </ul>
                 {% endif %}
-            {% else %}
-                <div class="gray">
-                    <p>
-                        {% trans 'No rows.' %}
-                    </p>
-                </div>
-            {% endif %}
+
+                {% if case.letter_set.all %}
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            {% trans 'Letters' %}
+                        </div>
+                        <table class="table">
+                            {% for letter in case.letter_set.all %}
+                                <tr>
+                                    <td>
+                                        <i class="fa fa fa-envelope"></i>
+                                        <a href="{{ letter.get_absolute_url }}">{{ letter }}</a>
+                                    </td>
+                                    <td>
+                                        <i class="fa fa fa-{{ letter.author_user | yesno:'user,home' }}"></i>
+                                        <a href="{{ letter.author.get_absolute_url }}">{{ letter.author }}</a>
+                                        <span title="{{ letter.created }}">{{ letter.created | naturaltime }}</span>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                {% endif %}
+
+            </div>
+        {% endfor %}
+        {% if object_list.has_previous or object_list.has_next %}
+            <ul class="pager">
+                {% if object_list.has_previous %}
+                    <li>
+                        <a href="{% url 'monitorings:details' slug=object.slug page=object_list.previous_page_number %}">&laquo; {% trans 'previous' %}</a>
+                    </li>
+                {% endif %}
+                <li>{% blocktrans with no=object_list.number total=object_list.paginator.num_pages %}Page
+                    {{ no }} of {{ total }}{% endblocktrans %}</li>
+                {% if object_list.has_next %}
+                    <li>
+                        <a href="{% url 'monitorings:details' slug=object.slug page=object_list.next_page_number %}">{% trans 'next' %}
+                            &raquo; </a></li>
+                {% endif %}
+            </ul>
+        {% endif %}
+    {% else %}
+        <div class="gray">
+            <p>
+                {% trans 'No rows.' %}
+            </p>
         </div>
-    </div>
+    {% endif %}
+
 {% endblock %}
