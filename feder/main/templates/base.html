@@ -43,11 +43,19 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a href="{% url 'home' %}">{% trans 'Homepage' %}</a></li>
-
+                <li>
+                    <a href="{% url 'home' %}">
+                        <i class="fa fa-home" aria-hidden="true"></i>
+                        {% trans 'Homepage' %}
+                    </a>
+                </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false">{% trans 'Search' %} <span class="caret"></span></a>
+                       aria-expanded="false">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                        {% trans 'Search' %}
+                        <span class="caret"></span>
+                    </a>
                     <ul class="dropdown-menu">
                         <li>
                             <a href="{% url 'cases:list' %}">
@@ -57,19 +65,19 @@
                         </li>
                         <li>
                             <a href="{% url 'monitorings:list' %}">
-                                <i class="fa fa-search"></i>
+                                <i class="fa fa-search" aria-hidden="true"></i>
                                 {% trans 'Monitorings' %}
                             </a>
                         </li>
                         <li>
                             <a href="{% url 'letters:list' %}">
-                                <i class="fa fa-envelope"></i>
+                                <i class="fa fa-envelope" aria-hidden="true"></i>
                                 {% trans 'Letters' %}
                             </a>
                         </li>
                         <li>
                             <a href="{% url 'institutions:list' %}">
-                                <i class="fa fa-home"></i>
+                                <i class="fa fa-home" aria-hidden="true"></i>
                                 {% trans 'Institutions' %}</a>
                         </li>
                         <li>
@@ -80,11 +88,17 @@
                         </li>
                         <li>
                             <a href="{% url 'tasks:list' %}">
-                                <i class="fa fa-edit"></i>
+                                <i class="fa fa-edit" aria-hidden="true"></i>
                                 {% trans 'Tasks' %}
                             </a>
                         </li>
                     </ul>
+                </li>
+                <li>
+                    <a href="{% url 'about' %}">
+                        <i class="fa fa-question" title="{% trans 'Information about the site you are currently visiting'%}" aria-hidden="true"></i>
+                        {% trans 'About page' %}
+                    </a>
                 </li>
             </ul>
 
@@ -122,7 +136,7 @@
         </div>
         <div class="footer-left">
             silnik: <a href="http://jawne.info.pl">jawne.info.pl</a> |
-            <a href="https://github.com/watchdogpolska/feder"><i class="fa fa-github"></i> GitHub</a>
+            <a href="https://github.com/watchdogpolska/feder"><i class="fa fa-github" aria-hidden="true"></i> GitHub</a>
         </div>
         <div class="footer-center">{% trans 'This site uses cookies.' %}</div>
 
@@ -137,6 +151,9 @@
 <!-- Placed at the end of the document so the pages load faster -->
 {% block javascript %}
     <script src="{% static 'js/script.js' %}"></script>
+    {% if debug %}
+    <script src="http://cdn.files.jawne.info.pl/private_html/2017_08_e9dec816ffd52737a544a7f661bb020895864964/tota11y.js"></script>
+    {% endif %}
     <script>
         $(function () {
             var show = '<i class="fa fa-plus-square"></i> {%trans "Show quote" %}';
