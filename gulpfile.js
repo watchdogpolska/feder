@@ -1,7 +1,7 @@
 "use strict";
 var fs = require('fs'),
     gulp = require('gulp'),
-    sass = require('gulp-ruby-sass'),
+    sass = require('gulp-sass'),
     notify = require("gulp-notify"),
     bower = require('gulp-bower'),
     watch = require('gulp-watch'),
@@ -85,7 +85,7 @@ gulp.task('js', function () {
 
 gulp.task('scss', function () {
    return gulp.src(config.scss.input)
-        .pipe(plugins.sass({
+        .pipe(sass({
             style: "expanded",
             includePaths: config.scss.include
         }))
