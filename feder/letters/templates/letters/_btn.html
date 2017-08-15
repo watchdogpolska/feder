@@ -17,7 +17,14 @@
                 <i class="fa fa-reply"></i>
                 {% trans 'Reply' %}
             </a>
+            {% if object.is_draft %}
+                <a class="btn btn-primary" href="{% url 'letters:send' pk=object.pk %}">
+                    <i class="fa fa-send"></i>
+                    {% trans 'Send draft' %}
+                </a>
+            {% endif %}
         {% endif %}
+
         {% if not object.is_spam_validated %}
             <a class="btn btn-primary" href="{% url 'letters:spam' pk=object.pk %}">
                 <i class="fa fa-bullhorn"></i>

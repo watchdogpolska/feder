@@ -1,0 +1,17 @@
+{% extends 'letters/base_object.html' %}
+
+{% load i18n %}
+
+{% block breadcrumb_row %}
+    <li class="active">{% trans 'Send draft' %}</li>
+{% endblock %}
+
+{% block content_object %}
+    {% blocktrans with object=object %}Are you sure you want to send "{{ object }}"?{% endblocktrans %}
+    <form method="POST">
+        <div style="display:none">
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+        </div>
+     <input type="submit" class="btn btn-primary" name="spam" value="{% trans 'Send draft' %}">
+    </form>
+{% endblock %}

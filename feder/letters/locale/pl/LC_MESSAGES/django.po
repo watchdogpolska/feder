@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: letters 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-11 01:25+0000\n"
-"PO-Revision-Date: 2017-08-11 00:59+0200\n"
+"POT-Creation-Date: 2017-08-15 22:49+0000\n"
+"PO-Revision-Date: 2017-08-16 00:49+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -137,7 +137,12 @@ msgstr "Usuń"
 msgid "Reply"
 msgstr "Odpowiedź"
 
-#: templates/letters/_btn.html:24 templates/letters/letter_spam.html:10
+#: templates/letters/_btn.html:23 templates/letters/letter_send.html:6
+#: templates/letters/letter_send.html:15
+msgid "Send draft"
+msgstr "Wyślij ten szkic"
+
+#: templates/letters/_btn.html:31 templates/letters/letter_spam.html:10
 #: tests/test_view.py:65
 msgid "Report spam"
 msgstr "Zgłoś spam"
@@ -146,7 +151,14 @@ msgstr "Zgłoś spam"
 msgid "by"
 msgstr "przez"
 
-#: templates/letters/_object.html:17
+#: templates/letters/_object.html:15
+msgid ""
+"This is just a draft message. The message was not sent to the institution."
+msgstr ""
+"To jest tylko szablon wiadomości. Wiadomość nie została wysłana do "
+"instytucji."
+
+#: templates/letters/_object.html:21
 msgid "Attachments"
 msgstr "Załączniki"
 
@@ -200,6 +212,11 @@ msgstr ""
 "Odpowiedź na \n"
 "            <a href=\"%(url)s\">%(object)s</a>"
 
+#: templates/letters/letter_send.html:10
+#, python-format
+msgid "Are you sure you want to send \"%(object)s\"?"
+msgstr "Czy jesteś pewien, że chcesz wysłać \"%(object)s\"?"
+
 #: templates/letters/letter_spam.html:14
 #, python-format
 msgid "Are you sure you want to report as spam \"%(object)s\"?"
@@ -250,14 +267,18 @@ msgid "^(?P<pk>[\\d-]+)/~update$"
 msgstr "^(?P<pk>[\\d-]+)/~edytuj$"
 
 #: urls.py:30
+msgid "^(?P<pk>[\\d-]+)/~send"
+msgstr "^(?P<pk>[\\d-]+)/~wyslij"
+
+#: urls.py:32
 msgid "^(?P<pk>[\\d-]+)/~delete$"
 msgstr "^(?P<pk>[\\d-]+)/~usun$"
 
-#: urls.py:32
+#: urls.py:34
 msgid "^(?P<pk>[\\d-]+)/~reply$"
 msgstr "^(?P<pk>[\\d-]+)/~odpowiedz$"
 
-#: urls.py:34
+#: urls.py:36
 msgid "^(?P<pk>[\\d-]+)/~spam"
 msgstr "^(?P<pk>[\\d-]+)/~spam"
 
@@ -265,16 +286,26 @@ msgstr "^(?P<pk>[\\d-]+)/~spam"
 msgid "Letters index"
 msgstr "Wykaz listów"
 
-#: views.py:91
+#: views.py:92
 #, python-brace-format
 msgid "Reply {reply} to {letter} saved and send!"
 msgstr "Odpowiedź {reply} na {letter} zapisana i wysłana!"
 
-#: views.py:114
+#: views.py:95
+#, python-brace-format
+msgid "Reply {reply} to {letter} saved to review!"
+msgstr "Odpowiedź {reply} do listu {letter} zapisana do przejrzenia!"
+
+#: views.py:110
+#, python-brace-format
+msgid "Reply {letter} send to {institution}!"
+msgstr "Odpowiedź {letter} wysłana do {institution}!"
+
+#: views.py:136
 msgid "Latest letters on whole site"
 msgstr "Ostatnie listy na całej stronie"
 
-#: views.py:116
+#: views.py:138
 msgid ""
 "Updates on new letters on site including receving and sending in all "
 "monitorings."
@@ -282,41 +313,41 @@ msgstr ""
 "Aktualizacje wszystkich listów na stronie włączając w to listy przychodzące "
 "i wychodzące w wszystkich monitoringach."
 
-#: views.py:161
+#: views.py:183
 #, python-format
 msgid "Letter for monitoring %s"
 msgstr "Listy monitoringu %s "
 
-#: views.py:164
+#: views.py:186
 #, python-format
 msgid "Archive of letter for cases which involved in monitoring %s"
 msgstr "Archiwum listów w sprawach z monitoringu %s"
 
-#: views.py:179
+#: views.py:201
 #, python-format
 msgid "Letter for case %s"
 msgstr "Listy w sprawie %s"
 
-#: views.py:182
+#: views.py:204
 #, python-format
 msgid "Archive of letter for case %s"
 msgstr "Archiwum listów w sprawie %s"
 
-#: views.py:210
+#: views.py:232
 msgid "SPAM"
 msgstr "SPAM"
 
-#: views.py:217
+#: views.py:239
 #, python-brace-format
 msgid "The letter {object} has been marked as valid."
 msgstr "List {object} został oznaczony jako spam i ukryty."
 
-#: views.py:218
+#: views.py:240
 #, python-brace-format
 msgid "The message {object} has been marked as spam and hidden."
 msgstr "List {object} został oznaczony jako spam i ukryty."
 
-#: views.py:220
+#: views.py:242
 msgid "Thanks for your help. The report was forwarded to responsible persons."
 msgstr ""
 "Dziękujemy za pomoc. Zgłoszenie zostało przekazane do odpowiedzialnych osób."

@@ -67,7 +67,7 @@ class LetterReplyView(RaisePermissionRequiredMixin, UserFormKwargsMixin,
     template_name = 'letters/letter_reply.html'
     model = Letter
     form_class = ReplyForm
-    permission_required = 'monitorings.reply'
+    permission_required = 'monitorings.add_draft'
 
     @cached_property
     def letter(self):
@@ -88,9 +88,31 @@ class LetterReplyView(RaisePermissionRequiredMixin, UserFormKwargsMixin,
         return context
 
     def get_form_valid_message(self):
-        return _("Reply {reply} to {letter} saved and send!").format(
+        if self.object.eml:
+            return _("Reply {reply} to {letter} saved and send!").format(
+                letter=self.letter,
+                reply=self.object)
+        return _("Reply {reply} to {letter} saved to review!").format(
             letter=self.letter,
             reply=self.object)
+
+
+class LetterSendView(AttrPermissionRequiredMixin, ActionMessageMixin, ActionView):
+    model = Letter
+    permission_attribute = 'case__monitoring'
+    permission_required = 'monitorings.reply'
+    template_name_suffix = '_send'
+
+    def action(self):
+        self.object.send()
+
+    def get_success_message(self):
+        return _("Reply {letter} send to {institution}!").format(
+            letter=self.object,
+            institution=self.object.case.institution)
+
+    def get_success_url(self):
+        return self.object.get_absolute_url()
 
 
 class LetterUpdateView(AttrPermissionRequiredMixin, UserFormKwargsMixin,
