@@ -147,12 +147,11 @@ class MultiTaskForm(SingleButtonMixin, UserKwargModelFormMixin, forms.Form):
         return Task.objects.bulk_create(objs)
 
 
-class SurveyForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
+class SurveyForm(SingleButtonMixin, forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.task = kwargs.pop('task')
         super(SurveyForm, self).__init__(*args, **kwargs)
         self.instance.task = self.task
-        self.instance.user = self.user
 
     class Meta:
         model = Survey

@@ -66,6 +66,7 @@ LOCAL_APPS = (
     'feder.questionaries',
     'feder.main',
     'feder.alerts',
+    'feder.light_user'
     # Your stuff: custom apps go here
 )
 
@@ -92,6 +93,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'reversion.middleware.RevisionMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'feder.light_user.middleware.LightUserMiddleware',
 )
 
 # MIGRATIONS CONFIGURATION
