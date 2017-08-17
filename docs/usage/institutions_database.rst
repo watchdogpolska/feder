@@ -46,11 +46,13 @@ Rejestr REGON:
 * jest podstawą do tworzenia baz i banków danych o podmiotach gospodarki narodowej,
 * stanowi główne źródło zasilania bazy jednostek wybieranych do badań statystycznych.
 
+Dostęp do rejestru REGON możliwy jest poprzez `oficjalną internetową wyszukiwarkę <https://wyszukiwarkaregon.stat.gov.pl/appBIR/index.aspx>`_.
+
 Numer identyfikacyjny REGON podmiotu gospodarki narodowej skreślonego z rejestru REGON jest przechowywany w zbiorze historycznym i nie jest wykorzystywany do identyfikacji innego podmiotu.
 
-Numer identyfikacyjny REGON podmiotu gospodarki narodowej składa się z dziewięciu cyfr, które nie mogą mieć ukrytego lub jawnego charakteru znaczącego, określającego pewne cechy podmiotu, przy czym osiem pierwszych cyfr sta- nowi liczbę porządkową, a dziewiąta – cyfrę kontrolną.
+Numer identyfikacyjny REGON podmiotu gospodarki narodowej składa się z dziewięciu cyfr, które nie mogą mieć ukrytego lub jawnego charakteru znaczącego, określającego pewne cechy podmiotu, przy czym osiem pierwszych cyfr stanowi liczbę porządkową, a dziewiąta – cyfrę kontrolną.
 
-Numer identyfikacyjny REGON jednostki lokalnej składa się z czternastu cyfr, przy czym dziewięć pierwszych cyfr jest tożsame z numerem identyfikacyjnym REGON osoby prawnej, jednostki organizacyjnej niemającej osobowości prawnej lub osoby fizycznej prowadzącej działalność gospodarczą, cztery kolejne cyfry są liczbą porządkową przypisaną jed- nostce lokalnej, a czternasta cyfra – cyfrą kontrolną.
+Numer identyfikacyjny REGON jednostki lokalnej składa się z czternastu cyfr, przy czym dziewięć pierwszych cyfr jest tożsame z numerem identyfikacyjnym REGON osoby prawnej, jednostki organizacyjnej niemającej osobowości prawnej lub osoby fizycznej prowadzącej działalność gospodarczą, cztery kolejne cyfry są liczbą porządkową przypisaną jednostce lokalnej, a czternasta cyfra – cyfrą kontrolną.
 
 Szczegółowe informacje w zakresie funkcjonowania rejestru są przedstawione w:
 
