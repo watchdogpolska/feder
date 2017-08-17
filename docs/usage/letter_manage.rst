@@ -1,6 +1,6 @@
-*************************
-Zarządzanie korepondencją
-*************************
+**************************
+Zarządzanie korespondencja
+**************************
 
 Każda sprawa w systemie ma nadany unikalny adres e-mail. Pozwala on na automatyczną rejestracje przychodzącej wiadomości do konkretnej sprawy. Każda przychodząca wiadomość może odnosić się wyłącznie do jednej sprawy.
 
