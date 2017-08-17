@@ -32,7 +32,7 @@ Mając na względzie powyższe:
 Format nazw instytucji
 ----------------------
 
-Nie akceptowalne w polu nazwa instytucji jest występowanie samych nazw miejscowości, gdzie dany podmiot ma siedzibę. Nazwa instytucji regionalnych winna składać się z oznaczenia ``[kategoria / nazwa] [w/we] [miejscowość odmieniony jako miejscownik]``. Niedopuszczalne jest stosowanie w nazwie danej instytucji nazw innych instytucji np. instytucji nadrzędnej.
+Nazwy instytucji powinny być możliwie jednoznacznie identyfikować instytucje i być zapisane zgodnie z zasadami języka polskiego. Nie akceptowalna w polu nazwa instytucji jest występowanie samych nazw miejscowości, ani sama nazwa rodzajowa instytucji. Nazwa instytucji regionalnych winna w miarę możliwości składać się z oznaczenia ``[kategoria / nazwa] [w/we] [miejscowość odmieniony jako miejscownik]``. Niedopuszczalne jest stosowanie w nazwie danej instytucji nazw innych instytucji np. instytucji nadrzędnej.
 
 Uwagi na temat rejestru REGON
 -----------------------------
