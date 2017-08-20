@@ -1,8 +1,8 @@
 .. _letters:
 
-**************************
+*****
 Listy
-**************************
+*****
 
 Założenia
 #########
@@ -46,3 +46,4 @@ Widoki
 
 .. automodule:: feder.letters.views
    :members:
+
