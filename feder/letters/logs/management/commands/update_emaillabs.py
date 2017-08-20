@@ -10,4 +10,4 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         client = get_emaillabs_client()
         skipped, saved = LogRecord.objects.parse_rows(client.get_emails_iter())
-        self.stdout.write("Saved {} new logs record and skipped {} records.".format(skipped, saved))
+        self.stdout.write("Saved {} new logs record and skipped {} records.".format(saved, skipped))
