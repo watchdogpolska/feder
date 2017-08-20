@@ -48,6 +48,7 @@ INTERNAL_IPS = ('127.0.0.1', '10.0.2.2',)
 DEBUG_TOOLBAR_CONFIG = {
     'DISABLE_PANELS': [
         'debug_toolbar.panels.redirects.RedirectsPanel',
+        'debug_toolbar.panels.redirects.RedirectsPanel',
     ],
     'SHOW_TEMPLATE_CONTEXT': True,
 }
@@ -62,3 +63,6 @@ TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 
 # Your local stuff: Below this line define 3rd party library settings
 # To get all sql queries sent by Django from py shell
+EMAILLABS_APP_KEY = env('EMAILLABS_APP_KEY', default="Dummy")
+
+EMAILLABS_SECRET_KEY = env('EMAILLABS_SECRET_KEY', default="Dummy")

@@ -25,7 +25,6 @@ from django_mailbox.signals import message_received
 from model_utils import Choices
 from model_utils.models import TimeStampedModel
 
-from feder.alerts.models import Alert
 from feder.cases.models import Case
 from feder.institutions.models import Institution
 from .utils import email_wrapper

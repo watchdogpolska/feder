@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-monitorings 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-13 04:25+0000\n"
-"PO-Revision-Date: 2017-08-13 06:26+0200\n"
+"POT-Creation-Date: 2017-08-20 17:34+0000\n"
+"PO-Revision-Date: 2017-08-20 19:34+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -79,7 +79,7 @@ msgstr "Nazwa"
 msgid "Slug"
 msgstr "Identyfikator redakcyjny"
 
-#: models.py:34 templates/monitorings/base_monitoring_detail.html:34
+#: models.py:34 templates/monitorings/base_monitoring_detail.html:20
 msgid "Description"
 msgstr "Opis"
 
@@ -167,6 +167,10 @@ msgstr "Może zarządzać uprawnieniami"
 msgid "Can select answer"
 msgstr "Może  wybierać odpowiedź"
 
+#: models.py:68
+msgid "Can view logs"
+msgstr "Może widzieć dzienniki"
+
 #: templates/monitorings/_btn.html:9
 msgid "Edit"
 msgstr "Edycja"
@@ -195,6 +199,15 @@ msgstr "Uprawnienia"
 msgid "Alerts list"
 msgstr "Lista alertów"
 
+#: templates/monitorings/_btn.html:43
+msgid "View logs"
+msgstr "Zobacz dzienniki"
+
+#: templates/monitorings/_header.html:7
+#: templates/monitorings/monitoring_letter_list.html:17
+msgid "by"
+msgstr "przez"
+
 #: templates/monitorings/_monitoring_small.html:18
 msgid "Case count"
 msgstr "Liczba spraw"
@@ -203,16 +216,11 @@ msgstr "Liczba spraw"
 msgid "Monitorings"
 msgstr "Monitoringi"
 
-#: templates/monitorings/base_monitoring_detail.html:20
-#: templates/monitorings/monitoring_letter_list.html:17
-msgid "by"
-msgstr "przez"
-
-#: templates/monitorings/base_monitoring_detail.html:40
+#: templates/monitorings/base_monitoring_detail.html:26
 msgid "Questionaries"
 msgstr "Kwestionariusze"
 
-#: templates/monitorings/base_monitoring_detail.html:44
+#: templates/monitorings/base_monitoring_detail.html:30
 #: templates/monitorings/monitoring_detail.html:80
 #: templates/monitorings/monitoring_letter_list.html:68
 msgid "No rows."

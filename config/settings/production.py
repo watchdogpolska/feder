@@ -144,3 +144,7 @@ MIDDLEWARE_CLASSES = (
     'raven.contrib.django.raven_compat.middleware.Sentry404CatchMiddleware',
     'raven.contrib.django.raven_compat.middleware.SentryResponseErrorIdMiddleware',
 ) + MIDDLEWARE_CLASSES
+
+EMAILLABS_APP_KEY = env('EMAILLABS_APP_KEY')
+
+EMAILLABS_SECRET_KEY = env('EMAILLABS_SECRET_KEY')

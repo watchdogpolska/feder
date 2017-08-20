@@ -1,0 +1,151 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
+import hashlib
+import inspect
+import json
+import os
+
+from django.test import TestCase
+from django.urls import reverse
+from django.utils.encoding import force_text
+from vcr import VCR
+
+from feder.cases.factories import CaseFactory
+from feder.letters.factories import LetterFactory
+from feder.letters.logs.factories import get_emaillabs_row, LogRecordFactory
+from feder.letters.logs.models import LogRecord, EmailLog, STATUS
+from feder.letters.logs.utils import get_emaillabs_client
+from feder.main.mixins import PermissionStatusMixin
+from feder.monitorings.factories import MonitoringFactory
+from feder.users.factories import UserFactory
+
+SEED = os.urandom(10)
+
+
+def scrub_text(x, seed):
+    """
+    Anonymizes data by using salt and unidirectional hash function.
+    Identical data in one cassette will be identical (comparable).
+
+    :param x: string to anonymise
+    :return: anonymized text
+    """
+    return hashlib.sha1(force_text(x).encode('utf-8') + seed).hexdigest()
+
+
+def generator(function):
+    filename = "{}.{}".format(function.im_class.__name__, function.__name__)
+    return os.path.join(os.path.dirname(inspect.getfile(function)),
+                        'cassettes',
+                        filename)
+
+
+def scrub_response(seed, fields=None):
+    fields = fields or ['to', 'from', 'subject', 'account']
+
+    def before_record_response(response):
+        try:
+            data = json.loads(response['body']['string'])
+            for i, row in enumerate(data['data']):
+                for field in fields:
+                    if field in row:
+                        data['data'][i][field] = scrub_text(row[field], seed)
+            response['body']['string'] = json.dumps(data)
+        except ValueError:  # There is no JSON - no changes
+            pass
+        return response
+
+    return before_record_response
+
+
+my_vcr = VCR(func_path_generator=generator,
+             decode_compressed_response=True,
+             serializer='yaml',
+             filter_headers=['authorization', ],
+             before_record_response=scrub_response(SEED),
+             path_transformer=VCR.ensure_suffix('.yaml'))
+
+
+class EmailLabsClientTestCase(TestCase):
+    @my_vcr.use_cassette()
+    def test_get_emails(self):
+        client = get_emaillabs_client(per_page=20)
+        self.assertEqual(len(client.get_emails()), 20)
+
+    @my_vcr.use_cassette()
+    def test_get_emails_iter(self):
+        client = get_emaillabs_client(per_page=20)
+        iter = client.get_emails_iter()
+        data = list(iter)
+        self.assertTrue(len(data) > 20, msg="Found {} messages.".format(len(data)))
+
+
+class LogRecordQuerySet(TestCase):
+    def setUp(self):
+        self.letter = LetterFactory()
+        self.rows = [get_emaillabs_row(sender_from=self.letter.case.email,
+                                       id='ID1',
+                                       deferred_time='Now'),
+                     get_emaillabs_row(sender_from='sprawa@example.com',
+                                       id='ID1'),
+                     get_emaillabs_row(sender_from='sprawa2@example.com',
+                                       id='ID2')]
+
+    def test_parse_rows_counters(self):
+        skipped, saved = LogRecord.objects.parse_rows(self.rows)
+        self.assertEquals(saved, 1)
+        self.assertEquals(skipped, 2)
+
+    def test_parse_rows_create_email_log(self):
+        LogRecord.objects.parse_rows(self.rows)
+        self.assertEqual(EmailLog.objects.count(), 1)
+        self.assertTrue(EmailLog.objects.filter(email_id='ID1',
+                                                case=self.letter.case).exists())
+
+    def test_parse_rows_create_log_record(self):
+        LogRecord.objects.parse_rows(self.rows)
+        self.assertEqual(LogRecord.objects.count(), 1)
+        self.assertTrue(LogRecord.objects.filter(email__case=self.letter.case,
+                                                 email__email_id='ID1').exists())
+
+    def test_parse_rows_update_status(self):
+        LogRecord.objects.parse_rows(self.rows)
+        self.assertEqual(EmailLog.objects.get().status, STATUS.deferred)
+        LogRecord.objects.parse_rows([get_emaillabs_row(sender_from=self.letter.case.email,
+                                                        id='ID1',
+                                                        ok_time='Now')])
+        self.assertEqual(EmailLog.objects.get().status, STATUS.ok)
+        self.assertEqual(LogRecord.objects.count(), 2)
+
+
+class ObjectMixin(object):
+
+    def setUp(self):
+        self.user = UserFactory(username='john')
+        self.record = LogRecordFactory()
+        self.emaillog = self.record.email
+        self.case = self.emaillog.case
+        self.monitoring = self.case.monitoring
+        self.permission_object = self.monitoring
+
+
+class EmailLogMonitoringListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
+    permission = ['monitorings.view_log']
+
+    def get_url(self):
+        return reverse('logs:list', kwargs={'monitoring_pk': self.monitoring.pk})
+
+
+class EmailLogCaseListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
+    permission = ['monitorings.view_log']
+
+    def get_url(self):
+        return reverse('logs:list', kwargs={'case_pk': self.case.pk})
+
+
+class EmailLogDetailViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
+    permission = ['monitorings.view_log']
+
+    def get_url(self):
+        return reverse('logs:detail', kwargs={'pk': self.emaillog.pk})

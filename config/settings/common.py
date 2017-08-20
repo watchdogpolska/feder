@@ -66,7 +66,8 @@ LOCAL_APPS = (
     'feder.questionaries',
     'feder.main',
     'feder.alerts',
-    'feder.light_user'
+    'feder.light_user',
+    'feder.letters.logs',
     # Your stuff: custom apps go here
 )
 
@@ -329,3 +330,6 @@ SOCIALACCOUNT_PROVIDERS = {
     },
     'gilab': {'SCOPE': ['read_user', 'openid']}
 }
+EMAILLABS_APP_KEY = env('EMAILLABS_APP_KEY', default="Dummy")
+
+EMAILLABS_SECRET_KEY = env('EMAILLABS_SECRET_KEY', default="Dummy")

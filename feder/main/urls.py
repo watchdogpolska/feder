@@ -55,6 +55,7 @@ urlpatterns += [
                    url(_(r'^alerts/'), include('feder.alerts.urls', namespace="alerts")),
                    url(_(r'^letters/'), include('feder.letters.urls', namespace="letters")),
                    url(_(r'^teryt/'), include('feder.teryt.urls', namespace="teryt")),
+                   url(_(r'^letters/logs/'), include('feder.letters.logs.urls', namespace="logs")),
                    url(r'^api/', include(router.urls)),
                ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

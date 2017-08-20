@@ -1,0 +1,23 @@
+{% load i18n %}
+<div class="row gray">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>{% trans 'Case' %}</th>
+            <th>{% trans 'Status' %}</th>
+            <th>{% trans 'ID' %}</th>
+            <th>{% trans 'Letter' %}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for object in object_list %}
+            <tr>
+                <td><a href="{{ object.case.get_absolute_url }}">{{ object.case }}</a></td>
+                <td>{{ object.get_status_display }}</td>
+                <td><a href="{{ object.get_absolute_url }}">{{ object.email_id }}</a></td>
+                <td>{{ object.letter }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

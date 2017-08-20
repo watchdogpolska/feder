@@ -14,7 +14,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import (CreateView, DeleteView, DetailView, FormView,
-                                  UpdateView, ListView)
+                                  UpdateView)
 from django_filters.views import FilterView
 from formtools.wizard.views import SessionWizardView
 from guardian.shortcuts import assign_perm
@@ -158,7 +158,7 @@ class MonitoringPermissionView(RaisePermissionRequiredMixin, SelectRelatedMixin,
     select_related = ['user', ]
     permission_required = 'monitorings.manage_perm'
 
-    def get_context_data(self,  **kwargs):
+    def get_context_data(self, **kwargs):
         context = super(MonitoringPermissionView, self).get_context_data(**kwargs)
         context['user_list'], context['index'] = self.object.permission_map()
         return context

@@ -1,0 +1,98 @@
+import json
+from collections import OrderedDict
+
+from django.db import models
+from django.urls import reverse
+from django.utils.encoding import python_2_unicode_compatible
+from django.utils.translation import ugettext_lazy as _
+from jsonfield import JSONField
+from model_utils import Choices
+from model_utils.models import TimeStampedModel
+
+from feder.cases.models import Case
+from feder.letters.models import Letter
+
+STATUS = Choices(('open', _('Open')),
+                 ('ok', _('Delivered')),
+                 ('spambounce', _('Spam-bounce')),
+                 ('softbounce', _('Soft-bounce')),
+                 ('hardbounce', _('Hard-bounce')),
+                 ('dropped', _('Dropped')),
+                 ('deferred', _('Deferred')),
+                 ('unknown', _('Unknown'))
+                 )
+
+
+class EmailQuerySet(models.QuerySet):
+    pass
+
+
+@python_2_unicode_compatible
+class EmailLog(TimeStampedModel):
+    status = models.CharField(choices=STATUS, default=STATUS.unknown, max_length=20)
+    case = models.ForeignKey(Case, max_length=_("Case"))
+    letter = models.ForeignKey(Letter, max_length=_("Letter"), null=True, blank=True)
+    email_id = models.CharField(verbose_name=_("Message-ID"), max_length=255)
+    to = models.CharField(verbose_name=_("To"), max_length=255)
+    objects = EmailQuerySet.as_manager()
+
+    def __str__(self):
+        return "Email #{} ({})".format(self.pk, self.email_id)
+
+    def get_absolute_url(self):
+        return reverse('logs:detail', kwargs={'pk': self.pk})
+
+    class Meta:
+        verbose_name = _("Email")
+        verbose_name_plural = _("Emails")
+        ordering = ['created', ]
+
+
+class LogRecordQuerySet(models.QuerySet):
+    def parse_rows(self, rows):
+        skipped, saved = 0, 0
+        cases = dict(Letter.objects.values_list('case__email', 'case_id'))
+        for row in rows:
+            if row['from'] not in cases:
+                skipped += 1
+                continue
+            log = LogRecord(data=row)
+            status = log.get_status()
+            obj, created = EmailLog.objects.get_or_create(case_id=cases[row['from']],
+                                                          email_id=row['id'],
+                                                          to=row['to'],
+                                                          defaults={'status': status})
+            if obj.status != status:
+                obj.status = status
+                obj.save(update_fields=['status'])
+            log.email = obj
+            log.save()
+            saved += 1
+        return (skipped, saved)
+
+
+@python_2_unicode_compatible
+class LogRecord(TimeStampedModel):
+    email = models.ForeignKey(EmailLog, verbose_name=_("Email"))
+    data = JSONField()
+    objects = LogRecordQuerySet.as_manager()
+
+    def get_status(self):
+        status_list = OrderedDict(STATUS).keys()
+        for status in status_list:
+            time_name = '{}_time'.format(status)
+            desc_name = '{}_desc'.format(status)
+            if time_name in self.data or desc_name in self.data:
+                return status
+        return STATUS.unknown
+
+    def pretty_json(self):
+        return json.dumps(self.data, indent=4)
+
+    class Meta:
+        verbose_name = _("Log record")
+        verbose_name_plural = _("Log records")
+        ordering = ['created', ]
+
+    def __str__(self):
+        return "Log #{} for email #{}".format(self.pk, self.email_id)

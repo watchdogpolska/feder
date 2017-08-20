@@ -1,0 +1,16 @@
+{% load i18n humanize %}
+<div class="page-header">
+    <h2>
+        <i class="fa fa-search"></i>
+        {{ object }}
+        <small>
+            {% trans 'by' %}
+            <a href="{{ object.user.get_absolute_url }}">
+                {{ object.user }}
+            </a>
+            <time datetime="{{ object.created }}" title="{{ object.created }}">
+                {{ object.created|naturaltime }}
+            </time>
+        </small>
+    </h2>
+</div>

@@ -1,0 +1,28 @@
+{% extends 'monitorings/monitoring_single.html' %}
+{% load i18n humanize %}
+{% block breadcrumbs %}
+    <ol class="breadcrumb">
+        <li><a href="{{ object.case.monitoring.get_absolute_url }}">{{ object.case.monitoring }}</a></li>
+        <li><a href="{{ object.case.get_absolute_url }}">{{ object.case }}</a></li>
+        <li class="active">{{ object }}</li>
+    </ol>
+{% endblock %}
+
+{% block buttons %}
+    {% include 'cases/_btn.html' with object=object.case %}
+{% endblock %}
+{% block content %}
+    <h2>
+        <i class="fa fa-inbox" aria-hidden="true"></i>
+        <a href="{{ object.get_absolute_url }}">{{ object }}</a>
+        <small>
+            {{ object.created | naturaltime }}
+        </small>
+    </h2>
+    {% for object in object.logrecord_set.all %}
+        <div class="row gray">
+            <h3>{{ object.created }}</h3>
+            <pre>{{ object.pretty_json }}</pre>
+        </div>
+    {% endfor %}
+{% endblock %}

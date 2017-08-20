@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: letters 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-15 22:49+0000\n"
+"POT-Creation-Date: 2017-08-20 17:34+0000\n"
 "PO-Revision-Date: 2017-08-16 00:49+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.8.7.1\n"
 
-#: apps.py:8 models.py:96
+#: apps.py:8 models.py:95
 msgid "Letter"
 msgstr "List"
 
@@ -61,67 +61,67 @@ msgstr "Nie masz uprawnień, aby wysłać odpowiedzi."
 msgid "You do not have permission to save draft."
 msgstr "Nie masz odpowiedzi, aby wysłać odpowiedź."
 
-#: models.py:67
+#: models.py:66
 msgid "Unknown"
 msgstr "Nieznane"
 
-#: models.py:68
+#: models.py:67
 msgid "Spam"
 msgstr "Spam"
 
-#: models.py:69
+#: models.py:68
 msgid "Non-spam"
 msgstr "Nie-spam"
 
-#: models.py:70
+#: models.py:69
 msgid "Case"
 msgstr "Sprawa"
 
-#: models.py:71
+#: models.py:70
 msgid "Author (if user)"
 msgstr "Autor (jeżeli użytkownik)"
 
-#: models.py:73
+#: models.py:72
 msgid "Author (if institution)"
 msgstr "Autor (jeżeli instytucja)"
 
-#: models.py:75
+#: models.py:74
 msgid "Title"
 msgstr "Tytuł"
 
-#: models.py:76
+#: models.py:75
 msgid "Text"
 msgstr "Treść"
 
-#: models.py:77
+#: models.py:76
 msgid "Quote"
 msgstr "Cytat"
 
-#: models.py:78
+#: models.py:77
 msgid "E-mail"
 msgstr "E-mail"
 
-#: models.py:79
+#: models.py:78
 msgid "Comments from editor"
 msgstr "Komentarz od redakcji"
 
-#: models.py:82
+#: models.py:81
 msgid "File"
 msgstr "Plik"
 
-#: models.py:87
+#: models.py:86
 msgid "Message"
 msgstr "Wiadomość"
 
-#: models.py:88
+#: models.py:87
 msgid "Message registerd by django-mailbox"
 msgstr "Wiadomość zarejestrowanaa przez django-maiblxo"
 
-#: models.py:97 templates/letters/base.html:5
+#: models.py:96 templates/letters/base.html:5
 msgid "Letters"
 msgstr "Listy"
 
-#: models.py:100
+#: models.py:99
 msgid "Can filter eml"
 msgstr "Może filtrować po eml"
 

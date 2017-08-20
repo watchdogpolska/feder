@@ -1,0 +1,113 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-08-20 17:34+0000\n"
+"PO-Revision-Date: 2017-08-20 19:33+0200\n"
+"Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
+"Language-Team: \n"
+"Language: pl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2);\n"
+"X-Generator: Poedit 1.8.7.1\n"
+
+#: logs/apps.py:10
+msgid "Logs of letter"
+msgstr "Dziennik listów"
+
+#: logs/models.py:15
+msgid "Open"
+msgstr "Otwarty"
+
+#: logs/models.py:16
+msgid "Delivered"
+msgstr "Dostarczony"
+
+#: logs/models.py:17
+msgid "Spam-bounce"
+msgstr "Odrzucony z powodu spamu"
+
+#: logs/models.py:18
+msgid "Soft-bounce"
+msgstr "Miękko odrzucony"
+
+#: logs/models.py:19
+msgid "Hard-bounce"
+msgstr "Twardo odrzucony"
+
+#: logs/models.py:20
+msgid "Dropped"
+msgstr "Porzucone"
+
+#: logs/models.py:21
+msgid "Deferred"
+msgstr "Odroczone"
+
+#: logs/models.py:22
+msgid "Unknown"
+msgstr "Nieznane"
+
+#: logs/models.py:33 logs/templates/logs/_list.html:6
+msgid "Case"
+msgstr "Sprawa"
+
+#: logs/models.py:34 logs/templates/logs/_list.html:9
+msgid "Letter"
+msgstr "List"
+
+#: logs/models.py:35
+msgid "Message-ID"
+msgstr "Message-ID"
+
+#: logs/models.py:36
+msgid "To"
+msgstr "Do"
+
+#: logs/models.py:46 logs/models.py:76
+msgid "Email"
+msgstr "E-mail"
+
+#: logs/models.py:47
+msgid "Emails"
+msgstr "E-maile"
+
+#: logs/models.py:93
+msgid "Log record"
+msgstr "Rekord dziennika"
+
+#: logs/models.py:94
+msgid "Log records"
+msgstr "Rekordy dziennika"
+
+#: logs/templates/logs/_list.html:7
+msgid "Status"
+msgstr "Status"
+
+#: logs/templates/logs/_list.html:8
+msgid "ID"
+msgstr "ID"
+
+#: logs/templates/logs/emaillog_list_for_case.html:7
+#: logs/templates/logs/emaillog_list_for_monitoring.html:6
+msgid "Logs"
+msgstr "Dziennik"
+
+#: logs/urls.py:10
+msgid "^case-(?P<case_pk>[\\d-]+)$"
+msgstr "^spraw-(?P<case_pk>[\\d-]+)$"
+
+#: logs/urls.py:12
+msgid "^monitoring-(?P<monitoring_pk>[\\d-]+)$"
+msgstr "^monitoring-(?P<monitoring_pk>[\\d-]+)$"
+
+#: logs/urls.py:14
+msgid "^log-(?P<pk>[\\d-]+)$"
+msgstr "^wpis-(?P<pk>[\\d-]+)$"
