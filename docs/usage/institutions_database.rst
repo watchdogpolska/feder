@@ -1,3 +1,5 @@
+.. _institutions_database:
+
 ****************************
 Przygotowanie bazy adresowej
 ****************************
