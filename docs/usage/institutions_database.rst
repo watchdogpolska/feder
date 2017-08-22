@@ -7,13 +7,13 @@ Rzetelne funkcjonowanie systemu Obywatelskiego Fedrowania Danych rozumiane w szc
 * pełna i kompletna nazwa instytucji - identyfikacji instytucji przez użytkowników strony,
 * adres e-mail instytucji - korespondencji z instytucją,
 * numer identyfikacyjny REGON - weryfikacji unikalności instytucji, a także weryfikacji zmian w strukturze instytucji (likwidacja, przekształcenie itd.)
-* kod TERC (rejestr podziału terytorialnego) z bazy TERYT - nawigacja według regionu.
 
 Gromadzone są także:
 
-* tagi, które pozwalają na przypisywanie jednej lub kilku kategorii do instytucij np. marszałkowie, lasy państwowe, dyrekcja lasów państwowych, sądy,
+* tagi, które pozwalają na przypisywanie jednej lub kilku kategorii do instytucji np. marszałkowie, lasy państwowe, dyrekcja lasów państwowych, sądy,
 * wyciąg z rejestru REGON,
-* odwołanie do instytucji nadrzędnych,
+* odwołanie do instytucji nadrzędnych - do potencjalnie przyszłego wykorzystania,
+* kod TERC (rejestr podziału terytorialnego) z bazy TERYT - nawigacja według regionu.
 * inne informacje, które mogą zostać w przyszłości wykorzystane.
 
 Wskazuje, że Stowarzyszenie Sieć Obywatelska Watchdog Polska ma zapewniony dostęp do rejestru REGON na podstawie numeru REGON/NIP/KRS poprzez API. Kluczami dostępowymi dysponuje Administrator Bezpieczeństwa Informacji.
@@ -53,6 +53,8 @@ Numer identyfikacyjny REGON podmiotu gospodarki narodowej skreślonego z rejestr
 Numer identyfikacyjny REGON podmiotu gospodarki narodowej składa się z dziewięciu cyfr, które nie mogą mieć ukrytego lub jawnego charakteru znaczącego, określającego pewne cechy podmiotu, przy czym osiem pierwszych cyfr stanowi liczbę porządkową, a dziewiąta – cyfrę kontrolną.
 
 Numer identyfikacyjny REGON jednostki lokalnej składa się z czternastu cyfr, przy czym dziewięć pierwszych cyfr jest tożsame z numerem identyfikacyjnym REGON osoby prawnej, jednostki organizacyjnej niemającej osobowości prawnej lub osoby fizycznej prowadzącej działalność gospodarczą, cztery kolejne cyfry są liczbą porządkową przypisaną jednostce lokalnej, a czternasta cyfra – cyfrą kontrolną.
+
+Dopuszczalna jest także notacja dla podmiotu gospodarki narodowej, który tradycyjnie ma 9 cyfrowy numer REGON poprzez uzupełnienie 5 cyframi zero z prawej strony do czternastu cyfr. Zatem numery REGON ``11001690600000`` i ``110016906`` są równoważne.
 
 Szczegółowe informacje w zakresie funkcjonowania rejestru są przedstawione w:
 
