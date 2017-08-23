@@ -36,15 +36,6 @@ except ImportError:
 requests_cache.configure()
 
 
-def environ(key, bool=False):
-    if key not in os.environ:
-        sys.stderr.write("Set the environemnt variable {} correctly. It's required!".format(key))
-        sys.exit(2)
-    if bool:
-        return os.environ[key].lower() == 'true'
-    return os.environ[key]
-
-
 if not bool(environ('GUSREGON_SANDBOX')):
     sys.stderr.write("You are using sandbox mode for the REGON database. Data may be incorrect. "
                      "Set the environemnt variable GUSREGON_API_KEY correctly.")
@@ -58,7 +49,7 @@ class Command(object):
                        'postcode', 'phone', 'fax', 'email', 'active', 'regon']
 
     def __init__(self, argv):
-        self.gus = GUS(api_key=environ('GUSREGON_API_KEY'), sandbox=environ('GUSREGON_SANDBOX', True))
+        self.gus = GUS(api_key=os.environ('GUSREGON_API_KEY'), sandbox=os.environ('GUSREGON_SANDBOX', True))
         self.s = requests.Session()
         self.argv = argv
         self.args = self.get_build_args(argv[1:])

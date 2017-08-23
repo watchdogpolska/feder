@@ -20,10 +20,11 @@ import argparse
 import sys
 
 import requests
-import requests_cache
 import unicodecsv as csv
+from gusregon import GUS
 from tqdm import trange
 
+from utils import environ
 from insert_institution import normalize_jst
 
 try:
@@ -31,13 +32,17 @@ try:
 except ImportError:
     from urllib.parse import urljoin
 
-# requests_cache.configure()
+
+if not bool(environ('GUSREGON_SANDBOX')):
+    sys.stderr.write("You are using sandbox mode for the REGON database. Data may be incorrect. "
+                     "Set the environemnt variable GUSREGON_API_KEY correctly.")
 
 
 class Command(object):
     REQUIRED_FIELDS = ['name', 'email', 'regon', 'terc', 'regon_parent', 'tags']
 
     def __init__(self, argv):
+        self.gus = GUS(api_key=environ('GUSREGON_API_KEY'), sandbox=environ('GUSREGON_SANDBOX', True))
         self.s = requests.Session()
         self.argv = argv
         self.args = self.get_build_args(argv[1:])
@@ -79,6 +84,7 @@ class Command(object):
             "jst": normalize_jst(terc),
             "email": email,
             "regon": regon,
+            "extra": {'regon': self.gus.search(regon=regon)}
         }
         if regon_parent:
             data.update({
@@ -86,30 +92,25 @@ class Command(object):
             })
 
         pk = self._match(host, regon=regon)
+
         if pk:
             data.update({
                 "id": pk
             })
-        response = self.s.post(url=urljoin(host, "/api/institutions/"), json=data)
+            response = self.s.patch(url=urljoin(urljoin(host, "/api/institutions/"), str(pk) + "/"), json=data)
+        else:
+            response = self.s.post(url=urljoin(host, "/api/institutions/"), json=data)
+
         if response.status_code == 500:
             print(name.encode('utf-8'), " response 500", response.status_code, ":", file=sys.stderr)
             print(response.text, file=sys.stderr)
             return
         json = response.json()
 
-        if response.status_code == 400 and json.keys() == ['regon'] and regon and regon_parent:
-            court = self._find(host, regon=regon)
-            parent = self._find(host, regon=regon_parent)
-            url = urljoin(host, "/api/institutions/{}/".format(court))
-            data['parents_ids'] = [parent]
-            self.s.patch(url, json=data)
-            if response.status_code == 500:
-                print(name.encode('utf-8'), " response 500", response.status_code, ":", file=sys.stderr)
-                print(response.text, file=sys.stderr)
-                return
-
         if response.status_code == 201:
             print(name.encode('utf-8'), " created as PK", json['pk'])
+        elif response.status_code == 200:
+            print(name.encode('utf-8'), " updated as PK", json['pk'])
         else:
             print(name.encode('utf-8'), "response ", response.status_code, ":", file=sys.stderr)
             print(json, file=sys.stderr)
