@@ -14,6 +14,10 @@ from feder.monitorings.models import Monitoring
 
 class ListMonitoringMixin(AttrPermissionRequiredMixin, SelectRelatedMixin):
     select_related = ['case']
+    paginate_by = 100
+    model = EmailLog
+    permission_attribute = 'case__monitoring'
+    permission_required = 'monitorings.view_log'
 
     def get_permission_object(self):
         return self.monitoring
@@ -28,9 +32,7 @@ class ListMonitoringMixin(AttrPermissionRequiredMixin, SelectRelatedMixin):
 
 class EmailLogMonitoringListView(ListMonitoringMixin, ListView):
     template_name_suffix = '_list_for_monitoring'
-    model = EmailLog
     permission_required = 'monitorings.view_log'
-    paginate_by = 100
 
     @cached_property
     def monitoring(self):
@@ -39,9 +41,6 @@ class EmailLogMonitoringListView(ListMonitoringMixin, ListView):
 
 class EmailLogCaseListView(ListMonitoringMixin, ListView):
     template_name_suffix = '_list_for_case'
-    model = EmailLog
-    permission_attribute = 'case__monitoring'
-    permission_required = 'monitorings.view_log'
 
     @cached_property
     def case(self):
@@ -51,9 +50,6 @@ class EmailLogCaseListView(ListMonitoringMixin, ListView):
     @cached_property
     def monitoring(self):
         return self.case.monitoring
-
-    def get_permission_object(self):
-        return self.monitoring
 
     def get_context_data(self, **kwargs):
         kwargs['case'] = self.case
