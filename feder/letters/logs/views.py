@@ -19,7 +19,7 @@ class ListMonitoringMixin(AttrPermissionRequiredMixin, SelectRelatedMixin):
         return self.monitoring
 
     def get_queryset(self):
-        return super(ListMonitoringMixin, self).get_queryset().filter(case__monitoring=self.monitoring)
+        return super(ListMonitoringMixin, self).get_queryset().filter(case__monitoring=self.monitoring).with_logrecord_count()
 
     def get_context_data(self, **kwargs):
         kwargs['monitoring'] = self.monitoring

@@ -2,6 +2,7 @@ import json
 from collections import OrderedDict
 
 from django.db import models
+from django.db.models import Count
 from django.urls import reverse
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
@@ -24,7 +25,8 @@ STATUS = Choices(('open', _('Open')),
 
 
 class EmailQuerySet(models.QuerySet):
-    pass
+    def with_logrecord_count(self):
+        return self.annotate(Count('logrecord'))
 
 
 @python_2_unicode_compatible

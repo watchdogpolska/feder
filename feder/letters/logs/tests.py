@@ -154,6 +154,7 @@ class EmailLogCaseListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
         for case in extra_cases:
             self.assertNotContains(response, case.name)
 
+
 class EmailLogDetailViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     permission = ['monitorings.view_log']
 
