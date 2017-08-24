@@ -41,3 +41,24 @@ Aby udzielić odpowiedzi na list zarejestrowany w systemie przejdź na stronę s
 .. hint::
    Jeżeli opcja "Odpowiedź" jest niedostępna - skontaktuj się z operatorem monitoringu, aby uzyskać stosowne uprawnienia.
 
+Dziennik wiadomości
+-------------------
+
+W przypadku wychodzących wiadomości poczty elektronicznej rejestrowane są dane na temat transmisji wiadomości pochodzące z interfejsu programistycznego dostawcy usług Emaillabs.pl. Dane te są przez system automatycznie aktualizowane raz dziennie, co pozwala uzyskać informacje o stanie wiadomości wysłanych w Fedrowaniu.
+
+Dzienniki możliwe są do przejrzenia z poziomu monitoringu i z poziomu sprawy. Aby się z nimi zapoznać przejdź do zakładki "Zobacz dzienniki" na odpowiedniej podstronie. Uzyskasz zestawienie wiadomości, które zawiera takie kolumny jak:
+
+* ID - identyfikator wiadomości nadany przez E-maillabs,
+* Sprawa - odwołanie do sprawy w jakiej dana wiadomość została wysłana,
+* Status - ostatni poglądowy zarejestrowany status wiadomości,
+* List - odwołanie do listu, który jest związany z daną wiadomością (jeżeli wykryto),
+* Liczba wpisów - licznik wskazujący ile zmian dziennika odnotowano dla danej wiadomości.
+
+.. hint::
+   Jeżeli opcja "Zobacz dzienniki" jest niedostępna - skontaktuj się z operatorem monitoringu, aby uzyskać stosowne uprawnienia.
+
+Po wybraniu identyfikatora wiadomości prezentowany są surowe dane odnoszące się do przebiegu doręczenia danej wiadomości stanowiące odpowiedź API. Te dane mogą kilkakrotnie ulegać zmianie, gdyż operator pocztowy w przypadku chwilowych trudności może ponowić wysyłkę w późniejszym terminie.
+
+.. hint::
+   Jeżeli zamierzasz wykorzystać dane dziennika wiadomości do celów dowodowych np. w sądzie zwróć się do administratora systemu o sporządzenie indywidualnej opinii na temat przebiegu doręczenia konkretnej wiadomości.
+
