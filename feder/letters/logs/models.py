@@ -82,7 +82,7 @@ class LogRecord(TimeStampedModel):
         for status in status_list:
             time_name = '{}_time'.format(status)
             desc_name = '{}_desc'.format(status)
-            if time_name in self.data or desc_name in self.data:
+            if self.data.get(time_name, False) or self.data.get(desc_name, False):
                 return status
         return STATUS.unknown
 

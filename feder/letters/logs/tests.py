@@ -11,13 +11,11 @@ from django.urls import reverse
 from django.utils.encoding import force_text
 from vcr import VCR
 
-from feder.cases.factories import CaseFactory
 from feder.letters.factories import LetterFactory
 from feder.letters.logs.factories import get_emaillabs_row, LogRecordFactory
 from feder.letters.logs.models import LogRecord, EmailLog, STATUS
 from feder.letters.logs.utils import get_emaillabs_client
 from feder.main.mixins import PermissionStatusMixin
-from feder.monitorings.factories import MonitoringFactory
 from feder.users.factories import UserFactory
 
 SEED = os.urandom(10)
@@ -120,7 +118,6 @@ class LogRecordQuerySet(TestCase):
 
 
 class ObjectMixin(object):
-
     def setUp(self):
         self.user = UserFactory(username='john')
         self.record = LogRecordFactory()
@@ -149,3 +146,32 @@ class EmailLogDetailViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
 
     def get_url(self):
         return reverse('logs:detail', kwargs={'pk': self.emaillog.pk})
+
+
+class LogRecordTestCase(TestCase):
+    def test_get_status(self):
+        data = {
+            "ok_desc": "250 2.0.0 Ok: queued as A3B925BF18",
+            "account": "1.siecobywatelska.smtp",
+            "tracking": [],
+            "from": "sprawa-3070@example.com",
+            "open_time": None,
+            "vps": "smtp2-87",
+            "tags": [],
+            "injected_time": "2017-08-24 17:25:50",
+            "created_at": None,
+            "updated_at": None,
+            "message_id": "20170824152549.2577.77274@localhost",
+            "to": "target@example.com",
+            "postfix_id": [
+                "3xdSmZ0kpMz6jsBt",
+                "3xdSmZ2ZvWz6Q7V0"
+            ],
+            "ok_time": "2017-08-24 17:25:50",
+            "open_desc": None,
+            "uid": "b1db7556ea65065c69d86b81ef248eb5",
+            "id": "599ef08c42cf33b253fdc5f6",
+            "subject": "Wniosek o udost\u0119pnienie informacji publicznej"
+        }
+        self.assertEqual(LogRecord(data=data).get_status(), 'ok')
+
