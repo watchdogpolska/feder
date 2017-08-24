@@ -11,11 +11,13 @@ from django.urls import reverse
 from django.utils.encoding import force_text
 from vcr import VCR
 
+from feder.cases.factories import CaseFactory
 from feder.letters.factories import LetterFactory
 from feder.letters.logs.factories import get_emaillabs_row, LogRecordFactory
 from feder.letters.logs.models import LogRecord, EmailLog, STATUS
 from feder.letters.logs.utils import get_emaillabs_client
 from feder.main.mixins import PermissionStatusMixin
+from feder.monitorings.factories import MonitoringFactory
 from feder.users.factories import UserFactory
 
 SEED = os.urandom(10)
@@ -140,6 +142,17 @@ class EmailLogCaseListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
     def get_url(self):
         return reverse('logs:list', kwargs={'case_pk': self.case.pk})
 
+    def test_shows_self_case(self):
+        self.login_permitted_user()
+        response = self.client.get(self.get_url())
+        self.assertContains(response, self.case.name)
+
+    def test_shows_only_own_case(self):
+        self.login_permitted_user()
+        extra_cases = CaseFactory.create_batch(monitoring=self.monitoring, size=25)
+        response = self.client.get(self.get_url())
+        for case in extra_cases:
+            self.assertNotContains(response, case.name)
 
 class EmailLogDetailViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     permission = ['monitorings.view_log']
