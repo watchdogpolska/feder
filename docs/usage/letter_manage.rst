@@ -62,3 +62,14 @@ Po wybraniu identyfikatora wiadomości prezentowany są surowe dane odnoszące s
 .. hint::
    Jeżeli zamierzasz wykorzystać dane dziennika wiadomości do celów dowodowych np. w sądzie zwróć się do administratora systemu o sporządzenie indywidualnej opinii na temat przebiegu doręczenia konkretnej wiadomości.
 
+Wiadomości mogą uzyskać następujący status:
+
+* Odrzucony z powodu spamu - nie dostarczona, gdyż serwer odmówił przyjęcia wiadomości z powodu zakwalifikowania jej jako spam,
+* Dostarczony - skutecznie dostarczona do serwera pocztowego adresata,
+* Miękko odrzucony - odrzucona z przyczyn przejściowych np. przepełniona skrzynka, a system ponowi wysyłkę,
+* Odroczone - odrzucona z przyczyn tymczasowych np. wykorzystania `graylistingu <https://pl.wikipedia.org/wiki/Greylisting>`_,
+* Porzucone - nie udało się doręczyć z powodu utrzymujących się problemów tymczasowych,
+* Otwarte - uzyskano potwierdzenie poprawnego otwarcia wiadomości np. poprzez wczytanie niewidocznego obrazka z wiadomości,
+* Twardo odrzucony - nie udało się doręczyć wiadomości z powodu permanentnych problemów np. skrzynka pocztowa nie istnieje, domena internetowa nie istnieje,
+* Nieznany - nie udało się poprawnie wykryć stanu wiadomości.
+
