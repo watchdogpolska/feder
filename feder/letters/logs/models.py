@@ -62,11 +62,12 @@ class LogRecordQuerySet(models.QuerySet):
                 continue
             log = LogRecord(data=row)
             status = log.get_status()
+            letter = letters.get(row['message_id'], None)
             obj, created = EmailLog.objects.get_or_create(case_id=cases[row['from']],
-                                                          letter_id=letters.get(row['message_id'], None),
                                                           email_id=row['id'],
                                                           to=row['to'],
-                                                          defaults={'status': status})
+                                                          defaults={'status': status,
+                                                                    'letter_id': letter})
             if obj.status != status:
                 obj.status = status
                 obj.save(update_fields=['status'])
