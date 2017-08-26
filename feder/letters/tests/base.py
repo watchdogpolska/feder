@@ -17,6 +17,12 @@ class MessageMixin(object):
         fp = open(path, 'rb')
         return message_from_file(fp)
 
+    @staticmethod
+    def _get_email_object_from_text(filename):  # See coddingtonbear/django-mailbox#89
+        path = join(dirname(__file__), 'messages', filename)
+        fp = open(path, 'rb')
+        return message_from_file(fp)
+
     def get_message(self, filename):
         message = self._get_email_object(filename)
         msg = self.mailbox._process_message(message)
@@ -24,5 +30,5 @@ class MessageMixin(object):
         return msg
 
     def load_letter(self, name):
-        message= self.get_message(name)
+        message = self.get_message(name)
         return MessageParser(message).insert()

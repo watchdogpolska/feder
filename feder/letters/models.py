@@ -10,10 +10,10 @@ from cached_property import cached_property
 from claw import quotations
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.contrib.contenttypes.fields import GenericRelation
 from django.core.files import File
 from django.core.files.base import ContentFile
 from django.core.mail import EmailMessage
+from django.core.mail.message import make_msgid
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models.manager import BaseManager
@@ -27,7 +27,7 @@ from model_utils.models import TimeStampedModel
 
 from feder.cases.models import Case
 from feder.institutions.models import Institution
-from .utils import email_wrapper
+from .utils import email_wrapper, normalize_msg_id
 
 claw.init()
 
@@ -77,6 +77,9 @@ class Letter(TimeStampedModel):
     email = models.EmailField(verbose_name=_("E-mail"), max_length=100, blank=True)
     note = models.TextField(verbose_name=_("Comments from editor"), blank=True)
     is_spam = models.IntegerField(choices=SPAM, default=SPAM.unknown, db_index=True)
+    message_id_header = models.CharField(blank=True,
+                                         verbose_name=_('ID of sent email message "Message-ID"'),
+                                         max_length=500)
     eml = models.FileField(upload_to="messages/%Y/%m/%d",
                            verbose_name=_("File"),
                            null=True,
@@ -150,9 +153,12 @@ class Letter(TimeStampedModel):
         body = self.body.replace('{{EMAIL}}', self.case.email)
         return u"{0}\n{1}".format(body, email_wrapper(self.quote))
 
-    def _construct_message(self):
+    def _construct_message(self, msg_id=None):
         headers = {'Return-Receipt-To': self.case.email,
-                   'Disposition-Notification-To': self.case.email}
+                   'Disposition-Notification-To': self.case.email,
+                   }
+        if msg_id:
+            headers['Message-ID'] = msg_id
         return EmailMessage(subject=self.case.monitoring.subject,
                             from_email=self.case.email,
                             reply_to=[self.case.email],
@@ -161,9 +167,11 @@ class Letter(TimeStampedModel):
                             headers=headers)
 
     def send(self, commit=True, only_email=False):
-        message = self._construct_message()
+        msg_id = make_msgid(domain=self.case.email.split('@', 2)[1])
+        message = self._construct_message(msg_id=msg_id)
         text = message.message().as_bytes()
         self.email = self.case.institution.email
+        self.message_id_header = normalize_msg_id(msg_id)
         self.eml.save('%s.eml' % uuid.uuid4(), ContentFile(text), save=False)
         if commit:
             self.save(update_fields=['eml', 'email'] if only_email else None)

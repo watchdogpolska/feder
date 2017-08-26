@@ -12,12 +12,11 @@ from django.utils.encoding import force_text
 from vcr import VCR
 
 from feder.cases.factories import CaseFactory
-from feder.letters.factories import LetterFactory
+from feder.letters.factories import LetterFactory, SendOutgoingLetterFactory
 from feder.letters.logs.factories import get_emaillabs_row, LogRecordFactory
 from feder.letters.logs.models import LogRecord, EmailLog, STATUS
 from feder.letters.logs.utils import get_emaillabs_client
 from feder.main.mixins import PermissionStatusMixin
-from feder.monitorings.factories import MonitoringFactory
 from feder.users.factories import UserFactory
 
 SEED = os.urandom(10)
@@ -118,6 +117,15 @@ class LogRecordQuerySet(TestCase):
         self.assertEqual(EmailLog.objects.get().status, STATUS.ok)
         self.assertEqual(LogRecord.objects.count(), 2)
 
+    def test_parse_identify_message_by_id(self):
+        letter = SendOutgoingLetterFactory()
+        msg_id = letter.message_id_header
+        row = get_emaillabs_row(sender_from=letter.case.email,
+                                message_id=msg_id)
+        skipped, saved = LogRecord.objects.parse_rows([row])
+        self.assertEqual(saved, 1)
+        self.assertEqual(EmailLog.objects.get().letter, letter)
+
 
 class ObjectMixin(object):
     def setUp(self):
@@ -188,4 +196,3 @@ class LogRecordTestCase(TestCase):
             "subject": "Wniosek o udost\u0119pnienie informacji publicznej"
         }
         self.assertEqual(LogRecord(data=data).get_status(), 'ok')
-
