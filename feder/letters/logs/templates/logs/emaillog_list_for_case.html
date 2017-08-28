@@ -1,0 +1,17 @@
+{% extends 'monitorings/monitoring_single.html' %}
+{% load i18n humanize %}
+{% block breadcrumbs %}
+    <ol class="breadcrumb">
+        <li><a href="{{ monitoring.get_absolute_url }}">{{ monitoring }}</a></li>
+        <li><a href="{{ case.get_absolute_url }}">{{ case }}</a></li>
+        <li class="active">{% trans 'Logs' %}</li>
+    </ol>
+{% endblock %}
+
+{% block buttons %}
+    {% include 'cases/_btn.html' with object=case %}
+{% endblock %}
+{% block content %}
+    {% include 'cases/_header.html' with object=case %}
+    {% include 'logs/_list.html' with object_list=object_list %}
+{% endblock %}

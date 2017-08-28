@@ -5,6 +5,7 @@ from itertools import groupby
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db import models
+from django.db.models import Q
 from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
@@ -13,6 +14,7 @@ from model_utils.models import TimeStampedModel
 
 from feder.alerts.models import Alert
 from feder.cases.models import Case
+from feder.light_user.models import LightUser
 from feder.questionaries.models import Question, Questionary
 from .utils import all_answer_equal
 
@@ -41,8 +43,8 @@ class TaskQuerySet(models.QuerySet):
     def by_monitoring(self, monitoring):
         return self.filter(case__monitoring=monitoring)
 
-    def exclude_by_user(self, user, monitoring=None):
-        filled_set = Survey.objects.filter(user=user).all().values('task_id')
+    def exclude_by_user(self, user=None, light_user=None, monitoring=None):
+        filled_set = Survey.objects.of_user(user, light_user).all().values('task_id')
         return self.exclude(pk__in=filled_set)
 
     def survey_stats(self):
@@ -128,6 +130,27 @@ class SurveyQuerySet(models.QuerySet):
         qs = Answer.objects.select_related('question')
         return self.prefetch_related(models.Prefetch('answer_set', queryset=qs))
 
+    def exclude_user(self, user, light_user):
+        if not (user.is_authenticated() or light_user):
+            return self
+        filter = Q()
+        if user.is_authenticated():
+            filter = filter | Q(user=user)
+        if light_user:
+            filter = filter | Q(light_user=light_user)
+        return self.exclude(filter)
+
+    def of_user(self, user, light_user):
+        if not (user.is_authenticated() or light_user):
+            return self.none()
+
+        filter = Q()
+        if user.is_authenticated():
+            filter = filter | Q(user=user)
+        if light_user:
+            filter = filter | Q(light_user=light_user)
+        return self.filter(filter)
+
     def with_user(self):
         return self.select_related('user')
 
@@ -137,7 +160,8 @@ class SurveyQuerySet(models.QuerySet):
 
 class Survey(TimeStampedModel):
     task = models.ForeignKey(Task)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True)
+    light_user = models.ForeignKey(LightUser, null=True)
     objects = SurveyQuerySet.as_manager()
     credibility = models.PositiveIntegerField(default=0, verbose_name=_("Credibility"))
 

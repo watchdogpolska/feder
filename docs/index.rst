@@ -40,6 +40,18 @@ Witam w dokumentacji Obywatelskiego Fedrowania Danych!
 
    development/development
 
+.. _toc_usage:
+
+.. toctree::
+   :caption: Podręcznik użytkownika
+
+   usage/introduction
+   usage/monitoring_create
+   usage/institutions_database
+   usage/letter_manage
+
+
+
 
 Indices and tables
 ==================

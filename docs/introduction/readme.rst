@@ -28,7 +28,7 @@ Wysyłka listów systemu odbywa się z wykorzystaniem poczty elektronicznej. Zaz
 
 Po zarejestrowaniu odpowiedniej ilości odpowiedzi możliwe konieczne jest utworzenie w monitoringu stworzenia kwestionariusza (zob. :ref:`questionaries`), a następnie na jego podstawie w licznych sprawach utworzenie zadań (zob. :ref:`tasks`). Wówczas dane są przetwarznae przez użytkowników, co zostało przedstawione na diagramie:
 
-.. figure:: https://www.websequencediagrams.com/cgi-bin/cdraw?lz=RmVkZXItPlVyesSFZDogd25pb3NlayBvIGluZm9ybWFjamUgcHVibGljem7EhSDigJMgZS1tYWlsCgAtBi0-AD0FOiBvZHBvd2llZMW6ABkMT2J5d2F0ZWwgMQAgCXphcHl0YW5pZSBvIHN0YW4gc3ByYXd5AFYFc3Ryb25hIFdXV1cKAIETBwA4CgBXDXVyesSZZHUgaSBhbmtpZXRhAGEKMgAqQTIAOTJ3eXBlxYJuaW9uYQCBCQkAglUHAIIaB3BvcsOzd24AgXUFAIEuBgCBPQgKCm9wdCAKICAgIACBbQhwZXJhdG8AMQV3aWFkb21pZQCCLAZyb3piaWXFvG5vxZtjaWFjaAAyBQAoCAAuDG9jZQCBAwkgaQCDFwl6aQBuCQAsDgCBQAlicmEAgToLZW5kCgCDAwkAgQ4JYXJrdXN6IGthbGt1bGFjeWpueSB6IGRhbnltaQo&s=default
+.. figure:: https://s.jawne.info.pl/2w8pGDd
    :alt: Diagram sekwencji procesu analizy danych
 
 .. code::
@@ -42,7 +42,7 @@ Po zarejestrowaniu odpowiedniej ilości odpowiedzi możliwe konieczne jest utwor
     Obywatel 2->Feder: wypełniona ankieta
     Feder->Feder: porównanie ankiet urzędu
 
-    opt 
+    opt
         Feder->Operator: powiadomienie o rozbieżnościach
         Operator->Operator: ocena ankiet i odpowiedzi urzędu
         Operator->Feder: wybrana ankieta
@@ -51,7 +51,7 @@ Po zarejestrowaniu odpowiedniej ilości odpowiedzi możliwe konieczne jest utwor
     Feder->Operator: arkusz kalkulacyjny z danymi
 
 
-System wyposażony winien być w mechanizm weryfikacji rozbieżności w ankietach, gdyby dochodziło do rozbieżnych interpretacji udzielonych odpowiedzi. Wówczas operator dokonuje wyboru właściwej ankiety, albo zgłasza odpowiedzi własne. 
+System wyposażony winien być w mechanizm weryfikacji rozbieżności w ankietach, gdyby dochodziło do rozbieżnych interpretacji udzielonych odpowiedzi. Wówczas operator dokonuje wyboru właściwej ankiety, albo zgłasza odpowiedzi własne.
 
 Ankiety związane z danym kwestionariuszem mogą być wyeksportowane i analizowane z wykorzystaniem właściwych narzędzi.
 
@@ -80,8 +80,8 @@ W 2012 roku zwiększyła się nieco aktywność obywatelska w zakresie wnioskowa
 
 Aby uzyskać te informacje, Sieć Obywatelka Watchdog Polska zadała następujące pytania:
 
-1.  Ile wniosków o informację publiczną otrzymał urząd w 2011 roku 
-2.  Ile wniosków o informację publiczną otrzymał urząd w 2012 roku 
+1.  Ile wniosków o informację publiczną otrzymał urząd w 2011 roku
+2.  Ile wniosków o informację publiczną otrzymał urząd w 2012 roku
 3.  Udostępnienie ewidencji wniosków o informację publiczną za 2011 rok.
 Jeżeli ewidencja prowadzona jest w formie elektronicznej, żądamy udostępnienia w postaci pliku w formacie dokumentu tekstowego lub arkusza kalkulacyjnego. Jeżeli ewidencja/rejestr nie jest prowadzony w formie elektronicznej, wnosimy o udostępnienie informacji w postaci skanu, z dokonaniem niezbędnych wyłączeń dotyczących ochrony prywatności wnioskujących osób.
 4.  Udostępnienie ewidencji wniosków o informację publiczną za 2012 rok. Jeżeli ewidencja prowadzona jest w formie elektronicznej, żądamy udostępnienia w postaci pliku w formacie dokumentu tekstowego lub arkusza kalkulacyjnego. Jeżeli ewidencja/rejestr nie jest prowadzony w formie elektronicznej, wnosimy o udostępnienie informacji w postaci skanu, z dokonaniem niezbędnych wyłączeń dotyczących ochrony prywatności wnioskujących osób.

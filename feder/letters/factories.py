@@ -25,3 +25,9 @@ class IncomingLetterFactory(LetterFactory):
 
 class OutgoingLetterFactory(LetterFactory):
     author_user = factory.SubFactory(UserFactory)
+
+
+class SendOutgoingLetterFactory(LetterFactory):
+    author_user = factory.SubFactory(UserFactory)
+
+    is_send_yes = factory.PostGenerationMethodCall('send')

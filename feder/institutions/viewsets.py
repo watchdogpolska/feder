@@ -15,7 +15,7 @@ class InstitutionFilter(filters.FilterSet):
 
     class Meta:
         model = Institution
-        fields = ['name', 'tags', 'jst']
+        fields = ['name', 'tags', 'jst', 'regon']
 
 
 class InstitutionViewSet(viewsets.ModelViewSet):

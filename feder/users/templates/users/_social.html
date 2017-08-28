@@ -1,0 +1,37 @@
+{% load socialaccount account i18n %}
+{% get_social_accounts user as accounts %}
+
+{% if not accounts.facebook %}
+<a class="btn btn-default" href="{% provider_login_url "facebook" method="oauth2" process="connect" %}">
+    <i class="fa fa-facebook" aria-hidden="true"></i>
+    {% trans 'Connect a Facebook account' %}
+</a>
+{% endif %}
+
+{% if not accounts.twitter %}
+<a class="btn btn-default" href="{% provider_login_url "twitter" process="connect" %}">
+    <i class="fa fa-twitter" aria-hidden="true"></i>
+    {% trans 'Connect a Twitter account' %}
+</a>
+{% endif %}
+
+{% if not accounts.gitlab %}
+<a class="btn btn-default" href="{% provider_login_url "gitlab"  process="connect"%}">
+    <i class="fa fa-gitlab" aria-hidden="true"></i>
+    {% trans 'Connect a GitLab account' %}
+</a>
+{% endif %}
+
+{% if not accounts.google %}
+<a class="btn btn-default" href="{% provider_login_url "google"  process="connect"%}">
+    <i class="fa fa-google" aria-hidden="true"></i>
+    {% trans 'Connect a Google account' %}
+</a>
+{% endif %}
+
+{% if not accounts.github %}
+<a class="btn btn-default" href="{% provider_login_url "github" process="connect" %}">
+    <i class="fa fa-github" aria-hidden="true"></i>
+    {% trans 'Connect a GitHub account' %}
+</a>
+{% endif %}

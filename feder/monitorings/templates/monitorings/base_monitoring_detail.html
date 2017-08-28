@@ -1,0 +1,40 @@
+{% extends 'monitorings/monitoring_single.html' %}
+{% load i18n humanize %}
+{% block breadcrumbs %}
+    <ol class="breadcrumb">
+        <li class="active">{{ object }}</li>
+    </ol>
+{% endblock %}
+
+{% block buttons %}
+    {% if object %}
+        {% include 'monitorings/_btn.html' with object=object %}
+    {% endif %}
+{% endblock %}
+{% block content %}
+    {%  include 'monitorings/_header.html' %}
+    <div class="row">
+        <div class="col-md-4">
+            {% if object.description %}
+                <div class="red">
+                    <h3>{% trans 'Description' %}</h3>
+                    {{ object.description|linebreaks }}
+                </div>
+            {% endif %}
+            {% if object.questionary_set.all %}
+                <div class="gray">
+                    <h3 class="title"><i class="fa fa-list-alt"></i> {% trans 'Questionaries' %}</h3>
+                    {% if object.questionary_set.all %}
+                        {% include '_select_list.html' with object_list=object.questionary_set.all %}
+                    {% else %}
+                        <p>{% trans 'No rows.' %}</p>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+        <div class="col-md-8">
+            {% block content_object %}
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}

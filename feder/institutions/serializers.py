@@ -33,7 +33,7 @@ class InstitutionSerializer(serializers.HyperlinkedModelSerializer):
     regon = serializers.CharField(validators=[UniqueValidator(queryset=Institution.objects.all())])
     slug = serializers.CharField(read_only=True)
     tags = TagNestedSerializer(many=True, required=False)
-    # parents = ParentSerializer(many=True, read_only=True)
+    parents = ParentSerializer(many=True, read_only=True)
     parents_ids = serializers.PrimaryKeyRelatedField(many=True,
                                                      required=False,
                                                      read_only=False,
@@ -45,8 +45,10 @@ class InstitutionSerializer(serializers.HyperlinkedModelSerializer):
 
     def create(self, validated_data):
         tags_data = validated_data.pop('tags', [])
+        parents_data = validated_data.pop('parents', [])
         institution = Institution.objects.create(**validated_data)
         institution.tags.set(tags_data)
+        institution.parents.set(parents_data)
         return institution
 
     def update(self, instance, validated_data):
@@ -66,6 +68,7 @@ class InstitutionSerializer(serializers.HyperlinkedModelSerializer):
                   'url',
                   'regon',
                   'self',
+                  'parents',
                   'extra',
                   'created',
                   'modified',

@@ -53,6 +53,8 @@ class TaskDeleteViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
 
 class SurveyFillViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     status_no_permission = 200
+    status_anonymous = 200
+
     permission = []
 
     def setUp(self):

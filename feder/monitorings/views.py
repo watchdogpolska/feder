@@ -48,14 +48,29 @@ class MonitoringDetailView(SelectRelatedMixin, PrefetchRelatedMixin,
     prefetch_related = ['questionary_set', ]
     paginate_by = 25
 
-    @staticmethod
-    def get_object_list(obj):
+    def get_object_list(self, obj):
         return (Case.objects.filter(monitoring=obj).
                 select_related('institution').
                 prefetch_related('task_set').
                 with_letter_max().
                 with_letter().
                 order_by('-letter_max').
+                all())
+
+
+class LetterListMonitoringView(SelectRelatedMixin, PrefetchRelatedMixin, ExtraListMixin, DetailView):
+    model = Monitoring
+    template_name_suffix = '_letter_list'
+    select_related = ['user', ]
+    prefetch_related = ['questionary_set', ]
+    paginate_by = 25
+
+    def get_object_list(self, obj):
+        return (Letter.objects.filter(case__monitoring=obj).
+                select_related('case').
+                with_author().
+                attachment_count().
+                order_by('-created').
                 all())
 
 
@@ -143,7 +158,7 @@ class MonitoringPermissionView(RaisePermissionRequiredMixin, SelectRelatedMixin,
     select_related = ['user', ]
     permission_required = 'monitorings.manage_perm'
 
-    def get_context_data(self,  **kwargs):
+    def get_context_data(self, **kwargs):
         context = super(MonitoringPermissionView, self).get_context_data(**kwargs)
         context['user_list'], context['index'] = self.object.permission_map()
         return context

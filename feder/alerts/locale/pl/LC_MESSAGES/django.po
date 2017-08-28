@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: alerts 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-23 03:36+0000\n"
+"POT-Creation-Date: 2017-08-11 01:25+0000\n"
 "PO-Revision-Date: 2016-09-18 01:57+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: pl_PL <naczelnik@jawnosc.tk>\n"
@@ -19,45 +19,45 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.8.7.1\n"
 
-#: models.py:14 templates/alerts/base_alert.html:6
+#: models.py:15 templates/alerts/base_alert.html:6
 msgid "Alerts index"
 msgstr "Wykaz alertów"
 
-#: models.py:24
+#: models.py:29
 msgid "Monitoring"
 msgstr "Monitoring"
 
-#: models.py:25
+#: models.py:30
 msgid "Reason"
 msgstr "Przyczyna"
 
-#: models.py:27 templates/alerts/_alert_small.html:13
+#: models.py:32 templates/alerts/_alert_small.html:13
 #: templates/alerts/alert_detail.html:14
 msgid "Author"
 msgstr "Autor"
 
-#: models.py:31
+#: models.py:36
 msgid "Solver"
 msgstr "Rozwiązywacz/-ka"
 
-#: models.py:34 templates/alerts/_alert_small.html:17
+#: models.py:39 templates/alerts/_alert_small.html:17
 #: templates/alerts/alert_detail.html:18
 msgid "Status"
 msgstr "Status"
 
-#: models.py:41
+#: models.py:46
 msgid "Alert"
 msgstr "Alert"
 
-#: models.py:42
+#: models.py:47
 msgid "Alerts"
 msgstr "Alerty"
 
-#: models.py:45
+#: models.py:51
 msgid "Closed"
 msgstr "Zamknięte"
 
-#: models.py:45
+#: models.py:51
 msgid "Open"
 msgstr "Otwarte"
 

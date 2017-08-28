@@ -37,6 +37,12 @@
                     {% trans 'Alerts list' %}
                 </a>
             {% endif %}
+            {% if "view_log" in monitoring_perms %}
+                <a class="btn btn-default" href="{% url 'logs:list' monitoring_pk=object.pk %}">
+                    <i class="fa fa-inbox" aria-hidden="true"></i>
+                    {% trans 'View logs' %}
+                </a>
+            {% endif %}
 
         </div>
     </div>

@@ -11,6 +11,10 @@
     <div class="alert alert-warning">{{ object.note }}</div>
 {% endif %}
 
+{% if object.is_draft %}
+    <div class="alert alert-warning">{% trans 'This is just a draft message. The message was not sent to the institution.' %}</div>
+{% endif %}
+
 {% if object.attachment_set.all %}
     <div class="attachment-list">
         <h4>

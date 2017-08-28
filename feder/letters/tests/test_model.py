@@ -1,5 +1,7 @@
 from __future__ import unicode_literals
 
+from email import message_from_file
+
 from django.core import mail
 from django.test import TestCase
 
@@ -7,10 +9,11 @@ from feder.cases.factories import CaseFactory
 from feder.cases.models import Case
 from feder.institutions.factories import InstitutionFactory
 from feder.letters.tests.base import MessageMixin
+from feder.letters.utils import normalize_msg_id
 from feder.monitorings.factories import MonitoringFactory
 from feder.users.factories import UserFactory
 from ..factories import (IncomingLetterFactory, LetterFactory,
-                         OutgoingLetterFactory)
+                         OutgoingLetterFactory, SendOutgoingLetterFactory)
 from ..models import Letter, MessageParser
 
 
@@ -68,6 +71,14 @@ class ModelTestCase(TestCase):
         self.assertIn(outgoing.case.institution.email, mail.outbox[0].to)
         self.assertIn(outgoing.body, mail.outbox[0].body)
         self.assertIn(outgoing.quote, mail.outbox[0].body)
+
+    def test_send_message_has_valid_msg_id(self):
+        outgoing = SendOutgoingLetterFactory()
+
+        self.assertTrue(outgoing.message_id_header)
+        message = message_from_file(outgoing.eml.file)
+        msg_id = normalize_msg_id(message['Message-ID'])
+        self.assertEqual(outgoing.message_id_header, msg_id)
 
     def test_send_new_case(self):
         user = UserFactory(username="tom")

@@ -1,6 +1,5 @@
 {% extends "base.html" %}
-{% load i18n %}
-{% load static %}
+{% load i18n static %}
 
 {% block title %}{% trans 'User' %}: {{ object.username }}{% endblock %}
 
@@ -15,13 +14,12 @@
         </div>
 
         {% if object == request.user %}
-            <!-- Action buttons -->
             <div class="row">
 
                 <div class="col-sm-12 gray">
                     <a class="btn btn-primary" href="{% url 'users:update' %}">{% trans 'My Info' %}</a>
                     <a class="btn btn-primary" href="{% url 'account_email' %}">{% trans 'E-Mail' %}</a>
-                    <!-- Your Stuff: Custom user template urls -->
+                    {% include 'users/_social.html' %}
                 </div>
 
             </div>

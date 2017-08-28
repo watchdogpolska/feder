@@ -66,11 +66,21 @@ LOCAL_APPS = (
     'feder.questionaries',
     'feder.main',
     'feder.alerts',
+    'feder.light_user',
+    'feder.letters.logs',
     # Your stuff: custom apps go here
 )
 
+ALLAUTH_PROVIDERS_APPS = (
+    'allauth.socialaccount.providers.github',
+    'allauth.socialaccount.providers.gitlab',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.twitter',
+    'allauth.socialaccount.providers.facebook',
+
+)
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
-INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS
+INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS + ALLAUTH_PROVIDERS_APPS
 
 # MIDDLEWARE CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -84,6 +94,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'reversion.middleware.RevisionMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'feder.light_user.middleware.LightUserMiddleware',
 )
 
 # MIGRATIONS CONFIGURATION
@@ -127,7 +138,6 @@ DATABASES = {
 }
 DATABASES['default']['ATOMIC_REQUESTS'] = True
 
-
 # GENERAL CONFIGURATION
 # ------------------------------------------------------------------------------
 # Local time zone for this installation. Choices can be found here:
@@ -166,7 +176,6 @@ TEMPLATE_CONTEXT_PROCESSORS = [
     'django.contrib.messages.context_processors.messages',
     # Your stuff: custom template context processors go here
 ]
-
 
 TEMPLATE_LOADERS = [
     'django.template.loaders.filesystem.Loader',
@@ -235,10 +244,10 @@ AUTHENTICATION_BACKENDS = (
 )
 
 # Some really nice defaults
-ACCOUNT_AUTHENTICATION_METHOD = 'username'
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
-
+SOCIALACCOUNT_EMAIL_VERIFICATION = 'optional'
 # Custom user app defaults
 # Select the correct user model
 AUTH_USER_MODEL = 'users.User'
@@ -247,7 +256,6 @@ LOGIN_URL = 'account_login'
 
 # SLUGLIFIER
 AUTOSLUG_SLUGIFY_FUNCTION = 'feder.main.slugifier.ascii_slugify'
-
 
 # LOGGING CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -313,3 +321,15 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 100,
     'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',)
 }
+
+SOCIALACCOUNT_PROVIDERS = {
+    'github': {
+        'SCOPE': [
+            'user',
+        ],
+    },
+    'gilab': {'SCOPE': ['read_user', 'openid']}
+}
+EMAILLABS_APP_KEY = env('EMAILLABS_APP_KEY', default="Dummy")
+
+EMAILLABS_SECRET_KEY = env('EMAILLABS_SECRET_KEY', default="Dummy")

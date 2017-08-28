@@ -48,7 +48,7 @@ class TaskDetailView(SelectRelatedMixin, PrefetchRelatedMixin, DetailView):
     def get_user_survey(self):
         try:
             return (self.object.survey_set.with_full_answer().
-                    filter(user=self.request.user.pk).get())
+                    of_user(self.request.user, self.request.light_user).get())
         except Survey.DoesNotExist:
             return None
 
@@ -114,14 +114,14 @@ class TaskDeleteView(AttrPermissionRequiredMixin, DeleteMessageMixin, DeleteView
     permission_attribute = 'case__monitoring'
 
 
-class SurveyDeleteView(DeleteMessageMixin, DeleteView):
+class SurveyDeleteView(LoginRequiredMixin, DeleteMessageMixin, DeleteView):
     model = Survey
     slug_url_kwarg = 'task_id'
     slug_field = 'task_id'
 
     def get_queryset(self, *args, **kwargs):
         qs = super(SurveyDeleteView, self).get_queryset()
-        return qs.filter(user=self.request.user).with_full_answer()
+        return qs.of_user(self.request.user, self.request.light_user).with_full_answer()
 
     def get_success_url(self):
         return self.object.task.get_absolute_url()
@@ -148,7 +148,7 @@ class SurveySelectView(AttrPermissionRequiredMixin, ActionMessageMixin,
         return reverse('tasks:survey', kwargs={'pk': self.object.task_id})
 
 
-class SurveyFillView(LoginRequiredMixin, FormView):
+class SurveyFillView(FormView):
     template_name = 'tasks/survey_fill.html'
     form_class = SurveyForm
     formset_class = AnswerFormSet
@@ -160,16 +160,15 @@ class SurveyFillView(LoginRequiredMixin, FormView):
     @cached_property
     def object(self):
         try:
-            return Survey.objects.get(task=self.task,
-                                      user=self.request.user)
-        except Survey.DoesNotExist:
+            return Survey.objects.filter(task=self.task).of_user(user=self.request.user,
+                                                                 light_user=self.request.light_user).all()[0]
+        except IndexError:
             return None
 
     def get_form_kwargs(self):
         kwargs = super(SurveyFillView, self).get_form_kwargs()
         kwargs['task'] = self.task
         kwargs['instance'] = self.object
-        kwargs['user'] = self.request.user
         return kwargs
 
     def get_success_url(self):
@@ -193,6 +192,10 @@ class SurveyFillView(LoginRequiredMixin, FormView):
     def form_valid(self, form):
         self.object = form.save(commit=False)
         if self.formset.is_valid():
+            if self.request.user.is_authenticated():
+                self.object.user = self.request.user
+            else:
+                self.object.light_user = self.request.light_user_new
             self.object.save()
             self.formset.save()
             return self.formset_valid(form, self.object, self.formset)

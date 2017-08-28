@@ -59,7 +59,7 @@ class TagQuerySet(models.QuerySet):
 
 @python_2_unicode_compatible
 class Tag(models.Model):
-    name = models.CharField(max_length=15, unique=True, verbose_name=_("Name"))
+    name = models.CharField(max_length=50, db_index=True, unique=True, verbose_name=_("Name"))
     slug = AutoSlugField(populate_from='name', verbose_name=_("Slug"))
     objects = TagQuerySet.as_manager()
 
