@@ -50,6 +50,7 @@ var config = (function () {
                 path.bower + '/bootstrap-sass/assets/javascripts/bootstrap/transition.js',
                 path.bower + '/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js',
                 path.bower + '/bootstrap-sass/assets/javascripts/bootstrap/tooltip.js',
+                path.bower + '/bootstrap-sass/assets/javascripts/bootstrap/collapse.js',
                 path.assets + '/js/*.js'
             ],
             output: {
