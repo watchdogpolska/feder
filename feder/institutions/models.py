@@ -34,7 +34,7 @@ class Institution(TimeStampedModel):
                             verbose_name=_('Unit of administrative division'),
                             db_index=True)
     regon = models.CharField(max_length=14, verbose_name=_("REGON number"), unique=True, null=True, blank=True)
-    parents = models.ManyToManyField('self', verbose_name=_("Parent institutions"), blank=True, null=True)
+    parents = models.ManyToManyField('self', verbose_name=_("Parent institutions"), blank=True)
     extra = JSONField(verbose_name="Unorganized additional information", blank=True)
     email = models.EmailField(verbose_name=_("Email of institution"))
     objects = InstitutionQuerySet.as_manager()
