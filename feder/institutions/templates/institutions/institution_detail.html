@@ -1,5 +1,7 @@
 {% extends 'institutions/base.html' %}
 {% load i18n %}
+{% block title_prefix %}{% trans 'Institutions' %} - {{ object }} - {% endblock title_prefix %}
+{% load i18n %}
 {% block breadcrumbs %}
     <ol class="breadcrumb">
         {% for jst in object.jst.get_ancestors.all %}
