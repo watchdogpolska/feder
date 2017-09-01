@@ -32,12 +32,6 @@ Panel administracyjny
 .. automodule:: feder.monitorings.admin
    :members:
 
-Procesorzy kontekstu
---------------------
-
-.. automodule:: feder.monitorings.context_processors
-   :members:
-
 Widoki
 --------------------
 

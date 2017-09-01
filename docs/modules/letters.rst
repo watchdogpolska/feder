@@ -35,12 +35,6 @@ Panel administracyjny
 .. automodule:: feder.letters.admin
    :members:
 
-Procesorzy kontekstu
---------------------
-
-.. automodule:: feder.letters.context_processors
-   :members:
-
 Widoki
 --------------------
 
