@@ -1,6 +1,6 @@
 {% extends 'letters/base_object.html' %}
 {% load i18n %}
-{% block subtitle %}{% trans 'Letters' %} - {{ object }} - {{ object.case.monitoring }} - {% endblock %}
+{% block title_prefix %}{% trans 'Letters' %} - {{ object }} - {{ object.case.monitoring }} - {% endblock title_prefix %}
 {% block breadcrumbs %}
     <ol class="breadcrumb">
         <li><a href="{{ object.case.monitoring.get_absolute_url }}">{{ object.case.monitoring }}</a></li>

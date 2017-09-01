@@ -1,6 +1,6 @@
 {% extends 'tasks/task_single.html' %}
 {% load i18n %}
-{% block subtitle %}{% trans 'Tasks' %} - {{ object }}{% endblock %}
+{% block title_prefix %}{% trans 'Tasks' %} - {{ object }}{% endblock title_prefix %}
 {% block breadcrumbs %}
     <ol class="breadcrumb">
         <li><a href="{{ object.case.monitoring.get_absolute_url }}">{{ object.case.monitoring }}</a></li>

@@ -1,6 +1,6 @@
 {% extends 'questionaries/questionary_single.html' %}
 {% load i18n crispy_forms_tags humanize %}
-{% block subtitle %}{% trans 'Questionaries' %} - {{ object }} - {{ object.monitoring }}{% endblock %}
+{% block title_prefix %}{% trans 'Questionaries' %} - {{ object }} - {{ object.monitoring }}{% endblock title_prefix %}
 {% block breadcrumbs %}
     <ol class="breadcrumb">
         <li><a href="{{ object.monitoring.get_absolute_url }}">{{ object.monitoring }}</a></li>
