@@ -3,5 +3,5 @@
 lxml==3.8.0
 django-coverage-plugin==1.5.0
 coverage==4.4.1
-coveralls==1.1
+coveralls==1.2.0
 vcrpy==1.11.1
