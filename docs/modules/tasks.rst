@@ -11,13 +11,13 @@ Moduł stanowi komponent zlecenia dla użytkownika opracowania danego kwestionar
 
 Encja "Task" (``Task`` ) stanowi indywidualne zlecenie wykonania opracowania informacji przesłanych przez urząd zgodnie z określonym kwestionariuszem.
 
-Encja "Ankieta" (``Survey``) zapewnia zagregowanie informacji stanowiących wypełnienie przez danego użytkownika danego kwestionariusza, co stanowi realizacje wybranego zadania. 
+Encja "Ankieta" (``Survey``) zapewnia zagregowanie informacji stanowiących wypełnienie przez danego użytkownika danego kwestionariusza, co stanowi realizacje wybranego zadania.
 
 Encja "Odpowiedź" (``Answer``) stanowi odpowiedź na konkretne pytanie w danej ankiecie.
 
 Relacje pomiędzy encjami modułu zadania i kwestionariusz został przedstawiony na diagramie:
 
-.. figure:: _images/tasks_model.svg
+.. figure:: ../_images/tasks_model.svg
    :alt: Model relacji encji modułu zadań i kwestionariuszy
 
 
@@ -43,12 +43,6 @@ Panel administracyjny
 ---------------------
 
 .. automodule:: feder.tasks.admin
-   :members:
-
-Procesorzy kontekstu
---------------------
-
-.. automodule:: feder.tasks.context_processors
    :members:
 
 Widoki

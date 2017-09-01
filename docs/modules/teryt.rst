@@ -34,18 +34,6 @@ Model
    :members:
 
 
-Panel administracyjny
----------------------
-
-.. automodule:: feder.teryt.admin
-   :members:
-
-Procesorzy kontekstu
---------------------
-
-.. automodule:: feder.teryt.context_processors
-   :members:
-
 Widoki
 --------------------
 
