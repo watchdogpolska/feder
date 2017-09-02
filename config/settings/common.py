@@ -318,8 +318,6 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',)
 }
 
-DEFAULT_LETTER_SUBJECT = '(bez tematu)'
-
 SOCIALACCOUNT_PROVIDERS = {
     'github': {
         'SCOPE': [
