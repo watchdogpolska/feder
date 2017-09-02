@@ -114,8 +114,14 @@ class Letter(TimeStampedModel):
     def is_outgoing(self):
         return bool(self.author_user_id)
 
+    def get_title(self):
+        return settings.DEFAULT_LETTER_SUBJECT if self.title is None or self.title.__len__() == 0 else self.title
+
     def __str__(self):
-        return self.title
+        return self.get_title()
+
+    def __unicode__(self):
+        return self.get_title()
 
     def get_absolute_url(self):
         return reverse('letters:details', kwargs={'pk': self.pk})
