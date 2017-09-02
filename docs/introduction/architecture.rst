@@ -9,8 +9,8 @@ Aplikacja została wykonana zaimplentowana w języku Python 2.7 z wsparciem fram
 
 Zestawienie bibliotek Python wykorzystanych w projekcie:
 
-.. literalinclude:: ../requirements/base.txt
+.. literalinclude:: ../../requirements/base.txt
 
 Ponadto podczas pracy deweloperskiej są wykorzystane następujące biblioteki:
 
-.. literalinclude:: ../requirements/dev.txt
+.. literalinclude:: ../../requirements/local.txt

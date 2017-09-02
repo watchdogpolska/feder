@@ -25,19 +25,6 @@ Model
 .. automodule:: feder.cases.models
    :members:
 
-
-Panel administracyjny
----------------------
-
-.. automodule:: feder.cases.admin
-   :members:
-
-Procesorzy kontekstu
---------------------
-
-.. automodule:: feder.cases.context_processors
-   :members:
-
 Widoki
 --------------------
 

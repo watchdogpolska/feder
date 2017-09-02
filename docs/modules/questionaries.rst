@@ -7,7 +7,7 @@ Kwestionariusze
 Założenia
 #########
 
-Moduł stanowi mechanizm analizy danych do postaci zagregowanej. 
+Moduł stanowi mechanizm analizy danych do postaci zagregowanej.
 
 Encja "kwestionariusz" (``Questionary``) zapewnia definicje na poziomie monitoringu na jakie pytania użytkownik ma odpowiedzieć w ramach opracowania danych w konkretnej sprawie.
 
@@ -31,18 +31,6 @@ Model
 .. automodule:: feder.questionaries.models
    :members:
 
-
-Panel administracyjny
----------------------
-
-.. automodule:: feder.questionaries.admin
-   :members:
-
-Procesorzy kontekstu
---------------------
-
-.. automodule:: feder.questionaries.context_processors
-   :members:
 
 Widoki
 --------------------

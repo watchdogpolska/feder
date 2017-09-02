@@ -1,5 +1,6 @@
 {% extends 'monitorings/monitoring_single.html' %}
 {% load i18n humanize %}
+{% block title_prefix %}{% trans 'Monitorings' %} - {{ object }} - {% endblock title_prefix %}
 {% block breadcrumbs %}
     <ol class="breadcrumb">
         <li class="active">{{ object }}</li>

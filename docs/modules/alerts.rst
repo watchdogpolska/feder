@@ -27,19 +27,6 @@ Model
 .. automodule:: feder.alerts.models
    :members:
 
-
-.. Panel administracyjny
-.. ---------------------
-
-.. .. automodule:: feder.alerts.admin
-..    :members:
-
-Procesorzy kontekstu
---------------------
-
-.. automodule:: feder.alerts.context_processors
-   :members:
-
 Widoki
 --------------------
 
