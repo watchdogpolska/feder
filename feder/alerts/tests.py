@@ -51,6 +51,11 @@ class AlertDeleteViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     def get_url(self):
         return reverse('alerts:delete', kwargs={'pk': self.alert.pk})
 
+    def test_save(self):
+        self.grant_permission()
+        self.client.login(username='john', password='pass')
+        self.client.post(self.get_url(), {'reason': 'test'})
+
 
 class AlertStatusViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     permission = ['monitorings.change_alert', ]
@@ -65,7 +70,7 @@ class AlertStatusViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
         self.alert.refresh_from_db()
         self.assertEqual(self.alert.solver, self.user)
         self.assertEqual(self.alert.status, True)
-
         self.client.post(self.get_url(), {})
         self.alert.refresh_from_db()
         self.assertEqual(self.alert.status, False)
+
