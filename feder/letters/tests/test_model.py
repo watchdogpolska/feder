@@ -15,6 +15,7 @@ from feder.users.factories import UserFactory
 from ..factories import (IncomingLetterFactory, LetterFactory,
                          OutgoingLetterFactory, SendOutgoingLetterFactory)
 from ..models import Letter, MessageParser
+from django.conf import settings
 
 
 class ModelTestCase(TestCase):
@@ -25,6 +26,11 @@ class ModelTestCase(TestCase):
     def test_is_outgoing(self):
         self.assertTrue(OutgoingLetterFactory().is_outgoing)
         self.assertFalse(IncomingLetterFactory().is_outgoing)
+
+    def test_default_subject(self):
+        incoming = IncomingLetterFactory()
+        incoming.title = ''
+        self.assertEqual(settings.DEFAULT_LETTER_SUBJECT, str(incoming))
 
     def test_author_for_user(self):
         obj = OutgoingLetterFactory()
