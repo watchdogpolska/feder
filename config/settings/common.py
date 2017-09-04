@@ -326,7 +326,7 @@ SOCIALACCOUNT_PROVIDERS = {
     },
     'gilab': {'SCOPE': ['read_user', 'openid']}
 }
-EMAIL_NOTIFICATION = 'no-reply@siecobywatelska.pl'
+EMAIL_NOTIFICATION = env('EMAIL_NOTIFICATION', default='no-reply@siecobywatelska.pl')
 
 EMAILLABS_APP_KEY = env('EMAILLABS_APP_KEY', default="Dummy")
 
