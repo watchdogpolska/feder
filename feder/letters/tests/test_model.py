@@ -30,7 +30,7 @@ class ModelTestCase(TestCase):
     def test_default_subject(self):
         incoming = IncomingLetterFactory()
         incoming.title = ''
-        self.assertEqual(settings.DEFAULT_LETTER_SUBJECT, str(incoming))
+        self.assertGreater(0, len(str(incoming)))
 
     def test_author_for_user(self):
         obj = OutgoingLetterFactory()
