@@ -1,24 +1,22 @@
 "use strict";
-var fs = require('fs'),
-    gulp = require('gulp'),
-    sass = require('gulp-sass'),
-    notify = require("gulp-notify"),
-    bower = require('gulp-bower'),
-    watch = require('gulp-watch'),
-    uglify = require('gulp-uglify'),
+var fs = require('fs');
+
+var gulp = require('gulp'),
+    cleanCss = require('gulp-clean-css'),
     concat = require('gulp-concat'),
-    rename = require('gulp-rename'),
-    minifycss = require('gulp-minify-css'),
-    prefix = require('gulp-autoprefixer'),
     livereload = require('gulp-livereload'),
-    csslint = require('gulp-csslint'),
-    json = JSON.parse(fs.readFileSync('./package.json'));
+    postcss = require('gulp-postcss'),
+    rename = require('gulp-rename'),
+    sass = require('gulp-sass'),
+    uglify = require('gulp-uglify');
+
+var autoprefixer = require('autoprefixer')
+var json = JSON.parse(fs.readFileSync('./package.json'));
 
 var config = (function () {
     var appName = json.name;
 
     var path = {
-        bower: './bower_components/',
         assets: './' + appName + '/assets',
         static: './' + appName + '/static'
     };
@@ -28,8 +26,8 @@ var config = (function () {
         scss: {
             input: path.assets + '/scss/style.scss',
             include: [
-                path.bower + '/bootstrap-sass/assets/stylesheets',
-                path.bower + '/font-awesome/scss',
+                './node_modules/bootstrap-sass/assets/stylesheets',
+                './node_modules/font-awesome/scss',
                 path.assets + '/scss/'
             ],
             output: path.static + "/css",
@@ -39,18 +37,18 @@ var config = (function () {
         },
         icons: {
             input: [
-                path.bower + '/font-awesome/fonts/**.*'
+                './node_modules/font-awesome/fonts/**.*'
             ],
             output: path.static + "/fonts"
         },
         script: {
             input: [
-                path.bower + '/jquery/dist/jquery.js',
-                path.bower + '/bootstrap-sass/assets/javascripts/bootstrap/tab.js',
-                path.bower + '/bootstrap-sass/assets/javascripts/bootstrap/transition.js',
-                path.bower + '/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js',
-                path.bower + '/bootstrap-sass/assets/javascripts/bootstrap/tooltip.js',
-                path.bower + '/bootstrap-sass/assets/javascripts/bootstrap/collapse.js',
+                './node_modules/jquery/dist/jquery.js',
+                './node_modules/bootstrap-sass/assets/javascripts/bootstrap/tab.js',
+                './node_modules/bootstrap-sass/assets/javascripts/bootstrap/transition.js',
+                './node_modules/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js',
+                './node_modules/bootstrap-sass/assets/javascripts/bootstrap/tooltip.js',
+                './node_modules/bootstrap-sass/assets/javascripts/bootstrap/collapse.js',
                 path.assets + '/js/*.js'
             ],
             output: {
@@ -63,10 +61,6 @@ var config = (function () {
         }
     };
 }());
-
-gulp.task('bower', function () {
-    return bower(config.path.bower);
-});
 
 gulp.task('icons', function () {
     return gulp.src(config.icons.input)
@@ -90,10 +84,13 @@ gulp.task('scss', function () {
             style: "expanded",
             includePaths: config.scss.include
         }))
+        .pipe(postcss([
+            autoprefixer()
+        ]))
         .pipe(gulp.dest(config.scss.output))
         .pipe(livereload())
         .pipe(rename({extname: '.min.css'}))
-        .pipe(minifycss())
+        .pipe(cleanCss())
         .pipe(gulp.dest(config.scss.output))
         .pipe(livereload());
 });
@@ -109,4 +106,4 @@ gulp.task('watch', function () {
     });
 });
 
-gulp.task('default', ['bower', 'icons', 'js', 'scss', 'watch']);
+gulp.task('default', ['icons', 'js', 'scss', 'watch']);
