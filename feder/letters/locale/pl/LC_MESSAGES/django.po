@@ -125,6 +125,10 @@ msgstr "Listy"
 msgid "Can filter eml"
 msgstr "Może filtrować po eml"
 
+#: models.py:120
+msgid "(no subject)"
+msgstr "(bez tematu)"
+
 #: templates/letters/_btn.html:7 templates/letters/base_object.html:10
 msgid "Edit"
 msgstr "Edytuj"
