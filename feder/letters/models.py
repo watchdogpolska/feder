@@ -24,7 +24,6 @@ from django_mailbox.models import Message
 from django_mailbox.signals import message_received
 from model_utils import Choices
 from model_utils.models import TimeStampedModel
-
 from feder.cases.models import Case
 from feder.institutions.models import Institution
 from .utils import email_wrapper, normalize_msg_id
@@ -114,8 +113,16 @@ class Letter(TimeStampedModel):
     def is_outgoing(self):
         return bool(self.author_user_id)
 
+    def get_title(self):
+        if self.title and self.title.strip():
+            return self.title
+        return _("(no subject)")
+
     def __str__(self):
-        return self.title
+        return unicode(self.get_title())
+
+    def __unicode__(self):
+        return unicode(self.get_title())
 
     def get_absolute_url(self):
         return reverse('letters:details', kwargs={'pk': self.pk})
