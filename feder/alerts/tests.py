@@ -37,6 +37,11 @@ class AlertCreateViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     def get_url(self):
         return reverse('alerts:create', kwargs={"monitoring": self.monitoring.pk})
 
+    def test_create(self):
+        self.grant_permission()
+        self.client.login(username='john', password='pass')
+        self.client.post(self.get_url(), {'reason': 'test'})
+
 
 class AlertUpdateViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     permission = ['monitorings.change_alert', ]
@@ -65,7 +70,7 @@ class AlertStatusViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
         self.alert.refresh_from_db()
         self.assertEqual(self.alert.solver, self.user)
         self.assertEqual(self.alert.status, True)
-
         self.client.post(self.get_url(), {})
         self.alert.refresh_from_db()
         self.assertEqual(self.alert.status, False)
+
