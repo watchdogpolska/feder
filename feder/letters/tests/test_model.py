@@ -15,7 +15,6 @@ from feder.users.factories import UserFactory
 from ..factories import (IncomingLetterFactory, LetterFactory,
                          OutgoingLetterFactory, SendOutgoingLetterFactory)
 from ..models import Letter, MessageParser
-from django.conf import settings
 
 
 class ModelTestCase(TestCase):
