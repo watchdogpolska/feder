@@ -77,6 +77,38 @@ $gray: #F0F0F0;
   .page-title {
     color: $red;
   }
+  .email_metadata {
+
+  }
+
+  .navbar-container {
+     text-align: right;
+    .navbar-toggle {
+      padding-top: 2px;
+      padding-bottom: 2px;
+      border-color: $gray-dark;
+      float: none;
+
+      .icon-bar {
+        :hover, :focus {
+
+          background-color: $gray;
+        }
+      }
+      span {
+        line-height:75%;
+      }
+      .icon-bar {
+        background-color: $gray-dark;
+        &.first {
+          padding-top: 0px;
+          margin-top: 0px;
+
+        }
+      }
+    }
+  }
+
 }
 
 .footer {

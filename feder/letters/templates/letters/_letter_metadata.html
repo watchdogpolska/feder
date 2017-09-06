@@ -1,0 +1,26 @@
+{% load i18n %}
+<div class="navbar-container">
+    <button type="button" class="navbar-toggle collapsed" aria-expanded="false" data-toggle="collapse" data-target=".email_metadata">
+        <span class="sr-only">{% trans 'Toggle metadata' %}</span>
+        <span class="decoration">M</span>
+        <span class="icon-bar first"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+    </button>
+</div>
+<ul class="email_metadata metadata collapse" aria-expanded="false">
+    <li>
+        <ul>
+            <li class="metadata_desc">{% trans 'Author' %}</li>
+            <li class="metadata_value">{{ object.author }} </li>
+        </ul>
+        <ul>
+            <li class="metadata_desc">{% trans 'Created' %}</li>
+            <li class="metadata_value">{{ object.created }}</li>
+        </ul>
+        <ul>
+            <li class="metadata_desc">{% trans 'Updated' %}</li>
+            <li class="metadata_value">{{ object.updated }}</li>
+        </ul>
+    </li>
+</ul>
