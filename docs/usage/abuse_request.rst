@@ -48,7 +48,7 @@ Po zakończeniu ww. czynności należy przesłać do podmiotu wnoszącego zgłos
 
     - odpowiedzi zostały zanonimizowane wraz z stosownym oznaczeniem zmian,
     - stare pliki nie są dostępne ( {{URL}} ),
-    - wytąiliśmy do Google o wyindeksowanie wcześniejszej odpowiedzi, jednak nie mam wpływu z jakim terminem zostanie to dokonane.
+    - wystąpiliśmy do Google o wyindeksowanie wcześniejszej odpowiedzi, jednak nie mam wpływu z jakim terminem zostanie to dokonane.
 
     Proszę o potwierdzenie czy zaspokaja to Pana oczekiwania wobec Stowarzyszenia w związku z publikacją.
 
