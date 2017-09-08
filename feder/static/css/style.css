@@ -7443,20 +7443,23 @@ button.close {
     background-color: #D72626; }
   .gray .page-title {
     color: #D72626; }
-  .gray .navbar-container {
+  .gray .metadata-button-container {
     text-align: right; }
-    .gray .navbar-container .navbar-toggle {
+    .gray .metadata-button-container > .navbar-toggle {
       padding-top: 2px;
       padding-bottom: 2px;
       border-color: #333333;
-      float: none; }
-      .gray .navbar-container .navbar-toggle .icon-bar :hover, .gray .navbar-container .navbar-toggle .icon-bar :focus {
+      float: none;
+      display: inline-block; }
+      .gray .metadata-button-container > .navbar-toggle .icon-bar :hover, .gray .metadata-button-container > .navbar-toggle .icon-bar :focus {
         background-color: #F0F0F0; }
-      .gray .navbar-container .navbar-toggle span {
+      .gray .metadata-button-container > .navbar-toggle .icon-bar + .icon-bar {
+        margin-top: 1px; }
+      .gray .metadata-button-container > .navbar-toggle span {
         line-height: 75%; }
-      .gray .navbar-container .navbar-toggle .icon-bar {
+      .gray .metadata-button-container > .navbar-toggle .icon-bar {
         background-color: #333333; }
-        .gray .navbar-container .navbar-toggle .icon-bar.first {
+        .gray .metadata-button-container > .navbar-toggle .icon-bar.first {
           padding-top: 0px;
           margin-top: 0px; }
 

@@ -81,18 +81,21 @@ $gray: #F0F0F0;
 
   }
 
-  .navbar-container {
+  .metadata-button-container {
      text-align: right;
-    .navbar-toggle {
+    >.navbar-toggle {
       padding-top: 2px;
       padding-bottom: 2px;
       border-color: $gray-dark;
       float: none;
-
+      display: inline-block; // e.g.  display regardless of screen size
       .icon-bar {
         :hover, :focus {
 
           background-color: $gray;
+        }
+        + .icon-bar {
+          margin-top: 1px;
         }
       }
       span {
