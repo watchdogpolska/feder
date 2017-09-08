@@ -86,13 +86,15 @@ $gray: #F0F0F0;
     >.navbar-toggle {
       padding-top: 2px;
       padding-bottom: 2px;
-      border-color: $gray-dark;
+      color: $btn-primary-color;
+      background-color: $btn-primary-bg;
+      border-color: $btn-primary-border;
       float: none;
       display: inline-block; // e.g.  display regardless of screen size
       .icon-bar {
         :hover, :focus {
 
-          background-color: $gray;
+          background-color: $btn-primary-color;
         }
         + .icon-bar {
           margin-top: 1px;
@@ -102,7 +104,7 @@ $gray: #F0F0F0;
         line-height:75%;
       }
       .icon-bar {
-        background-color: $gray-dark;
+        background-color: $btn-primary-color;
         &.first {
           padding-top: 0px;
           margin-top: 0px;
