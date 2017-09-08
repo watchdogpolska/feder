@@ -7448,17 +7448,19 @@ button.close {
     .gray .metadata-button-container > .navbar-toggle {
       padding-top: 2px;
       padding-bottom: 2px;
-      border-color: #333333;
+      color: #fff;
+      background-color: #bb2121;
+      border-color: #a51d1d;
       float: none;
       display: inline-block; }
       .gray .metadata-button-container > .navbar-toggle .icon-bar :hover, .gray .metadata-button-container > .navbar-toggle .icon-bar :focus {
-        background-color: #F0F0F0; }
+        background-color: #fff; }
       .gray .metadata-button-container > .navbar-toggle .icon-bar + .icon-bar {
         margin-top: 1px; }
       .gray .metadata-button-container > .navbar-toggle span {
         line-height: 75%; }
       .gray .metadata-button-container > .navbar-toggle .icon-bar {
-        background-color: #333333; }
+        background-color: #fff; }
         .gray .metadata-button-container > .navbar-toggle .icon-bar.first {
           padding-top: 0px;
           margin-top: 0px; }
