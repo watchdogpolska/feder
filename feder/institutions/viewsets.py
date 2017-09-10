@@ -21,7 +21,7 @@ class InstitutionFilter(filters.FilterSet):
 class InstitutionViewSet(viewsets.ModelViewSet):
     queryset = (Institution.objects.
                 select_related('jst').
-                prefetch_related('tags').
+                prefetch_related('tags','parents').
                 all())
     serializer_class = InstitutionSerializer
     filter_backends = (filters.DjangoFilterBackend,)
