@@ -82,10 +82,6 @@ $gray: #F0F0F0;
     >.navbar-toggle {
       padding-top: 2px;
       padding-bottom: 2px;
-      color: $btn-primary-color;
-      background-color: $btn-primary-bg;
-      border-color: $btn-primary-border;
-      float: none;
       display: inline-block; // e.g.  display regardless of screen size
       .icon-bar {
         :hover, :focus {
