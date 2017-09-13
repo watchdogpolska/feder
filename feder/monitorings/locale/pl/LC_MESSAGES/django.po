@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-monitorings 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-20 17:34+0000\n"
-"PO-Revision-Date: 2017-08-20 19:34+0200\n"
+"POT-Creation-Date: 2017-09-13 14:09+0000\n"
+"PO-Revision-Date: 2017-09-13 16:14+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -39,7 +39,7 @@ msgstr "Liczba spraw (rosnąco)"
 msgid "Cases count (descending)"
 msgstr "Liczba spraw (malejąco)"
 
-#: forms.py:21 models.py:45 models.py:46
+#: forms.py:21 models.py:48 models.py:49
 msgid "Monitoring"
 msgstr "Monitoring"
 
@@ -79,7 +79,7 @@ msgstr "Nazwa"
 msgid "Slug"
 msgstr "Identyfikator redakcyjny"
 
-#: models.py:34 templates/monitorings/base_monitoring_detail.html:20
+#: models.py:34 templates/monitorings/base_monitoring_detail.html:21
 msgid "Description"
 msgstr "Opis"
 
@@ -92,82 +92,90 @@ msgid "Use {{EMAIL}} for insert reply address"
 msgstr "Użyj {{EMAIL}} aby umieścić adres odpowiedzi."
 
 #: models.py:40
+msgid "Email footer"
+msgstr "Podpis w e-mail"
+
+#: models.py:41
+msgid "Footer for sent mail and replies"
+msgstr "Podpis w stopce e-maili, w tym w odpowiedziach na e-maile"
+
+#: models.py:43
 msgid "Notify about alerts"
 msgstr "Powiadamiaj o alertach"
 
-#: models.py:49
+#: models.py:52
 msgid "Can add questionary"
 msgstr "Może tworzyć kwestionariusz"
 
-#: models.py:50
+#: models.py:53
 msgid "Can change questionary"
 msgstr "Może zmieniać kwestionariusz"
 
-#: models.py:51
+#: models.py:54
 msgid "Can delete questionary"
 msgstr "Może usuwać kwestionariusz"
 
-#: models.py:52
+#: models.py:55
 msgid "Can add case"
 msgstr "Może tworzyć sprawę"
 
-#: models.py:53
+#: models.py:56
 msgid "Can change case"
 msgstr "Może zmieniać sprawę"
 
-#: models.py:54
+#: models.py:57
 msgid "Can delete case"
 msgstr "Może usuwać sprawę"
 
-#: models.py:55
+#: models.py:58
 msgid "Can add task"
 msgstr "Może dodawać zadanie"
 
-#: models.py:56 models.py:61
+#: models.py:59 models.py:64
 msgid "Can change task"
 msgstr "Może zmieniać zadanie"
 
-#: models.py:57
+#: models.py:60
 msgid "Can delete task"
 msgstr "Może usuwać zadanie"
 
-#: models.py:58
+#: models.py:61
 msgid "Can add letter"
 msgstr "Może dodawać list"
 
-#: models.py:59
+#: models.py:62
 msgid "Can reply"
 msgstr "Może odpowiadać"
 
-#: models.py:60
+#: models.py:63
 msgid "Add reply draft"
 msgstr "Dodaj szkic odpowiedzi"
 
-#: models.py:62
+#: models.py:65
 msgid "Can delete letter"
 msgstr "Może usuwać list"
 
-#: models.py:63
+#: models.py:66
 msgid "Can view alert"
 msgstr "Może dodawać alert"
 
-#: models.py:64
+#: models.py:67
 msgid "Can change alert"
 msgstr "Może zmieniać alert"
 
-#: models.py:65
+#: models.py:68
 msgid "Can delete alert"
 msgstr "Może usuwać alert"
 
-#: models.py:66
+#: models.py:69
 msgid "Can manage perms"
 msgstr "Może zarządzać uprawnieniami"
 
-#: models.py:67
+#: models.py:70
 msgid "Can select answer"
 msgstr "Może  wybierać odpowiedź"
 
-#: models.py:68
+#: models.py:71
 msgid "Can view logs"
 msgstr "Może widzieć dzienniki"
 
@@ -213,14 +221,15 @@ msgid "Case count"
 msgstr "Liczba spraw"
 
 #: templates/monitorings/base.html:5
+#: templates/monitorings/base_monitoring_detail.html:3
 msgid "Monitorings"
 msgstr "Monitoringi"
 
-#: templates/monitorings/base_monitoring_detail.html:26
+#: templates/monitorings/base_monitoring_detail.html:27
 msgid "Questionaries"
 msgstr "Kwestionariusze"
 
-#: templates/monitorings/base_monitoring_detail.html:30
+#: templates/monitorings/base_monitoring_detail.html:31
 #: templates/monitorings/monitoring_detail.html:80
 #: templates/monitorings/monitoring_letter_list.html:68
 msgid "No rows."
