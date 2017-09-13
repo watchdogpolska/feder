@@ -22,8 +22,6 @@ urlpatterns = [
         name="details"),
     url(_(r'^(?P<slug>[\w-]+)/letter$'), views.LetterListMonitoringView.as_view(),
         name="letters"),
-url(_(r'^(?P<slug>[\w-]+)/letter$'), views.LetterListMonitoringView.as_view(),
-        name="templates"),
     url(_(r'^(?P<slug>[\w-]+)/letter/page-(?P<page>[\d]+)$'), views.LetterListMonitoringView.as_view(),
         name="letters"),
     url(_(r'^(?P<slug>[\w-]+)/~update$'), views.MonitoringUpdateView.as_view(),
