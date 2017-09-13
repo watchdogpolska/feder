@@ -158,7 +158,7 @@ class Letter(TimeStampedModel):
 
     def email_body(self):
         body = self.body.replace('{{EMAIL}}', self.case.email)
-        body = self._add_footer(body)
+        body = self.add_footer(body)
         return u"{0}\n{1}".format(body, email_wrapper(self.quote))
 
     def add_footer(self, body):
