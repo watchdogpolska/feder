@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: letters 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-08 14:28+0000\n"
+"POT-Creation-Date: 2017-09-13 12:30+0000\n"
 "PO-Revision-Date: 2017-08-16 00:49+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -179,7 +179,8 @@ msgid "Status"
 msgstr "Status"
 
 #: templates/letters/_letter_metadata.html:32
-msgid "unknown|for status field"
+msgctxt "for status field"
+msgid "unknown"
 msgstr "nieznany"
 
 #: templates/letters/_object.html:15
@@ -382,6 +383,9 @@ msgstr "List {object} został oznaczony jako spam i ukryty."
 msgid "Thanks for your help. The report was forwarded to responsible persons."
 msgstr ""
 "Dziękujemy za pomoc. Zgłoszenie zostało przekazane do odpowiedzialnych osób."
+
+#~ msgid "unknown|for status field"
+#~ msgstr "nieznany"
 
 #~ msgid "There is no mail to institution. Unable to send emails."
 #~ msgstr "Brak adresu e-mail do instytucji, więc nie mogę wysłać e-maila."

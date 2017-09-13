@@ -29,7 +29,7 @@
                     {% if object.emaillog %}
                         {{ object.emaillog.status }}
                     {% else %}
-                        {% trans "unknown|for status field" %}
+                        {% trans "unknown" context "for status field" %}
                     {% endif %}
                 </td>
             </tr>
