@@ -1,0 +1,38 @@
+{% load i18n %}
+<div class="metadata-button-container">
+    <button type="button" class="btn btn-primary metadata-toggle" aria-expanded="false" data-toggle="collapse" data-target=".email_metadata">
+        <span class="sr-only">{% trans 'Toggle metadata' %}</span>
+        <span class="decoration">M</span>
+        <span class="icon-bar first"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+    </button>
+</div>
+<div class="email_metadata metadata collapse" aria-expanded="false">
+    <table class="table">
+        <tbody>
+            <tr>
+                <td class="col-md-3 col-xs-6 col-sm-5 metadata_desc"><i class="fa fa-address-book" aria-hidden="false"></i> {% trans 'Author' %}</td>
+                <td class="col-md-9 col-xs-6 col-sm-7 metadata_value"><a href="{{ object.author_url }}"> {{ object.author }} </a> </td>
+            </tr>
+            <tr>
+                <td class="metadata_desc"><i class="fa fa-calendar-plus-o" aria-hidden="false"></i> {% trans 'Creation date' %}</td>
+                <td class="metadata_value">{{ object.created }}</td>
+            </tr>
+            <tr>
+                <td class="metadata_desc"><i class="fa fa-calendar" aria-hidden="false"></i> {% trans 'Modification date' %}</td>
+                <td class="metadata_value">{{ object.modified }}</td>
+            </tr>
+            <tr>
+                <td class="metadata_desc"><i class="fa fa-check-square-o" aria-hidden="false"></i> {% trans 'Status' %}</td>
+                <td class="metadata_value">
+                    {% if object.emaillog %}
+                        {{ object.emaillog.status }}
+                    {% else %}
+                        {% trans "unknown" context "for status field" %}
+                    {% endif %}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
