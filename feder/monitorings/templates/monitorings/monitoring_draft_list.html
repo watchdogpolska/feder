@@ -5,7 +5,7 @@
     <h3 class="sr-only">{% trans 'Drafts' %}</h3>
     {% if object_list %}
         {% for object in object_list %}
-            {% include 'monitorings/_letter.html' %}
+            {% include 'monitorings/_letter.html' with object=object %}
         {% endfor %}
         {% if object_list.has_previous or object_list.has_next %}
             <ul class="pager">

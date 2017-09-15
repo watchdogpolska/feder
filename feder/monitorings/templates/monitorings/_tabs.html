@@ -1,21 +1,18 @@
 {% load i18n guardian_tags %}
 {% get_obj_perms request.user for object as "monitoring_perms" %}
     <ul class="nav nav-tabs" role="nav">
-            <li
-                class="{% if tab == 'general' %}active{% endif %}"><a
+            <li {% if tab == 'general' %} class="active"{% endif %}><a
                 {% if tab != 'general' %}
                     href="{% url 'monitorings:details' slug=object.slug %}"
                 {% endif %}
             >{% trans 'Institutions, cases and tasks' %}</a></li>
-            <li
-                class="{% if tab == 'letters' %}active{% endif %}"><a
+            <li{% if tab == 'letters' %} class="active"{% endif %}><a
                 {% if tab != 'letters' %}
                     href="{% url 'monitorings:letters' slug=object.slug %}"
                 {% endif %}
             >{% trans 'Letters' %}</a></li>
         {% if 'reply' in monitoring_perms or 'add_draft' in monitoring_perms %}
-            <li
-                class="{% if tab == 'drafts' %}active{% endif %}"><a
+            <li{% if tab == 'drafts' %} class="active"{% endif %}><a
                 {% if tab != 'drafts' %}
                     href="{% url 'monitorings:drafts' slug=object.slug %}"
                 {% endif %}
