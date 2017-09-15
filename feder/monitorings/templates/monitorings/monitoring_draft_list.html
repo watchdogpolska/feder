@@ -10,38 +10,7 @@
     <h3 class="sr-only">{% trans 'Drafts' %}</h3>
     {% if object_list %}
         {% for object in object_list %}
-            <div class="gray">
-                <h3>
-                    <i class="fa fa-envelope"></i>
-                    <a href="{{ object.get_absolute_url }}">{{ object }}</a>
-                    <small>
-                        {% trans 'by' %} <i
-                            class="fa {% if object.author_institution %}fa-home{% elif object.author_user %}fa-user{% else %}fa-envelope{% endif %}"></i>
-                        <a href="{{ object.author.get_absolute_url }}">{{ object.author }}</a>
-                        {% trans 'in case of ' %} <i class="fa fa-folder-open"></i> <a
-                            href="{{ object.case.get_absolute_url }}">
-                        {{ object.case }}</a> {{ object.created | naturaltime }}
-                    </small>
-                </h3>
-
-                {{ object.body|linebreaks }}
-
-                {% if object.quote %}
-                    <blockquote class="expandable">
-                        {{ object.quote|linebreaks }}
-                    </blockquote>
-                {% endif %}
-
-                {% if object.note %}
-                    <div class="alert alert-warning">{{ object.note }}</div>
-                {% endif %}
-                {% if object.attachment_count %}
-                    <span class="badge pull-right">
-                            <i class="fa fa-download"></i>
-                            {{ object.attachment_count }}
-                        </span>
-                {% endif %}
-            </div>
+            {% include 'monitorings/_letter.html' %}
         {% endfor %}
         {% if object_list.has_previous or object_list.has_next %}
             <ul class="pager">
