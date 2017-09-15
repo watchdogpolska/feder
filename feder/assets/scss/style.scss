@@ -65,6 +65,40 @@ $gray: #F0F0F0;
   }
 }
 
+.metadata-toggle {
+  background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
+  border: 1px solid transparent;
+  border-radius: $border-radius-base;
+  padding-top: 0px;
+  padding-bottom: 2px;
+  display: inline-block; // e.g.  display regardless of screen size
+
+  .icon-bar {
+    background-color: $btn-primary-color;
+    :hover, :focus {
+
+      background-color: $btn-primary-color;
+    }
+    + .icon-bar {
+      margin-top: 1px;
+    }
+  }
+  span {
+    line-height:75%;
+  }
+  // Bars
+  .icon-bar {
+    display: block;
+    width: 22px;
+    height: 2px;
+    border-radius: 1px;
+    &.first {
+      padding-top: 0px;
+      margin-top: 0px;
+    }
+  }
+}
+
 .gray {
   @extend .block;
   background-color: $gray;
@@ -77,6 +111,11 @@ $gray: #F0F0F0;
   .page-title {
     color: $red;
   }
+  .metadata-button-container {
+    text-align: right;
+    padding: 12px;
+  }
+
 }
 
 .footer {
