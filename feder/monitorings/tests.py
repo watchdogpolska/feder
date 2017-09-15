@@ -6,6 +6,7 @@ from guardian.shortcuts import assign_perm
 from feder.cases.models import Case
 from feder.institutions.factories import InstitutionFactory
 from feder.letters.factories import IncomingLetterFactory
+from feder.letters.factories import OutgoingLetterFactory
 from feder.main.mixins import PermissionStatusMixin
 from feder.users.factories import UserFactory
 from .factories import MonitoringFactory
@@ -113,6 +114,27 @@ class LetterListMonitoringViewTestCase(ObjectMixin, PermissionStatusMixin, TestC
         self.assertContains(response, letter.body)
         self.assertContains(response, letter.note)
 
+
+class DraftListMonitoringViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
+    status_anonymous = 200
+    status_no_permission = 200
+    permission = []
+
+    def get_url(self):
+        return reverse('monitorings:drafts', kwargs={'slug': self.monitoring})
+
+    def test_list_display(self):
+        response = self.client.get(self.get_url())
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, self.monitoring)
+
+    def test_display_draft(self):
+        letter = OutgoingLetterFactory(case__monitoring=self.monitoring)
+        incoming_letter = IncomingLetterFactory(case__monitoring=self.monitoring)
+        response = self.client.get(self.get_url())
+        self.assertContains(response, letter.body)
+        self.assertContains(response, letter.note)
+        self.assertNotContains(response, incoming_letter.body)
 
 class MonitoringUpdateViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     permission = ['monitorings.change_monitoring', ]
