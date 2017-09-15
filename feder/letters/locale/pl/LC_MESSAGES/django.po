@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: letters 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-20 17:34+0000\n"
+"POT-Creation-Date: 2017-09-13 12:30+0000\n"
 "PO-Revision-Date: 2017-08-16 00:49+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -19,11 +19,11 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.8.7.1\n"
 
-#: apps.py:8 models.py:95
+#: apps.py:8 models.py:97
 msgid "Letter"
 msgstr "List"
 
-#: filters.py:15
+#: filters.py:15 templates/letters/_letter_metadata.html:19
 msgid "Creation date"
 msgstr "Data utworzenia"
 
@@ -61,71 +61,76 @@ msgstr "Nie masz uprawnień, aby wysłać odpowiedzi."
 msgid "You do not have permission to save draft."
 msgstr "Nie masz odpowiedzi, aby wysłać odpowiedź."
 
-#: models.py:66
+#: models.py:65
 msgid "Unknown"
 msgstr "Nieznane"
 
-#: models.py:67
+#: models.py:66
 msgid "Spam"
 msgstr "Spam"
 
-#: models.py:68
+#: models.py:67
 msgid "Non-spam"
 msgstr "Nie-spam"
 
-#: models.py:69
+#: models.py:68
 msgid "Case"
 msgstr "Sprawa"
 
-#: models.py:70
+#: models.py:69
 msgid "Author (if user)"
 msgstr "Autor (jeżeli użytkownik)"
 
-#: models.py:72
+#: models.py:71
 msgid "Author (if institution)"
 msgstr "Autor (jeżeli instytucja)"
 
-#: models.py:74
+#: models.py:73
 msgid "Title"
 msgstr "Tytuł"
 
-#: models.py:75
+#: models.py:74
 msgid "Text"
 msgstr "Treść"
 
-#: models.py:76
+#: models.py:75
 msgid "Quote"
 msgstr "Cytat"
 
-#: models.py:77
+#: models.py:76
 msgid "E-mail"
 msgstr "E-mail"
 
-#: models.py:78
+#: models.py:77
 msgid "Comments from editor"
 msgstr "Komentarz od redakcji"
 
-#: models.py:81
+#: models.py:80
+msgid "ID of sent email message \"Message-ID\""
+msgstr ""
+
+#: models.py:83
 msgid "File"
 msgstr "Plik"
 
-#: models.py:86
+#: models.py:88
 msgid "Message"
 msgstr "Wiadomość"
 
-#: models.py:87
+#: models.py:89
 msgid "Message registerd by django-mailbox"
 msgstr "Wiadomość zarejestrowanaa przez django-maiblxo"
 
-#: models.py:96 templates/letters/base.html:5
+#: models.py:98 templates/letters/base.html:5
+#: templates/letters/letter_detail.html:3
 msgid "Letters"
 msgstr "Listy"
 
-#: models.py:99
+#: models.py:101
 msgid "Can filter eml"
 msgstr "Może filtrować po eml"
 
-#: models.py:120
+#: models.py:119
 msgid "(no subject)"
 msgstr "(bez tematu)"
 
@@ -154,6 +159,29 @@ msgstr "Zgłoś spam"
 #: templates/letters/_header.html:6 templates/letters/letter_preview.html:13
 msgid "by"
 msgstr "przez"
+
+#: templates/letters/_letter_metadata.html:4
+msgid "Toggle metadata"
+msgstr ""
+
+#: templates/letters/_letter_metadata.html:15
+msgid "Author"
+msgstr "Autor"
+
+#: templates/letters/_letter_metadata.html:23
+#, fuzzy
+#| msgid "Creation date"
+msgid "Modification date"
+msgstr "Data modyfikacji"
+
+#: templates/letters/_letter_metadata.html:27
+msgid "Status"
+msgstr "Status"
+
+#: templates/letters/_letter_metadata.html:32
+msgctxt "for status field"
+msgid "unknown"
+msgstr "nieznany"
 
 #: templates/letters/_object.html:15
 msgid ""
@@ -191,7 +219,7 @@ msgstr ""
 msgid "Confirm delete"
 msgstr "Potwierdź usuwanie"
 
-#: templates/letters/letter_detail.html:17
+#: templates/letters/letter_detail.html:18
 msgid "Download letter"
 msgstr "Pobierz list"
 
@@ -356,11 +384,11 @@ msgid "Thanks for your help. The report was forwarded to responsible persons."
 msgstr ""
 "Dziękujemy za pomoc. Zgłoszenie zostało przekazane do odpowiedzialnych osób."
 
+#~ msgid "unknown|for status field"
+#~ msgstr "nieznany"
+
 #~ msgid "There is no mail to institution. Unable to send emails."
 #~ msgstr "Brak adresu e-mail do instytucji, więc nie mogę wysłać e-maila."
-
-#~ msgid "Author"
-#~ msgstr "Autor"
 
 #~ msgid "Institution"
 #~ msgstr "Instytucja"
