@@ -22,6 +22,7 @@ class InstitutionFilter(django_filters.FilterSet):
     def __init__(self, *args, **kwargs):
         super(InstitutionFilter, self).__init__(*args, **kwargs)
         self.filters['name'].lookup_expr = 'icontains'
+        self.filters['name'].label = _("Name")
         widget = autocomplete.Select2Multiple(url='institutions:tag_autocomplete')
         self.filters['tags'].widget = widget
 

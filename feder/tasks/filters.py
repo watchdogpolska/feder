@@ -14,11 +14,15 @@ class TaskFilter(django_filters.FilterSet):
     def __init__(self, *args, **kwargs):
         super(TaskFilter, self).__init__(*args, **kwargs)
         self.filters['name'].lookup_expr = 'icontains'
+        self.filters['name'].label = _("Name")
         self.filters['case'].widget = autocomplete.ModelSelect2(url='cases:autocomplete')
         self.filters['case__monitoring'].widget = autocomplete.ModelSelect2(
             url='monitorings:autocomplete')
+        self.filters['case__monitoring'].label = _("Monitoring")
         self.filters['case__institution'].widget = autocomplete.ModelSelect2(
             url='institutions:autocomplete')
+        self.filters['case__institution'].label = _("Institution")
+
 
     class Meta:
         model = Task
