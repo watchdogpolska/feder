@@ -67,7 +67,6 @@ class LetterListMonitoringView(SelectRelatedMixin, PrefetchRelatedMixin, ExtraLi
 
     def get_object_list(self, obj):
         return (Letter.objects.filter(case__monitoring=obj).
-                is_draft(False).
                 select_related('case').
                 with_author().
                 attachment_count().
@@ -84,7 +83,7 @@ class DraftListMonitoringView(SelectRelatedMixin, PrefetchRelatedMixin, ExtraLis
 
     def get_object_list(self, obj):
         return (Letter.objects.filter(case__monitoring=obj).
-                is_draft(True).
+                is_draft().
                 select_related('case').
                 with_author().
                 attachment_count().
