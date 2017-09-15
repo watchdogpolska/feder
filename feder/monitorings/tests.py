@@ -129,11 +129,11 @@ class DraftListMonitoringViewTestCase(ObjectMixin, PermissionStatusMixin, TestCa
         self.assertContains(response, self.monitoring)
 
     def test_display_draft(self):
-        letter = OutgoingLetterFactory(case__monitoring=self.monitoring)
+        draft_letter = OutgoingLetterFactory(case__monitoring=self.monitoring)
         incoming_letter = IncomingLetterFactory(case__monitoring=self.monitoring)
         response = self.client.get(self.get_url())
-        self.assertContains(response, letter.body)
-        self.assertContains(response, letter.note)
+        self.assertContains(response, draft_letter.body)
+        self.assertContains(response, draft_letter.note)
         self.assertNotContains(response, incoming_letter.body)
 
 class MonitoringUpdateViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
