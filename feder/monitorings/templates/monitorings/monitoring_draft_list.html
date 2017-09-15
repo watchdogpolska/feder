@@ -1,8 +1,8 @@
 {% extends 'monitorings/base_monitoring_detail.html' %}
 {% load i18n humanize %}
 {% block content_object %}
-    {% include 'monitorings/_tabs.html' with tab='letters' %}
-    <h3 class="sr-only">{% trans 'Letters' %}</h3>
+    {% include 'monitorings/_tabs.html' with tab='drafts' %}
+    <h3 class="sr-only">{% trans 'Drafts' %}</h3>
     {% if object_list %}
         {% for object in object_list %}
             {% include 'monitorings/_letter.html' with object=object %}
@@ -11,7 +11,7 @@
             <ul class="pager">
                 {% if object_list.has_previous %}
                     <li>
-                        <a href="{% url 'monitorings:letters' slug=object.slug page=object_list.previous_page_number %}">
+                        <a href="{% url 'monitorings:drafts' slug=object.slug page=object_list.previous_page_number %}">
                             &laquo; {% trans 'previous' %}
                         </a>
                     </li>
@@ -20,7 +20,7 @@
                     {{ total }}{% endblocktrans %}</li>
                 {% if object_list.has_next %}
                     <li>
-                        <a href="{% url 'monitorings:letters' slug=object.slug page=object_list.next_page_number %}">
+                        <a href="{% url 'monitorings:drafts' slug=object.slug page=object_list.next_page_number %}">
                             {% trans 'next' %} &raquo;
                         </a>
                     </li>
