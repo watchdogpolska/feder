@@ -114,6 +114,10 @@ class LetterListMonitoringViewTestCase(ObjectMixin, PermissionStatusMixin, TestC
         self.assertContains(response, letter.body)
         self.assertContains(response, letter.note)
 
+    def test_does_not_display_draft(self):
+        draft_letter = OutgoingLetterFactory(case__monitoring=self.monitoring)
+        response = self.client.get(self.get_url())
+        self.assertNotContains(response, draft_letter.body)
 
 class DraftListMonitoringViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     status_anonymous = 200
