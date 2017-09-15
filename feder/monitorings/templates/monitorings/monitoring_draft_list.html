@@ -1,12 +1,7 @@
 {% extends 'monitorings/base_monitoring_detail.html' %}
 {% load i18n humanize %}
 {% block content_object %}
-    <ul class="nav nav-tabs" role="nav">
-        <li><a href="{% url 'monitorings:details' slug=object.slug %}">{% trans 'Institutions, cases and tasks' %}</a>
-        </li>
-        <li><a href="{% url 'monitorings:letters' slug=object.slug %}">{% trans 'Letters' %}</a></li>
-        <li class="active"><a>{% trans 'Drafts' %}</a></li>
-    </ul>
+    {% include 'monitorings/_tabs.html' with tab='drafts' %}
     <h3 class="sr-only">{% trans 'Drafts' %}</h3>
     {% if object_list %}
         {% for object in object_list %}

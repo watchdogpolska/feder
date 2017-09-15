@@ -1,14 +1,7 @@
 {% extends 'monitorings/base_monitoring_detail.html' %}
-{% load i18n humanize guardian_tags %}
+{% load i18n humanize %}
 {% block content_object %}
-    {% get_obj_perms request.user for object as "monitoring_perms" %}
-    <ul class="nav nav-tabs" role="nav">
-        <li class="active"><a>{% trans 'Institutions, cases and tasks' %}</a></li>
-        <li><a href="{% url 'monitorings:letters' slug=object.slug %}">{% trans 'Letters' %}</a></li>
-    {% if 'reply' in monitoring_perms or 'add_draft' in monitoring_perms %}
-        <li><a href="{% url 'monitorings:drafts' slug=object.slug %}">{% trans 'Drafts' %}</a></li>
-    {% endif %}
-    </ul>
+    {% include 'monitorings/_tabs.html' with tab='general' %}
     <h3 class="sr-only">{% trans 'Institutions, cases and tasks' %}</h3>
     {% if object_list %}
         {% for case in object_list %}
