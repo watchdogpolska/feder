@@ -67,6 +67,24 @@ class LetterListMonitoringView(SelectRelatedMixin, PrefetchRelatedMixin, ExtraLi
 
     def get_object_list(self, obj):
         return (Letter.objects.filter(case__monitoring=obj).
+                is_draft(False).
+                select_related('case').
+                with_author().
+                attachment_count().
+                order_by('-created').
+                all())
+
+
+class DraftListMonitoringView(SelectRelatedMixin, PrefetchRelatedMixin, ExtraListMixin, DetailView):
+    model = Monitoring
+    template_name_suffix = '_draft_list'
+    select_related = ['user', ]
+    prefetch_related = ['questionary_set', ]
+    paginate_by = 25
+
+    def get_object_list(self, obj):
+        return (Letter.objects.filter(case__monitoring=obj).
+                is_draft(True).
                 select_related('case').
                 with_author().
                 attachment_count().

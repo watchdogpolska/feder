@@ -43,6 +43,21 @@ class LetterQuerySet(models.QuerySet):
     def for_milestone(self):
         return self.prefetch_related('attachment_set').with_author()
 
+    def is_not_draft(self):
+        return (self.exclude())
+
+    def is_draft(self, is_draft):
+        if is_draft:
+            return self.is_outgoing().has_eml(False)
+        else:
+            return self.is_incoming() | self.has_eml(True)
+
+    def has_eml(self, is_eml):
+        if is_eml:
+            return self.exclude(eml='')
+        else:
+            return self.filter(eml='')
+
     def is_outgoing(self):
         return self.filter(author_user__isnull=False)
 
