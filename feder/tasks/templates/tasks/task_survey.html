@@ -2,8 +2,12 @@
 {% load i18n humanize guardian_tags %}
 
 {% block breadcrumbs_row %}
-    <li class="active">
-        {% trans 'Answers' %}
+    <li
+        itemprop="itemListElement"
+        itemscope
+        itemtype="http://schema.org/ListItem"
+        class="active">
+        <span itemprop="name">{% trans 'Answers' %}</span>
     </li>
 {% endblock %}
 

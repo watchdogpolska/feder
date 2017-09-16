@@ -1,17 +1,38 @@
 {% extends 'cases/base_object.html' %}
 {% load crispy_forms_tags i18n %}
 {% block breadcrumbs %}
-    <ol class="breadcrumb">
+    <ol
+        class="breadcrumb"
+        itemscope
+        itemtype="http://schema.org/BreadcrumbList">
         {% if monitoring %}
-            <li><a href="{{ monitoring.get_absolute_url }}">{{ monitoring }}</a></li>
+            <li
+            itemprop="itemListElement"
+            itemscope
+            itemtype="http://schema.org/ListItem">
+                <a itemprop="item" href="{{ monitoring.get_absolute_url }}">
+                    <span itemprop="name">{{ monitoring }}</span>
+                </a>
+            </li>
         {% elif object %}
-            <li><a href="{{ object.monitoring.get_absolute_url }}">{{ object.monitoring }}</a></li>
+            <li
+            itemprop="itemListElement"
+            itemscope
+            itemtype="http://schema.org/ListItem">
+                <a itemprop="item" href="{{ object.monitoring.get_absolute_url }}">
+                    <span itemprop="name">{{ object.monitoring }}</span>
+                </a>
+            </li>
         {% endif %}
-        <li class="active">
-            {% if headline %}{{ headline }}
-                {% elif object %}{% trans 'Update case' %}
-                {% else %}{% trans 'Add case' %}
-            {% endif %}
+        <li
+            itemprop="itemListElement"
+            itemscope
+            itemtype="http://schema.org/ListItem"
+            class="active">
+            <span itemprop="name">{% if headline %}{{ headline }}
+                    {% elif object %}{% trans 'Update case' %}
+                    {% else %}{% trans 'Add case' %}
+                {% endif %}</span>
         </li>
     </ol>
 {% endblock %}

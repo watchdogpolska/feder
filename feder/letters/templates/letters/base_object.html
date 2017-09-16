@@ -2,12 +2,42 @@
 {% load i18n humanize %}
 
 {% block breadcrumbs %}
-    <ol class="breadcrumb">
-        <li><a href="{{ object.case.monitoring.get_absolute_url }}">{{ object.case.monitoring }}</a></li>
-        <li><a href="{{ object.case.get_absolute_url }}">{{ object.case }}</a></li>
-        <li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
+    <ol
+        class="breadcrumb"
+        itemscope
+        itemtype="http://schema.org/BreadcrumbList">
+        <li
+            itemprop="itemListElement"
+            itemscope
+            itemtype="http://schema.org/ListItem">
+            <a itemprop="item" href="{{ object.case.monitoring.get_absolute_url }}">
+                {{ object.case.monitoring }}
+            </a>
+        </li>
+        <li
+            itemprop="itemListElement"
+            itemscope
+            itemtype="http://schema.org/ListItem">
+            <a itemprop="item" href="{{ object.case.get_absolute_url }}">
+                <span itemprop="name">{{ object.case }}</span>
+            </a>
+        </li>
+        <li
+            itemprop="itemListElement"
+            itemscope
+            itemtype="http://schema.org/ListItem">
+            <a itemprop="item" href="{{ object.get_absolute_url }}">
+                <span itemprop="name">{{ object }}</span>
+            </a>
+        </li>
         {% block breadcrumb_row %}
-            <li class="active">{% if headline %}{{ headline }}{% else %}{% trans 'Edit' %}{% endif %}</li>
+            <li
+                itemprop="itemListElement"
+                itemscope
+                itemtype="http://schema.org/ListItem"
+                class="active">
+                <span itemprop="name">{% if headline %}{{ headline }}{% else %}{% trans 'Edit' %}{% endif %}</span>
+            </li>
         {% endblock %}
     </ol>
 {% endblock %}

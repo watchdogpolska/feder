@@ -3,7 +3,13 @@
 {% load i18n %}
 
 {% block breadcrumb_row %}
-    <li class="active">{% trans 'Send draft' %}</li>
+    <li
+        itemprop="itemListElement"
+        itemscope
+        itemtype="http://schema.org/ListItem"
+        class="active">
+        <span itmeprop="name">{% trans 'Send draft' %}</span>
+    </li>
 {% endblock %}
 
 {% block content_object %}

@@ -2,11 +2,41 @@
 {% load i18n crispy_forms_tags %}
 
 {% block breadcrumbs %}
-    <ol class="breadcrumb">
-        <li><a href="{{ task.case.monitoring.get_absolute_url }}">{{ task.case.monitoring }}</a></li>
-        <li><a href="{{ task.case.get_absolute_url }}">{{ task.case }}</a></li>
-        <li><a href="{{ task.get_absolute_url }}">{{ task }}</a></li>
-        <li class="active">{% trans 'Survey fill' %}</li>
+    <ol
+        class="breadcrumb"
+        itemscope
+        itemtype="http://schema.org/BreadcrumbList">
+        <li
+            itemprop="itemListElement"
+            itemscope
+            itemtype="http://schema.org/ListItem">
+            <a href="{{ task.case.monitoring.get_absolute_url }}">
+                <span itemprop="name">{{ task.case.monitoring }}</span>
+            </a>
+        </li>
+        <li
+            itemprop="itemListElement"
+            itemscope
+            itemtype="http://schema.org/ListItem">
+            <a href="{{ task.case.get_absolute_url }}">
+                <span itemprop="name">{{ task.case }}</span>
+            </a>
+        </li>
+        <li
+            itemprop="itemListElement"
+            itemscope
+            itemtype="http://schema.org/ListItem">
+            <a href="{{ task.get_absolute_url }}">
+                <span itemprop="name">{{ task }}</span>
+            </a>
+        </li>
+        <li
+            itemprop="itemListElement"
+            itemscope
+            itemtype="http://schema.org/ListItem"
+            class="active">
+            <span itemprop="name">{% trans 'Survey fill' %}</span>
+        </li>
     </ol>
 {% endblock %}
 

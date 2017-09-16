@@ -3,13 +3,35 @@
 {% block title_prefix %}{% trans 'Institutions' %} - {{ object }} - {% endblock title_prefix %}
 {% load i18n %}
 {% block breadcrumbs %}
-    <ol class="breadcrumb">
+    <ol
+        class="breadcrumb"
+        itemscope
+        itemtype="http://schema.org/BreadcrumbList">
         {% for jst in object.jst.get_ancestors.all %}
-            <li><a href="{{ jst.get_absolute_url }}">{{ jst }}</a></li>
+            <li
+                itemprop="itemListElement"
+                itemscope
+                itemtype="http://schema.org/ListItem">
+                <a itemprop="item" href="{{ jst.get_absolute_url }}">
+                    <span itemprop="name">{{ jst }}</span>
+                </a>
+            </li>
         {% endfor %}
-        <li><a href="{{ object.jst.get_absolute_url }}">{{ object.jst }}</a></li>
-        <li class="active">{{ object }}</li>
-
+        <li
+            itemprop="itemListElement"
+            itemscope
+            itemtype="http://schema.org/ListItem">
+            <a itemprop="item" href="{{ object.jst.get_absolute_url }}">
+                <span itemprop="name">{{ object.jst }}</span>
+            </a>
+        </li>
+        <li
+            itemprop="itemListElement"
+            itemscope
+            itemtype="http://schema.org/ListItem"
+            class="active">
+            <span itemprop="name">{{ object }}</span>
+        </li>
     </ol>
 {% endblock %}
 
