@@ -1,10 +1,32 @@
 {% extends 'alerts/base.html' %}
 {% load i18n %}
 {% block breadcrumbs %}
-    <ol class="breadcrumb">
-        <li><a href="{{ object.monitoring.get_absolute_url }}">{{ object.monitoring }}</a></li>
-        <li><a href="{% url 'alerts:list' monitoring=object.monitoring.pk %}">{% trans 'Alerts index' %}</a>
-        <li class="active">{{ object }}</li>
+    <ol
+        class="breadcrumb"
+        itemscope
+        itemtype="http://schema.org/BreadcrumbList">
+        <li
+            itemprop="itemListElement"
+            itemscope
+            itemtype="http://schema.org/ListItem">
+            <a itemprop="item" href="{{ object.monitoring.get_absolute_url }}">
+                <span itemprop="name">{{ object.monitoring }}</span>
+            </a>
+        </li>
+        <li
+            itemprop="itemListElement"
+            itemscope
+            itemtype="http://schema.org/ListItem">
+            <a itemprop="item" href="{% url 'alerts:list' monitoring=object.monitoring.pk %}">
+                <span itemprop="name">{% trans 'Alerts index' %}</span>
+            </a>
+        <li
+            itemprop="itemListElement"
+            itemscope
+            itemtype="http://schema.org/ListItem"
+            class="active">
+            <span itemprop="name">{{ object }}</span>
+        </li>
     </ol>
 {% endblock %}
 

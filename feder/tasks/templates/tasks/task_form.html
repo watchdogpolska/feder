@@ -2,8 +2,14 @@
 {% load crispy_forms_tags i18n %}
 
 {% block breadcrumbs_row %}
-    <li class="active">
-        {% if object %}{% trans 'Update task' %}{% else %}{% trans 'Add task' %}{% endif %}</li>{% endblock %}
+    <li
+        itemprop="itemListElement"
+        itemscope
+        itemtype="http://schema.org/ListItem"
+        class="active">
+        <span itemprop="name">{% if object %}{% trans 'Update task' %}{% else %}{% trans 'Add task' %}{% endif %}</span>
+    </li>
+{% endblock %}
 
 {% block content_object %}
     <div class="gray">

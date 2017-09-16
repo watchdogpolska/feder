@@ -2,8 +2,17 @@
 {% load i18n humanize %}
 {% block title_prefix %}{% trans 'Monitorings' %} - {{ object }} - {% endblock title_prefix %}
 {% block breadcrumbs %}
-    <ol class="breadcrumb">
-        <li class="active">{{ object }}</li>
+    <ol
+        class="breadcrumb"
+        itemscope
+        itemtype="http://schema.org/BreadcrumbList">
+        <li
+            itemprop="itemListElement"
+            itemscope
+            itemtype="http://schema.org/ListItem"
+            class="active">
+            <span itemprop="name">{{ object }}</span>
+        </li>
     </ol>
 {% endblock %}
 

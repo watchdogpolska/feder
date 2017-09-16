@@ -1,10 +1,27 @@
 {% extends 'questionaries/base.html' %}
 {% load i18n %}
 {% block breadcrumbs %}
-    <ol class="breadcrumb">
+    <ol
+        class="breadcrumb"
+        itemscope
+        itemtype="http://schema.org/BreadcrumbList">
         {% if object %}
-            <li><a href="{{ object.monitoring.get_absolute_url }}">{{ object.monitoring }}</a></li>
-            <li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
+            <li
+                itemprop="itemListElement"
+                itemscope
+                itemtype="http://schema.org/ListItem">
+                <a itemprop="item" href="{{ object.monitoring.get_absolute_url }}">
+                    <span itemprop="name">{{ object.monitoring }}</span>
+                </a>
+            </li>
+            <li
+                itemprop="itemListElement"
+                itemscope
+                itemtype="http://schema.org/ListItem">
+                <a itemprop="item" href="{{ object.get_absolute_url }}">
+                    <span itemprop="name">{{ object }}</span>
+                </a>
+            </li>
         {% endif %}
         {% block breadcrumbs_row %}{% endblock %}
     </ol>

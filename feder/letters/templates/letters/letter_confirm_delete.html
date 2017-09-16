@@ -2,7 +2,12 @@
 
 {% load i18n %}
 {% block breadcrumb_row %}
-    <li class="active">{% trans 'Confirm delete' %}</li>
+    <li
+        itemprop="itemListElement"
+        itemscope
+        itemtype="http://schema.org/ListItem" class="active">
+        <span itmeprop="name">{% trans 'Confirm delete' %}</span>
+    </li>
 {% endblock %}
 {% block content_object %}
     {% include '_confirm_delete.html' with object=object %}

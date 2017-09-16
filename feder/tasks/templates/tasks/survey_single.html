@@ -1,10 +1,34 @@
 {% extends 'tasks/base.html' %}
 {% load i18n %}
 {% block breadcrumbs %}
-    <ol class="breadcrumb">
-        <li><a href="{{ object.task.case.monitoring.get_absolute_url }}">{{ object.task.case.monitoring }}</a></li>
-        <li><a href="{{ object.task.case.get_absolute_url }}">{{ object.task.case }}</a></li>
-        <li><a href="{{ object.task.get_absolute_url }}">{{ object.task }}</a></li>
+    <ol
+        class="breadcrumb"
+        itemscope
+        itemtype="http://schema.org/BreadcrumbList">
+        <li
+            itemprop="itemListElement"
+            itemscope
+            itemtype="http://schema.org/ListItem">
+            <a itemprop="item" href="{{ object.task.case.monitoring.get_absolute_url }}">
+                <span itemprop="name">{{ object.task.case.monitoring }}</span>
+            </a>
+        </li>
+        <li
+            itemprop="itemListElement"
+            itemscope
+            itemtype="http://schema.org/ListItem">
+            <a itemprop="item" href="{{ object.task.case.get_absolute_url }}">
+                <span itemprop="name">{{ object.task.case }}</span>
+            </a>
+        </li>
+        <li
+            itemprop="itemListElement"
+            itemscope
+            itemtype="http://schema.org/ListItem">
+            <a itemprop="item" href="{{ object.task.get_absolute_url }}">
+                <span itemprop="name">{{ object.task }}</span>
+            </a>
+        </li>
         {% block breadcrumbs_row %}{% endblock %}
     </ol>
 {% endblock %}
