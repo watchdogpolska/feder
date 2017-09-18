@@ -102,8 +102,7 @@ class ModelTestCase(TestCase):
         user = UserFactory(username="jerry")
         footer_text = "some footer zażółć gęślą jaźń"
 
-        monitoring = MonitoringFactory()
-        monitoring.email_footer = footer_text;
+        monitoring = MonitoringFactory(email_footer=footer_text)
         institution = InstitutionFactory()
         Letter.send_new_case(user=user,
                              monitoring=monitoring,
@@ -111,8 +110,8 @@ class ModelTestCase(TestCase):
                              text="Przeslac informacje szybko")
         self.assertEqual(Case.objects.count(), 1)
         self.assertEqual(Letter.objects.count(), 1)
-        self.assertGreater(mail.outbox[0].body.find(footer_text), 0,
-                           "Email for a new case should contain footer text from monitoring")
+        self.assertIn(footer_text, mail.outbox[0].body,
+                        "Email for a new case should contain footer text from monitoring")
 
 
 class IncomingEmailTestCase(MessageMixin, TestCase):
