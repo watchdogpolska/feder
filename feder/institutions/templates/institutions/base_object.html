@@ -1,19 +1,49 @@
 {% extends 'institutions/base.html' %}
 {% load i18n %}
 {% block breadcrumbs %}
-    <ol class="breadcrumb">
+    <ol
+        class="breadcrumb"
+        itemscope
+        itemtype="http://schema.org/BreadcrumbList">
         {% if object %}
             {% for jst in object.jst.get_ancestors.all %}
-                <li><a href="{{ jst.get_absolute_url }}">{{ jst }}</a></li>
+                <li
+                    itemprop="itemListElement"
+                    itemscope
+                    itemtype="http://schema.org/ListItem">
+                    <a itemprop="item" href="{{ jst.get_absolute_url }}">
+                        <span itemprop="name">{{ jst }}</span>
+                    </a>
+                </li>
             {% endfor %}
-            <li><a href="{{ object.jst.get_absolute_url }}">{{ object.jst }}</a></li>
-            <li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
+            <li
+                itemprop="itemListElement"
+                itemscope
+                itemtype="http://schema.org/ListItem">
+                <a itemprop="item" href="{{ object.jst.get_absolute_url }}">
+                    <span itemprop="name">{{ object.jst }}</span>
+                </a>
+            </li>
+            <li
+                itemprop="itemListElement"
+                itemscope
+                itemtype="http://schema.org/ListItem">
+                <a itemprop="item" href="{{ object.get_absolute_url }}">
+                    <span itemprop="name">{{ object }}</span>
+                </a>
+            </li>
         {% endif %}
         {% block breadcrumb_row %}
-            <li class="active">{% if headline %}{{ headline }}
-                {% elif object %}{% trans 'Edit' %}
-                {% else %}{% trans 'Add institution' %}
-            {% endif %}</li>
+            <li
+                itemprop="itemListElement"
+                itemscope
+                itemtype="http://schema.org/ListItem"
+                class="active">
+                <span itemprop="name">{% if headline %}{{ headline }}
+                    {% elif object %}{% trans 'Edit' %}
+                    {% else %}{% trans 'Add institution' %}
+                {% endif %}</span>
+            </li>
         {% endblock %}
     </ol>
 {% endblock %}

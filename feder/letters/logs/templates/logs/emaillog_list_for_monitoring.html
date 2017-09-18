@@ -1,9 +1,25 @@
 {% extends 'monitorings/monitoring_single.html' %}
 {% load i18n humanize %}
 {% block breadcrumbs %}
-    <ol class="breadcrumb">
-        <li><a href="{{ monitoring.get_absolute_url }}">{{ monitoring }}</a></li>
-        <li class="active">{% trans 'Logs' %}</li>
+    <ol
+        class="breadcrumb"
+        itemscope
+        itemtype="http://schema.org/BreadcrumbList">
+        <li
+            itemprop="itemListElement"
+            itemscope
+            itemtype="http://schema.org/ListItem">
+            <a itemprop="item" href="{{ monitoring.get_absolute_url }}">
+                <span itemprop="name">{{ monitoring }}</span>
+            </a>
+        </li>
+        <li
+            itemprop="itemListElement"
+            itemscope
+            itemtype="http://schema.org/ListItem"
+            class="active">
+            <span itemprop="name">{% trans 'Logs' %}</span>
+        </li>
     </ol>
 {% endblock %}
 

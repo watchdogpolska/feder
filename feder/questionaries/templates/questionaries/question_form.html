@@ -1,14 +1,35 @@
 {% extends 'questionaries/question_single.html' %}
 {% load crispy_forms_tags i18n %}
 {% block breadcrumbs %}
-    <ol class="breadcrumb">
+    <ol
+        class="breadcrumb"
+        itemscope
+        itemtype="http://schema.org/BreadcrumbList">
         {% if object %}
-            <li><a href="{{ object.questionary.monitoring.get_absolute_url }}">{{ object.questionary.monitoring }}</a>
+            <li
+                itemprop="itemListElement"
+                itemscope
+                itemtype="http://schema.org/ListItem">
+                <a itemprop="item" href="{{ object.questionary.monitoring.get_absolute_url }}">
+                    <span itemprop="name">{{ object.questionary.monitoring }}</span>
+                </a>
             </li>
-            <li><a href="{{ object.questionary.get_absolute_url }}">{{ object.questionary }}</a></li>
+            <li
+                itemprop="itemListElement"
+                itemscope
+                itemtype="http://schema.org/ListItem">
+                <a itemprop="item" href="{{ object.questionary.get_absolute_url }}">
+                    <span itemprop="name">{{ object.questionary }}</span>
+                </a>
+            </li>
         {% endif %}
         {% block breadcrumbs_row %}
-            <li>{{ object }}</li>
+            <li
+                itemprop="itemListElement"
+                itemscope
+                itemtype="http://schema.org/ListItem">
+                <span itemprop="name">{{ object }}</span>
+            </li>
         {% endblock %}
     </ol>
 {% endblock %}

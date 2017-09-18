@@ -2,9 +2,25 @@
 {% load crispy_forms_tags i18n bootstrap_pagination %}
 
 {% block breadcrumbs %}
-    <ol class="breadcrumb">
-        <li><a href="{{ monitoring.get_absolute_url }}">{{ monitoring }}</a></li>
-        <li class="active">{% trans 'Assign institutions' %}</li>
+    <ol
+        class="breadcrumb"
+        itemscope
+        itemtype="http://schema.org/BreadcrumbList">
+        <li
+            itemprop="itemListElement"
+            itemscope
+            itemtype="http://schema.org/ListItem">
+            <a itemprop="item" href="{{ monitoring.get_absolute_url }}">
+                <span itemprop="name">{{ monitoring }}</span>
+            </a>
+        </li>
+        <li
+            itemprop="itemListElement"
+            itemscope
+            itemtype="http://schema.org/ListItem"
+            class="active">
+            <span itemprop="name">{% trans 'Assign institutions' %}</span>
+        </li>
     </ol>
 {% endblock %}
 

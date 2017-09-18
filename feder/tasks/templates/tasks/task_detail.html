@@ -2,10 +2,33 @@
 {% load i18n %}
 {% block title_prefix %}{% trans 'Tasks' %} - {{ object }} - {% endblock title_prefix %}
 {% block breadcrumbs %}
-    <ol class="breadcrumb">
-        <li><a href="{{ object.case.monitoring.get_absolute_url }}">{{ object.case.monitoring }}</a></li>
-        <li><a href="{{ object.case.get_absolute_url }}">{{ object.case }}</a></li>
-        <li class="active">{{ object }}</li>
+    <ol
+        class="breadcrumb"
+        itemscope
+        itemtype="http://schema.org/BreadcrumbList">
+        <li
+            itemprop="itemListElement"
+            itemscope
+            itemtype="http://schema.org/ListItem">
+            <a itemprop="item" href="{{ object.case.monitoring.get_absolute_url }}">
+                <span itemprop="name">{{ object.case.monitoring }}</span>
+            </a>
+        </li>
+        <li
+            itemprop="itemListElement"
+            itemscope
+            itemtype="http://schema.org/ListItem">
+            <a itemprop="item" href="{{ object.case.get_absolute_url }}">
+                <span itemprop="name">{{ object.case }}</span>
+            </a>
+        </li>
+        <li
+            itemprop="itemListElement"
+            itemscope
+            itemtype="http://schema.org/ListItem"
+            class="active">
+            <span itemprop="name">{{ object }}</span>
+        </li>
     </ol>
 {% endblock %}
 

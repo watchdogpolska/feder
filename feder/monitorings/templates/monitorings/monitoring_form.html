@@ -1,11 +1,16 @@
 {% extends 'monitorings/monitoring_single.html' %}
 {% load crispy_forms_tags i18n %}
 {% block breadcrumbs_row %}
-    <li class="active">
-        {% if headline %}{{ headline }}
-            {% elif object %}{% trans 'Update monitoring' %}
-            {% else %}{% trans 'Add monitoring' %}
-        {% endif %}</li>
+    <li
+        itemprop="itemListElement"
+        itemscope
+        itemtype="http://schema.org/ListItem"
+        class="active">
+        <span itemprop="name">{% if headline %}{{ headline }}
+                {% elif object %}{% trans 'Update monitoring' %}
+                {% else %}{% trans 'Add monitoring' %}
+            {% endif %}</span>
+    </li>
 {% endblock %}
 
 {% block content_object %}

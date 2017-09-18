@@ -4,11 +4,27 @@
 {% block title %}{{ object }} - {{ block.super }}{% endblock %}
 
 {% block breadcrumbs %}
-    <ol class="breadcrumb">
+    <ol
+        class="breadcrumb"
+        itemscope
+        itemtype="http://schema.org/BreadcrumbList">
         {% for jst in object.get_ancestors.all %}
-            <li><a href="{{ jst.get_absolute_url }}">{{ jst }}</a></li>
+            <li
+                itemprop="itemListElement"
+                itemscope
+                itemtype="http://schema.org/ListItem">
+                <a itemprop="item" href="{{ jst.get_absolute_url }}">
+                    <span itemprop="name">{{ jst }}</span>
+                </a>
+            </li>
         {% endfor %}
-        <li class="active">{{ object }}</li>
+        <li
+            itemprop="itemListElement"
+            itemscope
+            itemtype="http://schema.org/ListItem"
+            class="active">
+            <span itemprop="name">{{ object }}</span>
+        </li>
     </ol>
 {% endblock %}
 
