@@ -36,6 +36,9 @@ class Monitoring(TimeStampedModel):
     template = models.TextField(verbose_name=_("Template"),
                                 help_text=_("Use {{EMAIL}} for insert reply address"),
                                 validators=[validate_template_syntax])
+    email_footer = models.TextField(default='',
+                                    verbose_name=_("Email footer"),
+                                    help_text=_("Footer for sent mail and replies"))
     notify_alert = models.BooleanField(default=True,
                                        verbose_name=_("Notify about alerts"),
                                        help_text=NOTIFY_HELP)

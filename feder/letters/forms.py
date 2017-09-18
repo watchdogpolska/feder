@@ -39,6 +39,7 @@ class ReplyForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
     def set_dynamic_field_initial(self):
         if self.letter:
             self.fields['title'].initial = "Re: {title}".format(title=self.letter.title)
+            self.fields['body'].initial = self.letter.add_footer("")
             self.fields['quote'].initial = self.get_quote()
             self.instance.author_user = self.user
             self.instance.case = self.letter.case
