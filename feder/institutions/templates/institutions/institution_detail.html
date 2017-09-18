@@ -79,7 +79,7 @@
                 <ul class="pager">
                     {% if case_list.has_previous %}
                         <li>
-                            <a href="{% url 'institutions:details' slug=object.slug page=case_list.previous_page_number %}">&laquo; {% trans 'previous' %}</a>
+                            <a href="{% url 'institutions:details' slug=object.slug page=case_list.previous_page_number %}" rel="prev">&laquo; {% trans 'previous' %}</a>
                         </li>
                     {% endif %}
 
@@ -88,7 +88,7 @@
 
                     {% if case_list.has_next %}
                         <li>
-                            <a href="{% url 'institutions:details' slug=object.slug page=case_list.next_page_number %}">{% trans 'next' %}
+                            <a href="{% url 'institutions:details' slug=object.slug page=case_list.next_page_number %}" rel="next">{% trans 'next' %}
                                 &raquo; </a></li>
                     {% endif %}
                 </ul>
