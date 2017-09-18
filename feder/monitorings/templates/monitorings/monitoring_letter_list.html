@@ -11,7 +11,7 @@
             <ul class="pager">
                 {% if object_list.has_previous %}
                     <li>
-                        <a href="{% url 'monitorings:letters' slug=object.slug page=object_list.previous_page_number %}">
+                        <a href="{% url 'monitorings:letters' slug=object.slug page=object_list.previous_page_number %}" rel="prev">
                             &laquo; {% trans 'previous' %}
                         </a>
                     </li>
@@ -20,7 +20,7 @@
                     {{ total }}{% endblocktrans %}</li>
                 {% if object_list.has_next %}
                     <li>
-                        <a href="{% url 'monitorings:letters' slug=object.slug page=object_list.next_page_number %}">
+                        <a href="{% url 'monitorings:letters' slug=object.slug page=object_list.next_page_number %}" rel="next">
                             {% trans 'next' %} &raquo;
                         </a>
                     </li>
