@@ -157,10 +157,10 @@ class EmailLogMonitoringCsvViewTestCase(ObjectMixin, PermissionStatusMixin, Test
         self.assertTrue(response.get('Content-Disposition').startswith('attachment;filename='))
         self.assertContains(response, self.emaillog.case.institution)
         self.assertNotContains(response,
-                            logrecord_for_another_monitoring.email.case.institution.name, 200,
-                            200,
-                            ('Csv export for a monitoring should not contain'
-                             ' emaillogs for another monitoring'))
+                               logrecord_for_another_monitoring.email.case.institution.name,
+                               200,
+                               ('Csv export for a monitoring should not '
+                                'contain emaillogs for another monitoring'))
 
 
 class EmailLogCaseListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
