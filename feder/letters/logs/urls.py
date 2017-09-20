@@ -11,6 +11,8 @@ urlpatterns = [
         name="list"),
     url(_(r'^monitoring-(?P<monitoring_pk>[\d-]+)$'), views.EmailLogMonitoringListView.as_view(),
         name="list"),
+    url(_(r'^monitoring-(?P<monitoring_pk>[\d-]+)/export$'), views.EmailLogMonitoringCsvView.as_view(),
+        name="export"),
     url(_(r'^log-(?P<pk>[\d-]+)$'), views.EmailLogDetailView.as_view(),
         name="detail"),
 ]
