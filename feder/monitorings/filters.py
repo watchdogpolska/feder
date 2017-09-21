@@ -6,10 +6,22 @@ from django.db.models import Count
 from django.utils.translation import ugettext_lazy as _
 
 from .models import Monitoring
+from teryt_tree.dal_ext.filters import VoivodeshipFilter, CountyFilter, CommunityFilter
 
 
 class MonitoringFilter(django_filters.FilterSet):
     created = django_filters.DateRangeFilter(label=_("Creation date"))
+    voivodeship = VoivodeshipFilter(
+        widget=autocomplete.ModelSelect2(url='teryt:voivodeship-autocomplete')
+    )
+    county = CountyFilter(
+        widget=autocomplete.ModelSelect2(url='teryt:county-autocomplete',
+                                         forward=['voivodeship'])
+    )
+    community = CommunityFilter(
+        widget=autocomplete.ModelSelect2(url='teryt:community-autocomplete',
+                                         forward=['county'])
+    )
 
     def __init__(self, *args, **kwargs):
         super(MonitoringFilter, self).__init__(*args, **kwargs)
