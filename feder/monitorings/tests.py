@@ -3,6 +3,7 @@ from django.core.urlresolvers import reverse
 from django.test import TestCase
 from guardian.shortcuts import assign_perm
 
+from feder.cases.factories import CaseFactory
 from feder.cases.models import Case
 from feder.institutions.factories import InstitutionFactory
 from feder.letters.factories import IncomingLetterFactory
@@ -81,6 +82,12 @@ class MonitoringListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, self.monitoring)
 
+    def test_filter_by_voivodship(self):
+        self.case = CaseFactory()  # creates a new monitoring (and institution, JST, too)
+
+        response = self.client.get(reverse('monitorings:list') + '?voivodeship=' + unicode(self.case.institution.jst.id))
+        self.assertContains(response, self.case.monitoring)
+        self.assertNotContains(response, self.monitoring)
 
 class MonitoringDetailViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     status_anonymous = 200
