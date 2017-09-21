@@ -85,7 +85,7 @@ class MonitoringListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     def test_filter_by_voivodship(self):
         self.case = CaseFactory()  # creates a new monitoring (and institution, JST, too)
 
-        response = self.client.get(reverse('monitorings:list') + '?voivodeship=' + unicode(self.case.institution.jst.id))
+        response = self.client.get(reverse('monitorings:list') + '?voivodeship={0}'.format(self.case.institution.jst.id))
         self.assertContains(response, self.case.monitoring)
         self.assertNotContains(response, self.monitoring)
 
