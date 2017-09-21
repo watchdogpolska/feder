@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import datetime
-from dateutil.tz import *
+from django.utils import timezone
 import unicodecsv as csv
 
 from braces.views import SelectRelatedMixin, PrefetchRelatedMixin
@@ -65,7 +64,7 @@ class EmailLogMonitoringCsvView(ListMonitoringMixin, ListView):
 
     def _get_csv_response(self):
         csv_response = HttpResponse(content_type='text/csv')
-        current_time = datetime.datetime.now(tzlocal())
+        current_time = timezone.now()
         filename = 'email_log_{0}-{1}-{2}.csv'.format(self.monitoring.id,
                                                       current_time.strftime('%Y_%m_%d-%H_%M_%S'),
                                                       current_time.tzname()
