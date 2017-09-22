@@ -7460,6 +7460,9 @@ button.close {
       padding-top: 0px;
       margin-top: 0px; }
 
+.sub-menu {
+  margin-bottom: 20px; }
+
 .gray {
   background-color: #F0F0F0;
   text-color: #D72626; }

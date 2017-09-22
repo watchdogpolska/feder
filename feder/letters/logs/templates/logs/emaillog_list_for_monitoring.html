@@ -1,5 +1,5 @@
 {% extends 'monitorings/monitoring_single.html' %}
-{% load i18n humanize %}
+{% load i18n humanize guardian_tags %}
 {% block breadcrumbs %}
     <ol
         class="breadcrumb"
@@ -27,6 +27,15 @@
     {% include 'monitorings/_btn.html' with object=monitoring %}
 {% endblock %}
 {% block content %}
+    {% get_obj_perms request.user for monitoring as "monitoring_perms" %}
     {% include 'monitorings/_header.html' with object=monitoring %}
+
+    {% if "view_log" in monitoring_perms %}
+        <div class="sub-menu">
+            <a class="btn btn-primary" href="{% url 'logs:export' monitoring_pk=monitoring.pk %}">
+                <i class="fa fa-download" aria-hidden></i> {% trans 'Download .csv' %}</a>
+        </div>
+    {% endif %}
+
     {% include 'logs/_list.html' with object_list=object_list %}
 {% endblock %}
