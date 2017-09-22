@@ -2,6 +2,7 @@ from django.core import mail
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 from guardian.shortcuts import assign_perm
+from mock import Mock
 
 from feder.cases.factories import CaseFactory
 from feder.cases.models import Case
@@ -9,6 +10,8 @@ from feder.institutions.factories import InstitutionFactory
 from feder.letters.factories import IncomingLetterFactory
 from feder.letters.factories import OutgoingLetterFactory
 from feder.main.mixins import PermissionStatusMixin
+from feder.monitorings.filters import MonitoringFilter
+from feder.teryt.factories import JSTFactory
 from feder.users.factories import UserFactory
 from .factories import MonitoringFactory
 from .forms import MonitoringForm
@@ -37,6 +40,20 @@ class MonitoringFormTestCase(TestCase):
         form = MonitoringForm(data, user=self.user)
         self.assertFalse(form.is_valid())
         self.assertIn('template', form.errors)
+
+
+class MonitoringFilterTestCase(TestCase):
+    def test_respect_disabling_fields(self):
+        mock_qs = Mock()
+        voivodeship = JSTFactory(category__level=1)
+        county = JSTFactory(parent=voivodeship, category__level=2)
+
+        filter = MonitoringFilter(data={'voivodeship': voivodeship.pk,
+                                        'county': county.pk},
+                                  queryset=mock_qs)
+
+        _ = filter.qs  # Fire mock
+        self.assertEqual(len(mock_qs.all().mock_calls), 1)  # [call.area(<JednostkaAdministracyjna: jst-0>)]
 
 
 class ObjectMixin(object):

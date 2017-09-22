@@ -28,6 +28,7 @@ class MonitoringQuerySet(models.QuerySet):
         return self.filter(case__institution__jst__tree_id=jst.tree_id,
                            case__institution__jst__lft__range=(jst.lft, jst.rght))
 
+
 @reversion.register()
 class Monitoring(TimeStampedModel):
     perm_model = 'monitoringuserobjectpermission'
