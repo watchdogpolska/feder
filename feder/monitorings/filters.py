@@ -34,7 +34,7 @@ class MonitoringFilter(django_filters.FilterSet):
     created = django_filters.DateRangeFilter(label=_("Creation date"))
     voivodeship = DisabledWhenVoivodeshipFilter(
         widget=autocomplete.ModelSelect2(url='teryt:voivodeship-autocomplete'),
-        disabled_when=['county', 'voivodeship']
+        disabled_when=['county', 'community']
     )
     county = DisabledWhenCountyFilter(
         widget=autocomplete.ModelSelect2(url='teryt:county-autocomplete',
@@ -51,7 +51,7 @@ class MonitoringFilter(django_filters.FilterSet):
     def check_enabled_filter(self, filter, form):
         if not getattr(filter, 'disabled_when', None):
             return True
-        return all(form.cleaned_data[field] for field in filter.disabled_when)
+        return not any(form.cleaned_data[field] for field in filter.disabled_when)
 
     @property
     def qs(self):
