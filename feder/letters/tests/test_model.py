@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
 from email import message_from_file
@@ -96,6 +97,21 @@ class ModelTestCase(TestCase):
         self.assertEqual(Letter.objects.count(), 1)
         self.assertEqual(len(mail.outbox), 1)
         self.assertIn(institution.email, mail.outbox[0].to)
+
+    def test_send_new_case_adds_footer_from_monitoring(self):
+        user = UserFactory(username="jerry")
+        footer_text = "some footer zażółć gęślą jaźń"
+
+        monitoring = MonitoringFactory(email_footer=footer_text)
+        institution = InstitutionFactory()
+        Letter.send_new_case(user=user,
+                             monitoring=monitoring,
+                             institution=institution,
+                             text="Przeslac informacje szybko")
+        self.assertEqual(Case.objects.count(), 1)
+        self.assertEqual(Letter.objects.count(), 1)
+        self.assertIn(footer_text, mail.outbox[0].body,
+                        "Email for a new case should contain footer text from monitoring")
 
 
 class IncomingEmailTestCase(MessageMixin, TestCase):

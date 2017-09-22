@@ -99,6 +99,10 @@ $gray: #F0F0F0;
   }
 }
 
+.sub-menu {
+  margin-bottom: 20px;
+}
+
 .gray {
   @extend .block;
   background-color: $gray;

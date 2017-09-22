@@ -161,7 +161,15 @@ class Letter(TimeStampedModel):
 
     def email_body(self):
         body = self.body.replace('{{EMAIL}}', self.case.email)
+        body = self.add_footer(body)
         return u"{0}\n{1}".format(body, email_wrapper(self.quote))
+
+    def add_footer(self, body):
+        footer = self.case.monitoring.email_footer
+        if footer and footer.strip():
+            return u"{0}\n\n--\n{1}".format(body, footer)
+        else:
+            return body
 
     def _construct_message(self, msg_id=None):
         headers = {'Return-Receipt-To': self.case.email,

@@ -144,6 +144,25 @@ class EmailLogMonitoringListViewTestCase(ObjectMixin, PermissionStatusMixin, Tes
         return reverse('logs:list', kwargs={'monitoring_pk': self.monitoring.pk})
 
 
+class EmailLogMonitoringCsvViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
+    permission = ['monitorings.view_log']
+
+    def get_url(self):
+        return reverse('logs:export', kwargs={'monitoring_pk': self.monitoring.pk})
+
+    def test_has_logs(self):
+        logrecord_for_another_monitoring = LogRecordFactory()
+        self.login_permitted_user()
+        response = self.client.get(self.get_url())
+        self.assertTrue(response.get('Content-Disposition').startswith('attachment;filename='))
+        self.assertContains(response, self.emaillog.case.institution)
+        self.assertNotContains(response,
+                               logrecord_for_another_monitoring.email.case.institution.name,
+                               200,
+                               ('Csv export for a monitoring should not '
+                                'contain emaillogs for another monitoring'))
+
+
 class EmailLogCaseListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     permission = ['monitorings.view_log']
 
