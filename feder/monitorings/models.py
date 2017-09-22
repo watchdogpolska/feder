@@ -24,6 +24,9 @@ class MonitoringQuerySet(models.QuerySet):
     def with_case_count(self):
         return self.annotate(case_count=models.Count('case'))
 
+    def area(self, jst):
+        return self.filter(case__institution__jst__tree_id=jst.tree_id,
+                           case__institution__jst__lft__range=(jst.lft, jst.rght))
 
 @reversion.register()
 class Monitoring(TimeStampedModel):
