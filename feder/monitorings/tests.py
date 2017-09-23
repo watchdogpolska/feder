@@ -53,7 +53,8 @@ class MonitoringFilterTestCase(TestCase):
                                   queryset=mock_qs)
 
         _ = filter.qs  # Fire mock
-        self.assertEqual(len(mock_qs.all().mock_calls), 1)  # [call.area(<JednostkaAdministracyjna: jst-0>)]
+        # [call.area(<JednostkaAdministracyjna: jst-0>)]
+        self.assertEqual(len(mock_qs.all().mock_calls), 1, mock_qs.all().mock_calls)
 
 
 class ObjectMixin(object):

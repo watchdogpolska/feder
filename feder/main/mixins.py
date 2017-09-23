@@ -1,6 +1,8 @@
+import django_filters
 from braces.views import LoginRequiredMixin
 from django.core.exceptions import ImproperlyConfigured
 from django.core.paginator import EmptyPage, Paginator
+from django.utils import six
 from guardian.mixins import PermissionRequiredMixin
 from guardian.shortcuts import assign_perm
 
@@ -210,3 +212,24 @@ class PermissionStatusMixin(object):
         self.client.login(username='john', password='pass')
         response = self.client.get(self.get_url())
         self.assertEqual(response.status_code, self.status_has_permission)
+
+
+class DisabledWhenFilterSetMixin(django_filters.filterset.BaseFilterSet):
+    @property
+    def qs(self):
+        if not hasattr(self, '_qs') and self.is_bound and self.form.is_valid():
+            for name, filter_ in six.iteritems(self.filters):
+                value = self.form.cleaned_data.get(name)
+                enabled_test = getattr(filter_, 'check_enabled', lambda _: True)  # legacy-filter compatible
+                if not enabled_test(self.form.cleaned_data):
+                    del self.filters[name]
+        return super(DisabledWhenFilterSetMixin, self).qs
+
+
+class DisabledWhenFilterMixin(object):
+    def __init__(self, *args, **kwargs):
+        self.disabled_when = kwargs.pop('disabled_when', [])
+        super(DisabledWhenFilterMixin, self).__init__(*args, **kwargs)
+
+    def check_enabled(self, form_data):
+        return not any(form_data[field] for field in self.disabled_when)
