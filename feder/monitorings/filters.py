@@ -17,6 +17,9 @@ class DisabledWhenMixin(object):
         self.disabled_when = kwargs.pop('disabled_when', [])
         super(DisabledWhenMixin, self).__init__(*args, **kwargs)
 
+    def check_enabled(self, form_data):
+        return not any(form_data[field] for field in self.disabled_when)
+
 
 class DisabledWhenVoivodeshipFilter(DisabledWhenMixin, VoivodeshipFilter):
     pass
@@ -48,11 +51,6 @@ class MonitoringFilter(django_filters.FilterSet):
         disabled_when=[]
     )
 
-    def check_enabled_filter(self, filter, form):
-        if not getattr(filter, 'disabled_when', None):
-            return True
-        return not any(form.cleaned_data[field] for field in filter.disabled_when)
-
     @property
     def qs(self):
         # Source: django_filters/filters.py
@@ -71,7 +69,8 @@ class MonitoringFilter(django_filters.FilterSet):
             qs = self.queryset.all()
             for name, filter_ in six.iteritems(self.filters):
                 value = self.form.cleaned_data.get(name)
-                if value is not None and self.check_enabled_filter(filter_, self.form):  # valid & clean data
+                enabled_test = getattr(filter_, 'check_enabled', lambda _: True)  # legacy-filter compatible
+                if value is not None and enabled_test(self.form.cleaned_data):  # valid & clean data
                     qs = filter_.filter(qs, value)
 
             self._qs = qs
