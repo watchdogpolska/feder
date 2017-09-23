@@ -10,4 +10,4 @@ class LightUserConfig(AppConfig):
     verbose_name = _("Light Users")
 
     def ready(self):
-        from .signals import *  # noqa
+        from . import signals

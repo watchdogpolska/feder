@@ -3,37 +3,27 @@ import django_filters
 from dal import autocomplete
 from django.contrib.auth import get_user_model
 from django.db.models import Count
-from django import forms
 from django.utils import six
 from django.utils.translation import ugettext_lazy as _
-from django_filters import STRICTNESS
 
+from feder.main.mixins import DisabledWhenFilterMixin, DisabledWhenFilterSetMixin
 from .models import Monitoring
 from teryt_tree.dal_ext.filters import VoivodeshipFilter, CountyFilter, CommunityFilter
 
 
-class DisabledWhenMixin(object):
-    def __init__(self, *args, **kwargs):
-        self.disabled_when = kwargs.pop('disabled_when', [])
-        super(DisabledWhenMixin, self).__init__(*args, **kwargs)
-
-    def check_enabled(self, form_data):
-        return not any(form_data[field] for field in self.disabled_when)
-
-
-class DisabledWhenVoivodeshipFilter(DisabledWhenMixin, VoivodeshipFilter):
+class DisabledWhenVoivodeshipFilter(DisabledWhenFilterMixin, VoivodeshipFilter):
     pass
 
 
-class DisabledWhenCountyFilter(DisabledWhenMixin, CountyFilter):
+class DisabledWhenCountyFilter(DisabledWhenFilterMixin, CountyFilter):
     pass
 
 
-class DisabledWhenCommunityFilter(DisabledWhenMixin, CommunityFilter):
+class DisabledWhenCommunityFilter(DisabledWhenFilterMixin, CommunityFilter):
     pass
 
 
-class MonitoringFilter(django_filters.FilterSet):
+class MonitoringFilter(DisabledWhenFilterSetMixin, django_filters.FilterSet):
     created = django_filters.DateRangeFilter(label=_("Creation date"))
     voivodeship = DisabledWhenVoivodeshipFilter(
         widget=autocomplete.ModelSelect2(url='teryt:voivodeship-autocomplete'),
@@ -50,32 +40,6 @@ class MonitoringFilter(django_filters.FilterSet):
                                          forward=['county']),
         disabled_when=[]
     )
-
-    @property
-    def qs(self):
-        # Source: django_filters/filters.py
-        if not hasattr(self, '_qs'):
-            if not self.is_bound:
-                self._qs = self.queryset.all()
-                return self._qs
-
-            if not self.form.is_valid():
-                if self.strict == STRICTNESS.RAISE_VALIDATION_ERROR:
-                    raise forms.ValidationError(self.form.errors)
-                elif self.strict == STRICTNESS.RETURN_NO_RESULTS:
-                    self._qs = self.queryset.none()
-                    return self._qs
-
-            qs = self.queryset.all()
-            for name, filter_ in six.iteritems(self.filters):
-                value = self.form.cleaned_data.get(name)
-                enabled_test = getattr(filter_, 'check_enabled', lambda _: True)  # legacy-filter compatible
-                if value is not None and enabled_test(self.form.cleaned_data):  # valid & clean data
-                    qs = filter_.filter(qs, value)
-
-            self._qs = qs
-
-        return self._qs
 
     def __init__(self, *args, **kwargs):
         super(MonitoringFilter, self).__init__(*args, **kwargs)
