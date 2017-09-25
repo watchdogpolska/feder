@@ -142,7 +142,10 @@ class SurveySelectView(AttrPermissionRequiredMixin, ActionMessageMixin,
         self.object.save()
 
     def get_success_message(self):
-        return _("Survey {object} selected!").format(object=self.object)
+        if self.direction == 'up':
+            return _("Survey credibility increased!")
+        else:
+            return _("Survey credibility decreased!")
 
     def get_success_url(self):
         return reverse('tasks:survey', kwargs={'pk': self.object.task_id})
