@@ -207,7 +207,7 @@ class ChoiceModulator(BaseSimpleModulator):
 
     def get_kwargs(self, definition):
         kw = super(ChoiceModulator, self).get_kwargs(definition)
-        kw['choices'] = enumerate(shlex.split(definition['choices'].encode('utf-8')))
+        kw['choices'] = enumerate(shlex.split(definition.get('choices', '').encode('utf-8')))
         return kw
 
     def get_label_text(self, definition):

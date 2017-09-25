@@ -65,6 +65,9 @@ class ModulatorMixin(object):
         rows = self.tested_cls().get_answer_columns(self.question.definition, self.content)
         self.assertTrue(len(rows) > 0)
 
+    def test_get_kwargs_without_defined_question(self):
+        self.question.modulator.get_kwargs({})
+
 
 class CharModulatorTestCase(TestCase):
     CREATE_INPUT = {'comment': False,
