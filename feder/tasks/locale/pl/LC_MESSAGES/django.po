@@ -38,11 +38,11 @@ msgstr "Nazwa"
 
 #: filters.py:21
 msgid "Monitoring"
-msgstr ""
+msgstr "Monitoring"
 
 #: filters.py:24
 msgid "Institution"
-msgstr ""
+msgstr "Instytucja"
 
 #: filters.py:31
 msgid "creation date (ascending)"
