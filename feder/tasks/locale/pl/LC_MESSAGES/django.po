@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tasks 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-11 01:25+0000\n"
+"POT-Creation-Date: 2017-09-25 14:05+0000\n"
 "PO-Revision-Date: 2016-09-18 01:57+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -19,7 +19,12 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.8.7.1\n"
 
-#: filters.py:10 templates/tasks/task_survey.html:20
+#: apps.py:10 models.py:125 templates/tasks/base.html:5
+#: templates/tasks/task_detail.html:3
+msgid "Tasks"
+msgstr "Zadania"
+
+#: filters.py:10 templates/tasks/task_survey.html:24
 msgid "Creation date"
 msgstr "Data utworzenia"
 
@@ -27,11 +32,23 @@ msgstr "Data utworzenia"
 msgid "Is done?"
 msgstr "Czy ukończone?"
 
-#: filters.py:27
+#: filters.py:17 models.py:65
+msgid "Name"
+msgstr "Nazwa"
+
+#: filters.py:21
+msgid "Monitoring"
+msgstr ""
+
+#: filters.py:24
+msgid "Institution"
+msgstr ""
+
+#: filters.py:31
 msgid "creation date (ascending)"
 msgstr "Data utworzenia (rosnąco)"
 
-#: filters.py:28
+#: filters.py:32
 msgid "creation date (descending)"
 msgstr "Data utworzenia (malejąco)"
 
@@ -51,11 +68,11 @@ msgstr "Przedrostek dla nazwy w postaci \"[przedrostek] #[numer]\"."
 msgid "They are available only cases relevant to the monitoring."
 msgstr "Tu są dostępne sprawy wyłącznie właściwe dla danego monitoringu. "
 
-#: models.py:19 templates/tasks/task_filter.html:6
+#: models.py:21 templates/tasks/task_filter.html:6
 msgid "Tasks index"
 msgstr "Wykaz zadań"
 
-#: models.py:21
+#: models.py:23
 msgid ""
 "Define how much answers do you need to mark tasks as done\n"
 " or count progress"
@@ -63,58 +80,50 @@ msgstr ""
 "Określ jak wiele odpowiedzi, aby oznaczyć odpowiedź jako wykonaną lub do "
 "liczenia postępu."
 
-#: models.py:63
-msgid "Name"
-msgstr "Nazwa"
-
-#: models.py:64 templates/tasks/_task_small.html:8
-#: templates/tasks/task_detail.html:26
+#: models.py:66 templates/tasks/_task_small.html:8
+#: templates/tasks/task_detail.html:50
 msgid "Case"
 msgstr "Sprawa"
 
-#: models.py:65 templates/tasks/_task_small.html:9
-#: templates/tasks/task_detail.html:31
+#: models.py:67 templates/tasks/_task_small.html:9
+#: templates/tasks/task_detail.html:55
 msgid "Questionary"
 msgstr "Kwestionariusz"
 
-#: models.py:66
+#: models.py:68
 msgid "Questionary to fill by user as task"
 msgstr "Kwestionariusz do wypełnienia przez użytkownika jako zadanie"
 
-#: models.py:67
+#: models.py:69
 msgid "Required survey count"
 msgstr "Liczba wymaganych ankiet"
 
-#: models.py:70
+#: models.py:72
 msgid "Done survey count"
 msgstr "Liczba ukończonych ankiet"
 
-#: models.py:122
+#: models.py:124
 msgid "Task"
 msgstr "Zadanie"
 
-#: models.py:123 templates/tasks/base.html:5
-msgid "Tasks"
-msgstr "Zadania"
-
-#: models.py:142 templates/tasks/task_survey.html:24
+#: models.py:166 templates/tasks/task_survey.html:28
 msgid "Credibility"
 msgstr "Wiarygodność"
 
-#: models.py:152
+#: models.py:176
 msgid "Survey"
 msgstr "Ankieta"
 
-#: models.py:153
+#: models.py:177
 msgid "Surveys"
 msgstr "Ankiety"
 
-#: models.py:171
+#: models.py:195
 msgid "Answer"
 msgstr "Odpowiedź"
 
-#: models.py:172 templates/tasks/_btn.html:26
-#: templates/tasks/task_survey.html:6
+#: models.py:196 templates/tasks/_btn.html:26
+#: templates/tasks/task_survey.html:10
 msgid "Answers"
 msgstr "Odpowiedzi"
 
@@ -122,8 +131,8 @@ msgstr "Odpowiedzi"
 msgid "Edit"
 msgstr "Edytuj"
 
-#: templates/tasks/_btn.html:13 templates/tasks/survey_confirm_delete.html:16
-#: templates/tasks/task_detail.html:43
+#: templates/tasks/_btn.html:13 templates/tasks/survey_confirm_delete.html:22
+#: templates/tasks/task_detail.html:67
 msgid "Delete"
 msgstr "Usuń"
 
@@ -139,11 +148,11 @@ msgstr "Zaktualizuj odpowiedź"
 msgid "Delete answer"
 msgstr "Usuń odpowiedź"
 
-#: templates/tasks/_formset.html:11 templates/tasks/survey_fill.html:27
+#: templates/tasks/_formset.html:11 templates/tasks/survey_fill.html:57
 msgid "Save"
 msgstr "Zapisz"
 
-#: templates/tasks/_formset.html:12 templates/tasks/survey_fill.html:28
+#: templates/tasks/_formset.html:12 templates/tasks/survey_fill.html:58
 msgid "Save and go next"
 msgstr "Zapisz i przejdź do następnego"
 
@@ -156,48 +165,48 @@ msgid ""
 msgstr "%(progress)s%% ukończono"
 
 #: templates/tasks/_task_select_list.html:11
-#: templates/tasks/task_detail.html:58 templates/tasks/task_filter.html:24
+#: templates/tasks/task_detail.html:82 templates/tasks/task_filter.html:24
 msgid "No rows."
 msgstr "Brak wierszy"
 
-#: templates/tasks/survey_confirm_delete.html:5
-#: templates/tasks/task_confirm_delete.html:4
+#: templates/tasks/survey_confirm_delete.html:10
+#: templates/tasks/task_confirm_delete.html:9
 msgid "Confirm delete"
 msgstr "Potwierdź usuwanie"
 
-#: templates/tasks/survey_fill.html:9
+#: templates/tasks/survey_fill.html:38
 msgid "Survey fill"
 msgstr "Wypełnianie ankiety"
 
-#: templates/tasks/survey_select.html:5
+#: templates/tasks/survey_select.html:10
 msgid "Confirm select answer"
 msgstr "Potwierdź wybranie odpowiedzi"
 
-#: templates/tasks/survey_select.html:14 templates/tasks/task_survey.html:32
+#: templates/tasks/survey_select.html:20 templates/tasks/task_survey.html:36
 msgid "Credibility update"
 msgstr "Aktualizacja wiarygodności"
 
-#: templates/tasks/task_detail.html:38
+#: templates/tasks/task_detail.html:62
 msgid "Analysis"
 msgstr "Analiza"
 
-#: templates/tasks/task_form.html:6
+#: templates/tasks/task_form.html:10
 msgid "Update task"
 msgstr "Zaktualizuj zadanie"
 
-#: templates/tasks/task_form.html:6
+#: templates/tasks/task_form.html:10
 msgid "Add task"
 msgstr "Dodaj zadanie"
 
-#: templates/tasks/task_survey.html:17
+#: templates/tasks/task_survey.html:21
 msgid "User"
 msgstr "Użytkownik / użytkowniczka"
 
-#: templates/tasks/task_survey.html:68
+#: templates/tasks/task_survey.html:72
 msgid "Up"
 msgstr "Do góry"
 
-#: templates/tasks/task_survey.html:75
+#: templates/tasks/task_survey.html:79
 msgid "Down"
 msgstr "W dół"
 
@@ -264,10 +273,13 @@ msgstr ""
 "Dziękujemy za Twoją pomoc. Niestety, wszystkie zadania - w tym monitoringu - "
 "zostały wyczerpane. "
 
-#: views.py:145
-#, python-brace-format
-msgid "Survey {object} selected!"
-msgstr "Ankieta {object} wybrana!"
+#: views.py:146
+msgid "Survey credibility increased!"
+msgstr "Wiarygodność została zwiększona!"
+
+#: views.py:148
+msgid "Survey credibility decreased!"
+msgstr "Wiarygodność została zmniejszona!"
 
 #~ msgid "Create task"
 #~ msgstr "Utwórz zadanie"
