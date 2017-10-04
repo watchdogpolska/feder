@@ -52,5 +52,5 @@ django-bootstrap-pagination==1.6.2
 djangorestframework==3.6.4
 django-reversion==2.0.10
 unicodecsv==0.14.1
-tqdm==4.15.0
+tqdm==4.19.1
 djangorestframework-filters==0.10.1
