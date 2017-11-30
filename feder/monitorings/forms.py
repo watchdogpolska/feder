@@ -18,13 +18,26 @@ class MonitoringForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm
             del self.fields['notify_alert']
         self.instance.user = self.user
         self.helper.layout = Layout(
-            Fieldset(_("Monitoring"), 'name', 'description', 'notify_alert'),
-            Fieldset(_("Template"), 'subject', 'template')
+            Fieldset(
+                _("Monitoring"),
+                'name', 'description', 'notify_alert'
+            ),
+            Fieldset(
+                _("Template"),
+                'subject', 'template', 'email_footer'
+            )
         )
 
     class Meta:
         model = Monitoring
-        fields = ['name', 'description', 'notify_alert', 'subject', 'template']
+        fields = [
+            'name',
+            'description',
+            'notify_alert',
+            'subject',
+            'template',
+            'email_footer'
+        ]
 
 
 class SelectUserForm(forms.Form):
