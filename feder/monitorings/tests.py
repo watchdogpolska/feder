@@ -21,7 +21,8 @@ EXAMPLE_DATA = {'name': 'foo-bar-monitoring',
                 'description': 'xyz',
                 'notify_alert': True,
                 'subject': 'example subject',
-                'template': 'xyz {{EMAIL}}'}
+                'template': 'xyz {{EMAIL}}',
+                'email_footer': 'X'}
 
 
 class MonitoringFormTestCase(TestCase):
