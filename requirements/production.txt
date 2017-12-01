@@ -16,4 +16,4 @@ Collectfast==0.5.2
 # Mailgun Support
 # ---------------
 django-mailgun==0.9.1
-raven==6.1.0
+raven==6.3.0
