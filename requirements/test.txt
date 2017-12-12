@@ -1,6 +1,6 @@
 # Test dependencies go here.
 -r local.txt
-lxml==4.1.1
+lxml==3.8.0
 django-coverage-plugin==1.5.0
 coverage==4.4.2
 coveralls==1.2.0
