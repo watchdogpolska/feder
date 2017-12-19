@@ -1,7 +1,7 @@
 # Pro-tip: Try not to put anything here. There should be no dependency in
 #	production that isn't in development.
 -r local.txt
-Django==1.11.6
+Django==1.11.7
 # WSGI Handler
 # ------------------------------------------------
 gevent==1.2.2
@@ -16,4 +16,4 @@ Collectfast==0.5.2
 # Mailgun Support
 # ---------------
 django-mailgun==0.9.1
-raven==6.1.0
+raven==6.3.0
