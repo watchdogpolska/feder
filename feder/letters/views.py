@@ -2,7 +2,7 @@ from atom.ext.django_filters.views import UserKwargFilterSetMixin
 from atom.views import (CreateMessageMixin, DeleteMessageMixin,
                         UpdateMessageMixin, ActionView, ActionMessageMixin)
 from braces.views import (FormValidMessageMixin, SelectRelatedMixin,
-                          UserFormKwargsMixin)
+                          UserFormKwargsMixin, PrefetchRelatedMixin)
 from cached_property import cached_property
 from django.contrib.syndication.views import Feed
 from django.core.urlresolvers import reverse_lazy
@@ -10,16 +10,18 @@ from django.shortcuts import get_object_or_404
 from django.utils.encoding import force_text
 from django.utils.feedgenerator import Atom1Feed
 from django.utils.translation import ugettext_lazy as _
-from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
+from django.views.generic import CreateView, DeleteView, DetailView, UpdateView, FormView
 from django_filters.views import FilterView
+from django_mailbox.models import Message
 
 from feder.alerts.models import Alert
 from feder.cases.models import Case
+from feder.letters.filters import MessageFilter
 from feder.main.mixins import (AttrPermissionRequiredMixin,
                                RaisePermissionRequiredMixin)
 from feder.monitorings.models import Monitoring
 from .filters import LetterFilter
-from .forms import LetterForm, ReplyForm
+from .forms import LetterForm, ReplyForm, AssignMessageForm
 from .mixins import LetterObjectFeedMixin
 from .models import Letter
 
@@ -243,3 +245,24 @@ class ReportSpamView(ActionMessageMixin, ActionView):
 
     def get_success_url(self):
         return self.object.case.get_absolute_url()
+
+
+class UnrecognizedMessageListView(RaisePermissionRequiredMixin, PrefetchRelatedMixin, FilterView):
+    filterset_class = MessageFilter
+    model = Message
+    prefetch_related = ['attachments']
+    paginate_by = 50
+    permission_object = None
+    permission_required = 'letters.recognize_letter'
+
+    def get_queryset(self):
+        return super(UnrecognizedMessageListView, self).get_queryset().filter(letter=None)
+
+
+class AssignMessageFormView(PrefetchRelatedMixin, FormView):
+    model = Message
+    form_class = AssignMessageForm
+    permission_object = None
+    permission_required = 'letters.recognize_letter'
+    success_url = 'letters:messages:list'
+    template_name = 'letters/letter_recognize.html'

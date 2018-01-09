@@ -1,0 +1,26 @@
+<table class="table table-striped">
+    <tr>
+        <td>{% trans 'Subject' %}</td>
+        <td>{{ object.subject }}</td>
+    </tr>
+    <tr>
+        <td>{% trans 'Text' %}</td>
+        <td>{{ object.text }}</td>
+    </tr>
+    <tr>
+        <td>{% trans 'HTML' %}</td>
+        <td>{{ object.html }}</td>
+    </tr>
+    <tr>
+        <td>{% trans 'EML' %}</td>
+        <td>{{ object.eml.url }}</td>
+    </tr>
+    <tr>
+        <td>{% trans 'Attachments' %}</td>
+        <td>
+        {% for attachment in object.attachments.all %}
+            <a href="{{ attachment.document.name }}">{{ attachment.document.filename }}</a>
+        {% endfor %}
+        </td>
+    </tr>
+</table>

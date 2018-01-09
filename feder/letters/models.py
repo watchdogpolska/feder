@@ -102,6 +102,7 @@ class Letter(TimeStampedModel):
         ordering = ['created', ]
         permissions = (
             ("can_filter_eml", _("Can filter eml")),
+            ("recognize_letter", _("Can recognize letter"))
         )
 
     @property
@@ -211,8 +212,9 @@ class Attachment(AttachmentBase):
 
 
 class MessageParser(object):
-    def __init__(self, message):
+    def __init__(self, message, case=None):
         self.message = message
+        self.case = case
 
     @cached_property
     def quote(self):
@@ -227,8 +229,11 @@ class MessageParser(object):
         return quotations.extract_from(self.message.html, 'text/html')
 
     def get_case(self):
+        if self.case:
+            return self.case
         try:
-            return Case.objects.by_msg(self.message).get()
+            self.case = Case.objects.by_msg(self.message).get()
+            return self.case
         except Case.DoesNotExist:
             return
 

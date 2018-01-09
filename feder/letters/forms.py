@@ -7,9 +7,11 @@ from atom.ext.crispy_forms.forms import HelperMixin, SingleButtonMixin
 from braces.forms import UserKwargModelFormMixin
 from crispy_forms.layout import Submit
 from django import forms
+from django.forms.widgets import NumberInput
 from django.utils.translation import ugettext_lazy as _
 
-from .models import Letter
+from feder.cases.models import Case
+from .models import Letter, MessageParser
 
 QUOTE_TPL = "W nawiązaniu do pisma z dnia {created} z adresu {email}:\n{quoted}"
 
@@ -81,3 +83,14 @@ class ReplyForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
     class Meta:
         model = Letter
         fields = ['title', 'body', 'quote']
+
+
+class AssignMessageForm(forms.Form):
+    case = forms.ModelChoiceField(queryset=Case.objects.all(), widget=NumberInput)
+
+    def __init__(self, *args, **kwargs):
+        self.message = kwargs.pop('message')
+        super(AssignMessageForm, self).__init__(*args, **kwargs)
+
+    def save(self):
+        return MessageParser(message=self.message, case=self.instance).insert()

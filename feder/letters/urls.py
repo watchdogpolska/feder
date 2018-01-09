@@ -35,4 +35,8 @@ urlpatterns = [
         name="reply"),
     url(_(r'^(?P<pk>[\d-]+)/~spam'), views.ReportSpamView.as_view(),
         name="spam"),
+    url(_(r'^messages/'), views.UnrecognizedMessageListView.as_view(),
+        name="messages:list"),
+    url(_(r'^messages/~assign'), views.AssignMessageFormView.as_view(),
+        name="messages:assign"),
 ]
