@@ -227,10 +227,7 @@ class MessageParser(object):
         return quotations.extract_from(self.message.html, 'text/html')
 
     def get_case(self):
-        try:
-            return Case.objects.by_msg(self.message).get()
-        except Case.DoesNotExist:
-            return
+        return Case.objects.by_msg(self.message).first()
 
     def save_attachments(self, letter):
         # Create Letter

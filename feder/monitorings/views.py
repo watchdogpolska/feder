@@ -38,6 +38,10 @@ class MonitoringListView(SelectRelatedMixin, FilterView):
 
     def get_queryset(self):
         qs = super(MonitoringListView, self).get_queryset()
+
+        if not self.request.user.is_staff:
+            qs = qs.only_public()
+
         return qs.with_case_count()
 
 
@@ -47,6 +51,14 @@ class MonitoringDetailView(SelectRelatedMixin, PrefetchRelatedMixin,
     select_related = ['user', ]
     prefetch_related = ['questionary_set', ]
     paginate_by = 25
+
+    def get_queryset(self):
+        qs = super(MonitoringDetailView, self).get_queryset()
+
+        if not self.request.user.is_staff:
+            qs = qs.only_public()
+
+        return qs
 
     def get_object_list(self, obj):
         return (Case.objects.filter(monitoring=obj).
@@ -280,6 +292,10 @@ class MonitoringAutocomplete(autocomplete.Select2QuerySetView):
         qs = Monitoring.objects
         if self.q:
             qs = qs.filter(name__icontains=self.q)
+
+        if not self.request.user.is_staff:
+            qs = qs.only_public()
+
         return qs.all()
 
 
