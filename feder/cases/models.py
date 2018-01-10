@@ -35,10 +35,11 @@ class CaseQuerySet(models.QuerySet):
 
     def by_msg(self, message):
         email_object = message.get_email_object()
-        addresses = [message.to_addresses]
+        addresses = []
+        addresses += message.to_addresses
         if 'Envelope-To' in email_object:
             addresses += [email_object.get('Envelope-To'), ]
-        return self.by_address(addresses)
+        return self.by_addresses(addresses)
 
     def by_addresses(self, addresses):
         return self.filter(
