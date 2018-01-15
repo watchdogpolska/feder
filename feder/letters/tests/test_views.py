@@ -251,6 +251,8 @@ class AssignMessageFormViewTestCase(MessageMixin, MessageObjectMixin, Permission
         return reverse('letters:messages:assign', kwargs={'pk': self.msg.pk})
 
     def test_assign_simple_letter(self):
+        self.client.login(username=UserFactory(is_superuser=True).username,
+                          password='pass')
         self.case = CaseFactory()
         response = self.client.post(self.get_url(), data={'case': self.case.pk})
         self.assertRedirects(response, reverse('letters:messages:list'))

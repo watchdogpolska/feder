@@ -297,3 +297,7 @@ class AssignMessageFormView(PrefetchRelatedMixin, RaisePermissionRequiredMixin, 
         kwargs = super(AssignMessageFormView, self).get_form_kwargs()
         kwargs['message'] = self.message
         return kwargs
+
+    def form_valid(self, form):
+        form.save()
+        return super(AssignMessageFormView, self).form_valid(form)
