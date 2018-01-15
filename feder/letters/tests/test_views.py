@@ -1,5 +1,6 @@
 from __future__ import absolute_import, unicode_literals
 
+from django.contrib.auth.models import Permission
 from django.core import mail
 from django.core.files.base import ContentFile
 from django.core.urlresolvers import reverse
@@ -8,6 +9,7 @@ from django.test import TestCase
 from feder.alerts.models import Alert
 from feder.cases.factories import CaseFactory
 from feder.letters.models import Letter
+from feder.letters.tests.base import MessageMixin
 from feder.main.mixins import PermissionStatusMixin
 from feder.monitorings.factories import MonitoringFactory
 from feder.users.factories import UserFactory
@@ -17,6 +19,7 @@ from django.utils.translation import ugettext_lazy as _
 
 class ObjectMixin(object):
     def setUp(self):
+        super(ObjectMixin, self).setUp()
         self.user = UserFactory(username='john')
         self.monitoring = self.permission_object = MonitoringFactory()
         self.case = CaseFactory(monitoring=self.monitoring)
@@ -218,3 +221,37 @@ class ReportSpamViewTestCase (ObjectMixin, PermissionStatusMixin, TestCase):
         response = self.client.post(self.get_url(), data={'valid': 'x'})
         self.from_institution.refresh_from_db()
         self.assertEqual(self.from_institution.is_spam, Letter.SPAM.non_spam)
+
+
+class MessageObjectMixin(object):
+    def setUp(self):
+        super(MessageObjectMixin, self).setUp()
+        self.user = UserFactory(username='john')
+        self.monitoring = MonitoringFactory()
+        self.case = CaseFactory(monitoring=self.monitoring)
+
+
+class UnrecognizedMessageListViewTestView(MessageObjectMixin, PermissionStatusMixin, TestCase):
+    permission = ['letters.recognize_letter']
+    permission_object = None
+
+    def get_url(self):
+        return reverse('letters:messages:list')
+
+
+class AssignMessageFormViewTestCase(MessageMixin, MessageObjectMixin, PermissionStatusMixin, TestCase):
+    permission = ['letters.recognize_letter']
+
+    def setUp(self):
+        super(AssignMessageFormViewTestCase, self).setUp()
+        self.user = UserFactory(username='john')
+        self.msg = self.get_message('basic_message.eml')
+
+    def get_url(self):
+        return reverse('letters:messages:assign', kwargs={'pk': self.msg.pk})
+
+    def test_assign_simple_letter(self):
+        self.case = CaseFactory()
+        response = self.client.post(self.get_url(), data={'case': self.case.pk})
+        self.assertRedirects(response, reverse('letters:messages:list'))
+        self.assertTrue(self.msg.letter_set.exists())

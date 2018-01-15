@@ -6,6 +6,7 @@ from textwrap import wrap
 from atom.ext.crispy_forms.forms import HelperMixin, SingleButtonMixin
 from braces.forms import UserKwargModelFormMixin
 from crispy_forms.layout import Submit
+from dal import autocomplete
 from django import forms
 from django.forms.widgets import NumberInput
 from django.utils.translation import ugettext_lazy as _
@@ -85,12 +86,14 @@ class ReplyForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
         fields = ['title', 'body', 'quote']
 
 
-class AssignMessageForm(forms.Form):
-    case = forms.ModelChoiceField(queryset=Case.objects.all(), widget=NumberInput)
+class AssignMessageForm(SingleButtonMixin, forms.Form):
+    action_text = _("Assign")
+    case = forms.ModelChoiceField(queryset=Case.objects.all(), label=_("Case number"),
+                                  widget=autocomplete.ModelSelect2(url='cases:autocomplete-find'))
 
     def __init__(self, *args, **kwargs):
         self.message = kwargs.pop('message')
         super(AssignMessageForm, self).__init__(*args, **kwargs)
 
     def save(self):
-        return MessageParser(message=self.message, case=self.instance).insert()
+        return MessageParser(message=self.message, case=self.cleaned_data['case']).insert()

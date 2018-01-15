@@ -2,7 +2,7 @@
 from atom.ext.django_filters.filters import UserKwargFilterSetMixin
 from dal import autocomplete
 from django.utils.translation import ugettext_lazy as _
-from django_filters import BooleanFilter, DateRangeFilter, FilterSet, filters
+from django_filters import BooleanFilter, DateRangeFilter, FilterSet
 from django_mailbox.models import Message
 
 from .models import Letter
@@ -36,7 +36,7 @@ class LetterFilter(UserKwargFilterSetMixin, FilterSet):
         fields = ['title', 'created', 'case__institution']
 
 
-class MessageFilter(filters.Filter):
+class MessageFilter(FilterSet):
     processed = DateRangeFilter(label=_("Creation date"))
 
     class Meta:

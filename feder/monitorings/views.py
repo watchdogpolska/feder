@@ -228,6 +228,9 @@ class MonitoringAssignView(RaisePermissionRequiredMixin, FilterView):
     paginate_by = 50
     LIMIT = 500
 
+    def get_limit_simultaneously(self):
+        return self.LIMIT
+
     def get_queryset(self):
         qs = super(MonitoringAssignView, self).get_queryset()
         return (qs.exclude(case__monitoring=self.monitoring.pk).
@@ -266,10 +269,11 @@ class MonitoringAssignView(RaisePermissionRequiredMixin, FilterView):
         num = self.monitoring.case_set.count()
         count = Case.objects.filter(monitoring=self.monitoring).count() or 1
 
-        if count > 500:
+        to_assign_count = qs.count()
+        if to_assign_count  > self.get_limit_simultaneously():
             msg = _("You can not send %(count)d letters at once. "
                     "The maximum is %(limit)d. Use filtering.") % \
-                  {'count': count, 'limit': self.LIMIT}
+                  {'count': count, 'limit': self.get_limit_simultaneously()}
             messages.error(self.request, msg)
             return HttpResponseRedirect(self.request.path)
 

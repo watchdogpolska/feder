@@ -34,7 +34,7 @@ class InstitutionListView(SelectRelatedMixin, FilterView):
 class InstitutionDetailView(SelectRelatedMixin, ExtraListMixin, PrefetchRelatedMixin, DetailView):
     model = Institution
     prefetch_related = ['tags']
-    select_related = []
+    select_related = ['monitoring']
     extra_list_context = 'case_list'
 
     @staticmethod

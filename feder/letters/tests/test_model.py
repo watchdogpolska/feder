@@ -134,7 +134,7 @@ class IncomingEmailTestCase(MessageMixin, TestCase):
         """
         Validate regression of #280
         """
-        CaseFactory(email='sprawa-REDACTED@fedrowanie.siecobywatelska.pl')
+        CaseFactory(email='case-123@fedrowanie.siecobywatelska.pl')
         message = self.get_message('message-with-content.eml')
         letter = MessageParser(message).insert()
         letter.refresh_from_db()

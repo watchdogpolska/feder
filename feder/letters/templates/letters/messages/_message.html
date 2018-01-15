@@ -1,0 +1,41 @@
+{% load i18n %}
+{% load crispy_forms_tags %}
+<table class="table table-striped">
+    <tr>
+        <td>{% trans 'Subject' %}</td>
+        <td>{{ object.subject }}</td>
+    </tr>
+    <tr>
+        <td>{% trans 'Text' %}</td>
+        <td>{{ object.text }}</td>
+    </tr>
+    <tr>
+        <td>{% trans 'HTML' %}</td>
+        <td>{{ object.html }}</td>
+    </tr>
+    <tr>
+        <td>{% trans 'EML' %}</td>
+        <td><a href="{{ object.eml.url }}">{% trans 'Download original message' %}</a></td>
+    </tr>
+    {% if object.attachments.all %}
+        <tr>
+            <td>{% trans 'Attachments' %}</td>
+            <td>
+                <ul>
+                    {% for attachment in object.attachments.all %}
+                        <li>
+                            <a href="{{ attachment.document.name }}">{{ attachment.document.file.name }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </td>
+        </tr>
+    {% endif %}
+    <tr>
+        <td colspan="2">
+            <form action="{% url 'letters:messages:assign' pk=object.pk %}" method="POST">
+                {% crispy object.assign_form %}
+            </form>
+        </td>
+    </tr>
+</table>

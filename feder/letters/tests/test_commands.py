@@ -30,3 +30,13 @@ class DropDuplicateIdsTestCase(MessageMixin, TestCase):
     def test_finish_message_stats(self):
         call_command('drop_duplicate_ids', '--no-progress', '--delete', stdout=self.out, stderr=self.err)
         self.assertIn('There is 1 cases containing 2 letters of which 1 were removed.', self.out.getvalue())
+
+
+class LoadEmlTestCase(MessageMixin, TestCase):
+    def test_command_style(self):
+        out = StringIO()
+        case = CaseFactory(email='case-123@fedrowanie.siecobywatelska.pl')
+        path = self._get_email_path('message-with-content.eml')
+        call_command('load_eml', self.mailbox.pk, path, stdout=out)
+        self.assertIn("Imported ", out.getvalue())
+        self.assertEqual(case.letter_set.count(), 1)
