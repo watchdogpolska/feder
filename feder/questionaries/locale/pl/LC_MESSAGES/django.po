@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: questionaries\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-11 01:25+0000\n"
+"POT-Creation-Date: 2018-01-15 18:50+0000\n"
 "PO-Revision-Date: 2017-02-20 04:36+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -20,6 +20,7 @@ msgstr ""
 "X-Generator: Poedit 1.8.7.1\n"
 
 #: apps.py:10 models.py:32 templates/questionaries/base.html:5
+#: templates/questionaries/questionary_detail.html:3
 msgid "Questionaries"
 msgstr "Kwestionariusze"
 
@@ -67,7 +68,7 @@ msgstr "Blokada edycji"
 msgid "Questionary"
 msgstr "Kwestionariusz"
 
-#: models.py:38 templates/questionaries/questionary_detail.html:47
+#: models.py:38 templates/questionaries/questionary_detail.html:64
 msgid "Position"
 msgstr "Pozycja"
 
@@ -186,7 +187,7 @@ msgid "Edit"
 msgstr "Edytuj"
 
 #: templates/questionaries/_btn.html:11
-#: templates/questionaries/questionary_detail.html:53
+#: templates/questionaries/questionary_detail.html:70
 msgid "Delete"
 msgstr "Usuń"
 
@@ -202,8 +203,8 @@ msgstr "Dodaj zadania"
 msgid "Export answer"
 msgstr "Wyeksportuj odpowiedzi"
 
-#: templates/questionaries/question_confirm_delete.html:4
-#: templates/questionaries/questionary_confirm_delete.html:4
+#: templates/questionaries/question_confirm_delete.html:9
+#: templates/questionaries/questionary_confirm_delete.html:9
 msgid "Confirm delete"
 msgstr "Potwierdź usuwanie"
 
@@ -211,36 +212,36 @@ msgstr "Potwierdź usuwanie"
 msgid "Move"
 msgstr "Przesuń"
 
-#: templates/questionaries/questionary_detail.html:28
+#: templates/questionaries/questionary_detail.html:45
 msgid "Tasks"
 msgstr "Zadania"
 
-#: templates/questionaries/questionary_detail.html:32
-#: templates/questionaries/questionary_detail.html:59
+#: templates/questionaries/questionary_detail.html:49
+#: templates/questionaries/questionary_detail.html:76
 msgid "No rows."
 msgstr "Brak wierszy"
 
-#: templates/questionaries/questionary_detail.html:39
+#: templates/questionaries/questionary_detail.html:56
 msgid "Form preview"
 msgstr "Podgląd formularza"
 
-#: templates/questionaries/questionary_detail.html:46
+#: templates/questionaries/questionary_detail.html:63
 msgid "Move up"
 msgstr "Przesuń wyżej"
 
-#: templates/questionaries/questionary_detail.html:49
+#: templates/questionaries/questionary_detail.html:66
 msgid "Move down"
 msgstr "Przesuń niżej"
 
-#: templates/questionaries/questionary_detail.html:51
+#: templates/questionaries/questionary_detail.html:68
 msgid "Update"
 msgstr "Zaktualizuj"
 
-#: templates/questionaries/questionary_form.html:4
+#: templates/questionaries/questionary_form.html:9
 msgid "Update questionary"
 msgstr "Zaktualizuj kwestionariusz"
 
-#: templates/questionaries/questionary_form.html:5
+#: templates/questionaries/questionary_form.html:10
 msgid "Add questionary"
 msgstr "Dodaj kwestionariusz"
 

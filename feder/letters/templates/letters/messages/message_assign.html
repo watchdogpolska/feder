@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load i18n crispy_forms_tags %}
+
+{% block content %}
+    <h2>{{ object.subject }}</h2>
+    {% include 'letters/messages/_message.html' with object=object %}
+{% endblock %}
+
+{% block javascript %}
+    {{ block.super }}
+{{ object.assign_form.media }}
+{% endblock %}
