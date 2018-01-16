@@ -6,10 +6,13 @@ from textwrap import wrap
 from atom.ext.crispy_forms.forms import HelperMixin, SingleButtonMixin
 from braces.forms import UserKwargModelFormMixin
 from crispy_forms.layout import Submit
+from dal import autocomplete
 from django import forms
+from django.forms.widgets import NumberInput
 from django.utils.translation import ugettext_lazy as _
 
-from .models import Letter
+from feder.cases.models import Case
+from .models import Letter, MessageParser
 
 QUOTE_TPL = "W nawiązaniu do pisma z dnia {created} z adresu {email}:\n{quoted}"
 
@@ -81,3 +84,16 @@ class ReplyForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
     class Meta:
         model = Letter
         fields = ['title', 'body', 'quote']
+
+
+class AssignMessageForm(SingleButtonMixin, forms.Form):
+    action_text = _("Assign")
+    case = forms.ModelChoiceField(queryset=Case.objects.all(), label=_("Case number"),
+                                  widget=autocomplete.ModelSelect2(url='cases:autocomplete-find'))
+
+    def __init__(self, *args, **kwargs):
+        self.message = kwargs.pop('message')
+        super(AssignMessageForm, self).__init__(*args, **kwargs)
+
+    def save(self):
+        return MessageParser(message=self.message, case=self.cleaned_data['case']).insert()

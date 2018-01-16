@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: alerts 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-11 01:25+0000\n"
+"POT-Creation-Date: 2018-01-15 18:50+0000\n"
 "PO-Revision-Date: 2016-09-18 01:57+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: pl_PL <naczelnik@jawnosc.tk>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.8.7.1\n"
 
-#: models.py:15 templates/alerts/base_alert.html:6
+#: models.py:15 templates/alerts/base_alert.html:21
 msgid "Alerts index"
 msgstr "Wykaz alertów"
 
@@ -81,7 +81,7 @@ msgstr "Przestaw status"
 msgid "Delete"
 msgstr "Usuń"
 
-#: templates/alerts/alert_confirm_delete.html:4
+#: templates/alerts/alert_confirm_delete.html:9
 msgid "Confirm delete"
 msgstr "Potwierdź usunięcie"
 
@@ -89,7 +89,7 @@ msgstr "Potwierdź usunięcie"
 msgid "Modification date"
 msgstr "Data modyfikacji"
 
-#: templates/alerts/alert_form.html:9
+#: templates/alerts/alert_form.html:24
 msgid "Add alert"
 msgstr "Dodaj alert"
 

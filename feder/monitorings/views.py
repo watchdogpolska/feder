@@ -238,6 +238,10 @@ class MonitoringAssignView(RaisePermissionRequiredMixin, FilterView):
     permission_required = 'monitorings.change_monitoring'
     template_name = 'monitorings/institution_assign.html'
     paginate_by = 50
+    LIMIT = 500
+
+    def get_limit_simultaneously(self):
+        return self.LIMIT
 
     def get_queryset(self):
         qs = super(MonitoringAssignView, self).get_queryset()
@@ -262,26 +266,38 @@ class MonitoringAssignView(RaisePermissionRequiredMixin, FilterView):
         return kw
 
     def post(self, request, *args, **kwargs):
+        if not request.GET:
+            msg = _("You can not send letters without using filtering.")
+            messages.error(self.request, msg)
+            return HttpResponseRedirect(self.request.path)
+
         if request.POST.get('all', 'no') == 'yes':
             qs = self.get_filterset(self.get_filterset_class()).qs
         else:
             ids = request.POST.getlist('to_assign')
             qs = Institution.objects.filter(pk__in=ids)
         qs = qs.exclude(case__monitoring=self.monitoring.pk)
-        num = self.monitoring.case_set.count()
+
         count = Case.objects.filter(monitoring=self.monitoring).count() or 1
 
-        for institution in qs:
-            postfix = " #%d" % (num + count,)
+        to_assign_count = qs.count()
+        if to_assign_count  > self.get_limit_simultaneously():
+            msg = _("You can not send %(count)d letters at once. "
+                    "The maximum is %(limit)d. Use filtering.") % \
+                  {'count': to_assign_count, 'limit': self.get_limit_simultaneously()}
+            messages.error(self.request, msg)
+            return HttpResponseRedirect(self.request.path)
+
+        for i, institution in enumerate(qs):
+            postfix = " #%d" % (i + count,)
             Letter.send_new_case(user=self.request.user,
                                  monitoring=self.monitoring,
                                  postfix=postfix,
                                  institution=institution,
                                  text=self.monitoring.template)
-            count += 1
         msg = _("%(count)d institutions was assigned " +
                 "to %(monitoring)s. The requests was sent.") % \
-              {'count': count, 'monitoring': self.monitoring}
+              {'count': to_assign_count, 'monitoring': self.monitoring}
         messages.success(self.request, msg)
         url = reverse('monitorings:assign', kwargs={'slug': self.monitoring.slug})
         return HttpResponseRedirect(url)

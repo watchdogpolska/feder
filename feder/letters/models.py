@@ -44,7 +44,7 @@ class LetterQuerySet(models.QuerySet):
         return self.prefetch_related('attachment_set').with_author()
 
     def is_draft(self):
-            return self.is_outgoing().filter(eml='')
+            return self.filter(is_draft=True)
 
     def is_outgoing(self):
         return self.filter(author_user__isnull=False)
@@ -79,6 +79,7 @@ class Letter(TimeStampedModel):
     email = models.EmailField(verbose_name=_("E-mail"), max_length=100, blank=True)
     note = models.TextField(verbose_name=_("Comments from editor"), blank=True)
     is_spam = models.IntegerField(choices=SPAM, default=SPAM.unknown, db_index=True)
+    is_draft = models.BooleanField(verbose_name=_("Is draft?"), default=True)
     message_id_header = models.CharField(blank=True,
                                          verbose_name=_('ID of sent email message "Message-ID"'),
                                          max_length=500)
@@ -102,11 +103,8 @@ class Letter(TimeStampedModel):
         ordering = ['created', ]
         permissions = (
             ("can_filter_eml", _("Can filter eml")),
+            ("recognize_letter", _("Can recognize letter"))
         )
-
-    @property
-    def is_draft(self):
-        return self.is_outgoing and not bool(self.eml)
 
     @property
     def is_incoming(self):
@@ -191,6 +189,7 @@ class Letter(TimeStampedModel):
         self.email = self.case.institution.email
         self.message_id_header = normalize_msg_id(msg_id)
         self.eml.save('%s.eml' % uuid.uuid4(), ContentFile(text), save=False)
+        self.is_draft = False
         if commit:
             self.save(update_fields=['eml', 'email'] if only_email else None)
         return message.send()
@@ -211,8 +210,9 @@ class Attachment(AttachmentBase):
 
 
 class MessageParser(object):
-    def __init__(self, message):
+    def __init__(self, message, case=None):
         self.message = message
+        self.case = case
 
     @cached_property
     def quote(self):
@@ -227,7 +227,13 @@ class MessageParser(object):
         return quotations.extract_from(self.message.html, 'text/html')
 
     def get_case(self):
-        return Case.objects.by_msg(self.message).first()
+        if self.case:
+            return self.case
+        try:
+            self.case = Case.objects.by_msg(self.message).get()
+            return self.case
+        except Case.DoesNotExist:
+            return
 
     def save_attachments(self, letter):
         # Create Letter

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cases 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-20 17:33+0000\n"
-"PO-Revision-Date: 2017-08-20 19:33+0200\n"
+"POT-Creation-Date: 2018-01-15 18:46+0000\n"
+"PO-Revision-Date: 2018-01-15 19:46+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -23,25 +23,25 @@ msgstr ""
 msgid "Creation date"
 msgstr "Data utworzenia"
 
-#: filters.py:24
+#: filters.py:15 models.py:48
+msgid "Name"
+msgstr "Nazwa"
+
+#: filters.py:25
 msgid "Letter count (descending)"
 msgstr "Liczba listów (malejąco)"
 
-#: filters.py:25
+#: filters.py:26
 msgid "Letter count (ascending)"
 msgstr "Liczba listów (rosnąco)"
 
-#: filters.py:26
+#: filters.py:27
 msgid "creation date (ascending)"
 msgstr "Data utworzenia (od najstarszych)"
 
-#: filters.py:27
+#: filters.py:28
 msgid "creation date (descending)"
 msgstr "Data utworzenia (od najnowszych)"
-
-#: models.py:48
-msgid "Name"
-msgstr "Nazwa"
 
 #: models.py:49
 msgid "Slug"
@@ -80,31 +80,31 @@ msgstr "Zobacz dzienniki"
 msgid "Letter count"
 msgstr "Liczba listów"
 
-#: templates/cases/base.html:4
+#: templates/cases/base.html:4 templates/cases/case_detail.html:3
 msgid "Cases"
 msgstr "Sprawy"
 
-#: templates/cases/case_confirm_delete.html:4
+#: templates/cases/case_confirm_delete.html:9
 msgid "Confirm delete"
 msgstr "Potwierdź usunięcie"
 
-#: templates/cases/case_detail.html:20
+#: templates/cases/case_detail.html:37
 msgid "Tasks"
 msgstr "Zadania"
 
-#: templates/cases/case_detail.html:25 templates/cases/case_detail.html:40
+#: templates/cases/case_detail.html:42 templates/cases/case_detail.html:57
 msgid "No rows."
 msgstr "Brak wierszy"
 
-#: templates/cases/case_detail.html:33
+#: templates/cases/case_detail.html:50
 msgid "Letters"
 msgstr "Listy"
 
-#: templates/cases/case_form.html:12
+#: templates/cases/case_form.html:33
 msgid "Update case"
 msgstr "Zaktualizuj sprawę"
 
-#: templates/cases/case_form.html:13
+#: templates/cases/case_form.html:34
 msgid "Add case"
 msgstr "Utwórz sprawę"
 
@@ -132,6 +132,10 @@ msgstr "^(?P<slug>[\\w-]+)/~usun$"
 msgid "^~autocomplete$"
 msgstr "^~autocomplete$"
 
-#: views.py:19
+#: urls.py:22
+msgid "^~autocomplete/~find$"
+msgstr "^~autocomplete-szukaj$"
+
+#: views.py:22
 msgid "Case index"
 msgstr "Wykaz spraw"

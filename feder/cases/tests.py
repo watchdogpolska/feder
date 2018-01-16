@@ -118,4 +118,4 @@ class CaseQuerySetTestCase(TestCase):
         case = CaseFactory(email="case-123@example.com")
         AliasFactory(case=case, email="alias-123@example.com")
 
-        self.assertEqual(Case.objects.by_addresses(["case-123@example.com"]).get(), case)
+        self.assertEqual(Case.objects.by_addresses(["alias-123@example.com"]).get(), case)

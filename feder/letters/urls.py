@@ -1,11 +1,17 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.utils.translation import ugettext_lazy as _
 
 from . import views
 
+messages_urlpatterns = [
+    url(_(r'^$'), views.UnrecognizedMessageListView.as_view(),
+        name="list"),
+    url(_(r'^~assign-(?P<pk>[\d-]+)$'), views.AssignMessageFormView.as_view(),
+        name="assign"),
+]
 urlpatterns = [
     url(_(r'^$'), views.LetterListView.as_view(),
         name="list"),
@@ -35,4 +41,5 @@ urlpatterns = [
         name="reply"),
     url(_(r'^(?P<pk>[\d-]+)/~spam'), views.ReportSpamView.as_view(),
         name="spam"),
+    url(_(r'^messages/logs/'), include(messages_urlpatterns, namespace="messages")),
 ]
