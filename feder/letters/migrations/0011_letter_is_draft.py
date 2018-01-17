@@ -4,9 +4,11 @@ from __future__ import unicode_literals
 
 from django.db import migrations, models
 
+
 def update_draft_status(apps, schema_editor):
     Letter = apps.get_model('letters', 'Letter')
-    Letter.objects.filter(is_outgoing=True).exclude(is_eml='').update(is_draft=False)
+    Letter.objects.filter(author_user__isnull=False).exclude(eml='').update(is_draft=False)
+    Letter.objects.filter(author_user__isnull=True).update(is_draft=False)
 
 
 class Migration(migrations.Migration):
@@ -21,4 +23,5 @@ class Migration(migrations.Migration):
             name='is_draft',
             field=models.BooleanField(default=True, verbose_name='Is draft?'),
         ),
+        migrations.RunPython(update_draft_status)
     ]

@@ -278,10 +278,10 @@ class MonitoringAssignView(RaisePermissionRequiredMixin, FilterView):
             qs = Institution.objects.filter(pk__in=ids)
         qs = qs.exclude(case__monitoring=self.monitoring.pk)
 
-        count = Case.objects.filter(monitoring=self.monitoring).count() or 1
+        count = Case.objects.filter(monitoring=self.monitoring).count() or 0
 
         to_assign_count = qs.count()
-        if to_assign_count  > self.get_limit_simultaneously():
+        if to_assign_count > self.get_limit_simultaneously():
             msg = _("You can not send %(count)d letters at once. "
                     "The maximum is %(limit)d. Use filtering.") % \
                   {'count': to_assign_count, 'limit': self.get_limit_simultaneously()}
@@ -289,7 +289,7 @@ class MonitoringAssignView(RaisePermissionRequiredMixin, FilterView):
             return HttpResponseRedirect(self.request.path)
 
         for i, institution in enumerate(qs):
-            postfix = " #%d" % (i + count,)
+            postfix = " #%d" % (i + count + 1,)
             Letter.send_new_case(user=self.request.user,
                                  monitoring=self.monitoring,
                                  postfix=postfix,

@@ -25,6 +25,11 @@ class IncomingLetterFactory(LetterFactory):
 
 class OutgoingLetterFactory(LetterFactory):
     author_user = factory.SubFactory(UserFactory)
+    is_draft = False
+
+
+class DraftLetterFactory(OutgoingLetterFactory):
+    is_draft = True
 
 
 class SendOutgoingLetterFactory(LetterFactory):

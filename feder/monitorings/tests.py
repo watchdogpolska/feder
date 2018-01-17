@@ -7,7 +7,7 @@ from mock import Mock, mock
 from feder.cases.factories import CaseFactory
 from feder.cases.models import Case
 from feder.institutions.factories import InstitutionFactory
-from feder.letters.factories import IncomingLetterFactory
+from feder.letters.factories import IncomingLetterFactory, DraftLetterFactory
 from feder.letters.factories import OutgoingLetterFactory
 from feder.main.mixins import PermissionStatusMixin
 from feder.monitorings.filters import MonitoringFilter
@@ -156,13 +156,16 @@ class DraftListMonitoringViewTestCase(ObjectMixin, PermissionStatusMixin, TestCa
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, self.monitoring)
 
-    def test_display_draft(self):
-        draft_letter = OutgoingLetterFactory(case__monitoring=self.monitoring)
+    def test_hide_draft(self):
+        outgoing_letter = OutgoingLetterFactory(case__monitoring=self.monitoring)
         incoming_letter = IncomingLetterFactory(case__monitoring=self.monitoring)
+        draft_letter = DraftLetterFactory(case__monitoring=self.monitoring)
         response = self.client.get(self.get_url())
+        self.assertNotContains(response, outgoing_letter.body, msg_prefix='Response contains outgoing letter. ')
+        self.assertNotContains(response, incoming_letter.body, msg_prefix='Response contains incoming letter. ')
+
         self.assertContains(response, draft_letter.body)
         self.assertContains(response, draft_letter.note)
-        self.assertNotContains(response, incoming_letter.body)
 
 
 class MonitoringUpdateViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
@@ -283,7 +286,7 @@ class MonitoringAssignViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
         self.client.post(self.get_url() + "?name=Office", data={'to_assign': [institution_1.pk]})
         self.assertEqual(len(mail.outbox), 1)
 
-        self.assertTrue(Case.objects.latest().name.endswith(' #1'))
+        self.assertTrue(Case.objects.latest().name.endswith(' #1'), msg=Case.objects.latest().name)
 
         self.client.post(self.get_url() + "?name=Office", data={'to_assign': [institution_2.pk,
                                                                               institution_3.pk]})
