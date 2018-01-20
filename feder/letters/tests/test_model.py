@@ -15,7 +15,8 @@ from feder.monitorings.factories import MonitoringFactory
 from feder.users.factories import UserFactory
 from ..factories import (IncomingLetterFactory, LetterFactory,
                          OutgoingLetterFactory, SendOutgoingLetterFactory)
-from ..models import Letter, MessageParser
+from ..models import Letter
+from feder.letters.signals import MessageParser
 
 
 class ModelTestCase(TestCase):

@@ -3,7 +3,7 @@ from os.path import dirname, join
 
 from django_mailbox.models import Mailbox
 
-from feder.letters.models import MessageParser
+from feder.letters.signals import MessageParser
 
 
 class MessageMixin(object):

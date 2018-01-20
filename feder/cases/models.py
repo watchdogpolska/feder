@@ -2,7 +2,7 @@ from autoslug.fields import AutoSlugField
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db import models
-from django.db.models import Max, Prefetch
+from django.db.models import Max, Prefetch, Q
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
@@ -35,10 +35,16 @@ class CaseQuerySet(models.QuerySet):
 
     def by_msg(self, message):
         email_object = message.get_email_object()
-        address = [message.to_addresses]
+        addresses = []
+        addresses += message.to_addresses
         if 'Envelope-To' in email_object:
-            address += [email_object.get('Envelope-To'), ]
-        return self.filter(email__in=address)
+            addresses += [email_object.get('Envelope-To'), ]
+        return self.by_addresses(addresses)
+
+    def by_addresses(self, addresses):
+        return self.filter(
+            Q(email__in=addresses) | Q(alias__email__in=addresses)
+        )
 
     def with_letter_max(self):
         return self.annotate(letter_max=Max('letter__created'))
@@ -75,3 +81,7 @@ class Case(TimeStampedModel):
 def my_callback(sender, instance, *args, **kwargs):
     if not instance.email:
         instance.update_email()
+
+class Alias(models.Model):
+    case = models.ForeignKey(Case, verbose_name=_("Case"))
+    email = models.CharField(max_length=75, db_index=True, unique=True)

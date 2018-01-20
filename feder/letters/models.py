@@ -1,27 +1,21 @@
 from __future__ import print_function
 
 import logging
-import os
 import uuid
 
 import claw
 from atom.models import AttachmentBase
-from cached_property import cached_property
-from claw import quotations
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.core.files import File
 from django.core.files.base import ContentFile
 from django.core.mail import EmailMessage
 from django.core.mail.message import make_msgid
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models.manager import BaseManager
-from django.dispatch import receiver
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from django_mailbox.models import Message
-from django_mailbox.signals import message_received
 from model_utils import Choices
 from model_utils.models import TimeStampedModel
 from feder.cases.models import Case
@@ -44,7 +38,7 @@ class LetterQuerySet(models.QuerySet):
         return self.prefetch_related('attachment_set').with_author()
 
     def is_draft(self):
-            return self.is_outgoing().filter(eml='')
+            return self.filter(is_draft=True).is_outgoing()
 
     def is_outgoing(self):
         return self.filter(author_user__isnull=False)
@@ -79,6 +73,7 @@ class Letter(TimeStampedModel):
     email = models.EmailField(verbose_name=_("E-mail"), max_length=100, blank=True)
     note = models.TextField(verbose_name=_("Comments from editor"), blank=True)
     is_spam = models.IntegerField(choices=SPAM, default=SPAM.unknown, db_index=True)
+    is_draft = models.BooleanField(verbose_name=_("Is draft?"), default=True)
     message_id_header = models.CharField(blank=True,
                                          verbose_name=_('ID of sent email message "Message-ID"'),
                                          max_length=500)
@@ -104,10 +99,6 @@ class Letter(TimeStampedModel):
             ("can_filter_eml", _("Can filter eml")),
             ("recognize_letter", _("Can recognize letter"))
         )
-
-    @property
-    def is_draft(self):
-        return self.is_outgoing and not bool(self.eml)
 
     @property
     def is_incoming(self):
@@ -192,6 +183,7 @@ class Letter(TimeStampedModel):
         self.email = self.case.institution.email
         self.message_id_header = normalize_msg_id(msg_id)
         self.eml.save('%s.eml' % uuid.uuid4(), ContentFile(text), save=False)
+        self.is_draft = False
         if commit:
             self.save(update_fields=['eml', 'email'] if only_email else None)
         return message.send()
@@ -211,75 +203,3 @@ class Attachment(AttachmentBase):
         return "None"
 
 
-class MessageParser(object):
-    def __init__(self, message, case=None):
-        self.message = message
-        self.case = case
-
-    @cached_property
-    def quote(self):
-        if self.message.text:
-            return self.message.text.replace(self.text, '')
-        return self.message.text.replace(self.text, '')
-
-    @cached_property
-    def text(self):
-        if self.message.text:
-            return quotations.extract_from(self.message.text)
-        return quotations.extract_from(self.message.html, 'text/html')
-
-    def get_case(self):
-        if self.case:
-            return self.case
-        try:
-            self.case = Case.objects.by_msg(self.message).get()
-            return self.case
-        except Case.DoesNotExist:
-            return
-
-    def save_attachments(self, letter):
-        # Create Letter
-        attachments = []
-        # Append attachments
-        for attachment in self.message.attachments.all():
-            name = attachment.get_filename() or 'Unknown.bin'
-            if len(name) > 70:
-                name, ext = os.path.splitext(name)
-                ext = ext[:70]
-                name = name[:70 - len(ext)] + ext
-            file_obj = File(attachment.document, name)
-            attachments.append(Attachment(letter=letter, attachment=file_obj))
-        Attachment.objects.bulk_create(attachments)
-        for att in attachments:  # Force close file descriptor to avoid "Too many open files"
-            att.attachment.close()
-        return attachments
-
-    def save_object(self):
-        with File(self.message.eml, self.message.eml.name) as eml:
-            return Letter.objects.create(author_institution=self.case.institution,
-                                         email=self.message.from_address[0],
-                                         case=self.case,
-                                         title=self.message.subject,
-                                         body=self.text,
-                                         quote=self.quote,
-                                         eml=eml,
-                                         message=self.message)
-
-    @staticmethod
-    @receiver(message_received)
-    def receive_signal(sender, message, **kwargs):
-        MessageParser(message).insert()
-
-    def insert(self):
-        self.case = self.get_case()
-        if not self.case:
-            logger.warning("Message #{pk} skip, due not recognized address {to}".
-                           format(pk=self.message.pk, to=self.message.to_addresses))
-            return
-        letter = self.save_object()
-        logger.info("Message #{message} registered in case #{case} as letter #{letter}".
-                    format(message=self.message.pk, case=self.case.pk, letter=letter.pk))
-        attachments = self.save_attachments(letter)
-        logger.debug("Saved {attachment_count} attachments for letter #{letter}".
-                     format(attachment_count=len(attachments), letter=letter.pk))
-        return letter

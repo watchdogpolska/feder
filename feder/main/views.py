@@ -8,5 +8,5 @@ class HomeView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(HomeView, self).get_context_data(**kwargs)
-        context['monitoring_list'] = Monitoring.objects.order_by('created').all()[:16]
+        context['monitoring_list'] = Monitoring.objects.only_public().order_by('created').all()[:16]
         return context

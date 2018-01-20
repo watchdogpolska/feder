@@ -1,12 +1,13 @@
 from django.core.urlresolvers import reverse
 from django.test import RequestFactory, TestCase
 
+from feder.cases.models import Case
 from feder.institutions.factories import InstitutionFactory
 from feder.letters.factories import IncomingLetterFactory
 from feder.letters.models import Letter
 from feder.main.mixins import PermissionStatusMixin
 from feder.users.factories import UserFactory
-from .factories import CaseFactory
+from .factories import CaseFactory, AliasFactory
 from .forms import CaseForm
 from .views import CaseAutocomplete
 
@@ -105,3 +106,16 @@ class SitemapTestCase(ObjectMixin, TestCase):
         needle = reverse('cases:details', kwargs={'slug': self.case.slug})
         response = self.client.get(url)
         self.assertContains(response, needle)
+
+
+class CaseQuerySetTestCase(TestCase):
+    def test_find_by_email(self):
+        case = CaseFactory(email="case-123@example.com")
+
+        self.assertEqual(Case.objects.by_addresses(["case-123@example.com"]).get(), case)
+
+    def test_find_by_alias(self):
+        case = CaseFactory(email="case-123@example.com")
+        AliasFactory(case=case, email="alias-123@example.com")
+
+        self.assertEqual(Case.objects.by_addresses(["alias-123@example.com"]).get(), case)

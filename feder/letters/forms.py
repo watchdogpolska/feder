@@ -12,7 +12,8 @@ from django.forms.widgets import NumberInput
 from django.utils.translation import ugettext_lazy as _
 
 from feder.cases.models import Case
-from .models import Letter, MessageParser
+from .models import Letter
+from feder.letters.signals import MessageParser
 
 QUOTE_TPL = "W nawiązaniu do pisma z dnia {created} z adresu {email}:\n{quoted}"
 

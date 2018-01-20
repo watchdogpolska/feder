@@ -28,6 +28,8 @@ class MonitoringQuerySet(models.QuerySet):
         return self.filter(case__institution__jst__tree_id=jst.tree_id,
                            case__institution__jst__lft__range=(jst.lft, jst.rght))
 
+    def only_public(self):
+        return self.filter(is_public=True)
 
 @reversion.register()
 class Monitoring(TimeStampedModel):
@@ -47,6 +49,8 @@ class Monitoring(TimeStampedModel):
                                        verbose_name=_("Notify about alerts"),
                                        help_text=NOTIFY_HELP)
     objects = MonitoringQuerySet.as_manager()
+    is_public = models.BooleanField(default=True,
+                                    verbose_name=_("Is public visible?"))
 
     class Meta:
         verbose_name = _("Monitoring")
