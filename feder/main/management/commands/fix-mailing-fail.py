@@ -35,7 +35,7 @@ class Command(BaseCommand):
             if case_count == 0:
                 self.stdout.write('register-new-case %s %s' % (row['institution_email'], row['case_email']))
                 postfix = " $%d" % num
-                create_date = datetime.strptime(row['date'], "%Y %b %d %H:%M:%S").replace(year=2019)
+                create_date = datetime.strptime(row['date'], "%Y %b %d %H:%M:%S")
                 case = Case.objects.create(user=user,
                                            name=monitoring.name + postfix,
                                            monitoring=monitoring,
