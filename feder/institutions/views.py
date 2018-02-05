@@ -31,10 +31,9 @@ class InstitutionListView(SelectRelatedMixin, FilterView):
         return qs.with_case_count()
 
 
-class InstitutionDetailView(SelectRelatedMixin, ExtraListMixin, PrefetchRelatedMixin, DetailView):
+class InstitutionDetailView(ExtraListMixin, PrefetchRelatedMixin, DetailView):
     model = Institution
     prefetch_related = ['tags']
-    select_related = []
     extra_list_context = 'case_list'
 
     @staticmethod

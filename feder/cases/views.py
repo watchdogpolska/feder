@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 from atom.views import (CreateMessageMixin, DeleteMessageMixin,
                         UpdateMessageMixin)
 from braces.views import (FormValidMessageMixin, PrefetchRelatedMixin,
@@ -5,8 +6,10 @@ from braces.views import (FormValidMessageMixin, PrefetchRelatedMixin,
 from cached_property import cached_property
 from dal import autocomplete
 from django.core.urlresolvers import reverse_lazy
+from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext_lazy as _
+from django.utils import six
 from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
 from django_filters.views import FilterView
 
@@ -89,3 +92,18 @@ class CaseAutocomplete(autocomplete.Select2QuerySetView):
             qs = qs.filter(name__istartswith=self.q)
 
         return qs
+
+
+class CaseFindAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        qs = Case.objects.all()
+
+        if self.q:
+            qs = qs.filter(Q(pk__startswith=self.q) |
+                           Q(institution__name__icontains=self.q) |
+                           Q(name__icontains=self.q))
+
+        return qs
+
+    def get_result_label(self, result):
+        return "#{} - {} - {}".format(six.text_type(result.pk), six.text_type(result.institution), six.text_type(result))

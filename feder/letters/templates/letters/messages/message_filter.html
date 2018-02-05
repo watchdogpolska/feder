@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load i18n crispy_forms_tags %}
+
+{% block content %}
+    {% include '_filter.html' with title='Message index' form=filter.form object_list=object_list object_template='letters/messages/_message.html' %}
+{% endblock %}
+
+{% block javascript %}
+{{ block.super }}
+{{ object_list.0.assign_form.media }}
+{% endblock %}

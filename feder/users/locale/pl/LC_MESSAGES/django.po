@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-11 01:25+0000\n"
-"PO-Revision-Date: 2016-09-18 01:57+0200\n"
+"POT-Creation-Date: 2018-01-15 18:51+0000\n"
+"PO-Revision-Date: 2018-01-15 19:52+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -19,16 +19,36 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.8.7.1\n"
 
-#: templates/users/user_detail.html:5 templates/users/user_form.html:5
+#: templates/users/_social.html:7
+msgid "Connect a Facebook account"
+msgstr "Połącz konto Facebook"
+
+#: templates/users/_social.html:14
+msgid "Connect a Twitter account"
+msgstr "Połącz konto Twitterze"
+
+#: templates/users/_social.html:21
+msgid "Connect a GitLab account"
+msgstr "Połącz konto GitLab"
+
+#: templates/users/_social.html:28
+msgid "Connect a Google account"
+msgstr "Połącz konto Google"
+
+#: templates/users/_social.html:35
+msgid "Connect a GitHub account"
+msgstr "Połącz konto GitHub"
+
+#: templates/users/user_detail.html:4 templates/users/user_form.html:5
 #: templates/users/user_form.html:12
 msgid "User"
 msgstr "Użytkownik / użytkowniczka"
 
-#: templates/users/user_detail.html:22
+#: templates/users/user_detail.html:20
 msgid "My Info"
 msgstr "O mnie"
 
-#: templates/users/user_detail.html:23
+#: templates/users/user_detail.html:21
 msgid "E-Mail"
 msgstr "E-mail"
 

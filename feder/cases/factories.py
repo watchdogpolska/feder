@@ -3,7 +3,7 @@ import factory
 from feder.institutions.factories import InstitutionFactory
 from feder.monitorings.factories import MonitoringFactory
 from feder.users.factories import UserFactory
-from .models import Case
+from .models import Case, Alias
 
 
 class CaseFactory(factory.django.DjangoModelFactory):
@@ -17,3 +17,10 @@ class CaseFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = Case
+
+class AliasFactory(factory.django.DjangoModelFactory):
+    case = factory.SubFactory(CaseFactory)
+    email = factory.Sequence('alias-email-{0}@example.com'.format)
+
+    class Meta:
+        model = Alias

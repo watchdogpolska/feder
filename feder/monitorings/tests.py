@@ -2,12 +2,12 @@ from django.core import mail
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 from guardian.shortcuts import assign_perm
-from mock import Mock
+from mock import Mock, mock
 
 from feder.cases.factories import CaseFactory
 from feder.cases.models import Case
 from feder.institutions.factories import InstitutionFactory
-from feder.letters.factories import IncomingLetterFactory
+from feder.letters.factories import IncomingLetterFactory, DraftLetterFactory
 from feder.letters.factories import OutgoingLetterFactory
 from feder.main.mixins import PermissionStatusMixin
 from feder.monitorings.filters import MonitoringFilter
@@ -156,13 +156,17 @@ class DraftListMonitoringViewTestCase(ObjectMixin, PermissionStatusMixin, TestCa
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, self.monitoring)
 
-    def test_display_draft(self):
-        draft_letter = OutgoingLetterFactory(case__monitoring=self.monitoring)
+    def test_hide_draft(self):
+        outgoing_letter = OutgoingLetterFactory(case__monitoring=self.monitoring)
         incoming_letter = IncomingLetterFactory(case__monitoring=self.monitoring)
+        draft_letter = DraftLetterFactory(case__monitoring=self.monitoring)
         response = self.client.get(self.get_url())
+        self.assertNotContains(response, outgoing_letter.body, msg_prefix='Response contains outgoing letter. ')
+        self.assertNotContains(response, incoming_letter.body, msg_prefix='Response contains incoming letter. ')
+
         self.assertContains(response, draft_letter.body)
         self.assertContains(response, draft_letter.note)
-        self.assertNotContains(response, incoming_letter.body)
+
 
 class MonitoringUpdateViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     permission = ['monitorings.change_monitoring', ]
@@ -246,19 +250,28 @@ class MonitoringAssignViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
 
     def test_send_to_all(self):
         self.login_permitted_user()
+        InstitutionFactory(name="Office 1")
+        InstitutionFactory(name="Office 2")
         InstitutionFactory()
+        self.client.post(self.get_url() + "?name=Office", data={'all': 'yes'})
+        self.assertEqual(len(mail.outbox), 2)
+
+    def test_force_filtering_before_assign(self):
+        self.login_permitted_user()
+        InstitutionFactory(name="Office 1")
+        InstitutionFactory(name="Office 2")
         InstitutionFactory()
-        InstitutionFactory()
-        self.client.post(self.get_url(), data={'all': 'yes'})
-        self.assertEqual(len(mail.outbox), 3)
+        response = self.client.post(self.get_url(), data={'all': 'yes'})
+        self.assertEqual(len(mail.outbox), 0)
+        self.assertRedirects(response, self.get_url())
 
     def test_send_to_selected(self):
         self.login_permitted_user()
-        institution_1 = InstitutionFactory()
-        institution_2 = InstitutionFactory()
+        institution_1 = InstitutionFactory(name="Office 1")
+        institution_2 = InstitutionFactory(name="Office 2")
         InstitutionFactory()
         to_send_ids = [institution_1.pk, institution_2.pk]
-        self.client.post(self.get_url(), data={'to_assign': to_send_ids})
+        self.client.post(self.get_url() + "?name=", data={'to_assign': to_send_ids})
         self.assertEqual(len(mail.outbox), 2)
         self.assertEqual(mail.outbox[0].to[0], institution_1.email)
         self.assertEqual(mail.outbox[1].to[0], institution_2.email)
@@ -267,22 +280,32 @@ class MonitoringAssignViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
 
     def test_constant_increment_local_id(self):
         self.login_permitted_user()
-        institution_1 = InstitutionFactory()
-        institution_2 = InstitutionFactory()
-        institution_3 = InstitutionFactory()
-        self.client.post(self.get_url(), data={'to_assign': [institution_1.pk]})
+        institution_1 = InstitutionFactory(name="Office 1")
+        institution_2 = InstitutionFactory(name="Office 2")
+        institution_3 = InstitutionFactory(name="Office 3")
+        self.client.post(self.get_url() + "?name=Office", data={'to_assign': [institution_1.pk]})
         self.assertEqual(len(mail.outbox), 1)
 
-        self.assertTrue(Case.objects.latest().name.endswith(' #1'))
+        self.assertTrue(Case.objects.latest().name.endswith(' #1'), msg=Case.objects.latest().name)
 
-        self.client.post(self.get_url(), data={'to_assign': [institution_2.pk,
-                                                             institution_3.pk]})
+        self.client.post(self.get_url() + "?name=Office", data={'to_assign': [institution_2.pk,
+                                                                              institution_3.pk]})
         self.assertEqual(len(mail.outbox), 3)
         self.assertTrue(institution_2.case_set.all()[0].name.endswith(' #2'))
         self.assertTrue(institution_3.case_set.all()[0].name.endswith(' #3'))
 
         for x in (0, 1, 2):
             self.assertEqual(mail.outbox[x].subject, "Wniosek")
+
+    @mock.patch('feder.monitorings.views.MonitoringAssignView.get_limit_simultaneously',
+                Mock(return_value=10))
+    def test_limit_number_of_letters_sent_simultaneously(self):
+        self.login_permitted_user()
+        InstitutionFactory.create_batch(size=25, name="Office")
+
+        response = self.client.post(self.get_url() + "?name=Office", data={'all': "yes"})
+        self.assertEqual(len(mail.outbox), 0)
+        self.assertRedirects(response, self.get_url())
 
 
 class SitemapTestCase(ObjectMixin, TestCase):

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: letters 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-13 12:30+0000\n"
-"PO-Revision-Date: 2017-08-16 00:49+0200\n"
+"POT-Creation-Date: 2018-01-15 18:46+0000\n"
+"PO-Revision-Date: 2018-01-15 19:48+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -19,122 +19,138 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.8.7.1\n"
 
-#: apps.py:8 models.py:97
+#: apps.py:8 models.py:100
 msgid "Letter"
 msgstr "List"
 
-#: filters.py:15 templates/letters/_letter_metadata.html:19
+#: filters.py:16 filters.py:40 templates/letters/_letter_metadata.html:19
 msgid "Creation date"
 msgstr "Data utworzenia"
 
-#: filters.py:16
+#: filters.py:17
 msgid "Has eml?"
 msgstr "Ma plik .eml?"
 
-#: filters.py:31
+#: filters.py:23 models.py:76
+msgid "Title"
+msgstr "Tytuł"
+
+#: filters.py:26
+msgid "Institution"
+msgstr "Instytucja"
+
+#: filters.py:33
 msgid "Creation date (ascending)"
 msgstr "Data utworzenia (rosnąco)"
 
-#: filters.py:32
+#: filters.py:34
 msgid "Creation date (descending)"
 msgstr "Data utworzenia (malejąco)"
 
-#: forms.py:48 forms.py:51
+#: forms.py:52 forms.py:55
 msgid "Save draft"
 msgstr "Zapisz szkic"
 
-#: forms.py:49 forms.py:53
+#: forms.py:53 forms.py:57
 msgid "Send reply"
 msgstr "Wyślij odpowiedź"
 
-#: forms.py:58
+#: forms.py:62
 msgid ""
 "Nothing to do. You do not have permission to save draft or send replies."
 msgstr ""
 "Nic do zrobienia. Nie masz uprawnień, aby zapisać szkic lub wysłać odpowiedź."
 
-#: forms.py:62
+#: forms.py:66
 msgid "You do not have permission to send replies."
 msgstr "Nie masz uprawnień, aby wysłać odpowiedzi."
 
-#: forms.py:66
+#: forms.py:70
 msgid "You do not have permission to save draft."
 msgstr "Nie masz odpowiedzi, aby wysłać odpowiedź."
 
-#: models.py:65
+#: forms.py:90
+msgid "Assign"
+msgstr "Przypisz"
+
+#: forms.py:91
+msgid "Case number"
+msgstr "Numer sprawy"
+
+#: models.py:68
 msgid "Unknown"
 msgstr "Nieznane"
 
-#: models.py:66
+#: models.py:69
 msgid "Spam"
 msgstr "Spam"
 
-#: models.py:67
+#: models.py:70
 msgid "Non-spam"
 msgstr "Nie-spam"
 
-#: models.py:68
+#: models.py:71
 msgid "Case"
 msgstr "Sprawa"
 
-#: models.py:69
+#: models.py:72
 msgid "Author (if user)"
 msgstr "Autor (jeżeli użytkownik)"
 
-#: models.py:71
+#: models.py:74
 msgid "Author (if institution)"
 msgstr "Autor (jeżeli instytucja)"
 
-#: models.py:73
-msgid "Title"
-msgstr "Tytuł"
-
-#: models.py:74
+#: models.py:77 templates/letters/messages/_message.html:9
 msgid "Text"
 msgstr "Treść"
 
-#: models.py:75
+#: models.py:78
 msgid "Quote"
 msgstr "Cytat"
 
-#: models.py:76
+#: models.py:79
 msgid "E-mail"
 msgstr "E-mail"
 
-#: models.py:77
+#: models.py:80
 msgid "Comments from editor"
 msgstr "Komentarz od redakcji"
 
-#: models.py:80
-msgid "ID of sent email message \"Message-ID\""
-msgstr ""
-
 #: models.py:83
+msgid "ID of sent email message \"Message-ID\""
+msgstr "ID wysłanej wiadomości e-mail \"Message-ID\""
+
+#: models.py:86
 msgid "File"
 msgstr "Plik"
 
-#: models.py:88
+#: models.py:91
 msgid "Message"
 msgstr "Wiadomość"
 
-#: models.py:89
+#: models.py:92
 msgid "Message registerd by django-mailbox"
 msgstr "Wiadomość zarejestrowanaa przez django-maiblxo"
 
-#: models.py:98 templates/letters/base.html:5
+#: models.py:101 templates/letters/base.html:5
 #: templates/letters/letter_detail.html:3
 msgid "Letters"
 msgstr "Listy"
 
-#: models.py:101
+#: models.py:104
 msgid "Can filter eml"
 msgstr "Może filtrować po eml"
 
-#: models.py:119
+#: models.py:105
+msgid "Can recognize letter"
+msgstr "Może rozpoznawać listy"
+
+#: models.py:123
 msgid "(no subject)"
 msgstr "(bez tematu)"
 
-#: templates/letters/_btn.html:7 templates/letters/base_object.html:10
+#: templates/letters/_btn.html:7 templates/letters/base_object.html:39
 msgid "Edit"
 msgstr "Edytuj"
 
@@ -142,17 +158,17 @@ msgstr "Edytuj"
 msgid "Delete"
 msgstr "Usuń"
 
-#: templates/letters/_btn.html:18 templates/letters/letter_reply.html:5
+#: templates/letters/_btn.html:18 templates/letters/letter_reply.html:10
 msgid "Reply"
 msgstr "Odpowiedź"
 
-#: templates/letters/_btn.html:23 templates/letters/letter_send.html:6
-#: templates/letters/letter_send.html:15
+#: templates/letters/_btn.html:23 templates/letters/letter_send.html:11
+#: templates/letters/letter_send.html:21
 msgid "Send draft"
 msgstr "Wyślij ten szkic"
 
-#: templates/letters/_btn.html:31 templates/letters/letter_spam.html:10
-#: tests/test_view.py:65
+#: templates/letters/_btn.html:31 templates/letters/letter_spam.html:15
+#: tests/test_views.py:68
 msgid "Report spam"
 msgstr "Zgłoś spam"
 
@@ -162,15 +178,13 @@ msgstr "przez"
 
 #: templates/letters/_letter_metadata.html:4
 msgid "Toggle metadata"
-msgstr ""
+msgstr "Przełącz metadane"
 
 #: templates/letters/_letter_metadata.html:15
 msgid "Author"
 msgstr "Autor"
 
 #: templates/letters/_letter_metadata.html:23
-#, fuzzy
-#| msgid "Creation date"
 msgid "Modification date"
 msgstr "Data modyfikacji"
 
@@ -191,10 +205,11 @@ msgstr ""
 "instytucji."
 
 #: templates/letters/_object.html:21
+#: templates/letters/messages/_message.html:22
 msgid "Attachments"
 msgstr "Załączniki"
 
-#: templates/letters/base_object.html:25
+#: templates/letters/base_object.html:55
 #, python-format
 msgid ""
 "\n"
@@ -215,13 +230,17 @@ msgstr ""
 "                            href=\"%(institution_url)s\">%(institution)s</"
 "a></small>"
 
-#: templates/letters/letter_confirm_delete.html:5
+#: templates/letters/letter_confirm_delete.html:9
 msgid "Confirm delete"
 msgstr "Potwierdź usuwanie"
 
-#: templates/letters/letter_detail.html:18
+#: templates/letters/letter_detail.html:41
 msgid "Download letter"
 msgstr "Pobierz list"
+
+#: templates/letters/letter_filter.html:9
+msgid "Recognize messages"
+msgstr "Rozpoznaj wiadomości"
 
 #: templates/letters/letter_preview.html:5
 msgid "Preview your submission"
@@ -235,7 +254,7 @@ msgstr "Wyślij"
 msgid "Or edit it again"
 msgstr "lub edytuj je ponownie"
 
-#: templates/letters/letter_reply.html:11
+#: templates/letters/letter_reply.html:17
 #, python-format
 msgid ""
 "Reply for\n"
@@ -244,100 +263,124 @@ msgstr ""
 "Odpowiedź na \n"
 "            <a href=\"%(url)s\">%(object)s</a>"
 
-#: templates/letters/letter_send.html:10
+#: templates/letters/letter_send.html:16
 #, python-format
 msgid "Are you sure you want to send \"%(object)s\"?"
 msgstr "Czy jesteś pewien, że chcesz wysłać \"%(object)s\"?"
 
-#: templates/letters/letter_spam.html:14
+#: templates/letters/letter_spam.html:20
 #, python-format
 msgid "Are you sure you want to report as spam \"%(object)s\"?"
 msgstr "Czy jesteś pewien, że chcesz zgłosić \"%(object)s\" jako spam?"
 
-#: templates/letters/letter_spam.html:21
+#: templates/letters/letter_spam.html:27
 msgid "Mark as valid"
 msgstr "Oznacz jako prawidłowy"
 
-#: urls.py:10
+#: templates/letters/messages/_message.html:5
+msgid "Subject"
+msgstr "Temat"
+
+#: templates/letters/messages/_message.html:13
+msgid "HTML"
+msgstr "HTML"
+
+#: templates/letters/messages/_message.html:17
+msgid "EML"
+msgstr "EML"
+
+#: templates/letters/messages/_message.html:18
+msgid "Download original message"
+msgstr "Pobierz oryginalną wiadomość"
+
+#: urls.py:10 urls.py:16
 msgid "^$"
 msgstr "^$"
 
 #: urls.py:12
+msgid "^~assign-(?P<pk>[\\d-]+)$"
+msgstr "^~przypisz-(?P<pk>[\\d-]+)$"
+
+#: urls.py:18
 msgid "^feed$"
 msgstr "^kanal$"
 
-#: urls.py:14
+#: urls.py:20
 msgid "^feed/atom$"
 msgstr "^kanal/atom$"
 
-#: urls.py:16
+#: urls.py:22
 msgid "^feed/monitoring-(?P<monitoring_pk>[\\d-]+)/$"
 msgstr "^kanal/monitoring-(?P<monitoring_pk>[\\d-]+)/$"
 
-#: urls.py:18
+#: urls.py:24
 msgid "^feed/monitoring-(?P<monitoring_pk>[\\d-]+)/atom$"
 msgstr "^kanal/monitoring-(?P<monitoring_pk>[\\d-]+)/atom$"
 
-#: urls.py:20
+#: urls.py:26
 msgid "^feed/case-(?P<case_pk>[\\d-]+)/$"
 msgstr "^kanal/sprawa-(?P<case_pk>[\\d-]+)/$"
 
-#: urls.py:22
+#: urls.py:28
 msgid "^feed/case-(?P<case_pk>[\\d-]+)/atom$"
 msgstr "^kanal/sprawa-(?P<case_pk>[\\d-]+)/atom$"
 
-#: urls.py:24
+#: urls.py:30
 msgid "^~create-(?P<case_pk>[\\d-]+)$"
 msgstr "^~utworz-(?P<case_pk>[\\d-]+)$"
 
-#: urls.py:26
+#: urls.py:32
 msgid "^(?P<pk>[\\d-]+)$"
 msgstr "^(?P<pk>[\\d-]+)$"
 
-#: urls.py:28
+#: urls.py:34
 msgid "^(?P<pk>[\\d-]+)/~update$"
 msgstr "^(?P<pk>[\\d-]+)/~edytuj$"
 
-#: urls.py:30
+#: urls.py:36
 msgid "^(?P<pk>[\\d-]+)/~send"
 msgstr "^(?P<pk>[\\d-]+)/~wyslij"
 
-#: urls.py:32
+#: urls.py:38
 msgid "^(?P<pk>[\\d-]+)/~delete$"
 msgstr "^(?P<pk>[\\d-]+)/~usun$"
 
-#: urls.py:34
+#: urls.py:40
 msgid "^(?P<pk>[\\d-]+)/~reply$"
 msgstr "^(?P<pk>[\\d-]+)/~odpowiedz$"
 
-#: urls.py:36
+#: urls.py:42
 msgid "^(?P<pk>[\\d-]+)/~spam"
 msgstr "^(?P<pk>[\\d-]+)/~spam"
 
-#: views.py:26
+#: urls.py:44
+msgid "^messages/logs/"
+msgstr "^wiadomosci/dziennik/"
+
+#: views.py:29
 msgid "Letters index"
 msgstr "Wykaz listów"
 
-#: views.py:92
+#: views.py:95
 #, python-brace-format
 msgid "Reply {reply} to {letter} saved and send!"
 msgstr "Odpowiedź {reply} na {letter} zapisana i wysłana!"
 
-#: views.py:95
+#: views.py:98
 #, python-brace-format
 msgid "Reply {reply} to {letter} saved to review!"
 msgstr "Odpowiedź {reply} do listu {letter} zapisana do przejrzenia!"
 
-#: views.py:110
+#: views.py:113
 #, python-brace-format
 msgid "Reply {letter} send to {institution}!"
 msgstr "Odpowiedź {letter} wysłana do {institution}!"
 
-#: views.py:136
+#: views.py:139
 msgid "Latest letters on whole site"
 msgstr "Ostatnie listy na całej stronie"
 
-#: views.py:138
+#: views.py:141
 msgid ""
 "Updates on new letters on site including receving and sending in all "
 "monitorings."
@@ -345,53 +388,55 @@ msgstr ""
 "Aktualizacje wszystkich listów na stronie włączając w to listy przychodzące "
 "i wychodzące w wszystkich monitoringach."
 
-#: views.py:183
+#: views.py:186
 #, python-format
 msgid "Letter for monitoring %s"
 msgstr "Listy monitoringu %s "
 
-#: views.py:186
+#: views.py:189
 #, python-format
 msgid "Archive of letter for cases which involved in monitoring %s"
 msgstr "Archiwum listów w sprawach z monitoringu %s"
 
-#: views.py:201
+#: views.py:204
 #, python-format
 msgid "Letter for case %s"
 msgstr "Listy w sprawie %s"
 
-#: views.py:204
+#: views.py:207
 #, python-format
 msgid "Archive of letter for case %s"
 msgstr "Archiwum listów w sprawie %s"
 
-#: views.py:232
+#: views.py:235
 msgid "SPAM"
 msgstr "SPAM"
 
-#: views.py:239
+#: views.py:242
 #, python-brace-format
 msgid "The letter {object} has been marked as valid."
 msgstr "List {object} został oznaczony jako spam i ukryty."
 
-#: views.py:240
+#: views.py:243
 #, python-brace-format
 msgid "The message {object} has been marked as spam and hidden."
 msgstr "List {object} został oznaczony jako spam i ukryty."
 
-#: views.py:242
+#: views.py:245
 msgid "Thanks for your help. The report was forwarded to responsible persons."
 msgstr ""
 "Dziękujemy za pomoc. Zgłoszenie zostało przekazane do odpowiedzialnych osób."
+
+#: views.py:284
+#, python-format
+msgid "Assigned message to case '%(case)s'"
+msgstr "Przypisano wiadomość  do sprawy '%(case)s'"
 
 #~ msgid "unknown|for status field"
 #~ msgstr "nieznany"
 
 #~ msgid "There is no mail to institution. Unable to send emails."
 #~ msgstr "Brak adresu e-mail do instytucji, więc nie mogę wysłać e-maila."
-
-#~ msgid "Institution"
-#~ msgstr "Instytucja"
 
 #~ msgid "{0} updated!"
 #~ msgstr "{0} zaktualizowany!"

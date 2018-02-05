@@ -19,4 +19,7 @@ urlpatterns = [
         name="delete"),
     url(_(r'^~autocomplete$'), views.CaseAutocomplete.as_view(),
         name="autocomplete"),
+    url(_(r'^~autocomplete/~find$'), views.CaseFindAutocomplete.as_view(),
+        name="autocomplete-find"),
+
 ]
