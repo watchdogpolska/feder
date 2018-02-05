@@ -2,11 +2,12 @@
 Obsługa spamu
 *************
 
-W okresie funkcjonowania systemu mogą wystąpić niepożądąne systemy związane z dostarczaniem przez systemy informatyczne
-urzędu, albo – ze względu na publikacje adresów e-mail – inne podmioty sytuacje dostarczania niezamawianych informacji
-takicj jak informacje handlowe, kartki świąteczne, których wartość informacyjna w konkretnej sprawie jest znikoma.
+W okresie funkcjonowania systemu mogą wystąpić niepożądąne sytuacje związane z dostarczaniem przez systemy informatyczne
+urzędu, albo – ze względu na publikacje adresów e-mail – inne podmioty niezamawianych informacji 
+takich jak informacje handlowe, kartki świąteczne, których wartość informacyjna w konkretnej sprawie jest znikoma.
 
-W celu obsługi tego rodzaju korespondencji został wprowadzony mechanizm zgłaszania spamu i oznaczania wiadomości jako spam.
+W celu obsługi tego rodzaju korespondencji został wprowadzony mechanizm zgłaszania spamu i oznaczania wiadomości jako 
+spam.
 
 Uprawnienia
 -----------
