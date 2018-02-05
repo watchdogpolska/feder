@@ -237,7 +237,7 @@ class ReportSpamView(ActionMessageMixin, ActionView):
         author = None if self.request.user.is_anonymous() else self.request.user
         Alert.objects.create(monitoring=self.object.case.monitoring,
                              reason=_("SPAM"),
-                             author=None,
+                             author=author,
                              link_object=self.object)
 
     def get_success_message(self):

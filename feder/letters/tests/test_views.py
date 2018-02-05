@@ -207,6 +207,15 @@ class ReportSpamViewTestCase (ObjectMixin, PermissionStatusMixin, TestCase):
         self.assertEqual(Alert.objects.count(), 1)
         alert = Alert.objects.get()
         self.assertEqual(alert.link_object, self.from_institution)
+        self.assertEqual(alert.author, None)
+
+    def test_create_report_for_user(self):
+        self.client.login(username='john', password='pass')
+        response = self.client.post(self.get_url())
+        self.assertEqual(Alert.objects.count(), 1)
+        alert = Alert.objects.get()
+        self.assertEqual(alert.link_object, self.from_institution)
+        self.assertEqual(alert.author, self.user)
 
     def test_hide_by_staff(self):
         self.login_permitted_user()
