@@ -13,7 +13,7 @@ Uprawnienia
 
 System Obywatelskiego Fedrowania Danych umożliwia zarówno wysyłkę korespondencji, sporządzenia na nią odpowiedzi, a także podstawowe mechanizmy recenzji projektów wiadomości poprzez pozostawienie wiadomości do przejrzenia przez osobę uprawnioną do wysyłki wiadomości.
 
-Osoba, która utworzyła monitoring ma możliwość zarządzania nim i dysponuje wszelkimi uprawnieniami do tego. Może nadawać i odbierać uprawnienia użytkowniokom w danym monitoringu, a także nadawać im uprawnienia do takiego samego zarządzania.
+Osoba, która utworzyła monitoring ma możliwość zarządzania nim i dysponuje wszelkimi uprawnieniami do tego. Może nadawać i odbierać uprawnienia użytkownikom w danym monitoringu, a także nadawać im uprawnienia do takiego samego zarządzania.
 
 Istnieją następujące uprawnienia związane z obiegiem korespondencji:
 

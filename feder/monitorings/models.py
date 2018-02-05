@@ -77,6 +77,7 @@ class Monitoring(TimeStampedModel):
             ('manage_perm', _('Can manage perms')),
             ('select_survey', _('Can select answer')),
             ('view_log', _('Can view logs')),
+            ('spam_mark', _("Can mark spam"))
         )
 
     def __unicode__(self):
