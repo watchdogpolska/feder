@@ -1,5 +1,5 @@
 language: python
-python: 2.7
+python: 3.5
 
 cache:
   directories:
@@ -10,29 +10,25 @@ env:
     - DATABASE_URL="mysql://root:@localhost/test_feder"
     - DJANGO_SETTINGS_MODULE="config.settings.local"
   matrix:
-    - TOX_ENV=py27-dj110  # required
-    - TOX_ENV=py27-dj111
-    - TOX_ENV=py27-djmaster
-    - TOX_ENV=py34-dj110
-    - TOX_ENV=py34-dj111
-    - TOX_ENV=py34-djmaster
-#    - TOX_ENV=pypy-dj19
-#    - TOX_ENV=pypy-dj110
-#    - TOX_ENV=pypy-dj111
-#    - TOX_ENV=pypy-djmaster
+    - TOX_ENV=py27-dj110-core  # required
+    - TOX_ENV=py27-dj111-core
+    - TOX_ENV=py27-djmaster-core
+    - TOX_ENV=py35-dj110-core
+    - TOX_ENV=py35-dj111-core
+    - TOX_ENV=py35-dj20-core
+    - TOX_ENV=py35-djmaster-core
     - TOX_ENV=flake8
+    - TOX_ENV=py35-dj111-docs
 
 matrix:
   allow_failures:
-    - env: TOX_ENV=py27-djmaster
-    - env: TOX_ENV=py34-dj110
-    - env: TOX_ENV=py34-dj111
-    - env: TOX_ENV=py34-djmaster
-#    - env: TOX_ENV=pypy-dj19
-#    - env: TOX_ENV=pypy-dj110
-#    - env: TOX_ENV=pypy-dj111
-#    - env: TOX_ENV=pypy-djmaster
+    - env: TOX_ENV=py27-djmaster-core
+    - env: TOX_ENV=py35-dj110-core
+    - env: TOX_ENV=py35-dj111-core
+    - env: TOX_ENV=py35-dj20-core
+    - env: TOX_ENV=py35-djmaster-core
     - env: TOX_ENV=flake8
+
 
 install:
   - pip install -U pip wheel
