@@ -28,7 +28,7 @@ matrix:
     - env: TOX_ENV=py35-dj20-core
     - env: TOX_ENV=py35-djmaster-core
     - env: TOX_ENV=flake8
-
+  fast_finish: true
 
 install:
   - pip install -U pip wheel
