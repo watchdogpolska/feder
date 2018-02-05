@@ -16,7 +16,7 @@ import os
 import sys
 
 import django
-from django.core.urlresolvers import get_resolver
+from django.urls import get_resolver
 from django.utils.encoding import force_text
 from django.utils.html import strip_tags
 
