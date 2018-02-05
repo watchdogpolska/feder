@@ -50,6 +50,7 @@ Witam w dokumentacji Obywatelskiego Fedrowania Danych!
    usage/institutions_database
    usage/letter_manage
    usage/abuse_request
+   usage/spam
 
 
 
