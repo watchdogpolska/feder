@@ -6,53 +6,15 @@
 Witam w dokumentacji Obywatelskiego Fedrowania Danych!
 ======================================================
 
-.. _toc_introduction:
-
 .. toctree::
+   :caption: Spis treści
    :maxdepth: 2
-   :caption: Wprowadzenie
 
-   introduction/readme
-   introduction/architecture
-   introduction/admin_panel
-
-.. _toc_administration:
-
-.. toctree::
-   :caption: Administracja
-
-   administration/install
-   administration/deploy
-   administration/fixtures
-
-.. _toc_modules:
-
-.. toctree::
-   :caption: Moduły
-   :glob:
-
-   modules/*
-
-.. _toc_development:
-
-.. toctree::
-   :caption: Rozwój
-
+   introduction/index
+   administration/index
+   modules/index
    development/development
-
-.. _toc_usage:
-
-.. toctree::
-   :caption: Podręcznik użytkownika
-
-   usage/introduction
-   usage/monitoring_create
-   usage/institutions_database
-   usage/letter_manage
-   usage/abuse_request
-   usage/spam
-
-
+   usage/index
 
 
 Indices and tables
