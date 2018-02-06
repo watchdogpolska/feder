@@ -26,9 +26,9 @@ Next to create MySQL database::
     # if you are using Ubuntu 14.04, you may need to find a workaround for the following two commands
     $ sudo systemctl start mariadb
     $ sudo systemctl enable mariadb
-    
+
     $ mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -u root mysql
-    
+
     $ echo "CREATE DATABASE feder CHARACTER SET utf8 COLLATE utf8_polish_ci;" | mysql -u root
     $ echo "CREATE USER 'user'@'localhost' IDENTIFIED BY 'pass';" | mysql -u root
     $ echo "GRANT ALL PRIVILEGES ON feder . * TO 'user'@'localhost'; FLUSH PRIVILEGES;" | mysql -u root
@@ -48,5 +48,7 @@ You can now run the usual Django ``runserver`` command::
 
 To run tests use::
 
-    $ pip install -r requirements/test.txt 
+    $ pip install -r requirements/test.txt
     $ python manage.py test $@ -v2
+
+.. _virtualenv: https://virtualenv.pypa.io/en/stable/

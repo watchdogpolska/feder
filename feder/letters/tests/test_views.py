@@ -197,7 +197,7 @@ class SitemapTestCase(ObjectMixin, TestCase):
 class ReportSpamViewTestCase (ObjectMixin, PermissionStatusMixin, TestCase):
     status_anonymous = 200
     status_no_permission = 200
-    permission = []
+    permission = ['monitorings.spam_mark', ]
 
     def get_url(self):
         return reverse('letters:spam', kwargs={'pk':  self.from_institution.pk})
@@ -207,17 +207,24 @@ class ReportSpamViewTestCase (ObjectMixin, PermissionStatusMixin, TestCase):
         self.assertEqual(Alert.objects.count(), 1)
         alert = Alert.objects.get()
         self.assertEqual(alert.link_object, self.from_institution)
+        self.assertEqual(alert.author, None)
 
-    def test_hide_by_admin(self):
-        self.client.login(username=UserFactory(is_superuser=True).username,
-                          password='pass')
+    def test_create_report_for_user(self):
+        self.client.login(username='john', password='pass')
+        response = self.client.post(self.get_url())
+        self.assertEqual(Alert.objects.count(), 1)
+        alert = Alert.objects.get()
+        self.assertEqual(alert.link_object, self.from_institution)
+        self.assertEqual(alert.author, self.user)
+
+    def test_hide_by_staff(self):
+        self.login_permitted_user()
         response = self.client.post(self.get_url())
         self.from_institution = Letter.objects_with_spam.get(pk=self.from_institution.pk)
         self.assertEqual(self.from_institution.is_spam, Letter.SPAM.spam)
 
     def test_mark_as_valid(self):
-        self.client.login(username=UserFactory(is_superuser=True).username,
-                          password='pass')
+        self.login_permitted_user()
         response = self.client.post(self.get_url(), data={'valid': 'x'})
         self.from_institution.refresh_from_db()
         self.assertEqual(self.from_institution.is_spam, Letter.SPAM.non_spam)

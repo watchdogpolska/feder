@@ -9,7 +9,7 @@ Informacje posiadane przez organy administracji publicznej są skarbnicą wiedzy
 Obywatelskie fedrowanie danych jest projektem powstałym w odpowiedzi na to wyzwanie. Ma na celu usystematyzowanie dużej liczby informacji spływających od instytucji publicznych oraz zapisanie ich w formie łatwej do analizy, zarówno przez człowieka, jak i maszynę. To obywatele-wolontariusze, którym zależy na jakości życia publicznego w Polsce, czytają udzielone przez organy odpowiedzi i uzupełniają bazę danych poprzez wykorzystanie intuicyjnego mechanizmu ankiet. Zebrane i uporządkowane dane służą następnie do przeprowadzania badań, które to przyczyniają się do wzrostu świadomości społecznej i poprawy jakości rządzenia.
 
 Cele społeczne
-----
+--------------
 
 * Szybka i zbiorowa analiza danych nieistniejących w żadnych repozytoriach i nie istniejących w formie możliwej do odczytu maszynowego. Do wykorzystywania w kampaniach rzeczniczych lub jako dowody w systemie tworzenia prawa.
 * Masowa edukacja obywatelska na temat tego, jakie informacje można uzyskać od władz i jak wyglądają ich odpowiedzi oraz korespondencja z nimi, a także jak sprawdzać wypowiedzi pojawiające się w debacie publicznej.
@@ -82,8 +82,7 @@ Aby uzyskać te informacje, Sieć Obywatelka Watchdog Polska zadała następują
 
 1.  Ile wniosków o informację publiczną otrzymał urząd w 2011 roku
 2.  Ile wniosków o informację publiczną otrzymał urząd w 2012 roku
-3.  Udostępnienie ewidencji wniosków o informację publiczną za 2011 rok.
-Jeżeli ewidencja prowadzona jest w formie elektronicznej, żądamy udostępnienia w postaci pliku w formacie dokumentu tekstowego lub arkusza kalkulacyjnego. Jeżeli ewidencja/rejestr nie jest prowadzony w formie elektronicznej, wnosimy o udostępnienie informacji w postaci skanu, z dokonaniem niezbędnych wyłączeń dotyczących ochrony prywatności wnioskujących osób.
+3.  Udostępnienie ewidencji wniosków o informację publiczną za 2011 rok. Jeżeli ewidencja prowadzona jest w formie elektronicznej, żądamy udostępnienia w postaci pliku w formacie dokumentu tekstowego lub arkusza kalkulacyjnego. Jeżeli ewidencja/rejestr nie jest prowadzony w formie elektronicznej, wnosimy o udostępnienie informacji w postaci skanu, z dokonaniem niezbędnych wyłączeń dotyczących ochrony prywatności wnioskujących osób.
 4.  Udostępnienie ewidencji wniosków o informację publiczną za 2012 rok. Jeżeli ewidencja prowadzona jest w formie elektronicznej, żądamy udostępnienia w postaci pliku w formacie dokumentu tekstowego lub arkusza kalkulacyjnego. Jeżeli ewidencja/rejestr nie jest prowadzony w formie elektronicznej, wnosimy o udostępnienie informacji w postaci skanu, z dokonaniem niezbędnych wyłączeń dotyczących ochrony prywatności wnioskujących osób.
 
 Dane, które można uzyskać dzięki masowej analizie obywatelskiej to:

@@ -220,8 +220,12 @@ class ReportSpamView(ActionMessageMixin, ActionView):
     def get_queryset(self):
         return super(ReportSpamView, self).get_queryset().filter(is_spam=Letter.SPAM.unknown)
 
+    @property
+    def if_can_mark_spam(self):
+        return self.request.user.has_perm('spam_mark', self.object.case.monitoring)
+
     def action(self):
-        if self.request.user.is_superuser:
+        if self.if_can_mark_spam:
             if 'valid' in self.request.POST:
                 self.object.is_spam = Letter.SPAM.non_spam
             else:
@@ -233,11 +237,11 @@ class ReportSpamView(ActionMessageMixin, ActionView):
         author = None if self.request.user.is_anonymous() else self.request.user
         Alert.objects.create(monitoring=self.object.case.monitoring,
                              reason=_("SPAM"),
-                             author=None,
+                             author=author,
                              link_object=self.object)
 
     def get_success_message(self):
-        if self.request.user.is_superuser:
+        if self.if_can_mark_spam:
             if 'valid' in self.request.POST:
                 return _("The letter {object} has been marked as valid.").format(object=self.object)
             return _("The message {object} has been marked "

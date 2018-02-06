@@ -3,7 +3,7 @@ from __future__ import print_function
 import logging
 import uuid
 
-import claw
+import talon
 from atom.models import AttachmentBase
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -22,7 +22,7 @@ from feder.cases.models import Case
 from feder.institutions.models import Institution
 from .utils import email_wrapper, normalize_msg_id
 
-claw.init()
+talon.init()
 
 logger = logging.getLogger(__name__)
 

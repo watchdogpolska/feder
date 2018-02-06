@@ -1,7 +1,7 @@
 import os
 
 from cached_property import cached_property
-from claw import quotations
+from talon import quotations
 from django.core.files import File
 from django.db.models.signals import post_init, post_save
 from django.dispatch import receiver
