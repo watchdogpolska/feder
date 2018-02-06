@@ -13,10 +13,10 @@ django-crispy-forms==1.7.0
 django-floppyforms==1.7.0
 
 # Models
-django-model-utils==3.0.0
+django-model-utils==3.1.1
 
 # Images
-Pillow==4.3.0
+Pillow==5.0.0
 
 # For user registration, either via email or social
 # Well-built with regular release cycles!
@@ -37,7 +37,7 @@ pytz==2017.3
 
 
 # Your custom requirements go here
-django-filter==1.0.4
+django-filter==1.1.0
 django-autocomplete-light==3.2.10
 django-atom==0.16.2
 django-formtools==2.1
@@ -47,11 +47,11 @@ jsonfield==2.0.2
 django-guardian==1.4.9
 talon==1.4.4
 git+https://github.com/watchdogpolska/django-mailbox.git@masterfull
-django-teryt-tree==0.14.2
+django-teryt-tree==0.14.4
 cached-property==1.3.1
 django-bootstrap-pagination==1.6.3
-django-reversion==2.0.12
-djangorestframework==3.6.4
+django-reversion==2.0.13
+djangorestframework==3.7.7
 unicodecsv==0.14.1
 tqdm==4.19.5
 djangorestframework-filters==0.10.2
