@@ -1,7 +1,7 @@
 {% load i18n %}
 {% load guardian_tags %}
 {% get_obj_perms request.user for object as "monitoring_perms" %}
-{% if "change_monitoring" in monitoring_perms or "delete_monitoring" in monitoring_perms or "add_questionary" in monitoring_perms %}
+{% if "change_monitoring" in monitoring_perms or "delete_monitoring" in monitoring_perms or "add_questionary" in monitoring_perms or 'view_log' in monitorings_perms or 'view_alert' in monitorings_perms or 'manage_perm' in monitorings_perms %}
     <div class="clearfix">
         <div class="pull-right btn-group">
             {% if "change_monitoring" in monitoring_perms %}
