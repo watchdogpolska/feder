@@ -1,9 +1,7 @@
-*************
-Administracja
-*************
+Wprowadzenie
+============
 
 .. toctree::
-   :caption: Wprowadzenie
 
    readme
    architecture
