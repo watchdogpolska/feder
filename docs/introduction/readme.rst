@@ -1,6 +1,7 @@
-*******************
+.. _readme:
+
 Koncepcja aplikacji
-*******************
+===================
 
 Do najważniejszych problemów debaty publicznej niewątpliwie zalicza się częste opieranie argumentacji na nieweryfikowalnych lub nieaktualnych danych.
 

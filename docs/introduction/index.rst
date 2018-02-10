@@ -1,6 +1,7 @@
-*************
+.. _introduction_index:
+
 Administracja
-*************
+=============
 
 .. toctree::
    :caption: Wprowadzenie

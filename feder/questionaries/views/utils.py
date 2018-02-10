@@ -30,7 +30,7 @@ class TaskMultiCreateView(RaisePermissionRequiredMixin,
     model = Questionary
     form_class = MultiTaskForm
     template_name_suffix = '_form'
-    permission_required = 'monitorings.add_tasks'
+    permission_required = 'monitorings.add_task'
     headline = _("Create tasks")
 
     def get_permission_object(self):
