@@ -103,14 +103,14 @@ class TaskUpdateView(AttrPermissionRequiredMixin, UserFormKwargsMixin,
                      UpdateMessageMixin, FormValidMessageMixin, UpdateView):
     model = Task
     form_class = TaskForm
-    permission_required = 'change_task'
+    permission_required = 'monitorings.change_task'
     permission_attribute = 'case__monitoring'
 
 
 class TaskDeleteView(AttrPermissionRequiredMixin, DeleteMessageMixin, DeleteView):
     model = Task
     success_url = reverse_lazy('tasks:list')
-    permission_required = 'delete_task'
+    permission_required = 'monitorings.delete_task'
     permission_attribute = 'case__monitoring'
 
 
