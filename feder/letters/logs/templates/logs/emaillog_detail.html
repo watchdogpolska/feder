@@ -39,7 +39,7 @@
         <i class="fa fa-inbox" aria-hidden="true"></i>
         <a href="{{ object.get_absolute_url }}">{{ object }}</a>
         <small>
-            {{ object.created | naturaltime }}
+            <time datetime="{{ object.created }}" title="{{ object.created | naturaltime }}">{{ object.created }}</time>
         </small>
     </h2>
     {% for object in object.logrecord_set.all %}

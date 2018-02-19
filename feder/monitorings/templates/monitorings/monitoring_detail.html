@@ -45,7 +45,7 @@
                                     <td>
                                         <i class="fa fa fa-{{ letter.author_user | yesno:'user,home' }}"></i>
                                         <a href="{{ letter.author.get_absolute_url }}">{{ letter.author }}</a>
-                                        <span title="{{ letter.created }}">{{ letter.created | naturaltime }}</span>
+                                        <time datetime="{{ letter.created }}" title="{{ letter.created | naturaltime }}">{{ letter.created }}</time>
                                     </td>
                                 </tr>
                             {% endfor %}

@@ -34,7 +34,7 @@
             <i class="fa fa-list-alt"></i>
             {{ object }}
             <small>
-                <time datetime="{{ object.created }}">{{ object.created|naturaltime }}</time>
+                  <time datetime="{{ object.created }}" title="{{ object.created | naturaltime }}">{{ object.created }}</time>
             </small>
         </h2>
     </div>

@@ -50,7 +50,7 @@
                         </a>
                     </td>
                     <td>
-                        <datetime time="{{ survey.created }}">{{ survey.created | naturaltime }}</datetime>
+                        <time datetime="{{ survey.created }}" title="{{ survey.created | naturaltime }}">{{ survey.created }}</time>
                     </td>
                     {% if "select_survey" in monitoring_perms %}
                         <td>
