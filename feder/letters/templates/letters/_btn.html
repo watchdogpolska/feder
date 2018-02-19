@@ -30,6 +30,12 @@
                 <i class="fa fa-bullhorn"></i>
                 {% trans 'Report spam' %}
             </a>
+            {% if 'mark_spam' in monitorings_perms %}
+                <a class="btn btn-primary" href="{% url 'letters:mark_spam' pk=object.pk %}">
+                    <i class="fa fa-bullhorn"></i>
+                    {% trans 'Mark spam' %}
+                </a>
+            {% endif %}
         {% endif %}
     </div>
 </div>

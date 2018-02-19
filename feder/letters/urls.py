@@ -39,7 +39,9 @@ urlpatterns = [
         name="delete"),
     url(_(r'^(?P<pk>[\d-]+)/~reply$'), views.LetterReplyView.as_view(),
         name="reply"),
-    url(_(r'^(?P<pk>[\d-]+)/~spam'), views.ReportSpamView.as_view(),
+    url(_(r'^(?P<pk>[\d-]+)/~spam'), views.LetterReportSpamView.as_view(),
         name="spam"),
+    url(_(r'^(?P<pk>[\d-]+)/~mark-spam'), views.LetterMarkSpamView.as_view(),
+        name="mark_spam"),
     url(_(r'^messages/logs/'), include(messages_urlpatterns, namespace="messages")),
 ]
