@@ -76,7 +76,7 @@ class Letter(TimeStampedModel):
     is_draft = models.BooleanField(verbose_name=_("Is draft?"), default=True)
     mark_spam_by = models.ForeignKey(to=settings.AUTH_USER_MODEL, null=True, blank=True, verbose_name="Spam marker",
                                      help_text=_("The person who marked it as spam"),
-                                     related_name=_("letter_mark_spam_by"))
+                                     related_name="letter_mark_spam_by")
     mark_spam_at = models.DateTimeField(null=True, verbose_name="Time of mark as spam",
                                         help_text=_("Time when letter was marked as spam"))
     message_id_header = models.CharField(blank=True,
