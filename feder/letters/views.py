@@ -8,6 +8,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.syndication.views import Feed
 from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import get_object_or_404
+from django.utils.datetime_safe import datetime
 from django.utils.encoding import force_text
 from django.utils.feedgenerator import Atom1Feed
 from django.utils.translation import ugettext_lazy as _
@@ -213,27 +214,14 @@ class LetterCaseAtomFeed(LetterCaseRssFeed):
     feed_url = reverse_lazy("letters:atom")
 
 
-class ReportSpamView(ActionMessageMixin, ActionView):
+class LetterReportSpamView(ActionMessageMixin, ActionView):
     template_name_suffix = '_spam'
     model = Letter
 
     def get_queryset(self):
-        return super(ReportSpamView, self).get_queryset().filter(is_spam=Letter.SPAM.unknown)
-
-    @property
-    def if_can_mark_spam(self):
-        return self.request.user.has_perm('spam_mark', self.object.case.monitoring)
+        return super(LetterReportSpamView, self).get_queryset().filter(is_spam=Letter.SPAM.unknown)
 
     def action(self):
-        if self.if_can_mark_spam:
-            if 'valid' in self.request.POST:
-                self.object.is_spam = Letter.SPAM.non_spam
-            else:
-                self.object.is_spam = Letter.SPAM.spam
-            self.object.save(update_fields=['is_spam'])
-            Alert.objects.link_object(self.object).update(solver=self.request.user,
-                                                          status=True)
-            return
         author = None if self.request.user.is_anonymous() else self.request.user
         Alert.objects.create(monitoring=self.object.case.monitoring,
                              reason=_("SPAM"),
@@ -241,12 +229,44 @@ class ReportSpamView(ActionMessageMixin, ActionView):
                              link_object=self.object)
 
     def get_success_message(self):
-        if self.if_can_mark_spam:
-            if 'valid' in self.request.POST:
-                return _("The letter {object} has been marked as valid.").format(object=self.object)
-            return _("The message {object} has been marked "
-                     "as spam and hidden.").format(object=self.object)
         return _("Thanks for your help. The report was forwarded to responsible persons.")
+
+    def get_success_url(self):
+        return self.object.case.get_absolute_url()
+
+
+class LetterMarkSpamView(RaisePermissionRequiredMixin, ActionMessageMixin, ActionView):
+    template_name_suffix = '_spam'
+    model = Letter
+    permission_required = 'monitorings.spam_mark'
+    accept_global_perms = True
+
+    def get_object(self, *args, **kwargs):
+        if not hasattr(self, 'object'):
+            self.object = super(LetterMarkSpamView, self).get_object(*args, **kwargs)
+        return self.object
+
+    def get_permission_object(self):
+        return self.get_object().case.monitoring
+
+    def get_queryset(self):
+        return super(LetterMarkSpamView, self).get_queryset().filter(is_spam=Letter.SPAM.unknown)
+
+    def action(self):
+        if 'valid' in self.request.POST:
+            self.object.is_spam = Letter.SPAM.non_spam
+        else:
+            self.object.is_spam = Letter.SPAM.spam
+        self.object.mark_spam_by = self.request.user
+        self.object.mark_spam_at = datetime.now()
+        self.object.save(update_fields=['is_spam', 'mark_spam_by'])
+        Alert.objects.link_object(self.object).update(solver=self.request.user,
+                                                      status=True)
+
+    def get_success_message(self):
+        if 'valid' in self.request.POST:
+            return _("The letter {object} has been marked as valid.").format(object=self.object)
+        return _("The message {object} has been marked as spam and hidden.").format(object=self.object)
 
     def get_success_url(self):
         return self.object.case.get_absolute_url()
