@@ -83,6 +83,16 @@ class LetterUpdateViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     def get_url(self):
         return reverse('letters:update', kwargs={'pk': self.from_user.pk})
 
+    def test_update_case_number(self):
+        self.login_permitted_user()
+        new_case = CaseFactory()
+        self.assertNotEqual(self.from_user.case, new_case)
+        data = {'title': 'Lorem', 'body': 'Lorem', 'case': new_case.pk}
+        resp = self.client.post(self.get_url(), data)
+        self.assertEqual(resp.status_code, 302)
+        self.from_user.refresh_from_db()
+        self.assertEqual(self.from_user.case, new_case)
+
 
 class LetterDeleteViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     permission = ['monitorings.delete_letter', ]
@@ -98,16 +108,14 @@ class LetterReplyViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
         return reverse('letters:reply', kwargs={'pk': self.from_institution.pk})
 
     def test_send_reply(self):
-        self.grant_permission()
-        self.client.login(username='john', password='pass')
+        self.login_permitted_user()
         response = self.client.post(self.get_url(),
                                     {'body': 'Lorem', 'title': 'Lorem', 'send': 'yes'})
         self.assertEqual(response.status_code, 302)
         self.assertEqual(len(mail.outbox), 1)
 
     def test_no_send_drafts(self):
-        self.grant_permission()
-        self.client.login(username='john', password='pass')
+        self.login_permitted_user()
         response = self.client.post(self.get_url(),
                                     {'body': 'Lorem', 'title': 'Lorem'})
         self.assertEqual(response.status_code, 302)
