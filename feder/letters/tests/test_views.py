@@ -86,7 +86,7 @@ class LetterUpdateViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
         self.login_permitted_user()
         new_case = CaseFactory()
         self.assertNotEqual(self.from_user.case, new_case)
-        data = {'title': 'Lorem', 'body': 'Lorem', 'case': new_case}
+        data = {'title': 'Lorem', 'body': 'Lorem', 'case': new_case.pk}
         resp = self.client.post(self.get_url(), data)
         self.assertEqual(resp.status_code, 302)
         self.from_user.refresh_from_db()
