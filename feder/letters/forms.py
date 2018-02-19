@@ -19,6 +19,9 @@ QUOTE_TPL = "W nawiązaniu do pisma z dnia {created} z adresu {email}:\n{quoted}
 
 
 class LetterForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
+    case = forms.ModelChoiceField(queryset=Case.objects.all(), label=_("Case"),
+                                  widget=autocomplete.ModelSelect2(url='cases:autocomplete-find'))
+
     def __init__(self, *args, **kwargs):
         case = kwargs.pop('case', None)
         super(LetterForm, self).__init__(*args, **kwargs)
@@ -27,7 +30,7 @@ class LetterForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
 
     class Meta:
         model = Letter
-        fields = ['title', 'body', 'note']
+        fields = ['title', 'body', 'case', 'note']
 
 
 class ReplyForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
@@ -98,3 +101,14 @@ class AssignMessageForm(SingleButtonMixin, forms.Form):
 
     def save(self):
         return MessageParser(message=self.message, case=self.cleaned_data['case']).insert()
+
+
+class ReassignLetterForm(SingleButtonMixin, forms.ModelForm):
+    action_text = _("Reassign")
+
+    case = forms.ModelChoiceField(queryset=Case.objects.all(), label=_("Case number"),
+                                  widget=autocomplete.ModelSelect2(url='cases:autocomplete-find'))
+
+    def save(self, commit=True):
+        self.instance.case = self.cleaned_data['case']
+        return super(ReassignLetterForm, self).save(commit)
