@@ -4,7 +4,7 @@
     <a href="{{ object.get_absolute_url }}">{{ object }}</a>
     <small>
         {% trans 'by' %} <a href="{{ object.author.get_absolute_url }}">{{ object.author }}</a>
-        {{ object.created | naturaltime }}
+        <time datetime="{{ object.created }}" title="{{ object.created | naturaltime }}">{{ object.created }}</time>
     </small>
     {% if object.attachment_count %}
         <span class="badge pull-right">

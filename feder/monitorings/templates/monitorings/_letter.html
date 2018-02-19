@@ -9,7 +9,8 @@
                 <a href="{{ object.author.get_absolute_url }}">{{ object.author }}</a>
                 {% trans 'in case of ' %} <i class="fa fa-folder-open"></i> <a
                     href="{{ object.case.get_absolute_url }}">
-                {{ object.case }}</a> {{ object.created | naturaltime }}
+                {{ object.case }}</a>
+                <time datetime="{{ object.created }}" title="{{ object.created | naturaltime }}">{{ object.created }}</time>
             </small>
         </h3>
 
