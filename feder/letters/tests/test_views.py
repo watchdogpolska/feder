@@ -5,6 +5,7 @@ from django.core import mail
 from django.core.files.base import ContentFile
 from django.core.urlresolvers import reverse
 from django.test import TestCase
+from guardian.shortcuts import assign_perm
 
 from feder.alerts.models import Alert
 from feder.cases.factories import CaseFactory
@@ -194,10 +195,10 @@ class SitemapTestCase(ObjectMixin, TestCase):
         self.assertContains(response, needle)
 
 
-class ReportSpamViewTestCase (ObjectMixin, PermissionStatusMixin, TestCase):
+class LetterReportSpamViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     status_anonymous = 200
     status_no_permission = 200
-    permission = ['monitorings.spam_mark', ]
+    permission = []
 
     def get_url(self):
         return reverse('letters:spam', kwargs={'pk':  self.from_institution.pk})
@@ -217,6 +218,13 @@ class ReportSpamViewTestCase (ObjectMixin, PermissionStatusMixin, TestCase):
         self.assertEqual(alert.link_object, self.from_institution)
         self.assertEqual(alert.author, self.user)
 
+
+class LetterMarkSpamViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
+    permission = ['monitorings.spam_mark', ]
+
+    def get_url(self):
+        return reverse('letters:mark_spam', kwargs={'pk':  self.from_institution.pk})
+
     def test_hide_by_staff(self):
         self.login_permitted_user()
         response = self.client.post(self.get_url())
@@ -225,6 +233,15 @@ class ReportSpamViewTestCase (ObjectMixin, PermissionStatusMixin, TestCase):
 
     def test_mark_as_valid(self):
         self.login_permitted_user()
+        response = self.client.post(self.get_url(), data={'valid': 'x'})
+        self.from_institution.refresh_from_db()
+        self.assertEqual(self.from_institution.is_spam, Letter.SPAM.non_spam)
+
+    def test_accept_global_perms(self):
+        user = UserFactory()
+        assign_perm('monitorings.spam_mark', user)
+        self.client.login(username=user.username, password='pass')
+
         response = self.client.post(self.get_url(), data={'valid': 'x'})
         self.from_institution.refresh_from_db()
         self.assertEqual(self.from_institution.is_spam, Letter.SPAM.non_spam)
