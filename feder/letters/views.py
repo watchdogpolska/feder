@@ -272,6 +272,39 @@ class LetterMarkSpamView(RaisePermissionRequiredMixin, ActionMessageMixin, Actio
         return self.object.case.get_absolute_url()
 
 
+class LetterMarkHiddenView(RaisePermissionRequiredMixin, ActionMessageMixin, ActionView):
+    template_name_suffix = '_hide'
+    model = Letter
+    permission_required = 'monitorings.hide_letter'
+    accept_global_perms = True
+
+    def get_object(self, *args, **kwargs):
+        if not hasattr(self, 'object'):
+            self.object = super(LetterMarkHiddenView, self).get_object(*args, **kwargs)
+        return self.object
+
+    def get_permission_object(self):
+        return self.get_object().case.monitoring
+
+    def action(self):
+        self.is_hidden = self.object.is_hidden
+
+        if self.is_hidden:
+            self.object.mark_hidden_by = None
+        else:
+            self.object.mark_hidden_by = self.request.user
+
+        self.object.save(update_fields=['mark_hidden_by'])
+
+    def get_success_message(self):
+        if not self.is_hidden:
+            return _("The letter {object} has been marked as non-hidden.").format(object=self.object)
+        return _("The message {object} has been marked as hidden.").format(object=self.object)
+
+    def get_success_url(self):
+        return self.object.case.get_absolute_url()
+
+
 class UnrecognizedMessageListView(RaisePermissionRequiredMixin, PrefetchRelatedMixin, FilterView):
     filterset_class = MessageFilter
     model = Message

@@ -7,7 +7,7 @@ from mock import Mock, mock
 from feder.cases.factories import CaseFactory
 from feder.cases.models import Case
 from feder.institutions.factories import InstitutionFactory
-from feder.letters.factories import IncomingLetterFactory, DraftLetterFactory
+from feder.letters.factories import IncomingLetterFactory, DraftLetterFactory, HiddenLetterFactory
 from feder.letters.factories import OutgoingLetterFactory
 from feder.main.mixins import PermissionStatusMixin
 from feder.monitorings.filters import MonitoringFilter
@@ -121,6 +121,11 @@ class MonitoringDetailViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
     def test_details_display(self):
         response = self.client.get(self.get_url())
         self.assertContains(response, self.monitoring)
+
+    def test_hide_title_of_hidden_letter(self):
+        letter = HiddenLetterFactory(case__monitoring=self.monitoring)
+        response = self.client.get(self.get_url())
+        self.assertNotContains(response, letter.title)
 
 
 class LetterListMonitoringViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):

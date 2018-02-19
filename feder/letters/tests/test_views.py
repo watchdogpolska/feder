@@ -14,7 +14,7 @@ from feder.letters.tests.base import MessageMixin
 from feder.main.mixins import PermissionStatusMixin
 from feder.monitorings.factories import MonitoringFactory
 from feder.users.factories import UserFactory
-from ..factories import IncomingLetterFactory, OutgoingLetterFactory
+from ..factories import IncomingLetterFactory, OutgoingLetterFactory, HiddenLetterFactory
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -68,6 +68,18 @@ class LetterDetailViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
         response = self.client.get(self.get_url())
         self.assertContains(response, _("Report spam"))
         self.assertContains(response, reverse('letters:spam', kwargs={'pk': self.letter.pk}))
+
+    def test_contains_link_to_hide_link(self):
+        self.permission = ['monitorings.hide_letter']
+        self.login_permitted_user()
+        response = self.client.get(self.get_url())
+        self.assertContains(response, _("Mark hidden"))
+        self.assertContains(response, reverse('letters:mark_hidden', kwargs={'pk': self.letter.pk}))
+
+    def test_show_content_of_hidden_letter(self):
+        letter = HiddenLetterFactory(case=self.case)
+        response = self.client.get(self.get_url())
+        self.assertNotContains(response, letter.body)
 
 
 class LetterCreateViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):

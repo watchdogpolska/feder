@@ -29,7 +29,7 @@ class CaseQuerySet(models.QuerySet):
 
     def with_letter(self):
         from feder.letters.models import Letter
-        queryset = Letter.objects.with_author().all()
+        queryset = Letter.objects.with_author().filter(mark_hidden_by=None).all()
         return self.prefetch_related(Prefetch(lookup='letter_set',
                                               queryset=queryset))
 

@@ -3,7 +3,7 @@ from django.test import RequestFactory, TestCase
 
 from feder.cases.models import Case
 from feder.institutions.factories import InstitutionFactory
-from feder.letters.factories import IncomingLetterFactory
+from feder.letters.factories import IncomingLetterFactory, HiddenLetterFactory
 from feder.letters.models import Letter
 from feder.main.mixins import PermissionStatusMixin
 from feder.users.factories import UserFactory
@@ -57,6 +57,11 @@ class CaseDetailViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
 
     def test_not_contains_spam_letter(self):
         letter = IncomingLetterFactory(case=self.case, is_spam=Letter.SPAM.spam)
+        response = self.client.get(self.get_url())
+        self.assertNotContains(response, letter.body)
+
+    def test_hide_content_of_hidden_letter(self):
+        letter = HiddenLetterFactory(case=self.case)
         response = self.client.get(self.get_url())
         self.assertNotContains(response, letter.body)
 

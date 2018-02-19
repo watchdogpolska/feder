@@ -14,7 +14,7 @@ from feder.letters.utils import normalize_msg_id
 from feder.monitorings.factories import MonitoringFactory
 from feder.users.factories import UserFactory
 from ..factories import (IncomingLetterFactory, LetterFactory,
-                         OutgoingLetterFactory, SendOutgoingLetterFactory)
+                         OutgoingLetterFactory, SendOutgoingLetterFactory, HiddenLetterFactory)
 from ..models import Letter
 from feder.letters.signals import MessageParser
 
@@ -113,6 +113,9 @@ class ModelTestCase(TestCase):
         self.assertEqual(Letter.objects.count(), 1)
         self.assertIn(footer_text, mail.outbox[0].body,
                         "Email for a new case should contain footer text from monitoring")
+
+    def test_is_hidden(self):
+        self.assertEqual(HiddenLetterFactory().is_hidden, True)
 
 
 class IncomingEmailTestCase(MessageMixin, TestCase):
