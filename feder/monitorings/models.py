@@ -71,13 +71,14 @@ class Monitoring(TimeStampedModel):
             ('add_draft', _('Add reply draft')),
             ('change_letter', _('Can change task')),
             ('delete_letter', _('Can delete letter')),
+            ('hide_letter', _("Can hide letter")),
             ('view_alert', _('Can view alert')),
             ('change_alert', _('Can change alert')),
             ('delete_alert', _('Can delete alert')),
             ('manage_perm', _('Can manage perms')),
             ('select_survey', _('Can select answer')),
             ('view_log', _('Can view logs')),
-            ('spam_mark', _("Can mark spam"))
+            ('spam_mark', _("Can mark spam")),
         )
 
     def __unicode__(self):

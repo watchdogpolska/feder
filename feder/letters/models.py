@@ -73,12 +73,18 @@ class Letter(TimeStampedModel):
     email = models.EmailField(verbose_name=_("E-mail"), max_length=100, blank=True)
     note = models.TextField(verbose_name=_("Comments from editor"), blank=True)
     is_spam = models.IntegerField(choices=SPAM, default=SPAM.unknown, db_index=True)
-    is_draft = models.BooleanField(verbose_name=_("Is draft?"), default=True)
-    mark_spam_by = models.ForeignKey(to=settings.AUTH_USER_MODEL, null=True, blank=True, verbose_name="Spam marker",
+    mark_spam_by = models.ForeignKey(to=settings.AUTH_USER_MODEL, null=True, blank=True, verbose_name=_("Spam marker"),
                                      help_text=_("The person who marked it as spam"),
                                      related_name="letter_mark_spam_by")
     mark_spam_at = models.DateTimeField(null=True, verbose_name="Time of mark as spam",
                                         help_text=_("Time when letter was marked as spam"))
+
+    is_draft = models.BooleanField(verbose_name=_("Is draft?"), default=True)
+
+    mark_hidden_by = models.ForeignKey(to=settings.AUTH_USER_MODEL, null=True, blank=True, verbose_name=_("Hiding person"),
+                                       help_text=_("The person who hid the letter"),
+                                       related_name="letter_mark_hidden_by")
+
     message_id_header = models.CharField(blank=True,
                                          verbose_name=_('ID of sent email message "Message-ID"'),
                                          max_length=500)
@@ -112,6 +118,10 @@ class Letter(TimeStampedModel):
     @property
     def is_outgoing(self):
         return bool(self.author_user_id)
+
+    @property
+    def is_hidden(self):
+        return bool(self.mark_hidden_by_id)
 
     def get_title(self):
         if self.title and self.title.strip():

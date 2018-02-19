@@ -32,7 +32,10 @@ class DraftLetterFactory(OutgoingLetterFactory):
     is_draft = True
 
 
+class HiddenLetterFactory(IncomingLetterFactory):
+    mark_hidden_by = factory.SubFactory(UserFactory)
+
+
 class SendOutgoingLetterFactory(LetterFactory):
     author_user = factory.SubFactory(UserFactory)
-
     is_send_yes = factory.PostGenerationMethodCall('send')

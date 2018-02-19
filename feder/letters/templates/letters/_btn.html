@@ -24,7 +24,12 @@
                 </a>
             {% endif %}
         {% endif %}
-
+        {% if 'hide_letter' in monitoring_perms %}
+            <a class="btn btn-primary" href="{% url 'letters:mark_hidden' pk=object.pk %}">
+                <i class="fa fa-pen"></i>
+                {% trans 'Mark hidden' %}
+            </a>
+        {% endif %}
         {% if not object.is_spam_validated %}
             <a class="btn btn-primary" href="{% url 'letters:spam' pk=object.pk %}">
                 <i class="fa fa-bullhorn"></i>
