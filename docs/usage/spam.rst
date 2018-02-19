@@ -22,7 +22,7 @@ Może widzieć dzienniki – ``can_view_log``
     uprawnia do zapoznania się z dziennikiem zgłoszeń w monitoringu
 
 Może oznaczyć spam – ``can_mark_spam``
-    uprawnia wpływające na zmianę działanie przycisku "Zgłoś spam" poprzez natychmiastowe ukrycie wiadomości
+    uprawnia zapewniające dostęp do przycisku "Zgłoś spam" poprzez natychmiastowe ukrycie wiadomości
 
 Proces obsługi
 --------------
@@ -33,7 +33,7 @@ wiadomości trafiają do dziennika zgłoszeń.
 Użytkownik, który posiada uprawnienie ``can_view_log`` otrzymuje powiadomienie o nowym wpisie w dzienniku
 zgłoszeń.
 
-Użytkownik zalogowany, który posiada uprawnienie ``can_mark_spam`` po wybraniu przycisku "Zgłoś spam" może ukryć
+Użytkownik zalogowany, który posiada uprawnienie ``can_mark_spam`` po wybraniu przycisku "Oznacz spam" może ukryć
 wiadomość oznaczoną jako spam. Ewentualnie wiadomość zostanie oznaczona jako prawidłowa, a wówczas nie będzie możliwe
 ponowne zgłoszenie wiadomości jako spam. W obu przypadkach wpisy w dzienniku dotyczące danej wiadomości zostaną oznaczone
 jako załatwione.
@@ -49,7 +49,7 @@ Analiza bezpieczeństwa
 Wiadomości, które są publikowane w systemie mogą zawierać złośliwe oprogramowanie, albowiem pochodzą od niezaufanych,
 zewnętrznych dostawców. Na dzień 10 lutego 2017 roku wiadomości są publikowane bez żadnej analizy antywirusowej.
 
-Nawet w przypadku wprowadzenia takich mechanizmów- ze względu na niedoskonałość oprogramowania antywirusowego - będziemy
+Nawet w przypadku wprowadzenia takich mechanizmów - ze względu na niedoskonałość oprogramowania antywirusowego - będziemy
 w stanie wykryć wyłącznie wirusy poznane przez konkretny silnik antywirusowy.
 
 W przypadku wiadomości zawierającej podejrzany załącznik:

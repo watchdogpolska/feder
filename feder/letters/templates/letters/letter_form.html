@@ -3,3 +3,8 @@
 {% block content_object %}
     {% crispy form %}
 {% endblock %}
+
+{% block javascript %}
+    {{ block.super }}
+{{ form.media }}
+{% endblock %}

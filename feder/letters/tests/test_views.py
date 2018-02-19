@@ -5,6 +5,7 @@ from django.core import mail
 from django.core.files.base import ContentFile
 from django.core.urlresolvers import reverse
 from django.test import TestCase
+from guardian.shortcuts import assign_perm
 
 from feder.alerts.models import Alert
 from feder.cases.factories import CaseFactory
@@ -82,6 +83,16 @@ class LetterUpdateViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     def get_url(self):
         return reverse('letters:update', kwargs={'pk': self.from_user.pk})
 
+    def test_update_case_number(self):
+        self.login_permitted_user()
+        new_case = CaseFactory()
+        self.assertNotEqual(self.from_user.case, new_case)
+        data = {'title': 'Lorem', 'body': 'Lorem', 'case': new_case.pk}
+        resp = self.client.post(self.get_url(), data)
+        self.assertEqual(resp.status_code, 302)
+        self.from_user.refresh_from_db()
+        self.assertEqual(self.from_user.case, new_case)
+
 
 class LetterDeleteViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     permission = ['monitorings.delete_letter', ]
@@ -97,16 +108,14 @@ class LetterReplyViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
         return reverse('letters:reply', kwargs={'pk': self.from_institution.pk})
 
     def test_send_reply(self):
-        self.grant_permission()
-        self.client.login(username='john', password='pass')
+        self.login_permitted_user()
         response = self.client.post(self.get_url(),
                                     {'body': 'Lorem', 'title': 'Lorem', 'send': 'yes'})
         self.assertEqual(response.status_code, 302)
         self.assertEqual(len(mail.outbox), 1)
 
     def test_no_send_drafts(self):
-        self.grant_permission()
-        self.client.login(username='john', password='pass')
+        self.login_permitted_user()
         response = self.client.post(self.get_url(),
                                     {'body': 'Lorem', 'title': 'Lorem'})
         self.assertEqual(response.status_code, 302)
@@ -194,10 +203,10 @@ class SitemapTestCase(ObjectMixin, TestCase):
         self.assertContains(response, needle)
 
 
-class ReportSpamViewTestCase (ObjectMixin, PermissionStatusMixin, TestCase):
+class LetterReportSpamViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     status_anonymous = 200
     status_no_permission = 200
-    permission = ['monitorings.spam_mark', ]
+    permission = []
 
     def get_url(self):
         return reverse('letters:spam', kwargs={'pk':  self.from_institution.pk})
@@ -217,6 +226,13 @@ class ReportSpamViewTestCase (ObjectMixin, PermissionStatusMixin, TestCase):
         self.assertEqual(alert.link_object, self.from_institution)
         self.assertEqual(alert.author, self.user)
 
+
+class LetterMarkSpamViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
+    permission = ['monitorings.spam_mark', ]
+
+    def get_url(self):
+        return reverse('letters:mark_spam', kwargs={'pk':  self.from_institution.pk})
+
     def test_hide_by_staff(self):
         self.login_permitted_user()
         response = self.client.post(self.get_url())
@@ -225,6 +241,15 @@ class ReportSpamViewTestCase (ObjectMixin, PermissionStatusMixin, TestCase):
 
     def test_mark_as_valid(self):
         self.login_permitted_user()
+        response = self.client.post(self.get_url(), data={'valid': 'x'})
+        self.from_institution.refresh_from_db()
+        self.assertEqual(self.from_institution.is_spam, Letter.SPAM.non_spam)
+
+    def test_accept_global_perms(self):
+        user = UserFactory()
+        assign_perm('monitorings.spam_mark', user)
+        self.client.login(username=user.username, password='pass')
+
         response = self.client.post(self.get_url(), data={'valid': 'x'})
         self.from_institution.refresh_from_db()
         self.assertEqual(self.from_institution.is_spam, Letter.SPAM.non_spam)
