@@ -141,7 +141,7 @@ INSTALLED_APPS = INSTALLED_APPS + (
 )
 
 MIDDLEWARE_CLASSES = (
-    'raven.contrib.django.raven_compat.middleware.Sentry404CatchMiddleware',
+    # 'raven.contrib.django.raven_compat.middleware.Sentry404CatchMiddleware',
     'raven.contrib.django.raven_compat.middleware.SentryResponseErrorIdMiddleware',
 ) + MIDDLEWARE_CLASSES
 
