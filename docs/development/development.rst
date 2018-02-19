@@ -1,8 +1,7 @@
 .. _development:
 
-******************
 Rozwój
-******************
+======
 
 W tym dokumencie opisujemy opis procesu rozwoju aplkacji. Ma on postać FAQ, aby utrzymywać dokument prostym.
 

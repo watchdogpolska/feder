@@ -1,10 +1,9 @@
+Wprowadzenie
+============
+
 .. _introduction_index:
 
-Administracja
-=============
-
 .. toctree::
-   :caption: Wprowadzenie
 
    readme
    architecture
