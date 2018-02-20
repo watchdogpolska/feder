@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: letters 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-19 00:56+0000\n"
-"PO-Revision-Date: 2018-02-19 01:56+0100\n"
+"POT-Creation-Date: 2018-02-20 23:37+0000\n"
+"PO-Revision-Date: 2018-02-21 00:38+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -47,35 +47,43 @@ msgstr "Data utworzenia (rosnąco)"
 msgid "Creation date (descending)"
 msgstr "Data utworzenia (malejąco)"
 
-#: forms.py:53 forms.py:56
+#: forms.py:22 models.py:65
+msgid "Case"
+msgstr "Sprawa"
+
+#: forms.py:56 forms.py:59
 msgid "Save draft"
 msgstr "Zapisz szkic"
 
-#: forms.py:54 forms.py:58
+#: forms.py:57 forms.py:61
 msgid "Send reply"
 msgstr "Wyślij odpowiedź"
 
-#: forms.py:63
+#: forms.py:66
 msgid ""
 "Nothing to do. You do not have permission to save draft or send replies."
 msgstr ""
 "Nic do zrobienia. Nie masz uprawnień, aby zapisać szkic lub wysłać odpowiedź."
 
-#: forms.py:67
+#: forms.py:70
 msgid "You do not have permission to send replies."
 msgstr "Nie masz uprawnień, aby wysłać odpowiedzi."
 
-#: forms.py:71
+#: forms.py:74
 msgid "You do not have permission to save draft."
 msgstr "Nie masz odpowiedzi, aby wysłać odpowiedź."
 
-#: forms.py:91
+#: forms.py:94
 msgid "Assign"
 msgstr "Przypisz"
 
-#: forms.py:92
+#: forms.py:95 forms.py:109
 msgid "Case number"
 msgstr "Numer sprawy"
+
+#: forms.py:107
+msgid "Reassign"
+msgstr "Przepisz"
 
 #: models.py:62
 msgid "Unknown"
@@ -88,10 +96,6 @@ msgstr "Spam"
 #: models.py:64
 msgid "Non-spam"
 msgstr "Nie-spam"
-
-#: models.py:65
-msgid "Case"
-msgstr "Sprawa"
 
 #: models.py:66
 msgid "Author (if user)"
@@ -121,9 +125,17 @@ msgstr "Komentarz od redakcji"
 msgid "Is draft?"
 msgstr "Czy szkic?"
 
+#: models.py:77
+msgid "Spam marker"
+msgstr "Oznacz spam"
+
 #: models.py:78
 msgid "The person who marked it as spam"
 msgstr "Osoba, która oznaczyła jako spam"
+
+#: models.py:80
+msgid "Time of mark as spam"
+msgstr "Czas oznaczenia jako spam"
 
 #: models.py:81
 msgid "Time when letter was marked as spam"
@@ -231,8 +243,8 @@ msgid ""
 "\n"
 "                <a href=\"%(object_url)s\">%(object)s</a>\n"
 "                <small>by <a href=\"%(author_url)s\"> %(author)s </a>\n"
-"                    <time datetime=\"%(created)s\" title=\"%(created)s\">"
-"%(created_natural)s</time>\n"
+"                    <time datetime=\"%(created)s\" title="
+"\"%(created_natural)s\">%(created)s</time>\n"
 "                    in case <a href=\"%(case_url)s\">%(case)s</a> with <a\n"
 "                            href=\"%(institution_url)s\">%(institution)s</"
 "a></small>"
@@ -240,8 +252,8 @@ msgstr ""
 "\n"
 "                <a href=\"%(object_url)s\">%(object)s</a>\n"
 "                <small>przez <a href=\"%(author_url)s\"> %(author)s </a>\n"
-"                    <time datetime=\"%(created)s\" title=\"%(created)s\">"
-"%(created_natural)s</time>\n"
+"                    <time datetime=\"%(created)s\" title="
+"\"%(created_natural)s\">%(created)s</time>\n"
 "                    w sprawie <a href=\"%(case_url)s\">%(case)s</a> z <a\n"
 "                            href=\"%(institution_url)s\">%(institution)s</"
 "a></small>"
