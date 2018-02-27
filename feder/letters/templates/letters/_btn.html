@@ -2,16 +2,19 @@
 {% get_obj_perms request.user for object.case.monitoring as "monitoring_perms" %}
 <div class="clearfix">
     <div class="pull-right btn-group">
+{#{{ monitoring_perms }}#}
         {% if 'change_letter' in monitoring_perms %}
             <a class="btn btn-default" href="{% url 'letters:update' pk=object.pk %}">
                 {% trans 'Edit' %}
             </a>
         {% endif %}
+
         {% if 'delete_letter' in monitoring_perms %}
             <a class="btn btn-warning" href="{% url 'letters:delete' pk=object.pk %}">
                 {% trans 'Delete' %}
             </a>
         {% endif %}
+
         {% if 'reply' in monitoring_perms or 'add_draft' in monitoring_perms %}
             <a class="btn btn-primary" href="{% url 'letters:reply' pk=object.pk %}">
                 <i class="fa fa-reply"></i>
@@ -24,13 +27,12 @@
                 </a>
             {% endif %}
         {% endif %}
-
         {% if not object.is_spam_validated %}
             <a class="btn btn-primary" href="{% url 'letters:spam' pk=object.pk %}">
                 <i class="fa fa-bullhorn"></i>
                 {% trans 'Report spam' %}
             </a>
-            {% if 'mark_spam' in monitorings_perms %}
+            {% if 'spam_mark' in monitoring_perms %}
                 <a class="btn btn-primary" href="{% url 'letters:mark_spam' pk=object.pk %}">
                     <i class="fa fa-bullhorn"></i>
                     {% trans 'Mark spam' %}

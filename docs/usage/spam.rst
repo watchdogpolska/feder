@@ -21,7 +21,7 @@ Istnieją następujące uprawnienia związane z obsługą spamu:
 Może widzieć dzienniki – ``can_view_log``
     uprawnia do zapoznania się z dziennikiem zgłoszeń w monitoringu
 
-Może oznaczyć spam – ``can_mark_spam``
+Może oznaczyć spam – ``spam_mark``
     uprawnia zapewniające dostęp do przycisku "Zgłoś spam" poprzez natychmiastowe ukrycie wiadomości
 
 Proces obsługi
@@ -33,7 +33,7 @@ wiadomości trafiają do dziennika zgłoszeń.
 Użytkownik, który posiada uprawnienie ``can_view_log`` otrzymuje powiadomienie o nowym wpisie w dzienniku
 zgłoszeń.
 
-Użytkownik zalogowany, który posiada uprawnienie ``can_mark_spam`` po wybraniu przycisku "Oznacz spam" może ukryć
+Użytkownik zalogowany, który posiada uprawnienie ``mark_spam`` po wybraniu przycisku "Oznacz spam" może ukryć
 wiadomość oznaczoną jako spam. Ewentualnie wiadomość zostanie oznaczona jako prawidłowa, a wówczas nie będzie możliwe
 ponowne zgłoszenie wiadomości jako spam. W obu przypadkach wpisy w dzienniku dotyczące danej wiadomości zostaną oznaczone
 jako załatwione.
