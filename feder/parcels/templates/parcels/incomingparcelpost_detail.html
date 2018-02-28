@@ -1,0 +1,16 @@
+{% extends 'parcels/parcelpost_detail.html' %}
+{% load i18n %}
+{% block custom_content_object %}
+
+    <tr>
+        <td class="col-md-3 col-xs-6 col-sm-5 metadata_desc">
+            <i class="fa fa-home" aria-hidden="false"></i>
+            {% trans 'Sender' %}
+        </td>
+        <td class="col-md-9 col-xs-6 col-sm-7 metadata_value">
+            <a href="{{ object.sender.get_absolute_url }}">
+                {{ object.sender }}
+            </a>
+        </td>
+    </tr>
+{% endblock %}

@@ -12,6 +12,7 @@ from django.forms.widgets import NumberInput
 from django.utils.translation import ugettext_lazy as _
 
 from feder.cases.models import Case
+from feder.records.models import Record
 from .models import Letter
 from feder.letters.signals import MessageParser
 
@@ -25,17 +26,27 @@ class LetterForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
     def __init__(self, *args, **kwargs):
         case = kwargs.pop('case', None)
         super(LetterForm, self).__init__(*args, **kwargs)
-        if case:
-            self.instance.case = case
+        self.initial['case'] = case
 
     class Meta:
         model = Letter
-        fields = ['title', 'body', 'case', 'note']
+        fields = ['title', 'body', 'case', 'note', ]
+
+    def save(self, *args, **kwargs):
+        # if self.instance.pk:
+        #     self.instance.record.case = self.cleaned_data['case']
+        #     self.instance.record.save()
+        # else:
+        #     self.instance.record = Record.objects.create(case=self.cleaned_data['case'])
+        self.instance.record.case = self.cleaned_data['case']
+        self.instance.record.save()
+
+        return super(LetterForm, self).save(*args, **kwargs)
 
 
 class ReplyForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
     def __init__(self, *args, **kwargs):
-        self.letter = kwargs.pop('letter', None)
+        self.letter = kwargs.pop('letter')
         super(ReplyForm, self).__init__(*args, **kwargs)
         self.user_can_reply = self.user.has_perm('reply', self.letter.case.monitoring)
         self.user_can_save = self.user.has_perm('add_draft', self.letter.case.monitoring)
@@ -44,12 +55,9 @@ class ReplyForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
         self.add_form_buttons()
 
     def set_dynamic_field_initial(self):
-        if self.letter:
-            self.fields['title'].initial = "Re: {title}".format(title=self.letter.title)
-            self.fields['body'].initial = self.letter.add_footer("")
-            self.fields['quote'].initial = self.get_quote()
-            self.instance.author_user = self.user
-            self.instance.case = self.letter.case
+        self.fields['title'].initial = "Re: {title}".format(title=self.letter.title)
+        self.fields['body'].initial = self.letter.add_footer("")
+        self.fields['quote'].initial = self.get_quote()
 
     def add_form_buttons(self):
         if self.user_can_reply and self.user_can_save:
@@ -80,6 +88,8 @@ class ReplyForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
         return QUOTE_TPL.format(quoted=quoted, **self.letter.__dict__)
 
     def save(self, *args, **kwargs):
+        self.instance.author_user = self.user
+        self.instance.record = Record.objects.create(case=self.letter.case)
         obj = super(ReplyForm, self).save(*args, **kwargs)
         if 'send' in self.data:
             self.instance.send()
@@ -110,5 +120,6 @@ class ReassignLetterForm(SingleButtonMixin, forms.ModelForm):
                                   widget=autocomplete.ModelSelect2(url='cases:autocomplete-find'))
 
     def save(self, commit=True):
-        self.instance.case = self.cleaned_data['case']
+        self.instance.record.case = self.cleaned_data['case']
+        self.instance.record.save()
         return super(ReassignLetterForm, self).save(commit)

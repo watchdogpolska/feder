@@ -1,5 +1,5 @@
 <ul class="milestones">
     {% for object in object_list %}
-        {% include 'letters/_milestone.html' with object=object %}
+        {% include object.content_template with object=object.content_object %}
     {% endfor %}
 </ul>

@@ -25,6 +25,17 @@
                     {% trans 'View logs' %}
                 </a>
             {% endif %}
+            {% if 'add_parcelpost' in monitoring_perms %}
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                    {% trans 'Add parcel post' %}
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="{% url 'parcels:incoming-create' case_pk=object.pk  %}">{% trans 'Incoming parcel' %}</a></li>
+                    <li><a href="{% url 'parcels:outgoing-create' case_pk=object.pk  %}">{% trans 'Outgoing parcel' %}</a></li>
+                </ul>
+            {% endif %}
         </div>
     </div>
 {% endif %}

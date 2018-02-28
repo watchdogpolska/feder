@@ -18,6 +18,7 @@ class CaseFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Case
 
+
 class AliasFactory(factory.django.DjangoModelFactory):
     case = factory.SubFactory(CaseFactory)
     email = factory.Sequence('alias-email-{0}@example.com'.format)

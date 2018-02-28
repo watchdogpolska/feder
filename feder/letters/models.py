@@ -12,14 +12,15 @@ from django.core.mail import EmailMessage
 from django.core.mail.message import make_msgid
 from django.core.urlresolvers import reverse
 from django.db import models
+from django.db.models import Prefetch
 from django.db.models.manager import BaseManager
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from django_mailbox.models import Message
 from model_utils import Choices
-from model_utils.models import TimeStampedModel
 from feder.cases.models import Case
 from feder.institutions.models import Institution
+from feder.records.models import AbstractRecord, Record
 from .utils import email_wrapper, normalize_msg_id
 
 talon.init()
@@ -35,10 +36,10 @@ class LetterQuerySet(models.QuerySet):
         return self.select_related('author_user', 'author_institution')
 
     def for_milestone(self):
-        return self.prefetch_related('attachment_set').with_author()
+        return self.prefetch_related(Prefetch('attachment_set', to_attr='attachments')).with_author()
 
     def is_draft(self):
-            return self.filter(is_draft=True).is_outgoing()
+        return self.filter(is_draft=True).is_outgoing()
 
     def is_outgoing(self):
         return self.filter(author_user__isnull=False)
@@ -48,8 +49,11 @@ class LetterQuerySet(models.QuerySet):
 
     def with_feed_items(self):
         return (self.with_author().
-                select_related('case__institution__jst', 'case__monitoring').
+                select_related('record__case__institution__jst', 'record__case__monitoring').
                 prefetch_related('attachment_set'))
+
+    def exclude_spam(self):
+        return self.exclude(is_spam=Letter.SPAM.spam)
 
 
 class LetterManager(BaseManager.from_queryset(LetterQuerySet)):
@@ -58,11 +62,10 @@ class LetterManager(BaseManager.from_queryset(LetterQuerySet)):
 
 
 @python_2_unicode_compatible
-class Letter(TimeStampedModel):
+class Letter(AbstractRecord):
     SPAM = Choices((0, 'unknown', _('Unknown')),
                    (1, 'spam', _('Spam')),
-                   (2, 'non_spam', _('Non-spam'), ))
-    case = models.ForeignKey(Case, verbose_name=_("Case"))
+                   (2, 'non_spam', _('Non-spam'),))
     author_user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("Author (if user)"),
                                     null=True, blank=True)
     author_institution = models.ForeignKey(Institution, verbose_name=_("Author (if institution)"),
@@ -144,13 +147,12 @@ class Letter(TimeStampedModel):
 
     @classmethod
     def send_new_case(cls, user, monitoring, institution, text, postfix=''):
-        case = Case(user=user,
-                    name=monitoring.name + postfix,
-                    monitoring=monitoring,
-                    institution=institution)
-        case.save()
+        case = Case.objects.create(user=user,
+                                   name=monitoring.name + postfix,
+                                   monitoring=monitoring,
+                                   institution=institution)
         letter = cls(author_user=user,
-                     case=case,
+                     record=Record.objects.create(case=case),
                      title=monitoring.subject,
                      body=text)
         letter.send(commit=True, only_email=False)
@@ -206,5 +208,3 @@ class Attachment(AttachmentBase):
         if self.attachment:
             return u"{}".format(self.filename)
         return "None"
-
-

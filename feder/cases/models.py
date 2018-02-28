@@ -13,25 +13,25 @@ from feder.monitorings.models import Monitoring
 
 
 class CaseQuerySet(models.QuerySet):
-    def with_letter_count(self):
-        return self.annotate(letter_count=models.Count('letter'))
+    def with_record_count(self):
+        return self.annotate(record_count=models.Count('record'))
 
     def area(self, jst):
         return self.filter(institution__jst__tree_id=jst.tree_id,
                            institution__jst__lft__range=(jst.lft, jst.rght))
 
     def with_milestone(self):
-        from feder.letters.models import Letter
-        queryset = Letter.objects.for_milestone().all()
-        return self.prefetch_related(Prefetch(lookup='letter_set',
+        from feder.records.models import Record
+        queryset = Record.objects.for_milestone().all()
+        return self.prefetch_related(Prefetch(lookup='record_set',
                                               queryset=queryset,
                                               to_attr='milestone'))
 
     def with_letter(self):
-        from feder.letters.models import Letter
-        queryset = Letter.objects.with_author().all()
-        return self.prefetch_related(Prefetch(lookup='letter_set',
-                                              queryset=queryset))
+        from feder.records.models import Record
+        record_queryset = Record.objects.with_author().all()
+        return self.prefetch_related(Prefetch(lookup='record_set',
+                                              queryset=record_queryset))
 
     def by_msg(self, message):
         email_object = message.get_email_object()
@@ -46,8 +46,8 @@ class CaseQuerySet(models.QuerySet):
             Q(email__in=addresses) | Q(alias__email__in=addresses)
         )
 
-    def with_letter_max(self):
-        return self.annotate(letter_max=Max('letter__created'))
+    def with_record_max(self):
+        return self.annotate(record_max=Max('record__created'))
 
 
 class Case(TimeStampedModel):
@@ -81,6 +81,7 @@ class Case(TimeStampedModel):
 def my_callback(sender, instance, *args, **kwargs):
     if not instance.email:
         instance.update_email()
+
 
 class Alias(models.Model):
     case = models.ForeignKey(Case, verbose_name=_("Case"))

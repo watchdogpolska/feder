@@ -21,9 +21,9 @@ class LetterFilter(UserKwargFilterSetMixin, FilterSet):
         super(LetterFilter, self).__init__(*args, **kwargs)
         self.filters['title'].lookup_expr = 'icontains'
         self.filters['title'].label = _("Title")
-        self.filters['case__institution'].widget = autocomplete.ModelSelect2(
+        self.filters['record__case__institution'].widget = autocomplete.ModelSelect2(
             url='institutions:autocomplete')
-        self.filters['case__institution'].label = _("Institution")
+        self.filters['record__case__institution'].label = _("Institution")
         if not self.user.has_perm('letters.can_filter_eml'):
             del self.filters['eml']
 
@@ -33,7 +33,7 @@ class LetterFilter(UserKwargFilterSetMixin, FilterSet):
             ('created', _('Creation date (ascending)')),
             ('-created', _('Creation date (descending)')),
         ]
-        fields = ['title', 'created', 'case__institution']
+        fields = ['title', 'created', 'record__case__institution']
 
 
 class MessageFilter(FilterSet):

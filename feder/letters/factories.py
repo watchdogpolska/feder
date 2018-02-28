@@ -3,13 +3,14 @@ import factory.fuzzy
 
 from feder.cases.factories import CaseFactory
 from feder.institutions.factories import InstitutionFactory
+from feder.records.factories import RecordFactory
 from feder.users.factories import UserFactory
 from .models import Letter
 
 
 class LetterFactory(factory.django.DjangoModelFactory):
+    record = factory.SubFactory(RecordFactory)
     title = factory.Sequence('title-letter-{0}'.format)
-    case = factory.SubFactory(CaseFactory)
     body = factory.Sequence('body-{0}'.format)
     quote = factory.Sequence('quote-{0}'.format)
 

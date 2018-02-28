@@ -33,7 +33,7 @@ _("Letters index")
 class LetterListView(UserKwargFilterSetMixin, SelectRelatedMixin, FilterView):
     filterset_class = LetterFilter
     model = Letter
-    select_related = ['author_user', 'author_institution', 'case__institution']
+    select_related = ['author_user', 'author_institution', 'record__case__institution']
     paginate_by = 25
 
     def get_queryset(self):
@@ -43,7 +43,7 @@ class LetterListView(UserKwargFilterSetMixin, SelectRelatedMixin, FilterView):
 
 class LetterDetailView(SelectRelatedMixin, DetailView):
     model = Letter
-    select_related = ['author_institution', 'author_user', 'case__monitoring']
+    select_related = ['author_institution', 'author_user', 'record__case__monitoring']
 
 
 class LetterCreateView(RaisePermissionRequiredMixin, UserFormKwargsMixin,
@@ -75,7 +75,7 @@ class LetterReplyView(RaisePermissionRequiredMixin, UserFormKwargsMixin,
 
     @cached_property
     def letter(self):
-        return get_object_or_404(Letter.objects.select_related('case__monitoring'),
+        return get_object_or_404(Letter.objects.select_related('record__case__monitoring'),
                                  pk=self.kwargs['pk'])
 
     def get_permission_object(self):
@@ -103,7 +103,7 @@ class LetterReplyView(RaisePermissionRequiredMixin, UserFormKwargsMixin,
 
 class LetterSendView(AttrPermissionRequiredMixin, ActionMessageMixin, ActionView):
     model = Letter
-    permission_attribute = 'case__monitoring'
+    permission_attribute = 'record__case__monitoring'
     permission_required = 'monitorings.reply'
     template_name_suffix = '_send'
 
@@ -123,13 +123,13 @@ class LetterUpdateView(AttrPermissionRequiredMixin, UserFormKwargsMixin,
                        UpdateMessageMixin, FormValidMessageMixin, UpdateView):
     model = Letter
     form_class = LetterForm
-    permission_attribute = 'case__monitoring'
+    permission_attribute = 'record__case__monitoring'
     permission_required = 'monitorings.change_letter'
 
 
 class LetterDeleteView(AttrPermissionRequiredMixin, DeleteMessageMixin, DeleteView):
     model = Letter
-    permission_attribute = 'case__monitoring'
+    permission_attribute = 'record__case__monitoring'
     permission_required = 'monitorings.delete_letter'
 
     def get_success_url(self):
@@ -180,7 +180,7 @@ class LetterAtomFeed(LetterRssFeed):
 
 class LetterMonitoringRssFeed(LetterObjectFeedMixin, LetterRssFeed):
     model = Monitoring
-    filter_field = 'case__monitoring'
+    filter_field = 'record__case__monitoring'
     kwargs_name = 'monitoring_pk'
 
     def title(self, obj):
@@ -198,7 +198,7 @@ class LetterMonitoringAtomFeed(LetterMonitoringRssFeed):
 
 class LetterCaseRssFeed(LetterObjectFeedMixin, LetterRssFeed):
     model = Case
-    filter_field = 'case'
+    filter_field = 'record__case'
     kwargs_name = 'case_pk'
 
     def title(self, obj):

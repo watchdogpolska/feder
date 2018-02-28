@@ -51,17 +51,17 @@ class CaseDetailViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
         return reverse('cases:details', kwargs={'slug': self.case.slug})
 
     def test_show_note_on_letter(self):
-        letter = IncomingLetterFactory(case=self.case)
+        letter = IncomingLetterFactory(record__case=self.case)
         response = self.client.get(self.get_url())
         self.assertContains(response, letter.note)
 
     def test_not_contains_spam_letter(self):
-        letter = IncomingLetterFactory(case=self.case, is_spam=Letter.SPAM.spam)
+        letter = IncomingLetterFactory(record__case=self.case, is_spam=Letter.SPAM.spam)
         response = self.client.get(self.get_url())
         self.assertNotContains(response, letter.body)
 
     def test_contains_letter(self):
-        letter = IncomingLetterFactory(case=self.case)
+        letter = IncomingLetterFactory(record__case=self.case)
         response = self.client.get(self.get_url())
         self.assertContains(response, letter.body)
 

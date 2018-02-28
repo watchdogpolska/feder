@@ -9,6 +9,7 @@ from django_mailbox.signals import message_received
 
 from feder.cases.models import Case
 from feder.letters.models import Attachment, Letter, logger
+from feder.records.models import Record
 
 
 @receiver(post_init, sender=Attachment)
@@ -82,7 +83,7 @@ class MessageParser(object):
         with File(self.message.eml, self.message.eml.name) as eml:
             return Letter.objects.create(author_institution=self.case.institution,
                                          email=self.message.from_address[0],
-                                         case=self.case,
+                                         record=Record.objects.create(case=self.case),
                                          title=self.message.subject,
                                          body=self.text,
                                          quote=self.quote,

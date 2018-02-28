@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+
+{% block title_prefix %}{% trans 'Parcel post' %} - {% endblock title_prefix %}
+
+
+{% block breadcrumbs %}
+    {% if object %}
+    <ol
+        class="breadcrumb"
+        itemscope
+        itemtype="http://schema.org/BreadcrumbList">
+        <li
+            itemprop="itemListElement"
+            itemscope
+            itemtype="http://schema.org/ListItem">
+            <a itemprop="item" href="{{ object.case.monitoring.get_absolute_url }}">
+                <span itemprop="name">{{ object.case.monitoring }}</span>
+            </a>
+        </li>
+        <li
+            itemprop="itemListElement"
+            itemscope
+            itemtype="http://schema.org/ListItem">
+            <a itemprop="item" href="{{ object.case.get_absolute_url }}">
+                <span itemprop="name">{{ object.case }}</span>
+            </a>
+        </li>
+        <li
+            itemprop="itemListElement"
+            itemscope
+            itemtype="http://schema.org/ListItem"
+            class="active">
+            <span itemprop="name">{{ object }}</span>
+        </li>
+    </ol>
+    {% else %}
+    <ol
+        class="breadcrumb"
+        itemscope
+        itemtype="http://schema.org/BreadcrumbList">
+        <li
+            itemprop="itemListElement"
+            itemscope
+            itemtype="http://schema.org/ListItem">
+            <a itemprop="item" href="{{ case.monitoring.get_absolute_url }}">
+                <span itemprop="name">{{ case.monitoring }}</span>
+            </a>
+        </li>
+        <li
+            itemprop="itemListElement"
+            itemscope
+            itemtype="http://schema.org/ListItem">
+            <a itemprop="item" href="{{ case.get_absolute_url }}">
+                <span itemprop="name">{{ case }}</span>
+            </a>
+        </li>
+        <li
+            itemprop="itemListElement"
+            itemscope
+            itemtype="http://schema.org/ListItem"
+            class="active">
+            <span itemprop="name">{{ headline }}</span>
+        </li>
+    </ol>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h2>
+            <i class="fa fa-box"></i>
+            {% if object %}
+                <a href="{{ object.get_absolute_url }}">{{ object }}</a>
+            {% else %}
+                {{ headline }}
+            {% endif %}
+        </h2>
+    </div>
+
+    <div class="gray">
+        {% block content_object %}{% endblock %}
+    </div>
+{% endblock %}

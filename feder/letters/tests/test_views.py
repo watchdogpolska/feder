@@ -25,10 +25,10 @@ class ObjectMixin(object):
         self.monitoring = self.permission_object = MonitoringFactory()
         self.case = CaseFactory(monitoring=self.monitoring)
         self.from_user = OutgoingLetterFactory(title='Wniosek',
-                                               case=self.case)
+                                               record__case=self.case)
 
         self.letter = self.from_institution = IncomingLetterFactory(title='Odpowiedz',
-                                                                    case=self.case)
+                                                                    record__case=self.case)
 
 
 class LetterListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
@@ -91,6 +91,7 @@ class LetterUpdateViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
         resp = self.client.post(self.get_url(), data)
         self.assertEqual(resp.status_code, 302)
         self.from_user.refresh_from_db()
+        self.from_user.record.refresh_from_db()
         self.assertEqual(self.from_user.case, new_case)
 
 

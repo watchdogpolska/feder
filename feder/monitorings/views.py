@@ -64,9 +64,9 @@ class MonitoringDetailView(SelectRelatedMixin, PrefetchRelatedMixin,
         return (Case.objects.filter(monitoring=obj).
                 select_related('institution').
                 prefetch_related('task_set').
-                with_letter_max().
+                with_record_max().
                 with_letter().
-                order_by('-letter_max').
+                order_by('-record_max').
                 all())
 
 
@@ -78,8 +78,8 @@ class LetterListMonitoringView(SelectRelatedMixin, PrefetchRelatedMixin, ExtraLi
     paginate_by = 25
 
     def get_object_list(self, obj):
-        return (Letter.objects.filter(case__monitoring=obj).
-                select_related('case').
+        return (Letter.objects.filter(record__case__monitoring=obj).
+                select_related('record__case').
                 with_author().
                 attachment_count().
                 order_by('-created').
@@ -94,9 +94,9 @@ class DraftListMonitoringView(SelectRelatedMixin, PrefetchRelatedMixin, ExtraLis
     paginate_by = 25
 
     def get_object_list(self, obj):
-        return (Letter.objects.filter(case__monitoring=obj).
+        return (Letter.objects.filter(record__case__monitoring=obj).
                 is_draft().
-                select_related('case').
+                select_related('record__case').
                 with_author().
                 attachment_count().
                 order_by('-created').

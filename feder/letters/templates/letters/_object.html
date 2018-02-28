@@ -15,13 +15,13 @@
     <div class="alert alert-warning">{% trans 'This is just a draft message. The message was not sent to the institution.' %}</div>
 {% endif %}
 
-{% if object.attachment_set.all %}
+{% if object.attachments %}
     <div class="attachment-list">
         <h4>
             {% trans 'Attachments' %}
         </h4>
         <ul>
-            {% for attachment in object.attachment_set.all %}
+            {% for attachment in object.attachments %}
                 <li>
                     <a href="{{ attachment.attachment.url }}">
                         {{ attachment }}
