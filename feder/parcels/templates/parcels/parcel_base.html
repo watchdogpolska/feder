@@ -4,66 +4,89 @@
 
 {% block title_prefix %}{% trans 'Parcel post' %} - {% endblock title_prefix %}
 
+{% block buttons %}
+    {% if incomingparcelpost %}
+        {% include 'parcels/_btn.html' with object=object delete_url='parcels:incoming-delete' update_url='parcels:incoming-update' %}
+    {% endif %}
+{% endblock %}
 
 {% block breadcrumbs %}
     {% if object %}
-    <ol
-        class="breadcrumb"
-        itemscope
-        itemtype="http://schema.org/BreadcrumbList">
-        <li
-            itemprop="itemListElement"
-            itemscope
-            itemtype="http://schema.org/ListItem">
-            <a itemprop="item" href="{{ object.case.monitoring.get_absolute_url }}">
-                <span itemprop="name">{{ object.case.monitoring }}</span>
-            </a>
-        </li>
-        <li
-            itemprop="itemListElement"
-            itemscope
-            itemtype="http://schema.org/ListItem">
-            <a itemprop="item" href="{{ object.case.get_absolute_url }}">
-                <span itemprop="name">{{ object.case }}</span>
-            </a>
-        </li>
-        <li
-            itemprop="itemListElement"
-            itemscope
-            itemtype="http://schema.org/ListItem"
-            class="active">
-            <span itemprop="name">{{ object }}</span>
-        </li>
-    </ol>
+        <ol
+                class="breadcrumb"
+                itemscope
+                itemtype="http://schema.org/BreadcrumbList">
+            <li
+                    itemprop="itemListElement"
+                    itemscope
+                    itemtype="http://schema.org/ListItem">
+                <a itemprop="item" href="{{ object.case.monitoring.get_absolute_url }}">
+                    <span itemprop="name">{{ object.case.monitoring }}</span>
+                </a>
+            </li>
+            <li
+                    itemprop="itemListElement"
+                    itemscope
+                    itemtype="http://schema.org/ListItem">
+                <a itemprop="item" href="{{ object.case.get_absolute_url }}">
+                    <span itemprop="name">{{ object.case }}</span>
+                </a>
+            </li>
+            {% if headline %}
+                <li
+                        itemprop="itemListElement"
+                        itemscope
+                        itemtype="http://schema.org/ListItem">
+                    <a itemprop="item" href="{{ object.get_absolute_url }}">
+                        <span itemprop="name">{{ object }}</span>
+                    </a>
+                </li>
+                <li
+                        itemprop="itemListElement"
+                        itemscope
+                        itemtype="http://schema.org/ListItem"
+                        class="active">
+                    <span itemprop="name">{{ headline }}</span>
+                </li>
+            {% else %}
+                <li
+                        itemprop="itemListElement"
+                        itemscope
+                        itemtype="http://schema.org/ListItem"
+                        class="active">
+                    <span itemprop="name">{{ object }}</span>
+                </li>
+            {% endif %}
+        </ol>
     {% else %}
-    <ol
-        class="breadcrumb"
-        itemscope
-        itemtype="http://schema.org/BreadcrumbList">
-        <li
-            itemprop="itemListElement"
-            itemscope
-            itemtype="http://schema.org/ListItem">
-            <a itemprop="item" href="{{ case.monitoring.get_absolute_url }}">
-                <span itemprop="name">{{ case.monitoring }}</span>
-            </a>
-        </li>
-        <li
-            itemprop="itemListElement"
-            itemscope
-            itemtype="http://schema.org/ListItem">
-            <a itemprop="item" href="{{ case.get_absolute_url }}">
-                <span itemprop="name">{{ case }}</span>
-            </a>
-        </li>
-        <li
-            itemprop="itemListElement"
-            itemscope
-            itemtype="http://schema.org/ListItem"
-            class="active">
-            <span itemprop="name">{{ headline }}</span>
-        </li>
-    </ol>
+        <ol
+                class="breadcrumb"
+                itemscope
+                itemtype="http://schema.org/BreadcrumbList">
+            <li
+                    itemprop="itemListElement"
+                    itemscope
+                    itemtype="http://schema.org/ListItem">
+                <a itemprop="item" href="{{ case.monitoring.get_absolute_url }}">
+                    <span itemprop="name">{{ case.monitoring }}</span>
+                </a>
+            </li>
+            <li
+                    itemprop="itemListElement"
+                    itemscope
+                    itemtype="http://schema.org/ListItem">
+                <a itemprop="item" href="{{ case.get_absolute_url }}">
+                    <span itemprop="name">{{ case }}</span>
+                </a>
+            </li>
+            <li
+                    itemprop="itemListElement"
+                    itemscope
+                    itemtype="http://schema.org/ListItem"
+                    class="active">
+                <span itemprop="name">{{ headline }}</span>
+            </li>
+        </ol>
     {% endif %}
 {% endblock %}
 

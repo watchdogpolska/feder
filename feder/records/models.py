@@ -14,10 +14,23 @@ from feder.cases.models import Case
 
 
 class RecordQuerySet(models.QuerySet):
-    def with_all_related(self):
+    def with_select_related_content(self):
+        """
+        Returns data using joins. Up to one query.
+        :return: models.QuerySet
+        """
+        fields = [field.name for field in Record._meta.related_objects if
+                  issubclass(field.related_model, AbstractRecord)]
+        return self.select_related(*fields)
+
+    def with_prefetch_related_content(self):
+        """
+        Returns data using prefetch. As many queries as different data types.
+        :return:
+        """
         fields = [field.related_name for field in Record._meta.related_objects if
                   issubclass(field.related_model, AbstractRecord)]
-        return self.select_related(fields)
+        return self.prefetch_related(*fields)
 
     def with_author(self):
         from feder.letters.models import Letter
@@ -27,7 +40,7 @@ class RecordQuerySet(models.QuerySet):
     def for_milestone(self):
         from feder.letters.models import Letter
         letter_queryset = Letter.objects.for_milestone().all()
-        qs = self.filter(letters_letters__is_spam__in=[Letter.SPAM.unknown, Letter.SPAM.non_spam])
+        qs = self.exclude(letters_letters__is_spam=Letter.SPAM.spam)
         return qs.prefetch_related(Prefetch(lookup='letters_letter_related',
                                             queryset=letter_queryset)).all()
 

@@ -21,5 +21,4 @@ urlpatterns = [
         name="outgoing-update"),
     url(r'^outgoing-(?P<pk>[\w-]+)/~delete$', views.OutgoingParcelPostDeleteView.as_view(),
         name="outgoing-delete"),
-
 ]
