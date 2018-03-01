@@ -49,7 +49,7 @@ talon==1.4.4
 git+https://github.com/watchdogpolska/django-mailbox.git@masterfull
 django-teryt-tree==0.14.4
 cached-property==1.4.0
-django-bootstrap-pagination==1.6.3
+django-bootstrap-pagination==1.6.4
 django-reversion==2.0.13
 djangorestframework==3.7.7
 unicodecsv==0.14.1
