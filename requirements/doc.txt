@@ -1,3 +1,3 @@
 -r local.txt
 sphinxcontrib-programoutput==0.11
-Django==1.11.7
+Django==2.0.2
