@@ -55,3 +55,5 @@ djangorestframework==3.7.7
 unicodecsv==0.14.1
 tqdm==4.19.5
 djangorestframework-filters==0.10.2
+django-github-revision==0.0.3
+
