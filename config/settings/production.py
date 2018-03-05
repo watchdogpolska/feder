@@ -1,14 +1,6 @@
 # -*- coding: utf-8 -*-
-'''
-Production Configurations
-
-- Use djangosecure
-- Use MEMCACHIER on Heroku
-'''
 from __future__ import absolute_import, unicode_literals
-
-from boto.s3.connection import OrdinaryCallingFormat
-from django.utils import six
+from dealer.auto import auto
 
 from .common import *  # noqa
 
@@ -132,10 +124,11 @@ except ImportError:
     }
 
 
+RELEASE_ID = auto.revision
 RAVEN_CONFIG = {
-    'dsn': env("RAVEN_DSN"),
+    'dsn': env.str('RAVEN_DSN', 'http://example.com'),
+    'release': RELEASE_ID
 }
-
 INSTALLED_APPS = INSTALLED_APPS + (
     'raven.contrib.django.raven_compat',
 )
