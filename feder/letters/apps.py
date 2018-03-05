@@ -9,4 +9,5 @@ class LetterConfig(AppConfig):
 
     def ready(self):
         from . import signals
+        from . import types
         super(LetterConfig, self).ready()

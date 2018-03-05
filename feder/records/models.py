@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+import warnings
 
 from cached_property import cached_property
 from django.db import models
@@ -11,6 +12,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from django.db import models
 from feder.cases.models import Case
+from feder.records.registry import record_type_registry
 
 
 class RecordQuerySet(models.QuerySet):
@@ -55,13 +57,21 @@ class Record(TimeStampedModel):
             if issubclass(field.related_model, AbstractRecord) and hasattr(self, field.related_name):
                 return getattr(self, field.related_name)
 
+
+    @cached_property
+    def milestone_template(self):
+        warnings.warn("Call to deprecated method '{}.content_template'.".format(self.__class__.__name__),
+                      category=DeprecationWarning,
+                      stacklevel=2)
+        return self.type.get_template_milestone_item(self.content_object)
+
     @cached_property
     def content_template(self):
-        return "%s/%s%s.html" % (
-            self.content_object._meta.app_label,
-            self.content_object._meta.model_name,
-            "_milestone_item"
-        )
+        return self.type.get_template_content_item(self.content_object)
+
+    @cached_property
+    def type(self):
+        return record_type_registry.get_type(self.content_object)
 
     class Meta:
         verbose_name = _("Record")

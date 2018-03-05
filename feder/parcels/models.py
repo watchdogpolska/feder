@@ -28,7 +28,6 @@ class IncomingParcelPost(AbstractParcelPost):
     sender = models.ForeignKey(Institution, verbose_name=_("Sender"))
     comment = models.TextField(verbose_name=_("Comment"))
     receive_date = models.DateField(default=timezone.now, verbose_name=_("Receive date"))
-
     def get_absolute_url(self):
         return reverse('parcels:incoming-details', kwargs={'pk': str(self.pk)})
 

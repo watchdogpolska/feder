@@ -37,3 +37,9 @@ class RecordQuerySetTestCase(TestCase):
             self.assertEquals(objects[1].content_object, ipp)
             self.assertEquals(objects[2].content_object, ipp2)
             self.assertEquals(objects[3].content_object, ipp3)
+
+
+class RecordTestCase(TestCase):
+    def test_content_template(self):
+        letter = IncomingLetterFactory()
+        self.assertEqual(letter.record.content_template, 'letters/_letter_content_item.html')
