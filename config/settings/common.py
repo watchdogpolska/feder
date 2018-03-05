@@ -331,3 +331,6 @@ EMAIL_NOTIFICATION = env('EMAIL_NOTIFICATION', default='no-reply@siecobywatelska
 EMAILLABS_APP_KEY = env('EMAILLABS_APP_KEY', default="Dummy")
 
 EMAILLABS_SECRET_KEY = env('EMAILLABS_SECRET_KEY', default="Dummy")
+
+INSTALLED_APPS += ['github_revision', ]
+GITHUB_REVISION_REPO_URL = 'https://github.com/watchdogpolska/feder'
