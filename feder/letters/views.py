@@ -132,6 +132,13 @@ class LetterDeleteView(AttrPermissionRequiredMixin, DeleteMessageMixin, DeleteVi
     permission_attribute = 'case__monitoring'
     permission_required = 'monitorings.delete_letter'
 
+    def delete(self, request, *args, **kwargs):
+        result = super(LetterDeleteView, self).delete(request, *args, **kwargs)
+        [x.attachment.delete() for x in self.object.attachment_set.all()]  # Delete file
+        self.object.attachment_set.all().delete()  # Delete objects
+        self.object.eml.delete()  # Delete file
+        return result
+
     def get_success_url(self):
         return self.object.case.get_absolute_url()
 
