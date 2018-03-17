@@ -30,24 +30,14 @@
                     </div>
                 {% endif %}
 
-                {% if case.letter_set.all %}
+                {% if case.record_set.all %}
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            {% trans 'Letters' %}
+                            {% trans 'Contents' %}
                         </div>
                         <table class="table">
-                            {% for letter in case.letter_set.all %}
-                                <tr>
-                                    <td>
-                                        <i class="fa fa fa-envelope"></i>
-                                        <a href="{{ letter.get_absolute_url }}">{{ letter }}</a>
-                                    </td>
-                                    <td>
-                                        <i class="fa fa fa-{{ letter.author_user | yesno:'user,home' }}"></i>
-                                        <a href="{{ letter.author.get_absolute_url }}">{{ letter.author }}</a>
-                                        <time datetime="{{ letter.created }}" title="{{ letter.created | naturaltime }}">{{ letter.created }}</time>
-                                    </td>
-                                </tr>
+                            {% for record in case.record_set.all %}
+                                {% include record.content_template with object=record.content_object %}
                             {% endfor %}
                         </table>
                     </div>

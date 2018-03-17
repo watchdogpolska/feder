@@ -39,4 +39,4 @@ class LoadEmlTestCase(MessageMixin, TestCase):
         path = self._get_email_path('message-with-content.eml')
         call_command('load_eml', self.mailbox.pk, path, stdout=out)
         self.assertIn("Imported ", out.getvalue())
-        self.assertEqual(case.letter_set.count(), 1)
+        self.assertEqual(case.record_set.count(), 1)

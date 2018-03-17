@@ -47,11 +47,11 @@
         <div class="col-sm-7">
             <h2>
                 <i class="fa fa-envelope"></i>
-                {% trans 'Letters' %}
+                {% trans 'Content' %}
             </h2>
 
             {% if object.milestone %}
-                {% include 'letters/_milestone_list.html' with object_list=object.milestone %}
+                {% include 'records/_milestone_list.html' with object_list=object.milestone %}
             {% else %}
                 <div class="gray">
                     {% trans 'No rows.' %}

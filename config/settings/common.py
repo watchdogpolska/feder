@@ -68,6 +68,8 @@ LOCAL_APPS = (
     'feder.alerts',
     'feder.light_user',
     'feder.letters.logs',
+    'feder.records.apps.RecordsConfig',
+    'feder.parcels.apps.ParcelsConfig',
     # Your stuff: custom apps go here
 )
 

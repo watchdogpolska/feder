@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-monitorings 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-05 08:47+0100\n"
-"PO-Revision-Date: 2018-02-05 08:46+0100\n"
+"POT-Creation-Date: 2018-03-05 23:04+0000\n"
+"PO-Revision-Date: 2018-03-06 00:05+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -105,7 +105,7 @@ msgstr "Powiadamiaj o alertach"
 
 #: models.py:53
 msgid "Is public visible?"
-msgstr ""
+msgstr "Czy publicznie widoczny?"
 
 #: models.py:60
 msgid "Can add questionary"
@@ -187,6 +187,18 @@ msgstr "Może widzieć dzienniki"
 msgid "Can mark spam"
 msgstr "Może oznaczyć spam"
 
+#: models.py:81
+msgid "Can add parcel post"
+msgstr "Może dodać przesyłkę pocztową"
+
+#: models.py:82
+msgid "Can change parcel post"
+msgstr "Może zmieniać przesyłkę pocztową"
+
+#: models.py:83
+msgid "Can delete parcel post"
+msgstr "Może usuwać przesyłkę pocztową"
+
 #: templates/monitorings/_btn.html:9
 msgid "Edit"
 msgstr "Edycja"
@@ -227,7 +239,7 @@ msgstr "przez"
 msgid "in case of "
 msgstr "w sprawie"
 
-#: templates/monitorings/_monitoring_small.html:18
+#: templates/monitorings/_monitoring_small.html:16
 msgid "Case count"
 msgstr "Liczba spraw"
 
@@ -237,7 +249,6 @@ msgid "Institutions, cases and tasks"
 msgstr "Instytucje, sprawy i zadania"
 
 #: templates/monitorings/_tabs.html:13
-#: templates/monitorings/monitoring_detail.html:36
 #: templates/monitorings/monitoring_letter_list.html:5
 msgid "Letters"
 msgstr "Listy"
@@ -257,7 +268,7 @@ msgid "Questionaries"
 msgstr "Kwestionariusze"
 
 #: templates/monitorings/base_monitoring_detail.html:40
-#: templates/monitorings/monitoring_detail.html:77
+#: templates/monitorings/monitoring_detail.html:67
 #: templates/monitorings/monitoring_draft_list.html:33
 #: templates/monitorings/monitoring_letter_list.html:33
 msgid "No rows."
@@ -294,20 +305,24 @@ msgstr "Potwierdz usuwanie"
 msgid "Tasks"
 msgstr "Zadania"
 
-#: templates/monitorings/monitoring_detail.html:62
+#: templates/monitorings/monitoring_detail.html:36
+msgid "Contents"
+msgstr "Zawartość"
+
+#: templates/monitorings/monitoring_detail.html:52
 #: templates/monitorings/monitoring_draft_list.html:15
 #: templates/monitorings/monitoring_letter_list.html:15
 msgid "previous"
 msgstr "poprzednia"
 
-#: templates/monitorings/monitoring_detail.html:65
+#: templates/monitorings/monitoring_detail.html:55
 #, python-format
 msgid ""
 "Page\n"
 "                    %(no)s of %(total)s"
 msgstr "Strona %(no)s z %(total)s"
 
-#: templates/monitorings/monitoring_detail.html:69
+#: templates/monitorings/monitoring_detail.html:59
 #: templates/monitorings/monitoring_draft_list.html:24
 #: templates/monitorings/monitoring_letter_list.html:24
 msgid "next"
