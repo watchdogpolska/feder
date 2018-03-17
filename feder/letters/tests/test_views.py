@@ -1,5 +1,6 @@
 from __future__ import absolute_import, unicode_literals
 
+import os
 from django.contrib.auth.models import Permission
 from django.core import mail
 from django.core.files.base import ContentFile
@@ -100,6 +101,12 @@ class LetterDeleteViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
 
     def get_url(self):
         return reverse('letters:delete', kwargs={'pk': self.from_user.pk})
+
+    def test_remove_eml_file(self):
+        self.login_permitted_user()
+        self.assertTrue(os.path.isfile(self.from_user.eml.file.name))
+        self.client.post(self.get_url())
+        self.assertFalse(os.path.isfile(self.from_user.eml.file.name))
 
 
 class LetterReplyViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
