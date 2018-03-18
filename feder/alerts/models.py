@@ -26,18 +26,20 @@ class AlertQuerySet(models.QuerySet):
 
 @python_2_unicode_compatible
 class Alert(TimeStampedModel):
-    monitoring = models.ForeignKey(Monitoring, verbose_name=_("Monitoring"))
+    monitoring = models.ForeignKey(Monitoring, on_delete=models.CASCADE, verbose_name=_("Monitoring"))
     reason = models.TextField(verbose_name=_("Reason"))
     author = models.ForeignKey(settings.AUTH_USER_MODEL,
+                               on_delete=models.CASCADE,
                                verbose_name=_("Author"),
                                related_name="alert_author",
                                null=True)
     solver = models.ForeignKey(settings.AUTH_USER_MODEL,
+                               on_delete=models.CASCADE,
                                verbose_name=_("Solver"),
                                related_name="alert_solver",
                                null=True)
     status = models.BooleanField(default=False, verbose_name=_("Status"))
-    content_type = models.ForeignKey(ContentType, null=True)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, null=True)
     object_id = models.PositiveIntegerField(null=True)
     link_object = GenericForeignKey()
     objects = AlertQuerySet.as_manager()

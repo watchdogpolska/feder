@@ -53,9 +53,9 @@ class CaseQuerySet(models.QuerySet):
 class Case(TimeStampedModel):
     name = models.CharField(verbose_name=_("Name"), max_length=50)
     slug = AutoSlugField(populate_from='name', verbose_name=_("Slug"), unique=True)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
-    monitoring = models.ForeignKey(Monitoring, verbose_name=_("Monitoring"))
-    institution = models.ForeignKey(Institution, verbose_name=_("Institution"))
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    monitoring = models.ForeignKey(Monitoring, on_delete=models.CASCADE, verbose_name=_("Monitoring"))
+    institution = models.ForeignKey(Institution, on_delete=models.CASCADE, verbose_name=_("Institution"))
     email = models.CharField(max_length=75, db_index=True, unique=True)
     objects = CaseQuerySet.as_manager()
 
@@ -84,5 +84,5 @@ def my_callback(sender, instance, *args, **kwargs):
 
 
 class Alias(models.Model):
-    case = models.ForeignKey(Case, verbose_name=_("Case"))
+    case = models.ForeignKey(Case, on_delete=models.CASCADE, verbose_name=_("Case"))
     email = models.CharField(max_length=75, db_index=True, unique=True)

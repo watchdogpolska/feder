@@ -31,12 +31,15 @@ class MonitoringQuerySet(models.QuerySet):
     def only_public(self):
         return self.filter(is_public=True)
 
+
 @reversion.register()
 class Monitoring(TimeStampedModel):
     perm_model = 'monitoringuserobjectpermission'
     name = models.CharField(verbose_name=_("Name"), max_length=50)
     slug = AutoSlugField(populate_from='name', verbose_name=_("Slug"), unique=True)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("User"))
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE,
+                             verbose_name=_("User"))
     description = models.TextField(verbose_name=_("Description"), blank=True)
     subject = models.CharField(verbose_name=_("Subject"), max_length=80)
     template = models.TextField(verbose_name=_("Template"),
@@ -110,8 +113,8 @@ class Monitoring(TimeStampedModel):
 
 
 class MonitoringUserObjectPermission(UserObjectPermissionBase):
-    content_object = models.ForeignKey(Monitoring)
+    content_object = models.ForeignKey(Monitoring, on_delete=models.CASCADE)
 
 
 class MonitoringGroupObjectPermission(GroupObjectPermissionBase):
-    content_object = models.ForeignKey(Monitoring)
+    content_object = models.ForeignKey(Monitoring, on_delete=models.CASCADE)

@@ -63,8 +63,9 @@ class TaskQuerySet(models.QuerySet):
 
 class Task(TimeStampedModel):
     name = models.CharField(max_length=75, verbose_name=_("Name"))
-    case = models.ForeignKey(Case, verbose_name=_("Case"))
+    case = models.ForeignKey(Case, on_delete=models.CASCADE, verbose_name=_("Case"))
     questionary = models.ForeignKey(Questionary, verbose_name=_("Questionary"),
+                                    on_delete = models.CASCADE,
                                     help_text=_("Questionary to fill by user as task"))
     survey_required = models.SmallIntegerField(verbose_name=_("Required survey count"),
                                                help_text=TASK_REQUIRED_TEXT,
@@ -159,9 +160,9 @@ class SurveyQuerySet(models.QuerySet):
 
 
 class Survey(TimeStampedModel):
-    task = models.ForeignKey(Task)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True)
-    light_user = models.ForeignKey(LightUser, null=True)
+    task = models.ForeignKey(Task, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
+    light_user = models.ForeignKey(LightUser, on_delete=models.CASCADE, null=True)
     objects = SurveyQuerySet.as_manager()
     credibility = models.PositiveIntegerField(default=0, verbose_name=_("Credibility"))
 
@@ -179,8 +180,8 @@ class Survey(TimeStampedModel):
 
 
 class Answer(models.Model):
-    survey = models.ForeignKey(Survey)
-    question = models.ForeignKey(Question)
+    survey = models.ForeignKey(Survey, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
     content = JSONField()
 
     def get_answer_text(self):

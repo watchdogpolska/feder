@@ -16,7 +16,7 @@ LOCK_HELP = _("Prevent of edit question to protect against destruction the data 
 @python_2_unicode_compatible
 class Questionary(TimeStampedModel):
     title = models.CharField(max_length=250, verbose_name=_("Title"))
-    monitoring = models.ForeignKey(Monitoring, verbose_name=_("Monitoring"))
+    monitoring = models.ForeignKey(Monitoring, on_delete=models.CASCADE, verbose_name=_("Monitoring"))
     lock = models.BooleanField(default=False, verbose_name=_("Lock of edition"),
                                help_text=LOCK_HELP)
 
@@ -34,7 +34,7 @@ class Questionary(TimeStampedModel):
 
 @python_2_unicode_compatible
 class Question(models.Model):
-    questionary = models.ForeignKey(Questionary, verbose_name=_("Questionary"))
+    questionary = models.ForeignKey(Questionary, on_delete=models.CASCADE, verbose_name=_("Questionary"))
     position = models.SmallIntegerField(default=0, verbose_name=_("Position"))
     genre = models.CharField(max_length=25, verbose_name=_("Genre"))
     definition = JSONField(verbose_name=_("Technical definition"))

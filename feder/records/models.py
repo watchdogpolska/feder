@@ -48,7 +48,7 @@ class RecordQuerySet(models.QuerySet):
 
 
 class Record(TimeStampedModel):
-    case = models.ForeignKey(Case)
+    case = models.ForeignKey(Case, on_delete=models.CASCADE)
     objects = RecordQuerySet.as_manager()
 
     @cached_property
@@ -82,6 +82,7 @@ class Record(TimeStampedModel):
 class AbstractRecord(TimeStampedModel):
     record = models.OneToOneField(
         Record,
+        on_delete=models.CASCADE,
         related_name="%(app_label)s_%(class)s_related",
         related_query_name="%(app_label)s_%(class)ss",
     )

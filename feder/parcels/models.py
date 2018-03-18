@@ -18,14 +18,14 @@ class ParcelPostQuerySet(models.QuerySet):
 class AbstractParcelPost(AbstractRecord):
     title = models.CharField(verbose_name=_("Title"), max_length=200)
     content = models.FileField(verbose_name=_("Content"))
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, help_text=_("Created by"))
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, help_text=_("Created by"))
 
     class Meta:
         abstract = True
 
 
 class IncomingParcelPost(AbstractParcelPost):
-    sender = models.ForeignKey(Institution, verbose_name=_("Sender"))
+    sender = models.ForeignKey(Institution, on_delete=models.CASCADE, verbose_name=_("Sender"))
     comment = models.TextField(verbose_name=_("Comment"))
     receive_date = models.DateField(default=timezone.now, verbose_name=_("Receive date"))
     def get_absolute_url(self):
@@ -40,7 +40,7 @@ class IncomingParcelPost(AbstractParcelPost):
 
 
 class OutgoingParcelPost(AbstractParcelPost):
-    recipient = models.ForeignKey(Institution, verbose_name=_("Recipient"))
+    recipient = models.ForeignKey(Institution, on_delete=models.CASCADE, verbose_name=_("Recipient"))
     post_date = models.DateField(default=timezone.now, verbose_name=_("Post date"))
 
     def get_absolute_url(self):
