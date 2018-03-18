@@ -46,7 +46,7 @@ django-autofixture==0.12.1
 jsonfield==2.0.2
 django-guardian==1.4.9
 talon==1.4.4
-git+https://github.com/watchdogpolska/django-mailbox.git@masterfull
+django-mailbox==4.7.1
 django-teryt-tree==0.14.4
 cached-property==1.4.0
 django-bootstrap-pagination==1.6.4
