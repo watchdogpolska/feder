@@ -29,13 +29,13 @@ class CaseListView(SelectRelatedMixin, FilterView):
     paginate_by = 25
 
     def get_queryset(self):
-        return super(CaseListView, self).get_queryset().with_letter_count()
+        return super(CaseListView, self).get_queryset().with_record_count()
 
 
 class CaseDetailView(SelectRelatedMixin, PrefetchRelatedMixin, DetailView):
     model = Case
     select_related = ['user', 'monitoring', 'institution']
-    prefetch_related = ['letter_set']
+    prefetch_related = ['record_set']
 
     def get_queryset(self):
         return super(CaseDetailView, self).get_queryset().with_milestone()

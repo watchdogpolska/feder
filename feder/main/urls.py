@@ -37,27 +37,30 @@ urlpatterns = [
 ]
 
 urlpatterns += [
-                   url(_(r'^about/$'), TemplateView.as_view(template_name='pages/about.html'), name="about"),
+    url(_(r'^about/$'), TemplateView.as_view(template_name='pages/about.html'), name="about"),
 
-                   # Django Admin
-                   url(r'^admin/', include(admin.site.urls)),
+    # Django Admin
+    url(r'^admin/', include(admin.site.urls)),
 
-                   # User management
-                   url(_(r'^users/'), include("feder.users.urls", namespace="users")),
-                   url(r'^accounts/', include('allauth.urls')),
+    # User management
+    url(_(r'^users/'), include("feder.users.urls", namespace="users")),
+    url(r'^accounts/', include('allauth.urls')),
 
-                   # Your stuff: custom urls includes go here
-                   url(_(r'^institutions/'), include('feder.institutions.urls', namespace="institutions")),
-                   url(_(r'^monitorings/'), include('feder.monitorings.urls', namespace="monitorings")),
-                   url(_(r'^cases/'), include('feder.cases.urls', namespace="cases")),
-                   url(_(r'^tasks/'), include('feder.tasks.urls', namespace="tasks")),
-                   url(_(r'^questionaries/'), include('feder.questionaries.urls', namespace="questionaries")),
-                   url(_(r'^alerts/'), include('feder.alerts.urls', namespace="alerts")),
-                   url(_(r'^letters/'), include('feder.letters.urls', namespace="letters")),
-                   url(_(r'^teryt/'), include('feder.teryt.urls', namespace="teryt")),
-                   url(_(r'^letters/logs/'), include('feder.letters.logs.urls', namespace="logs")),
-                   url(r'^api/', include(router.urls)),
-               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    # Your stuff: custom urls includes go here
+    url(_(r'^institutions/'), include('feder.institutions.urls', namespace="institutions")),
+    url(_(r'^monitorings/'), include('feder.monitorings.urls', namespace="monitorings")),
+    url(_(r'^cases/'), include('feder.cases.urls', namespace="cases")),
+    url(_(r'^tasks/'), include('feder.tasks.urls', namespace="tasks")),
+    url(_(r'^questionaries/'), include('feder.questionaries.urls', namespace="questionaries")),
+    url(_(r'^alerts/'), include('feder.alerts.urls', namespace="alerts")),
+    url(_(r'^letters/'), include('feder.letters.urls', namespace="letters")),
+    url(_(r'^teryt/'), include('feder.teryt.urls', namespace="teryt")),
+    url(_(r'^letters/logs/'), include('feder.letters.logs.urls', namespace="logs")),
+    url(_(r'^parcels/'), include('feder.parcels.urls', namespace="parcels")),
+    url(r'^api/', include(router.urls)),
+]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 sitemaps = {'cases': CaseSitemap,
             'institutions': InstitutionSitemap,
@@ -77,9 +80,10 @@ urlpatterns += [
 
 if settings.DEBUG:
     import debug_toolbar
+
     urlpatterns = [
-        url(r'^__debug__/', include(debug_toolbar.urls)),
-    ] + urlpatterns
+                      url(r'^__debug__/', include(debug_toolbar.urls)),
+                  ] + urlpatterns
 
 
 def handler500(request):

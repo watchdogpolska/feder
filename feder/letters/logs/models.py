@@ -53,7 +53,7 @@ class EmailLog(TimeStampedModel):
 class LogRecordQuerySet(models.QuerySet):
     def parse_rows(self, rows):
         skipped, saved = 0, 0
-        cases = dict(Letter.objects.values_list('case__email', 'case_id'))
+        cases = dict(Letter.objects.values_list('record__case__email', 'record__case_id'))
         letters = dict(Letter.objects.is_outgoing().values_list('message_id_header', 'id'))
 
         for row in rows:

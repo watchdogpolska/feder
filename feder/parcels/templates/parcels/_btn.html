@@ -1,0 +1,19 @@
+{% load i18n %}
+{% load guardian_tags %}
+{% get_obj_perms request.user for object.case.monitoring as "monitoring_perms" %}
+{% if "change_task" in monitoring_perms or "delete_task" in monitoring_perms %}
+    <div class="clearfix">
+        <div class="pull-right btn-group">
+            {% if "change_parcelpost" in monitoring_perms %}
+                <a class="btn btn-default" href="{% url update_url pk=object.pk %}">
+                    {% trans 'Edit' %}
+                </a>
+            {% endif %}
+            {% if "delete_parcelpost" in monitoring_perms %}
+                <a class="btn btn-default" href="{% url delete_url pk=object.pk %}">
+                    {% trans 'Delete' %}
+                </a>
+            {% endif %}
+        </div>
+    </div>
+{% endif %}

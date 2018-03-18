@@ -1,0 +1,20 @@
+{% extends 'parcels/parcelpost_detail.html' %}
+{% load i18n %}
+{% block custom_content_object %}
+    <tr>
+        <td class="col-md-3 col-xs-6 col-sm-5 metadata_desc">
+            <i class="fa fa-home" aria-hidden="false"></i>
+            {% trans 'Recipient' %}
+        </td>
+        <td class="col-md-9 col-xs-6 col-sm-7 metadata_value">
+            <a href="{{ object.recipient.get_absolute_url }}">
+                {{ object.recipient }}
+            </a>
+        </td>
+    </tr>
+    <tr>
+        <td class="metadata_desc"><i class="fa fa-calendar" aria-hidden="false"></i> {% trans 'Post date' %}</td>
+        <td class="metadata_value">{{ object.post_date }}</td>
+    </tr>
+
+{% endblock %}

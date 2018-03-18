@@ -20,8 +20,9 @@ class Command(BaseCommand):
         for case in self.get_iter(self.get_queryset()):
             ids = []
             with transaction.atomic():
-                for letter in case.letter_set.select_related('message').order_by('created').all():
+                for record in case.record_set.select_related('letters_letters__message').exclude(letters_letters=None).order_by('created').all():
                     letter_count += 1
+                    letter = record.content_object
                     if not letter.message or not letter.message.message_id:  # Skip messages without Message-ID
                         continue
                     if letter.message.message_id in ids:
@@ -46,12 +47,12 @@ class Command(BaseCommand):
 
     def get_queryset(self):
         qs = Case.objects
-        qs = qs.annotate(letter_count=Count('letter')).filter(letter_count__gt=1)  # Skip empty cases
+        qs = qs.annotate(record_count=Count('record')).filter(record_count__gt=1)  # Skip empty cases
         return qs.all()
 
     def delete_letter(self, letter):
         if not self.no_progress:
-            self.stdout.write("Going  to delete letter {} in case {}".format(letter.id, letter.case_id))
+            self.stdout.write("Going  to delete letter {} in case {}".format(letter.id, letter.record.case_id))
 
         if not self.delete:
             return
