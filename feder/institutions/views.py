@@ -4,7 +4,7 @@ from braces.views import (FormValidMessageMixin, LoginRequiredMixin,
                           PermissionRequiredMixin, PrefetchRelatedMixin,
                           SelectRelatedMixin, UserFormKwargsMixin)
 from dal import autocomplete
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
 from django.db.models import Count
 from django.utils import six
 from django.utils.translation import ugettext_lazy as _

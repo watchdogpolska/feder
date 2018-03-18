@@ -1,6 +1,6 @@
 import reversion
 from autoslug.fields import AutoSlugField
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db import models
 from django.db.models import Count
 from django.utils.encoding import python_2_unicode_compatible

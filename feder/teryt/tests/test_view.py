@@ -1,5 +1,5 @@
-from django.core.urlresolvers import reverse
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse
+from django.urls import reverse_lazy
 from django.test import RequestFactory, TestCase
 
 from feder.teryt import views

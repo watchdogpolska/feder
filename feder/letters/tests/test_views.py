@@ -4,7 +4,7 @@ import os
 from django.contrib.auth.models import Permission
 from django.core import mail
 from django.core.files.base import ContentFile
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.test import TestCase
 from guardian.shortcuts import assign_perm
 

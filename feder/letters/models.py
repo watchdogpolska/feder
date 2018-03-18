@@ -10,7 +10,7 @@ from django.contrib.auth import get_user_model
 from django.core.files.base import ContentFile
 from django.core.mail import EmailMessage
 from django.core.mail.message import make_msgid
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db import models
 from django.db.models import Prefetch
 from django.db.models.manager import BaseManager

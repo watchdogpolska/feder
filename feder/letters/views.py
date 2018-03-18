@@ -6,7 +6,7 @@ from braces.views import (FormValidMessageMixin, SelectRelatedMixin,
 from cached_property import cached_property
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.syndication.views import Feed
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404
 from django.utils.datetime_safe import datetime
 from django.utils.encoding import force_text
