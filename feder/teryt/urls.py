@@ -20,3 +20,5 @@ urlpatterns = [
     url(_(r'^community-autocomplete/$'), CommunityAutocomplete.as_view(),
         name='community-autocomplete', ),
 ]
+
+app_name = 'feder.teryt'

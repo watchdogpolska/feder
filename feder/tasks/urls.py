@@ -30,3 +30,5 @@ urlpatterns = [
         views.SurveySelectView.as_view(direction='down'),
         name="select_down_survey"),
 ]
+
+app_name = 'feder.tasks'

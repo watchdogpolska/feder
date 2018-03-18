@@ -23,3 +23,5 @@ urlpatterns = [
         name="autocomplete-find"),
 
 ]
+
+app_name = 'feder.cases'

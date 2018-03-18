@@ -8,9 +8,9 @@ from . import views
 
 messages_urlpatterns = [
     url(_(r'^$'), views.UnrecognizedMessageListView.as_view(),
-        name="list"),
+        name="messages_list"),
     url(_(r'^~assign-(?P<pk>[\d-]+)$'), views.AssignMessageFormView.as_view(),
-        name="assign"),
+        name="messages_assign"),
 ]
 urlpatterns = [
     url(_(r'^$'), views.LetterListView.as_view(),
@@ -43,5 +43,7 @@ urlpatterns = [
         name="spam"),
     url(_(r'^(?P<pk>[\d-]+)/~mark-spam'), views.LetterMarkSpamView.as_view(),
         name="mark_spam"),
-    url(_(r'^messages/logs/'), include(messages_urlpatterns, namespace="messages")),
+    url(_(r'^messages/logs/'), include(messages_urlpatterns)),
 ]
+
+app_name = 'feder.letters'

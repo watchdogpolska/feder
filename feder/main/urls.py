@@ -40,7 +40,7 @@ urlpatterns += [
     url(_(r'^about/$'), TemplateView.as_view(template_name='pages/about.html'), name="about"),
 
     # Django Admin
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/', admin.site.urls),
 
     # User management
     url(_(r'^users/'), include("feder.users.urls", namespace="users")),

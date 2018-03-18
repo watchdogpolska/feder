@@ -20,3 +20,5 @@ urlpatterns = [
     url(_(r'^(?P<pk>[\d]+)/~status$'), views.AlertStatusView.as_view(),
         name="status"),
 ]
+
+app_name = 'feder.alerts'

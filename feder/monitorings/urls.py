@@ -42,3 +42,5 @@ urlpatterns = [
     url(_(r'^(?P<slug>[\w-]+)/~assign$'), views.MonitoringAssignView.as_view(),
         name="assign"),
 ]
+
+app_name = 'feder.monitorings'

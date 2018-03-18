@@ -309,7 +309,7 @@ class AssignMessageFormView(PrefetchRelatedMixin, RaisePermissionRequiredMixin, 
     model = Message
     form_class = AssignMessageForm
     permission_object = None
-    success_url = reverse_lazy('letters:messages:list')
+    success_url = reverse_lazy('letters:messages_list')
     permission_required = 'letters.recognize_letter'
     template_name = 'letters/messages/message_assign.html'
     success_message = _("Assigned message to case '%(case)s'")

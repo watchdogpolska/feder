@@ -41,7 +41,9 @@ class Migration(migrations.Migration):
                 ('lock', models.BooleanField(default=False,
                                              help_text='Prevent of edit question to protect against destruction the data set',
                                              verbose_name='Lock of edition')),
-                ('monitoring', models.ForeignKey(verbose_name='Monitoring', to='monitorings.Monitoring')),
+                ('monitoring', models.ForeignKey(verbose_name='Monitoring',
+                                                 on_delete=django.db.models.deletion.CASCADE,
+                                                 to='monitorings.Monitoring')),
             ],
             options={
                 'ordering': ['created'],
@@ -52,6 +54,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='question',
             name='questionary',
-            field=models.ForeignKey(verbose_name='Questionary', to='questionaries.Questionary'),
+            field=models.ForeignKey(verbose_name='Questionary',
+                                    on_delete=django.db.models.deletion.CASCADE,
+                                    to='questionaries.Questionary'),
         ),
     ]

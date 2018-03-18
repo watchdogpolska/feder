@@ -59,8 +59,8 @@ class Migration(migrations.Migration):
             name='MonitoringUserObjectPermission',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('content_object', models.ForeignKey(to='monitorings.Monitoring')),
-                ('permission', models.ForeignKey(to='auth.Permission')),
+                ('content_object', models.ForeignKey(to='monitorings.Monitoring', on_delete=django.db.models.deletion.CASCADE)),
+                ('permission', models.ForeignKey(to='auth.Permission', on_delete=django.db.models.deletion.CASCADE)),
             ],
             options={
                 'abstract': False,

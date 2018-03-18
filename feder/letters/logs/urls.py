@@ -16,3 +16,5 @@ urlpatterns = [
     url(_(r'^log-(?P<pk>[\d-]+)$'), views.EmailLogDetailView.as_view(),
         name="detail"),
 ]
+
+app_name = 'feder.letters.logs'

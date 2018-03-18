@@ -23,3 +23,5 @@ urlpatterns = [
     url(regex=_(r'^~autocomplete$'), view=views.UserAutocomplete.as_view(), name='autocomplete'),
 
 ]
+
+app_name = 'feder.users'

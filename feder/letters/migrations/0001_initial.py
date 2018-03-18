@@ -40,7 +40,9 @@ class Migration(migrations.Migration):
                 ('email', models.EmailField(max_length=50, verbose_name='E-mail', blank=True)),
                 ('eml', models.FileField(upload_to=b'messages/%Y/%m/%d', null=True, verbose_name='File')),
                 ('author_institution',
-                 models.ForeignKey(verbose_name='Author (if institution)', blank=True, to='institutions.Institution',
+                 models.ForeignKey(verbose_name='Author (if institution)', blank=True,
+                                   on_delete=django.db.models.deletion.CASCADE,
+                                   to='institutions.Institution',
                                    null=True)),
             ],
             options={

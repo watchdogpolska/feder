@@ -33,7 +33,7 @@
     {% endif %}
     <tr>
         <td colspan="2">
-            <form action="{% url 'letters:messages:assign' pk=object.pk %}" method="POST">
+            <form action="{% url 'letters:messages_assign' pk=object.pk %}" method="POST">
                 {% crispy object.assign_form %}
             </form>
         </td>

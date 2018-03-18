@@ -37,3 +37,5 @@ question_urlpatterns = [
 ]
 
 urlpatterns = questionaries_urlpatterns + question_urlpatterns
+
+app_name = 'feder.questionaries'
