@@ -1,8 +1,8 @@
 from datetime import date
 
-import six
 from django.forms.fields import Field
 from django.test import TestCase
+from django.utils import six
 
 from feder.teryt.factories import JSTFactory
 from feder.teryt.models import JST

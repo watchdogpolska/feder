@@ -5,11 +5,10 @@ import hashlib
 import inspect
 import json
 import os
-from unittest import skipIf
 
-import six
 from django.test import TestCase
 from django.urls import reverse
+from django.utils import six
 from django.utils.encoding import force_text
 from vcr import VCR
 
@@ -60,11 +59,9 @@ def scrub_response(seed, fields=None):
     return before_record_response
 
 
-# No records cassettes on PY3, see https://github.com/kevin1024/vcrpy/issues/163
 my_vcr = VCR(func_path_generator=generator,
              decode_compressed_response=True,
              serializer='yaml',
-             record_mode='once',
              filter_headers=['authorization', ],
              before_record_response=scrub_response(SEED),
              path_transformer=VCR.ensure_suffix('.yaml'))
