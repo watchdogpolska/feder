@@ -195,7 +195,7 @@ class SurveyFillView(FormView):
     def form_valid(self, form):
         self.object = form.save(commit=False)
         if self.formset.is_valid():
-            if self.request.user.is_authenticated():
+            if self.request.user.is_authenticated:
                 self.object.user = self.request.user
             else:
                 self.object.light_user = self.request.light_user_new

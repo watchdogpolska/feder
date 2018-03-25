@@ -4,8 +4,9 @@ import reversion
 from autoslug.fields import AutoSlugField
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.urls import reverse
 from django.db import models
+from django.urls import reverse
+from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from guardian.models import GroupObjectPermissionBase, UserObjectPermissionBase
 from model_utils.models import TimeStampedModel
@@ -32,6 +33,7 @@ class MonitoringQuerySet(models.QuerySet):
         return self.filter(is_public=True)
 
 
+@python_2_unicode_compatible
 @reversion.register()
 class Monitoring(TimeStampedModel):
     perm_model = 'monitoringuserobjectpermission'
@@ -86,7 +88,7 @@ class Monitoring(TimeStampedModel):
             ('delete_parcelpost', _('Can delete parcel post')),
         )
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     def get_users_with_perm(self, perm=None):

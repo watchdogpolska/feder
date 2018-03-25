@@ -14,7 +14,7 @@ from django.urls import reverse
 from django.db import models
 from django.db.models import Prefetch
 from django.db.models.manager import BaseManager
-from django.utils.encoding import python_2_unicode_compatible
+from django.utils.encoding import python_2_unicode_compatible, force_text
 from django.utils.translation import ugettext_lazy as _
 from django_mailbox.models import Message
 from model_utils import Choices
@@ -130,10 +130,7 @@ class Letter(AbstractRecord):
         return _("(no subject)")
 
     def __str__(self):
-        return unicode(self.get_title())
-
-    def __unicode__(self):
-        return unicode(self.get_title())
+        return force_text(self.get_title())
 
     def get_absolute_url(self):
         return reverse('letters:details', kwargs={'pk': self.pk})

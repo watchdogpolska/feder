@@ -5,6 +5,7 @@ from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
 from feder.institutions.models import Institution
@@ -24,14 +25,16 @@ class AbstractParcelPost(AbstractRecord):
         abstract = True
 
 
+@python_2_unicode_compatible
 class IncomingParcelPost(AbstractParcelPost):
     sender = models.ForeignKey(Institution, on_delete=models.CASCADE, verbose_name=_("Sender"))
     comment = models.TextField(verbose_name=_("Comment"))
     receive_date = models.DateField(default=timezone.now, verbose_name=_("Receive date"))
+
     def get_absolute_url(self):
         return reverse('parcels:incoming-details', kwargs={'pk': str(self.pk)})
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
     class Meta:
@@ -39,6 +42,7 @@ class IncomingParcelPost(AbstractParcelPost):
         verbose_name_plural = _("Incoming parcel posts")
 
 
+@python_2_unicode_compatible
 class OutgoingParcelPost(AbstractParcelPost):
     recipient = models.ForeignKey(Institution, on_delete=models.CASCADE, verbose_name=_("Recipient"))
     post_date = models.DateField(default=timezone.now, verbose_name=_("Post date"))
@@ -46,7 +50,7 @@ class OutgoingParcelPost(AbstractParcelPost):
     def get_absolute_url(self):
         return reverse('parcels:outgoing-details', kwargs={'pk': str(self.pk)})
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
     class Meta:

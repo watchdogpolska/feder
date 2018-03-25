@@ -207,14 +207,14 @@ class ChoiceModulator(BaseSimpleModulator):
 
     def get_kwargs(self, definition):
         kw = super(ChoiceModulator, self).get_kwargs(definition)
-        kw['choices'] = enumerate(shlex.split(definition.get('choices', '').encode('utf-8')))
+        kw['choices'] = enumerate(shlex.split(definition.get('choices', '')))
         return kw
 
     def get_label_text(self, definition):
         return definition['name']
 
     def get_answer_columns(self, definition, content):
-        choices = shlex.split(definition['choices'].encode('utf-8'))
+        choices = shlex.split(definition['choices'])
         v = choices[int(content['value'])]
         if definition:
             return [v, definition['comment']]

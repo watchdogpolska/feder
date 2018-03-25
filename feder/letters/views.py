@@ -229,7 +229,7 @@ class LetterReportSpamView(ActionMessageMixin, ActionView):
         return super(LetterReportSpamView, self).get_queryset().filter(is_spam=Letter.SPAM.unknown)
 
     def action(self):
-        author = None if self.request.user.is_anonymous() else self.request.user
+        author = None if self.request.user.is_anonymous else self.request.user
         Alert.objects.create(monitoring=self.object.case.monitoring,
                              reason=_("SPAM"),
                              author=author,

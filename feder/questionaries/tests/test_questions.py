@@ -38,7 +38,8 @@ class QuestionFormTestCase(ObjectMixin, TestCase):
         form = QuestionForm(questionary=self.questionary)
         html = render_form(form)
         self.assertIn('input', html)
-        self.assertListEqual(form.fields.keys(), ['position', 'genre'])
+        self.assertSequenceEqual(sorted(form.fields.keys()),
+                                 sorted(['position', 'genre']))
 
 
 class QuestionDefinitionFormTestCase(QuestionObjectMixin, TestCase):
@@ -47,10 +48,10 @@ class QuestionDefinitionFormTestCase(QuestionObjectMixin, TestCase):
                                       instance=self.question)
         html = render_form(form)
         self.assertIn('input', html)
-        self.assertListEqual(form.fields.keys(),
-                             ['name', 'help_text', 'required',
-                              'comment', 'comment_label',
-                              'comment_help', 'comment_required'])
+        self.assertSequenceEqual(sorted(form.fields.keys()),
+                                 sorted(['name', 'help_text', 'required',
+                                         'comment', 'comment_label',
+                                         'comment_help', 'comment_required']))
 
     def test_save(self):
         self.question.definition = {}

@@ -1,3 +1,5 @@
+from collections import OrderedDict
+
 from six.moves.urllib.parse import urljoin
 import requests
 from requests import ConnectionError
@@ -13,26 +15,12 @@ class EmailLabsClient(object):
         self.s.auth = (api_key, secret_key)
         self.per_page = per_page
 
-    def assert_status_code(self, response, msg=None, status_code=200):
-        msg = msg or "Unable to visit {}. Excepted status code is {}. " \
-                     "Received {} instead".format(response.request.url,
-                                                  status_code,
-                                                  response.status_code)
-        if response.status_code != status_code:
-            raise ConnectionError(msg)
-
-    def assert_not_unauthorized(self, response, msg=None):
-        msg = msg or "Unable to authorize request to {}. Verify credentials.".format(response.request.url)
-        if response.status_code == 401:
-            raise ConnectionError(msg)
-
     def get_emails(self, **kwargs):
         url = urljoin(self.API_URI, 'emails')
         kwargs['sort'] = kwargs.get('sort', 'created_at')
         kwargs['limit'] = kwargs.get('limit', self.per_page)
-        response = self.s.get(url, params=kwargs)
-        self.assert_not_unauthorized(response)
-        self.assert_status_code(response)
+        response = self.s.get(url, params=OrderedDict(sorted(kwargs.items())))
+        response.raise_for_status()
         return response.json()['data']
 
     def get_emails_iter(self):

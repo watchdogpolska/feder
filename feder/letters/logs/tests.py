@@ -6,6 +6,7 @@ import inspect
 import json
 import os
 
+import six
 from django.test import TestCase
 from django.urls import reverse
 from django.utils.encoding import force_text
@@ -33,9 +34,12 @@ def scrub_text(x, seed):
     return hashlib.sha1(force_text(x).encode('utf-8') + seed).hexdigest()
 
 
-def generator(function):
-    filename = "{}.{}".format(function.im_class.__name__, function.__name__)
-    return os.path.join(os.path.dirname(inspect.getfile(function)),
+def generator(f):
+    if six.PY3:
+        filename = "{}.{}".format(f.__self__.__class__.__name__, f.__name__)
+    else:
+        filename = "{}.{}".format(f.im_class.__name__, f.__name__)
+    return os.path.join(os.path.dirname(inspect.getfile(f)),
                         'cassettes',
                         filename)
 
@@ -44,23 +48,22 @@ def scrub_response(seed, fields=None):
     fields = fields or ['to', 'from', 'subject', 'account']
 
     def before_record_response(response):
-        try:
-            data = json.loads(response['body']['string'])
-            for i, row in enumerate(data['data']):
-                for field in fields:
-                    if field in row:
-                        data['data'][i][field] = scrub_text(row[field], seed)
-            response['body']['string'] = json.dumps(data)
-        except ValueError:  # There is no JSON - no changes
-            pass
+        data = json.loads(response['body']['string'].decode('utf-8'))
+        for i, row in enumerate(data['data']):
+            for field in fields:
+                if field in row:
+                    data['data'][i][field] = scrub_text(row[field], seed)
+        response['body']['string'] = json.dumps(data)
         return response
 
     return before_record_response
 
 
+# No records cassettes on PY3, see https://github.com/kevin1024/vcrpy/issues/163
 my_vcr = VCR(func_path_generator=generator,
              decode_compressed_response=True,
              serializer='yaml',
+             record_mode='once' if six.PY3 else 'none',
              filter_headers=['authorization', ],
              before_record_response=scrub_response(SEED),
              path_transformer=VCR.ensure_suffix('.yaml'))
@@ -75,8 +78,7 @@ class EmailLabsClientTestCase(TestCase):
     @my_vcr.use_cassette()
     def test_get_emails_iter(self):
         client = get_emaillabs_client(per_page=20)
-        iter = client.get_emails_iter()
-        data = list(iter)
+        data = list(client.get_emails_iter())
         self.assertTrue(len(data) > 20, msg="Found {} messages.".format(len(data)))
 
 
