@@ -133,10 +133,10 @@ INSTALLED_APPS = INSTALLED_APPS + (
     'raven.contrib.django.raven_compat',
 )
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = (
     # 'raven.contrib.django.raven_compat.middleware.Sentry404CatchMiddleware',
     'raven.contrib.django.raven_compat.middleware.SentryResponseErrorIdMiddleware',
-) + MIDDLEWARE_CLASSES
+) + MIDDLEWARE
 
 EMAILLABS_APP_KEY = env('EMAILLABS_APP_KEY')
 
