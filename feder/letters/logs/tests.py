@@ -5,6 +5,7 @@ import hashlib
 import inspect
 import json
 import os
+from unittest import skipIf
 
 import six
 from django.test import TestCase
@@ -36,9 +37,9 @@ def scrub_text(x, seed):
 
 def generator(f):
     if six.PY3:
-        filename = "{}.{}".format(f.__self__.__class__.__name__, f.__name__)
+        filename = "{}.PY3.{}".format(f.__self__.__class__.__name__, f.__name__)
     else:
-        filename = "{}.{}".format(f.im_class.__name__, f.__name__)
+        filename = "{}.PY2.{}".format(f.im_class.__name__, f.__name__)
     return os.path.join(os.path.dirname(inspect.getfile(f)),
                         'cassettes',
                         filename)
@@ -53,7 +54,7 @@ def scrub_response(seed, fields=None):
             for field in fields:
                 if field in row:
                     data['data'][i][field] = scrub_text(row[field], seed)
-        response['body']['string'] = json.dumps(data)
+        response['body']['string'] = json.dumps(data).encode('utf-8')
         return response
 
     return before_record_response
@@ -63,7 +64,7 @@ def scrub_response(seed, fields=None):
 my_vcr = VCR(func_path_generator=generator,
              decode_compressed_response=True,
              serializer='yaml',
-             record_mode='once' if six.PY3 else 'none',
+             record_mode='once',
              filter_headers=['authorization', ],
              before_record_response=scrub_response(SEED),
              path_transformer=VCR.ensure_suffix('.yaml'))
