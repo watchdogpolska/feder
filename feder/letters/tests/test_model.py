@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from email import message_from_file
+import email
 
 from django.core import mail
 from django.test import TestCase
+from django.utils import six
 
 from feder.cases.factories import CaseFactory
 from feder.cases.models import Case
@@ -83,7 +84,10 @@ class ModelTestCase(TestCase):
         outgoing = SendOutgoingLetterFactory()
 
         self.assertTrue(outgoing.message_id_header)
-        message = message_from_file(outgoing.eml.file)
+        if six.PY3:
+            message = email.message_from_string(outgoing.eml.file.read().decode('utf-8'))
+        else:  # Deprecated Python 2.7 support
+            message = email.message_from_file(outgoing.eml.file)
         msg_id = normalize_msg_id(message['Message-ID'])
         self.assertEqual(outgoing.message_id_header, msg_id)
 

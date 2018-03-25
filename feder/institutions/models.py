@@ -1,6 +1,6 @@
 import reversion
 from autoslug.fields import AutoSlugField
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db import models
 from django.db.models import Count
 from django.utils.encoding import python_2_unicode_compatible
@@ -31,6 +31,7 @@ class Institution(TimeStampedModel):
                                   blank=True,
                                   verbose_name=_("Tag"))
     jst = models.ForeignKey(JST,
+                            on_delete=models.CASCADE,
                             verbose_name=_('Unit of administrative division'),
                             db_index=True)
     regon = models.CharField(max_length=14, verbose_name=_("REGON number"), unique=True, null=True, blank=True)

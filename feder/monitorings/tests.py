@@ -1,8 +1,7 @@
 from django.core import mail
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.test import TestCase
 from guardian.shortcuts import assign_perm
-from mock import Mock, mock
 
 from feder.cases.factories import CaseFactory
 from feder.cases.models import Case
@@ -17,6 +16,11 @@ from feder.users.factories import UserFactory
 from .factories import MonitoringFactory
 from .forms import MonitoringForm
 from .models import Monitoring
+
+try:
+    from unittest.mock import Mock, patch
+except ImportError:  # python 2.7<
+    from mock import Mock, patch
 
 EXAMPLE_DATA = {'name': 'foo-bar-monitoring',
                 'description': 'xyz',
@@ -151,7 +155,7 @@ class LetterListMonitoringViewTestCase(ObjectMixin, PermissionStatusMixin, TestC
     permission = []
 
     def get_url(self):
-        return reverse('monitorings:letters', kwargs={'slug': self.monitoring})
+        return reverse('monitorings:letters', kwargs={'slug': self.monitoring.slug})
 
     def test_list_display(self):
         response = self.client.get(self.get_url())
@@ -171,7 +175,7 @@ class DraftListMonitoringViewTestCase(ObjectMixin, PermissionStatusMixin, TestCa
     permission = []
 
     def get_url(self):
-        return reverse('monitorings:drafts', kwargs={'slug': self.monitoring})
+        return reverse('monitorings:drafts', kwargs={'slug': self.monitoring.slug})
 
     def test_list_display(self):
         response = self.client.get(self.get_url())
@@ -319,7 +323,7 @@ class MonitoringAssignViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
         for x in (0, 1, 2):
             self.assertEqual(mail.outbox[x].subject, "Wniosek")
 
-    @mock.patch('feder.monitorings.views.MonitoringAssignView.get_limit_simultaneously',
+    @patch('feder.monitorings.views.MonitoringAssignView.get_limit_simultaneously',
                 Mock(return_value=10))
     def test_limit_number_of_letters_sent_simultaneously(self):
         self.login_permitted_user()
@@ -333,13 +337,13 @@ class MonitoringAssignViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
 class SitemapTestCase(ObjectMixin, TestCase):
     def test_monitorings(self):
         url = reverse('sitemaps', kwargs={'section': 'monitorings'})
-        needle = reverse('monitorings:details', kwargs={'slug': self.monitoring})
+        needle = reverse('monitorings:details', kwargs={'slug': self.monitoring.slug})
         response = self.client.get(url)
         self.assertContains(response, needle)
 
     def test_monitorings_pages(self):
         url = reverse('sitemaps', kwargs={'section': 'monitorings_pages'})
-        needle = reverse('monitorings:details', kwargs={'slug': self.monitoring,
+        needle = reverse('monitorings:details', kwargs={'slug': self.monitoring.slug,
                                                         'page': 1})
         response = self.client.get(url)
         self.assertContains(response, needle)

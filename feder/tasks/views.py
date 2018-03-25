@@ -5,7 +5,7 @@ from braces.views import (FormValidMessageMixin, PrefetchRelatedMixin,
 from cached_property import cached_property
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.urlresolvers import reverse, reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import (CreateView, DeleteView, DetailView, FormView,
@@ -195,7 +195,7 @@ class SurveyFillView(FormView):
     def form_valid(self, form):
         self.object = form.save(commit=False)
         if self.formset.is_valid():
-            if self.request.user.is_authenticated():
+            if self.request.user.is_authenticated:
                 self.object.user = self.request.user
             else:
                 self.object.light_user = self.request.light_user_new

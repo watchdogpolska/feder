@@ -218,7 +218,8 @@ class DisabledWhenFilterSetMixin(django_filters.filterset.BaseFilterSet):
     @property
     def qs(self):
         if not hasattr(self, '_qs') and self.is_bound and self.form.is_valid():
-            for name, filter_ in six.iteritems(self.filters):
+            for name in list(self.filters.keys()):
+                filter_ = self.filters[name]
                 value = self.form.cleaned_data.get(name)
                 enabled_test = getattr(filter_, 'check_enabled', lambda _: True)  # legacy-filter compatible
                 if not enabled_test(self.form.cleaned_data):

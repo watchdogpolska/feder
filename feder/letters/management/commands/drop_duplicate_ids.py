@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
 from django.db.models import Count
@@ -30,11 +31,11 @@ class Command(BaseCommand):
                         deleted_count += 1
                     ids.append(letter.message.message_id)
             case_count += 1
-        self.stdout.write("There is {} cases containing {} letters of which {} {} removed.".
+        self.stdout.write(self.style.SUCCESS("There is {} cases containing {} letters of which {} {} removed.".
                           format(case_count,
                                  letter_count,
                                  deleted_count,
-                                 'were' if self.delete else 'will be'))
+                                 'were' if self.delete else 'will be')))
 
     def get_iter(self, qs, **kwargs):
         if not self.no_progress:
@@ -42,7 +43,7 @@ class Command(BaseCommand):
         try:
             from tqdm import tqdm
         except ImportError:
-            raise CommandError("Missing dependency. Please, install tqdm or use '--no-progress'")
+            raise CommandError(self.style.ERROR("Missing dependency. Please, install tqdm or use '--no-progress'"))
         return tqdm(qs, total=qs.count(), file=self.stderr, **kwargs)
 
     def get_queryset(self):
@@ -52,7 +53,7 @@ class Command(BaseCommand):
 
     def delete_letter(self, letter):
         if not self.no_progress:
-            self.stdout.write("Going  to delete letter {} in case {}".format(letter.id, letter.record.case_id))
+            self.stdout.write("Going to delete letter {} in case {}".format(letter.id, letter.record.case_id))
 
         if not self.delete:
             return

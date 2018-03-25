@@ -3,11 +3,12 @@ from __future__ import division
 from itertools import groupby
 
 from django.conf import settings
-from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models import Q
 from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
+from django.urls import reverse
+from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from jsonfield import JSONField
 from model_utils.models import TimeStampedModel
@@ -61,10 +62,12 @@ class TaskQuerySet(models.QuerySet):
                            case__institution__jst__lft__range=(jst.lft, jst.rght))
 
 
+@python_2_unicode_compatible
 class Task(TimeStampedModel):
     name = models.CharField(max_length=75, verbose_name=_("Name"))
-    case = models.ForeignKey(Case, verbose_name=_("Case"))
+    case = models.ForeignKey(Case, on_delete=models.CASCADE, verbose_name=_("Case"))
     questionary = models.ForeignKey(Questionary, verbose_name=_("Questionary"),
+                                    on_delete=models.CASCADE,
                                     help_text=_("Questionary to fill by user as task"))
     survey_required = models.SmallIntegerField(verbose_name=_("Required survey count"),
                                                help_text=TASK_REQUIRED_TEXT,
@@ -72,7 +75,7 @@ class Task(TimeStampedModel):
     survey_done = models.SmallIntegerField(verbose_name=_("Done survey count"), default=0)
     objects = TaskQuerySet.as_manager()
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     def get_absolute_url(self):
@@ -131,21 +134,21 @@ class SurveyQuerySet(models.QuerySet):
         return self.prefetch_related(models.Prefetch('answer_set', queryset=qs))
 
     def exclude_user(self, user, light_user):
-        if not (user.is_authenticated() or light_user):
+        if not (user.is_authenticated or light_user):
             return self
         filter = Q()
-        if user.is_authenticated():
+        if user.is_authenticated:
             filter = filter | Q(user=user)
         if light_user:
             filter = filter | Q(light_user=light_user)
         return self.exclude(filter)
 
     def of_user(self, user, light_user):
-        if not (user.is_authenticated() or light_user):
+        if not (user.is_authenticated or light_user):
             return self.none()
 
         filter = Q()
-        if user.is_authenticated():
+        if user.is_authenticated:
             filter = filter | Q(user=user)
         if light_user:
             filter = filter | Q(light_user=light_user)
@@ -159,9 +162,9 @@ class SurveyQuerySet(models.QuerySet):
 
 
 class Survey(TimeStampedModel):
-    task = models.ForeignKey(Task)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True)
-    light_user = models.ForeignKey(LightUser, null=True)
+    task = models.ForeignKey(Task, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
+    light_user = models.ForeignKey(LightUser, on_delete=models.CASCADE, null=True)
     objects = SurveyQuerySet.as_manager()
     credibility = models.PositiveIntegerField(default=0, verbose_name=_("Credibility"))
 
@@ -179,8 +182,8 @@ class Survey(TimeStampedModel):
 
 
 class Answer(models.Model):
-    survey = models.ForeignKey(Survey)
-    question = models.ForeignKey(Question)
+    survey = models.ForeignKey(Survey, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
     content = JSONField()
 
     def get_answer_text(self):

@@ -1,10 +1,11 @@
 from autoslug.fields import AutoSlugField
 from django.conf import settings
-from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models import Max, Prefetch, Q
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.urls import reverse
+from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from model_utils.models import TimeStampedModel
 
@@ -50,12 +51,13 @@ class CaseQuerySet(models.QuerySet):
         return self.annotate(record_max=Max('record__created'))
 
 
+@python_2_unicode_compatible
 class Case(TimeStampedModel):
     name = models.CharField(verbose_name=_("Name"), max_length=50)
     slug = AutoSlugField(populate_from='name', verbose_name=_("Slug"), unique=True)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
-    monitoring = models.ForeignKey(Monitoring, verbose_name=_("Monitoring"))
-    institution = models.ForeignKey(Institution, verbose_name=_("Institution"))
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    monitoring = models.ForeignKey(Monitoring, on_delete=models.CASCADE, verbose_name=_("Monitoring"))
+    institution = models.ForeignKey(Institution, on_delete=models.CASCADE, verbose_name=_("Institution"))
     email = models.CharField(max_length=75, db_index=True, unique=True)
     objects = CaseQuerySet.as_manager()
 
@@ -65,7 +67,7 @@ class Case(TimeStampedModel):
         ordering = ['created', ]
         get_latest_by = 'created'
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     def get_absolute_url(self):
@@ -84,5 +86,5 @@ def my_callback(sender, instance, *args, **kwargs):
 
 
 class Alias(models.Model):
-    case = models.ForeignKey(Case, verbose_name=_("Case"))
+    case = models.ForeignKey(Case, on_delete=models.CASCADE, verbose_name=_("Case"))
     email = models.CharField(max_length=75, db_index=True, unique=True)

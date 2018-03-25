@@ -19,7 +19,7 @@ class LightUserQuerySet(models.QuerySet):
 @python_2_unicode_compatible
 class LightUser(TimeStampedModel):
     ip = models.GenericIPAddressField()
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
     objects = LightUserQuerySet.as_manager()
 
     class Meta:

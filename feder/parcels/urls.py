@@ -22,3 +22,5 @@ urlpatterns = [
     url(r'^outgoing-(?P<pk>[\w-]+)/~delete$', views.OutgoingParcelPostDeleteView.as_view(),
         name="outgoing-delete"),
 ]
+
+app_name = 'feder.parcels'

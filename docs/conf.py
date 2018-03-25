@@ -312,8 +312,8 @@ def process_django_model(app, what, name, obj, options, lines):
             if isinstance(field, (models.ForeignKey, models.OneToOneField, models.ManyToManyField)):
                 lines.append(':type %s: %s to :class:`%s.%s`' % (field.attname,
                                                                  type(field).__name__,
-                                                                 field.rel.to.__module__,
-                                                                 field.rel.to.__name__))
+                                                                 field.related_model.__module__,
+                                                                 field.related_model.__name__))
             else:
                 lines.append(':type %s: %s' % (field.attname, type(field).__name__))
     # Return the extended docstring

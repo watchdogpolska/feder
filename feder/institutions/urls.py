@@ -24,3 +24,5 @@ urlpatterns = [
     url(_(r'^~autocomplete-tag$'), views.TagAutocomplete.as_view(),
         name="tag_autocomplete"),
 ]
+
+app_name = 'feder.institutions'

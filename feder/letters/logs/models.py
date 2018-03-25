@@ -32,8 +32,8 @@ class EmailQuerySet(models.QuerySet):
 @python_2_unicode_compatible
 class EmailLog(TimeStampedModel):
     status = models.CharField(choices=STATUS, default=STATUS.unknown, max_length=20)
-    case = models.ForeignKey(Case, max_length=_("Case"))
-    letter = models.OneToOneField(Letter, max_length=_("Letter"), null=True, blank=True)
+    case = models.ForeignKey(Case, on_delete=models.CASCADE, max_length=_("Case"))
+    letter = models.OneToOneField(Letter, on_delete=models.CASCADE, max_length=_("Letter"), null=True, blank=True)
     email_id = models.CharField(verbose_name=_("Message-ID"), max_length=255)
     to = models.CharField(verbose_name=_("To"), max_length=255)
     objects = EmailQuerySet.as_manager()
@@ -79,7 +79,7 @@ class LogRecordQuerySet(models.QuerySet):
 
 @python_2_unicode_compatible
 class LogRecord(TimeStampedModel):
-    email = models.ForeignKey(EmailLog, verbose_name=_("Email"))
+    email = models.ForeignKey(EmailLog, on_delete=models.CASCADE, verbose_name=_("Email"))
     data = JSONField()
     objects = LogRecordQuerySet.as_manager()
 

@@ -10,11 +10,11 @@ from django.contrib.auth import get_user_model
 from django.core.files.base import ContentFile
 from django.core.mail import EmailMessage
 from django.core.mail.message import make_msgid
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db import models
 from django.db.models import Prefetch
 from django.db.models.manager import BaseManager
-from django.utils.encoding import python_2_unicode_compatible
+from django.utils.encoding import python_2_unicode_compatible, force_text
 from django.utils.translation import ugettext_lazy as _
 from django_mailbox.models import Message
 from model_utils import Choices
@@ -66,9 +66,13 @@ class Letter(AbstractRecord):
     SPAM = Choices((0, 'unknown', _('Unknown')),
                    (1, 'spam', _('Spam')),
                    (2, 'non_spam', _('Non-spam'),))
-    author_user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("Author (if user)"),
+    author_user = models.ForeignKey(to=settings.AUTH_USER_MODEL,
+                                    on_delete=models.CASCADE,
+                                    verbose_name=_("Author (if user)"),
                                     null=True, blank=True)
-    author_institution = models.ForeignKey(Institution, verbose_name=_("Author (if institution)"),
+    author_institution = models.ForeignKey(Institution,
+                                           on_delete=models.CASCADE,
+                                           verbose_name=_("Author (if institution)"),
                                            null=True, blank=True)
     title = models.CharField(verbose_name=_("Title"), max_length=200)
     body = models.TextField(verbose_name=_("Text"))
@@ -77,7 +81,10 @@ class Letter(AbstractRecord):
     note = models.TextField(verbose_name=_("Comments from editor"), blank=True)
     is_spam = models.IntegerField(choices=SPAM, default=SPAM.unknown, db_index=True)
     is_draft = models.BooleanField(verbose_name=_("Is draft?"), default=True)
-    mark_spam_by = models.ForeignKey(to=settings.AUTH_USER_MODEL, null=True, blank=True, verbose_name=_("Spam marker"),
+    mark_spam_by = models.ForeignKey(to=settings.AUTH_USER_MODEL,
+                                     null=True, blank=True,
+                                     on_delete=models.CASCADE,
+                                     verbose_name=_("Spam marker"),
                                      help_text=_("The person who marked it as spam"),
                                      related_name="letter_mark_spam_by")
     mark_spam_at = models.DateTimeField(null=True, blank=True, verbose_name=_("Time of mark as spam"),
@@ -91,6 +98,7 @@ class Letter(AbstractRecord):
                            blank=True)
     message = models.ForeignKey(Message,
                                 null=True,
+                                on_delete=models.CASCADE,
                                 verbose_name=_("Message"),
                                 help_text=_("Message registerd by django-mailbox"))
     objects = LetterManager()
@@ -122,10 +130,7 @@ class Letter(AbstractRecord):
         return _("(no subject)")
 
     def __str__(self):
-        return unicode(self.get_title())
-
-    def __unicode__(self):
-        return unicode(self.get_title())
+        return force_text(self.get_title())
 
     def get_absolute_url(self):
         return reverse('letters:details', kwargs={'pk': self.pk})
@@ -198,7 +203,7 @@ class Letter(AbstractRecord):
 
 @python_2_unicode_compatible
 class Attachment(AttachmentBase):
-    letter = models.ForeignKey(Letter)
+    letter = models.ForeignKey(Letter, on_delete=models.CASCADE)
 
     def delete(self, *args, **kwargs):
         self.attachment.delete()

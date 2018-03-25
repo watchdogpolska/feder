@@ -6,7 +6,7 @@ from braces.views import (FormValidMessageMixin, SelectRelatedMixin,
 from cached_property import cached_property
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.syndication.views import Feed
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404
 from django.utils.datetime_safe import datetime
 from django.utils.encoding import force_text
@@ -229,7 +229,7 @@ class LetterReportSpamView(ActionMessageMixin, ActionView):
         return super(LetterReportSpamView, self).get_queryset().filter(is_spam=Letter.SPAM.unknown)
 
     def action(self):
-        author = None if self.request.user.is_anonymous() else self.request.user
+        author = None if self.request.user.is_anonymous else self.request.user
         Alert.objects.create(monitoring=self.object.case.monitoring,
                              reason=_("SPAM"),
                              author=author,
@@ -309,7 +309,7 @@ class AssignMessageFormView(PrefetchRelatedMixin, RaisePermissionRequiredMixin, 
     model = Message
     form_class = AssignMessageForm
     permission_object = None
-    success_url = reverse_lazy('letters:messages:list')
+    success_url = reverse_lazy('letters:messages_list')
     permission_required = 'letters.recognize_letter'
     template_name = 'letters/messages/message_assign.html'
     success_message = _("Assigned message to case '%(case)s'")

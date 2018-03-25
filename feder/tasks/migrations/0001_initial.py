@@ -58,8 +58,11 @@ class Migration(migrations.Migration):
                                                              help_text='Define how much answers do you need to mark tasks as done\n or count progress',
                                                              verbose_name='Required survey count')),
                 ('survey_done', models.SmallIntegerField(default=0, verbose_name='Done survey count')),
-                ('case', models.ForeignKey(verbose_name='Case', to='cases.Case')),
+                ('case', models.ForeignKey(verbose_name='Case',
+                                           to='cases.Case',
+                                           on_delete=django.db.models.deletion.CASCADE)),
                 ('questionary', models.ForeignKey(verbose_name='Questionary', to='questionaries.Questionary',
+                                                  on_delete=django.db.models.deletion.CASCADE,
                                                   help_text='Questionary to fill by user as task')),
             ],
             options={
@@ -71,6 +74,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='survey',
             name='task',
-            field=models.ForeignKey(to='tasks.Task'),
+            field=models.ForeignKey(to='tasks.Task', on_delete=django.db.models.deletion.CASCADE),
         ),
     ]

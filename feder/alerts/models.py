@@ -2,7 +2,7 @@ from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.core.mail import send_mail
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -26,18 +26,20 @@ class AlertQuerySet(models.QuerySet):
 
 @python_2_unicode_compatible
 class Alert(TimeStampedModel):
-    monitoring = models.ForeignKey(Monitoring, verbose_name=_("Monitoring"))
+    monitoring = models.ForeignKey(Monitoring, on_delete=models.CASCADE, verbose_name=_("Monitoring"))
     reason = models.TextField(verbose_name=_("Reason"))
     author = models.ForeignKey(settings.AUTH_USER_MODEL,
+                               on_delete=models.CASCADE,
                                verbose_name=_("Author"),
                                related_name="alert_author",
                                null=True)
     solver = models.ForeignKey(settings.AUTH_USER_MODEL,
+                               on_delete=models.CASCADE,
                                verbose_name=_("Solver"),
                                related_name="alert_solver",
                                null=True)
     status = models.BooleanField(default=False, verbose_name=_("Status"))
-    content_type = models.ForeignKey(ContentType, null=True)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, null=True)
     object_id = models.PositiveIntegerField(null=True)
     link_object = GenericForeignKey()
     objects = AlertQuerySet.as_manager()

@@ -1,0 +1,185 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept: ['*/*']
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      User-Agent: [python-requests/2.18.4]
+    method: GET
+    uri: https://api.emaillabs.net.pl/api/emails?limit=20&sort=created_at
+  response:
+    body: {string: '{"number_of_elements": 552, "data": [{"injected_time": "2018-03-18
+        16:25:05", "message_id": "20180318152505.46100.53067@localhost", "tags": [],
+        "open_desc": null, "from": "95262c28b3d259f319e732097e167840e851a543", "tracking":
+        [], "to": "a72adc4d79e168cc0e16572fb53c9e2a294544e5", "account": "45c70bc5d3e80501a18b922281585d38c6c9c425",
+        "created_at": "2018-03-18 16:25:05", "open_time": null, "updated_at": null,
+        "postfix_id": ["40430d2SHPz6V07c", "40430d3Gk5z6Q5ql"], "ok_desc": "250 OK
+        id=1exaBH-0003VY-4m", "vps": "smtp2-87", "subject": "1b75d6b75515c8aab91314b010ea654186aa950a",
+        "id": "5aae858c4e1a741897bb2d9c", "ok_time": "2018-03-18 16:25:07", "uid":
+        "de7efbe9a56f19a421064f8c4daeb847"}, {"injected_time": "2018-03-18 16:25:05",
+        "message_id": "20180318152505.46100.94678@localhost", "tags": [], "open_desc":
+        null, "from": "95262c28b3d259f319e732097e167840e851a543", "tracking": [],
+        "to": "0730d29ffb4a8e831a2e240d73584e1ea0a61657", "account": "45c70bc5d3e80501a18b922281585d38c6c9c425",
+        "created_at": "2018-03-18 16:25:05", "open_time": null, "updated_at": null,
+        "postfix_id": ["40430d2rLqz6fsq4", "40430d3jyBz6Q5qs"], "ok_desc": "250 OK
+        id=1exaBI-0003Vu-44", "vps": "smtp2-87", "subject": "1b75d6b75515c8aab91314b010ea654186aa950a",
+        "id": "5aae858d4e1a741897bb2dbd", "ok_time": "2018-03-18 16:25:08", "uid":
+        "3a9b4ec31b5796e8472402c908b3110a"}, {"injected_time": "2018-03-18 16:25:05",
+        "message_id": "20180318152504.46100.670@localhost", "tags": [], "open_desc":
+        null, "from": "e3f987fe3e0a34d3913a7579a724539ecce7e584", "tracking": [],
+        "to": "0730d29ffb4a8e831a2e240d73584e1ea0a61657", "account": "45c70bc5d3e80501a18b922281585d38c6c9c425",
+        "created_at": "2018-03-18 16:25:05", "open_time": null, "updated_at": null,
+        "postfix_id": ["40430c6t6Zz23lBL", "40430d0gxdz6Q5qp"], "ok_desc": "250 OK
+        id=1exaBG-0003Un-2N", "vps": "smtp2-87", "subject": "a2bf87f1143dff87ca18d3c4ca31fa387ade4af1",
+        "id": "5aae858d4e1a741897bb2dc6", "ok_time": "2018-03-18 16:25:06", "uid":
+        "90522fd47a52f4495c3987d0f2334106"}, {"injected_time": "2018-03-18 16:25:05",
+        "message_id": "20180318152504.46100.670@localhost", "tags": [], "open_desc":
+        null, "from": "e3f987fe3e0a34d3913a7579a724539ecce7e584", "tracking": [],
+        "to": "a72adc4d79e168cc0e16572fb53c9e2a294544e5", "account": "45c70bc5d3e80501a18b922281585d38c6c9c425",
+        "created_at": "2018-03-18 16:25:05", "open_time": null, "updated_at": null,
+        "postfix_id": ["40430c6t6Zz23lBL", "40430d0jHpz6Q5qc"], "ok_desc": "250 OK
+        id=1exaBH-0003VZ-4l", "vps": "smtp2-87", "subject": "a2bf87f1143dff87ca18d3c4ca31fa387ade4af1",
+        "id": "5aae858d4e1a741897bb2e2f", "ok_time": "2018-03-18 16:25:07", "uid":
+        "55207ef65ed1dce24b6f025b74d7e4ac"}, {"injected_time": "2018-03-18 16:25:05",
+        "message_id": "20180318152504.46100.66195@localhost", "tags": [], "open_desc":
+        null, "from": "e3f987fe3e0a34d3913a7579a724539ecce7e584", "tracking": [],
+        "to": "70468e785c483d46b8216e66af8e6045484d565f", "account": "45c70bc5d3e80501a18b922281585d38c6c9c425",
+        "created_at": "2018-03-18 16:25:05", "open_time": null, "updated_at": null,
+        "postfix_id": ["40430c5jyPz6jrBt", "40430d031yz6Q5qj"], "ok_desc": "250 2.0.0
+        Ok: queued as 2B989503685", "vps": "smtp2-87", "subject": "7c601110b25f36f04a3355e2479e3244478d1875",
+        "id": "5aae858d4e1a741897bb2eaa", "ok_time": "2018-03-18 16:25:05", "uid":
+        "d8ab64799d174a6d315a6e274cf7bcd7"}, {"injected_time": "2018-03-18 16:25:05",
+        "message_id": "20180318152504.46100.28078@localhost", "tags": [], "open_desc":
+        null, "from": "95262c28b3d259f319e732097e167840e851a543", "tracking": [],
+        "to": "70468e785c483d46b8216e66af8e6045484d565f", "account": "45c70bc5d3e80501a18b922281585d38c6c9c425",
+        "created_at": "2018-03-18 16:25:05", "open_time": null, "updated_at": null,
+        "postfix_id": ["40430d0swvz6jrBt", "40430d1tkLz6Q5qm"], "ok_desc": "250 2.0.0
+        Ok: queued as 5AD33503688", "vps": "smtp2-87", "subject": "59fe73dadfdc4432a86a324407c70264f59bb7fa",
+        "id": "5aae858d4e1a741897bb2eab", "ok_time": "2018-03-18 16:25:05", "uid":
+        "c3eaa618d544c8290d532b5c0a0c316c"}, {"injected_time": "2018-03-18 18:56:39",
+        "message_id": "0", "tags": [], "open_desc": "ok", "from": "2e5be091caa5ad187e924e523651a483cff1881d",
+        "tracking": [], "to": "64b8dced81c2c7d21290f89116ee5d257d249662", "account":
+        "45c70bc5d3e80501a18b922281585d38c6c9c425", "created_at": "2018-03-18 18:56:39",
+        "open_time": "2018-03-24 21:12:57", "updated_at": null, "postfix_id": ["4046MV5k3Yz8rWxh",
+        "4046MV6vf1z6Q5rp"], "ok_desc": "250 OK id=1excXv-0000Fo-Q8", "vps": "smtp2-87",
+        "subject": "c8c66afdcc9c6ad2f745fe472fd5e21fb2ce4eb9", "id": "5aaea8f44e1a741897c0aa34",
+        "ok_time": "2018-03-18 18:56:40", "uid": "452a2462c3643247e801f573ca8c94bf"},
+        {"injected_time": "2018-03-18 20:05:38", "message_id": "0", "tags": [], "open_desc":
+        null, "from": "2e5be091caa5ad187e924e523651a483cff1881d", "tracking": [],
+        "to": "64b8dced81c2c7d21290f89116ee5d257d249662", "account": "45c70bc5d3e80501a18b922281585d38c6c9c425",
+        "created_at": "2018-03-18 20:05:38", "open_time": null, "updated_at": null,
+        "postfix_id": ["4047v64LfZz6V07Z", "4047v65Sg6z6Q5s2"], "ok_desc": "250 OK
+        id=1exdch-0000Nd-JJ", "vps": "smtp2-87", "subject": "da606a6889ebcc8cba271b0d1c87451bd414ae96",
+        "id": "5aaeb91e4e1a741897c34368", "ok_time": "2018-03-18 20:05:40", "uid":
+        "081a218533c954390983e09663f3bb46"}, {"injected_time": "2018-03-18 23:40:04",
+        "message_id": "20180318224004.15992.99753@localhost", "tags": [], "open_desc":
+        null, "from": "dc0f193bd416727924695580b301a3b0872637d3", "tracking": [],
+        "to": "a72adc4d79e168cc0e16572fb53c9e2a294544e5", "account": "45c70bc5d3e80501a18b922281585d38c6c9c425",
+        "created_at": "2018-03-18 23:40:04", "open_time": null, "updated_at": null,
+        "postfix_id": ["404DfX4GczzpX6R", "404DfX585Lz6Q6VW"], "ok_desc": "250 OK
+        id=1exgyD-0004Of-HB", "vps": "smtp2-87", "subject": "446971af42e8508a08ba928b1ef00ed1422da9c6",
+        "id": "5aaeeb814e1a741897c5ea9f", "ok_time": "2018-03-18 23:40:06", "uid":
+        "b1490a8024d4a9ebd23a395ab1662268"}, {"injected_time": "2018-03-18 23:40:04",
+        "message_id": "20180318224004.15992.81912@localhost", "tags": [], "open_desc":
+        null, "from": "dc0f193bd416727924695580b301a3b0872637d3", "tracking": [],
+        "to": "f9ed247427530a8e54e9bc90f77241d23e3f7cd2", "account": "45c70bc5d3e80501a18b922281585d38c6c9c425",
+        "created_at": "2018-03-18 23:40:04", "open_time": null, "updated_at": null,
+        "postfix_id": ["404DfX2YRWz6V07W", "404DfX3RJ0z6Q6VS"], "ok_desc": "250 2.0.0
+        Ok: queued as 00CF0511AC2", "vps": "smtp2-87", "subject": "59fe73dadfdc4432a86a324407c70264f59bb7fa",
+        "id": "5aaeeb824e1a741897c5eaf5", "ok_time": "2018-03-18 23:40:04", "uid":
+        "3a684589fb28a95bb5ebd54108febe04"}, {"injected_time": "2018-03-18 23:40:04",
+        "message_id": "20180318224003.15992.2717@localhost", "tags": [], "open_desc":
+        null, "from": "e3f987fe3e0a34d3913a7579a724539ecce7e584", "tracking": [],
+        "to": "f9ed247427530a8e54e9bc90f77241d23e3f7cd2", "account": "45c70bc5d3e80501a18b922281585d38c6c9c425",
+        "created_at": "2018-03-18 23:40:04", "open_time": null, "updated_at": null,
+        "postfix_id": ["404DfX1NqTz8jcgX", "404DfX5NBZz6Q6VS"], "ok_desc": "250 2.0.0
+        Ok: queued as 44AC0519975", "vps": "smtp2-87", "subject": "7c601110b25f36f04a3355e2479e3244478d1875",
+        "id": "5aaeeb824e1a741897c5eb4d", "ok_time": "2018-03-18 23:40:05", "uid":
+        "9bcbd124afd93a5c501105c7110bdc90"}, {"injected_time": "2018-03-18 23:40:04",
+        "message_id": "20180318224004.15992.56116@localhost", "tags": [], "open_desc":
+        null, "from": "e3f987fe3e0a34d3913a7579a724539ecce7e584", "tracking": [],
+        "to": "0730d29ffb4a8e831a2e240d73584e1ea0a61657", "account": "45c70bc5d3e80501a18b922281585d38c6c9c425",
+        "created_at": "2018-03-18 23:40:04", "open_time": null, "updated_at": null,
+        "postfix_id": ["404DfX28H6zBTX0J", "404DfX5VB3z6Q6XB"], "ok_desc": "250 OK
+        id=1exgyE-0004P3-JD", "vps": "smtp2-87", "subject": "f9f1eaad585875d1534a6a52906e7aca731dad25",
+        "id": "5aaeeb824e1a741897c5eb60", "ok_time": "2018-03-18 23:40:07", "uid":
+        "c0738c285e977a4984aa94e402e93add"}, {"injected_time": "2018-03-18 23:40:04",
+        "message_id": "20180318224004.15992.79344@localhost", "tags": [], "open_desc":
+        null, "from": "dc0f193bd416727924695580b301a3b0872637d3", "tracking": [],
+        "to": "0730d29ffb4a8e831a2e240d73584e1ea0a61657", "account": "45c70bc5d3e80501a18b922281585d38c6c9c425",
+        "created_at": "2018-03-18 23:40:04", "open_time": null, "updated_at": null,
+        "postfix_id": ["404DfX4hpSz8rWxh", "404DfX5fZLz6Q6XC"], "ok_desc": "250 OK
+        id=1exgyF-0004PN-KT", "vps": "smtp2-87", "subject": "446971af42e8508a08ba928b1ef00ed1422da9c6",
+        "id": "5aaeeb824e1a741897c5eb6b", "ok_time": "2018-03-18 23:40:08", "uid":
+        "55d3f51a508d4f01453f54b1246cddee"}, {"injected_time": "2018-03-18 23:40:04",
+        "message_id": "20180318224004.15992.56116@localhost", "tags": [], "open_desc":
+        null, "from": "e3f987fe3e0a34d3913a7579a724539ecce7e584", "tracking": [],
+        "to": "a72adc4d79e168cc0e16572fb53c9e2a294544e5", "account": "45c70bc5d3e80501a18b922281585d38c6c9c425",
+        "created_at": "2018-03-18 23:40:04", "open_time": null, "updated_at": null,
+        "postfix_id": ["404DfX28H6zBTX0J", "404DfX5QlPz6Q6X5"], "ok_desc": "250 OK
+        id=1exgyE-0004P2-JD", "vps": "smtp2-87", "subject": "f9f1eaad585875d1534a6a52906e7aca731dad25",
+        "id": "5aaeeb834e1a741897c5ebea", "ok_time": "2018-03-18 23:40:08", "uid":
+        "b2b0c23838dbf2342f14e19776dd8de0"}, {"injected_time": "2018-03-19 00:05:04",
+        "message_id": "20180318230504.18030.10541@localhost", "tags": [], "open_desc":
+        null, "from": "65ca13c75133f2b5459d2f5b54f87903edfa4baf", "tracking": [],
+        "to": "0730d29ffb4a8e831a2e240d73584e1ea0a61657", "account": "45c70bc5d3e80501a18b922281585d38c6c9c425",
+        "created_at": "2018-03-19 00:05:04", "open_time": null, "updated_at": null,
+        "postfix_id": ["404FCN2WH6z3GDMp", "404FCN3Hj9z6Q6VW"], "ok_desc": "250 OK
+        id=1exhMQ-0000w8-Bg", "vps": "smtp2-87", "subject": "f4e6f16afe27910bc80838142dc5aac81452b1a8",
+        "id": "5aaef1a74e1a741897c62219", "ok_time": "2018-03-19 00:05:07", "uid":
+        "9a60baabdf08dd97f2ef339f0b9d2f19"}, {"injected_time": "2018-03-19 00:05:04",
+        "message_id": "20180318230503.18030.65212@localhost", "tags": [], "open_desc":
+        null, "from": "65ca13c75133f2b5459d2f5b54f87903edfa4baf", "tracking": [],
+        "to": "c3c863d096f1ceeae708080f5cfde92bc0bfa987", "account": "45c70bc5d3e80501a18b922281585d38c6c9c425",
+        "created_at": "2018-03-19 00:05:04", "open_time": null, "updated_at": null,
+        "postfix_id": ["404FCN0Zczz3GDMp", "404FCN1Vczz6Q6X5"], "ok_desc": "250 2.0.0
+        Ok: queued as AF9FB5063A4", "vps": "smtp2-87", "subject": "59fe73dadfdc4432a86a324407c70264f59bb7fa",
+        "id": "5aaef1a74e1a741897c62241", "ok_time": "2018-03-19 00:05:04", "uid":
+        "8249bd741bab7b719aa71691ba2a2170"}, {"injected_time": "2018-03-19 00:05:04",
+        "message_id": "20180318230504.18030.47609@localhost", "tags": [], "open_desc":
+        null, "from": "65ca13c75133f2b5459d2f5b54f87903edfa4baf", "tracking": [],
+        "to": "a72adc4d79e168cc0e16572fb53c9e2a294544e5", "account": "45c70bc5d3e80501a18b922281585d38c6c9c425",
+        "created_at": "2018-03-19 00:05:04", "open_time": null, "updated_at": null,
+        "postfix_id": ["404FCN2WHwz8rWyc", "404FCN3Hyjz6Q6Wy"], "ok_desc": "250 OK
+        id=1exhMR-0001F6-B4", "vps": "smtp2-87", "subject": "f4e6f16afe27910bc80838142dc5aac81452b1a8",
+        "id": "5aaef1a84e1a741897c6232c", "ok_time": "2018-03-19 00:05:08", "uid":
+        "990dd14e65e858f9ad9f83979aa02b72"}, {"injected_time": "2018-03-19 00:05:04",
+        "message_id": "20180318230503.18030.43185@localhost", "tags": [], "open_desc":
+        null, "from": "e3f987fe3e0a34d3913a7579a724539ecce7e584", "tracking": [],
+        "to": "c3c863d096f1ceeae708080f5cfde92bc0bfa987", "account": "45c70bc5d3e80501a18b922281585d38c6c9c425",
+        "created_at": "2018-03-19 00:05:04", "open_time": null, "updated_at": null,
+        "postfix_id": ["404FCM6LF5z6jrC4", "404FCN0Bf5z6Q6VS"], "ok_desc": "250 2.0.0
+        Ok: queued as 8B3DC5086A4", "vps": "smtp2-87", "subject": "7c601110b25f36f04a3355e2479e3244478d1875",
+        "id": "5aaef1a84e1a741897c6243b", "ok_time": "2018-03-19 00:05:04", "uid":
+        "0896d65efcd8996324a5088f709b5d6c"}, {"injected_time": "2018-03-19 00:05:04",
+        "message_id": "20180318230503.18030.71148@localhost", "tags": [], "open_desc":
+        null, "from": "e3f987fe3e0a34d3913a7579a724539ecce7e584", "tracking": [],
+        "to": "0730d29ffb4a8e831a2e240d73584e1ea0a61657", "account": "45c70bc5d3e80501a18b922281585d38c6c9c425",
+        "created_at": "2018-03-19 00:05:04", "open_time": null, "updated_at": null,
+        "postfix_id": ["404FCN0HlMz6fspL", "404FCN1FKzz6Q6Vf"], "ok_desc": "250 OK
+        id=1exhMQ-0000w7-Bi", "vps": "smtp2-87", "subject": "1b7e0e157630caab3bdd6aca3af2213ece78036e",
+        "id": "5aaef1a84e1a741897c624d7", "ok_time": "2018-03-19 00:05:07", "uid":
+        "752d737664e8c74dce3d2080bbc8af3c"}, {"injected_time": "2018-03-19 00:05:04",
+        "message_id": "20180318230503.18030.71148@localhost", "tags": [], "open_desc":
+        null, "from": "e3f987fe3e0a34d3913a7579a724539ecce7e584", "tracking": [],
+        "to": "a72adc4d79e168cc0e16572fb53c9e2a294544e5", "account": "45c70bc5d3e80501a18b922281585d38c6c9c425",
+        "created_at": "2018-03-19 00:05:04", "open_time": null, "updated_at": null,
+        "postfix_id": ["404FCN0HlMz6fspL", "404FCN187kz6Q6Vb"], "ok_desc": "250 OK
+        id=1exhMP-0000Ys-24", "vps": "smtp2-87", "subject": "1b7e0e157630caab3bdd6aca3af2213ece78036e",
+        "id": "5aaef1a84e1a741897c625fc", "ok_time": "2018-03-19 00:05:06", "uid":
+        "5689ca96539bc7133d85aa8db4c5ef4c"}], "req_id": "Wr8LBNUgRU", "message": null,
+        "status": "success", "code": 200}'}
+    headers:
+      Cache-Control: ['no-store, no-cache, must-revalidate, post-check=0, pre-check=0']
+      Content-Type: [text/html;charset=UTF-8]
+      Date: ['Sun, 25 Mar 2018 22:28:23 GMT']
+      Expires: ['Thu, 19 Nov 1981 08:52:00 GMT']
+      Pragma: [no-cache]
+      Server: [nginx]
+      Set-Cookie: [PHPSESSID=uu0q8ul87irnu4uq8kqidni524; path=/]
+      Strict-Transport-Security: [max-age=15768000]
+      Transfer-Encoding: [chunked]
+      content-length: ['12521']
+    status: {code: 200, message: OK}
+version: 1

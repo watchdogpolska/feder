@@ -4,7 +4,7 @@ import os
 from django.contrib.auth.models import Permission
 from django.core import mail
 from django.core.files.base import ContentFile
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.test import TestCase
 from guardian.shortcuts import assign_perm
 
@@ -276,7 +276,7 @@ class UnrecognizedMessageListViewTestView(MessageObjectMixin, PermissionStatusMi
     permission_object = None
 
     def get_url(self):
-        return reverse('letters:messages:list')
+        return reverse('letters:messages_list')
 
 
 class AssignMessageFormViewTestCase(MessageMixin, MessageObjectMixin, PermissionStatusMixin, TestCase):
@@ -288,12 +288,12 @@ class AssignMessageFormViewTestCase(MessageMixin, MessageObjectMixin, Permission
         self.msg = self.get_message('basic_message.eml')
 
     def get_url(self):
-        return reverse('letters:messages:assign', kwargs={'pk': self.msg.pk})
+        return reverse('letters:messages_assign', kwargs={'pk': self.msg.pk})
 
     def test_assign_simple_letter(self):
         self.client.login(username=UserFactory(is_superuser=True).username,
                           password='pass')
         self.case = CaseFactory()
         response = self.client.post(self.get_url(), data={'case': self.case.pk})
-        self.assertRedirects(response, reverse('letters:messages:list'))
+        self.assertRedirects(response, reverse('letters:messages_list'))
         self.assertTrue(self.msg.letter_set.exists())

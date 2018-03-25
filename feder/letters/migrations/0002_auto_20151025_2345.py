@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import django
 from django.conf import settings
 from django.db import migrations, models
 
@@ -17,23 +18,27 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='letter',
             name='author_user',
-            field=models.ForeignKey(verbose_name='Author (if user)', blank=True, to=settings.AUTH_USER_MODEL,
+            field=models.ForeignKey(verbose_name='Author (if user)', blank=True,
+                                    on_delete=django.db.models.deletion.CASCADE,
+                                    to=settings.AUTH_USER_MODEL,
                                     null=True),
         ),
         migrations.AddField(
             model_name='letter',
             name='case',
-            field=models.ForeignKey(verbose_name='Case', to='cases.Case'),
+            field=models.ForeignKey(verbose_name='Case', on_delete=django.db.models.deletion.CASCADE,
+                                    to='cases.Case'),
         ),
         migrations.AddField(
             model_name='letter',
             name='message',
-            field=models.ForeignKey(verbose_name='Message', to='django_mailbox.Message',
+            field=models.ForeignKey(verbose_name='Message', on_delete=django.db.models.deletion.CASCADE,
+                                    to='django_mailbox.Message',
                                     help_text='Message registerd by django-mailbox', null=True),
         ),
         migrations.AddField(
             model_name='attachment',
             name='record',
-            field=models.ForeignKey(to='letters.Letter'),
+            field=models.ForeignKey(to='letters.Letter', on_delete=django.db.models.deletion.CASCADE),
         ),
     ]

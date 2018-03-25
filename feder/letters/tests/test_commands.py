@@ -1,10 +1,15 @@
-from StringIO import StringIO
 from django.core.management import call_command
 from django.test import TestCase
+from django.utils import six
 
 from feder.cases.factories import CaseFactory
 from feder.letters.models import Letter
 from feder.letters.tests.base import MessageMixin
+
+if six.PY3:
+    from io import StringIO
+else:  # for Python 2.7<
+    from StringIO import StringIO
 
 
 class DropDuplicateIdsTestCase(MessageMixin, TestCase):

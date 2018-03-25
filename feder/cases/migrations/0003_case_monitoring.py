@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import django
 from django.db import migrations, models
 
 
@@ -14,6 +15,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='case',
             name='monitoring',
-            field=models.ForeignKey(verbose_name='Monitoring', to='monitorings.Monitoring'),
+            field=models.ForeignKey(verbose_name='Monitoring',
+                                    on_delete=django.db.models.deletion.CASCADE,
+                                    to='monitorings.Monitoring'),
         ),
     ]

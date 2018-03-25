@@ -4,8 +4,9 @@ import reversion
 from autoslug.fields import AutoSlugField
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.core.urlresolvers import reverse
 from django.db import models
+from django.urls import reverse
+from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from guardian.models import GroupObjectPermissionBase, UserObjectPermissionBase
 from model_utils.models import TimeStampedModel
@@ -31,12 +32,16 @@ class MonitoringQuerySet(models.QuerySet):
     def only_public(self):
         return self.filter(is_public=True)
 
+
+@python_2_unicode_compatible
 @reversion.register()
 class Monitoring(TimeStampedModel):
     perm_model = 'monitoringuserobjectpermission'
     name = models.CharField(verbose_name=_("Name"), max_length=50)
     slug = AutoSlugField(populate_from='name', verbose_name=_("Slug"), unique=True)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("User"))
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE,
+                             verbose_name=_("User"))
     description = models.TextField(verbose_name=_("Description"), blank=True)
     subject = models.CharField(verbose_name=_("Subject"), max_length=80)
     template = models.TextField(verbose_name=_("Template"),
@@ -83,7 +88,7 @@ class Monitoring(TimeStampedModel):
             ('delete_parcelpost', _('Can delete parcel post')),
         )
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     def get_users_with_perm(self, perm=None):
@@ -110,8 +115,8 @@ class Monitoring(TimeStampedModel):
 
 
 class MonitoringUserObjectPermission(UserObjectPermissionBase):
-    content_object = models.ForeignKey(Monitoring)
+    content_object = models.ForeignKey(Monitoring, on_delete=models.CASCADE)
 
 
 class MonitoringGroupObjectPermission(GroupObjectPermissionBase):
-    content_object = models.ForeignKey(Monitoring)
+    content_object = models.ForeignKey(Monitoring, on_delete=models.CASCADE)
