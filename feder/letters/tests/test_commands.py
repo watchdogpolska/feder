@@ -1,13 +1,14 @@
 from django.core.management import call_command
 from django.test import TestCase
+from django.utils import six
 
 from feder.cases.factories import CaseFactory
 from feder.letters.models import Letter
 from feder.letters.tests.base import MessageMixin
 
-try:
+if six.PY3:
     from io import StringIO
-except ImportError: # for Python 2.7<
+else:  # for Python 2.7<
     from StringIO import StringIO
 
 
