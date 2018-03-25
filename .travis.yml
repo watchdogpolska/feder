@@ -11,7 +11,6 @@ env:
     - DJANGO_SETTINGS_MODULE="config.settings.local"
   matrix:
     - TOX_ENV=py27-dj111-core  # required
-    - TOX_ENV=py27-djmaster-core
     - TOX_ENV=py35-dj111-core
     - TOX_ENV=py35-dj20-core
     - TOX_ENV=py35-djmaster-core
@@ -20,7 +19,6 @@ env:
 
 matrix:
   allow_failures:
-    - env: TOX_ENV=py27-djmaster-core
     - env: TOX_ENV=py35-dj111-core
     - env: TOX_ENV=py35-dj20-core
     - env: TOX_ENV=py35-djmaster-core
