@@ -1,15 +1,12 @@
 from email.mime.text import MIMEText
 
-import factory
 import factory.fuzzy
-from django.core.mail import EmailMessage
 from factory.django import FileField
 
-from feder.cases.factories import CaseFactory
 from feder.institutions.factories import InstitutionFactory
 from feder.records.factories import RecordFactory
 from feder.users.factories import UserFactory
-from .models import Letter
+from .models import Letter, Attachment
 
 
 class MailField(FileField):
@@ -55,3 +52,11 @@ class SendOutgoingLetterFactory(LetterFactory):
     author_user = factory.SubFactory(UserFactory)
 
     is_send_yes = factory.PostGenerationMethodCall('send')
+
+
+class AttachmentFactory(factory.django.DjangoModelFactory):
+    letter = factory.SubFactory(InstitutionFactory)
+    attachment = factory.django.FileField()
+
+    class Meta:
+        model = Attachment

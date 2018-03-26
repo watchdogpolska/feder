@@ -15,7 +15,7 @@ from feder.letters.tests.base import MessageMixin
 from feder.main.mixins import PermissionStatusMixin
 from feder.monitorings.factories import MonitoringFactory
 from feder.users.factories import UserFactory
-from ..factories import IncomingLetterFactory, OutgoingLetterFactory
+from ..factories import IncomingLetterFactory, OutgoingLetterFactory, AttachmentFactory
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -69,6 +69,11 @@ class LetterDetailViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
         response = self.client.get(self.get_url())
         self.assertContains(response, _("Report spam"))
         self.assertContains(response, reverse('letters:spam', kwargs={'pk': self.letter.pk}))
+
+    def test_contains_link_to_attachment(self):
+        attachment = AttachmentFactory(letter=self.letter)
+        response = self.client.get(self.get_url())
+        self.assertContains(response, attachment.attachment.url)
 
 
 class LetterCreateViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
@@ -217,7 +222,7 @@ class LetterReportSpamViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
     permission = []
 
     def get_url(self):
-        return reverse('letters:spam', kwargs={'pk':  self.from_institution.pk})
+        return reverse('letters:spam', kwargs={'pk': self.from_institution.pk})
 
     def test_create_report_for_anonymous(self):
         response = self.client.post(self.get_url())
@@ -239,7 +244,7 @@ class LetterMarkSpamViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     permission = ['monitorings.spam_mark', ]
 
     def get_url(self):
-        return reverse('letters:mark_spam', kwargs={'pk':  self.from_institution.pk})
+        return reverse('letters:mark_spam', kwargs={'pk': self.from_institution.pk})
 
     def test_hide_by_staff(self):
         self.login_permitted_user()
