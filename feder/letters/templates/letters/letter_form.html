@@ -1,10 +1,15 @@
 {% extends 'letters/base_object.html' %}
 {% load crispy_forms_tags %}
 {% block content_object %}
+    <form enctype="multipart/form-data" method="POST">
     {% crispy form %}
+        {% for inline in inlines %}
+            {% crispy inline %}
+        {% endfor %}
+    </form>
 {% endblock %}
 
 {% block javascript %}
     {{ block.super }}
-{{ form.media }}
+    {{ form.media }}
 {% endblock %}
