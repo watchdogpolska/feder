@@ -6,19 +6,21 @@ from braces.views import (FormValidMessageMixin, SelectRelatedMixin,
 from cached_property import cached_property
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.syndication.views import Feed
-from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404
+from django.urls import reverse_lazy
 from django.utils.datetime_safe import datetime
 from django.utils.encoding import force_text
 from django.utils.feedgenerator import Atom1Feed
 from django.utils.translation import ugettext_lazy as _
-from django.views.generic import CreateView, DeleteView, DetailView, UpdateView, FormView
+from django.views.generic import CreateView, DeleteView, DetailView, FormView
 from django_filters.views import FilterView
 from django_mailbox.models import Message
+from extra_views import UpdateWithInlinesView
 
 from feder.alerts.models import Alert
 from feder.cases.models import Case
 from feder.letters.filters import MessageFilter
+from feder.letters.formsets import AttachmentInline
 from feder.main.mixins import (AttrPermissionRequiredMixin,
                                RaisePermissionRequiredMixin)
 from feder.monitorings.models import Monitoring
@@ -120,9 +122,10 @@ class LetterSendView(AttrPermissionRequiredMixin, ActionMessageMixin, ActionView
 
 
 class LetterUpdateView(AttrPermissionRequiredMixin, UserFormKwargsMixin,
-                       UpdateMessageMixin, FormValidMessageMixin, UpdateView):
+                       UpdateMessageMixin, FormValidMessageMixin, UpdateWithInlinesView):
     model = Letter
     form_class = LetterForm
+    inlines = [AttachmentInline, ]
     permission_attribute = 'record__case__monitoring'
     permission_required = 'monitorings.change_letter'
 

@@ -26,7 +26,8 @@ class LetterForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
     def __init__(self, *args, **kwargs):
         case = kwargs.pop('case', None)
         super(LetterForm, self).__init__(*args, **kwargs)
-        self.initial['case'] = case
+        self.initial['case'] = case or kwargs.get('instance').case
+        self.helper.form_tag = False
 
     class Meta:
         model = Letter

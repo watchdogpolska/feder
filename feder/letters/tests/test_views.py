@@ -88,7 +88,12 @@ class LetterUpdateViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
         self.login_permitted_user()
         new_case = CaseFactory()
         self.assertNotEqual(self.from_user.case, new_case)
-        data = {'title': 'Lorem', 'body': 'Lorem', 'case': new_case.pk}
+        data = {'title': 'Lorem',
+                'body': 'Lorem',
+                'case': new_case.pk,
+                'attachment_set-TOTAL_FORMS': 0,
+                'attachment_set-INITIAL_FORMS': 0,
+                'attachment_set-MAX_NUM_FORMS': 1}
         resp = self.client.post(self.get_url(), data)
         self.assertEqual(resp.status_code, 302)
         self.from_user.refresh_from_db()
@@ -217,7 +222,7 @@ class LetterReportSpamViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
     permission = []
 
     def get_url(self):
-        return reverse('letters:spam', kwargs={'pk':  self.from_institution.pk})
+        return reverse('letters:spam', kwargs={'pk': self.from_institution.pk})
 
     def test_create_report_for_anonymous(self):
         response = self.client.post(self.get_url())
@@ -239,7 +244,7 @@ class LetterMarkSpamViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     permission = ['monitorings.spam_mark', ]
 
     def get_url(self):
-        return reverse('letters:mark_spam', kwargs={'pk':  self.from_institution.pk})
+        return reverse('letters:mark_spam', kwargs={'pk': self.from_institution.pk})
 
     def test_hide_by_staff(self):
         self.login_permitted_user()
