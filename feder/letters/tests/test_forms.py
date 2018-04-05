@@ -78,12 +78,3 @@ class ReplyFormTestCase(TestCase):
         self.assertTrue(form.is_valid(), msg=form.errors)
         form.save()
         self.assertEqual(len(mail.outbox), 0)
-
-    def test_reply_is_sending(self):
-        assign_perm('reply', self.user, self.letter.case.monitoring)
-        default = {'body': 'Lorem', 'title': 'Lorem'}
-        form = ReplyForm(data=dict_merge(default, {'send': 'yes'}),
-                         user=self.user, letter=self.letter)
-        self.assertTrue(form.is_valid(), msg=form.errors)
-        form.save()
-        self.assertEqual(len(mail.outbox), 1)

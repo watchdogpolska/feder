@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 {% block content_object %}
     <form enctype="multipart/form-data" method="POST">
-    {% crispy form %}
+        {% crispy form %}
         {% for inline in inlines %}
             {% crispy inline %}
         {% endfor %}
