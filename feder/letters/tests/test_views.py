@@ -4,6 +4,7 @@ import os
 from django.contrib.auth.models import Permission
 from django.core import mail
 from django.core.files.base import ContentFile
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.urls import reverse
 from django.test import TestCase
 from guardian.shortcuts import assign_perm
@@ -127,15 +128,31 @@ class LetterReplyViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
 
     def test_send_reply(self):
         self.login_permitted_user()
+        simple_file = SimpleUploadedFile("file.mp4", b"file_content", content_type="video/mp4")
         response = self.client.post(self.get_url(),
-                                    {'body': 'Lorem', 'title': 'Lorem', 'send': 'yes'})
+                                    {'body': 'Lorem',
+                                     'title': 'Lorem',
+                                     'send': 'yes',
+                                     'attachment_set-TOTAL_FORMS': 1,
+                                     'attachment_set-INITIAL_FORMS': 0,
+                                     'attachment_set-MAX_NUM_FORMS': 1,
+                                     'attachment_set-0-attachment': simple_file},
+                                    format='multipart')
         self.assertEqual(response.status_code, 302)
         self.assertEqual(len(mail.outbox), 1)
+        new_letter = Letter.objects.filter(title="Lorem").get()
+        new_attachment = new_letter.attachment_set.get()
+        self.assertIn(new_attachment.get_full_url(), mail.outbox[0].body)
 
     def test_no_send_drafts(self):
         self.login_permitted_user()
         response = self.client.post(self.get_url(),
-                                    {'body': 'Lorem', 'title': 'Lorem'})
+                                    {'body': 'Lorem',
+                                     'title': 'Lorem',
+                                     'attachment_set-TOTAL_FORMS': 0,
+                                     'attachment_set-INITIAL_FORMS': 0,
+                                     'attachment_set-MAX_NUM_FORMS': 1
+                                     })
         self.assertEqual(response.status_code, 302)
         self.assertEqual(len(mail.outbox), 0)
 
