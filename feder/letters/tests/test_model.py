@@ -7,17 +7,14 @@ from django.core import mail
 from django.test import TestCase
 from django.utils import six
 
-from feder.cases.factories import CaseFactory
 from feder.cases.models import Case
 from feder.institutions.factories import InstitutionFactory
-from feder.letters.tests.base import MessageMixin
 from feder.letters.utils import normalize_msg_id
 from feder.monitorings.factories import MonitoringFactory
 from feder.users.factories import UserFactory
 from ..factories import (IncomingLetterFactory, LetterFactory,
                          OutgoingLetterFactory, SendOutgoingLetterFactory)
 from ..models import Letter
-from feder.letters.signals import MessageParser
 
 
 class ModelTestCase(TestCase):
@@ -119,32 +116,3 @@ class ModelTestCase(TestCase):
                         "Email for a new case should contain footer text from monitoring")
 
 
-class IncomingEmailTestCase(MessageMixin, TestCase):
-    def test_case_identification(self):
-        case = CaseFactory(email='porady@REDACTED')
-        message = self.get_message('basic_message.eml')
-        letter = MessageParser(message).insert()
-        self.assertEqual(letter.case, case)
-        self.assertEqual(letter.attachment_set.count(), 2)
-
-    def test_case_text_identification(self):
-        CaseFactory(email='porady@REDACTED')
-        message = self.get_message('basic_message.eml')
-        letter = MessageParser(message).insert()
-        self.assertEqual(letter.title, 'Odpowied\u017a od burmistrza na wniosek stowarzyszenia')
-        self.assertEqual(letter.body, 'REDACTED')
-        self.assertEqual(letter.quote, '')
-
-    def test_case_text_identification_validation(self):
-        """
-        Validate regression of #280
-        """
-        CaseFactory(email='case-123@fedrowanie.siecobywatelska.pl')
-        message = self.get_message('message-with-content.eml')
-        letter = MessageParser(message).insert()
-        letter.refresh_from_db()
-        # TODO: Debug changes Travis & local result
-        self.assertIn(letter.title, ["Przeczytano: Wniosek o udost\u0119pnienie informacji publicznej",
-                                     "Przeczytano: Wniosek o udost?pnienie informacji publicznej"])
-        self.assertIn('odczytano w dniu ', letter.body)
-        self.assertEqual(letter.quote, '')

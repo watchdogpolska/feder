@@ -14,3 +14,7 @@ def normalize_msg_id(msg_id):
     if msg_id[-1] == '>':
         msg_id = msg_id[:-1]
     return msg_id
+
+
+def is_spam_check(email_object):
+    return email_object['X-Spam-Flag'] == 'YES'
