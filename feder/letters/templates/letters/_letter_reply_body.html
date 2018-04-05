@@ -1,0 +1,17 @@
+{% load i18n %}
+{{ body | linebreaks }}
+
+{% if attachments %}
+    {% trans 'Attachments' %}:
+    <ul>
+        {% for attachment in attachments %}
+            <li>{{ attachment.get_full_url }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+{% if footer %}
+    --<br>
+    {{ footer | linebreaks }}
+{% endif %}
+
+{{quote}}

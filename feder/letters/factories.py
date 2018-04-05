@@ -1,27 +1,27 @@
 from email.mime.text import MIMEText
 
-import factory
 import factory.fuzzy
-from django.core.mail import EmailMessage
 from factory.django import FileField
 
-from feder.cases.factories import CaseFactory
 from feder.institutions.factories import InstitutionFactory
 from feder.records.factories import RecordFactory
 from feder.users.factories import UserFactory
-from .models import Letter
+from .models import Letter, Attachment
+
+
+def get_email(subject=None, from_=None, to=None):
+    msg = MIMEText("Lorem ipsum")
+    msg['Subject'] = subject or "Example message"
+    msg['From'] = from_ or "sender@example.com"
+    msg['To'] = to or "recipient@example.com"
+    return msg
 
 
 class MailField(FileField):
     DEFAULT_FILENAME = 'data.eml'
 
     def _make_data(self, params):
-        msg = MIMEText("Lorem ipsum")
-        msg['Subject'] = "Example message"
-        msg['From'] = "sender@example.com"
-        msg['To'] = "recipient@example.com"
-
-        return params.get('data', msg.as_string().encode('utf-8'))
+        return params.get('data', get_email().as_string().encode('utf-8'))
 
 
 class LetterFactory(factory.django.DjangoModelFactory):
@@ -55,3 +55,11 @@ class SendOutgoingLetterFactory(LetterFactory):
     author_user = factory.SubFactory(UserFactory)
 
     is_send_yes = factory.PostGenerationMethodCall('send')
+
+
+class AttachmentFactory(factory.django.DjangoModelFactory):
+    letter = factory.SubFactory(InstitutionFactory)
+    attachment = factory.django.FileField()
+
+    class Meta:
+        model = Attachment
