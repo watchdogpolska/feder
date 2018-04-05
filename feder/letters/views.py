@@ -15,7 +15,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.generic import CreateView, DeleteView, DetailView, FormView
 from django_filters.views import FilterView
 from django_mailbox.models import Message
-from extra_views import UpdateWithInlinesView
+from extra_views import UpdateWithInlinesView, CreateWithInlinesView
 
 from feder.alerts.models import Alert
 from feder.cases.models import Case
@@ -69,10 +69,11 @@ class LetterCreateView(RaisePermissionRequiredMixin, UserFormKwargsMixin,
 
 
 class LetterReplyView(RaisePermissionRequiredMixin, UserFormKwargsMixin,
-                      FormValidMessageMixin, CreateView):
+                      FormValidMessageMixin, CreateWithInlinesView):
     template_name = 'letters/letter_reply.html'
     model = Letter
     form_class = ReplyForm
+    inlines = [AttachmentInline, ]
     permission_required = 'monitorings.add_draft'
 
     @cached_property
@@ -92,6 +93,12 @@ class LetterReplyView(RaisePermissionRequiredMixin, UserFormKwargsMixin,
         context = super(LetterReplyView, self).get_context_data(**kwargs)
         context['object'] = self.letter
         return context
+
+    def forms_valid(self, form, inlines):
+        result = super(LetterReplyView, self).forms_valid(form, inlines)
+        if 'send' in self.request.POST:
+            self.object.send()
+        return result
 
     def get_form_valid_message(self):
         if self.object.eml:

@@ -1,5 +1,6 @@
 from textwrap import TextWrapper
 
+BODY_FOOTER_SEPERATOR = "\n\n--\n"
 
 def email_wrapper(text):
     wrapper = TextWrapper()
@@ -15,6 +16,10 @@ def normalize_msg_id(msg_id):
         msg_id = msg_id[:-1]
     return msg_id
 
-
 def is_spam_check(email_object):
     return email_object['X-Spam-Flag'] == 'YES'
+
+def get_body_with_footer(body, footer):
+    if footer.strip():
+        return "{}{}{}".format(body, BODY_FOOTER_SEPERATOR, footer)
+    return body

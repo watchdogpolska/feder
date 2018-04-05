@@ -8,10 +8,10 @@ from braces.forms import UserKwargModelFormMixin
 from crispy_forms.layout import Submit
 from dal import autocomplete
 from django import forms
-from django.forms.widgets import NumberInput
 from django.utils.translation import ugettext_lazy as _
 
 from feder.cases.models import Case
+from feder.letters.utils import get_body_with_footer
 from feder.records.models import Record
 from .models import Letter
 from feder.letters.signals import MessageParser
@@ -34,11 +34,6 @@ class LetterForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
         fields = ['title', 'body', 'case', 'note', ]
 
     def save(self, *args, **kwargs):
-        # if self.instance.pk:
-        #     self.instance.record.case = self.cleaned_data['case']
-        #     self.instance.record.save()
-        # else:
-        #     self.instance.record = Record.objects.create(case=self.cleaned_data['case'])
         self.instance.record.case = self.cleaned_data['case']
         self.instance.record.save()
 
@@ -49,6 +44,7 @@ class ReplyForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.letter = kwargs.pop('letter')
         super(ReplyForm, self).__init__(*args, **kwargs)
+        self.helper.form_tag = False
         self.user_can_reply = self.user.has_perm('reply', self.letter.case.monitoring)
         self.user_can_save = self.user.has_perm('add_draft', self.letter.case.monitoring)
 
@@ -57,7 +53,7 @@ class ReplyForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
 
     def set_dynamic_field_initial(self):
         self.fields['title'].initial = "Re: {title}".format(title=self.letter.title)
-        self.fields['body'].initial = self.letter.add_footer("")
+        self.fields['body'].initial = get_body_with_footer("", self.letter.case.monitoring.email_footer)
         self.fields['quote'].initial = self.get_quote()
 
     def add_form_buttons(self):
@@ -92,8 +88,6 @@ class ReplyForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
         self.instance.author_user = self.user
         self.instance.record = Record.objects.create(case=self.letter.case)
         obj = super(ReplyForm, self).save(*args, **kwargs)
-        if 'send' in self.data:
-            self.instance.send()
         return obj
 
     class Meta:
