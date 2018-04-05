@@ -50,4 +50,4 @@ class MessageParserTestCase(MessageMixin, TestCase):
         msg = get_email(to=case.email)
         msg['X-Spam-Flag'] = 'NO'
         MessageParser(self.mailbox._process_message(msg)).insert()
-        self.assertEqual(Alert.objects.count(), 1)
+        self.assertEqual(Alert.objects.count(), 0)
