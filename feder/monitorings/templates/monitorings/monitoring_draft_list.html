@@ -7,26 +7,10 @@
         {% for object in object_list %}
             {% include 'monitorings/_letter.html' with object=object %}
         {% endfor %}
-        {% if object_list.has_previous or object_list.has_next %}
-            <ul class="pager">
-                {% if object_list.has_previous %}
-                    <li>
-                        <a href="{% url 'monitorings:drafts' slug=object.slug page=object_list.previous_page_number %}">
-                            &laquo; {% trans 'previous' %}
-                        </a>
-                    </li>
-                {% endif %}
-                <li>{% blocktrans with no=object_list.number total=object_list.paginator.num_pages %}Page {{ no }} of
-                    {{ total }}{% endblocktrans %}</li>
-                {% if object_list.has_next %}
-                    <li>
-                        <a href="{% url 'monitorings:drafts' slug=object.slug page=object_list.next_page_number %}">
-                            {% trans 'next' %} &raquo;
-                        </a>
-                    </li>
-                {% endif %}
-            </ul>
-        {% endif %}
+        <div class="text-center">
+            {% bootstrap_paginate object_list url_view_name='monitorings:details' url_extra_kwargs=url_extra_kwargs %}
+        </div>
+
     {% else %}
         <div class="gray">
             <p>
