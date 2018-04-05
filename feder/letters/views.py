@@ -22,12 +22,12 @@ from feder.cases.models import Case
 from feder.letters.filters import MessageFilter
 from feder.letters.formsets import AttachmentInline
 from feder.main.mixins import (AttrPermissionRequiredMixin,
-                               RaisePermissionRequiredMixin)
+                               RaisePermissionRequiredMixin, BaseXSendFileView)
 from feder.monitorings.models import Monitoring
 from .filters import LetterFilter
 from .forms import LetterForm, ReplyForm, AssignMessageForm
 from .mixins import LetterObjectFeedMixin
-from .models import Letter
+from .models import Letter, Attachment
 
 _("Letters index")
 
@@ -46,6 +46,11 @@ class LetterListView(UserKwargFilterSetMixin, SelectRelatedMixin, FilterView):
 class LetterDetailView(SelectRelatedMixin, DetailView):
     model = Letter
     select_related = ['author_institution', 'author_user', 'record__case__monitoring']
+
+
+class LetterMessageXSendFileView(BaseXSendFileView):
+    model = Letter
+    file_field = 'eml'
 
 
 class LetterCreateView(RaisePermissionRequiredMixin, UserFormKwargsMixin,
@@ -342,3 +347,8 @@ class AssignMessageFormView(PrefetchRelatedMixin, RaisePermissionRequiredMixin, 
     def form_valid(self, form):
         form.save()
         return super(AssignMessageFormView, self).form_valid(form)
+
+
+class AttachmentXSendFileView(BaseXSendFileView):
+    model = Attachment
+    file_field = 'attachment'

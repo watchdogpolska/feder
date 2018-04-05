@@ -36,7 +36,7 @@
     {% include 'letters/_letter_metadata.html' with object=object %}
     {% include 'letters/_object.html' with object=object %}
     {% if object.eml %}
-        <a class="btn btn-default" href="{{ object.eml.url }}">
+        <a class="btn btn-default" href="{% url 'letters:download' pk=object.pk %}">
             <i class="fa fa-download"></i>
             {% trans 'Download letter' %}
         </a>

@@ -74,7 +74,7 @@ class LetterDetailViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     def test_contains_link_to_attachment(self):
         attachment = AttachmentFactory(letter=self.letter)
         response = self.client.get(self.get_url())
-        self.assertContains(response, attachment.attachment.url)
+        self.assertContains(response, attachment.get_absolute_url())
 
 
 class LetterCreateViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):

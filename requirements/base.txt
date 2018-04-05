@@ -56,3 +56,4 @@ django-github-revision==0.0.3
 https://github.com/coddingtonbear/django-mailbox/archive/8933e381091011eb9faa326e82b83b873c54774a.zip
 # Ping commit due missing cached object in <=4.7.1
 django-extra-views==0.10.0
+django-sendfile2==0.4.1
