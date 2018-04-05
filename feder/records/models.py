@@ -3,7 +3,6 @@ from __future__ import unicode_literals
 import warnings
 
 from cached_property import cached_property
-from django.db import models
 
 # Create your models here.
 from django.db.models import Prefetch

@@ -3,6 +3,8 @@ from django.template import Context
 from django.test import TestCase
 from guardian.shortcuts import assign_perm
 
+from feder.letters.models import Letter
+from feder.records.models import Record
 from feder.users.factories import UserFactory
 from ..factories import IncomingLetterFactory
 from ..forms import ReplyForm
@@ -78,3 +80,4 @@ class ReplyFormTestCase(TestCase):
         self.assertTrue(form.is_valid(), msg=form.errors)
         form.save()
         self.assertEqual(len(mail.outbox), 0)
+

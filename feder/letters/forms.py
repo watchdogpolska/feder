@@ -86,7 +86,8 @@ class ReplyForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
 
     def save(self, *args, **kwargs):
         self.instance.author_user = self.user
-        self.instance.record = Record.objects.create(case=self.letter.case)
+        if not hasattr(self.instance, 'record'):
+            self.instance.record = Record.objects.create(case=self.letter.case)
         obj = super(ReplyForm, self).save(*args, **kwargs)
         return obj
 
