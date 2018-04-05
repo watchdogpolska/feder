@@ -7,9 +7,10 @@ import talon
 from atom.models import AttachmentBase
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.contrib.sites.shortcuts import get_current_site
 from django.core.files.base import ContentFile
-from django.core.mail import EmailMessage
-from django.core.mail.message import make_msgid
+from django.core.mail.message import make_msgid, EmailMultiAlternatives
+from django.template.loader import render_to_string
 from django.urls import reverse
 from django.db import models
 from django.db.models import Prefetch
@@ -21,7 +22,7 @@ from model_utils import Choices
 from feder.cases.models import Case
 from feder.institutions.models import Institution
 from feder.records.models import AbstractRecord, Record
-from .utils import email_wrapper, normalize_msg_id
+from .utils import email_wrapper, normalize_msg_id, get_body_with_footer
 
 talon.init()
 
@@ -163,17 +164,21 @@ class Letter(AbstractRecord):
         letter.send(commit=True, only_email=False)
         return letter
 
-    def email_body(self):
+    def _email_context(self):
         body = self.body.replace('{{EMAIL}}', self.case.email)
-        body = self.add_footer(body)
-        return u"{0}\n{1}".format(body, email_wrapper(self.quote))
+        return {'body': body,
+                'footer': self.case.monitoring.email_footer,
+                'quote': email_wrapper(self.quote),
+                'attachments': self.attachment_set.all()}
 
-    def add_footer(self, body):
-        footer = self.case.monitoring.email_footer
-        if footer and footer.strip():
-            return u"{0}\n\n--\n{1}".format(body, footer)
-        else:
-            return body
+    def body_with_footer(self):
+        return get_body_with_footer(self.body, self.case.monitoring.email_footer)
+
+    def email_body(self):
+        context = self._email_context()
+        html_content = render_to_string('letters/_letter_reply_body.html', context)
+        txt_content = render_to_string('letters/_letter_reply_body.txt', context)
+        return html_content, txt_content
 
     def _construct_message(self, msg_id=None):
         headers = {'Return-Receipt-To': self.case.email,
@@ -181,12 +186,15 @@ class Letter(AbstractRecord):
                    }
         if msg_id:
             headers['Message-ID'] = msg_id
-        return EmailMessage(subject=self.case.monitoring.subject,
-                            from_email=self.case.email,
-                            reply_to=[self.case.email],
-                            to=[self.case.institution.email],
-                            body=self.email_body(),
-                            headers=headers)
+        html_content, txt_content = self.email_body()
+        msg = EmailMultiAlternatives(subject=self.case.monitoring.subject,
+                                     from_email=self.case.email,
+                                     reply_to=[self.case.email],
+                                     to=[self.case.institution.email],
+                                     body=txt_content,
+                                     headers=headers)
+        msg.attach_alternative(html_content, "text/html")
+        return msg
 
     def send(self, commit=True, only_email=False):
         msg_id = make_msgid(domain=self.case.email.split('@', 2)[1])
@@ -213,3 +221,9 @@ class Attachment(AttachmentBase):
         if self.attachment:
             return u"{}".format(self.filename)
         return "None"
+
+    def get_absolute_url(self):
+        return self.attachment.url
+
+    def get_full_url(self):
+        return ''.join(['https://', get_current_site(None).domain, self.get_absolute_url()])

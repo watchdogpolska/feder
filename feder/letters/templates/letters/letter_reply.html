@@ -3,10 +3,10 @@
 
 {% block breadcrumb_row %}
     <li
-        itemprop="itemListElement"
-        itemscope
-        itemtype="http://schema.org/ListItem"
-        class="active">
+            itemprop="itemListElement"
+            itemscope
+            itemtype="http://schema.org/ListItem"
+            class="active">
         <span itmeprop="name">{% trans 'Reply' %}</span>
     </li>
 {% endblock %}
@@ -19,7 +19,12 @@
     </h2>
     {% block content_object %}
         <div class="gray">
-            {% crispy form %}
+            <form enctype="multipart/form-data" method="POST">
+                {% crispy form %}
+                {% for inline in inlines %}
+                    {% crispy inline %}
+                {% endfor %}
+            </form>
         </div>
     {% endblock %}
 {% endblock %}
