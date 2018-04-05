@@ -6,7 +6,7 @@ django-environ==0.4.4
 
 # Forms
 django-braces==1.12.0
-django-crispy-forms==1.7.0
+django-crispy-forms==1.7.2
 django-floppyforms==1.7.0
 
 # Models
@@ -49,7 +49,7 @@ django-bootstrap-pagination==1.6.4
 django-reversion==2.0.13
 djangorestframework==3.7.7
 unicodecsv==0.14.1
-tqdm==4.19.6
+tqdm==4.19.9
 djangorestframework-filters==0.10.2
 django-github-revision==0.0.3
 
