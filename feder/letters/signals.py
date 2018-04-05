@@ -7,8 +7,10 @@ from django.db.models.signals import post_init, post_save
 from django.dispatch import receiver
 from django_mailbox.signals import message_received
 
+from feder.alerts.models import Alert
 from feder.cases.models import Case
 from feder.letters.models import Attachment, Letter, logger
+from feder.letters.settings import LETTER_SPAM_FUNC
 from feder.records.models import Record
 
 
@@ -108,4 +110,13 @@ class MessageParser(object):
         attachments = self.save_attachments(letter)
         logger.debug("Saved {attachment_count} attachments for letter #{letter}".
                      format(attachment_count=len(attachments), letter=letter.pk))
+        self.check_spam(letter)
         return letter
+
+    def check_spam(self, letter):
+        if LETTER_SPAM_FUNC(self.message.get_email_object()):
+            Alert.objects.create(monitoring=letter.case.monitoring,
+                                 reason="Auto spam detected",
+                                 author=None,
+                                 link_object=letter)
+
