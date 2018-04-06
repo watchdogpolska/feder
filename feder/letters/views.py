@@ -24,6 +24,7 @@ from feder.letters.formsets import AttachmentInline
 from feder.main.mixins import (AttrPermissionRequiredMixin,
                                RaisePermissionRequiredMixin)
 from feder.monitorings.models import Monitoring
+
 from .filters import LetterFilter
 from .forms import LetterForm, ReplyForm, AssignMessageForm
 from .mixins import LetterObjectFeedMixin

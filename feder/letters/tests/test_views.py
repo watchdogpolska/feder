@@ -15,6 +15,7 @@ from feder.letters.models import Letter
 from feder.letters.tests.base import MessageMixin
 from feder.main.mixins import PermissionStatusMixin
 from feder.monitorings.factories import MonitoringFactory
+from feder.records.models import Record
 from feder.users.factories import UserFactory
 from ..factories import IncomingLetterFactory, OutgoingLetterFactory, AttachmentFactory
 from django.utils.translation import ugettext_lazy as _
@@ -143,6 +144,7 @@ class LetterReplyViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
         new_letter = Letter.objects.filter(title="Lorem").get()
         new_attachment = new_letter.attachment_set.get()
         self.assertIn(new_attachment.get_full_url(), mail.outbox[0].body)
+        self.assertEqual(Record.objects.count(), 3)
 
     def test_no_send_drafts(self):
         self.login_permitted_user()
