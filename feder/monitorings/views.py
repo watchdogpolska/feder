@@ -60,6 +60,10 @@ class MonitoringDetailView(SelectRelatedMixin, PrefetchRelatedMixin,
 
         return qs
 
+    def get_context_data(self, **kwargs):
+        kwargs['url_extra_kwargs'] = {'slug': self.object.slug}
+        return super(MonitoringDetailView, self).get_context_data(**kwargs)
+
     def get_object_list(self, obj):
         return (Case.objects.filter(monitoring=obj).
                 select_related('institution').
@@ -77,6 +81,10 @@ class LetterListMonitoringView(SelectRelatedMixin, PrefetchRelatedMixin, ExtraLi
     prefetch_related = ['questionary_set', ]
     paginate_by = 25
 
+    def get_context_data(self, **kwargs):
+        kwargs['url_extra_kwargs'] = {'slug': self.object.slug}
+        return super(LetterListMonitoringView, self).get_context_data(**kwargs)
+
     def get_object_list(self, obj):
         return (Letter.objects.filter(record__case__monitoring=obj).
                 select_related('record__case').
@@ -92,6 +100,10 @@ class DraftListMonitoringView(SelectRelatedMixin, PrefetchRelatedMixin, ExtraLis
     select_related = ['user', ]
     prefetch_related = ['questionary_set', ]
     paginate_by = 25
+
+    def get_context_data(self, **kwargs):
+        kwargs['url_extra_kwargs'] = {'slug': self.object.slug}
+        return super(DraftListMonitoringView, self).get_context_data(**kwargs)
 
     def get_object_list(self, obj):
         return (Letter.objects.filter(record__case__monitoring=obj).
