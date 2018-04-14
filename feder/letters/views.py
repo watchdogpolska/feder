@@ -52,6 +52,7 @@ class LetterDetailView(SelectRelatedMixin, DetailView):
 class LetterMessageXSendFileView(BaseXSendFileView):
     model = Letter
     file_field = 'eml'
+    send_as_attachment = True
 
 
 class LetterCreateView(RaisePermissionRequiredMixin, UserFormKwargsMixin,
@@ -353,6 +354,7 @@ class AssignMessageFormView(PrefetchRelatedMixin, RaisePermissionRequiredMixin, 
 class AttachmentXSendFileView(BaseXSendFileView):
     model = Attachment
     file_field = 'attachment'
+    send_as_attachment = True
 
     def get_queryset(self):
         return super(AttachmentXSendFileView, self).get_queryset().for_user(self.request.user)
