@@ -17,7 +17,7 @@ from feder.main.mixins import PermissionStatusMixin
 from feder.monitorings.factories import MonitoringFactory
 from feder.records.models import Record
 from feder.users.factories import UserFactory
-from ..factories import IncomingLetterFactory, OutgoingLetterFactory, AttachmentFactory
+from ..factories import IncomingLetterFactory, OutgoingLetterFactory, AttachmentFactory, LetterFactory
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -83,18 +83,17 @@ class LetterMessageXSendFileView(PermissionStatusMixin, TestCase):
     status_has_permission = 200
     status_anonymous = 200
     status_no_permission = 200
-    spam_status = Letter.SPAM.unknown
 
     def setUp(self):
         super(LetterMessageXSendFileView, self).setUp()
-        self.object = AttachmentFactory(letter__is_spam=self.spam_status)
+        self.object = IncomingLetterFactory(is_spam=Letter.SPAM.non_spam)
 
     def get_url(self):
-        return reverse('letters:attachment', kwargs={'pk': self.object.pk, 'letter_pk': 0})
+        return reverse('letters:download', kwargs={'pk': self.object.pk})
 
     def test_deny_access_for_spam(self):
-        spam_obj = AttachmentFactory(letter__is_spam=Letter.SPAM.spam)
-        url = reverse('letters:attachment', kwargs={'pk': spam_obj.pk, 'letter_pk': 0})
+        spam_obj = IncomingLetterFactory(is_spam=Letter.SPAM.spam)
+        url = reverse('letters:download', kwargs={'pk': spam_obj.pk})
         response = self.client.get(url)
         self.assertEqual(response.status_code, 404)
 
