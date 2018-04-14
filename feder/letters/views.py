@@ -1,3 +1,5 @@
+from os import path
+
 from atom.ext.django_filters.views import UserKwargFilterSetMixin
 from atom.views import (CreateMessageMixin, DeleteMessageMixin,
                         UpdateMessageMixin, ActionView, ActionMessageMixin)
@@ -24,7 +26,6 @@ from feder.letters.formsets import AttachmentInline
 from feder.main.mixins import (AttrPermissionRequiredMixin,
                                RaisePermissionRequiredMixin, BaseXSendFileView)
 from feder.monitorings.models import Monitoring
-
 from .filters import LetterFilter
 from .forms import LetterForm, ReplyForm, AssignMessageForm
 from .mixins import LetterObjectFeedMixin
@@ -38,7 +39,8 @@ class MixinGzipXSendFile(object):
         kwargs = super(MixinGzipXSendFile, self).get_sendfile_kwargs(context)
         if kwargs['filename'] and kwargs['filename'].endswith('.gz'):
             kwargs['encoding'] = 'gzip'
-            kwargs['filename'] = kwargs['filename'][:-len('.gz')]
+            filename = path.basename(kwargs['filename'][:-len('.gz')])
+            kwargs['attachment_filename'] = filename
         return kwargs
 
 
@@ -358,8 +360,6 @@ class AssignMessageFormView(PrefetchRelatedMixin, RaisePermissionRequiredMixin, 
     def form_valid(self, form):
         form.save()
         return super(AssignMessageFormView, self).form_valid(form)
-
-
 
 
 class AttachmentXSendFileView(MixinGzipXSendFile, BaseXSendFileView):
