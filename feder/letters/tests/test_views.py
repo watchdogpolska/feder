@@ -78,6 +78,27 @@ class LetterDetailViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
         self.assertContains(response, attachment.get_absolute_url())
 
 
+class LetterMessageXSendFileView(PermissionStatusMixin, TestCase):
+    permission = []
+    status_has_permission = 200
+    status_anonymous = 200
+    status_no_permission = 200
+    spam_status = Letter.SPAM.unknown
+
+    def setUp(self):
+        super(LetterMessageXSendFileView, self).setUp()
+        self.object = AttachmentFactory(letter__is_spam=self.spam_status)
+
+    def get_url(self):
+        return reverse('letters:attachment', kwargs={'pk': self.object.pk, 'letter_pk': 0})
+
+    def test_deny_access_for_spam(self):
+        spam_obj = AttachmentFactory(letter__is_spam=Letter.SPAM.spam)
+        url = reverse('letters:attachment', kwargs={'pk': spam_obj.pk, 'letter_pk': 0})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)
+
+
 class LetterCreateViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     permission = ['monitorings.add_letter', ]
 
@@ -326,3 +347,33 @@ class AssignMessageFormViewTestCase(MessageMixin, MessageObjectMixin, Permission
         response = self.client.post(self.get_url(), data={'case': self.case.pk})
         self.assertRedirects(response, reverse('letters:messages_list'))
         self.assertTrue(self.msg.letter_set.exists())
+
+
+class SpamAttachmentXSendFileViewTestCase(PermissionStatusMixin, TestCase):
+    permission = []
+    status_has_permission = 404
+    status_anonymous = 404
+    status_no_permission = 404
+    spam_status = Letter.SPAM.spam
+
+    def setUp(self):
+        super(SpamAttachmentXSendFileViewTestCase, self).setUp()
+        self.object = AttachmentFactory(letter__is_spam=self.spam_status)
+
+    def get_url(self):
+        return reverse('letters:attachment', kwargs={'pk': self.object.pk, 'letter_pk': 0})
+
+
+class StandardAttachmentXSendFileViewTestCase(PermissionStatusMixin, TestCase):
+    permission = []
+    status_has_permission = 200
+    status_anonymous = 200
+    status_no_permission = 200
+    spam_status = Letter.SPAM.non_spam
+
+    def setUp(self):
+        super(StandardAttachmentXSendFileViewTestCase, self).setUp()
+        self.object = AttachmentFactory(letter__is_spam=self.spam_status)
+
+    def get_url(self):
+        return reverse('letters:attachment', kwargs={'pk': self.object.pk, 'letter_pk': 0})

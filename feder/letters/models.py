@@ -212,7 +212,7 @@ class Letter(AbstractRecord):
 class AttachmentQuerySet(models.QuerySet):
     def for_user(self, user):
         if not user.is_superuser:
-            return self.filter(is_spam__in=[Letter.SPAM.unknown, Letter.SPAM.non_spam])
+            return self.filter(letter__is_spam__in=[Letter.SPAM.unknown, Letter.SPAM.non_spam])
         return self
 
 
