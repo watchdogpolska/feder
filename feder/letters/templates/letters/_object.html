@@ -23,7 +23,7 @@
         <ul>
             {% for attachment in object.attachment_set.all %}
                 <li>
-                    <a href="{{ attachment.attachment.url }}">
+                    <a href="{{ attachment.get_absolute_url }}">
                         {{ attachment }}
                     </a>
                 </li>

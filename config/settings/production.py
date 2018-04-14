@@ -78,6 +78,9 @@ STATIC_URL = MEDIA_URL
 AWS_PRELOAD_METADATA = True
 INSTALLED_APPS = ('collectfast', ) + INSTALLED_APPS
 """
+SENDFILE_BACKEND = 'sendfile.backends.nginx'
+MEDIA_URL = '/media_internal/'
+
 # EMAIL
 # ------------------------------------------------------------------------------
 DEFAULT_FROM_EMAIL = env('DJANGO_DEFAULT_FROM_EMAIL',

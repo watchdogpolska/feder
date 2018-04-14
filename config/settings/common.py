@@ -335,3 +335,4 @@ EMAILLABS_SECRET_KEY = env('EMAILLABS_SECRET_KEY', default="Dummy")
 
 INSTALLED_APPS += ('github_revision', )
 GITHUB_REVISION_REPO_URL = 'https://github.com/watchdogpolska/feder'
+SENDFILE_BACKEND = 'sendfile.backends.development'
