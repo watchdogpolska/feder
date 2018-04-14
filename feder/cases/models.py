@@ -30,7 +30,8 @@ class CaseQuerySet(models.QuerySet):
 
     def with_letter(self):
         from feder.records.models import Record
-        record_queryset = Record.objects.with_author().all()
+        from feder.letters.models import Letter
+        record_queryset = Record.objects.with_author().exclude(letters_letters__is_spam=Letter.SPAM.spam).all()
         return self.prefetch_related(Prefetch(lookup='record_set',
                                               queryset=record_queryset))
 
