@@ -33,6 +33,15 @@ from .models import Letter, Attachment
 _("Letters index")
 
 
+class MixinGzipXSendFile(object):
+    def get_sendfile_kwargs(self, context):
+        kwargs = super(MixinGzipXSendFile, self).get_sendfile_kwargs(context)
+        if kwargs['filename'] and kwargs['filename'].endswith('.gz'):
+            kwargs['encoding'] = 'gzip'
+            kwargs['filename'] = kwargs['filename'][:-len('.gz')]
+        return kwargs
+
+
 class LetterListView(UserKwargFilterSetMixin, SelectRelatedMixin, FilterView):
     filterset_class = LetterFilter
     model = Letter
@@ -49,7 +58,7 @@ class LetterDetailView(SelectRelatedMixin, DetailView):
     select_related = ['author_institution', 'author_user', 'record__case__monitoring']
 
 
-class LetterMessageXSendFileView(BaseXSendFileView):
+class LetterMessageXSendFileView(MixinGzipXSendFile, BaseXSendFileView):
     model = Letter
     file_field = 'eml'
     send_as_attachment = True
@@ -351,10 +360,18 @@ class AssignMessageFormView(PrefetchRelatedMixin, RaisePermissionRequiredMixin, 
         return super(AssignMessageFormView, self).form_valid(form)
 
 
-class AttachmentXSendFileView(BaseXSendFileView):
+
+
+class AttachmentXSendFileView(MixinGzipXSendFile, BaseXSendFileView):
     model = Attachment
     file_field = 'attachment'
     send_as_attachment = True
 
     def get_queryset(self):
         return super(AttachmentXSendFileView, self).get_queryset().for_user(self.request.user)
+
+    def get_sendfile_kwargs(self, context):
+        kwargs = super(AttachmentXSendFileView, self).get_sendfile_kwargs(context)
+        if kwargs['filename'].endswith('.gz'):
+            kwargs['encoding'] = 'gzip'
+        return kwargs
