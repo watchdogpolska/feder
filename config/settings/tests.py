@@ -9,4 +9,9 @@ class DisableMigrations(object):
     def __getitem__(self, item):
         return "notmigrations"
 
+
 MIGRATION_MODULES = DisableMigrations()
+
+DATABASES['default']['TEST_CHARSET'] = "utf8"
+DATABASES['default']['TEST_COLLATION'] = "utf8_general_ci"
+
