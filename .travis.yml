@@ -24,6 +24,9 @@ matrix:
     - env: TOX_ENV=flake8
   fast_finish: true
 
+before_install:
+  - .contrib/travis-ci/create-database.sh
+
 install:
   - pip install -U pip wheel
   - pip install tox
