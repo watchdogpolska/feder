@@ -53,7 +53,7 @@ tqdm==4.19.9
 djangorestframework-filters==0.10.2
 django-github-revision==0.0.3
 
-https://github.com/watchdogpolska/django-mailbox/archive/e29ec85aca1855550d9f2d1c7ea4e55469cd350e.zip
+https://github.com/watchdogpolska/django-mailbox/archive/550725793605660c66927ae72582331eb312070c.zip
 # Ping commit due missing cached object in <=4.7.1
 django-extra-views==0.10.0
 django-sendfile2==0.4.1
