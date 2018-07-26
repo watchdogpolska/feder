@@ -13,7 +13,8 @@ from feder.records.models import AbstractRecord
 
 
 class ParcelPostQuerySet(models.QuerySet):
-    pass
+    def for_user(self, user):
+        return self
 
 
 class AbstractParcelPost(AbstractRecord):
