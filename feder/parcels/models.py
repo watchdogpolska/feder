@@ -34,6 +34,9 @@ class IncomingParcelPost(AbstractParcelPost):
     def get_absolute_url(self):
         return reverse('parcels:incoming-details', kwargs={'pk': str(self.pk)})
 
+    def get_download_url(self):
+        return reverse('parcels:incoming-download', kwargs={'pk': str(self.pk)})
+
     def __str__(self):
         return self.title
 
@@ -49,6 +52,9 @@ class OutgoingParcelPost(AbstractParcelPost):
 
     def get_absolute_url(self):
         return reverse('parcels:outgoing-details', kwargs={'pk': str(self.pk)})
+
+    def get_download_url(self):
+        return reverse('parcels:outgoing-download', kwargs={'pk': str(self.pk)})
 
     def __str__(self):
         return self.title
