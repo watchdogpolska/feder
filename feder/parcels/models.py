@@ -21,6 +21,7 @@ class AbstractParcelPost(AbstractRecord):
     title = models.CharField(verbose_name=_("Title"), max_length=200)
     content = models.FileField(verbose_name=_("Content"))
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, help_text=_("Created by"))
+    objects = ParcelPostQuerySet.as_manager()
 
     class Meta:
         abstract = True
