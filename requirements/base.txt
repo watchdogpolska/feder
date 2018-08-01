@@ -46,7 +46,7 @@ talon==1.4.4
 django-teryt-tree==0.14.5
 cached-property==1.4.3
 django-bootstrap-pagination==1.6.4
-django-reversion==2.0.13
+django-reversion==3.0.0
 djangorestframework==3.7.7
 unicodecsv==0.14.1
 tqdm==4.19.9
