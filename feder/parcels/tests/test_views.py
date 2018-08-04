@@ -56,7 +56,7 @@ class OutgoingAttachmentParcelPostXSendFileViewTestCase(OutgoingParcelPostMixin,
     status_no_permission = 200
 
     def get_url(self):
-        return reverse('parcels:incoming-download', kwargs={'pk': self.object.pk})
+        return reverse('parcels:outgoing-download', kwargs={'pk': self.object.pk})
 
 
 class IncomingParcelPostUpdateViewTestCase(IncomingParcelPostMixin, PermissionStatusMixin, TestCase):

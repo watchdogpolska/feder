@@ -130,7 +130,7 @@ class OutgoingParcelPostDeleteView(ParcelPostDeleteView):
     model = OutgoingParcelPost
 
 
-class AttachmentParcelPostXSendFileView(MixinGzipXSendFile, BaseXSendFileView):
+class AttachmentParcelPostXSendFileView(BaseXSendFileView):
     file_field = 'content'
     send_as_attachment = True
 
