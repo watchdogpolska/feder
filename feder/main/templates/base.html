@@ -125,6 +125,11 @@
             <div class="alert {% if message.tags %}alert-{{ message.tags }}"{% endif %}>{{ message }}</div>
         {% endfor %}
     {% endif %}
+
+    {% if debug %}
+        <h1 style="background-color: #0a6f0a; color: #fff; text-align: center;">DEBUG ENVIRONMENT</h1>
+    {% endif %}
+
     {% block breadcrumbs %}{% endblock %}
     {% block buttons %}{% endblock %}
     {% block content %}

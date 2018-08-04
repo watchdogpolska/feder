@@ -95,7 +95,6 @@ MIDDLEWARE = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'reversion.middleware.RevisionMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'feder.light_user.middleware.LightUserMiddleware',
 )
 
@@ -272,18 +271,13 @@ LOGGING = {
         }
     },
     'handlers': {
-        'mail_admins': {
-            'level': 'ERROR',
-            'filters': ['require_debug_false'],
-            'class': 'django.utils.log.AdminEmailHandler'
-        },
         'console': {
             'class': 'logging.StreamHandler',
         },
     },
     'loggers': {
         'django.request': {
-            'handlers': ['mail_admins'],
+            'handlers': [],
             'level': 'ERROR',
             'propagate': True,
         },
@@ -336,3 +330,4 @@ EMAILLABS_SECRET_KEY = env('EMAILLABS_SECRET_KEY', default="Dummy")
 
 INSTALLED_APPS += ('github_revision', )
 GITHUB_REVISION_REPO_URL = 'https://github.com/watchdogpolska/feder'
+SENDFILE_BACKEND = 'sendfile.backends.development'

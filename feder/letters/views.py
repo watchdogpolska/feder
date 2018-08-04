@@ -1,3 +1,5 @@
+from os import path
+
 from atom.ext.django_filters.views import UserKwargFilterSetMixin
 from atom.views import (CreateMessageMixin, DeleteMessageMixin,
                         UpdateMessageMixin, ActionView, ActionMessageMixin)
@@ -22,14 +24,24 @@ from feder.cases.models import Case
 from feder.letters.filters import MessageFilter
 from feder.letters.formsets import AttachmentInline
 from feder.main.mixins import (AttrPermissionRequiredMixin,
-                               RaisePermissionRequiredMixin)
+                               RaisePermissionRequiredMixin, BaseXSendFileView)
 from feder.monitorings.models import Monitoring
 from .filters import LetterFilter
 from .forms import LetterForm, ReplyForm, AssignMessageForm
 from .mixins import LetterObjectFeedMixin
-from .models import Letter
+from .models import Letter, Attachment
 
 _("Letters index")
+
+
+class MixinGzipXSendFile(object):
+    def get_sendfile_kwargs(self, context):
+        kwargs = super(MixinGzipXSendFile, self).get_sendfile_kwargs(context)
+        if kwargs['filename'] and kwargs['filename'].endswith('.gz'):
+            kwargs['encoding'] = 'gzip'
+            filename = path.basename(kwargs['filename'][:-len('.gz')])
+            kwargs['attachment_filename'] = filename
+        return kwargs
 
 
 class LetterListView(UserKwargFilterSetMixin, SelectRelatedMixin, FilterView):
@@ -46,6 +58,12 @@ class LetterListView(UserKwargFilterSetMixin, SelectRelatedMixin, FilterView):
 class LetterDetailView(SelectRelatedMixin, DetailView):
     model = Letter
     select_related = ['author_institution', 'author_user', 'record__case__monitoring']
+
+
+class LetterMessageXSendFileView(MixinGzipXSendFile, BaseXSendFileView):
+    model = Letter
+    file_field = 'eml'
+    send_as_attachment = True
 
 
 class LetterCreateView(RaisePermissionRequiredMixin, UserFormKwargsMixin,
@@ -342,3 +360,18 @@ class AssignMessageFormView(PrefetchRelatedMixin, RaisePermissionRequiredMixin, 
     def form_valid(self, form):
         form.save()
         return super(AssignMessageFormView, self).form_valid(form)
+
+
+class AttachmentXSendFileView(MixinGzipXSendFile, BaseXSendFileView):
+    model = Attachment
+    file_field = 'attachment'
+    send_as_attachment = True
+
+    def get_queryset(self):
+        return super(AttachmentXSendFileView, self).get_queryset().for_user(self.request.user)
+
+    def get_sendfile_kwargs(self, context):
+        kwargs = super(AttachmentXSendFileView, self).get_sendfile_kwargs(context)
+        if kwargs['filename'].endswith('.gz'):
+            kwargs['encoding'] = 'gzip'
+        return kwargs

@@ -13,13 +13,15 @@ from feder.records.models import AbstractRecord
 
 
 class ParcelPostQuerySet(models.QuerySet):
-    pass
+    def for_user(self, user):
+        return self
 
 
 class AbstractParcelPost(AbstractRecord):
     title = models.CharField(verbose_name=_("Title"), max_length=200)
     content = models.FileField(verbose_name=_("Content"))
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, help_text=_("Created by"))
+    objects = ParcelPostQuerySet.as_manager()
 
     class Meta:
         abstract = True
@@ -33,6 +35,9 @@ class IncomingParcelPost(AbstractParcelPost):
 
     def get_absolute_url(self):
         return reverse('parcels:incoming-details', kwargs={'pk': str(self.pk)})
+
+    def get_download_url(self):
+        return reverse('parcels:incoming-download', kwargs={'pk': str(self.pk)})
 
     def __str__(self):
         return self.title
@@ -49,6 +54,9 @@ class OutgoingParcelPost(AbstractParcelPost):
 
     def get_absolute_url(self):
         return reverse('parcels:outgoing-details', kwargs={'pk': str(self.pk)})
+
+    def get_download_url(self):
+        return reverse('parcels:outgoing-download', kwargs={'pk': str(self.pk)})
 
     def __str__(self):
         return self.title

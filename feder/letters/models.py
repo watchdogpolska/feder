@@ -209,9 +209,17 @@ class Letter(AbstractRecord):
         return message.send()
 
 
+class AttachmentQuerySet(models.QuerySet):
+    def for_user(self, user):
+        if not user.is_superuser:
+            return self.filter(letter__is_spam__in=[Letter.SPAM.unknown, Letter.SPAM.non_spam])
+        return self
+
+
 @python_2_unicode_compatible
 class Attachment(AttachmentBase):
     letter = models.ForeignKey(Letter, on_delete=models.CASCADE)
+    objects = AttachmentQuerySet.as_manager()
 
     def delete(self, *args, **kwargs):
         self.attachment.delete()
@@ -223,7 +231,7 @@ class Attachment(AttachmentBase):
         return "None"
 
     def get_absolute_url(self):
-        return self.attachment.url
+        return reverse('letters:attachment', kwargs={'pk': self.pk, 'letter_pk': self.letter_id})
 
     def get_full_url(self):
         return ''.join(['https://', get_current_site(None).domain, self.get_absolute_url()])

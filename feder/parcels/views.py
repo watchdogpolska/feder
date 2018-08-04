@@ -10,7 +10,8 @@ from guardian.mixins import LoginRequiredMixin
 from django.utils.translation import ugettext_lazy as _
 
 from feder.cases.models import Case
-from feder.main.mixins import RaisePermissionRequiredMixin
+from feder.letters.views import MixinGzipXSendFile
+from feder.main.mixins import RaisePermissionRequiredMixin, BaseXSendFileView
 from feder.parcels.forms import IncomingParcelPostForm, OutgoingParcelPostForm
 from feder.parcels.models import IncomingParcelPost, OutgoingParcelPost
 
@@ -127,3 +128,19 @@ class OutgoingParcelPostUpdateView(ParcelPostUpdateView):
 
 class OutgoingParcelPostDeleteView(ParcelPostDeleteView):
     model = OutgoingParcelPost
+
+
+class AttachmentParcelPostXSendFileView(BaseXSendFileView):
+    file_field = 'content'
+    send_as_attachment = True
+
+    def get_queryset(self):
+        return super(AttachmentParcelPostXSendFileView, self).get_queryset().for_user(self.request.user)
+
+
+class OutgoingAttachmentParcelPostXSendFileView(AttachmentParcelPostXSendFileView):
+    model = OutgoingParcelPost
+
+
+class IncomingAttachmentParcelPostXSendFileView(AttachmentParcelPostXSendFileView):
+    model = IncomingParcelPost

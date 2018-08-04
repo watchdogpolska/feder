@@ -15,8 +15,9 @@ from feder.letters.models import Letter
 from feder.letters.tests.base import MessageMixin
 from feder.main.mixins import PermissionStatusMixin
 from feder.monitorings.factories import MonitoringFactory
+from feder.records.models import Record
 from feder.users.factories import UserFactory
-from ..factories import IncomingLetterFactory, OutgoingLetterFactory, AttachmentFactory
+from ..factories import IncomingLetterFactory, OutgoingLetterFactory, AttachmentFactory, LetterFactory
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -74,7 +75,27 @@ class LetterDetailViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     def test_contains_link_to_attachment(self):
         attachment = AttachmentFactory(letter=self.letter)
         response = self.client.get(self.get_url())
-        self.assertContains(response, attachment.attachment.url)
+        self.assertContains(response, attachment.get_absolute_url())
+
+
+class LetterMessageXSendFileView(PermissionStatusMixin, TestCase):
+    permission = []
+    status_has_permission = 200
+    status_anonymous = 200
+    status_no_permission = 200
+
+    def setUp(self):
+        super(LetterMessageXSendFileView, self).setUp()
+        self.object = IncomingLetterFactory(is_spam=Letter.SPAM.non_spam)
+
+    def get_url(self):
+        return reverse('letters:download', kwargs={'pk': self.object.pk})
+
+    def test_deny_access_for_spam(self):
+        spam_obj = IncomingLetterFactory(is_spam=Letter.SPAM.spam)
+        url = reverse('letters:download', kwargs={'pk': spam_obj.pk})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)
 
 
 class LetterCreateViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
@@ -143,6 +164,7 @@ class LetterReplyViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
         new_letter = Letter.objects.filter(title="Lorem").get()
         new_attachment = new_letter.attachment_set.get()
         self.assertIn(new_attachment.get_full_url(), mail.outbox[0].body)
+        self.assertEqual(Record.objects.count(), 3)
 
     def test_no_send_drafts(self):
         self.login_permitted_user()
@@ -324,3 +346,33 @@ class AssignMessageFormViewTestCase(MessageMixin, MessageObjectMixin, Permission
         response = self.client.post(self.get_url(), data={'case': self.case.pk})
         self.assertRedirects(response, reverse('letters:messages_list'))
         self.assertTrue(self.msg.letter_set.exists())
+
+
+class SpamAttachmentXSendFileViewTestCase(PermissionStatusMixin, TestCase):
+    permission = []
+    status_has_permission = 404
+    status_anonymous = 404
+    status_no_permission = 404
+    spam_status = Letter.SPAM.spam
+
+    def setUp(self):
+        super(SpamAttachmentXSendFileViewTestCase, self).setUp()
+        self.object = AttachmentFactory(letter__is_spam=self.spam_status)
+
+    def get_url(self):
+        return reverse('letters:attachment', kwargs={'pk': self.object.pk, 'letter_pk': 0})
+
+
+class StandardAttachmentXSendFileViewTestCase(PermissionStatusMixin, TestCase):
+    permission = []
+    status_has_permission = 200
+    status_anonymous = 200
+    status_no_permission = 200
+    spam_status = Letter.SPAM.non_spam
+
+    def setUp(self):
+        super(StandardAttachmentXSendFileViewTestCase, self).setUp()
+        self.object = AttachmentFactory(letter__is_spam=self.spam_status)
+
+    def get_url(self):
+        return reverse('letters:attachment', kwargs={'pk': self.object.pk, 'letter_pk': 0})

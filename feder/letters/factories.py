@@ -58,7 +58,7 @@ class SendOutgoingLetterFactory(LetterFactory):
 
 
 class AttachmentFactory(factory.django.DjangoModelFactory):
-    letter = factory.SubFactory(InstitutionFactory)
+    letter = factory.SubFactory(LetterFactory)
     attachment = factory.django.FileField()
 
     class Meta:
