@@ -13,6 +13,8 @@ urlpatterns = [
         name="incoming-update"),
     url(r'^incoming-(?P<pk>[\w-]+)/~delete$', views.IncomingParcelPostDeleteView.as_view(),
         name="incoming-delete"),
+    url(r'^incoming-(?P<pk>[\w-]+)/~download$', views.IncomingAttachmentParcelPostXSendFileView.as_view(),
+        name="incoming-download"),
     url(r'^~create-outgoing-(?P<case_pk>\d+)$', views.OutgoingParcelPostCreateView.as_view(),
         name="outgoing-create"),
     url(r'^outgoing-(?P<pk>[\w-]+)$', views.OutgoingParcelPostDetailView.as_view(),
@@ -21,6 +23,8 @@ urlpatterns = [
         name="outgoing-update"),
     url(r'^outgoing-(?P<pk>[\w-]+)/~delete$', views.OutgoingParcelPostDeleteView.as_view(),
         name="outgoing-delete"),
+    url(r'^outgoing-(?P<pk>[\w-]+)/~download$', views.OutgoingAttachmentParcelPostXSendFileView.as_view(),
+        name="outgoing-download"),
 ]
 
 app_name = 'feder.parcels'

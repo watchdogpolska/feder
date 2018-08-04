@@ -41,6 +41,24 @@ class IncomingParcelPostDetailViewTestCase(IncomingParcelPostMixin, PermissionSt
         return reverse('parcels:incoming-details', kwargs={'pk': self.object.pk})
 
 
+class IncomingAttachmentParcelPostXSendFileViewTestCase(IncomingParcelPostMixin, PermissionStatusMixin, TestCase):
+    permission = []
+    status_anonymous = 200
+    status_no_permission = 200
+
+    def get_url(self):
+        return reverse('parcels:incoming-download', kwargs={'pk': self.object.pk})
+
+
+class OutgoingAttachmentParcelPostXSendFileViewTestCase(OutgoingParcelPostMixin, PermissionStatusMixin, TestCase):
+    permission = []
+    status_anonymous = 200
+    status_no_permission = 200
+
+    def get_url(self):
+        return reverse('parcels:outgoing-download', kwargs={'pk': self.object.pk})
+
+
 class IncomingParcelPostUpdateViewTestCase(IncomingParcelPostMixin, PermissionStatusMixin, TestCase):
     permission = ['monitorings.change_parcelpost', ]
 

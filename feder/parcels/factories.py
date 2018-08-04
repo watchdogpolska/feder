@@ -9,7 +9,7 @@ from feder.users.factories import UserFactory
 class AbstractParcelPostFactory(factory.django.DjangoModelFactory):
     record = factory.SubFactory(RecordFactory)
     title = factory.Sequence('title-{0}'.format)
-    content = factory.Sequence('content-{0}'.format)
+    content = factory.django.ImageField()
     created_by = factory.SubFactory(UserFactory)
 
 
