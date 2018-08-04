@@ -2,6 +2,7 @@
 from django.urls import reverse
 from django.test import RequestFactory, TestCase
 from django.utils.encoding import force_text
+from guardian.shortcuts import assign_perm
 
 from feder.main.mixins import PermissionStatusMixin
 from feder.teryt.factories import JSTFactory
@@ -101,6 +102,12 @@ class InstitutionDetailViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase
         response = self.client.get(self.get_url())
         self.assertTemplateUsed(response, 'institutions/institution_detail.html')
         self.assertContains(response, self.institution.name)
+
+    def test_can_view_edit_button_if_permitted(self):
+        assign_perm('institutions.change_institution', self.user)
+        self.login_permitted_user()
+        response = self.client.get(self.get_url())
+        self.assertContains(response, reverse('institutions:update', kwargs={'slug': self.institution.slug}))
 
 
 class InstitutionCreateViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
