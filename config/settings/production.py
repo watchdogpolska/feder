@@ -142,12 +142,6 @@ EMAILLABS_SECRET_KEY = env('EMAILLABS_SECRET_KEY')
 INSTALLED_APPS = INSTALLED_APPS + (
     'elasticapm.contrib.django', )
 
-ELASTIC_APM = {
-    'SERVICE_NAME': env.str('APM_APP_DOMAIN', env.str('APP_DOMAIN', 'UNDEF')),
-    'SECRET_TOKEN': env.str('APM_SECRET_TOKEN', ''),
-    'SERVER_URL':   env.str('APM_SERVER_URL', ''),
-}
-
 MIDDLEWARE = (
     'elasticapm.contrib.django.middleware.TracingMiddleware',
 ) + MIDDLEWARE
