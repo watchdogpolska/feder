@@ -412,6 +412,7 @@ class ReceiveEmailTestCase(TestCase):
                                     data=json.dumps(body),
                                     content_type='application/imap-to-webhook-v1+json')
         letter = Letter.objects.first()
+        self.assertEqual(response.status_code, 200)
         self.assertEqual(letter.case, None)
 
     def _get_body(self, case=None):
