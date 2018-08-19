@@ -50,6 +50,7 @@ urlpatterns = [
     url(_(r'^(?P<pk>[\d-]+)/~mark-spam'), views.LetterMarkSpamView.as_view(),
         name="mark_spam"),
     url(_(r'^messages/logs/'), include(messages_urlpatterns)),
+    url(_(r'^webhook'), views.ReceiveEmail.as_view(), name="webhook"),
 ]
 
 app_name = 'feder.letters'

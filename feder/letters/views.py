@@ -1,3 +1,6 @@
+import base64
+import json
+import uuid
 from os import path
 
 from atom.ext.django_filters.views import UserKwargFilterSetMixin
@@ -8,12 +11,16 @@ from braces.views import (FormValidMessageMixin, SelectRelatedMixin,
 from cached_property import cached_property
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.syndication.views import Feed
+from django.core.exceptions import PermissionDenied
+from django.core.files.base import ContentFile
+from django.http import HttpResponseBadRequest, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.utils.datetime_safe import datetime
 from django.utils.encoding import force_text
 from django.utils.feedgenerator import Atom1Feed
 from django.utils.translation import ugettext_lazy as _
+from django.views import View
 from django.views.generic import CreateView, DeleteView, DetailView, FormView
 from django_filters.views import FilterView
 from django_mailbox.models import Message
@@ -21,11 +28,14 @@ from extra_views import UpdateWithInlinesView, CreateWithInlinesView
 
 from feder.alerts.models import Alert
 from feder.cases.models import Case
+from feder.letters import settings
 from feder.letters.filters import MessageFilter
 from feder.letters.formsets import AttachmentInline
+from feder.letters.settings import LETTER_RECEIVE_SECRET
 from feder.main.mixins import (AttrPermissionRequiredMixin,
                                RaisePermissionRequiredMixin, BaseXSendFileView)
 from feder.monitorings.models import Monitoring
+from feder.records.models import Record
 from .filters import LetterFilter
 from .forms import LetterForm, ReplyForm, AssignMessageForm
 from .mixins import LetterObjectFeedMixin
@@ -375,3 +385,49 @@ class AttachmentXSendFileView(MixinGzipXSendFile, BaseXSendFileView):
         if kwargs['filename'].endswith('.gz'):
             kwargs['encoding'] = 'gzip'
         return kwargs
+
+
+class ReceiveEmail(View):
+    required_content_type = 'application/imap-to-webhook-v1+json'
+
+    def post(self, request):
+        if request.GET.get('secret') != LETTER_RECEIVE_SECRET:
+            raise PermissionDenied
+        if request.content_type != self.required_content_type:
+            return HttpResponseBadRequest('The request has an invalid format. '
+                                          'The acceptable format is "{}"'.format(request.content_type))
+
+        body = json.loads(request.body)
+        letter = self.get_letter(**body)
+
+        Attachment.objects.bulk_create(self.get_attachment(attachment, letter)
+                                       for attachment in body['files'])
+        return JsonResponse({'status': 'OK'})
+
+    def get_letter(self, headers, eml, text, **kwargs):
+        case = self.get_case(headers['to+'])
+        eml_file = self.get_eml_file(eml)
+        from_email = headers['from'][0] if headers['from'][0] else 'unknown@domain.gov'
+        return Letter.objects.create(author_institution=case.institution if case else None,
+                                     email=from_email,
+                                     record=Record.objects.create(case=case),
+                                     title=headers['subject'],
+                                     body=text['content'],
+                                     quote=text['quote'],
+                                     eml=eml_file,
+                                     is_draft=False)
+
+    def get_case(self, to_plus):
+        return Case.objects.select_related('institution').by_addresses(to_plus).first()
+
+    def get_attachment(self, attachment, letter):
+        file_obj = ContentFile(content=base64.b64decode(attachment['content']),
+                               name=attachment['filename'])
+        return Attachment(letter=letter,
+                          attachment=file_obj)
+
+    def get_eml_file(self, eml):
+        eml_extensions = "eml.gz" if ['compressed'] else "eml"
+        eml_filename = "{}.{}".format(uuid.uuid4().hex, eml_extensions)
+        eml_content = base64.b64decode(eml['content'])
+        return ContentFile(eml_content, eml_filename)
