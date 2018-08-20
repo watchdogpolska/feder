@@ -430,8 +430,8 @@ class ReceiveEmailTestCase(TestCase):
         letter = case.record_set.all()[0].content_object
         self.assertEqual(letter.body, 'W dniach 30.07-17.08.2018 r. przebywam na urlopie.')
         if six.PY3:
-            self.assertEqual(letter.eml.read().encode('utf-8'), '12345')
-            self.assertEqual(letter.attachment_set.all()[0].attachment.read().encode('utf-8'), '12345')
+            self.assertEqual(letter.eml.read().decode('utf-8'), '12345')
+            self.assertEqual(letter.attachment_set.all()[0].attachment.read().decode('utf-8'), '12345')
         else:
             self.assertEqual(letter.eml.read(), '12345')
             self.assertEqual(letter.attachment_set.all()[0].attachment.read(), '12345')
