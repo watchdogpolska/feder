@@ -11,11 +11,10 @@ class Command(BaseCommand):
     help = "Reimport mailbox archived emails as letter."
 
     def handle(self, *args, **options):
-        pass
         for message in Message.objects.filter(letter=None).all().iterator():
             self.stdout.write(message)
             try:
                 MessageParser(message).insert()
-            except IOError:
-                message.delete()
-        import ipdb;ipdb.set_trace()
+            except IOError as e:
+                print("IO error for message", message, e)
+                # message.delete()
