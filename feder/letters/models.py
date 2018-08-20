@@ -134,6 +134,8 @@ class Letter(AbstractRecord):
         return force_text(self.get_title())
 
     def get_absolute_url(self):
+        if not self.case:
+            return reverse('letters:assign', kwargs={'pk': self.pk})
         return reverse('letters:details', kwargs={'pk': self.pk})
 
     @property

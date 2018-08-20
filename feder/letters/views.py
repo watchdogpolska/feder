@@ -38,7 +38,7 @@ from feder.main.mixins import (AttrPermissionRequiredMixin,
 from feder.monitorings.models import Monitoring
 from feder.records.models import Record
 from .filters import LetterFilter
-from .forms import LetterForm, ReplyForm, AssignMessageForm
+from .forms import LetterForm, ReplyForm, AssignMessageForm, AssignLetterForm
 from .mixins import LetterObjectFeedMixin
 from .models import Letter, Attachment
 
@@ -55,7 +55,13 @@ class MixinGzipXSendFile(object):
         return kwargs
 
 
-class LetterListView(UserKwargFilterSetMixin, SelectRelatedMixin, FilterView):
+class CaseRequiredMixin(object):
+    def get_queryset(self):
+        qs = super(CaseRequiredMixin, self).get_queryset().exclude(record__case=None)
+        return qs.attachment_count()
+
+
+class LetterListView(UserKwargFilterSetMixin, CaseRequiredMixin, SelectRelatedMixin, FilterView):
     filterset_class = LetterFilter
     model = Letter
     select_related = ['author_user', 'author_institution', 'record__case__institution']
@@ -66,7 +72,7 @@ class LetterListView(UserKwargFilterSetMixin, SelectRelatedMixin, FilterView):
         return qs.attachment_count()
 
 
-class LetterDetailView(SelectRelatedMixin, DetailView):
+class LetterDetailView(SelectRelatedMixin, CaseRequiredMixin, DetailView):
     model = Letter
     select_related = ['author_institution', 'author_user', 'record__case__monitoring']
 
@@ -98,7 +104,8 @@ class LetterCreateView(RaisePermissionRequiredMixin, UserFormKwargsMixin,
 
 
 class LetterReplyView(RaisePermissionRequiredMixin, UserFormKwargsMixin,
-                      FormValidMessageMixin, CreateWithInlinesView):
+                      FormValidMessageMixin, CaseRequiredMixin,
+                      CreateWithInlinesView):
     template_name = 'letters/letter_reply.html'
     model = Letter
     form_class = ReplyForm
@@ -139,7 +146,7 @@ class LetterReplyView(RaisePermissionRequiredMixin, UserFormKwargsMixin,
             reply=self.object)
 
 
-class LetterSendView(AttrPermissionRequiredMixin, ActionMessageMixin, ActionView):
+class LetterSendView(AttrPermissionRequiredMixin, ActionMessageMixin, CaseRequiredMixin,  ActionView):
     model = Letter
     permission_attribute = 'record__case__monitoring'
     permission_required = 'monitorings.reply'
@@ -158,7 +165,8 @@ class LetterSendView(AttrPermissionRequiredMixin, ActionMessageMixin, ActionView
 
 
 class LetterUpdateView(AttrPermissionRequiredMixin, UserFormKwargsMixin,
-                       UpdateMessageMixin, FormValidMessageMixin, UpdateWithInlinesView):
+                       UpdateMessageMixin, FormValidMessageMixin,
+                       CaseRequiredMixin, UpdateWithInlinesView):
     model = Letter
     form_class = LetterForm
     inlines = [AttachmentInline, ]
@@ -166,7 +174,7 @@ class LetterUpdateView(AttrPermissionRequiredMixin, UserFormKwargsMixin,
     permission_required = 'monitorings.change_letter'
 
 
-class LetterDeleteView(AttrPermissionRequiredMixin, DeleteMessageMixin, DeleteView):
+class LetterDeleteView(AttrPermissionRequiredMixin, DeleteMessageMixin, CaseRequiredMixin,  DeleteView):
     model = Letter
     permission_attribute = 'record__case__monitoring'
     permission_required = 'monitorings.delete_letter'
@@ -191,7 +199,7 @@ class LetterRssFeed(Feed):
     description_template = "letters/_letter_feed_item.html"
 
     def items(self):
-        return Letter.objects.with_feed_items().order_by('-created')[:30]
+        return Letter.objects.with_feed_items().exclude(record__case=None).order_by('-created')[:30]
 
     def item_title(self, item):
         return item.title
@@ -260,7 +268,7 @@ class LetterCaseAtomFeed(LetterCaseRssFeed):
     feed_url = reverse_lazy("letters:atom")
 
 
-class LetterReportSpamView(ActionMessageMixin, ActionView):
+class LetterReportSpamView(ActionMessageMixin, CaseRequiredMixin, ActionView):
     template_name_suffix = '_spam'
     model = Letter
 
@@ -281,7 +289,7 @@ class LetterReportSpamView(ActionMessageMixin, ActionView):
         return self.object.case.get_absolute_url()
 
 
-class LetterMarkSpamView(RaisePermissionRequiredMixin, ActionMessageMixin, ActionView):
+class LetterMarkSpamView(RaisePermissionRequiredMixin, CaseRequiredMixin, ActionMessageMixin, ActionView):
     template_name_suffix = '_spam'
     model = Letter
     permission_required = 'monitorings.spam_mark'
@@ -318,11 +326,11 @@ class LetterMarkSpamView(RaisePermissionRequiredMixin, ActionMessageMixin, Actio
         return self.object.case.get_absolute_url()
 
 
-class UnrecognizedMessageListView(RaisePermissionRequiredMixin, PrefetchRelatedMixin, FilterView):
+class UnrecognizedMessageListView(RaisePermissionRequiredMixin,  PrefetchRelatedMixin, FilterView):
     filterset_class = MessageFilter
     model = Message
     prefetch_related = ['attachments']
-    paginate_by = 50
+    paginate_by = 10
     permission_object = None
     permission_required = 'letters.recognize_letter'
     template_name = 'letters/messages/message_filter.html'
@@ -373,6 +381,63 @@ class AssignMessageFormView(PrefetchRelatedMixin, RaisePermissionRequiredMixin, 
         return super(AssignMessageFormView, self).form_valid(form)
 
 
+class UnrecognizedLetterListView(UserKwargFilterSetMixin, RaisePermissionRequiredMixin, PrefetchRelatedMixin,
+                                 FilterView):
+    filterset_class = LetterFilter
+    model = Letter
+    paginate_by = 10
+    permission_object = None
+    permission_required = 'letters.recognize_letter'
+    template_name_suffix = '_unrecognized_list'
+    select_related = ['record', ]
+    prefetch_related = ['attachment_set', ]
+    ordering = '-pk'
+
+    def get_queryset(self):
+        return super(UnrecognizedLetterListView, self).get_queryset().filter(record__case=None)
+
+    def get_context_data(self, **kwargs):
+        context = super(UnrecognizedLetterListView, self).get_context_data(**kwargs)
+        context['object_list'] = self.update_object_list(context['object_list'])
+        return context
+
+    def update_object_list(self, object_list):
+        result = []
+        for obj in object_list:
+            obj.assign_form = AssignLetterForm(letter=obj)
+            result.append(obj)
+        return result
+
+
+class AssignLetterFormView(PrefetchRelatedMixin, RaisePermissionRequiredMixin, SuccessMessageMixin, FormView):
+    model = Letter
+    form_class = AssignLetterForm
+    permission_object = None
+    success_url = reverse_lazy('letters:unrecognized_list')
+    permission_required = 'letters.recognize_letter'
+    template_name = 'letters/letter_assign.html'
+    success_message = _("Assigned letter to case '%(case)s'")
+
+    @cached_property
+    def letter(self):
+        obj = get_object_or_404(self.model, pk=self.kwargs['pk'])
+        obj.assign_form = self.form_class(letter=obj)
+        return obj
+
+    def get_context_data(self, **kwargs):
+        kwargs['object'] = self.letter
+        return super(AssignLetterFormView, self).get_context_data(**kwargs)
+
+    def get_form_kwargs(self):
+        kwargs = super(AssignLetterFormView, self).get_form_kwargs()
+        kwargs['letter'] = self.letter
+        return kwargs
+
+    def form_valid(self, form):
+        form.save()
+        return super(AssignLetterFormView, self).form_valid(form)
+
+
 class AttachmentXSendFileView(MixinGzipXSendFile, BaseXSendFileView):
     model = Attachment
     file_field = 'attachment'
@@ -399,14 +464,14 @@ class ReceiveEmail(View):
                                           'The acceptable format is "{}"'.format(request.content_type))
 
         if six.PY3:
-            body = json.loads(request.body.decode('utf-8'))
+            body = json.loads(request.read().decode('utf-8'))
         else:
-            body = json.loads(request.body)
+            body = json.loads(request.read())
         letter = self.get_letter(**body)
 
         Attachment.objects.bulk_create(self.get_attachment(attachment, letter)
                                        for attachment in body['files'])
-        return JsonResponse({'status': 'OK'})
+        return JsonResponse({'status': 'OK', 'letter': letter.pk})
 
     def get_letter(self, headers, eml, text, **kwargs):
         case = self.get_case(headers['to+'])

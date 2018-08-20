@@ -2,17 +2,16 @@ from __future__ import absolute_import, unicode_literals
 
 import json
 import os
-from django.contrib.auth.models import Permission
 from django.core import mail
 from django.core.files.base import ContentFile
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.urls import reverse
 from django.test import TestCase
+from django.utils import six
 from guardian.shortcuts import assign_perm
 
 from feder.alerts.models import Alert
 from feder.cases.factories import CaseFactory
-from feder.letters import settings
 from feder.letters.models import Letter
 from feder.letters.settings import LETTER_RECEIVE_SECRET
 from feder.letters.tests.base import MessageMixin
@@ -351,6 +350,34 @@ class AssignMessageFormViewTestCase(MessageMixin, MessageObjectMixin, Permission
         self.assertTrue(self.msg.letter_set.exists())
 
 
+class UnrecognizedLetterListViewTestView(MessageObjectMixin, PermissionStatusMixin, TestCase):
+    permission = ['letters.recognize_letter']
+    permission_object = None
+
+    def get_url(self):
+        return reverse('letters:unrecognized_list')
+
+
+class AssignLetterFormViewTestCase(MessageMixin, MessageObjectMixin, PermissionStatusMixin, TestCase):
+    permission = ['letters.recognize_letter']
+
+    def setUp(self):
+        super(AssignLetterFormViewTestCase, self).setUp()
+        self.user = UserFactory(username='john')
+        self.msg = LetterFactory(record__case=None)
+
+    def get_url(self):
+        return reverse('letters:assign', kwargs={'pk': self.msg.pk})
+
+    def test_assign_simple_letter(self):
+        self.client.login(username=UserFactory(is_superuser=True).username,
+                          password='pass')
+        self.case = CaseFactory()
+        response = self.client.post(self.get_url(), data={'case': self.case.pk})
+        self.assertRedirects(response, reverse('letters:unrecognized_list'))
+        self.assertTrue(self.case.record_set.exists())
+
+
 class SpamAttachmentXSendFileViewTestCase(PermissionStatusMixin, TestCase):
     permission = []
     status_has_permission = 404
@@ -402,8 +429,12 @@ class ReceiveEmailTestCase(TestCase):
         self.assertEqual(case.record_set.count(), 1)
         letter = case.record_set.all()[0].content_object
         self.assertEqual(letter.body, 'W dniach 30.07-17.08.2018 r. przebywam na urlopie.')
-        self.assertEqual(letter.eml.read(), '12345')
-        self.assertEqual(letter.attachment_set.all()[0].attachment.read(), '12345')
+        if six.PY3:
+            self.assertEqual(letter.eml.read().encode('utf-8'), '12345')
+            self.assertEqual(letter.attachment_set.all()[0].attachment.read().encode('utf-8'), '12345')
+        else:
+            self.assertEqual(letter.eml.read(), '12345')
+            self.assertEqual(letter.attachment_set.all()[0].attachment.read(), '12345')
 
     def test_no_valid_email(self):
         body = self._get_body()

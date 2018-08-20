@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load i18n crispy_forms_tags %}
+
+{% block content %}
+    <div class="gray">
+        {% include 'letters/_letter_unrecognized_small.html' with object=object %}
+    </div>
+
+{% endblock %}
+
+{% block javascript %}
+    {{ block.super }}
+    {{ object.assign_form.media }}
+{% endblock %}
