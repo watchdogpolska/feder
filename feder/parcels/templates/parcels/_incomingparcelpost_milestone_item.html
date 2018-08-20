@@ -17,7 +17,7 @@
         <p>
 
             {% trans 'Content' %}: <i class="fa fa-download" aria-hidden="false"></i>
-            <a href="{{ object.content.url }}">{% trans 'Download' %}</a>
+            <a href="{{ object.get_download_url }}">{% trans 'Download' %}</a>
         </p>
     </div>
 </li>

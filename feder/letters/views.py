@@ -271,7 +271,7 @@ class LetterReportSpamView(ActionMessageMixin, ActionView):
 
 
 class LetterMarkSpamView(RaisePermissionRequiredMixin, ActionMessageMixin, ActionView):
-    template_name_suffix = '_spam'
+    template_name_suffix = '_mark_spam'
     model = Letter
     permission_required = 'monitorings.spam_mark'
     accept_global_perms = True
