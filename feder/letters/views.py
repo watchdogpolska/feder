@@ -16,6 +16,7 @@ from django.core.files.base import ContentFile
 from django.http import HttpResponseBadRequest, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
+from django.utils import six
 from django.utils.datetime_safe import datetime
 from django.utils.encoding import force_text
 from django.utils.feedgenerator import Atom1Feed
@@ -397,7 +398,10 @@ class ReceiveEmail(View):
             return HttpResponseBadRequest('The request has an invalid format. '
                                           'The acceptable format is "{}"'.format(request.content_type))
 
-        body = json.loads(request.body)
+        if six.PY3:
+            body = json.loads(request.body.decode('utf-8'))
+        else:
+            body = json.loads(request.body)
         letter = self.get_letter(**body)
 
         Attachment.objects.bulk_create(self.get_attachment(attachment, letter)
