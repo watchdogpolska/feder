@@ -10,11 +10,17 @@ from feder.letters.signals import MessageParser
 class Command(BaseCommand):
     help = "Reimport mailbox archived emails as letter."
 
-    def handle(self, *args, **options):
-        for message in Message.objects.filter(letter=None).all().iterator():
+    def add_arguments(self, parser):
+        parser.add_argument('limit', type=int, help="Limit of emails (default: 10)", default=10)
+        parser.add_argument('--delete', dest='delete', action='store_true',
+                            help="Delete messages after import.")
+
+    def handle(self, limit, delete, *args, **options):
+        for message in Message.objects.filter(letter=None).all()[:limit].iterator():
             self.stdout.write(message)
             try:
                 MessageParser(message).insert()
             except IOError as e:
                 print("IO error for message", message, e)
-                # message.delete()
+            if delete:
+                message.delete()
