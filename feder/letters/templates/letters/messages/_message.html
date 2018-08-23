@@ -19,7 +19,7 @@
     </tr>
     <tr>
         <td>{% trans 'EML' %}</td>
-        <td><a href="{% url 'messages_download' pk=object.pk %}">{% trans 'Download original message' %}</a></td>
+        <td><a href="{% url 'letters:messages_download' pk=object.pk %}">{% trans 'Download original message' %}</a></td>
     </tr>
     {% if object.attachments.all %}
         <tr>
