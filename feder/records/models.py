@@ -47,7 +47,7 @@ class RecordQuerySet(models.QuerySet):
 
 
 class Record(TimeStampedModel):
-    case = models.ForeignKey(Case, on_delete=models.CASCADE)
+    case = models.ForeignKey(Case, on_delete=models.CASCADE, null=True)
     objects = RecordQuerySet.as_manager()
 
     @cached_property
@@ -55,7 +55,6 @@ class Record(TimeStampedModel):
         for field in Record._meta.related_objects:
             if issubclass(field.related_model, AbstractRecord) and hasattr(self, field.related_name):
                 return getattr(self, field.related_name)
-
 
     @cached_property
     def milestone_template(self):
@@ -89,6 +88,10 @@ class AbstractRecord(TimeStampedModel):
     @property
     def case(self):
         return self.record.case
+
+    @case.setter
+    def case(self, value):
+        self.record.case = value
 
     class Meta:
         abstract = True

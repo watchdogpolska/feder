@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.conf.urls import url, include
 from django.utils.translation import ugettext_lazy as _
+from django.views.decorators.csrf import csrf_exempt
 
 from . import views
 
@@ -51,7 +52,12 @@ urlpatterns = [
         name="spam"),
     url(_(r'^(?P<pk>[\d-]+)/~mark-spam'), views.LetterMarkSpamView.as_view(),
         name="mark_spam"),
+    url(_(r'^assign$'), views.UnrecognizedLetterListView.as_view(),
+        name="unrecognized_list"),
+    url(_(r'^~assign-(?P<pk>[\d-]+)$'), views.AssignLetterFormView.as_view(),
+        name="assign"),
     url(_(r'^messages/logs/'), include(messages_urlpatterns)),
+    url(_(r'^webhook'), csrf_exempt(views.ReceiveEmail.as_view()), name="webhook"),
 ]
 
 app_name = 'feder.letters'

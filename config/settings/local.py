@@ -65,3 +65,5 @@ TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 EMAILLABS_APP_KEY = env('EMAILLABS_APP_KEY', default="Dummy")
 
 EMAILLABS_SECRET_KEY = env('EMAILLABS_SECRET_KEY', default="Dummy")
+
+LETTER_RECEIVE_SECRET = env('LETTER_RECEIVE_SECRET', default='my-strong-secret')
