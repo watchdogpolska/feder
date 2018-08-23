@@ -12,6 +12,8 @@ messages_urlpatterns = [
         name="messages_list"),
     url(_(r'^~assign-(?P<pk>[\d-]+)$'), views.AssignMessageFormView.as_view(),
         name="messages_assign"),
+    url(_(r'^~download-(?P<pk>[\d-]+)$'), views.MessageXSendFileView.as_view(),
+        name="messages_download"),
 ]
 urlpatterns = [
     url(_(r'^$'), views.LetterListView.as_view(),

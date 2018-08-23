@@ -290,7 +290,7 @@ class LetterReportSpamView(ActionMessageMixin, CaseRequiredMixin, ActionView):
 
 
 class LetterMarkSpamView(RaisePermissionRequiredMixin, CaseRequiredMixin, ActionMessageMixin, ActionView):
-    template_name_suffix = '_spam'
+    template_name_suffix = '_mark_spam'
     model = Letter
     permission_required = 'monitorings.spam_mark'
     accept_global_perms = True
@@ -500,3 +500,8 @@ class ReceiveEmail(View):
         eml_filename = "{}.{}".format(uuid.uuid4().hex, eml_extensions)
         eml_content = base64.b64decode(eml['content'])
         return ContentFile(eml_content, eml_filename)
+
+
+class MessageXSendFileView(MixinGzipXSendFile, BaseXSendFileView):
+    model = Message
+    file_field = 'eml'
