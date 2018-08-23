@@ -375,3 +375,8 @@ class AttachmentXSendFileView(MixinGzipXSendFile, BaseXSendFileView):
         if kwargs['filename'].endswith('.gz'):
             kwargs['encoding'] = 'gzip'
         return kwargs
+
+
+class MessageXSendFileView(MixinGzipXSendFile, BaseXSendFileView):
+    model = Message
+    file_field = 'eml'
