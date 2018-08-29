@@ -36,7 +36,8 @@ class MonitoringForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm
             'notify_alert',
             'subject',
             'template',
-            'email_footer'
+            'email_footer',
+            'domain'
         ]
 
 

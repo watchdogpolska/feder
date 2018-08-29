@@ -68,6 +68,7 @@ LOCAL_APPS = (
     'feder.alerts',
     'feder.light_user',
     'feder.letters.logs',
+    'feder.domains',
     'feder.records.apps.RecordsConfig',
     'feder.parcels.apps.ParcelsConfig',
     # Your stuff: custom apps go here
@@ -292,7 +293,7 @@ LOGGING = {
 ANONYMOUS_USER_ID = -1
 GUARDIAN_RAISE_403 = True
 
-CASE_EMAIL_TEMPLATE = env("CASE_EMAIL_TEMPLATE", default="sprawa-{pk}@example.com")
+CASE_EMAIL_TEMPLATE = env("CASE_EMAIL_TEMPLATE", default="sprawa-{pk}@{domain}")
 
 DJANGO_MAILBOX_STORE_ORIGINAL_MESSAGE = True
 DJANGO_MAILBOX_COMPRESS_ORIGINAL_MESSAGE = True
