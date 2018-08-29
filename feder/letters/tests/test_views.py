@@ -1,17 +1,19 @@
 from __future__ import absolute_import, unicode_literals
 
+import json
 import os
-from django.contrib.auth.models import Permission
 from django.core import mail
 from django.core.files.base import ContentFile
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.urls import reverse
 from django.test import TestCase
+from django.utils import six
 from guardian.shortcuts import assign_perm
 
 from feder.alerts.models import Alert
 from feder.cases.factories import CaseFactory
 from feder.letters.models import Letter
+from feder.letters.settings import LETTER_RECEIVE_SECRET
 from feder.letters.tests.base import MessageMixin
 from feder.main.mixins import PermissionStatusMixin
 from feder.monitorings.factories import MonitoringFactory
@@ -348,6 +350,34 @@ class AssignMessageFormViewTestCase(MessageMixin, MessageObjectMixin, Permission
         self.assertTrue(self.msg.letter_set.exists())
 
 
+class UnrecognizedLetterListViewTestView(MessageObjectMixin, PermissionStatusMixin, TestCase):
+    permission = ['letters.recognize_letter']
+    permission_object = None
+
+    def get_url(self):
+        return reverse('letters:unrecognized_list')
+
+
+class AssignLetterFormViewTestCase(MessageMixin, MessageObjectMixin, PermissionStatusMixin, TestCase):
+    permission = ['letters.recognize_letter']
+
+    def setUp(self):
+        super(AssignLetterFormViewTestCase, self).setUp()
+        self.user = UserFactory(username='john')
+        self.msg = LetterFactory(record__case=None)
+
+    def get_url(self):
+        return reverse('letters:assign', kwargs={'pk': self.msg.pk})
+
+    def test_assign_simple_letter(self):
+        self.client.login(username=UserFactory(is_superuser=True).username,
+                          password='pass')
+        self.case = CaseFactory()
+        response = self.client.post(self.get_url(), data={'case': self.case.pk})
+        self.assertRedirects(response, reverse('letters:unrecognized_list'))
+        self.assertTrue(self.case.record_set.exists())
+
+
 class SpamAttachmentXSendFileViewTestCase(PermissionStatusMixin, TestCase):
     permission = []
     status_has_permission = 404
@@ -376,3 +406,80 @@ class StandardAttachmentXSendFileViewTestCase(PermissionStatusMixin, TestCase):
 
     def get_url(self):
         return reverse('letters:attachment', kwargs={'pk': self.object.pk, 'letter_pk': 0})
+
+
+class ReceiveEmailTestCase(TestCase):
+    def setUp(self):
+        self.url = reverse('letters:webhook')
+        self.authenticated_url = "{}?secret={}".format(self.url, LETTER_RECEIVE_SECRET)
+
+    def test_required_autentication(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 405)
+
+    def test_sample_request(self):
+        case = CaseFactory()
+
+        body = self._get_body(case)
+        response = self.client.post(path=self.authenticated_url,
+                                    data=json.dumps(body),
+                                    content_type='application/imap-to-webhook-v1+json')
+        self.assertEqual(response.json()['status'], 'OK')
+
+        self.assertEqual(case.record_set.count(), 1)
+        letter = case.record_set.all()[0].content_object
+        self.assertEqual(letter.body, 'W dniach 30.07-17.08.2018 r. przebywam na urlopie.')
+        if six.PY3:
+            self.assertEqual(letter.eml.read().decode('utf-8'), '12345')
+            self.assertEqual(letter.attachment_set.all()[0].attachment.read().decode('utf-8'), '12345')
+        else:
+            self.assertEqual(letter.eml.read(), '12345')
+            self.assertEqual(letter.attachment_set.all()[0].attachment.read(), '12345')
+
+    def test_no_valid_email(self):
+        body = self._get_body()
+
+        response = self.client.post(path=self.authenticated_url,
+                                    data=json.dumps(body),
+                                    content_type='application/imap-to-webhook-v1+json')
+        letter = Letter.objects.first()
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(letter.case, None)
+
+    def _get_body(self, case=None):
+        return {
+            "headers": {
+                "auto_reply_type": "vacation-reply",
+                "cc": [],
+                "date": "2018-07-30T11:33:22",
+                "from": [
+                    "user-a@siecobywatelska.pl"
+                ],
+                "message_id": "<E1fk6QU-00CPTw-Ey@s50.hekko.net.pl>",
+                "subject": "Odpowied\u017a automatyczna: \"Re: Problem z dostarczeniem odp. na fedrowanie\"",
+                "to": [
+                    case.email if case else 'user-b@example.com'
+                ],
+                "to+": [
+                    "user-b@siecobywatelska.pl",
+                    "user-c@siecobywatelska.pl",
+                    case.email if case else 'user-b@example.com'
+                ]
+            },
+            "text": {
+                "content": "W dniach 30.07-17.08.2018 r. przebywam na urlopie.",
+                "quote": ""
+            },
+            "files_count": 1,
+            "files": [
+                {
+                    "content": "MTIzNDU=",
+                    "filename": "my-doc.txt"
+                }
+            ],
+            "eml": {
+                "filename": "a9a7b32cdfa34a7f91c826ff9b3831bb.eml.gz",
+                "compressed": True,
+                "content": "MTIzNDU="
+            }
+        }

@@ -134,6 +134,8 @@ class Letter(AbstractRecord):
         return force_text(self.get_title())
 
     def get_absolute_url(self):
+        if not self.case:
+            return reverse('letters:assign', kwargs={'pk': self.pk})
         return reverse('letters:details', kwargs={'pk': self.pk})
 
     @property
@@ -181,9 +183,10 @@ class Letter(AbstractRecord):
         return html_content, txt_content
 
     def _construct_message(self, msg_id=None):
-        headers = {'Return-Receipt-To': self.case.email,
-                   'Disposition-Notification-To': self.case.email,
-                   }
+        headers = {
+            'Return-Receipt-To': self.case.email,
+            'Disposition-Notification-To': self.case.email,
+        }
         if msg_id:
             headers['Message-ID'] = msg_id
         html_content, txt_content = self.email_body()

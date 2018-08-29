@@ -1,0 +1,22 @@
+{% load i18n crispy_forms_tags humanize %}
+<div class="page-header">
+    <h2>
+        <i class="fa fa-envelope"></i>
+        {% blocktrans with object=object object_url=object.get_absolute_url author=object.author author_url=object.author.get_absolute_url case=object.case case_url=object.case.get_absolute_url institution=object.case.institution institution=object.case.institution created=object.created created_natural=object.created|naturaltime %}
+            <a href="{{ object_url }}">{{ object }}</a>
+            <small>
+                <time datetime="{{ created }}" title="{{ created_natural }}">{{ created }}</time>
+            </small>{% endblocktrans %}
+    </h2>
+</div>
+
+{% include 'letters/_object.html' %}
+
+{% crispy object.assign_form %}
+
+{% if object.eml %}
+    <a class="btn btn-default" href="{% url 'letters:download' pk=object.pk %}">
+        <i class="fa fa-download"></i>
+        {% trans 'Download letter' %}
+    </a>
+{% endif %}

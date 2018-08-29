@@ -58,11 +58,8 @@ class MessageParser(object):
     def get_case(self):
         if self.case:
             return self.case
-        try:
-            self.case = Case.objects.by_msg(self.message).get()
-            return self.case
-        except Case.DoesNotExist:
-            return
+        self.case = Case.objects.by_msg(self.message).first()
+        return self.case
 
     def save_attachments(self, letter):
         # Create Letter
@@ -82,16 +79,18 @@ class MessageParser(object):
         return attachments
 
     def save_object(self):
-        with File(self.message.eml, self.message.eml.name) as eml:
-            return Letter.objects.create(author_institution=self.case.institution,
-                                         email=self.message.from_address[0],
-                                         record=Record.objects.create(case=self.case),
-                                         title=self.message.subject,
-                                         body=self.text,
-                                         quote=self.quote,
-                                         eml=eml,
-                                         is_draft=False,
-                                         message=self.message)
+        eml = File(self.message.eml.file, self.message.eml.file.name)
+        eml.open()
+        email_from = self.message.from_address[0] if self.message.from_address else 'unknown@office.gov'
+        return Letter.objects.create(author_institution=self.case.institution if self.case else None,
+                                     email=email_from,
+                                     record=Record.objects.create(case=self.case),
+                                     title=self.message.subject,
+                                     body=self.text,
+                                     quote=self.quote,
+                                     eml=eml,
+                                     is_draft=False,
+                                     message=self.message)
 
     @staticmethod
     @receiver(message_received)
@@ -100,13 +99,13 @@ class MessageParser(object):
 
     def insert(self):
         self.case = self.get_case()
-        if not self.case:
-            logger.warning("Message #{pk} skip, due not recognized address {to}".
-                           format(pk=self.message.pk, to=self.message.to_addresses))
-            return
         letter = self.save_object()
-        logger.info("Message #{message} registered in case #{case} as letter #{letter}".
-                    format(message=self.message.pk, case=self.case.pk, letter=letter.pk))
+        if self.case:
+            logger.info("Message #{message} registered in case #{case} as letter #{letter}".
+                        format(message=self.message.pk, case=self.case.pk, letter=letter.pk))
+        else:
+            logger.info("Message #{message} registered without case as letter #{letter}".
+                        format(message=self.message.pk, letter=letter.pk))
         attachments = self.save_attachments(letter)
         logger.debug("Saved {attachment_count} attachments for letter #{letter}".
                      format(attachment_count=len(attachments), letter=letter.pk))
@@ -119,4 +118,3 @@ class MessageParser(object):
                                  reason="Auto spam detected",
                                  author=None,
                                  link_object=letter)
-

@@ -109,6 +109,21 @@ class AssignMessageForm(SingleButtonMixin, forms.Form):
         return MessageParser(message=self.message, case=self.cleaned_data['case']).insert()
 
 
+class AssignLetterForm(SingleButtonMixin, forms.Form):
+    action_text = _("Assign")
+    case = forms.ModelChoiceField(queryset=Case.objects.all(), label=_("Case number"),
+                                  widget=autocomplete.ModelSelect2(url='cases:autocomplete-find'))
+
+    def __init__(self, *args, **kwargs):
+        self.letter = kwargs.pop('letter')
+        super(AssignLetterForm, self).__init__(*args, **kwargs)
+
+    def save(self):
+        self.letter.case = self.cleaned_data['case']
+        self.letter.record.save()
+        self.letter.case.save()
+
+
 class ReassignLetterForm(SingleButtonMixin, forms.ModelForm):
     action_text = _("Reassign")
 
@@ -116,6 +131,6 @@ class ReassignLetterForm(SingleButtonMixin, forms.ModelForm):
                                   widget=autocomplete.ModelSelect2(url='cases:autocomplete-find'))
 
     def save(self, commit=True):
-        self.instance.record.case = self.cleaned_data['case']
+        self.instance.case = self.cleaned_data['case']
         self.instance.record.save()
         return super(ReassignLetterForm, self).save(commit)
