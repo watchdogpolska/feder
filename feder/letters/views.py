@@ -461,12 +461,8 @@ class ReceiveEmail(View):
             raise PermissionDenied
         if request.content_type != self.required_content_type:
             return HttpResponseBadRequest('The request has an invalid format. '
-                                          'The acceptable format is "{}"'.format(request.content_type))
-
-        if six.PY3:
-            body = json.loads(request.read().decode('utf-8'))
-        else:
-            body = json.loads(request.read())
+                                          'The acceptable format is "{}"'.format(self.required_content_type))
+        body = json.load(request)
         letter = self.get_letter(**body)
 
         Attachment.objects.bulk_create(self.get_attachment(attachment, letter)
