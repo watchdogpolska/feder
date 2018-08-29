@@ -15,7 +15,7 @@ env:
     - TOX_ENV=py36-dj20-core
     - TOX_ENV=py36-djmaster-core
     - TOX_ENV=flake8
-    - TOX_ENV=py37-docs
+    - TOX_ENV=py36-docs
 
 matrix:
   allow_failures:
