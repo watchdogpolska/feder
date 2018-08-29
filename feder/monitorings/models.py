@@ -57,7 +57,9 @@ class Monitoring(TimeStampedModel):
     objects = MonitoringQuerySet.as_manager()
     is_public = models.BooleanField(default=True,
                                     verbose_name=_("Is public visible?"))
-    domain = models.ForeignKey(to=Domain, help_text=_("Domain used to sends emails"))
+    domain = models.ForeignKey(to=Domain,
+                               help_text=_("Domain used to sends emails"),
+                               on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = _("Monitoring")
