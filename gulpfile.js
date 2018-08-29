@@ -92,7 +92,8 @@ gulp.task('scss', function () {
         .pipe(rename({extname: '.min.css'}))
         .pipe(cleanCss())
         .pipe(gulp.dest(config.scss.output))
-        .pipe(livereload());
+        .pipe(livereload())
+       ;
 });
 
 // Rerun the task when a file changes

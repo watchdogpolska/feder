@@ -1,0 +1,44 @@
+---
+# circleci doesn't support docker-compose file up to 3.2
+version: '3.2'
+
+# uncomment value below and replace 'production' to *x-env
+# on move to docker-compose version 3.2
+# x-env: &x-env 'production'
+
+services:
+  # gulp:
+  #   image: node:latest
+  #   working_dir: /app
+  #   command: |
+  #      npm install bower && \
+  #      npx bower install --allow-root && \
+  #      npx gulp
+  #   ports:
+  #     - "9000:9000"
+  #     - "3001:3001"
+  #   volumes:
+  #     - .:/app
+  web:
+    build:
+      context: .
+    image: quay.io/watchdogpolska/feder_django
+    ports:
+      - 9000:9000
+    environment:
+      DJANGO_SECRET_KEY: 'X'
+      DJANGO_SERVER_EMAIL: 'X'
+      DATABASE_URL: 'mysql://feder:feder@127.0.0.1/feder'
+      EMAILLABS_APP_KEY: 'X'
+      EMAILLABS_SECRET_KEY: 'X'
+      LETTER_RECEIVE_SECRET: 'X'
+    network_mode: "host"
+
+  nginx:
+    build:
+      context: .
+      dockerfile: ./contrib/docker/nginx/Dockerfile
+    image: quay.io/watchdogpolska/feder_nginx
+    ports:
+      - 8080:80
+    network_mode: "host"

@@ -1,0 +1,11 @@
+.sass-cache
+.vagrant
+.git
+bower_components
+htmlcov
+node_modules
+*.sql
+*.csv
+feder/media
+docs/_build
+Dockerfile

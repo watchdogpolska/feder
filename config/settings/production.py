@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+
+import os
+
 from dealer.auto import auto
 
 from .common import *  # noqa
@@ -121,18 +124,20 @@ except ImportError:
 
 
 RELEASE_ID = auto.revision
-RAVEN_CONFIG = {
-    'dsn': env.str('RAVEN_DSN', 'http://example.com'),
-    'release': RELEASE_ID
-}
-INSTALLED_APPS = INSTALLED_APPS + (
-    'raven.contrib.django.raven_compat',
-)
 
-MIDDLEWARE = (
-    # 'raven.contrib.django.raven_compat.middleware.Sentry404CatchMiddleware',
-    'raven.contrib.django.raven_compat.middleware.SentryResponseErrorIdMiddleware',
-) + MIDDLEWARE
+if 'RAVEN_DSN' in os.environ:
+    RAVEN_CONFIG = {
+        'dsn': env.str('RAVEN_DSN', 'http://example.com'),
+        'release': RELEASE_ID
+    }
+    INSTALLED_APPS = INSTALLED_APPS + (
+        'raven.contrib.django.raven_compat',
+    )
+
+    MIDDLEWARE = (
+        # 'raven.contrib.django.raven_compat.middleware.Sentry404CatchMiddleware',
+        'raven.contrib.django.raven_compat.middleware.SentryResponseErrorIdMiddleware',
+    ) + MIDDLEWARE
 
 EMAILLABS_APP_KEY = env('EMAILLABS_APP_KEY')
 
