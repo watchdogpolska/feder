@@ -79,16 +79,18 @@ class MessageParser(object):
         return attachments
 
     def save_object(self):
-        with File(self.message.eml, self.message.eml.name) as eml:
-            return Letter.objects.create(author_institution=self.case.institution if self.case else None,
-                                         email=self.message.from_address[0],
-                                         record=Record.objects.create(case=self.case),
-                                         title=self.message.subject,
-                                         body=self.text,
-                                         quote=self.quote,
-                                         eml=eml,
-                                         is_draft=False,
-                                         message=self.message)
+        eml = File(self.message.eml.file, self.message.eml.file.name)
+        eml.open()
+        email_from = self.message.from_address[0] if self.message.from_address else 'unknown@office.gov'
+        return Letter.objects.create(author_institution=self.case.institution if self.case else None,
+                                     email=email_from,
+                                     record=Record.objects.create(case=self.case),
+                                     title=self.message.subject,
+                                     body=self.text,
+                                     quote=self.quote,
+                                     eml=eml,
+                                     is_draft=False,
+                                     message=self.message)
 
     @staticmethod
     @receiver(message_received)
@@ -116,4 +118,3 @@ class MessageParser(object):
                                  reason="Auto spam detected",
                                  author=None,
                                  link_object=letter)
-
