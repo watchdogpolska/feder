@@ -24,7 +24,7 @@ class MonitoringForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm
             ),
             Fieldset(
                 _("Template"),
-                'subject', 'template', 'email_footer'
+                'subject', 'template', 'email_footer', 'domain'
             )
         )
 
