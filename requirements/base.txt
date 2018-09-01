@@ -44,7 +44,7 @@ jsonfield==2.0.2
 django-guardian==1.4.9
 talon==1.4.4
 django-teryt-tree==0.14.5
-cached-property==1.4.0
+cached-property==1.4.3
 django-bootstrap-pagination==1.6.4
 django-reversion==2.0.13
 djangorestframework==3.7.7
