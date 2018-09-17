@@ -45,6 +45,13 @@ class RecordQuerySet(models.QuerySet):
         return qs.prefetch_related(Prefetch(lookup='letters_letter_related',
                                             queryset=letter_queryset)).all()
 
+    def for_api(self):
+        from feder.letters.models import Letter
+        letter_queryset = Letter.objects.for_api().all()
+        qs = self.exclude(letters_letters__is_spam=Letter.SPAM.spam)
+        return qs.prefetch_related(Prefetch(lookup='letters_letter_related',
+                                            queryset=letter_queryset)).all()
+
 
 class Record(TimeStampedModel):
     case = models.ForeignKey(Case, on_delete=models.CASCADE, null=True)
@@ -66,6 +73,9 @@ class Record(TimeStampedModel):
     @cached_property
     def content_template(self):
         return self.type.get_template_content_item(self.content_object)
+
+    def content_type_name(self):
+        return self.content_object._meta.model_name
 
     @cached_property
     def type(self):

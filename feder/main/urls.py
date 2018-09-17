@@ -15,6 +15,7 @@ from teryt_tree.rest_framework_ext.viewsets import \
     JednostkaAdministracyjnaViewSet
 
 from feder.cases.sitemaps import CaseSitemap
+from feder.cases.viewsets import CaseViewSet
 from feder.institutions.sitemaps import InstitutionSitemap, TagSitemap
 from feder.institutions.viewsets import (InstitutionViewSet,
                                          TagViewSet)
@@ -22,7 +23,9 @@ from feder.letters.sitemaps import LetterSitemap
 from feder.main.sitemaps import StaticSitemap
 from feder.monitorings.sitemaps import (MonitoringPagesSitemap,
                                         MonitoringSitemap)
+from feder.monitorings.viewsets import MonitoringViewSet
 from feder.questionaries.sitemaps import QuestionarySitemap
+from feder.records.viewsets import RecordViewSet
 from feder.tasks.sitemaps import TaskSitemap
 from feder.teryt.sitemaps import JSTSitemap
 from . import views
@@ -31,6 +34,9 @@ router = routers.DefaultRouter()
 router.register(r'institutions', InstitutionViewSet)
 router.register(r'tags', TagViewSet)
 router.register(r'teryt', JednostkaAdministracyjnaViewSet)
+router.register(r'records', RecordViewSet)
+router.register(r'cases', CaseViewSet)
+router.register(r'monitoring', MonitoringViewSet)
 
 urlpatterns = [
     url(_(r'^$'), views.HomeView.as_view(), name="home"),
@@ -62,16 +68,18 @@ urlpatterns += [
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-sitemaps = {'cases': CaseSitemap,
-            'institutions': InstitutionSitemap,
-            'institutions_tags': TagSitemap,
-            'letters': LetterSitemap,
-            'main': StaticSitemap,
-            'monitorings': MonitoringSitemap,
-            'monitorings_pages': MonitoringPagesSitemap,
-            'questionaries': QuestionarySitemap,
-            'tasks': TaskSitemap,
-            'teryt': JSTSitemap}
+sitemaps = {
+    'cases': CaseSitemap,
+    'institutions': InstitutionSitemap,
+    'institutions_tags': TagSitemap,
+    'letters': LetterSitemap,
+    'main': StaticSitemap,
+    'monitorings': MonitoringSitemap,
+    'monitorings_pages': MonitoringPagesSitemap,
+    'questionaries': QuestionarySitemap,
+    'tasks': TaskSitemap,
+    'teryt': JSTSitemap
+}
 
 urlpatterns += [
     url(r'^sitemap\.xml$', index, {'sitemaps': sitemaps, 'sitemap_url_name': 'sitemaps'}),
