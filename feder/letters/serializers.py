@@ -19,7 +19,10 @@ class NestedLetterSerializer(serializers.HyperlinkedModelSerializer):
         read_only=True
     )
     email_delivery_status = serializers.SerializerMethodField()
+    eml = serializers.SerializerMethodField()
 
+    def get_eml(self, obj):
+        return obj.get_eml_url()
 
     class Meta:
         model = Letter

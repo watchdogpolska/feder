@@ -141,6 +141,11 @@ class Letter(AbstractRecord):
             return reverse('letters:assign', kwargs={'pk': self.pk})
         return reverse('letters:details', kwargs={'pk': self.pk})
 
+    def get_eml_url(self):
+        if not self.eml:
+            return None
+        return reverse('letters:download', kwargs={'pk': self.pk})
+
     @property
     def author(self):
         return self.author_user if self.author_user_id else self.author_institution
