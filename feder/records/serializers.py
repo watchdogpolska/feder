@@ -2,6 +2,9 @@ from rest_framework import serializers
 
 from feder.letters.models import Letter
 from feder.letters.serializers import NestedLetterSerializer
+from feder.parcels.models import IncomingParcelPost, OutgoingParcelPost
+from feder.parcels.serializers import NestedIncomingParcelPostSerializer, \
+    NestedOutgoingParcelPostSerializer
 from feder.records.models import Record
 
 
@@ -16,6 +19,10 @@ class RecordChildRelatedField(serializers.RelatedField):
         """
         if isinstance(value, Letter):
             return NestedLetterSerializer(value, context=self.context).data
+        if isinstance(value, IncomingParcelPost):
+            return NestedIncomingParcelPostSerializer(value, context=self.context).data
+        if isinstance(value, OutgoingParcelPost):
+            return NestedOutgoingParcelPostSerializer(value, context=self.context).data
         raise Exception('Unexpected type of related object')
 
 
