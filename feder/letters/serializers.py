@@ -1,6 +1,8 @@
+from django.contrib.sites.shortcuts import get_current_site
 from rest_framework import serializers
 
 from feder.letters.models import Letter, Attachment
+from feder.main.utils import get_full_url_for_context
 
 
 class NestedAttachmentSerializer(serializers.RelatedField):
@@ -22,7 +24,7 @@ class NestedLetterSerializer(serializers.HyperlinkedModelSerializer):
     eml = serializers.SerializerMethodField()
 
     def get_eml(self, obj):
-        return obj.get_eml_url()
+        return get_full_url_for_context(obj.get_eml_url(), self.context)
 
     class Meta:
         model = Letter
