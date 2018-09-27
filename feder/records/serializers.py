@@ -18,12 +18,16 @@ class RecordChildRelatedField(serializers.RelatedField):
         Serialize tagged objects to a simple textual representation.
         """
         if isinstance(value, Letter):
-            return NestedLetterSerializer(value, context=self.context).data
+            return NestedLetterSerializer(instance=value,
+                                          context=self.context).data
         if isinstance(value, IncomingParcelPost):
-            return NestedIncomingParcelPostSerializer(value, context=self.context).data
+            return NestedIncomingParcelPostSerializer(instance=value,
+                                                      context=self.context).data
         if isinstance(value, OutgoingParcelPost):
-            return NestedOutgoingParcelPostSerializer(value, context=self.context).data
-        raise Exception('Unexpected type of related object')
+            return NestedOutgoingParcelPostSerializer(instance=value,
+                                                      context=self.context).data
+        raise Exception('Unexpected type ({}) '
+                        'of related object'.format(type(value).__name__))
 
 
 class RecordSerializer(serializers.HyperlinkedModelSerializer):
