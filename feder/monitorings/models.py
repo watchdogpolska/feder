@@ -11,6 +11,7 @@ from django.utils.translation import ugettext_lazy as _
 from guardian.models import GroupObjectPermissionBase, UserObjectPermissionBase
 from model_utils.models import TimeStampedModel
 
+from feder.domains.models import Domain
 from .validators import validate_template_syntax
 
 _('Monitorings index')
@@ -56,6 +57,9 @@ class Monitoring(TimeStampedModel):
     objects = MonitoringQuerySet.as_manager()
     is_public = models.BooleanField(default=True,
                                     verbose_name=_("Is public visible?"))
+    domain = models.ForeignKey(to=Domain,
+                               help_text=_("Domain used to sends emails"),
+                               on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = _("Monitoring")
@@ -86,6 +90,7 @@ class Monitoring(TimeStampedModel):
             ('add_parcelpost', _('Can add parcel post')),
             ('change_parcelpost', _('Can change parcel post')),
             ('delete_parcelpost', _('Can delete parcel post')),
+            ('view_email_address', _('Can view e-mail address')),
         )
 
     def __str__(self):
