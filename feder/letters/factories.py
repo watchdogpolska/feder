@@ -53,7 +53,6 @@ class DraftLetterFactory(OutgoingLetterFactory):
 
 class SendOutgoingLetterFactory(LetterFactory):
     author_user = factory.SubFactory(UserFactory)
-
     is_send_yes = factory.PostGenerationMethodCall('send')
 
 

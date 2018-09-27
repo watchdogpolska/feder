@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import datetime
+
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
-from django.utils import timezone
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
@@ -29,9 +30,12 @@ class AbstractParcelPost(AbstractRecord):
 
 @python_2_unicode_compatible
 class IncomingParcelPost(AbstractParcelPost):
-    sender = models.ForeignKey(Institution, on_delete=models.CASCADE, verbose_name=_("Sender"))
+    sender = models.ForeignKey(to=Institution,
+                               on_delete=models.CASCADE,
+                               verbose_name=_("Sender"))
     comment = models.TextField(verbose_name=_("Comment"))
-    receive_date = models.DateField(default=timezone.now, verbose_name=_("Receive date"))
+    receive_date = models.DateField(default=datetime.date.today,
+                                    verbose_name=_("Receive date"))
 
     def get_absolute_url(self):
         return reverse('parcels:incoming-details', kwargs={'pk': str(self.pk)})
@@ -49,8 +53,11 @@ class IncomingParcelPost(AbstractParcelPost):
 
 @python_2_unicode_compatible
 class OutgoingParcelPost(AbstractParcelPost):
-    recipient = models.ForeignKey(Institution, on_delete=models.CASCADE, verbose_name=_("Recipient"))
-    post_date = models.DateField(default=timezone.now, verbose_name=_("Post date"))
+    recipient = models.ForeignKey(to=Institution,
+                                  on_delete=models.CASCADE,
+                                  verbose_name=_("Recipient"))
+    post_date = models.DateField(default=datetime.date.today,
+                                 verbose_name=_("Post date"))
 
     def get_absolute_url(self):
         return reverse('parcels:outgoing-details', kwargs={'pk': str(self.pk)})

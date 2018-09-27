@@ -5,23 +5,36 @@ from feder.letters.models import Letter, Attachment
 from feder.main.utils import get_full_url_for_context
 
 
-class NestedAttachmentSerializer(serializers.RelatedField):
-    def to_representation(self, value):
-        return {
-            'url': value.get_full_url(),
-            'filename': value.filename
-        }
+class NestedAttachmentSerializer(serializers.HyperlinkedModelSerializer):
+    filename = serializers.SerializerMethodField()
+    url = serializers.SerializerMethodField()
+
+    def get_filename(self, obj):
+        return obj.filename
+
+    def get_url(self, obj):
+        return obj.get_full_url()
+
+    class Meta:
+        model = Attachment
+        fields = (
+            'url', 'filename'
+        )
 
 
 class NestedLetterSerializer(serializers.HyperlinkedModelSerializer):
     author_user = serializers.StringRelatedField()
     mark_spam_by = serializers.StringRelatedField()
-    attachments = NestedAttachmentSerializer(
-        many=True,
-        read_only=True
-    )
+    attachments = serializers.SerializerMethodField()
     email_delivery_status = serializers.SerializerMethodField()
     eml = serializers.SerializerMethodField()
+
+    def get_attachments(self, obj):
+        return NestedAttachmentSerializer(
+            getattr(obj, 'attachments', obj.attachment_set),
+            many=True,
+            read_only=True
+        )
 
     def get_eml(self, obj):
         return get_full_url_for_context(obj.get_eml_url(), self.context)
