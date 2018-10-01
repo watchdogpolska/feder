@@ -50,7 +50,7 @@ django-reversion==2.0.13
 djangorestframework==3.8.2
 unicodecsv==0.14.1
 tqdm==4.25.0
-djangorestframework-filters==0.10.2
+djangorestframework-filters==0.10.2.post0
 django-github-revision==0.0.3
 
 https://github.com/watchdogpolska/django-mailbox/archive/fix-unicode.zip
