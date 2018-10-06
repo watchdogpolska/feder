@@ -1,11 +1,11 @@
 # Pro-tip: Try not to put anything here. There should be no dependency in
 #	production that isn't in development.
 -r local.txt
-Django==1.11.16  # pyup: <2.0
+Django==2.1.2  # pyup: <2.0
 # WSGI Handler
 # ------------------------------------------------
 gevent==1.3.6
-gunicorn==19.8.1
+gunicorn==19.9.0
 
 # Static and Media Storage
 # ------------------------------------------------
@@ -19,4 +19,4 @@ django-mailgun==0.9.1
 raven==6.9.0
 
 # APM
-elastic-apm==3.0.0
+elastic-apm==3.0.1
