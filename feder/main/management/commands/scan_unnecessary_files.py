@@ -20,7 +20,7 @@ class Command(BaseCommand):
         parser.add_argument('--size', action='store_true',
                             help="Calculate total size of unnecessary files")
 
-    def handle(self, *args, **options):
+    def handle(self, size, *args, **options):
         unnecessary = set()
         for root, dirs, files in os.walk(settings.MEDIA_ROOT):
             unnecessary.update(os.path.join(root, file) for file in files)
@@ -37,6 +37,7 @@ class Command(BaseCommand):
             print(path)
         print("Found {} unnecessary files.".format(len(unnecessary)))
 
-        total_size = sum(os.path.getsize(path) for path in unnecessary)
-        print("The unnecessary files have size of {} bytes in total.".format(
-            filesizeformat(total_size)))
+        if size:
+            total_size = sum(os.path.getsize(path) for path in unnecessary)
+            print("The unnecessary files have size of {} bytes in total.".format(
+                filesizeformat(total_size)))
