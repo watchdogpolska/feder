@@ -68,6 +68,7 @@ LOCAL_APPS = (
     'feder.alerts',
     'feder.light_user',
     'feder.letters.logs',
+    'feder.domains',
     'feder.records.apps.RecordsConfig',
     'feder.parcels.apps.ParcelsConfig',
     # Your stuff: custom apps go here
@@ -292,7 +293,7 @@ LOGGING = {
 ANONYMOUS_USER_ID = -1
 GUARDIAN_RAISE_403 = True
 
-CASE_EMAIL_TEMPLATE = env("CASE_EMAIL_TEMPLATE", default="sprawa-{pk}@example.com")
+CASE_EMAIL_TEMPLATE = env("CASE_EMAIL_TEMPLATE", default="sprawa-{pk}@{domain}")
 
 DJANGO_MAILBOX_STORE_ORIGINAL_MESSAGE = True
 DJANGO_MAILBOX_COMPRESS_ORIGINAL_MESSAGE = True
@@ -331,3 +332,5 @@ EMAILLABS_SECRET_KEY = env('EMAILLABS_SECRET_KEY', default="Dummy")
 INSTALLED_APPS += ('github_revision', )
 GITHUB_REVISION_REPO_URL = 'https://github.com/watchdogpolska/feder'
 SENDFILE_BACKEND = 'sendfile.backends.development'
+
+DATA_UPLOAD_MAX_MEMORY_SIZE = 200000000  # 200MB
