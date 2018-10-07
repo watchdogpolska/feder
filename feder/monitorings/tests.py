@@ -5,6 +5,7 @@ from guardian.shortcuts import assign_perm
 
 from feder.cases.factories import CaseFactory
 from feder.cases.models import Case
+from feder.domains.factories import DomainFactory
 from feder.institutions.factories import InstitutionFactory
 from feder.letters.factories import IncomingLetterFactory, DraftLetterFactory
 from feder.letters.factories import OutgoingLetterFactory
@@ -27,7 +28,8 @@ EXAMPLE_DATA = {'name': 'foo-bar-monitoring',
                 'notify_alert': True,
                 'subject': 'example subject',
                 'template': 'xyz {{EMAIL}}',
-                'email_footer': 'X'}
+                'email_footer': 'X',
+                'domain': 1}
 
 
 class MonitoringFormTestCase(TestCase):
@@ -324,7 +326,7 @@ class MonitoringAssignViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
             self.assertEqual(mail.outbox[x].subject, "Wniosek")
 
     @patch('feder.monitorings.views.MonitoringAssignView.get_limit_simultaneously',
-                Mock(return_value=10))
+           Mock(return_value=10))
     def test_limit_number_of_letters_sent_simultaneously(self):
         self.login_permitted_user()
         InstitutionFactory.create_batch(size=25, name="Office")
@@ -332,6 +334,17 @@ class MonitoringAssignViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
         response = self.client.post(self.get_url() + "?name=Office", data={'all': "yes"})
         self.assertEqual(len(mail.outbox), 0)
         self.assertRedirects(response, self.get_url())
+
+    def test_assing_using_custom_domain(self):
+        self.monitoring.domain = DomainFactory(name="custom-domain.com")
+        self.monitoring.save()
+        self.login_permitted_user()
+        InstitutionFactory(name="Office 1")
+        InstitutionFactory(name="Office 2")
+        InstitutionFactory()
+        self.client.post(self.get_url() + "?name=Office", data={'all': 'yes'})
+        self.assertEqual(len(mail.outbox), 2)
+        self.assertTrue(mail.outbox[0].from_email.endswith("custom-domain.com"))
 
 
 class SitemapTestCase(ObjectMixin, TestCase):

@@ -39,6 +39,9 @@ class LetterQuerySet(models.QuerySet):
     def for_milestone(self):
         return self.prefetch_related(Prefetch('attachment_set', to_attr='attachments')).with_author()
 
+    def for_api(self):
+        return self.for_milestone().select_related('emaillog')
+
     def is_draft(self):
         return self.filter(is_draft=True).is_outgoing()
 
@@ -137,6 +140,11 @@ class Letter(AbstractRecord):
         if not self.case:
             return reverse('letters:assign', kwargs={'pk': self.pk})
         return reverse('letters:details', kwargs={'pk': self.pk})
+
+    def get_eml_url(self):
+        if not self.eml:
+            return None
+        return reverse('letters:download', kwargs={'pk': self.pk})
 
     @property
     def author(self):

@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 
 
 from django.core.management.base import BaseCommand
+from django.utils.encoding import force_text
 from django_mailbox.models import Message
 
 from feder.letters.signals import MessageParser
@@ -17,7 +18,7 @@ class Command(BaseCommand):
 
     def handle(self, limit, delete, *args, **options):
         for message in Message.objects.filter(letter=None).all()[:limit].iterator():
-            self.stdout.write(message)
+            self.stdout.write(force_text(message))
             try:
                 MessageParser(message).insert()
             except IOError as e:

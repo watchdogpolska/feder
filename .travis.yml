@@ -1,5 +1,5 @@
 language: python
-python: 3.5
+python: 3.6
 
 cache:
   directories:
@@ -11,16 +11,16 @@ env:
     - DJANGO_SETTINGS_MODULE="config.settings.local"
   matrix:
     - TOX_ENV=py27-dj111-core  # required
-    - TOX_ENV=py35-dj111-core
-    - TOX_ENV=py35-dj20-core
-    - TOX_ENV=py35-djmaster-core
+    - TOX_ENV=py36-dj111-core
+    - TOX_ENV=py36-dj20-core
+    - TOX_ENV=py36-djmaster-core
     - TOX_ENV=flake8
-    - TOX_ENV=py35-docs
+    - TOX_ENV=py36-docs
 
 matrix:
   allow_failures:
     - env: TOX_ENV=py35-dj20-core
-    - env: TOX_ENV=py35-djmaster-core
+    - env: TOX_ENV=py36-djmaster-core
     - env: TOX_ENV=flake8
   fast_finish: true
 
