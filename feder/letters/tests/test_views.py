@@ -473,7 +473,7 @@ class ReceiveEmailTestCase(TestCase):
                 '12345'
             )
 
-    def test_create_new_case(self):
+    def test_no_match_of_case(self):
         body = self._get_body()
 
         self.assertEqual(Case.objects.count(), 0)
@@ -485,8 +485,8 @@ class ReceiveEmailTestCase(TestCase):
         )
         letter = Letter.objects.first()
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(Case.objects.count(), 1)
-        self.assertEqual(letter.case, Case.objects.first())
+        self.assertEqual(Case.objects.count(), 0)
+        self.assertEqual(letter.case, None)
 
     def _get_body(self, case=None):
         return {
