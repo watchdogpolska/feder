@@ -182,8 +182,8 @@ class LetterDeleteView(AttrPermissionRequiredMixin, DeleteMessageMixin,
 
     def delete(self, request, *args, **kwargs):
         result = super(LetterDeleteView, self).delete(request, *args, **kwargs)
-        [x.attachment.delete() for x in
-         self.object.attachment_set.all()]  # Delete file
+        for x in self.object.attachment_set.all():
+            x.attachment.delete()  # Delete file
         self.object.attachment_set.all().delete()  # Delete objects
         self.object.eml.delete()  # Delete file
         return result
