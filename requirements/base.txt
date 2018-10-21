@@ -43,7 +43,7 @@ django-autofixture==0.12.1
 jsonfield==2.0.2
 django-guardian==1.4.9
 talon==1.4.4
-django-teryt-tree==0.14.5
+django-teryt-tree==0.15.0
 cached-property==1.5.1
 django-bootstrap-pagination==1.6.4
 django-reversion==2.0.13

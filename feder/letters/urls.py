@@ -40,6 +40,8 @@ urlpatterns = [
         name="download"),
     url(_(r'^attachment/(?P<pk>[\d-]+)/(?P<letter_pk>[\d-]+)'), views.AttachmentXSendFileView.as_view(),
         name="attachment"),
+    url(r'^attachment/(?P<pk>[\d-]+)/(?P<letter_pk>[\d-]+)', views.AttachmentXSendFileView.as_view()),
+        # no translation for back-ward compatibility
     url(_(r'^(?P<pk>[\d-]+)/~update$'), views.LetterUpdateView.as_view(),
         name="update"),
     url(_(r'^(?P<pk>[\d-]+)/~send'), views.LetterSendView.as_view(),
