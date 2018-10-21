@@ -40,6 +40,12 @@ class NestedLetterSerializer(serializers.HyperlinkedModelSerializer):
         if obj.eml:
             return get_full_url_for_context(obj.get_eml_url(), self.context)
 
+    def get_email_delivery_status(self, obj):
+        try:
+            return obj.emaillog.status
+        except Letter.emaillog.RelatedObjectDoesNotExist:
+            return "unknown"
+
     class Meta:
         model = Letter
         fields = (
@@ -52,9 +58,3 @@ class NestedLetterSerializer(serializers.HyperlinkedModelSerializer):
             'created', 'modified',
             "attachments"
         )
-
-    def get_email_delivery_status(self, obj):
-        try:
-            return obj.emaillog.status
-        except Letter.emaillog.RelatedObjectDoesNotExist:
-            return "unknown"
