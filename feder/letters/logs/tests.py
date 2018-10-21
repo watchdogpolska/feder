@@ -29,6 +29,7 @@ def scrub_text(x, seed):
     Identical data in one cassette will be identical (comparable).
 
     :param x: string to anonymise
+    :param seed: value modification parameter
     :return: anonymized text
     """
     return hashlib.sha1(force_text(x).encode('utf-8') + seed).hexdigest()
@@ -36,12 +37,15 @@ def scrub_text(x, seed):
 
 def generator(f):
     if six.PY3:
-        filename = "{}.PY3.{}".format(f.__self__.__class__.__name__, f.__name__)
+        filename = "{}.PY3.{}".format(f.__self__.__class__.__name__,
+                                      f.__name__)
     else:
         filename = "{}.PY2.{}".format(f.im_class.__name__, f.__name__)
-    return os.path.join(os.path.dirname(inspect.getfile(f)),
-                        'cassettes',
-                        filename)
+    return os.path.join(
+        os.path.dirname(inspect.getfile(f)),
+        'cassettes',
+        filename
+    )
 
 
 def scrub_response(seed, fields=None):
@@ -77,7 +81,8 @@ class EmailLabsClientTestCase(TestCase):
     def test_get_emails_iter(self):
         client = get_emaillabs_client(per_page=20)
         data = list(client.get_emails_iter())
-        self.assertTrue(len(data) > 20, msg="Found {} messages.".format(len(data)))
+        self.assertTrue(len(data) > 20,
+                        msg="Found {} messages.".format(len(data)))
 
 
 class LogRecordQuerySet(TestCase):
@@ -120,9 +125,10 @@ class LogRecordQuerySet(TestCase):
     def test_parse_rows_update_status(self):
         LogRecord.objects.parse_rows(self.rows)
         self.assertEqual(EmailLog.objects.get().status, STATUS.deferred)
-        LogRecord.objects.parse_rows([get_emaillabs_row(sender_from=self.letter.case.email,
-                                                        id='ID1',
-                                                        ok_time='Now')])
+        LogRecord.objects.parse_rows(
+            [get_emaillabs_row(sender_from=self.letter.case.email,
+                               id='ID1',
+                               ok_time='Now')])
         self.assertEqual(EmailLog.objects.get().status, STATUS.ok)
         self.assertEqual(LogRecord.objects.count(), 2)
 
@@ -146,24 +152,29 @@ class ObjectMixin(object):
         self.permission_object = self.monitoring
 
 
-class EmailLogMonitoringListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
+class EmailLogMonitoringListViewTestCase(ObjectMixin, PermissionStatusMixin,
+                                         TestCase):
     permission = ['monitorings.view_log']
 
     def get_url(self):
-        return reverse('logs:list', kwargs={'monitoring_pk': self.monitoring.pk})
+        return reverse('logs:list',
+                       kwargs={'monitoring_pk': self.monitoring.pk})
 
 
-class EmailLogMonitoringCsvViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
+class EmailLogMonitoringCsvViewTestCase(ObjectMixin, PermissionStatusMixin,
+                                        TestCase):
     permission = ['monitorings.view_log']
 
     def get_url(self):
-        return reverse('logs:export', kwargs={'monitoring_pk': self.monitoring.pk})
+        return reverse('logs:export',
+                       kwargs={'monitoring_pk': self.monitoring.pk})
 
     def test_has_logs(self):
         logrecord_for_another_monitoring = LogRecordFactory()
         self.login_permitted_user()
         response = self.client.get(self.get_url())
-        self.assertTrue(response.get('Content-Disposition').startswith('attachment;filename='))
+        self.assertTrue(response.get('Content-Disposition').startswith(
+            'attachment;filename='))
         self.assertContains(response, self.emaillog.case.institution)
         self.assertNotContains(response,
                                logrecord_for_another_monitoring.email.case.institution.name,
@@ -172,7 +183,8 @@ class EmailLogMonitoringCsvViewTestCase(ObjectMixin, PermissionStatusMixin, Test
                                 'contain emaillogs for another monitoring'))
 
 
-class EmailLogCaseListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
+class EmailLogCaseListViewTestCase(ObjectMixin, PermissionStatusMixin,
+                                   TestCase):
     permission = ['monitorings.view_log']
 
     def get_url(self):
@@ -185,7 +197,8 @@ class EmailLogCaseListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
 
     def test_shows_only_own_case(self):
         self.login_permitted_user()
-        extra_cases = CaseFactory.create_batch(monitoring=self.monitoring, size=25)
+        extra_cases = CaseFactory.create_batch(monitoring=self.monitoring,
+                                               size=25)
         response = self.client.get(self.get_url())
         for case in extra_cases:
             self.assertNotContains(response, case.name)

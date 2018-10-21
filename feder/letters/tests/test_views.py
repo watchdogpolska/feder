@@ -336,37 +336,6 @@ class MessageObjectMixin(object):
         self.case = CaseFactory(monitoring=self.monitoring)
 
 
-class UnrecognizedMessageListViewTestView(MessageObjectMixin,
-                                          PermissionStatusMixin, TestCase):
-    permission = ['letters.recognize_letter']
-    permission_object = None
-
-    def get_url(self):
-        return reverse('letters:messages_list')
-
-
-class AssignMessageFormViewTestCase(MessageMixin, MessageObjectMixin,
-                                    PermissionStatusMixin, TestCase):
-    permission = ['letters.recognize_letter']
-
-    def setUp(self):
-        super(AssignMessageFormViewTestCase, self).setUp()
-        self.user = UserFactory(username='john')
-        self.msg = self.get_message('basic_message.eml')
-
-    def get_url(self):
-        return reverse('letters:messages_assign', kwargs={'pk': self.msg.pk})
-
-    def test_assign_simple_letter(self):
-        self.client.login(username=UserFactory(is_superuser=True).username,
-                          password='pass')
-        self.case = CaseFactory()
-        response = self.client.post(self.get_url(),
-                                    data={'case': self.case.pk})
-        self.assertRedirects(response, reverse('letters:messages_list'))
-        self.assertTrue(self.msg.letter_set.exists())
-
-
 class UnrecognizedLetterListViewTestView(MessageObjectMixin,
                                          PermissionStatusMixin, TestCase):
     permission = ['letters.recognize_letter']

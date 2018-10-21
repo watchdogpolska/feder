@@ -16,7 +16,6 @@ from django.core.files.base import ContentFile
 from django.http import HttpResponseBadRequest, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
-from django.utils import six
 from django.utils.datetime_safe import datetime
 from django.utils.encoding import force_text
 from django.utils.feedgenerator import Atom1Feed
@@ -24,11 +23,11 @@ from django.utils.translation import ugettext_lazy as _
 from django.views import View
 from django.views.generic import CreateView, DeleteView, DetailView, FormView
 from django_filters.views import FilterView
-from django_mailbox.models import Message
 from extra_views import UpdateWithInlinesView, CreateWithInlinesView
 
 from feder.alerts.models import Alert
 from feder.cases.models import Case
+
 from feder.letters.filters import MessageFilter
 from feder.letters.formsets import AttachmentInline
 from feder.letters.settings import LETTER_RECEIVE_SECRET
@@ -37,7 +36,7 @@ from feder.main.mixins import (AttrPermissionRequiredMixin,
 from feder.monitorings.models import Monitoring
 from feder.records.models import Record
 from .filters import LetterFilter
-from .forms import LetterForm, ReplyForm, AssignMessageForm, AssignLetterForm
+from .forms import LetterForm, ReplyForm, AssignLetterForm
 from .mixins import LetterObjectFeedMixin
 from .models import Letter, Attachment
 
@@ -81,15 +80,7 @@ class LetterDetailView(SelectRelatedMixin, CaseRequiredMixin, DetailView):
         'author_institution', 'author_user', 'record__case__monitoring'
     ]
 
-
-class LetterMessageXSendFileView(MixinGzipXSendFile, BaseXSendFileView):
-    model = Letter
-    file_field = 'eml'
     send_as_attachment = True
-
-
-class LetterCreateView(RaisePermissionRequiredMixin, UserFormKwargsMixin,
-                       CreateMessageMixin, FormValidMessageMixin, CreateView):
     model = Letter
     form_class = LetterForm
     permission_required = 'monitorings.add_letter'
@@ -540,8 +531,3 @@ class ReceiveEmail(View):
         eml_filename = "{}.{}".format(uuid.uuid4().hex, eml_extensions)
         eml_content = base64.b64decode(eml['content'])
         return ContentFile(eml_content, eml_filename)
-
-
-class MessageXSendFileView(MixinGzipXSendFile, BaseXSendFileView):
-    model = Message
-    file_field = 'eml'

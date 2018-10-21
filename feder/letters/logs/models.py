@@ -82,7 +82,7 @@ class LogRecordQuerySet(models.QuerySet):
             log.email = obj
             log.save()
             saved += 1
-        return (skipped, saved)
+        return skipped, saved
 
 
 @python_2_unicode_compatible

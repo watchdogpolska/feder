@@ -1,8 +1,7 @@
 from collections import OrderedDict
 
-from six.moves.urllib.parse import urljoin
 import requests
-from requests import ConnectionError
+from six.moves.urllib.parse import urljoin
 
 
 class EmailLabsClient(object):

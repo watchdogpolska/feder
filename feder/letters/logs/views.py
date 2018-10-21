@@ -8,7 +8,7 @@ from braces.views import SelectRelatedMixin, PrefetchRelatedMixin
 from cached_property import cached_property
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
-from django.views.generic import DetailView, ListView
+from django.views.generic import DetailView
 
 from feder.cases.models import Case
 from feder.letters.logs.models import EmailLog
@@ -16,10 +16,12 @@ from feder.main.mixins import AttrPermissionRequiredMixin
 from feder.monitorings.models import Monitoring
 from django.views.generic.list import ListView
 
+
 class ListMonitoringMixin(AttrPermissionRequiredMixin, SelectRelatedMixin):
     select_related = ['case']
     paginate_by = 100
     model = EmailLog
+    monitoring = None
     permission_attribute = 'case__monitoring'
     permission_required = 'monitorings.view_log'
 

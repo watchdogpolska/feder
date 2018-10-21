@@ -14,14 +14,14 @@ from feder.cases.models import Case
 from feder.letters.utils import get_body_with_footer
 from feder.records.models import Record
 from .models import Letter
-from feder.letters.signals import MessageParser
 
 QUOTE_TPL = "W nawiązaniu do pisma z dnia {created} z adresu {email}:\n{quoted}"
 
 
 class LetterForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
     case = forms.ModelChoiceField(queryset=Case.objects.all(), label=_("Case"),
-                                  widget=autocomplete.ModelSelect2(url='cases:autocomplete-find'))
+                                  widget=autocomplete.ModelSelect2(
+                                      url='cases:autocomplete-find'))
 
     def __init__(self, *args, **kwargs):
         case = kwargs.pop('case', None)
@@ -45,25 +45,33 @@ class ReplyForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
         self.letter = kwargs.pop('letter')
         super(ReplyForm, self).__init__(*args, **kwargs)
         self.helper.form_tag = False
-        self.user_can_reply = self.user.has_perm('reply', self.letter.case.monitoring)
-        self.user_can_save = self.user.has_perm('add_draft', self.letter.case.monitoring)
+        self.user_can_reply = self.user.has_perm('reply',
+                                                 self.letter.case.monitoring)
+        self.user_can_save = self.user.has_perm('add_draft',
+                                                self.letter.case.monitoring)
 
         self.set_dynamic_field_initial()
         self.add_form_buttons()
 
     def set_dynamic_field_initial(self):
-        self.fields['title'].initial = "Re: {title}".format(title=self.letter.title)
-        self.fields['body'].initial = get_body_with_footer("", self.letter.case.monitoring.email_footer)
+        self.fields['title'].initial = "Re: {title}".format(
+            title=self.letter.title)
+        self.fields['body'].initial = get_body_with_footer("",
+                                                           self.letter.case.monitoring.email_footer)
         self.fields['quote'].initial = self.get_quote()
 
     def add_form_buttons(self):
         if self.user_can_reply and self.user_can_save:
-            self.helper.add_input(Submit('save', _("Save draft"), css_class="btn-default"))
-            self.helper.add_input(Submit('send', _("Send reply"), css_class="btn-primary"))
+            self.helper.add_input(
+                Submit('save', _("Save draft"), css_class="btn-default"))
+            self.helper.add_input(
+                Submit('send', _("Send reply"), css_class="btn-primary"))
         elif self.user_can_save:
-            self.helper.add_input(Submit('save', _("Save draft"), css_class="btn-primary"))
+            self.helper.add_input(
+                Submit('save', _("Save draft"), css_class="btn-primary"))
         elif self.user_can_reply:
-            self.helper.add_input(Submit('send', _("Send reply"), css_class="btn-primary"))
+            self.helper.add_input(
+                Submit('send', _("Send reply"), css_class="btn-primary"))
 
     def clean(self):
         if not (self.user_can_reply or self.user_can_save):
@@ -96,23 +104,13 @@ class ReplyForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
         fields = ['title', 'body', 'quote']
 
 
-class AssignMessageForm(SingleButtonMixin, forms.Form):
-    action_text = _("Assign")
-    case = forms.ModelChoiceField(queryset=Case.objects.all(), label=_("Case number"),
-                                  widget=autocomplete.ModelSelect2(url='cases:autocomplete-find'))
-
-    def __init__(self, *args, **kwargs):
-        self.message = kwargs.pop('message')
-        super(AssignMessageForm, self).__init__(*args, **kwargs)
-
-    def save(self):
-        return MessageParser(message=self.message, case=self.cleaned_data['case']).insert()
-
-
 class AssignLetterForm(SingleButtonMixin, forms.Form):
     action_text = _("Assign")
-    case = forms.ModelChoiceField(queryset=Case.objects.all(), label=_("Case number"),
-                                  widget=autocomplete.ModelSelect2(url='cases:autocomplete-find'))
+    case = forms.ModelChoiceField(
+        queryset=Case.objects.all(),
+        label=_("Case number"),
+        widget=autocomplete.ModelSelect2(url='cases:autocomplete-find')
+    )
 
     def __init__(self, *args, **kwargs):
         self.letter = kwargs.pop('letter')
@@ -127,8 +125,11 @@ class AssignLetterForm(SingleButtonMixin, forms.Form):
 class ReassignLetterForm(SingleButtonMixin, forms.ModelForm):
     action_text = _("Reassign")
 
-    case = forms.ModelChoiceField(queryset=Case.objects.all(), label=_("Case number"),
-                                  widget=autocomplete.ModelSelect2(url='cases:autocomplete-find'))
+    case = forms.ModelChoiceField(
+        queryset=Case.objects.all(),
+        label=_("Case number"),
+        widget=autocomplete.ModelSelect2(url='cases:autocomplete-find')
+    )
 
     def save(self, commit=True):
         self.instance.case = self.cleaned_data['case']
