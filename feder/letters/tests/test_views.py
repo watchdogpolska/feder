@@ -12,6 +12,7 @@ from guardian.shortcuts import assign_perm
 
 from feder.alerts.models import Alert
 from feder.cases.factories import CaseFactory
+from feder.cases.models import Case
 from feder.letters.models import Letter
 from feder.letters.settings import LETTER_RECEIVE_SECRET
 from feder.letters.tests.base import MessageMixin
@@ -19,7 +20,8 @@ from feder.main.mixins import PermissionStatusMixin
 from feder.monitorings.factories import MonitoringFactory
 from feder.records.models import Record
 from feder.users.factories import UserFactory
-from ..factories import IncomingLetterFactory, OutgoingLetterFactory, AttachmentFactory, LetterFactory
+from ..factories import IncomingLetterFactory, OutgoingLetterFactory, \
+    AttachmentFactory, LetterFactory
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -32,8 +34,9 @@ class ObjectMixin(object):
         self.from_user = OutgoingLetterFactory(title='Wniosek',
                                                record__case=self.case)
 
-        self.letter = self.from_institution = IncomingLetterFactory(title='Odpowiedz',
-                                                                    record__case=self.case)
+        self.letter = self.from_institution = IncomingLetterFactory(
+            title='Odpowiedz',
+            record__case=self.case)
 
 
 class LetterListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
@@ -72,7 +75,8 @@ class LetterDetailViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     def test_contains_link_to_report_spam(self):
         response = self.client.get(self.get_url())
         self.assertContains(response, _("Report spam"))
-        self.assertContains(response, reverse('letters:spam', kwargs={'pk': self.letter.pk}))
+        self.assertContains(response, reverse('letters:spam',
+                                              kwargs={'pk': self.letter.pk}))
 
     def test_contains_link_to_attachment(self):
         attachment = AttachmentFactory(letter=self.letter)
@@ -147,11 +151,13 @@ class LetterReplyViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     permission = ['monitorings.reply', 'monitorings.add_draft']
 
     def get_url(self):
-        return reverse('letters:reply', kwargs={'pk': self.from_institution.pk})
+        return reverse('letters:reply',
+                       kwargs={'pk': self.from_institution.pk})
 
     def test_send_reply(self):
         self.login_permitted_user()
-        simple_file = SimpleUploadedFile("file.mp4", b"file_content", content_type="video/mp4")
+        simple_file = SimpleUploadedFile("file.mp4", b"file_content",
+                                         content_type="video/mp4")
         response = self.client.post(self.get_url(),
                                     {'body': 'Lorem',
                                      'title': 'Lorem',
@@ -213,27 +219,32 @@ class LetterAtomFeedTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
         return reverse('letters:atom')
 
     def test_item_enclosure_url(self):
-        self.from_institution.eml.save('msg.eml', ContentFile("Foo"), save=True)
+        self.from_institution.eml.save('msg.eml', ContentFile("Foo"),
+                                       save=True)
         resp = self.client.get(self.get_url())
         self.assertContains(resp, self.from_institution.eml.name)
 
 
-class LetterMonitoringRssFeedTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
+class LetterMonitoringRssFeedTestCase(ObjectMixin, PermissionStatusMixin,
+                                      TestCase):
     status_anonymous = 200
     status_no_permission = 200
     permission = []
 
     def get_url(self):
-        return reverse('letters:rss', kwargs={'monitoring_pk': self.monitoring.pk})
+        return reverse('letters:rss',
+                       kwargs={'monitoring_pk': self.monitoring.pk})
 
 
-class LetterMonitoringAtomFeedTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
+class LetterMonitoringAtomFeedTestCase(ObjectMixin, PermissionStatusMixin,
+                                       TestCase):
     status_anonymous = 200
     status_no_permission = 200
     permission = []
 
     def get_url(self):
-        return reverse('letters:rss', kwargs={'monitoring_pk': self.monitoring.pk})
+        return reverse('letters:rss',
+                       kwargs={'monitoring_pk': self.monitoring.pk})
 
 
 class LetterCaseRssFeedTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
@@ -262,7 +273,8 @@ class SitemapTestCase(ObjectMixin, TestCase):
         self.assertContains(response, needle)
 
 
-class LetterReportSpamViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
+class LetterReportSpamViewTestCase(ObjectMixin, PermissionStatusMixin,
+                                   TestCase):
     status_anonymous = 200
     status_no_permission = 200
     permission = []
@@ -290,12 +302,14 @@ class LetterMarkSpamViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     permission = ['monitorings.spam_mark', ]
 
     def get_url(self):
-        return reverse('letters:mark_spam', kwargs={'pk': self.from_institution.pk})
+        return reverse('letters:mark_spam',
+                       kwargs={'pk': self.from_institution.pk})
 
     def test_hide_by_staff(self):
         self.login_permitted_user()
         response = self.client.post(self.get_url())
-        self.from_institution = Letter.objects_with_spam.get(pk=self.from_institution.pk)
+        self.from_institution = Letter.objects_with_spam.get(
+            pk=self.from_institution.pk)
         self.assertEqual(self.from_institution.is_spam, Letter.SPAM.spam)
 
     def test_mark_as_valid(self):
@@ -322,7 +336,8 @@ class MessageObjectMixin(object):
         self.case = CaseFactory(monitoring=self.monitoring)
 
 
-class UnrecognizedMessageListViewTestView(MessageObjectMixin, PermissionStatusMixin, TestCase):
+class UnrecognizedMessageListViewTestView(MessageObjectMixin,
+                                          PermissionStatusMixin, TestCase):
     permission = ['letters.recognize_letter']
     permission_object = None
 
@@ -330,7 +345,8 @@ class UnrecognizedMessageListViewTestView(MessageObjectMixin, PermissionStatusMi
         return reverse('letters:messages_list')
 
 
-class AssignMessageFormViewTestCase(MessageMixin, MessageObjectMixin, PermissionStatusMixin, TestCase):
+class AssignMessageFormViewTestCase(MessageMixin, MessageObjectMixin,
+                                    PermissionStatusMixin, TestCase):
     permission = ['letters.recognize_letter']
 
     def setUp(self):
@@ -345,12 +361,14 @@ class AssignMessageFormViewTestCase(MessageMixin, MessageObjectMixin, Permission
         self.client.login(username=UserFactory(is_superuser=True).username,
                           password='pass')
         self.case = CaseFactory()
-        response = self.client.post(self.get_url(), data={'case': self.case.pk})
+        response = self.client.post(self.get_url(),
+                                    data={'case': self.case.pk})
         self.assertRedirects(response, reverse('letters:messages_list'))
         self.assertTrue(self.msg.letter_set.exists())
 
 
-class UnrecognizedLetterListViewTestView(MessageObjectMixin, PermissionStatusMixin, TestCase):
+class UnrecognizedLetterListViewTestView(MessageObjectMixin,
+                                         PermissionStatusMixin, TestCase):
     permission = ['letters.recognize_letter']
     permission_object = None
 
@@ -358,7 +376,8 @@ class UnrecognizedLetterListViewTestView(MessageObjectMixin, PermissionStatusMix
         return reverse('letters:unrecognized_list')
 
 
-class AssignLetterFormViewTestCase(MessageMixin, MessageObjectMixin, PermissionStatusMixin, TestCase):
+class AssignLetterFormViewTestCase(MessageMixin, MessageObjectMixin,
+                                   PermissionStatusMixin, TestCase):
     permission = ['letters.recognize_letter']
 
     def setUp(self):
@@ -373,7 +392,8 @@ class AssignLetterFormViewTestCase(MessageMixin, MessageObjectMixin, PermissionS
         self.client.login(username=UserFactory(is_superuser=True).username,
                           password='pass')
         self.case = CaseFactory()
-        response = self.client.post(self.get_url(), data={'case': self.case.pk})
+        response = self.client.post(self.get_url(),
+                                    data={'case': self.case.pk})
         self.assertRedirects(response, reverse('letters:unrecognized_list'))
         self.assertTrue(self.case.record_set.exists())
 
@@ -390,7 +410,8 @@ class SpamAttachmentXSendFileViewTestCase(PermissionStatusMixin, TestCase):
         self.object = AttachmentFactory(letter__is_spam=self.spam_status)
 
     def get_url(self):
-        return reverse('letters:attachment', kwargs={'pk': self.object.pk, 'letter_pk': 0})
+        return reverse('letters:attachment',
+                       kwargs={'pk': self.object.pk, 'letter_pk': 0})
 
 
 class StandardAttachmentXSendFileViewTestCase(PermissionStatusMixin, TestCase):
@@ -405,45 +426,66 @@ class StandardAttachmentXSendFileViewTestCase(PermissionStatusMixin, TestCase):
         self.object = AttachmentFactory(letter__is_spam=self.spam_status)
 
     def get_url(self):
-        return reverse('letters:attachment', kwargs={'pk': self.object.pk, 'letter_pk': 0})
+        return reverse('letters:attachment',
+                       kwargs={'pk': self.object.pk, 'letter_pk': 0})
 
 
 class ReceiveEmailTestCase(TestCase):
     def setUp(self):
         self.url = reverse('letters:webhook')
-        self.authenticated_url = "{}?secret={}".format(self.url, LETTER_RECEIVE_SECRET)
+        self.authenticated_url = "{}?secret={}".format(
+            self.url,
+            LETTER_RECEIVE_SECRET
+        )
 
     def test_required_autentication(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 405)
 
-    def test_sample_request(self):
+    def test_add_to_case(self):
         case = CaseFactory()
 
         body = self._get_body(case)
-        response = self.client.post(path=self.authenticated_url,
-                                    data=json.dumps(body),
-                                    content_type='application/imap-to-webhook-v1+json')
+        response = self.client.post(
+            path=self.authenticated_url,
+            data=json.dumps(body),
+            content_type='application/imap-to-webhook-v1+json'
+        )
         self.assertEqual(response.json()['status'], 'OK')
 
         self.assertEqual(case.record_set.count(), 1)
         letter = case.record_set.all()[0].content_object
-        self.assertEqual(letter.body, 'W dniach 30.07-17.08.2018 r. przebywam na urlopie.')
+        self.assertEqual(
+            letter.body,
+            'W dniach 30.07-17.08.2018 r. przebywam na urlopie.'
+        )
+        attachment = letter.attachment_set.all()[0]
         if six.PY3:
             self.assertEqual(letter.eml.read().decode('utf-8'), '12345')
-            self.assertEqual(letter.attachment_set.all()[0].attachment.read().decode('utf-8'), '12345')
+            self.assertEqual(
+                attachment.attachment.read().decode('utf-8'),
+                '12345'
+            )
         else:
             self.assertEqual(letter.eml.read(), '12345')
-            self.assertEqual(letter.attachment_set.all()[0].attachment.read(), '12345')
+            self.assertEqual(
+                attachment.attachment.read(),
+                '12345'
+            )
 
-    def test_no_valid_email(self):
+    def test_no_match_of_case(self):
         body = self._get_body()
 
-        response = self.client.post(path=self.authenticated_url,
-                                    data=json.dumps(body),
-                                    content_type='application/imap-to-webhook-v1+json')
+        self.assertEqual(Case.objects.count(), 0)
+
+        response = self.client.post(
+            path=self.authenticated_url,
+            data=json.dumps(body),
+            content_type='application/imap-to-webhook-v1+json'
+        )
         letter = Letter.objects.first()
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(Case.objects.count(), 0)
         self.assertEqual(letter.case, None)
 
     def _get_body(self, case=None):
