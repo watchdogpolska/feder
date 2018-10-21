@@ -3,7 +3,6 @@ from __future__ import print_function
 import logging
 import uuid
 
-import talon
 from atom.models import AttachmentBase
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -22,8 +21,6 @@ from feder.cases.models import Case
 from feder.institutions.models import Institution
 from feder.records.models import AbstractRecord, Record
 from .utils import email_wrapper, normalize_msg_id, get_body_with_footer
-
-talon.init()
 
 logger = logging.getLogger(__name__)
 
