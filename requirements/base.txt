@@ -45,7 +45,7 @@ django-guardian==1.5.0
 talon==1.4.4
 django-teryt-tree==0.15.0
 cached-property==1.5.1
-django-bootstrap-pagination==1.6.4
+django-bootstrap-pagination==1.7.0
 django-reversion==2.0.13
 djangorestframework==3.8.2
 unicodecsv==0.14.1
