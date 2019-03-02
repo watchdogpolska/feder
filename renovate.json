@@ -3,4 +3,7 @@
     "config:base"
   ],
   "enabledManagers": ["dockerfile", "python"]
+  "pip_requirements": {
+    "fileMatch": ["requirements/.+?\\.txt$"]
+  }
 }
