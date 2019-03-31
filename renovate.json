@@ -4,6 +4,6 @@
   ],
   "enabledManagers": ["dockerfile", "pip_requirements", "pip_setup"],
   "pip_requirements": {
-    "fileMatch": ["requirements/.+?\\.txt$"]
+    "fileMatch": ["requirements/.+?.txt"]
   }
 }
