@@ -2,11 +2,8 @@
   "extends": [
     "config:base"
   ],
-  "enabledManagers": ["dockerfile", "python"],
+  "enabledManagers": ["dockerfile", "pip_requirements", "pip_setup"],
   "pip_requirements": {
     "fileMatch": ["requirements/.+?\\.txt$"]
-  },
-  "compatibility": {
-    "python": "2.7"
   }
 }
