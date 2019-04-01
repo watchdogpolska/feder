@@ -16,7 +16,7 @@ Collectfast==0.6.2
 # Mailgun Support
 # ---------------
 django-mailgun==0.9.1
-raven==6.9.0
+raven==6.10.0
 
 # APM
 elastic-apm==3.0.5
