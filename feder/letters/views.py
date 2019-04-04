@@ -29,7 +29,6 @@ from extra_views import UpdateWithInlinesView, CreateWithInlinesView
 
 from feder.alerts.models import Alert
 from feder.cases.models import Case
-from feder.letters import settings
 from feder.letters.filters import MessageFilter
 from feder.letters.formsets import AttachmentInline
 from feder.letters.settings import LETTER_RECEIVE_SECRET
@@ -57,14 +56,18 @@ class MixinGzipXSendFile(object):
 
 class CaseRequiredMixin(object):
     def get_queryset(self):
-        qs = super(CaseRequiredMixin, self).get_queryset().exclude(record__case=None)
+        qs = super(CaseRequiredMixin, self).get_queryset()\
+            .exclude(record__case=None)
         return qs.attachment_count()
 
 
-class LetterListView(UserKwargFilterSetMixin, CaseRequiredMixin, SelectRelatedMixin, FilterView):
+class LetterListView(UserKwargFilterSetMixin, CaseRequiredMixin,
+                     SelectRelatedMixin, FilterView):
     filterset_class = LetterFilter
     model = Letter
-    select_related = ['author_user', 'author_institution', 'record__case__institution']
+    select_related = [
+        'author_user', 'author_institution', 'record__case__institution'
+    ]
     paginate_by = 25
 
     def get_queryset(self):
@@ -74,7 +77,9 @@ class LetterListView(UserKwargFilterSetMixin, CaseRequiredMixin, SelectRelatedMi
 
 class LetterDetailView(SelectRelatedMixin, CaseRequiredMixin, DetailView):
     model = Letter
-    select_related = ['author_institution', 'author_user', 'record__case__monitoring']
+    select_related = [
+        'author_institution', 'author_user', 'record__case__monitoring'
+    ]
 
 
 class LetterMessageXSendFileView(MixinGzipXSendFile, BaseXSendFileView):
@@ -114,8 +119,9 @@ class LetterReplyView(RaisePermissionRequiredMixin, UserFormKwargsMixin,
 
     @cached_property
     def letter(self):
-        return get_object_or_404(Letter.objects.select_related('record__case__monitoring'),
-                                 pk=self.kwargs['pk'])
+        return get_object_or_404(
+            Letter.objects.select_related('record__case__monitoring'),
+            pk=self.kwargs['pk'])
 
     def get_permission_object(self):
         return self.letter.case.monitoring
@@ -140,13 +146,16 @@ class LetterReplyView(RaisePermissionRequiredMixin, UserFormKwargsMixin,
         if self.object.eml:
             return _("Reply {reply} to {letter} saved and send!").format(
                 letter=self.letter,
-                reply=self.object)
+                reply=self.object
+            )
         return _("Reply {reply} to {letter} saved to review!").format(
             letter=self.letter,
-            reply=self.object)
+            reply=self.object
+        )
 
 
-class LetterSendView(AttrPermissionRequiredMixin, ActionMessageMixin, CaseRequiredMixin,  ActionView):
+class LetterSendView(AttrPermissionRequiredMixin, ActionMessageMixin,
+                     CaseRequiredMixin, ActionView):
     model = Letter
     permission_attribute = 'record__case__monitoring'
     permission_required = 'monitorings.reply'
@@ -174,14 +183,16 @@ class LetterUpdateView(AttrPermissionRequiredMixin, UserFormKwargsMixin,
     permission_required = 'monitorings.change_letter'
 
 
-class LetterDeleteView(AttrPermissionRequiredMixin, DeleteMessageMixin, CaseRequiredMixin,  DeleteView):
+class LetterDeleteView(AttrPermissionRequiredMixin, DeleteMessageMixin,
+                       CaseRequiredMixin, DeleteView):
     model = Letter
     permission_attribute = 'record__case__monitoring'
     permission_required = 'monitorings.delete_letter'
 
     def delete(self, request, *args, **kwargs):
         result = super(LetterDeleteView, self).delete(request, *args, **kwargs)
-        [x.attachment.delete() for x in self.object.attachment_set.all()]  # Delete file
+        [x.attachment.delete() for x in
+         self.object.attachment_set.all()]  # Delete file
         self.object.attachment_set.all().delete()  # Delete objects
         self.object.eml.delete()  # Delete file
         return result
@@ -199,7 +210,8 @@ class LetterRssFeed(Feed):
     description_template = "letters/_letter_feed_item.html"
 
     def items(self):
-        return Letter.objects.with_feed_items().exclude(record__case=None).order_by('-created')[:30]
+        return Letter.objects.with_feed_items().exclude(
+            record__case=None).order_by('-created')[:30]
 
     def item_title(self, item):
         return item.title
@@ -217,10 +229,12 @@ class LetterRssFeed(Feed):
         return item.modified
 
     def item_categories(self, item):
-        return [item.case,
-                item.case.monitoring,
-                item.case.institution,
-                item.case.institution.jst]
+        return [
+            item.case,
+            item.case.monitoring,
+            item.case.institution,
+            item.case.institution.jst
+        ]
 
     def item_enclosure_url(self, item):
         return item.eml.url if item.eml else None
@@ -241,7 +255,9 @@ class LetterMonitoringRssFeed(LetterObjectFeedMixin, LetterRssFeed):
         return _("Letter for monitoring %s") % force_text(obj)
 
     def description(self, obj):
-        return _("Archive of letter for cases which involved in monitoring %s") % force_text(obj)
+        return _(
+            "Archive of letter for cases which involved in monitoring %s") % force_text(
+            obj)
 
 
 class LetterMonitoringAtomFeed(LetterMonitoringRssFeed):
@@ -273,7 +289,8 @@ class LetterReportSpamView(ActionMessageMixin, CaseRequiredMixin, ActionView):
     model = Letter
 
     def get_queryset(self):
-        return super(LetterReportSpamView, self).get_queryset().filter(is_spam=Letter.SPAM.unknown)
+        return super(LetterReportSpamView, self).get_queryset().filter(
+            is_spam=Letter.SPAM.unknown)
 
     def action(self):
         author = None if self.request.user.is_anonymous else self.request.user
@@ -283,13 +300,15 @@ class LetterReportSpamView(ActionMessageMixin, CaseRequiredMixin, ActionView):
                              link_object=self.object)
 
     def get_success_message(self):
-        return _("Thanks for your help. The report was forwarded to responsible persons.")
+        return _(
+            "Thanks for your help. The report was forwarded to responsible persons.")
 
     def get_success_url(self):
         return self.object.case.get_absolute_url()
 
 
-class LetterMarkSpamView(RaisePermissionRequiredMixin, CaseRequiredMixin, ActionMessageMixin, ActionView):
+class LetterMarkSpamView(RaisePermissionRequiredMixin, CaseRequiredMixin,
+                         ActionMessageMixin, ActionView):
     template_name_suffix = '_mark_spam'
     model = Letter
     permission_required = 'monitorings.spam_mark'
@@ -297,14 +316,16 @@ class LetterMarkSpamView(RaisePermissionRequiredMixin, CaseRequiredMixin, Action
 
     def get_object(self, *args, **kwargs):
         if not hasattr(self, 'object'):
-            self.object = super(LetterMarkSpamView, self).get_object(*args, **kwargs)
+            self.object = super(LetterMarkSpamView, self).get_object(*args,
+                                                                     **kwargs)
         return self.object
 
     def get_permission_object(self):
         return self.get_object().case.monitoring
 
     def get_queryset(self):
-        return super(LetterMarkSpamView, self).get_queryset().filter(is_spam=Letter.SPAM.unknown)
+        return super(LetterMarkSpamView, self).get_queryset().filter(
+            is_spam=Letter.SPAM.unknown)
 
     def action(self):
         if 'valid' in self.request.POST:
@@ -319,14 +340,18 @@ class LetterMarkSpamView(RaisePermissionRequiredMixin, CaseRequiredMixin, Action
 
     def get_success_message(self):
         if 'valid' in self.request.POST:
-            return _("The letter {object} has been marked as valid.").format(object=self.object)
-        return _("The message {object} has been marked as spam and hidden.").format(object=self.object)
+            return _("The letter {object} has been marked as valid.").format(
+                object=self.object)
+        return _(
+            "The message {object} has been marked as spam and hidden.").format(
+            object=self.object)
 
     def get_success_url(self):
         return self.object.case.get_absolute_url()
 
 
-class UnrecognizedMessageListView(RaisePermissionRequiredMixin,  PrefetchRelatedMixin, FilterView):
+class UnrecognizedMessageListView(RaisePermissionRequiredMixin,
+                                  PrefetchRelatedMixin, FilterView):
     filterset_class = MessageFilter
     model = Message
     prefetch_related = ['attachments']
@@ -337,11 +362,14 @@ class UnrecognizedMessageListView(RaisePermissionRequiredMixin,  PrefetchRelated
     ordering = '-pk'
 
     def get_queryset(self):
-        return super(UnrecognizedMessageListView, self).get_queryset().filter(letter=None)
+        return super(UnrecognizedMessageListView, self).get_queryset().filter(
+            letter=None)
 
     def get_context_data(self, **kwargs):
-        context = super(UnrecognizedMessageListView, self).get_context_data(**kwargs)
-        context['object_list'] = self.update_object_list(context['object_list'])
+        context = super(UnrecognizedMessageListView, self).get_context_data(
+            **kwargs)
+        context['object_list'] = self.update_object_list(
+            context['object_list'])
         return context
 
     def update_object_list(self, object_list):
@@ -352,7 +380,8 @@ class UnrecognizedMessageListView(RaisePermissionRequiredMixin,  PrefetchRelated
         return result
 
 
-class AssignMessageFormView(PrefetchRelatedMixin, RaisePermissionRequiredMixin, SuccessMessageMixin, FormView):
+class AssignMessageFormView(PrefetchRelatedMixin, RaisePermissionRequiredMixin,
+                            SuccessMessageMixin, FormView):
     model = Message
     form_class = AssignMessageForm
     permission_object = None
@@ -381,7 +410,9 @@ class AssignMessageFormView(PrefetchRelatedMixin, RaisePermissionRequiredMixin, 
         return super(AssignMessageFormView, self).form_valid(form)
 
 
-class UnrecognizedLetterListView(UserKwargFilterSetMixin, RaisePermissionRequiredMixin, PrefetchRelatedMixin,
+class UnrecognizedLetterListView(UserKwargFilterSetMixin,
+                                 RaisePermissionRequiredMixin,
+                                 PrefetchRelatedMixin,
                                  FilterView):
     filterset_class = LetterFilter
     model = Letter
@@ -394,11 +425,14 @@ class UnrecognizedLetterListView(UserKwargFilterSetMixin, RaisePermissionRequire
     ordering = '-pk'
 
     def get_queryset(self):
-        return super(UnrecognizedLetterListView, self).get_queryset().filter(record__case=None)
+        return super(UnrecognizedLetterListView, self).get_queryset().filter(
+            record__case=None)
 
     def get_context_data(self, **kwargs):
-        context = super(UnrecognizedLetterListView, self).get_context_data(**kwargs)
-        context['object_list'] = self.update_object_list(context['object_list'])
+        context = super(UnrecognizedLetterListView, self).get_context_data(
+            **kwargs)
+        context['object_list'] = self.update_object_list(
+            context['object_list'])
         return context
 
     def update_object_list(self, object_list):
@@ -409,7 +443,8 @@ class UnrecognizedLetterListView(UserKwargFilterSetMixin, RaisePermissionRequire
         return result
 
 
-class AssignLetterFormView(PrefetchRelatedMixin, RaisePermissionRequiredMixin, SuccessMessageMixin, FormView):
+class AssignLetterFormView(PrefetchRelatedMixin, RaisePermissionRequiredMixin,
+                           SuccessMessageMixin, FormView):
     model = Letter
     form_class = AssignLetterForm
     permission_object = None
@@ -444,10 +479,12 @@ class AttachmentXSendFileView(MixinGzipXSendFile, BaseXSendFileView):
     send_as_attachment = True
 
     def get_queryset(self):
-        return super(AttachmentXSendFileView, self).get_queryset().for_user(self.request.user)
+        return super(AttachmentXSendFileView, self).get_queryset().for_user(
+            self.request.user)
 
     def get_sendfile_kwargs(self, context):
-        kwargs = super(AttachmentXSendFileView, self).get_sendfile_kwargs(context)
+        kwargs = super(AttachmentXSendFileView, self).get_sendfile_kwargs(
+            context)
         if kwargs['filename'].endswith('.gz'):
             kwargs['encoding'] = 'gzip'
         return kwargs
@@ -461,8 +498,10 @@ class ReceiveEmail(View):
             raise PermissionDenied
         if request.content_type != self.required_content_type:
             return HttpResponseBadRequest('The request has an invalid format. '
-                                          'The acceptable format is "{}"'.format(self.required_content_type))
-        body = json.load(request)
+                                          'The acceptable format is "{}"'
+                                          .format(request.content_type))
+        body = json.loads(request.read().decode('utf-8')) \
+            if six.PY3 else json.loads(request.read())
         letter = self.get_letter(**body)
 
         Attachment.objects.bulk_create(self.get_attachment(attachment, letter)
@@ -472,18 +511,22 @@ class ReceiveEmail(View):
     def get_letter(self, headers, eml, text, **kwargs):
         case = self.get_case(headers['to+'])
         eml_file = self.get_eml_file(eml)
-        from_email = headers['from'][0] if headers['from'][0] else 'unknown@domain.gov'
-        return Letter.objects.create(author_institution=case.institution if case else None,
-                                     email=from_email,
-                                     record=Record.objects.create(case=case),
-                                     title=headers['subject'],
-                                     body=text['content'],
-                                     quote=text['quote'],
-                                     eml=eml_file,
-                                     is_draft=False)
+        from_email = headers['from'][0] if headers['from'][
+            0] else 'unknown@domain.gov'
+        return Letter.objects.create(
+            author_institution=case.institution if case else None,
+            email=from_email,
+            record=Record.objects.create(case=case),
+            title=headers['subject'],
+            body=text['content'],
+            quote=text['quote'],
+            eml=eml_file,
+            is_draft=False
+        )
 
     def get_case(self, to_plus):
-        return Case.objects.select_related('institution').by_addresses(to_plus).first()
+        return Case.objects.select_related('institution').by_addresses(
+            to_plus).first()
 
     def get_attachment(self, attachment, letter):
         file_obj = ContentFile(content=base64.b64decode(attachment['content']),

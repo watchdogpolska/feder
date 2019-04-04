@@ -125,7 +125,7 @@ EMAIL_BACKEND = env('DJANGO_EMAIL_BACKEND', default='django.core.mail.backends.s
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#admins
 ADMINS = (
-    ("""Kamil Breguła""", 'kamil.bregula@siecobywatelska.pl'),
+    ("""Karol Breguła""", 'karol.bregula@siecobywatelska.pl'),
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#managers
@@ -334,3 +334,22 @@ GITHUB_REVISION_REPO_URL = 'https://github.com/watchdogpolska/feder'
 SENDFILE_BACKEND = 'sendfile.backends.development'
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = 200000000  # 200MB
+
+NECCESSARY_FILES = {
+    'letters.Letter': {
+        'path': 'record__case__monitoring',
+        'fields': ['eml'],
+    },
+    'letters.Attachment': {
+        'path': 'letter__record__case__monitoring',
+        'fields': ['attachment']
+    },
+    'parcels.IncomingParcelPost': {
+        'path': 'record__case__monitoring',
+        'fields': ['content'],
+    },
+    'parcels.OutgoingParcelPost': {
+        'path': 'record__case__monitoring',
+        'fields': ['content'],
+    }
+}

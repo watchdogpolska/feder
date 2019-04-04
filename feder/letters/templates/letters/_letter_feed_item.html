@@ -1,2 +1,2 @@
-{% load i18n %}
-{{ obj.body|linebreaks }}
+{% load i18n letters_tags %}
+{{ obj.body| remove_control_characters |linebreaks }}

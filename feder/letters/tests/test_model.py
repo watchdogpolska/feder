@@ -82,7 +82,8 @@ class ModelTestCase(TestCase):
 
         self.assertTrue(outgoing.message_id_header)
         if six.PY3:
-            message = email.message_from_string(outgoing.eml.file.read().decode('utf-8'))
+            message = email.message_from_string(
+                outgoing.eml.file.read().decode('utf-8'))
         else:  # Deprecated Python 2.7 support
             message = email.message_from_file(outgoing.eml.file)
         msg_id = normalize_msg_id(message['Message-ID'])
@@ -106,13 +107,15 @@ class ModelTestCase(TestCase):
 
         monitoring = MonitoringFactory(email_footer=footer_text)
         institution = InstitutionFactory()
-        Letter.send_new_case(user=user,
-                             monitoring=monitoring,
-                             institution=institution,
-                             text="Przeslac informacje szybko")
+        Letter.send_new_case(
+            user=user,
+            monitoring=monitoring,
+            institution=institution,
+            text="Przeslac informacje szybko"
+        )
         self.assertEqual(Case.objects.count(), 1)
         self.assertEqual(Letter.objects.count(), 1)
-        self.assertIn(footer_text, mail.outbox[0].body,
-                        "Email for a new case should contain footer text from monitoring")
-
-
+        self.assertIn(
+            footer_text, mail.outbox[0].body,
+            "Email for a new case should contain footer text from monitoring"
+        )

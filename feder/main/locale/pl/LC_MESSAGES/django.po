@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: main 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-13 23:07+0000\n"
-"PO-Revision-Date: 2017-08-14 01:07+0200\n"
+"POT-Creation-Date: 2018-10-21 00:58+0000\n"
+"PO-Revision-Date: 2018-10-21 02:59+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -60,43 +60,43 @@ msgstr "GitHub"
 msgid "Account"
 msgstr "Konto"
 
-#: templates/account/email.html:12
+#: templates/account/email.html:13
 msgid "E-mail Addresses"
 msgstr "Adresy e-mail"
 
-#: templates/account/email.html:14
+#: templates/account/email.html:15
 msgid "The following e-mail addresses are associated with your account:"
 msgstr "Poniższe adresy e-mail są powiązane z Twoim kontem:"
 
-#: templates/account/email.html:31
+#: templates/account/email.html:34
 msgid "Verified"
 msgstr "Zweryfikowany"
 
-#: templates/account/email.html:33
+#: templates/account/email.html:36
 msgid "Unverified"
 msgstr "Brak weryfikacji"
 
-#: templates/account/email.html:36
+#: templates/account/email.html:39
 msgid "Primary"
 msgstr "Podstawowy"
 
-#: templates/account/email.html:43
+#: templates/account/email.html:46
 msgid "Make Primary"
 msgstr "Uczyń podstawowym"
 
-#: templates/account/email.html:45
+#: templates/account/email.html:48
 msgid "Re-send Verification"
 msgstr "Prześlij ponownie wiadomość weryfikacyjną"
 
-#: templates/account/email.html:47
+#: templates/account/email.html:50 templates/socialaccount/connections.html:47
 msgid "Remove"
 msgstr "Usuń"
 
-#: templates/account/email.html:55
+#: templates/account/email.html:58
 msgid "Warning:"
 msgstr "Uwaga:"
 
-#: templates/account/email.html:55
+#: templates/account/email.html:58
 msgid ""
 "You currently do not have any e-mail address set up. You should really add "
 "an e-mail address so you can receive notifications, reset your password, etc."
@@ -105,15 +105,15 @@ msgstr ""
 "Powinieneś je dodać, aby otrzymywać informacje administracyjne, wiadomości o "
 "zmianie hasła, itd."
 
-#: templates/account/email.html:61
+#: templates/account/email.html:66
 msgid "Add E-mail Address"
 msgstr "Dodaj adres e-mail"
 
-#: templates/account/email.html:66
+#: templates/account/email.html:72
 msgid "Add E-mail"
 msgstr "Dodaj e-mail"
 
-#: templates/account/email.html:77
+#: templates/account/email.html:85
 msgid "Do you really want to remove the selected e-mail address?"
 msgstr "Czy naprawdę chcesz usunąć wybrany adres e-mail?"
 
@@ -287,7 +287,7 @@ msgid "Signup"
 msgstr "Zarejestruj się"
 
 #: templates/account/signup.html:10 templates/account/signup.html:22
-#: templates/base.html:111
+#: templates/base.html:112
 msgid "Sign Up"
 msgstr "Zarejestuj się"
 
@@ -368,75 +368,75 @@ msgstr ""
 "<strong>Uwaga:</strong> możesz ciągle <a href=\"%(email_url)s\">zmienić swój "
 "adres e-mail</a>."
 
-#: templates/base.html:6 templates/base.html:41
+#: templates/base.html:7 templates/base.html:42
 msgid "Civil data mining"
 msgstr "Obywatelskie fedrowanie danych"
 
-#: templates/base.html:33
+#: templates/base.html:34
 msgid "Toggle navigation"
 msgstr "Przełącz nawigacje"
 
-#: templates/base.html:50
+#: templates/base.html:51
 msgid "Homepage"
 msgstr "Strona główna"
 
-#: templates/base.html:57
+#: templates/base.html:58
 msgid "Search"
 msgstr "Szukaj"
 
-#: templates/base.html:64
+#: templates/base.html:65
 msgid "Cases"
 msgstr "Sprawy"
 
-#: templates/base.html:70
+#: templates/base.html:71
 msgid "Monitorings"
 msgstr "Monitoringi"
 
-#: templates/base.html:76
+#: templates/base.html:77
 msgid "Letters"
 msgstr "Listy"
 
-#: templates/base.html:82
+#: templates/base.html:83
 msgid "Institutions"
 msgstr "Instytucje"
 
-#: templates/base.html:87
+#: templates/base.html:88
 msgid "Questionaries"
 msgstr "Kwestionariusze"
 
-#: templates/base.html:93
+#: templates/base.html:94
 msgid "Tasks"
 msgstr "Zadania"
 
-#: templates/base.html:100
+#: templates/base.html:101
 msgid "Information about the site you are currently visiting"
 msgstr "Informacje o stronie którą właśnie odwiedzasz"
 
-#: templates/base.html:101
+#: templates/base.html:102
 msgid "About page"
 msgstr "O stronie"
 
-#: templates/base.html:108
+#: templates/base.html:109
 msgid "My Profile"
 msgstr "Mój profil"
 
-#: templates/base.html:109
+#: templates/base.html:110
 msgid "Logout"
 msgstr "Wyloguj"
 
-#: templates/base.html:112
+#: templates/base.html:113
 msgid "Log In"
 msgstr "Zaloguj"
 
-#: templates/base.html:142
+#: templates/base.html:149
 msgid "This site uses cookies."
 msgstr "Ta strona wykorzystuje cookies."
 
-#: templates/base.html:160
+#: templates/base.html:167
 msgid "Show quote"
 msgstr "Pokaż cytat"
 
-#: templates/base.html:161
+#: templates/base.html:168
 msgid "Hide quote"
 msgstr "Ukryj cytat"
 
@@ -460,49 +460,84 @@ msgstr "Województwa"
 msgid "Last monitorings"
 msgstr "Ostatnie monitoringi"
 
-#: urls.py:36
+#: templates/socialaccount/connections.html:5
+#: templates/socialaccount/connections.html:12
+msgid "Account Connections"
+msgstr "Połączone konta"
+
+#: templates/socialaccount/connections.html:15
+msgid ""
+"You can sign in to your account\n"
+"                            using\n"
+"                            any of the following third party\n"
+"                            accounts:"
+msgstr ""
+"Możesz się zalogować do swojego konta\n"
+"                            używając\n"
+"                            dowolnego z poniższych zewnętrznych\n"
+"                            kont:"
+
+#: templates/socialaccount/connections.html:54
+msgid ""
+"You currently have no social network accounts connected to this account."
+msgstr ""
+"Nie masz obecnie żadnych kont społecznościowych połączonych z tym kontem."
+
+#: templates/socialaccount/connections.html:60
+msgid "Add a 3rd Party Account"
+msgstr "Dodaj konto zewnętrzne"
+
+#: urls.py:42
 msgid "^$"
 msgstr "^$"
 
-#: urls.py:40
+#: urls.py:46
 msgid "^about/$"
 msgstr "^o-stronie/"
 
-#: urls.py:46
+#: urls.py:52
 msgid "^users/"
 msgstr "^uzytkownik/"
 
-#: urls.py:50
+#: urls.py:56
 msgid "^institutions/"
 msgstr "^instytucje/"
 
-#: urls.py:51
+#: urls.py:57
 msgid "^monitorings/"
 msgstr "^monitoringi/"
 
-#: urls.py:52
+#: urls.py:58
 msgid "^cases/"
 msgstr "^sprawy/"
 
-#: urls.py:53
+#: urls.py:59
 msgid "^tasks/"
 msgstr "^zadania/"
 
-#: urls.py:54
+#: urls.py:60
 msgid "^questionaries/"
 msgstr "^kwestionariusze/"
 
-#: urls.py:55
+#: urls.py:61
 msgid "^alerts/"
 msgstr "^alerty/"
 
-#: urls.py:56
+#: urls.py:62
 msgid "^letters/"
 msgstr "^listy/"
 
-#: urls.py:57
+#: urls.py:63
 msgid "^teryt/"
 msgstr "^jst/"
+
+#: urls.py:64
+msgid "^letters/logs/"
+msgstr "^listy/logi/"
+
+#: urls.py:65
+msgid "^parcels/"
+msgstr "^przesylki/"
 
 #~ msgid "Social media assist"
 #~ msgstr "Wsparcie mediów społecznościowcyh"
@@ -850,24 +885,6 @@ msgstr "^jst/"
 #~ "account."
 #~ msgstr ""
 #~ "Wystąpił błąd podczas próby logowania za pomocą konta społecznościowego"
-
-#~ msgid "Account Connections"
-#~ msgstr "Połączone konta"
-
-#~ msgid ""
-#~ "You can sign in to your account using any of the following third party "
-#~ "accounts:"
-#~ msgstr ""
-#~ "Możesz zalogować się do swojego konta używając dowolnego z poniższych "
-#~ "kont zewnętrznych:"
-
-#~ msgid ""
-#~ "You currently have no social network accounts connected to this account."
-#~ msgstr ""
-#~ "Nie masz obecnie żadnych kont społecznościowych połączonych z tym kontem."
-
-#~ msgid "Add a 3rd Party Account"
-#~ msgstr "Dodaj konto zewnętrzne"
 
 #~ msgid "Login Cancelled"
 #~ msgstr "Logowanie anulowane"

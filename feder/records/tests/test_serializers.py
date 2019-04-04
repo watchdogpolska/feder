@@ -17,7 +17,7 @@ class RecordSerializerTestCase(TestCase):
                                   context=self.context).data
         self.assertEqual(result['content_object']['title'],
                          attachment.letter.title)
-        attachments = result['content_object']['attachments'].data
+        attachments = result['content_object']['attachments']
         self.assertEqual(len(attachments), 1)
         attachment = attachments[0]
         self.assertTrue(attachment['url'].startswith("http"))
