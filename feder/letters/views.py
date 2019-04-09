@@ -220,7 +220,8 @@ class LetterRssFeed(Feed):
         return force_text(item.author)
 
     def item_author_link(self, item):
-        return item.author.get_absolute_url()
+        if item.author:
+            return item.author.get_absolute_url()
 
     def item_pubdate(self, item):
         return item.created
