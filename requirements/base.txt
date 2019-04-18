@@ -29,7 +29,7 @@ https://github.com/Balu-Varanasi/django-autoslug/archive/9fb8528a9e2cc2bbad16759
 
 
 # Time zones support
-pytz==2018.9
+pytz==2019.1
 
 
 
