@@ -8,5 +8,5 @@ Werkzeug==0.15.2
 django-debug-toolbar==1.11
 
 # improved REPL
-ipdb==0.11
+ipdb==0.12
 factory-boy==2.11.1
