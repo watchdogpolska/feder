@@ -38,7 +38,7 @@ django-filter==2.1.0
 django-autocomplete-light==3.3.4
 django-atom==0.16.3
 django-formtools==2.1
-django-mptt==0.9.1
+django-mptt==0.10.0
 django-autofixture==0.12.1
 jsonfield==2.0.2
 django-guardian==1.4.9
