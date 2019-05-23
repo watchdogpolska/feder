@@ -29,7 +29,7 @@ https://github.com/Balu-Varanasi/django-autoslug/archive/9fb8528a9e2cc2bbad16759
 
 
 # Time zones support
-pytz==2018.9
+pytz==2019.1
 
 
 
@@ -41,15 +41,15 @@ django-formtools==2.1
 django-mptt==0.9.1
 django-autofixture==0.12.1
 jsonfield==2.0.2
-django-guardian==1.4.9
+django-guardian==1.5.1
 talon==1.4.4
 django-teryt-tree==0.15.0
 cached-property==1.5.1
 django-bootstrap-pagination==1.7.0
-django-reversion==3.0.3
+django-reversion==3.0.4
 djangorestframework==3.9.2
 unicodecsv==0.14.1
-tqdm==4.31.1
+tqdm==4.32.1
 djangorestframework-filters==0.11.1
 django-github-revision==0.0.3
 

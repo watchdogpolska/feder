@@ -31,9 +31,13 @@ class EmailQuerySet(models.QuerySet):
 
 @python_2_unicode_compatible
 class EmailLog(TimeStampedModel):
-    status = models.CharField(choices=STATUS, default=STATUS.unknown, max_length=20)
-    case = models.ForeignKey(Case, on_delete=models.CASCADE, max_length=_("Case"))
-    letter = models.OneToOneField(Letter, on_delete=models.CASCADE, max_length=_("Letter"), null=True, blank=True)
+    status = models.CharField(choices=STATUS, default=STATUS.unknown,
+                              max_length=20)
+    case = models.ForeignKey(Case, on_delete=models.CASCADE,
+                             max_length=_("Case"))
+    letter = models.OneToOneField(Letter, on_delete=models.CASCADE,
+                                  max_length=_("Letter"), null=True,
+                                  blank=True)
     email_id = models.CharField(verbose_name=_("Message-ID"), max_length=255)
     to = models.CharField(verbose_name=_("To"), max_length=255)
     objects = EmailQuerySet.as_manager()
@@ -53,8 +57,8 @@ class EmailLog(TimeStampedModel):
 class LogRecordQuerySet(models.QuerySet):
     def parse_rows(self, rows):
         skipped, saved = 0, 0
-        cases = dict(Letter.objects.values_list('record__case__email', 'record__case_id'))
-        letters = dict(Letter.objects.is_outgoing().values_list('message_id_header', 'id'))
+        cases = dict(Letter.objects.filter(record__case__isnull=False).values_list('record__case__email', 'record__case_id'))
+        letters = dict(Letter.objects.is_outgoing().values_list('message_id_header','id'))
 
         for row in rows:
             if row['from'] not in cases:
@@ -63,11 +67,15 @@ class LogRecordQuerySet(models.QuerySet):
             log = LogRecord(data=row)
             status = log.get_status()
             letter = letters.get(row['message_id'], None)
-            obj, created = EmailLog.objects.get_or_create(case_id=cases[row['from']],
-                                                          email_id=row['id'],
-                                                          to=row['to'],
-                                                          defaults={'status': status,
-                                                                    'letter_id': letter})
+            obj, created = EmailLog.objects.get_or_create(
+                case_id=cases[row['from']],
+                email_id=row['id'],
+                to=row['to'],
+                defaults={
+                    'status': status,
+                    'letter_id': letter
+                }
+            )
             if obj.status != status:
                 obj.status = status
                 obj.save(update_fields=['status'])
@@ -79,7 +87,8 @@ class LogRecordQuerySet(models.QuerySet):
 
 @python_2_unicode_compatible
 class LogRecord(TimeStampedModel):
-    email = models.ForeignKey(EmailLog, on_delete=models.CASCADE, verbose_name=_("Email"))
+    email = models.ForeignKey(EmailLog, on_delete=models.CASCADE,
+                              verbose_name=_("Email"))
     data = JSONField()
     objects = LogRecordQuerySet.as_manager()
 
@@ -88,7 +97,8 @@ class LogRecord(TimeStampedModel):
         for status in status_list:
             time_name = '{}_time'.format(status)
             desc_name = '{}_desc'.format(status)
-            if self.data.get(time_name, False) or self.data.get(desc_name, False):
+            if self.data.get(time_name, False) or self.data.get(desc_name,
+                                                                False):
                 return status
         return STATUS.unknown
 

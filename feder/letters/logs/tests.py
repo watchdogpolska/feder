@@ -83,13 +83,22 @@ class EmailLabsClientTestCase(TestCase):
 class LogRecordQuerySet(TestCase):
     def setUp(self):
         self.letter = LetterFactory()
-        self.rows = [get_emaillabs_row(sender_from=self.letter.case.email,
-                                       id='ID1',
-                                       deferred_time='Now'),
-                     get_emaillabs_row(sender_from='sprawa@example.com',
-                                       id='ID1'),
-                     get_emaillabs_row(sender_from='sprawa2@example.com',
-                                       id='ID2')]
+        self.letter_no_case = LetterFactory(record__case=None)
+        self.rows = [
+            get_emaillabs_row(
+                sender_from=self.letter.case.email,
+                id='ID1',
+                deferred_time='Now'
+            ),
+            get_emaillabs_row(
+                sender_from='sprawa@example.com',
+                id='ID1'
+            ),
+            get_emaillabs_row(
+                sender_from='sprawa2@example.com',
+                id='ID2'
+            )
+        ]
 
     def test_parse_rows_counters(self):
         skipped, saved = LogRecord.objects.parse_rows(self.rows)
