@@ -39,7 +39,7 @@ if not bool(environ('GUSREGON_SANDBOX')):
 
 
 class Command(object):
-    REQUIRED_FIELDS = ['name', 'email', 'regon', 'terc', 'regon_parent', 'tags']
+    REQUIRED_FIELDS = ['name', 'email', 'regon', 'regon_parent', 'tags']
 
     def __init__(self, argv):
         self.gus = GUS(api_key=environ('GUSREGON_API_KEY'), sandbox=environ('GUSREGON_SANDBOX', True))
@@ -77,14 +77,16 @@ class Command(object):
             import ipdb; ipdb.set_trace();
         return data['results'][0]['pk']
 
-    def insert_row(self, host, name, email, terc, regon, tags, regon_parent, **extra):
+    def insert_row(self, host, name, email, regon, tags, regon_parent, **extra):
+        regon_data = self.gus.search(regon=regon)
+        terc = extra.get('terc', regon_data['adsiedzwojewodztwo_symbol'] + regon_data['adsiedzpowiat_symbol'] + regon_data['adsiedzgmina_symbol'])
         data = {
             "name": name,
             "tags": tags.split(','),
             "jst": normalize_jst(terc),
             "email": email,
             "regon": regon,
-            "extra": {'regon': self.gus.search(regon=regon)}
+            "extra": {'regon': regon_data}
         }
         if regon_parent:
             data.update({
@@ -101,7 +103,7 @@ class Command(object):
         else:
             response = self.s.post(url=urljoin(host, "/api/institutions/"), json=data)
 
-        if response.status_code == 500:
+        if response.status_code >=300:
             print(name.encode('utf-8'), " response 500", response.status_code, ":", file=sys.stderr)
             print(response.text, file=sys.stderr)
             return
