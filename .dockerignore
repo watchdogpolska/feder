@@ -7,6 +7,6 @@ docs
 **/*.rst
 **/*.md
 media
-poradnia/media
-poradnia/staticfiles
+feder/media
+feder/staticfiles
 htmlcov
