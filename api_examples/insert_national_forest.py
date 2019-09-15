@@ -39,7 +39,7 @@ if not bool(environ('GUSREGON_SANDBOX')):
 
 
 class Command(object):
-    REQUIRED_FIELDS = ['name', 'email', 'regon', 'regon_parent', 'tags']
+    REQUIRED_FIELDS = ['name', 'email', 'regon', 'tags']
 
     def __init__(self, argv):
         self.gus = GUS(api_key=environ('GUSREGON_API_KEY'), sandbox=environ('GUSREGON_SANDBOX', True))
@@ -77,8 +77,11 @@ class Command(object):
             import ipdb; ipdb.set_trace();
         return data['results'][0]['pk']
 
-    def insert_row(self, host, name, email, regon, tags, regon_parent, **extra):
+    def insert_row(self, host, name, email, regon, tags, regon_parent=None, **extra):
+        regon = regon.strip('>').strip()
         regon_data = self.gus.search(regon=regon)
+        if not regon_data:
+            raise Exception("Invalid regon data", regon, name)
         terc = extra.get('terc', regon_data['adsiedzwojewodztwo_symbol'] + regon_data['adsiedzpowiat_symbol'] + regon_data['adsiedzgmina_symbol'])
         data = {
             "name": name,
