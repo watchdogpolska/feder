@@ -30,8 +30,7 @@ services:
       dockerfile: .contrib/docker/Dockerfile.web
       args:
         PYTHON_VERSION: '${PYTHON_VERSION:-2}'
-        DJANGO_VERSION: '${DJANGO_VERSION:-==1.11.21}'
-
+        DJANGO_VERSION: '${DJANGO_VERSION:-==1.11.*}'
     volumes:
       - .:/code
     environment:
