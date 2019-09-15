@@ -6,7 +6,7 @@
   "packageRules": [
     {
       "managers": ["pip_requirements"],
-      "paths": ["requirements/local.txt","requirements/test.txt","requirements/doc.txt"],
+      "paths": ["requirements/dev.txt","requirements/test.txt"],
       "groupName": "non-production-dependencies"
     }
   ],
