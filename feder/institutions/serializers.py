@@ -30,7 +30,10 @@ class InstitutionSerializer(serializers.HyperlinkedModelSerializer):
         view_name='institution-detail',
         # lookup_field='pk'
     )
-    regon = serializers.CharField(validators=[UniqueValidator(queryset=Institution.objects.all())])
+    regon = serializers.CharField(
+        validators=[UniqueValidator(queryset=Institution.objects.all())],
+        required=False
+    )
     slug = serializers.CharField(read_only=True)
     tags = TagNestedSerializer(many=True, required=False)
     parents = ParentSerializer(many=True, read_only=True)
