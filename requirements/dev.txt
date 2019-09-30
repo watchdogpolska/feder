@@ -11,5 +11,5 @@ lxml==4.4.1
 django-coverage-plugin==1.6.0
 coverage==4.5.4
 coveralls==1.7.0
-vcrpy==2.0.1
+vcrpy==2.1.0
 sphinxcontrib-programoutput==0.15
