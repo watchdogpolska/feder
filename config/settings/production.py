@@ -100,12 +100,4 @@ EMAILLABS_APP_KEY = env('EMAILLABS_APP_KEY')
 
 EMAILLABS_SECRET_KEY = env('EMAILLABS_SECRET_KEY')
 
-# APM
-INSTALLED_APPS = INSTALLED_APPS + (
-    'elasticapm.contrib.django', )
-
-MIDDLEWARE = (
-    'elasticapm.contrib.django.middleware.TracingMiddleware',
-) + MIDDLEWARE
-
 LETTER_RECEIVE_SECRET = env('LETTER_RECEIVE_SECRET')
