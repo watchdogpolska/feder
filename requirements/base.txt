@@ -17,7 +17,7 @@ Pillow==6.1.0
 
 # For user registration, either via email or social
 # Well-built with regular release cycles!
-django-allauth==0.39.1
+django-allauth==0.40.0
 
 # For the persistence stores
 mysqlclient==1.4.4
@@ -44,7 +44,7 @@ jsonfield==2.0.2
 django-guardian==1.5.1
 django-teryt-tree==0.15.0
 cached-property==1.5.1
-django-bootstrap-pagination==1.7.0
+django-bootstrap-pagination==1.7.1
 django-reversion==3.0.4
 djangorestframework==3.9.4
 unicodecsv==0.14.1
