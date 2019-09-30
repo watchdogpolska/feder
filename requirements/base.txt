@@ -51,6 +51,7 @@ unicodecsv==0.14.1
 tqdm==4.36.1
 djangorestframework-filters==0.11.1
 django-github-revision==0.0.3
+django-extensions==2.2.1
 
 https://github.com/watchdogpolska/django-mailbox/archive/fix-unicode.zip
 # Ping commit due missing cached object in <=4.7.1
