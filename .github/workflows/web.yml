@@ -40,9 +40,11 @@ jobs:
   docs:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@master
       with:
         lfs: true
+    - name: Pull Git LFS files
+      run: git lfs pull
     - name: Build application
       run: docker-compose build --build-arg REQ_ENV=doc web
       env:
