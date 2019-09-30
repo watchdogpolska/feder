@@ -41,7 +41,7 @@ class Migration(migrations.Migration):
                 verbose_name='Message',
                 on_delete=django.db.models.deletion.CASCADE,
                 to='letters.Letter',
-                help_text='Message registerd by django-mailbox',
+                help_text='Message registered',
                 null=True
             ),
         ),

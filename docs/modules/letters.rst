@@ -9,7 +9,7 @@ Założenia
 
 Moduł odpowiedzialny za indywidualny komunikat wymieniony pomiedzy systemem, a urzędem. Zapewnia odbiór korespondencji w formie e-mailowej wraz z załącznikami i jej publikacji.
 
-Odbiór korespondencji w formie e-mailowej realizowany jest z wsparciem aplikacji `django-mailbox <https://github.com/coddingtonbear/django-mailbox>`_ .
+Odbiór korespondencji w formie e-mailowej realizowany jest z wsparciem aplikacji `imap-to-webhook <https://github.com/watchdogpolska/imap-to-webhook>`_ .
 
 Dane testowe
 ############

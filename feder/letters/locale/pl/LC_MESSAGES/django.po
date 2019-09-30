@@ -153,10 +153,6 @@ msgstr "Plik"
 msgid "Message"
 msgstr "Wiadomość"
 
-#: models.py:107
-msgid "Message registerd by django-mailbox"
-msgstr "Wiadomość zarejestrowanaa przez django-maiblxo"
-
 #: models.py:116 templates/letters/base.html:5
 #: templates/letters/letter_detail.html:3
 msgid "Letters"
