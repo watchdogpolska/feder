@@ -3,7 +3,7 @@ from __future__ import absolute_import
 from django.urls import reverse
 from django.test import TestCase
 
-from feder.main.mixins import PermissionStatusMixin
+from feder.main.tests import PermissionStatusMixin
 from feder.users.factories import UserFactory
 from .factories import AlertFactory
 

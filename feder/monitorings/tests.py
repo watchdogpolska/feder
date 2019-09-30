@@ -9,7 +9,7 @@ from feder.domains.factories import DomainFactory
 from feder.institutions.factories import InstitutionFactory
 from feder.letters.factories import IncomingLetterFactory, DraftLetterFactory
 from feder.letters.factories import OutgoingLetterFactory
-from feder.main.mixins import PermissionStatusMixin
+from feder.main.tests import PermissionStatusMixin
 from feder.monitorings.filters import MonitoringFilter
 from feder.parcels.factories import IncomingParcelPostFactory, OutgoingParcelPostFactory
 from feder.teryt.factories import JSTFactory

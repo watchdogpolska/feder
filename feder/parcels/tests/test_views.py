@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.urls import reverse
 
 from feder.cases.factories import CaseFactory
-from feder.main.mixins import PermissionStatusMixin
+from feder.main.tests import PermissionStatusMixin
 from feder.parcels.factories import IncomingParcelPostFactory, OutgoingParcelPostFactory
 
 

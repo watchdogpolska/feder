@@ -2,7 +2,7 @@ from django.urls import reverse
 from django.test import TestCase
 from django.utils.encoding import force_text
 
-from feder.main.mixins import PermissionStatusMixin
+from feder.main.tests import PermissionStatusMixin
 from feder.questionaries.factories import (CharQuestionFactory,
                                            JSTQuestionFactory,
                                            QuestionaryFactory)

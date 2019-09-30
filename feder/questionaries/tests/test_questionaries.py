@@ -1,7 +1,7 @@
 from django.urls import reverse
 from django.test import TestCase
 
-from feder.main.mixins import PermissionStatusMixin
+from feder.main.tests import PermissionStatusMixin
 from feder.tasks.factories import (CharAnswerFactory, JSTAnswerFactory,
                                    SurveyFactory)
 from feder.teryt.factories import JSTFactory
