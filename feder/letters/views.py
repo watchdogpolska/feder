@@ -28,7 +28,6 @@ from extra_views import UpdateWithInlinesView, CreateWithInlinesView
 from feder.alerts.models import Alert
 from feder.cases.models import Case
 
-from feder.letters.filters import MessageFilter
 from feder.letters.formsets import AttachmentInline
 from feder.letters.settings import LETTER_RECEIVE_SECRET
 from feder.main.mixins import (AttrPermissionRequiredMixin,
@@ -340,67 +339,6 @@ class LetterMarkSpamView(RaisePermissionRequiredMixin, CaseRequiredMixin,
 
     def get_success_url(self):
         return self.object.case.get_absolute_url()
-
-
-class UnrecognizedMessageListView(RaisePermissionRequiredMixin,
-                                  PrefetchRelatedMixin, FilterView):
-    filterset_class = MessageFilter
-    model = Message
-    prefetch_related = ['attachments']
-    paginate_by = 10
-    permission_object = None
-    permission_required = 'letters.recognize_letter'
-    template_name = 'letters/messages/message_filter.html'
-    ordering = '-pk'
-
-    def get_queryset(self):
-        return super(UnrecognizedMessageListView, self).get_queryset().filter(
-            letter=None)
-
-    def get_context_data(self, **kwargs):
-        context = super(UnrecognizedMessageListView, self).get_context_data(
-            **kwargs)
-        context['object_list'] = self.update_object_list(
-            context['object_list'])
-        return context
-
-    def update_object_list(self, object_list):
-        result = []
-        for obj in object_list:
-            obj.assign_form = AssignMessageForm(message=obj)
-            result.append(obj)
-        return result
-
-
-class AssignMessageFormView(PrefetchRelatedMixin, RaisePermissionRequiredMixin,
-                            SuccessMessageMixin, FormView):
-    model = Message
-    form_class = AssignMessageForm
-    permission_object = None
-    success_url = reverse_lazy('letters:messages_list')
-    permission_required = 'letters.recognize_letter'
-    template_name = 'letters/messages/message_assign.html'
-    success_message = _("Assigned message to case '%(case)s'")
-
-    @cached_property
-    def message(self):
-        obj = get_object_or_404(self.model, pk=self.kwargs['pk'])
-        obj.assign_form = AssignMessageForm(message=obj)
-        return obj
-
-    def get_context_data(self, **kwargs):
-        kwargs['object'] = self.message
-        return super(AssignMessageFormView, self).get_context_data(**kwargs)
-
-    def get_form_kwargs(self):
-        kwargs = super(AssignMessageFormView, self).get_form_kwargs()
-        kwargs['message'] = self.message
-        return kwargs
-
-    def form_valid(self, form):
-        form.save()
-        return super(AssignMessageFormView, self).form_valid(form)
-
 
 class UnrecognizedLetterListView(UserKwargFilterSetMixin,
                                  RaisePermissionRequiredMixin,
