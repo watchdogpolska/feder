@@ -8,6 +8,7 @@ from guardian.mixins import PermissionRequiredMixin
 from guardian.shortcuts import assign_perm
 from sendfile import sendfile
 
+
 class ExtraListMixin(object):
     """Mixins for view to add additional paginated object list
 

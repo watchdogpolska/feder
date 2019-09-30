@@ -1,9 +1,10 @@
-from django.urls import reverse
-from django.test import TestCase
 from django.core.exceptions import ImproperlyConfigured
-
+from django.test import TestCase
+from django.urls import reverse
+from guardian.shortcuts import assign_perm
 
 from feder.users.factories import UserFactory
+
 
 class PermissionStatusMixin(object):
     """Mixin to verify object permission status codes for different users
