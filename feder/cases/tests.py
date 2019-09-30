@@ -5,7 +5,7 @@ from feder.cases.models import Case
 from feder.institutions.factories import InstitutionFactory
 from feder.letters.factories import IncomingLetterFactory
 from feder.letters.models import Letter
-from feder.main.mixins import PermissionStatusMixin
+from feder.main.tests import PermissionStatusMixin
 from feder.parcels.factories import IncomingParcelPostFactory
 from feder.users.factories import UserFactory
 from .factories import CaseFactory, AliasFactory

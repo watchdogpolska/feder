@@ -16,7 +16,7 @@ from feder.cases.models import Case
 from feder.letters.models import Letter
 from feder.letters.settings import LETTER_RECEIVE_SECRET
 from feder.letters.tests.base import MessageMixin
-from feder.main.mixins import PermissionStatusMixin
+from feder.main.tests import PermissionStatusMixin
 from feder.monitorings.factories import MonitoringFactory
 from feder.records.models import Record
 from feder.users.factories import UserFactory

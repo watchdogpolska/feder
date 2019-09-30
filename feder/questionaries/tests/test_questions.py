@@ -3,7 +3,7 @@ from django.template import Context
 from django.test import TestCase
 from guardian.shortcuts import assign_perm
 
-from feder.main.mixins import PermissionStatusMixin
+from feder.main.tests import PermissionStatusMixin
 from .test_general import ObjectMixin
 from ..factories import CharQuestionFactory
 from ..forms import QuestionForm, QuestionDefinitionForm

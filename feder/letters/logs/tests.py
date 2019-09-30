@@ -17,7 +17,7 @@ from feder.letters.factories import LetterFactory, SendOutgoingLetterFactory
 from feder.letters.logs.factories import get_emaillabs_row, LogRecordFactory
 from feder.letters.logs.models import LogRecord, EmailLog, STATUS
 from feder.letters.logs.utils import get_emaillabs_client
-from feder.main.mixins import PermissionStatusMixin
+from feder.main.tests import PermissionStatusMixin
 from feder.users.factories import UserFactory
 
 SEED = os.urandom(10)
