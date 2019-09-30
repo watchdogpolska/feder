@@ -79,7 +79,14 @@ class LetterDetailView(SelectRelatedMixin, CaseRequiredMixin, DetailView):
         'author_institution', 'author_user', 'record__case__monitoring'
     ]
 
+class LetterMessageXSendFileView(MixinGzipXSendFile, BaseXSendFileView):
+    model = Letter
+    file_field = 'eml'
     send_as_attachment = True
+
+
+class LetterCreateView(RaisePermissionRequiredMixin, UserFormKwargsMixin,
+                       CreateMessageMixin, FormValidMessageMixin, CreateView):
     model = Letter
     form_class = LetterForm
     permission_required = 'monitorings.add_letter'
