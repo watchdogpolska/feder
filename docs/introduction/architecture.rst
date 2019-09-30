@@ -13,4 +13,4 @@ Zestawienie bibliotek Python wykorzystanych w projekcie:
 
 Ponadto podczas pracy deweloperskiej są wykorzystane następujące biblioteki:
 
-.. literalinclude:: ../../requirements/local.txt
+.. literalinclude:: ../../requirements/dev.txt

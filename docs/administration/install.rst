@@ -19,7 +19,7 @@ Next to create and activate a virtualenv_::
 Next to open a terminal at the project root and install the requirements for local development::
 
     $ pip install pip wheel -U
-    $ pip install -r requirements/local.txt
+    $ pip install -r requirements/dev.txt
 
 Next to create MySQL database::
 

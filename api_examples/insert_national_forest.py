@@ -14,7 +14,7 @@ Example usage:
 To run help text use:
 $ python insert_court.py -h
 """
-from __future__ import print_function, unicode_literals
+from __future__ import print_function, unicode_literals, division
 
 import argparse
 import sys
@@ -22,7 +22,6 @@ import sys
 import requests
 import unicodecsv as csv
 from gusregon import GUS
-from tqdm import trange
 
 from utils import environ
 from insert_institution import normalize_jst
@@ -39,14 +38,17 @@ if not bool(environ('GUSREGON_SANDBOX')):
 
 
 class Command(object):
-    REQUIRED_FIELDS = ['name', 'email', 'regon', 'terc', 'regon_parent', 'tags']
+    REQUIRED_FIELDS = ['name', 'email', 'tags']
 
     def __init__(self, argv):
-        self.gus = GUS(api_key=environ('GUSREGON_API_KEY'), sandbox=environ('GUSREGON_SANDBOX', True))
+        self.gus = GUS(api_key=environ('GUSREGON_API_KEY'),
+                       sandbox=environ('GUSREGON_SANDBOX', True))
         self.s = requests.Session()
         self.argv = argv
         self.args = self.get_build_args(argv[1:])
         self.s.auth = (self.args.user, self.args.password)
+        self.done_count = 0
+        self.total_count = None
 
     def get_build_args(self, argv):
         parser = argparse.ArgumentParser()
@@ -73,46 +75,87 @@ class Command(object):
     def _find(self, host, **query):
         response = self.s.get(url=urljoin(host, "/api/institutions/"), params=query)
         data = response.json()
-        if not data['results'] or len(data['results']) != 1:
-            import ipdb; ipdb.set_trace();
+        if not data.get('results') or len(data['results']) != 1:
+            import ipdb
+            ipdb.set_trace()
         return data['results'][0]['pk']
 
-    def insert_row(self, host, name, email, terc, regon, tags, regon_parent, **extra):
+    def insert_row(self, host, name, email, tags, regon=None, regon_parent=None, **extra):
+        regon_data = None
+        if regon:
+            regon = regon.strip('>').strip('*').strip()
+            regon_data = self.gus.search(regon=regon)
+            if not regon_data:
+                raise Exception("Invalid regon data", regon, name)
         data = {
             "name": name,
             "tags": tags.split(','),
-            "jst": normalize_jst(terc),
             "email": email,
-            "regon": regon,
-            "extra": {'regon': self.gus.search(regon=regon)}
         }
+
+        if regon:
+            data.update({
+                "regon": regon
+            })
+
+        terc = None
+        if 'terc' in extra:
+            terc = extra.get('terc',)
+            data.update({
+                "jst": normalize_jst(terc),
+                "extra": {'regon': regon_data}
+            })
+        if not terc and regon_data:
+            terc = "".join([
+                regon_data['adsiedzwojewodztwo_symbol'],
+                regon_data['adsiedzpowiat_symbol'],
+                regon_data['adsiedzgmina_symbol']
+            ])
+        if not terc:
+            raise Exception("Missing terc and unable to found", name)
+
+        data.update({
+            "jst": normalize_jst(terc),
+        })
+
+        if regon_data:
+            data.update({
+                "extra": {'regon': regon_data}
+            })
+
         if regon_parent:
             data.update({
                 "parents_ids": [self._find(host, regon=regon_parent)]
             })
 
-        pk = self._match(host, regon=regon)
+        if regon:
+            pk = self._match(host, regon=regon)
 
-        if pk:
-            data.update({
-                "id": pk
-            })
-            response = self.s.patch(url=urljoin(urljoin(host, "/api/institutions/"), str(pk) + "/"), json=data)
+            if pk:
+                data.update({
+                    "id": pk
+                })
+                response = self.s.patch(
+                    url=urljoin(urljoin(host, "/api/institutions/"), str(pk) + "/"),
+                    json=data
+                )
+            else:
+                response = self.s.post(url=urljoin(host, "/api/institutions/"), json=data)
         else:
             response = self.s.post(url=urljoin(host, "/api/institutions/"), json=data)
-
-        if response.status_code == 500:
+        if response.status_code >= 300:
             print(name.encode('utf-8'), " response 500", response.status_code, ":", file=sys.stderr)
             print(response.text, file=sys.stderr)
             return
         json = response.json()
-
+        self.done_count +=1
+        progress = (self.done_count / self.total_count) * 100
         if response.status_code == 201:
-            print(name.encode('utf-8'), " created as PK", json['pk'])
+            print(progress, name.encode('utf-8'), " created as PK", json['pk'])
         elif response.status_code == 200:
-            print(name.encode('utf-8'), " updated as PK", json['pk'])
+            print(progress, name.encode('utf-8'), " updated as PK", json['pk'])
         else:
-            print(name.encode('utf-8'), "response ", response.status_code, ":", file=sys.stderr)
+            print(progress, name.encode('utf-8'), "response ", response.status_code, ":", file=sys.stderr)
             print(json, file=sys.stderr)
 
     def fields_validation(self, fields):
@@ -130,12 +173,9 @@ class Command(object):
             print("Script stop, due previos erros.")
             return 5
         data = list(reader)
-        with trange(len(data), leave=True) as t:
-            for row in data:
-                self.insert_row(host=self.args.host, **row)
-                t.set_description(row['name'])
-                t.update(1)
-
+        self.total_count = len(data)
+        for row in data:
+            self.insert_row(host=self.args.host, **row)
 
 if __name__ == "__main__":
     sys.exit(Command(sys.argv).run())
