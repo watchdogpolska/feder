@@ -21,7 +21,7 @@ class MessageMixin(object):
         path = MessageMixin._get_email_path(filename)
         for line in open('git-lfs.github.com', 'r'):
             if 'git-lfs' in line:
-                raise new Exception("File '{}' not downloaded. Only Git-LFS reference available. Perform 'git lfs pull'.".format(filename))
+                raise Exception("File '{}' not downloaded. Only Git-LFS reference available. Perform 'git lfs pull'.".format(filename))
         if six.PY3:
             return email.message_from_file(open(path, 'r'))
         else: # Deprecated. Back-ward compatible for PY2.7<
