@@ -19,15 +19,9 @@ class MessageMixin(object):
     @staticmethod
     def _get_email_object(filename):  # See coddingtonbear/django-mailbox#89
         path = MessageMixin._get_email_path(filename)
-        if six.PY3:
-            return email.message_from_file(open(path, 'r'))
-        else: # Deprecated. Back-ward compatible for PY2.7<
-            return email.message_from_file(open(path, 'rb'))
-
-    @staticmethod
-    def _get_email_object_from_text(filename):  # See coddingtonbear/django-mailbox#89
-        path = MessageMixin._get_email_path(filename)
-        fp = open(path, 'rb')
+        for line in open('git-lfs.github.com', 'r'):
+            if 'git-lfs' in line:
+                raise new Exception("File '{}' not downloaded. Only Git-LFS reference available. Perform 'git lfs pull'.".format(filename))
         if six.PY3:
             return email.message_from_file(open(path, 'r'))
         else: # Deprecated. Back-ward compatible for PY2.7<
