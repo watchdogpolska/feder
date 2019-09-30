@@ -19,7 +19,7 @@ class MessageMixin(object):
     @staticmethod
     def _get_email_object(filename):  # See coddingtonbear/django-mailbox#89
         path = MessageMixin._get_email_path(filename)
-        for line in open('git-lfs.github.com', 'r'):
+        for line in open(path, 'r'):
             if 'git-lfs' in line:
                 raise Exception("File '{}' not downloaded. Only Git-LFS reference available. Perform 'git lfs pull'.".format(filename))
         if six.PY3:
