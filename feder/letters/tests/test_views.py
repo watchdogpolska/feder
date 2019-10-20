@@ -344,8 +344,7 @@ class UnrecognizedLetterListViewTestView(MessageObjectMixin,
         return reverse('letters:unrecognized_list')
 
 
-class AssignLetterFormViewTestCase(MessageMixin, MessageObjectMixin,
-                                   PermissionStatusMixin, TestCase):
+class AssignLetterFormViewTestCase(MessageObjectMixin, PermissionStatusMixin, TestCase):
     permission = ['letters.recognize_letter']
 
     def setUp(self):
