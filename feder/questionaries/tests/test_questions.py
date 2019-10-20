@@ -8,6 +8,7 @@ from .test_general import ObjectMixin
 from ..factories import CharQuestionFactory
 from ..forms import QuestionForm, QuestionDefinitionForm
 from ..models import Question
+from django.template import Engine
 
 get_template_from_string = Engine.get_default().from_string
 

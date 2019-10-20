@@ -27,8 +27,6 @@ class Migration(migrations.Migration):
             unique=True,
             validators=[
                 validators.UnicodeUsernameValidator()
-                if six.PY3 else
-                validators.ASCIIUsernameValidator()
             ],
             verbose_name='username'),
         ),

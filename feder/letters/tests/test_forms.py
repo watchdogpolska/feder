@@ -6,6 +6,7 @@ from guardian.shortcuts import assign_perm
 from feder.users.factories import UserFactory
 from ..factories import IncomingLetterFactory
 from ..forms import ReplyForm
+from django.template import Engine
 
 get_template_from_string = Engine.get_default().from_string
 
