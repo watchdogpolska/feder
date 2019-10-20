@@ -15,7 +15,6 @@ from feder.cases.factories import CaseFactory
 from feder.cases.models import Case
 from feder.letters.models import Letter
 from feder.letters.settings import LETTER_RECEIVE_SECRET
-from feder.letters.tests.base import MessageMixin
 from feder.main.tests import PermissionStatusMixin
 from feder.monitorings.factories import MonitoringFactory
 from feder.records.models import Record
@@ -345,7 +344,8 @@ class UnrecognizedLetterListViewTestView(MessageObjectMixin,
         return reverse('letters:unrecognized_list')
 
 
-class AssignLetterFormViewTestCase(MessageObjectMixin, PermissionStatusMixin, TestCase):
+class AssignLetterFormViewTestCase(MessageMixin, MessageObjectMixin,
+                                   PermissionStatusMixin, TestCase):
     permission = ['letters.recognize_letter']
 
     def setUp(self):
