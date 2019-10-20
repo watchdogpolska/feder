@@ -1,8 +1,5 @@
 import django_filters
-try:
-    from django_filters import rest_framework as filters
-except ImportError:  # Back-ward compatible for django-rest-framework<3.7
-    from rest_framework import filters
+from django_filters import rest_framework as filters
 from rest_framework import viewsets
 from teryt_tree.rest_framework_ext.viewsets import custom_area_filter
 

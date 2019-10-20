@@ -4,15 +4,6 @@ from __future__ import unicode_literals
 
 from django.db import migrations, models
 
-try:
-    import django.contrib.auth.validators
-
-    version_depend_kwargs = {'validators':
-                                 [django.contrib.auth.validators.ASCIIUsernameValidator()]}
-except ImportError:
-    version_depend_kwargs = {}
-
-
 class Migration(migrations.Migration):
     dependencies = [
         ('users', '0002_auto_20160729_2008'),
@@ -24,6 +15,7 @@ class Migration(migrations.Migration):
             name='username',
             field=models.CharField(error_messages={'unique': 'A user with that username already exists.'},
                                    help_text='Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.',
-                                   max_length=150, unique=True, verbose_name='username', **version_depend_kwargs),
+                                   max_length=150, unique=True, verbose_name='username', 
+                                   validators=[django.contrib.auth.validators.ASCIIUsernameValidator()]),
         ),
     ]

@@ -13,9 +13,9 @@ class CaseFilter(django_filters.FilterSet):
         super(CaseFilter, self).__init__(*args, **kwargs)
         self.filters['name'].lookup_expr = 'icontains'
         self.filters['name'].label = _("Name")
-        self.filters['monitoring'].widget = autocomplete.ModelSelect2(
+        self.filters['monitoring'].field.widget = autocomplete.ModelSelect2(
             url='monitorings:autocomplete')
-        self.filters['institution'].widget = autocomplete.ModelSelect2(
+        self.filters['institution'].field.widget = autocomplete.ModelSelect2(
             url='institutions:autocomplete')
 
     class Meta:

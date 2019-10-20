@@ -2,7 +2,7 @@ import base64
 import json
 import uuid
 from os import path
-
+from django.utils import six
 from atom.ext.django_filters.views import UserKwargFilterSetMixin
 from atom.views import (CreateMessageMixin, DeleteMessageMixin,
                         UpdateMessageMixin, ActionView, ActionMessageMixin)

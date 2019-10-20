@@ -28,10 +28,7 @@ from tqdm import trange
 
 from insert_institution import normalize_jst
 
-try:
-    from urlparse import urljoin
-except ImportError:
-    from urllib.parse import urljoin
+from urllib.parse import urljoin
 
 requests_cache.configure()
 

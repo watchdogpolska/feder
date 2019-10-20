@@ -8,15 +8,21 @@ from .models import Institution
 
 class InstitutionFilter(django_filters.FilterSet):
     voivodeship = VoivodeshipFilter(
-        widget=autocomplete.ModelSelect2(url='teryt:voivodeship-autocomplete')
+        widget=autocomplete.ModelSelect2(
+            url='teryt:voivodeship-autocomplete'
+        )
     )
     county = CountyFilter(
-        widget=autocomplete.ModelSelect2(url='teryt:county-autocomplete',
-                                         forward=['voivodeship'])
+        widget=autocomplete.ModelSelect2(
+            url='teryt:county-autocomplete',
+            forward=['voivodeship']
+        )
     )
     community = CommunityFilter(
-        widget=autocomplete.ModelSelect2(url='teryt:community-autocomplete',
-                                         forward=['county'])
+        widget=autocomplete.ModelSelect2(
+            url='teryt:community-autocomplete',
+            forward=['county']
+        )
     )
 
     def __init__(self, *args, **kwargs):
@@ -24,7 +30,8 @@ class InstitutionFilter(django_filters.FilterSet):
         self.filters['name'].lookup_expr = 'icontains'
         self.filters['name'].label = _("Name")
         widget = autocomplete.Select2Multiple(url='institutions:tag_autocomplete')
-        self.filters['tags'].widget = widget
+        # TODO: Verify below on django-filter 2.2.0
+        self.filters['tags'].field.widget = widget
 
     class Meta:
         model = Institution
