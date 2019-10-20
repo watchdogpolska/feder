@@ -1,8 +1,8 @@
  .. image:: https://coveralls.io/repos/watchdogpolska/feder/badge.svg?branch=master&service=github
     :target: https://coveralls.io/github/watchdogpolska/feder?branch=master 
- 
- .. image:: https://travis-ci.org/watchdogpolska/feder.svg
-    :target: https://travis-ci.org/watchdogpolska/feder
+
+ .. image:: https://github.com/watchdogpolska/feder/workflows/Python%20package/badge.svg
+    :target: https://github.com/watchdogpolska/feder/actions?workflow=Python+package
     
  .. image:: https://img.shields.io/github/license/watchdogpolska/feder.svg
  
