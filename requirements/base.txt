@@ -41,12 +41,12 @@ django-formtools==2.1
 django-mptt==0.10.0
 django-autofixture==0.12.1
 jsonfield==2.0.2
-django-guardian==1.5.1
+django-guardian==2.1.0
 django-teryt-tree==0.15.1
 cached-property==1.5.1
 django-bootstrap-pagination==1.7.1
 django-reversion==3.0.4
-djangorestframework==3.9.4
+djangorestframework==3.10.3
 unicodecsv==0.14.1
 tqdm==4.36.1
 djangorestframework-filters==0.11.1
