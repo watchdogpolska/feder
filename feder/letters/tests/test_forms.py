@@ -3,18 +3,12 @@ from django.template import Context
 from django.test import TestCase
 from guardian.shortcuts import assign_perm
 
-from feder.letters.models import Letter
-from feder.records.models import Record
 from feder.users.factories import UserFactory
 from ..factories import IncomingLetterFactory
 from ..forms import ReplyForm
+from django.template import Engine
 
-try:
-    from django.template.loader import get_template_from_string
-except ImportError:
-    from django.template import Engine
-
-    get_template_from_string = Engine.get_default().from_string
+get_template_from_string = Engine.get_default().from_string
 
 
 def dict_merge(dict_a, *mergable):

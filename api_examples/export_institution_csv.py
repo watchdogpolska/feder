@@ -28,10 +28,7 @@ import tqdm
 import unicodecsv as csv
 import requests_cache
 
-try:
-    from urlparse import urljoin
-except ImportError:
-    from urllib.parse import urljoin
+from urllib.parse import urljoin
 
 
 class Client(object):

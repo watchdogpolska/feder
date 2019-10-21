@@ -26,10 +26,7 @@ from gusregon import GUS
 from utils import environ
 from insert_institution import normalize_jst
 
-try:
-    from urlparse import urljoin
-except ImportError:
-    from urllib.parse import urljoin
+from urllib.parse import urljoin
 
 
 if not bool(environ('GUSREGON_SANDBOX')):

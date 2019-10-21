@@ -46,12 +46,11 @@ THIRD_PARTY_APPS = (
     'mptt',
     'atom',
     'guardian',
-    'django_mailbox',
     'teryt_tree',
     'bootstrap_pagination',
     'rest_framework',
     'reversion',
-    'django_filters'
+    'django_filters',
 )
 
 # Apps specific for this project go here.

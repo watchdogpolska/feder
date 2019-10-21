@@ -1,20 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.conf.urls import url, include
+from django.conf.urls import url
 from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.csrf import csrf_exempt
 
 from . import views
 
-messages_urlpatterns = [
-    url(_(r'^$'), views.UnrecognizedMessageListView.as_view(),
-        name="messages_list"),
-    url(_(r'^~assign-(?P<pk>[\d-]+)$'), views.AssignMessageFormView.as_view(),
-        name="messages_assign"),
-    url(_(r'^~download-(?P<pk>[\d-]+)$'), views.MessageXSendFileView.as_view(),
-        name="messages_download"),
-]
 urlpatterns = [
     url(_(r'^$'), views.LetterListView.as_view(),
         name="list"),
@@ -58,7 +50,6 @@ urlpatterns = [
         name="unrecognized_list"),
     url(_(r'^~assign-(?P<pk>[\d-]+)$'), views.AssignLetterFormView.as_view(),
         name="assign"),
-    url(_(r'^messages/logs/'), include(messages_urlpatterns)),
     url(_(r'^webhook'), csrf_exempt(views.ReceiveEmail.as_view()), name="webhook"),
 ]
 

@@ -10,16 +10,10 @@ jobs:
       fail-fast: false
       matrix:
         python: 
-          - 2.7
-          # - 3.5
           - 3.6
           - 3.7
         django:
-          - "==1.11.*"
-          # - "==2.2.*"
-        # exclude:
-        #   - django: "==2.2.*"
-        #     python: 2.7
+          - "==2.2.*"
     steps:
     - uses: actions/checkout@v1
       with:
@@ -44,9 +38,9 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - name: Build application
-      run: docker-compose build --build-arg REQ_ENV=doc web
+      run: docker-compose build web
       env:
-        DJANGO_VERSION: "==1.11.*"
-        PYTHON_VERSION: "2"
+        DJANGO_VERSION: "==2.2.*"
+        PYTHON_VERSION: "3.7"
     - name: Build documentation
       run: docker-compose run web sphinx-build -b html -d docs/_build/doctrees docs docs/_build/html

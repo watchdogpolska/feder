@@ -3,7 +3,6 @@ from __future__ import print_function
 import logging
 import uuid
 
-import talon
 from atom.models import AttachmentBase
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -17,14 +16,11 @@ from django.db.models import Prefetch
 from django.db.models.manager import BaseManager
 from django.utils.encoding import python_2_unicode_compatible, force_text
 from django.utils.translation import ugettext_lazy as _
-from django_mailbox.models import Message
 from model_utils import Choices
 from feder.cases.models import Case
 from feder.institutions.models import Institution
 from feder.records.models import AbstractRecord, Record
 from .utils import email_wrapper, normalize_msg_id, get_body_with_footer
-
-talon.init()
 
 logger = logging.getLogger(__name__)
 
@@ -37,7 +33,8 @@ class LetterQuerySet(models.QuerySet):
         return self.select_related('author_user', 'author_institution')
 
     def for_milestone(self):
-        return self.prefetch_related(Prefetch('attachment_set', to_attr='attachments')).with_author()
+        return self.prefetch_related(
+            Prefetch('attachment_set', to_attr='attachments')).with_author()
 
     def for_api(self):
         return self.for_milestone().select_related('emaillog')
@@ -53,7 +50,8 @@ class LetterQuerySet(models.QuerySet):
 
     def with_feed_items(self):
         return (self.with_author().
-                select_related('record__case__institution__jst', 'record__case__monitoring').
+                select_related('record__case__institution__jst',
+                               'record__case__monitoring').
                 prefetch_related('attachment_set'))
 
     def exclude_spam(self):
@@ -62,7 +60,8 @@ class LetterQuerySet(models.QuerySet):
 
 class LetterManager(BaseManager.from_queryset(LetterQuerySet)):
     def get_queryset(self):
-        return super(LetterManager, self).get_queryset().filter(is_spam__in=[Letter.SPAM.unknown, Letter.SPAM.non_spam])
+        return super(LetterManager, self).get_queryset().filter(
+            is_spam__in=[Letter.SPAM.unknown, Letter.SPAM.non_spam])
 
 
 @python_2_unicode_compatible
@@ -76,35 +75,40 @@ class Letter(AbstractRecord):
                                     null=True, blank=True)
     author_institution = models.ForeignKey(Institution,
                                            on_delete=models.CASCADE,
-                                           verbose_name=_("Author (if institution)"),
+                                           verbose_name=_(
+                                               "Author (if institution)"),
                                            null=True, blank=True)
     title = models.CharField(verbose_name=_("Title"), max_length=200)
     body = models.TextField(verbose_name=_("Text"))
     quote = models.TextField(verbose_name=_("Quote"), blank=True)
-    email = models.EmailField(verbose_name=_("E-mail"), max_length=100, blank=True)
+    email = models.EmailField(verbose_name=_("E-mail"), max_length=100,
+                              blank=True)
     note = models.TextField(verbose_name=_("Comments from editor"), blank=True)
-    is_spam = models.IntegerField(choices=SPAM, default=SPAM.unknown, db_index=True)
+    is_spam = models.IntegerField(choices=SPAM, default=SPAM.unknown,
+                                  db_index=True)
     is_draft = models.BooleanField(verbose_name=_("Is draft?"), default=True)
-    mark_spam_by = models.ForeignKey(to=settings.AUTH_USER_MODEL,
-                                     null=True, blank=True,
-                                     on_delete=models.CASCADE,
-                                     verbose_name=_("Spam marker"),
-                                     help_text=_("The person who marked it as spam"),
-                                     related_name="letter_mark_spam_by")
-    mark_spam_at = models.DateTimeField(null=True, blank=True, verbose_name=_("Time of mark as spam"),
-                                        help_text=_("Time when letter was marked as spam"))
-    message_id_header = models.CharField(blank=True,
-                                         verbose_name=_('ID of sent email message "Message-ID"'),
-                                         max_length=500)
+    mark_spam_by = models.ForeignKey(
+        to=settings.AUTH_USER_MODEL,
+        null=True, blank=True,
+        on_delete=models.CASCADE,
+        verbose_name=_("Spam marker"),
+        help_text=_("The person who marked it as spam"),
+        related_name="letter_mark_spam_by"
+    )
+    mark_spam_at = models.DateTimeField(
+        null=True, blank=True,
+        verbose_name=_("Time of mark as spam"),
+        help_text=_("Time when letter was marked as spam")
+    )
+    message_id_header = models.CharField(
+        blank=True,
+        verbose_name=_('ID of sent email message "Message-ID"'),
+        max_length=500
+    )
     eml = models.FileField(upload_to="messages/%Y/%m/%d",
                            verbose_name=_("File"),
                            null=True,
                            blank=True)
-    message = models.ForeignKey(Message,
-                                null=True,
-                                on_delete=models.CASCADE,
-                                verbose_name=_("Message"),
-                                help_text=_("Message registerd by django-mailbox"))
     objects = LetterManager()
     objects_with_spam = LetterQuerySet.as_manager()
 
@@ -159,7 +163,8 @@ class Letter(AbstractRecord):
             self.author_institution = None
             self.author_user = value
         else:
-            raise ValueError("Only User and Institution is allowed for attribute author")
+            raise ValueError(
+                "Only User and Institution is allowed for attribute author")
 
     @classmethod
     def send_new_case(cls, user, monitoring, institution, text, postfix=''):
@@ -182,12 +187,15 @@ class Letter(AbstractRecord):
                 'attachments': self.attachment_set.all()}
 
     def body_with_footer(self):
-        return get_body_with_footer(self.body, self.case.monitoring.email_footer)
+        return get_body_with_footer(self.body,
+                                    self.case.monitoring.email_footer)
 
     def email_body(self):
         context = self._email_context()
-        html_content = render_to_string('letters/_letter_reply_body.html', context)
-        txt_content = render_to_string('letters/_letter_reply_body.txt', context)
+        html_content = render_to_string('letters/_letter_reply_body.html',
+                                        context)
+        txt_content = render_to_string('letters/_letter_reply_body.txt',
+                                       context)
         return html_content, txt_content
 
     def _construct_message(self, msg_id=None):
@@ -223,7 +231,8 @@ class Letter(AbstractRecord):
 class AttachmentQuerySet(models.QuerySet):
     def for_user(self, user):
         if not user.is_superuser:
-            return self.filter(letter__is_spam__in=[Letter.SPAM.unknown, Letter.SPAM.non_spam])
+            return self.filter(letter__is_spam__in=[Letter.SPAM.unknown,
+                                                    Letter.SPAM.non_spam])
         return self
 
 
@@ -242,7 +251,9 @@ class Attachment(AttachmentBase):
         return "None"
 
     def get_absolute_url(self):
-        return reverse('letters:attachment', kwargs={'pk': self.pk, 'letter_pk': self.letter_id})
+        return reverse('letters:attachment',
+                       kwargs={'pk': self.pk, 'letter_pk': self.letter_id})
 
     def get_full_url(self):
-        return ''.join(['https://', get_current_site(None).domain, self.get_absolute_url()])
+        return ''.join(['https://', get_current_site(None).domain,
+                        self.get_absolute_url()])

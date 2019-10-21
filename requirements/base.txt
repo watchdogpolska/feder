@@ -34,7 +34,7 @@ pytz==2019.3
 
 
 # Your custom requirements go here
-django-filter==1.1.0
+django-filter==2.2.0
 django-autocomplete-light==3.4.1
 django-atom==0.16.3
 django-formtools==2.1
@@ -53,8 +53,6 @@ djangorestframework-filters==0.11.1
 django-github-revision==0.0.3
 django-extensions==2.2.5
 
-https://github.com/watchdogpolska/django-mailbox/archive/fix-unicode.zip
 # Ping commit due missing cached object in <=4.7.1
 django-extra-views==0.12.0
 django-sendfile2==0.4.3
-talon==1.4.4
