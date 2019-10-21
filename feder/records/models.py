@@ -20,8 +20,11 @@ class RecordQuerySet(models.QuerySet):
         Returns data using joins. Up to one query.
         :return: models.QuerySet
         """
-        fields = [field.name for field in Record._meta.related_objects if
-                  issubclass(field.related_model, AbstractRecord)]
+        fields = [
+            field.name
+            for field in Record._meta.related_objects
+            if issubclass(field.related_model, AbstractRecord)
+        ]
         return self.select_related(*fields)
 
     def with_prefetch_related_content(self):
@@ -29,28 +32,38 @@ class RecordQuerySet(models.QuerySet):
         Returns data using prefetch. As many queries as different data types.
         :return:
         """
-        fields = [field.related_name for field in Record._meta.related_objects if
-                  issubclass(field.related_model, AbstractRecord)]
+        fields = [
+            field.related_name
+            for field in Record._meta.related_objects
+            if issubclass(field.related_model, AbstractRecord)
+        ]
         return self.prefetch_related(*fields)
 
     def with_author(self):
         from feder.letters.models import Letter
+
         letter_queryset = Letter.objects.with_author().all()
-        return self.prefetch_related(Prefetch(lookup='letters_letter_related', queryset=letter_queryset)).all()
+        return self.prefetch_related(
+            Prefetch(lookup="letters_letter_related", queryset=letter_queryset)
+        ).all()
 
     def for_milestone(self):
         from feder.letters.models import Letter
+
         letter_queryset = Letter.objects.for_milestone().all()
         qs = self.exclude(letters_letters__is_spam=Letter.SPAM.spam)
-        return qs.prefetch_related(Prefetch(lookup='letters_letter_related',
-                                            queryset=letter_queryset)).all()
+        return qs.prefetch_related(
+            Prefetch(lookup="letters_letter_related", queryset=letter_queryset)
+        ).all()
 
     def for_api(self):
         from feder.letters.models import Letter
+
         letter_queryset = Letter.objects.for_api().all()
         qs = self.exclude(letters_letters__is_spam=Letter.SPAM.spam)
-        return qs.prefetch_related(Prefetch(lookup='letters_letter_related',
-                                            queryset=letter_queryset)).all()
+        return qs.prefetch_related(
+            Prefetch(lookup="letters_letter_related", queryset=letter_queryset)
+        ).all()
 
 
 class Record(TimeStampedModel):
@@ -60,14 +73,20 @@ class Record(TimeStampedModel):
     @cached_property
     def content_object(self):
         for field in Record._meta.related_objects:
-            if issubclass(field.related_model, AbstractRecord) and hasattr(self, field.related_name):
+            if issubclass(field.related_model, AbstractRecord) and hasattr(
+                self, field.related_name
+            ):
                 return getattr(self, field.related_name)
 
     @cached_property
     def milestone_template(self):
-        warnings.warn("Call to deprecated method '{}.content_template'.".format(self.__class__.__name__),
-                      category=DeprecationWarning,
-                      stacklevel=2)
+        warnings.warn(
+            "Call to deprecated method '{}.content_template'.".format(
+                self.__class__.__name__
+            ),
+            category=DeprecationWarning,
+            stacklevel=2,
+        )
         return self.type.get_template_milestone_item(self.content_object)
 
     @cached_property
@@ -84,7 +103,7 @@ class Record(TimeStampedModel):
     class Meta:
         verbose_name = _("Record")
         verbose_name_plural = _("Records")
-        ordering = ['created', ]
+        ordering = ["created"]
 
 
 class AbstractRecord(TimeStampedModel):
@@ -105,4 +124,4 @@ class AbstractRecord(TimeStampedModel):
 
     class Meta:
         abstract = True
-        ordering = ['created', ]
+        ordering = ["created"]

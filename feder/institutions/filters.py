@@ -8,36 +8,32 @@ from .models import Institution
 
 class InstitutionFilter(django_filters.FilterSet):
     voivodeship = VoivodeshipFilter(
-        widget=autocomplete.ModelSelect2(
-            url='teryt:voivodeship-autocomplete'
-        )
+        widget=autocomplete.ModelSelect2(url="teryt:voivodeship-autocomplete")
     )
     county = CountyFilter(
         widget=autocomplete.ModelSelect2(
-            url='teryt:county-autocomplete',
-            forward=['voivodeship']
+            url="teryt:county-autocomplete", forward=["voivodeship"]
         )
     )
     community = CommunityFilter(
         widget=autocomplete.ModelSelect2(
-            url='teryt:community-autocomplete',
-            forward=['county']
+            url="teryt:community-autocomplete", forward=["county"]
         )
     )
 
     def __init__(self, *args, **kwargs):
         super(InstitutionFilter, self).__init__(*args, **kwargs)
-        self.filters['name'].lookup_expr = 'icontains'
-        self.filters['name'].label = _("Name")
-        widget = autocomplete.Select2Multiple(url='institutions:tag_autocomplete')
+        self.filters["name"].lookup_expr = "icontains"
+        self.filters["name"].label = _("Name")
+        widget = autocomplete.Select2Multiple(url="institutions:tag_autocomplete")
         # TODO: Verify below on django-filter 2.2.0
-        self.filters['tags'].field.widget = widget
+        self.filters["tags"].field.widget = widget
 
     class Meta:
         model = Institution
-        fields = ['name', 'tags', 'regon']
+        fields = ["name", "tags", "regon"]
         order_by = [
-            ('case_count', _('Cases count (descending)')),
-            ('-case_count', _('Cases count (ascending)')),
-            ('jst', _('Area')),
+            ("case_count", _("Cases count (descending)")),
+            ("-case_count", _("Cases count (ascending)")),
+            ("jst", _("Area")),
         ]

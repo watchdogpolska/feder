@@ -7,5 +7,5 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class DomainsConfig(AppConfig):
-    name = 'feder.domains'
+    name = "feder.domains"
     verbose_name = _("Domains")

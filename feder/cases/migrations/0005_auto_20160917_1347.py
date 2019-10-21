@@ -6,14 +6,16 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-    dependencies = [
-        ('cases', '0004_case_user'),
-    ]
+    dependencies = [("cases", "0004_case_user")]
 
     operations = [
         migrations.AlterModelOptions(
-            name='case',
-            options={'get_latest_by': 'created', 'ordering': ['created'], 'verbose_name': 'Case',
-                     'verbose_name_plural': 'Case'},
-        ),
+            name="case",
+            options={
+                "get_latest_by": "created",
+                "ordering": ["created"],
+                "verbose_name": "Case",
+                "verbose_name_plural": "Case",
+            },
+        )
     ]

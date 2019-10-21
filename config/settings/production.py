@@ -12,7 +12,7 @@ SECRET_KEY = env("DJANGO_SECRET_KEY")
 
 # This ensures that Django will be able to detect a secure connection
 # properly on Heroku.
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 # set this to 60 seconds and then to 518400 when you can prove it works
 """
@@ -33,65 +33,67 @@ SECURE_SSL_REDIRECT = env.bool("DJANGO_SECURE_SSL_REDIRECT", default=True)
 ALLOWED_HOSTS = ["*"]
 # END SITE CONFIGURATION
 
-INSTALLED_APPS += ("gunicorn", )
+INSTALLED_APPS += ("gunicorn",)
 
 # STORAGE CONFIGURATION
 # ------------------------------------------------------------------------------
 # Uploaded Media Files
 # ------------------------
 # See: http://django-storages.readthedocs.org/en/latest/index.html
-SENDFILE_BACKEND = 'sendfile.backends.nginx'
-MEDIA_URL = '/media_internal/'
+SENDFILE_BACKEND = "sendfile.backends.nginx"
+MEDIA_URL = "/media_internal/"
 SENDFILE_ROOT = MEDIA_ROOT
 SENDFILE_URL = MEDIA_URL
 
 # EMAIL
 # ------------------------------------------------------------------------------
-DEFAULT_FROM_EMAIL = env('DJANGO_DEFAULT_FROM_EMAIL',
-                         default='feder <noreply@dane.siecobywatelska.pl>')
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_SUBJECT_PREFIX = env("DJANGO_EMAIL_SUBJECT_PREFIX", default='[feder] ')
-SERVER_EMAIL = env('DJANGO_SERVER_EMAIL')
+DEFAULT_FROM_EMAIL = env(
+    "DJANGO_DEFAULT_FROM_EMAIL", default="feder <noreply@dane.siecobywatelska.pl>"
+)
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_SUBJECT_PREFIX = env("DJANGO_EMAIL_SUBJECT_PREFIX", default="[feder] ")
+SERVER_EMAIL = env("DJANGO_SERVER_EMAIL")
 
 # TEMPLATE CONFIGURATION
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/templates/api/#django.template.loaders.cached.Loader
-TEMPLATES[0]['OPTIONS']['loaders'] = [
-    ('django.template.loaders.cached.Loader', [
-        'django.template.loaders.filesystem.Loader',
-        'django.template.loaders.app_directories.Loader',
-    ]),
+TEMPLATES[0]["OPTIONS"]["loaders"] = [
+    (
+        "django.template.loaders.cached.Loader",
+        [
+            "django.template.loaders.filesystem.Loader",
+            "django.template.loaders.app_directories.Loader",
+        ],
+    )
 ]
 
 # DATABASE CONFIGURATION
 # ------------------------------------------------------------------------------
 # Raises ImproperlyConfigured exception if DATABASE_URL not in os.environ
-DATABASES['default'] = env.db("DATABASE_URL")
+DATABASES["default"] = env.db("DATABASE_URL")
 
 # CACHING
 # ------------------------------------------------------------------------------
 
 CACHES = {
-    'default': env.cache_url("DJANGO_CACHE_URL", default="memcache://127.0.0.1:11211"),
+    "default": env.cache_url("DJANGO_CACHE_URL", default="memcache://127.0.0.1:11211")
 }
 
 
 RELEASE_ID = auto.revision
 RAVEN_CONFIG = {
-    'dsn': env.str('RAVEN_DSN', 'http://example.com'),
-    'release': RELEASE_ID
+    "dsn": env.str("RAVEN_DSN", "http://example.com"),
+    "release": RELEASE_ID,
 }
-INSTALLED_APPS = INSTALLED_APPS + (
-    'raven.contrib.django.raven_compat',
-)
+INSTALLED_APPS = INSTALLED_APPS + ("raven.contrib.django.raven_compat",)
 
 MIDDLEWARE = (
     # 'raven.contrib.django.raven_compat.middleware.Sentry404CatchMiddleware',
-    'raven.contrib.django.raven_compat.middleware.SentryResponseErrorIdMiddleware',
+    "raven.contrib.django.raven_compat.middleware.SentryResponseErrorIdMiddleware",
 ) + MIDDLEWARE
 
-EMAILLABS_APP_KEY = env('EMAILLABS_APP_KEY')
+EMAILLABS_APP_KEY = env("EMAILLABS_APP_KEY")
 
-EMAILLABS_SECRET_KEY = env('EMAILLABS_SECRET_KEY')
+EMAILLABS_SECRET_KEY = env("EMAILLABS_SECRET_KEY")
 
-LETTER_RECEIVE_SECRET = env('LETTER_RECEIVE_SECRET')
+LETTER_RECEIVE_SECRET = env("LETTER_RECEIVE_SECRET")

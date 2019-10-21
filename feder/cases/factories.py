@@ -7,7 +7,7 @@ from .models import Case, Alias
 
 
 class CaseFactory(factory.django.DjangoModelFactory):
-    name = factory.Sequence('case-{0}'.format)
+    name = factory.Sequence("case-{0}".format)
     user = factory.SubFactory(UserFactory)
     institution = factory.SubFactory(InstitutionFactory)
 
@@ -21,7 +21,7 @@ class CaseFactory(factory.django.DjangoModelFactory):
 
 class AliasFactory(factory.django.DjangoModelFactory):
     case = factory.SubFactory(CaseFactory)
-    email = factory.Sequence('alias-email-{0}@example.com'.format)
+    email = factory.Sequence("alias-email-{0}@example.com".format)
 
     class Meta:
         model = Alias

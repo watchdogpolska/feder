@@ -1,8 +1,11 @@
 from __future__ import unicode_literals
-from atom.views import (CreateMessageMixin, DeleteMessageMixin,
-                        UpdateMessageMixin)
-from braces.views import (FormValidMessageMixin, PrefetchRelatedMixin,
-                          SelectRelatedMixin, UserFormKwargsMixin)
+from atom.views import CreateMessageMixin, DeleteMessageMixin, UpdateMessageMixin
+from braces.views import (
+    FormValidMessageMixin,
+    PrefetchRelatedMixin,
+    SelectRelatedMixin,
+    UserFormKwargsMixin,
+)
 from cached_property import cached_property
 from dal import autocomplete
 from django.urls import reverse_lazy
@@ -25,7 +28,7 @@ _("Case index")
 class CaseListView(SelectRelatedMixin, FilterView):
     filterset_class = CaseFilter
     model = Case
-    select_related = ['user', 'monitoring', 'institution']
+    select_related = ["user", "monitoring", "institution"]
     paginate_by = 25
 
     def get_queryset(self):
@@ -34,42 +37,48 @@ class CaseListView(SelectRelatedMixin, FilterView):
 
 class CaseDetailView(SelectRelatedMixin, PrefetchRelatedMixin, DetailView):
     model = Case
-    select_related = ['user', 'monitoring', 'institution']
-    prefetch_related = ['record_set']
+    select_related = ["user", "monitoring", "institution"]
+    prefetch_related = ["record_set"]
 
     def get_queryset(self):
         return super(CaseDetailView, self).get_queryset().with_milestone()
 
 
-class CaseCreateView(RaisePermissionRequiredMixin, UserFormKwargsMixin,
-                     CreateMessageMixin, CreateView):
+class CaseCreateView(
+    RaisePermissionRequiredMixin, UserFormKwargsMixin, CreateMessageMixin, CreateView
+):
     model = Case
     form_class = CaseForm
-    permission_required = 'monitorings.add_case'
+    permission_required = "monitorings.add_case"
 
     @cached_property
     def monitoring(self):
-        return get_object_or_404(Monitoring, pk=self.kwargs['monitoring'])
+        return get_object_or_404(Monitoring, pk=self.kwargs["monitoring"])
 
     def get_permission_object(self):
         return self.monitoring
 
     def get_form_kwargs(self):
         kw = super(CaseCreateView, self).get_form_kwargs()
-        kw['monitoring'] = self.monitoring
+        kw["monitoring"] = self.monitoring
         return kw
 
     def get_context_data(self, **kwargs):
         context = super(CaseCreateView, self).get_context_data(**kwargs)
-        context['monitoring'] = self.monitoring
+        context["monitoring"] = self.monitoring
         return context
 
 
-class CaseUpdateView(RaisePermissionRequiredMixin, UserFormKwargsMixin,
-                     UpdateMessageMixin, FormValidMessageMixin, UpdateView):
+class CaseUpdateView(
+    RaisePermissionRequiredMixin,
+    UserFormKwargsMixin,
+    UpdateMessageMixin,
+    FormValidMessageMixin,
+    UpdateView,
+):
     model = Case
     form_class = CaseForm
-    permission_required = 'monitorings.change_case'
+    permission_required = "monitorings.change_case"
 
     def get_permission_object(self):
         return super(CaseUpdateView, self).get_permission_object().monitoring
@@ -77,8 +86,8 @@ class CaseUpdateView(RaisePermissionRequiredMixin, UserFormKwargsMixin,
 
 class CaseDeleteView(RaisePermissionRequiredMixin, DeleteMessageMixin, DeleteView):
     model = Case
-    success_url = reverse_lazy('cases:list')
-    permission_required = 'monitorings.delete_case'
+    success_url = reverse_lazy("cases:list")
+    permission_required = "monitorings.delete_case"
 
     def get_permission_object(self):
         return super(CaseDeleteView, self).get_permission_object().monitoring
@@ -99,11 +108,17 @@ class CaseFindAutocomplete(autocomplete.Select2QuerySetView):
         qs = Case.objects.all()
 
         if self.q:
-            qs = qs.filter(Q(pk__startswith=self.q) |
-                           Q(institution__name__icontains=self.q) |
-                           Q(name__icontains=self.q))
+            qs = qs.filter(
+                Q(pk__startswith=self.q)
+                | Q(institution__name__icontains=self.q)
+                | Q(name__icontains=self.q)
+            )
 
         return qs
 
     def get_result_label(self, result):
-        return "#{} - {} - {}".format(six.text_type(result.pk), six.text_type(result.institution), six.text_type(result))
+        return "#{} - {} - {}".format(
+            six.text_type(result.pk),
+            six.text_type(result.institution),
+            six.text_type(result),
+        )

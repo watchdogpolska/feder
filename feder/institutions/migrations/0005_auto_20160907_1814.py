@@ -6,14 +6,12 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-    dependencies = [
-        ('institutions', '0004_auto_20160907_1556'),
-    ]
+    dependencies = [("institutions", "0004_auto_20160907_1556")]
 
     operations = [
         migrations.AlterField(
-            model_name='tag',
-            name='name',
-            field=models.CharField(max_length=15, unique=True, verbose_name='Name'),
-        ),
+            model_name="tag",
+            name="name",
+            field=models.CharField(max_length=15, unique=True, verbose_name="Name"),
+        )
     ]

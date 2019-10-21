@@ -8,19 +8,36 @@ import django.db.models.deletion
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('logs', '0003_auto_20170824_1545'),
-    ]
+    dependencies = [("logs", "0003_auto_20170824_1545")]
 
     operations = [
         migrations.AlterField(
-            model_name='emaillog',
-            name='letter',
-            field=models.OneToOneField(blank=True, max_length='Letter', null=True, on_delete=django.db.models.deletion.CASCADE, to='letters.Letter'),
+            model_name="emaillog",
+            name="letter",
+            field=models.OneToOneField(
+                blank=True,
+                max_length="Letter",
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="letters.Letter",
+            ),
         ),
         migrations.AlterField(
-            model_name='emaillog',
-            name='status',
-            field=models.CharField(choices=[(b'open', 'Open'), (b'ok', 'Delivered'), (b'spambounce', 'Spam-bounce'), (b'softbounce', 'Soft-bounce'), (b'hardbounce', 'Hard-bounce'), (b'dropped', 'Dropped'), (b'deferred', 'Deferred'), (b'unknown', 'Unknown')], default=b'unknown', max_length=20),
+            model_name="emaillog",
+            name="status",
+            field=models.CharField(
+                choices=[
+                    (b"open", "Open"),
+                    (b"ok", "Delivered"),
+                    (b"spambounce", "Spam-bounce"),
+                    (b"softbounce", "Soft-bounce"),
+                    (b"hardbounce", "Hard-bounce"),
+                    (b"dropped", "Dropped"),
+                    (b"deferred", "Deferred"),
+                    (b"unknown", "Unknown"),
+                ],
+                default=b"unknown",
+                max_length=20,
+            ),
         ),
     ]

@@ -5,7 +5,6 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class LetterRecordType(BaseRecordType):
-
     def get_verbose_name(self, obj):
         if obj.is_draft:
             return _("Draft letter")

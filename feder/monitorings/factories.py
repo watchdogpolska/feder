@@ -6,14 +6,13 @@ from .models import Monitoring
 
 
 class MonitoringFactory(factory.django.DjangoModelFactory):
-    name = factory.Sequence(lambda n: 'monitoring-%04d' % n)
+    name = factory.Sequence(lambda n: "monitoring-%04d" % n)
     user = factory.SubFactory(UserFactory)
-    description = factory.Sequence(lambda n: 'description no.%04d' % n)
-    subject = factory.Sequence(lambda n: 'subject no.%04d' % n)
-    template = factory.Sequence(lambda n:
-                                'template no.%04d. reply to {{EMAIL}}' % n)
+    description = factory.Sequence(lambda n: "description no.%04d" % n)
+    subject = factory.Sequence(lambda n: "subject no.%04d" % n)
+    template = factory.Sequence(lambda n: "template no.%04d. reply to {{EMAIL}}" % n)
     domain = factory.SubFactory(DomainFactory)
 
     class Meta:
         model = Monitoring
-        django_get_or_create = ('name',)
+        django_get_or_create = ("name",)

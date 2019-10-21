@@ -9,6 +9,11 @@ class CaseSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Case
         fields = (
-            'pk', 'name', 'user', 'institution', 'monitoring',
-            'created', 'modified'
+            "pk",
+            "name",
+            "user",
+            "institution",
+            "monitoring",
+            "created",
+            "modified",
         )

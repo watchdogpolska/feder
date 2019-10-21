@@ -6,14 +6,10 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-    dependencies = [
-        ('letters', '0002_auto_20151025_2345'),
-    ]
+    dependencies = [("letters", "0002_auto_20151025_2345")]
 
     operations = [
         migrations.RenameField(
-            model_name='attachment',
-            old_name='record',
-            new_name='letter',
-        ),
+            model_name="attachment", old_name="record", new_name="letter"
+        )
     ]

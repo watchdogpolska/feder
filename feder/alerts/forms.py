@@ -8,7 +8,7 @@ from .models import Alert
 
 class AlertForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
     def __init__(self, *args, **kwargs):
-        self.monitoring = kwargs.pop('monitoring', None)
+        self.monitoring = kwargs.pop("monitoring", None)
         super(AlertForm, self).__init__(*args, **kwargs)
         if not self.instance.pk and not self.user.is_anonymous:
             self.instance.author = self.user
@@ -17,4 +17,4 @@ class AlertForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
 
     class Meta:
         model = Alert
-        fields = ['reason', ]
+        fields = ["reason"]

@@ -2,7 +2,12 @@
 from __future__ import unicode_literals
 
 from atom.views import DeleteMessageMixin
-from braces.views import SelectRelatedMixin, UserFormKwargsMixin, FormValidMessageMixin, SetHeadlineMixin
+from braces.views import (
+    SelectRelatedMixin,
+    UserFormKwargsMixin,
+    FormValidMessageMixin,
+    SetHeadlineMixin,
+)
 from cached_property import cached_property
 from django.shortcuts import get_object_or_404
 from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
@@ -17,7 +22,7 @@ from feder.parcels.models import IncomingParcelPost, OutgoingParcelPost
 
 
 class ParcelPostDetailView(SelectRelatedMixin, DetailView):
-    select_related = ['record__case__monitoring', ]
+    select_related = ["record__case__monitoring"]
 
 
 class CaseMixin(object):
@@ -25,16 +30,24 @@ class CaseMixin(object):
 
     def get_form_kwargs(self):
         kwargs = super(CaseMixin, self).get_form_kwargs()
-        kwargs['case'] = self.case
+        kwargs["case"] = self.case
         return kwargs
 
 
-class ParcelPostCreateView(RaisePermissionRequiredMixin, SetHeadlineMixin, CaseMixin, UserFormKwargsMixin, CreateView):
-    permission_required = 'monitorings.add_parcelpost'
+class ParcelPostCreateView(
+    RaisePermissionRequiredMixin,
+    SetHeadlineMixin,
+    CaseMixin,
+    UserFormKwargsMixin,
+    CreateView,
+):
+    permission_required = "monitorings.add_parcelpost"
 
     @cached_property
     def case(self):
-        return get_object_or_404(Case.objects.select_related('monitoring'), pk=self.kwargs['case_pk'])
+        return get_object_or_404(
+            Case.objects.select_related("monitoring"), pk=self.kwargs["case_pk"]
+        )
 
     def get_object(self, *args, **kwargs):
         return self.case
@@ -44,19 +57,25 @@ class ParcelPostCreateView(RaisePermissionRequiredMixin, SetHeadlineMixin, CaseM
 
     def get_context_data(self, **kwargs):
         context = super(ParcelPostCreateView, self).get_context_data(**kwargs)
-        context['case'] = self.case
+        context["case"] = self.case
         return context
 
     def get_form_valid_message(self):
         return _("{0} created!").format(self.object)
 
 
-class ParcelPostUpdateView(SetHeadlineMixin, RaisePermissionRequiredMixin, CaseMixin, UserFormKwargsMixin,
-                           FormValidMessageMixin, UpdateView):
-    permission_required = 'monitorings.change_parcelpost'
+class ParcelPostUpdateView(
+    SetHeadlineMixin,
+    RaisePermissionRequiredMixin,
+    CaseMixin,
+    UserFormKwargsMixin,
+    FormValidMessageMixin,
+    UpdateView,
+):
+    permission_required = "monitorings.change_parcelpost"
 
     def get_object(self, *args, **kwargs):
-        if not hasattr(self, '_object'):
+        if not hasattr(self, "_object"):
             self._object = super(ParcelPostUpdateView, self).get_object(*args, **kwargs)
         return self._object
 
@@ -71,11 +90,13 @@ class ParcelPostUpdateView(SetHeadlineMixin, RaisePermissionRequiredMixin, CaseM
         return _("{0} updated!").format(self.object)
 
 
-class ParcelPostDeleteView(RaisePermissionRequiredMixin, DeleteMessageMixin, DeleteView):
-    permission_required = 'monitorings.delete_parcelpost'
+class ParcelPostDeleteView(
+    RaisePermissionRequiredMixin, DeleteMessageMixin, DeleteView
+):
+    permission_required = "monitorings.delete_parcelpost"
 
     def get_object(self, *args, **kwargs):
-        if not hasattr(self, '_object'):
+        if not hasattr(self, "_object"):
             self._object = super(ParcelPostDeleteView, self).get_object(*args, **kwargs)
         return self._object
 
@@ -131,11 +152,15 @@ class OutgoingParcelPostDeleteView(ParcelPostDeleteView):
 
 
 class AttachmentParcelPostXSendFileView(BaseXSendFileView):
-    file_field = 'content'
+    file_field = "content"
     send_as_attachment = True
 
     def get_queryset(self):
-        return super(AttachmentParcelPostXSendFileView, self).get_queryset().for_user(self.request.user)
+        return (
+            super(AttachmentParcelPostXSendFileView, self)
+            .get_queryset()
+            .for_user(self.request.user)
+        )
 
 
 class OutgoingAttachmentParcelPostXSendFileView(AttachmentParcelPostXSendFileView):

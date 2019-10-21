@@ -7,14 +7,12 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('letters', '0008_letter_message_id_field'),
-    ]
+    dependencies = [("letters", "0008_letter_message_id_field")]
 
     operations = [
         migrations.RenameField(
-            model_name='letter',
-            old_name='message_id_field',
-            new_name='message_id_header',
-        ),
+            model_name="letter",
+            old_name="message_id_field",
+            new_name="message_id_header",
+        )
     ]

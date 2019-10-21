@@ -10,14 +10,19 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('alerts', '0002_auto_20151025_2345'),
+        ("alerts", "0002_auto_20151025_2345"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='alert',
-            name='solver',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='alert_solver',
-                                    to=settings.AUTH_USER_MODEL, verbose_name='Solver'),
-        ),
+            model_name="alert",
+            name="solver",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="alert_solver",
+                to=settings.AUTH_USER_MODEL,
+                verbose_name="Solver",
+            ),
+        )
     ]

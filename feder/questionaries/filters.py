@@ -8,20 +8,21 @@ from .models import Questionary
 
 
 class QuestionaryFilter(UserKwargFilterSetMixin, FilterSet):
-    title = CharFilter(lookup_expr='icontains', label=_("Name"))
+    title = CharFilter(lookup_expr="icontains", label=_("Name"))
     created = DateRangeFilter(label=_("Creation date"))
 
     def __init__(self, *args, **kwargs):
         super(QuestionaryFilter, self).__init__(*args, **kwargs)
         if not self.user.is_superuser:
-            del self.filters['lock']
-        self.filters['monitoring'].widget = autocomplete.ModelSelect2(
-            url='monitorings:autocomplete')
+            del self.filters["lock"]
+        self.filters["monitoring"].widget = autocomplete.ModelSelect2(
+            url="monitorings:autocomplete"
+        )
 
     class Meta:
         model = Questionary
-        fields = ['title', 'monitoring', 'created', 'lock']
+        fields = ["title", "monitoring", "created", "lock"]
         order_by = [
-            ('created', _('Creation date (ascending)')),
-            ('-created', _('Creation date (descending)')),
+            ("created", _("Creation date (ascending)")),
+            ("-created", _("Creation date (descending)")),
         ]

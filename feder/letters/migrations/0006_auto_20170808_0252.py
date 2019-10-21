@@ -7,14 +7,17 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('letters', '0005_letter_note'),
-    ]
+    dependencies = [("letters", "0005_letter_note")]
 
     operations = [
         migrations.AlterField(
-            model_name='letter',
-            name='eml',
-            field=models.FileField(blank=True, null=True, upload_to=b'messages/%Y/%m/%d', verbose_name='File'),
-        ),
+            model_name="letter",
+            name="eml",
+            field=models.FileField(
+                blank=True,
+                null=True,
+                upload_to=b"messages/%Y/%m/%d",
+                verbose_name="File",
+            ),
+        )
     ]

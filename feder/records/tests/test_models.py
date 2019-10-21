@@ -9,13 +9,25 @@ from feder.records.models import Record
 class RecordQuerySetTestCase(TestCase):
     def test_for_milestone_returns_letters(self):
         qs = Record.objects.for_milestone()
-        self.assertFalse(qs.filter(letters_letters=IncomingLetterFactory(is_spam=Letter.SPAM.spam)).exists())
-        self.assertTrue(qs.filter(letters_letters=IncomingLetterFactory(is_spam=Letter.SPAM.non_spam)).exists())
+        self.assertFalse(
+            qs.filter(
+                letters_letters=IncomingLetterFactory(is_spam=Letter.SPAM.spam)
+            ).exists()
+        )
+        self.assertTrue(
+            qs.filter(
+                letters_letters=IncomingLetterFactory(is_spam=Letter.SPAM.non_spam)
+            ).exists()
+        )
 
     def test_for_milestone_returns_parcels(self):
         qs = Record.objects.for_milestone()
-        self.assertTrue(qs.filter(parcels_incomingparcelposts=IncomingParcelPostFactory()).exists())
-        self.assertTrue(qs.filter(parcels_outgoingparcelposts=OutgoingParcelPostFactory()).exists())
+        self.assertTrue(
+            qs.filter(parcels_incomingparcelposts=IncomingParcelPostFactory()).exists()
+        )
+        self.assertTrue(
+            qs.filter(parcels_outgoingparcelposts=OutgoingParcelPostFactory()).exists()
+        )
 
     def test_with_select_related_content(self):
         ilf = IncomingLetterFactory()
@@ -42,4 +54,6 @@ class RecordQuerySetTestCase(TestCase):
 class RecordTestCase(TestCase):
     def test_content_template(self):
         letter = IncomingLetterFactory()
-        self.assertEqual(letter.record.content_template, 'letters/_letter_content_item.html')
+        self.assertEqual(
+            letter.record.content_template, "letters/_letter_content_item.html"
+        )

@@ -12,8 +12,12 @@ from feder.institutions.factories import InstitutionFactory
 from feder.letters.utils import normalize_msg_id
 from feder.monitorings.factories import MonitoringFactory
 from feder.users.factories import UserFactory
-from ..factories import (IncomingLetterFactory, LetterFactory,
-                         OutgoingLetterFactory, SendOutgoingLetterFactory)
+from ..factories import (
+    IncomingLetterFactory,
+    LetterFactory,
+    OutgoingLetterFactory,
+    SendOutgoingLetterFactory,
+)
 from ..models import Letter
 
 
@@ -28,7 +32,7 @@ class ModelTestCase(TestCase):
 
     def test_default_subject(self):
         incoming = IncomingLetterFactory()
-        incoming.title = ''
+        incoming.title = ""
         self.assertGreater(len(str(incoming)), 0)
 
     def test_author_for_user(self):
@@ -56,16 +60,20 @@ class ModelTestCase(TestCase):
             LetterFactory().author = MonitoringFactory()
 
     def test_queryset_is_incoming(self):
-        self.assertTrue(Letter.objects.is_incoming().
-                        filter(pk=IncomingLetterFactory().pk).exists())
-        self.assertFalse(Letter.objects.is_incoming().
-                         filter(pk=OutgoingLetterFactory().pk).exists())
+        self.assertTrue(
+            Letter.objects.is_incoming().filter(pk=IncomingLetterFactory().pk).exists()
+        )
+        self.assertFalse(
+            Letter.objects.is_incoming().filter(pk=OutgoingLetterFactory().pk).exists()
+        )
 
     def test_queryset_is_outgoing(self):
-        self.assertFalse(Letter.objects.is_outgoing().
-                         filter(pk=IncomingLetterFactory().pk).exists())
-        self.assertTrue(Letter.objects.is_outgoing().
-                        filter(pk=OutgoingLetterFactory().pk).exists())
+        self.assertFalse(
+            Letter.objects.is_outgoing().filter(pk=IncomingLetterFactory().pk).exists()
+        )
+        self.assertTrue(
+            Letter.objects.is_outgoing().filter(pk=OutgoingLetterFactory().pk).exists()
+        )
 
     def test_send(self):
         outgoing = OutgoingLetterFactory()
@@ -83,19 +91,22 @@ class ModelTestCase(TestCase):
         self.assertTrue(outgoing.message_id_header)
         if six.PY3:
             message = email.message_from_string(
-                outgoing.eml.file.read().decode('utf-8'))
+                outgoing.eml.file.read().decode("utf-8")
+            )
         else:  # Deprecated Python 2.7 support
             message = email.message_from_file(outgoing.eml.file)
-        msg_id = normalize_msg_id(message['Message-ID'])
+        msg_id = normalize_msg_id(message["Message-ID"])
         self.assertEqual(outgoing.message_id_header, msg_id)
 
     def test_send_new_case(self):
         user = UserFactory(username="tom")
         institution = InstitutionFactory()
-        Letter.send_new_case(user=user,
-                             monitoring=MonitoringFactory(),
-                             institution=institution,
-                             text="Przeslac informacje szybko")
+        Letter.send_new_case(
+            user=user,
+            monitoring=MonitoringFactory(),
+            institution=institution,
+            text="Przeslac informacje szybko",
+        )
         self.assertEqual(Case.objects.count(), 1)
         self.assertEqual(Letter.objects.count(), 1)
         self.assertEqual(len(mail.outbox), 1)
@@ -111,11 +122,12 @@ class ModelTestCase(TestCase):
             user=user,
             monitoring=monitoring,
             institution=institution,
-            text="Przeslac informacje szybko"
+            text="Przeslac informacje szybko",
         )
         self.assertEqual(Case.objects.count(), 1)
         self.assertEqual(Letter.objects.count(), 1)
         self.assertIn(
-            footer_text, mail.outbox[0].body,
-            "Email for a new case should contain footer text from monitoring"
+            footer_text,
+            mail.outbox[0].body,
+            "Email for a new case should contain footer text from monitoring",
         )

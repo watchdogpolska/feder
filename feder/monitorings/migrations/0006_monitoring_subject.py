@@ -6,15 +6,15 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-    dependencies = [
-        ('monitorings', '0005_auto_20160914_2201'),
-    ]
+    dependencies = [("monitorings", "0005_auto_20160914_2201")]
 
     operations = [
         migrations.AddField(
-            model_name='monitoring',
-            name='subject',
-            field=models.CharField(default='Wniosek', max_length=80, verbose_name='Subject'),
+            model_name="monitoring",
+            name="subject",
+            field=models.CharField(
+                default="Wniosek", max_length=80, verbose_name="Subject"
+            ),
             preserve_default=False,
-        ),
+        )
     ]

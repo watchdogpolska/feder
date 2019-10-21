@@ -9,11 +9,11 @@ from .serializers import CaseSerializer
 class CaseFilter(filters.FilterSet):
     def __init__(self, *args, **kwargs):
         super(CaseFilter, self).__init__(*args, **kwargs)
-        self.filters['name'].lookup_expr = 'icontains'
+        self.filters["name"].lookup_expr = "icontains"
 
     class Meta:
         model = Case
-        fields = ['name', 'monitoring']
+        fields = ["name", "monitoring"]
 
 
 class CaseViewSet(viewsets.ReadOnlyModelViewSet):

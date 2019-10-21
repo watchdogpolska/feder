@@ -7,14 +7,17 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('letters', '0013_letter_mark_spam_at'),
-    ]
+    dependencies = [("letters", "0013_letter_mark_spam_at")]
 
     operations = [
         migrations.AlterField(
-            model_name='letter',
-            name='mark_spam_at',
-            field=models.DateTimeField(blank=True, help_text='Time when letter was marked as spam', null=True, verbose_name='Time of mark as spam'),
-        ),
+            model_name="letter",
+            name="mark_spam_at",
+            field=models.DateTimeField(
+                blank=True,
+                help_text="Time when letter was marked as spam",
+                null=True,
+                verbose_name="Time of mark as spam",
+            ),
+        )
     ]

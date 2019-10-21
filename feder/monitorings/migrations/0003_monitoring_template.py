@@ -6,15 +6,13 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-    dependencies = [
-        ('monitorings', '0002_auto_20151025_2345'),
-    ]
+    dependencies = [("monitorings", "0002_auto_20151025_2345")]
 
     operations = [
         migrations.AddField(
-            model_name='monitoring',
-            name='template',
-            field=models.TextField(default='', verbose_name='Template'),
+            model_name="monitoring",
+            name="template",
+            field=models.TextField(default="", verbose_name="Template"),
             preserve_default=False,
-        ),
+        )
     ]

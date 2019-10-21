@@ -9,7 +9,8 @@ from feder.light_user.models import LightUser
 
 @admin.register(LightUser)
 class LightUserAdmin(admin.ModelAdmin):
-    '''
+    """
         Admin View for LightUser
-    '''
-    list_display = ('ip', 'user', 'created', 'modified')
+    """
+
+    list_display = ("ip", "user", "created", "modified")

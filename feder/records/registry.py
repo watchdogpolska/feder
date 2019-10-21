@@ -1,5 +1,4 @@
 class TypeRegistry(object):
-
     def __init__(self):
         self.data = {}
 
@@ -17,5 +16,6 @@ class TypeRegistry(object):
 
     def __contains__(self, item):
         return item in self.data
+
 
 record_type_registry = TypeRegistry()

@@ -10,19 +10,27 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('light_user', '0001_initial'),
-        ('tasks', '0004_auto_20160915_2042'),
+        ("light_user", "0001_initial"),
+        ("tasks", "0004_auto_20160915_2042"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='survey',
-            name='light_user',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='light_user.LightUser'),
+            model_name="survey",
+            name="light_user",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="light_user.LightUser",
+            ),
         ),
         migrations.AlterField(
-            model_name='survey',
-            name='user',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
+            model_name="survey",
+            name="user",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
     ]

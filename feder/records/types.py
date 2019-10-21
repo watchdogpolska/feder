@@ -35,12 +35,12 @@ class CommonRecordType(BaseRecordType):
         return "%s/_%s%s.html" % (
             self.model_cls._meta.app_label,
             self.model_cls._meta.model_name,
-            "_milestone_item"
+            "_milestone_item",
         )
 
     def get_template_content_item(self, obj):
         return "%s/_%s%s.html" % (
             self.model_cls._meta.app_label,
             self.model_cls._meta.model_name,
-            "_content_item"
+            "_content_item",
         )

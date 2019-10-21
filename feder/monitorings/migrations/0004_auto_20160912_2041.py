@@ -8,16 +8,16 @@ import feder.monitorings.validators
 
 
 class Migration(migrations.Migration):
-    dependencies = [
-        ('monitorings', '0003_monitoring_template'),
-    ]
+    dependencies = [("monitorings", "0003_monitoring_template")]
 
     operations = [
         migrations.AlterField(
-            model_name='monitoring',
-            name='template',
-            field=models.TextField(help_text='Use {{EMAIL}} for insert reply address',
-                                   validators=[feder.monitorings.validators.validate_template_syntax],
-                                   verbose_name='Template'),
-        ),
+            model_name="monitoring",
+            name="template",
+            field=models.TextField(
+                help_text="Use {{EMAIL}} for insert reply address",
+                validators=[feder.monitorings.validators.validate_template_syntax],
+                verbose_name="Template",
+            ),
+        )
     ]

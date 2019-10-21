@@ -17,9 +17,14 @@ class NestedIncomingParcelPostSerializer(NestedAbstractParcelPostSerializer):
     class Meta:
         model = IncomingParcelPost
         fields = (
-            'title', 'content', 'created_by',
-            'sender', 'comment', 'receive_date',
-            'created', 'modified',
+            "title",
+            "content",
+            "created_by",
+            "sender",
+            "comment",
+            "receive_date",
+            "created",
+            "modified",
         )
 
 
@@ -27,8 +32,11 @@ class NestedOutgoingParcelPostSerializer(NestedAbstractParcelPostSerializer):
     class Meta:
         model = OutgoingParcelPost
         fields = (
-            'title', 'content', 'created_by',
-            'recipient', 'post_date',
-            'created', 'modified',
+            "title",
+            "content",
+            "created_by",
+            "recipient",
+            "post_date",
+            "created",
+            "modified",
         )
-

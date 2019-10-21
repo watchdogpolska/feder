@@ -11,13 +11,21 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('letters', '0011_letter_is_draft'),
+        ("letters", "0011_letter_is_draft"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='letter',
-            name='mark_spam_by',
-            field=models.ForeignKey(blank=True, help_text='The person who marked it as spam', null=True, on_delete=django.db.models.deletion.CASCADE, related_name='letter_mark_spam_by', to=settings.AUTH_USER_MODEL, verbose_name=b'Spam marker'),
-        ),
+            model_name="letter",
+            name="mark_spam_by",
+            field=models.ForeignKey(
+                blank=True,
+                help_text="The person who marked it as spam",
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="letter_mark_spam_by",
+                to=settings.AUTH_USER_MODEL,
+                verbose_name=b"Spam marker",
+            ),
+        )
     ]

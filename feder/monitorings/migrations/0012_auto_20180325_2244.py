@@ -6,19 +6,23 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('monitorings', '0011_auto_20180227_2055'),
-    ]
+    dependencies = [("monitorings", "0011_auto_20180227_2055")]
 
     operations = [
         migrations.AlterField(
-            model_name='monitoring',
-            name='email_footer',
-            field=models.TextField(default='', help_text='Footer for sent mail and replies', verbose_name='Email footer'),
+            model_name="monitoring",
+            name="email_footer",
+            field=models.TextField(
+                default="",
+                help_text="Footer for sent mail and replies",
+                verbose_name="Email footer",
+            ),
         ),
         migrations.AlterField(
-            model_name='monitoring',
-            name='slug',
-            field=autoslug.fields.AutoSlugField(editable=False, populate_from='name', unique=True, verbose_name='Slug'),
+            model_name="monitoring",
+            name="slug",
+            field=autoslug.fields.AutoSlugField(
+                editable=False, populate_from="name", unique=True, verbose_name="Slug"
+            ),
         ),
     ]

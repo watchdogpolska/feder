@@ -14,47 +14,48 @@ def forwards_func(apps, schema_editor):
     Email = apps.get_model("institutions", "Email")
     db_alias = schema_editor.connection.alias
     for institution in Institution.objects.using(db_alias).all():
-        emails = list(Email.objects.filter(institution=institution.pk).order_by('priority').all())
+        emails = list(
+            Email.objects.filter(institution=institution.pk).order_by("priority").all()
+        )
         if emails:
             institution.email = max(emails, key=lambda x: x.priority).email
             institution.save()
 
 
 class Migration(migrations.Migration):
-    dependencies = [
-        ('institutions', '0007_auto_20160912_2250'),
-    ]
+    dependencies = [("institutions", "0007_auto_20160912_2250")]
 
     operations = [
-        migrations.AlterUniqueTogether(
-            name='email',
-            unique_together=set([]),
-        ),
+        migrations.AlterUniqueTogether(name="email", unique_together=set([])),
         migrations.AddField(
-            model_name='institution',
-            name='email',
-            field=models.EmailField(default='default-email@example.com', max_length=254,
-                                    verbose_name='Email of institution'),
+            model_name="institution",
+            name="email",
+            field=models.EmailField(
+                default="default-email@example.com",
+                max_length=254,
+                verbose_name="Email of institution",
+            ),
             preserve_default=False,
         ),
         migrations.RunPython(forwards_func),
-        migrations.RemoveField(
-            model_name='email',
-            name='institution',
+        migrations.RemoveField(model_name="email", name="institution"),
+        migrations.AddField(
+            model_name="institution",
+            name="created",
+            field=model_utils.fields.AutoCreatedField(
+                default=django.utils.timezone.now,
+                editable=False,
+                verbose_name="created",
+            ),
         ),
         migrations.AddField(
-            model_name='institution',
-            name='created',
-            field=model_utils.fields.AutoCreatedField(default=django.utils.timezone.now, editable=False,
-                                                      verbose_name='created'),
+            model_name="institution",
+            name="modified",
+            field=model_utils.fields.AutoLastModifiedField(
+                default=django.utils.timezone.now,
+                editable=False,
+                verbose_name="modified",
+            ),
         ),
-        migrations.AddField(
-            model_name='institution',
-            name='modified',
-            field=model_utils.fields.AutoLastModifiedField(default=django.utils.timezone.now, editable=False,
-                                                           verbose_name='modified'),
-        ),
-        migrations.DeleteModel(
-            name='Email',
-        ),
+        migrations.DeleteModel(name="Email"),
     ]

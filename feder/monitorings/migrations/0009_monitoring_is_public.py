@@ -7,14 +7,12 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('monitorings', '0008_monitoring_email_footer'),
-    ]
+    dependencies = [("monitorings", "0008_monitoring_email_footer")]
 
     operations = [
         migrations.AddField(
-            model_name='monitoring',
-            name='is_public',
-            field=models.BooleanField(default=True, verbose_name='Is public visible?'),
-        ),
+            model_name="monitoring",
+            name="is_public",
+            field=models.BooleanField(default=True, verbose_name="Is public visible?"),
+        )
     ]

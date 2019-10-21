@@ -11,4 +11,3 @@ class IncomingParcelPostFactoryTestCase(TestCase):
 class OutgoingParcelPostFactoryTestCase(TestCase):
     def test_basic_create(self):
         OutgoingParcelPostFactory()
-

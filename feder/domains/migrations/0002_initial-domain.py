@@ -8,19 +8,11 @@ from django.db import migrations
 def update_domain_forward(apps, schema_editor):
     """Set site domain and name."""
     Domain = apps.get_model("domains", "Domain")
-    Domain.objects.update_or_create(
-        pk=1,
-        name="fedrowanie.siecobywatelska.pl"
-    )
+    Domain.objects.update_or_create(pk=1, name="fedrowanie.siecobywatelska.pl")
 
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('domains', '0001_initial'),
-    ]
+    dependencies = [("domains", "0001_initial")]
 
-    operations = [
-        migrations.RunPython(update_domain_forward),
-
-    ]
+    operations = [migrations.RunPython(update_domain_forward)]

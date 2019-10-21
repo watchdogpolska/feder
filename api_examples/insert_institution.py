@@ -29,6 +29,7 @@ import unicodecsv as csv
 
 # TODO: Load community and voivodeship
 
+
 def normalize_jst(code):
     code = "%07d" % (int(code))
     code = code[:2] if code[2:] == "0" * 5 else code  # voivodeship
@@ -37,52 +38,55 @@ def normalize_jst(code):
 
 
 def insert_row(s, host, name, email, code, tags):
-    response = s.post(url="%s/api/institutions/" % (host,), json={
-        "name": name,
-        "tags": tags,
-        "jst": code,
-        "email": email
-    })
+    response = s.post(
+        url="%s/api/institutions/" % (host,),
+        json={"name": name, "tags": tags, "jst": code, "email": email},
+    )
     if response.status_code == 500:
-        print(name.encode('utf-8'), " response 500", response.status_code, ":", file=sys.stderr)
+        print(
+            name.encode("utf-8"),
+            " response 500",
+            response.status_code,
+            ":",
+            file=sys.stderr,
+        )
         print(response.text, file=sys.stderr)
         return
 
     json = response.json()
     if response.status_code == 201:
-        print(name.encode('utf-8'), " created as PK", json['pk'])
+        print(name.encode("utf-8"), " created as PK", json["pk"])
     else:
-        print(name.encode('utf-8'), "response ", response.status_code, ":", file=sys.stderr)
+        print(
+            name.encode("utf-8"),
+            "response ",
+            response.status_code,
+            ":",
+            file=sys.stderr,
+        )
         print(json, file=sys.stderr)
 
 
 def fields_validation(fields):
     result = True
-    for field_name in {'Organ', 'E-mail', 'TERC'} - set(fields):
-        print("There is missing %s field. " % (field_name, ) +
-              "Required fields name is Organ, E-mail, TERC")
+    for field_name in {"Organ", "E-mail", "TERC"} - set(fields):
+        print(
+            "There is missing %s field. " % (field_name,)
+            + "Required fields name is Organ, E-mail, TERC"
+        )
         result = False
     return result
 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--input',
-                        required=True,
-                        type=argparse.FileType('r'),
-                        help="Input CSV-file")
-    parser.add_argument('--host',
-                        required=True,
-                        help="Host of instance")
-    parser.add_argument('--user',
-                        required=True,
-                        help="User to authentication")
-    parser.add_argument('--password',
-                        required=True,
-                        help="Password to authentication")
-    parser.add_argument('-t', '--tags',
-                        required=True,
-                        nargs='+')
+    parser.add_argument(
+        "--input", required=True, type=argparse.FileType("r"), help="Input CSV-file"
+    )
+    parser.add_argument("--host", required=True, help="Host of instance")
+    parser.add_argument("--user", required=True, help="User to authentication")
+    parser.add_argument("--password", required=True, help="Password to authentication")
+    parser.add_argument("-t", "--tags", required=True, nargs="+")
     args = parser.parse_args()
 
     s = requests.Session()
@@ -94,12 +98,14 @@ def main():
         return
 
     for row in reader:
-        insert_row(s=s,
-                   host=args.host,
-                   name=row['Organ'],
-                   email=row['E-mail'],
-                   code=row['TERC'],
-                   tags=args.tags)
+        insert_row(
+            s=s,
+            host=args.host,
+            name=row["Organ"],
+            email=row["E-mail"],
+            code=row["TERC"],
+            tags=args.tags,
+        )
 
 
 if __name__ == "__main__":

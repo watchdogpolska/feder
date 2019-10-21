@@ -8,25 +8,33 @@ import jsonfield.fields
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('institutions', '0009_auto_20170708_2222'),
-    ]
+    dependencies = [("institutions", "0009_auto_20170708_2222")]
 
     operations = [
         migrations.AddField(
-            model_name='institution',
-            name='extra',
-            field=jsonfield.fields.JSONField(default={}, verbose_name=b'Unorganized additional information'),
+            model_name="institution",
+            name="extra",
+            field=jsonfield.fields.JSONField(
+                default={}, verbose_name=b"Unorganized additional information"
+            ),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='institution',
-            name='parents',
-            field=models.ManyToManyField(blank=True, null=True, related_name='_institution_parents_+', to='institutions.Institution', verbose_name='Parent institutions'),
+            model_name="institution",
+            name="parents",
+            field=models.ManyToManyField(
+                blank=True,
+                null=True,
+                related_name="_institution_parents_+",
+                to="institutions.Institution",
+                verbose_name="Parent institutions",
+            ),
         ),
         migrations.AddField(
-            model_name='institution',
-            name='regon',
-            field=models.CharField(blank=True, max_length=14, verbose_name='REGON number'),
+            model_name="institution",
+            name="regon",
+            field=models.CharField(
+                blank=True, max_length=14, verbose_name="REGON number"
+            ),
         ),
     ]

@@ -16,8 +16,9 @@ class ExtraListMixin(object):
         extra_list_context (str): Name of extra list context
         paginate_by (int): Number of added objects per page
     """
+
     paginate_by = 25
-    extra_list_context = 'object_list'
+    extra_list_context = "object_list"
 
     def paginator(self, object_list):
         """A Method to paginate object_list accordingly.
@@ -30,7 +31,7 @@ class ExtraListMixin(object):
         """
         paginator = Paginator(object_list, self.paginate_by)
         try:
-            return paginator.page(self.kwargs.get('page', 1))
+            return paginator.page(self.kwargs.get("page", 1))
         except EmptyPage:
             # If page is out of range (e.g. 9999), deliver last page of results.
             return paginator.page(paginator.num_pages)
@@ -47,8 +48,9 @@ class ExtraListMixin(object):
             ImproperlyConfigured: The method was not overrided.
         """
         raise ImproperlyConfigured(
-            '{0} is missing a permissions to assign. Define {0}.permission '
-            'or override {0}.get_permission().'.format(self.__class__.__name__))
+            "{0} is missing a permissions to assign. Define {0}.permission "
+            "or override {0}.get_permission().".format(self.__class__.__name__)
+        )
 
     def get_context_data(self, **kwargs):
         context = super(ExtraListMixin, self).get_context_data(**kwargs)
@@ -60,6 +62,7 @@ class ExtraListMixin(object):
 class RaisePermissionRequiredMixin(LoginRequiredMixin, PermissionRequiredMixin):
     """Mixin to verify object permission with preserve correct status code in view
     """
+
     raise_exception = True
     redirect_unauthenticated_users = True
 
@@ -70,6 +73,7 @@ class AttrPermissionRequiredMixin(RaisePermissionRequiredMixin):
     Attributes:
         permission_attribute (str): A path to traverse from object to permission object
     """
+
     permission_attribute = None
 
     @staticmethod
@@ -84,7 +88,7 @@ class AttrPermissionRequiredMixin(RaisePermissionRequiredMixin):
             A oject at end of resolved path
         """
         if path:
-            for attr_name in path.split('__'):
+            for attr_name in path.split("__"):
                 obj = getattr(obj, attr_name)
         return obj
 
@@ -93,7 +97,7 @@ class AttrPermissionRequiredMixin(RaisePermissionRequiredMixin):
         return self._resolve_path(obj, self.permission_attribute)
 
     def get_object(self):
-        if not hasattr(self, 'object'):
+        if not hasattr(self, "object"):
             self.object = super(AttrPermissionRequiredMixin, self).get_object()
         return self.object
 
@@ -104,25 +108,28 @@ class AutocompletePerformanceMixin(object):
     Attributes:
         select_only (list): List of fields to select
     """
+
     select_only = None
 
     def choices_for_request(self, *args, **kwargs):
-        qs = super(AutocompletePerformanceMixin, self).choices_for_request(*args, **kwargs)
+        qs = super(AutocompletePerformanceMixin, self).choices_for_request(
+            *args, **kwargs
+        )
         if self.select_only:
             qs = qs.only(*self.select_only)
         return qs
 
 
-
-
 class DisabledWhenFilterSetMixin(django_filters.filterset.BaseFilterSet):
     @property
     def qs(self):
-        if not hasattr(self, '_qs') and self.is_bound and self.form.is_valid():
+        if not hasattr(self, "_qs") and self.is_bound and self.form.is_valid():
             for name in list(self.filters.keys()):
                 filter_ = self.filters[name]
                 value = self.form.cleaned_data.get(name)
-                enabled_test = getattr(filter_, 'check_enabled', lambda _: True)  # legacy-filter compatible
+                enabled_test = getattr(
+                    filter_, "check_enabled", lambda _: True
+                )  # legacy-filter compatible
                 if not enabled_test(self.form.cleaned_data):
                     del self.filters[name]
         return super(DisabledWhenFilterSetMixin, self).qs
@@ -130,7 +137,7 @@ class DisabledWhenFilterSetMixin(django_filters.filterset.BaseFilterSet):
 
 class DisabledWhenFilterMixin(object):
     def __init__(self, *args, **kwargs):
-        self.disabled_when = kwargs.pop('disabled_when', [])
+        self.disabled_when = kwargs.pop("disabled_when", [])
         super(DisabledWhenFilterMixin, self).__init__(*args, **kwargs)
 
     def check_enabled(self, form_data):
@@ -148,9 +155,11 @@ class BaseXSendFileView(BaseDetailView):
         return getattr(object, self.get_file_field()).path
 
     def get_sendfile_kwargs(self, context):
-        return dict(request=self.request,
-                    filename=self.get_file_path(context['object']),
-                    attachment=self.send_as_attachment)
+        return dict(
+            request=self.request,
+            filename=self.get_file_path(context["object"]),
+            attachment=self.send_as_attachment,
+        )
 
     def render_to_response(self, context):
         return sendfile(**self.get_sendfile_kwargs(context))

@@ -20,9 +20,9 @@ from django.urls import get_resolver
 from django.utils.encoding import force_text
 from django.utils.html import strip_tags
 
-sys.path.append(os.path.abspath('..'))
-os.environ['DJANGO_SETTINGS_MODULE'] = 'config.settings.local'
-os.environ['DATABASE_URL'] = 'mysql://'
+sys.path.append(os.path.abspath(".."))
+os.environ["DJANGO_SETTINGS_MODULE"] = "config.settings.local"
+os.environ["DATABASE_URL"] = "mysql://"
 
 django.setup()
 
@@ -39,38 +39,40 @@ django.setup()
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
 extensions = [
-    'sphinx.ext.autodoc',
-    'sphinx.ext.viewcode',
-    'sphinx.ext.intersphinx',
-    'sphinx.ext.coverage',
-    'sphinx.ext.napoleon',
-    'sphinx.ext.todo',
-    'sphinxcontrib.programoutput'
+    "sphinx.ext.autodoc",
+    "sphinx.ext.viewcode",
+    "sphinx.ext.intersphinx",
+    "sphinx.ext.coverage",
+    "sphinx.ext.napoleon",
+    "sphinx.ext.todo",
+    "sphinxcontrib.programoutput",
 ]
 
 intersphinx_mapping = {
-    'python': ('https://python.readthedocs.io/en/v2.7.2/', None),
-    'django': ('https://docs.djangoproject.com/en/dev/',
-               'http://docs.djangoproject.com/en/dev/_objects/'),
-    'sphinx': ('https://sphinx.readthedocs.io/en/latest/', None),
-    'grappelli': ('https://django-grappelli.readthedocs.io/en/latest/', None),
+    "python": ("https://python.readthedocs.io/en/v2.7.2/", None),
+    "django": (
+        "https://docs.djangoproject.com/en/dev/",
+        "http://docs.djangoproject.com/en/dev/_objects/",
+    ),
+    "sphinx": ("https://sphinx.readthedocs.io/en/latest/", None),
+    "grappelli": ("https://django-grappelli.readthedocs.io/en/latest/", None),
 }
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ['_templates']
+templates_path = ["_templates"]
 
 # The suffix of source filenames.
-source_suffix = '.rst'
+source_suffix = ".rst"
 
 # The encoding of source files.
 # source_encoding = 'utf-8-sig'
 
 
 # The master toctree document.
-master_doc = 'index'
+master_doc = "index"
 
 # General information about the project.
-project = 'feder'
+project = "feder"
 copyright = """2016, Adam Dobrawy"""
 
 # The version info for the project you're documenting, acts as replacement for
@@ -78,7 +80,7 @@ copyright = """2016, Adam Dobrawy"""
 # built documents.
 #
 # The short X.Y version.
-version = '0.1'
+version = "0.1"
 # The full version, including alpha/beta/rc tags.
 release = version
 
@@ -94,7 +96,7 @@ release = version
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-exclude_patterns = ['_build']
+exclude_patterns = ["_build"]
 
 # The reST default role (used for this markup: `text`) to use for all documents.
 # default_role = None
@@ -111,7 +113,7 @@ exclude_patterns = ['_build']
 # show_authors = False
 
 # The name of the Pygments (syntax highlighting) style to use.
-pygments_style = 'sphinx'
+pygments_style = "sphinx"
 
 # A list of ignored prefixes for module index sorting.
 # modindex_common_prefix = []
@@ -128,7 +130,7 @@ try:
 
     html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 except ImportError:
-    html_theme = 'default'
+    html_theme = "default"
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -157,7 +159,7 @@ except ImportError:
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
+html_static_path = ["_static"]
 
 # If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
 # using the given strftime format.
@@ -201,7 +203,7 @@ html_static_path = ['_static']
 # html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'federdoc'
+htmlhelp_basename = "federdoc"
 
 
 # -- Options for LaTeX output --------------------------------------------------
@@ -209,10 +211,8 @@ htmlhelp_basename = 'federdoc'
 latex_elements = {
     # The paper size ('letterpaper' or 'a4paper').
     # 'papersize': 'letterpaper',
-
     # The font size ('10pt', '11pt' or '12pt').
     # 'pointsize': '10pt',
-
     # Additional stuff for the LaTeX preamble.
     # 'preamble': '',
 }
@@ -220,10 +220,7 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-    ('index',
-     'feder.tex',
-     'feder Documentation',
-     """Adam Dobrawy""", 'manual'),
+    ("index", "feder.tex", "feder Documentation", """Adam Dobrawy""", "manual")
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -251,10 +248,7 @@ latex_documents = [
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [
-    ('index', 'feder', 'feder Documentation',
-     ["""Adam Dobrawy"""], 1)
-]
+man_pages = [("index", "feder", "feder Documentation", ["""Adam Dobrawy"""], 1)]
 
 # If true, show URL addresses after external links.
 # man_show_urls = False
@@ -267,9 +261,15 @@ todo_include_todos = True
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    ('index', 'feder', 'feder Documentation',
-     """Adam Dobrawy""", 'feder',
-     """Obywatelskie fedrowanie danych.""", 'Miscellaneous'),
+    (
+        "index",
+        "feder",
+        "feder Documentation",
+        """Adam Dobrawy""",
+        "feder",
+        """Obywatelskie fedrowanie danych.""",
+        "Miscellaneous",
+    )
 ]
 
 # Documents to append as an appendix to all manuals.
@@ -302,20 +302,27 @@ def process_django_model(app, what, name, obj, options, lines):
             if help_text:
                 # Add the model field to the end of the docstring as a param
                 # using the help text as the description
-                lines.append(':param %s: %s' % (field.attname, help_text))
+                lines.append(":param %s: %s" % (field.attname, help_text))
             else:
                 # Add the model field to the end of the docstring as a param
                 # using the verbose name as the description
-                lines.append(':param %s: %s' % (field.attname, verbose_name))
+                lines.append(":param %s: %s" % (field.attname, verbose_name))
 
             # Add the field's type to the docstring
-            if isinstance(field, (models.ForeignKey, models.OneToOneField, models.ManyToManyField)):
-                lines.append(':type %s: %s to :class:`%s.%s`' % (field.attname,
-                                                                 type(field).__name__,
-                                                                 field.related_model.__module__,
-                                                                 field.related_model.__name__))
+            if isinstance(
+                field, (models.ForeignKey, models.OneToOneField, models.ManyToManyField)
+            ):
+                lines.append(
+                    ":type %s: %s to :class:`%s.%s`"
+                    % (
+                        field.attname,
+                        type(field).__name__,
+                        field.related_model.__module__,
+                        field.related_model.__name__,
+                    )
+                )
             else:
-                lines.append(':type %s: %s' % (field.attname, type(field).__name__))
+                lines.append(":type %s: %s" % (field.attname, type(field).__name__))
     # Return the extended docstring
     return lines
 
@@ -326,26 +333,32 @@ def process_django_view(app, what, name, obj, options, lines):
 
     def walker(flat_patterns, urlpatterns, namespace=None):
         for pattern in urlpatterns:
-            if hasattr(pattern, 'url_patterns'):
+            if hasattr(pattern, "url_patterns"):
                 walker(flat_patterns, pattern.url_patterns, pattern.namespace)
             else:
-                urlname = '%s:%s' % (namespace, pattern.name) if namespace else pattern.name
+                urlname = (
+                    "%s:%s" % (namespace, pattern.name) if namespace else pattern.name
+                )
                 flat_patterns.append([urlname, pattern.callback])
+
     walker(flat_patterns, res.url_patterns)
     for urlname, callback in flat_patterns:
-        if (hasattr(callback, 'view_class') and callback.view_class == obj) or callback == obj:
+        if (
+            hasattr(callback, "view_class") and callback.view_class == obj
+        ) or callback == obj:
             lines.append(":param url_name: ``%s``\n" % urlname)
     return lines
 
 
 def process_django_form(app, what, name, obj, options, lines):
     from django import forms
+
     if inspect.isclass(obj) and issubclass(obj, (forms.Form, forms.ModelForm)):
         for fieldname, field in obj.base_fields.items():
-            lines.append(u':param %s: %s' % (fieldname, field.label))
+            lines.append(u":param %s: %s" % (fieldname, field.label))
 
 
 def setup(app):
-    app.connect('autodoc-process-docstring', process_django_model)
-    app.connect('autodoc-process-docstring', process_django_view)
-    app.connect('autodoc-process-docstring', process_django_form)
+    app.connect("autodoc-process-docstring", process_django_model)
+    app.connect("autodoc-process-docstring", process_django_view)
+    app.connect("autodoc-process-docstring", process_django_form)

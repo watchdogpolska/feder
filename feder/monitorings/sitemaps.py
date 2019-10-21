@@ -28,5 +28,4 @@ class MonitoringPagesSitemap(Sitemap):
 
     def location(self, item):
         obj, page = item
-        return reverse('monitorings:details', kwargs={'slug': obj.slug,
-                                                      'page': page})
+        return reverse("monitorings:details", kwargs={"slug": obj.slug, "page": page})

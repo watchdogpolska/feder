@@ -1,8 +1,12 @@
-from atom.views import (CreateMessageMixin, DeleteMessageMixin,
-                        UpdateMessageMixin)
-from braces.views import (FormValidMessageMixin, LoginRequiredMixin,
-                          PermissionRequiredMixin, PrefetchRelatedMixin,
-                          SelectRelatedMixin, UserFormKwargsMixin)
+from atom.views import CreateMessageMixin, DeleteMessageMixin, UpdateMessageMixin
+from braces.views import (
+    FormValidMessageMixin,
+    LoginRequiredMixin,
+    PermissionRequiredMixin,
+    PrefetchRelatedMixin,
+    SelectRelatedMixin,
+    UserFormKwargsMixin,
+)
 from dal import autocomplete
 from django.urls import reverse_lazy
 from django.db.models import Count
@@ -17,13 +21,13 @@ from .filters import InstitutionFilter
 from .forms import InstitutionForm
 from .models import Institution, Tag
 
-_('Institutions index')
+_("Institutions index")
 
 
 class InstitutionListView(SelectRelatedMixin, FilterView):
     filterset_class = InstitutionFilter
     model = Institution
-    select_related = ['jst', 'jst__category']
+    select_related = ["jst", "jst__category"]
     paginate_by = 25
 
     def get_queryset(self):
@@ -33,19 +37,27 @@ class InstitutionListView(SelectRelatedMixin, FilterView):
 
 class InstitutionDetailView(ExtraListMixin, PrefetchRelatedMixin, DetailView):
     model = Institution
-    prefetch_related = ['tags']
-    extra_list_context = 'case_list'
+    prefetch_related = ["tags"]
+    extra_list_context = "case_list"
 
     @staticmethod
     def get_object_list(obj):
-        return (Case.objects.filter(institution=obj).
-                select_related('monitoring').
-                prefetch_related('task_set').
-                order_by('monitoring').all())
+        return (
+            Case.objects.filter(institution=obj)
+            .select_related("monitoring")
+            .prefetch_related("task_set")
+            .order_by("monitoring")
+            .all()
+        )
 
 
-class InstitutionCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateMessageMixin,
-                            UserFormKwargsMixin, CreateView):
+class InstitutionCreateView(
+    LoginRequiredMixin,
+    PermissionRequiredMixin,
+    CreateMessageMixin,
+    UserFormKwargsMixin,
+    CreateView,
+):
     model = Institution
     form_class = InstitutionForm
     permission_required = "institutions.add_institution"
@@ -53,8 +65,14 @@ class InstitutionCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateM
     redirect_unauthenticated_users = True
 
 
-class InstitutionUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UserFormKwargsMixin,
-                            UpdateMessageMixin, FormValidMessageMixin, UpdateView):
+class InstitutionUpdateView(
+    LoginRequiredMixin,
+    PermissionRequiredMixin,
+    UserFormKwargsMixin,
+    UpdateMessageMixin,
+    FormValidMessageMixin,
+    UpdateView,
+):
     model = Institution
     form_class = InstitutionForm
     permission_required = "institutions.change_institution"
@@ -62,10 +80,15 @@ class InstitutionUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UserFor
     redirect_unauthenticated_users = True
 
 
-class InstitutionDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteMessageMixin,
-                            UpdateMessageMixin, DeleteView):
+class InstitutionDeleteView(
+    LoginRequiredMixin,
+    PermissionRequiredMixin,
+    DeleteMessageMixin,
+    UpdateMessageMixin,
+    DeleteView,
+):
     model = Institution
-    success_url = reverse_lazy('institutions:list')
+    success_url = reverse_lazy("institutions:list")
     permission_required = "institutions.delete_institution"
     raise_exception = True
     redirect_unauthenticated_users = True
@@ -81,10 +104,10 @@ class InstitutionAutocomplete(autocomplete.Select2QuerySetView):
 
 class TagAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
-        qs = Tag.objects.annotate(institution_count=Count('institution'))
+        qs = Tag.objects.annotate(institution_count=Count("institution"))
         if self.q:
             qs = qs.filter(name__icontains=self.q)
-        return qs.order_by('-institution_count').all()
+        return qs.order_by("-institution_count").all()
 
     def get_result_label(self, result):
         return "%s (%d)" % (six.text_type(result), result.institution_count)

@@ -8,14 +8,14 @@ from feder.users.factories import UserFactory
 
 class AbstractParcelPostFactory(factory.django.DjangoModelFactory):
     record = factory.SubFactory(RecordFactory)
-    title = factory.Sequence('title-{0}'.format)
+    title = factory.Sequence("title-{0}".format)
     content = factory.django.ImageField()
     created_by = factory.SubFactory(UserFactory)
 
 
 class IncomingParcelPostFactory(AbstractParcelPostFactory):
     sender = factory.SubFactory(InstitutionFactory)
-    comment = factory.Sequence('comment-{0}'.format)
+    comment = factory.Sequence("comment-{0}".format)
 
     class Meta:
         model = IncomingParcelPost
@@ -26,4 +26,3 @@ class OutgoingParcelPostFactory(AbstractParcelPostFactory):
 
     class Meta:
         model = OutgoingParcelPost
-

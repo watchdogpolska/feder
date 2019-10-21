@@ -6,14 +6,10 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-    dependencies = [
-        ('questionaries', '0001_initial'),
-    ]
+    dependencies = [("questionaries", "0001_initial")]
 
     operations = [
         migrations.RenameField(
-            model_name='question',
-            old_name='blob',
-            new_name='definition',
-        ),
+            model_name="question", old_name="blob", new_name="definition"
+        )
     ]

@@ -12,44 +12,54 @@ def update_record_field(apps, schema_editor):
     Letter = apps.get_model("letters", "Letter")
     db_alias = schema_editor.connection.alias
     for letter in Letter.objects.using(db_alias).filter(record=None).all():
-        record = Record.objects.create(case=letter.case,
-                                       created=letter.created)
+        record = Record.objects.create(case=letter.case, created=letter.created)
         letter.record = record
         letter.save(update_fields=["record"])
 
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('records', '0001_initial'),
-        ('letters', '0016_auto_20180227_1907'),
-    ]
+    dependencies = [("records", "0001_initial"), ("letters", "0016_auto_20180227_1907")]
 
     operations = [
         migrations.AddField(
-            model_name='letter',
-            name='record',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='letters_letter_related', related_query_name='letters_letters', to='records.Record'),
+            model_name="letter",
+            name="record",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="letters_letter_related",
+                related_query_name="letters_letters",
+                to="records.Record",
+            ),
             preserve_default=False,
         ),
         migrations.AlterField(
-            model_name='letter',
-            name='created',
-            field=django_extensions.db.fields.CreationDateTimeField(auto_now_add=True, verbose_name='created'),
+            model_name="letter",
+            name="created",
+            field=django_extensions.db.fields.CreationDateTimeField(
+                auto_now_add=True, verbose_name="created"
+            ),
         ),
         migrations.AlterField(
-            model_name='letter',
-            name='modified',
-            field=django_extensions.db.fields.ModificationDateTimeField(auto_now=True, verbose_name='modified'),
+            model_name="letter",
+            name="modified",
+            field=django_extensions.db.fields.ModificationDateTimeField(
+                auto_now=True, verbose_name="modified"
+            ),
         ),
         migrations.RunPython(update_record_field),
         migrations.AlterField(
-            model_name='letter',
-            name='record',
-            field=models.ForeignKey(default=1, null=False, on_delete=django.db.models.deletion.CASCADE,
-                                    related_name='letters_letter_related', related_query_name='letters_letters',
-                                    to='records.Record'),
+            model_name="letter",
+            name="record",
+            field=models.ForeignKey(
+                default=1,
+                null=False,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="letters_letter_related",
+                related_query_name="letters_letters",
+                to="records.Record",
+            ),
             preserve_default=False,
         ),
-
     ]

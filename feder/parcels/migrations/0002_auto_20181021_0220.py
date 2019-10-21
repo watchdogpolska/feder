@@ -8,19 +8,21 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('parcels', '0001_initial'),
-    ]
+    dependencies = [("parcels", "0001_initial")]
 
     operations = [
         migrations.AlterField(
-            model_name='incomingparcelpost',
-            name='receive_date',
-            field=models.DateField(default=datetime.date.today, verbose_name='Receive date'),
+            model_name="incomingparcelpost",
+            name="receive_date",
+            field=models.DateField(
+                default=datetime.date.today, verbose_name="Receive date"
+            ),
         ),
         migrations.AlterField(
-            model_name='outgoingparcelpost',
-            name='post_date',
-            field=models.DateField(default=datetime.date.today, verbose_name='Post date'),
+            model_name="outgoingparcelpost",
+            name="post_date",
+            field=models.DateField(
+                default=datetime.date.today, verbose_name="Post date"
+            ),
         ),
     ]

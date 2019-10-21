@@ -6,7 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class TaskConfig(AppConfig):
-    name = 'feder.tasks'
+    name = "feder.tasks"
     verbose_name = _("Tasks")
 
     def ready(self):

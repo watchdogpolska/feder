@@ -14,54 +14,85 @@ class Command(BaseCommand):
     help = "Fix mailing fail."
 
     def add_arguments(self, parser):
-        parser.add_argument('--input', type=argparse.FileType('r'),
-                            help="Report files that will be imported.", required=True)
-        parser.add_argument('--username', help="Username of actor.", required=True)
-        parser.add_argument('--monitoring-pk', help="PK of monitoring which receive mail", required=True)
+        parser.add_argument(
+            "--input",
+            type=argparse.FileType("r"),
+            help="Report files that will be imported.",
+            required=True,
+        )
+        parser.add_argument("--username", help="Username of actor.", required=True)
+        parser.add_argument(
+            "--monitoring-pk", help="PK of monitoring which receive mail", required=True
+        )
 
     def handle(self, input, username, monitoring_pk, *args, **options):
 
         monitoring = Monitoring.objects.get(pk=monitoring_pk)
         user = User.objects.get(username=username)
         num = 0
-        reader = csv.DictReader(input, fieldnames=['pos', 'date', 'mid', 'case_email', 'institution_email'])
+        reader = csv.DictReader(
+            input, fieldnames=["pos", "date", "mid", "case_email", "institution_email"]
+        )
         for row in reader:
-            institution = Institution.objects.filter(email=row['institution_email']).first()
+            institution = Institution.objects.filter(
+                email=row["institution_email"]
+            ).first()
 
-            case_qs = Case.objects.prefetch_related('alias_set').filter(institution=institution,
-                                                                        monitoring=monitoring)
+            case_qs = Case.objects.prefetch_related("alias_set").filter(
+                institution=institution, monitoring=monitoring
+            )
             case_count = case_qs.count()
 
             if case_count == 0:
-                self.stdout.write('register-new-case %s %s' % (row['institution_email'], row['case_email']))
+                self.stdout.write(
+                    "register-new-case %s %s"
+                    % (row["institution_email"], row["case_email"])
+                )
                 postfix = " $%d" % num
-                create_date = datetime.strptime(row['date'], "%Y %b %d %H:%M:%S")
-                case = Case.objects.create(user=user,
-                                           name=monitoring.name + postfix,
-                                           monitoring=monitoring,
-                                           institution=institution,
-                                           email=row['case_email'])
-                Letter.objects.create(author_user=user,
-                                      case=case,
-                                      is_draft=False,
-                                      title=monitoring.subject,
-                                      body=monitoring.template,
-                                      created=create_date)
+                create_date = datetime.strptime(row["date"], "%Y %b %d %H:%M:%S")
+                case = Case.objects.create(
+                    user=user,
+                    name=monitoring.name + postfix,
+                    monitoring=monitoring,
+                    institution=institution,
+                    email=row["case_email"],
+                )
+                Letter.objects.create(
+                    author_user=user,
+                    case=case,
+                    is_draft=False,
+                    title=monitoring.subject,
+                    body=monitoring.template,
+                    created=create_date,
+                )
                 num += 1
             elif case_count == 1:
                 case = case_qs.get()
-                if case.email == row['case_email']:
-                    self.stdout.write('good %s %s' % (row['institution_email'], row['case_email']))
+                if case.email == row["case_email"]:
+                    self.stdout.write(
+                        "good %s %s" % (row["institution_email"], row["case_email"])
+                    )
                 else:
-                    alias_founded = len([x for x in case.alias_set.all() if x.email == row['case_email']])
+                    alias_founded = len(
+                        [
+                            x
+                            for x in case.alias_set.all()
+                            if x.email == row["case_email"]
+                        ]
+                    )
                     if alias_founded == 0:
-                        self.stdout.write('register-alias %s %s' % (row['institution_email'], row['case_email']))
-                        Alias.objects.create(case=case,
-                                             email=row['case_email'])
+                        self.stdout.write(
+                            "register-alias %s %s"
+                            % (row["institution_email"], row["case_email"])
+                        )
+                        Alias.objects.create(case=case, email=row["case_email"])
                     else:
-                        self.stdout.write('found-alias %s %s' % (row['institution_email'], row['case_email']))
+                        self.stdout.write(
+                            "found-alias %s %s"
+                            % (row["institution_email"], row["case_email"])
+                        )
             else:
-                self.stdout.write('Case duplicated %s' % row['institution_email'])
+                self.stdout.write("Case duplicated %s" % row["institution_email"])
 
             # pos, date, mid, case_email, institution_email=line.strip().split(';')
             # cases = Case.objects.by_addresses([case_email])
