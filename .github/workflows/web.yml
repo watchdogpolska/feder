@@ -23,7 +23,7 @@ jobs:
       env:
         PYTHON_VERSION: ${{ matrix.python }}
         DJANGO_VERSION: ${{ matrix.django }}
-    - name: Migration check
+    - name: Lint check
       run: make lint
     - name: Migration check
       run: make check
