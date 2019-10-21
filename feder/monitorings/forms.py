@@ -15,40 +15,35 @@ class MonitoringForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm
     def __init__(self, *args, **kwargs):
         super(MonitoringForm, self).__init__(*args, **kwargs)
         if not self.instance.pk:  # disable fields for create
-            del self.fields['notify_alert']
+            del self.fields["notify_alert"]
         self.instance.user = self.user
         self.helper.layout = Layout(
-            Fieldset(
-                _("Monitoring"),
-                'name', 'description', 'notify_alert'
-            ),
-            Fieldset(
-                _("Template"),
-                'subject', 'template', 'email_footer', 'domain'
-            )
+            Fieldset(_("Monitoring"), "name", "description", "notify_alert"),
+            Fieldset(_("Template"), "subject", "template", "email_footer", "domain"),
         )
 
     class Meta:
         model = Monitoring
         fields = [
-            'name',
-            'description',
-            'notify_alert',
-            'subject',
-            'template',
-            'email_footer',
-            'domain'
+            "name",
+            "description",
+            "notify_alert",
+            "subject",
+            "template",
+            "email_footer",
+            "domain",
         ]
 
 
 class SelectUserForm(forms.Form):
     user = forms.ModelChoiceField(
         queryset=User.objects.all(),
-        widget=autocomplete.ModelSelect2(url='users:autocomplete'),
-        label=_("User")
+        widget=autocomplete.ModelSelect2(url="users:autocomplete"),
+        label=_("User"),
     )
 
 
-class SaveTranslatedUserObjectPermissionsForm(SingleButtonMixin,
-                                              TranslatedUserObjectPermissionsForm):
+class SaveTranslatedUserObjectPermissionsForm(
+    SingleButtonMixin, TranslatedUserObjectPermissionsForm
+):
     pass

@@ -7,14 +7,14 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('institutions', '0013_auto_20170810_2118'),
-    ]
+    dependencies = [("institutions", "0013_auto_20170810_2118")]
 
     operations = [
         migrations.AlterField(
-            model_name='tag',
-            name='name',
-            field=models.CharField(db_index=True, max_length=50, unique=True, verbose_name='Name'),
-        ),
+            model_name="tag",
+            name="name",
+            field=models.CharField(
+                db_index=True, max_length=50, unique=True, verbose_name="Name"
+            ),
+        )
     ]

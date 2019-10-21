@@ -1,26 +1,32 @@
-install:
-	pip install -r requirements/production.txt
+clean:
+	docker-compose down
 
-install_devs:
-	pip install -r requirements/local.txt
-	pip install -r requirements/test.txt
+build:
+	docker-compose build web
 
 test:
-	time python manage.py test --keepdb
+	docker-compose run web python manage.py test --keepdb --verbosity=2
 
-test_parallel:
-	time python manage.py test --keepdb --parallel $(grep -c ^processor /proc/cpuinfo)
+wait_mysql:
+	docker-compose run web bash -c 'wait-for-it db:3306'
 
-coverage:
-	time python manage.py test --keepdb
-	coverage run --branch --omit=*/site-packages/* manage.py test --verbosity=2 --keepdb
+migrate:
+	docker-compose run web python manage.py migrate
 
-coverage_html: coverage
-	coverage html
-	x-www-browser htmlcov/index.html
+lint:
+	docker run --rm -v $$(pwd):/data cytopia/black --check /data
 
-server:
-	python manage.py runserver
+fmt:
+	docker run --rm -v $$(pwd):/data cytopia/black /data
 
-drop_test_databases:
-	echo "drop database test_feder; drop database test_feder_1; drop database test_feder_2; drop database test_feder_3; drop database test_feder_4;" | python manage.py dbshell
+check: wait_mysql
+	docker-compose run web python manage.py makemigrations --check
+
+migrations: wait_mysql
+	docker-compose run web python manage.py makemigrations
+
+settings:
+	docker-compose run web python manage.py diffsettings
+
+docs:
+	docker-compose run web sphinx-build -b html -d docs/_build/doctrees docs docs/_build/html

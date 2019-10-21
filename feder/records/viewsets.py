@@ -9,15 +9,12 @@ from .serializers import RecordSerializer
 class RecordFilter(filters.FilterSet):
     case = django_filters.CharFilter()
     o = django_filters.OrderingFilter(
-        fields=[
-            'created', '-created',
-            'modified', '-modified'
-        ]
+        fields=["created", "-created", "modified", "-modified"]
     )
 
     class Meta:
         model = Record
-        fields = ['case', ]
+        fields = ["case"]
 
 
 class RecordViewSet(viewsets.ReadOnlyModelViewSet):

@@ -11,24 +11,24 @@ from .models import Letter, Attachment
 
 def get_email(subject=None, from_=None, to=None):
     msg = MIMEText("Lorem ipsum")
-    msg['Subject'] = subject or "Example message"
-    msg['From'] = from_ or "sender@example.com"
-    msg['To'] = to or "recipient@example.com"
+    msg["Subject"] = subject or "Example message"
+    msg["From"] = from_ or "sender@example.com"
+    msg["To"] = to or "recipient@example.com"
     return msg
 
 
 class MailField(FileField):
-    DEFAULT_FILENAME = 'data.eml'
+    DEFAULT_FILENAME = "data.eml"
 
     def _make_data(self, params):
-        return params.get('data', get_email().as_string().encode('utf-8'))
+        return params.get("data", get_email().as_string().encode("utf-8"))
 
 
 class LetterFactory(factory.django.DjangoModelFactory):
     record = factory.SubFactory(RecordFactory)
-    title = factory.Sequence('title-letter-{0}'.format)
-    body = factory.Sequence('body-{0}'.format)
-    quote = factory.Sequence('quote-{0}'.format)
+    title = factory.Sequence("title-letter-{0}".format)
+    body = factory.Sequence("body-{0}".format)
+    quote = factory.Sequence("quote-{0}".format)
 
     class Meta:
         model = Letter
@@ -36,7 +36,7 @@ class LetterFactory(factory.django.DjangoModelFactory):
 
 class IncomingLetterFactory(LetterFactory):
     author_institution = factory.SubFactory(InstitutionFactory)
-    email = factory.Sequence('xxx-{0}@example.com'.format)
+    email = factory.Sequence("xxx-{0}@example.com".format)
     note = factory.fuzzy.FuzzyText()
     eml = MailField()
 
@@ -53,7 +53,7 @@ class DraftLetterFactory(OutgoingLetterFactory):
 
 class SendOutgoingLetterFactory(LetterFactory):
     author_user = factory.SubFactory(UserFactory)
-    is_send_yes = factory.PostGenerationMethodCall('send')
+    is_send_yes = factory.PostGenerationMethodCall("send")
 
 
 class AttachmentFactory(factory.django.DjangoModelFactory):

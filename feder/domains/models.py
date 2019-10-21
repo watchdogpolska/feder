@@ -16,8 +16,7 @@ class Domain(TimeStampedModel):
     class Meta:
         verbose_name = _("Domain")
         verbose_name_plural = _("Domains")
-        ordering = ['created', ]
+        ordering = ["created"]
 
     def __str__(self):
         return self.name
-

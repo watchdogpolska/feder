@@ -10,7 +10,7 @@ def backup_attachment_path(sender, instance, **kwargs):
 
 @receiver(post_save, sender=Attachment)
 def delete_old_attachment(sender, instance, **kwargs):
-    if hasattr(instance, '_current_attachment'):
+    if hasattr(instance, "_current_attachment"):
         if instance._current_attachment != instance.attachment:
             instance._current_attachment.delete(save=False)
 
@@ -22,6 +22,6 @@ def backup_eml_path(sender, instance, **kwargs):
 
 @receiver(post_save, sender=Letter)
 def delete_old_eml(sender, instance, **kwargs):
-    if hasattr(instance, '_current_eml'):
+    if hasattr(instance, "_current_eml"):
         if instance._current_eml != instance.eml:
             instance._current_eml.delete(save=False)

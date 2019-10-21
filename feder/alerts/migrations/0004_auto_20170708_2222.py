@@ -7,13 +7,15 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('alerts', '0003_alert_solver'),
-    ]
+    dependencies = [("alerts", "0003_alert_solver")]
 
     operations = [
         migrations.AlterModelOptions(
-            name='alert',
-            options={'ordering': ['created'], 'verbose_name': 'Alert', 'verbose_name_plural': 'Alerts'},
-        ),
+            name="alert",
+            options={
+                "ordering": ["created"],
+                "verbose_name": "Alert",
+                "verbose_name_plural": "Alerts",
+            },
+        )
     ]

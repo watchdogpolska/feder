@@ -6,21 +6,26 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-    dependencies = [
-        ('institutions', '0005_auto_20160907_1814'),
-    ]
+    dependencies = [("institutions", "0005_auto_20160907_1814")]
 
     operations = [
         migrations.AlterModelOptions(
-            name='email',
-            options={'ordering': ['priority', 'institution'], 'verbose_name': 'Email', 'verbose_name_plural': 'Emails'},
+            name="email",
+            options={
+                "ordering": ["priority", "institution"],
+                "verbose_name": "Email",
+                "verbose_name_plural": "Emails",
+            },
         ),
         migrations.AlterModelOptions(
-            name='tag',
-            options={'ordering': ['name'], 'verbose_name': 'Tag', 'verbose_name_plural': 'Tags'},
+            name="tag",
+            options={
+                "ordering": ["name"],
+                "verbose_name": "Tag",
+                "verbose_name_plural": "Tags",
+            },
         ),
         migrations.AlterUniqueTogether(
-            name='email',
-            unique_together={('institution', 'email')},
+            name="email", unique_together={("institution", "email")}
         ),
     ]

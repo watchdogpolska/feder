@@ -18,6 +18,7 @@ class PermissionStatusMixin(object):
         status_no_permission (403): Status code for user without permission
         url (TYPE): url to test
     """
+
     url = None
     permission = None
     status_anonymous = 302
@@ -27,7 +28,7 @@ class PermissionStatusMixin(object):
     def setUp(self):
         super(PermissionStatusMixin, self).setUp()
 
-        self.user = getattr(self, 'user', UserFactory(username='john'))
+        self.user = getattr(self, "user", UserFactory(username="john"))
 
     def get_url(self):
         """Get url to tests
@@ -40,8 +41,9 @@ class PermissionStatusMixin(object):
         """
         if self.url is None:
             raise ImproperlyConfigured(
-                '{0} is missing a url to test. Define {0}.url '
-                'or override {0}.get_url().'.format(self.__class__.__name__))
+                "{0} is missing a url to test. Define {0}.url "
+                "or override {0}.get_url().".format(self.__class__.__name__)
+            )
         return self.url
 
     def get_permission(self):
@@ -55,14 +57,15 @@ class PermissionStatusMixin(object):
         """
         if self.permission is None:
             raise ImproperlyConfigured(
-                '{0} is missing a permissions to assign. Define {0}.permission '
-                'or override {0}.get_permission().'.format(self.__class__.__name__))
+                "{0} is missing a permissions to assign. Define {0}.permission "
+                "or override {0}.get_permission().".format(self.__class__.__name__)
+            )
         return self.permission
 
     def get_permission_object(self):
         """Returns object of permission-carrying object for grant permission
         """
-        return getattr(self, 'permission_object', None)
+        return getattr(self, "permission_object", None)
 
     def grant_permission(self):
         """Grant permission to user in self.user
@@ -79,7 +82,7 @@ class PermissionStatusMixin(object):
 
         """
         self.grant_permission()
-        self.client.login(username='john', password='pass')
+        self.client.login(username="john", password="pass")
 
     def test_status_code_for_anonymous_user(self):
         """A test status code of response for anonymous user
@@ -93,7 +96,7 @@ class PermissionStatusMixin(object):
 
         Only login before test.
         """
-        self.client.login(username='john', password='pass')
+        self.client.login(username="john", password="pass")
         response = self.client.get(self.get_url())
         self.assertEqual(response.status_code, self.status_no_permission)
 
@@ -103,17 +106,18 @@ class PermissionStatusMixin(object):
         Grant permission to permission-carrying object and login before test
         """
         self.grant_permission()
-        self.client.login(username='john', password='pass')
+        self.client.login(username="john", password="pass")
         response = self.client.get(self.get_url())
         self.assertEqual(response.status_code, self.status_has_permission)
 
+
 class HomeViewTestCase(TestCase):
     def test_status_code(self):
-        response = self.client.get(reverse('home'))
+        response = self.client.get(reverse("home"))
         self.assertEqual(response.status_code, 200)
 
 
 class SitemapTestCase(TestCase):
     def test_main(self):
-        url = reverse('sitemaps', kwargs={'section': 'main'})
+        url = reverse("sitemaps", kwargs={"section": "main"})
         self.assertEqual(self.client.get(url).status_code, 200)

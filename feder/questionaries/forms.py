@@ -10,10 +10,10 @@ from .utils import get_modulators
 
 class QuestionaryForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
     def __init__(self, *args, **kwargs):
-        self.monitoring = kwargs.pop('monitoring', None)
+        self.monitoring = kwargs.pop("monitoring", None)
         super(QuestionaryForm, self).__init__(*args, **kwargs)
         if not self.user.is_superuser:
-            del self.fields['lock']
+            del self.fields["lock"]
 
     def save(self, *args, **kwargs):
         if self.monitoring:
@@ -22,26 +22,26 @@ class QuestionaryForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelFor
 
     class Meta:
         model = Questionary
-        fields = ['title', 'lock']
+        fields = ["title", "lock"]
 
 
 class QuestionForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
     def __init__(self, *args, **kwargs):
-        questionary = kwargs.pop('questionary')
+        questionary = kwargs.pop("questionary")
         super(QuestionForm, self).__init__(*args, **kwargs)
         choices = [(key, mod.description) for key, mod in get_modulators().items()]
-        self.fields['genre'] = forms.ChoiceField(choices=choices, label=_("Genre"))
+        self.fields["genre"] = forms.ChoiceField(choices=choices, label=_("Genre"))
         self.instance.questionary = questionary
 
     class Meta:
         model = Question
-        fields = ['position', 'genre']
+        fields = ["position", "genre"]
 
 
 class QuestionDefinitionForm(SingleButtonMixin, UserKwargModelFormMixin, forms.Form):
     def __init__(self, *args, **kwargs):
-        self.instance = kwargs.pop('instance')
-        kwargs['initial'] = self.instance.definition
+        self.instance = kwargs.pop("instance")
+        kwargs["initial"] = self.instance.definition
         super(QuestionDefinitionForm, self).__init__(*args, **kwargs)
         self.construct_form()
 

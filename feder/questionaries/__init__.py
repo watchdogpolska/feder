@@ -1,1 +1,1 @@
-default_app_config = 'feder.questionaries.apps.CustomAppConfig'
+default_app_config = "feder.questionaries.apps.CustomAppConfig"

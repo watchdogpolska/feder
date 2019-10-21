@@ -7,4 +7,4 @@ from feder.letters.models import Attachment
 class AttachmentInline(InlineFormSet):
     model = Attachment
     formset_class = BaseTableFormSet
-    fields = ['attachment', ]
+    fields = ["attachment"]

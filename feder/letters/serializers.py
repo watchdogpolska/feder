@@ -16,9 +16,7 @@ class NestedAttachmentSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Attachment
-        fields = (
-            'url', 'filename'
-        )
+        fields = ("url", "filename")
 
 
 class NestedLetterSerializer(serializers.HyperlinkedModelSerializer):
@@ -30,9 +28,7 @@ class NestedLetterSerializer(serializers.HyperlinkedModelSerializer):
 
     def get_attachments(self, obj):
         return NestedAttachmentSerializer(
-            getattr(obj, 'attachments', obj.attachment_set),
-            many=True,
-            read_only=True
+            getattr(obj, "attachments", obj.attachment_set), many=True, read_only=True
         ).data
 
     def get_eml(self, obj):
@@ -48,12 +44,23 @@ class NestedLetterSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Letter
         fields = (
-            'eml', 'author_institution', 'author_user', 'title', 'body',
-            'quote', 'email', 'note',
-            'is_spam', 'is_draft', 'is_incoming', 'is_outgoing',
-            'email_delivery_status',
-            'mark_spam_by', 'mark_spam_at',
-            'eml',
-            'created', 'modified',
-            "attachments"
+            "eml",
+            "author_institution",
+            "author_user",
+            "title",
+            "body",
+            "quote",
+            "email",
+            "note",
+            "is_spam",
+            "is_draft",
+            "is_incoming",
+            "is_outgoing",
+            "email_delivery_status",
+            "mark_spam_by",
+            "mark_spam_at",
+            "eml",
+            "created",
+            "modified",
+            "attachments",
         )

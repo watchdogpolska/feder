@@ -6,14 +6,14 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('cases', '0006_alias'),
-    ]
+    dependencies = [("cases", "0006_alias")]
 
     operations = [
         migrations.AlterField(
-            model_name='case',
-            name='slug',
-            field=autoslug.fields.AutoSlugField(editable=False, populate_from='name', unique=True, verbose_name='Slug'),
-        ),
+            model_name="case",
+            name="slug",
+            field=autoslug.fields.AutoSlugField(
+                editable=False, populate_from="name", unique=True, verbose_name="Slug"
+            ),
+        )
     ]

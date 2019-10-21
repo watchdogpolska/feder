@@ -1,1 +1,1 @@
-default_app_config = 'feder.letters.apps.LetterConfig'
+default_app_config = "feder.letters.apps.LetterConfig"

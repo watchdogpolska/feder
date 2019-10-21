@@ -25,79 +25,99 @@ class OutgoingParcelPostMixin(ParcelPostMixin):
         self.object = OutgoingParcelPostFactory(record__case=self.case)
 
 
-class IncomingParcelPostCreateViewTestCase(IncomingParcelPostMixin, PermissionStatusMixin, TestCase):
-    permission = ['monitorings.add_parcelpost', ]
+class IncomingParcelPostCreateViewTestCase(
+    IncomingParcelPostMixin, PermissionStatusMixin, TestCase
+):
+    permission = ["monitorings.add_parcelpost"]
 
     def get_url(self):
-        return reverse('parcels:incoming-create', kwargs={'case_pk': self.case.pk})
+        return reverse("parcels:incoming-create", kwargs={"case_pk": self.case.pk})
 
 
-class IncomingParcelPostDetailViewTestCase(IncomingParcelPostMixin, PermissionStatusMixin, TestCase):
+class IncomingParcelPostDetailViewTestCase(
+    IncomingParcelPostMixin, PermissionStatusMixin, TestCase
+):
     permission = []
     status_anonymous = 200
     status_no_permission = 200
 
     def get_url(self):
-        return reverse('parcels:incoming-details', kwargs={'pk': self.object.pk})
+        return reverse("parcels:incoming-details", kwargs={"pk": self.object.pk})
 
 
-class IncomingAttachmentParcelPostXSendFileViewTestCase(IncomingParcelPostMixin, PermissionStatusMixin, TestCase):
+class IncomingAttachmentParcelPostXSendFileViewTestCase(
+    IncomingParcelPostMixin, PermissionStatusMixin, TestCase
+):
     permission = []
     status_anonymous = 200
     status_no_permission = 200
 
     def get_url(self):
-        return reverse('parcels:incoming-download', kwargs={'pk': self.object.pk})
+        return reverse("parcels:incoming-download", kwargs={"pk": self.object.pk})
 
 
-class OutgoingAttachmentParcelPostXSendFileViewTestCase(OutgoingParcelPostMixin, PermissionStatusMixin, TestCase):
+class OutgoingAttachmentParcelPostXSendFileViewTestCase(
+    OutgoingParcelPostMixin, PermissionStatusMixin, TestCase
+):
     permission = []
     status_anonymous = 200
     status_no_permission = 200
 
     def get_url(self):
-        return reverse('parcels:outgoing-download', kwargs={'pk': self.object.pk})
+        return reverse("parcels:outgoing-download", kwargs={"pk": self.object.pk})
 
 
-class IncomingParcelPostUpdateViewTestCase(IncomingParcelPostMixin, PermissionStatusMixin, TestCase):
-    permission = ['monitorings.change_parcelpost', ]
-
-    def get_url(self):
-        return reverse('parcels:incoming-update', kwargs={'pk': self.object.pk})
-
-
-class IncomingParcelPostDeleteViewTestCase(IncomingParcelPostMixin, PermissionStatusMixin, TestCase):
-    permission = ['monitorings.delete_parcelpost', ]
+class IncomingParcelPostUpdateViewTestCase(
+    IncomingParcelPostMixin, PermissionStatusMixin, TestCase
+):
+    permission = ["monitorings.change_parcelpost"]
 
     def get_url(self):
-        return reverse('parcels:incoming-delete', kwargs={'pk': self.object.pk})
+        return reverse("parcels:incoming-update", kwargs={"pk": self.object.pk})
 
 
-class OutgoingParcelPostCreateViewTestCase(OutgoingParcelPostMixin, PermissionStatusMixin, TestCase):
-    permission = ['monitorings.add_parcelpost', ]
+class IncomingParcelPostDeleteViewTestCase(
+    IncomingParcelPostMixin, PermissionStatusMixin, TestCase
+):
+    permission = ["monitorings.delete_parcelpost"]
 
     def get_url(self):
-        return reverse('parcels:outgoing-create', kwargs={'case_pk': self.case.pk})
+        return reverse("parcels:incoming-delete", kwargs={"pk": self.object.pk})
 
 
-class OutgoingParcelPostDetailViewTestCase(OutgoingParcelPostMixin, PermissionStatusMixin, TestCase):
+class OutgoingParcelPostCreateViewTestCase(
+    OutgoingParcelPostMixin, PermissionStatusMixin, TestCase
+):
+    permission = ["monitorings.add_parcelpost"]
+
+    def get_url(self):
+        return reverse("parcels:outgoing-create", kwargs={"case_pk": self.case.pk})
+
+
+class OutgoingParcelPostDetailViewTestCase(
+    OutgoingParcelPostMixin, PermissionStatusMixin, TestCase
+):
     permission = []
     status_anonymous = 200
     status_no_permission = 200
 
     def get_url(self):
-        return reverse('parcels:outgoing-details', kwargs={'pk': self.object.pk})
+        return reverse("parcels:outgoing-details", kwargs={"pk": self.object.pk})
 
 
-class OutgoingParcelPostUpdateViewTestCase(OutgoingParcelPostMixin, PermissionStatusMixin, TestCase):
-    permission = ['monitorings.change_parcelpost', ]
-
-    def get_url(self):
-        return reverse('parcels:outgoing-update', kwargs={'pk': self.object.pk})
-
-
-class OutgoingParcelPostDeleteViewTestCase(OutgoingParcelPostMixin, PermissionStatusMixin, TestCase):
-    permission = ['monitorings.delete_parcelpost', ]
+class OutgoingParcelPostUpdateViewTestCase(
+    OutgoingParcelPostMixin, PermissionStatusMixin, TestCase
+):
+    permission = ["monitorings.change_parcelpost"]
 
     def get_url(self):
-        return reverse('parcels:outgoing-delete', kwargs={'pk': self.object.pk})
+        return reverse("parcels:outgoing-update", kwargs={"pk": self.object.pk})
+
+
+class OutgoingParcelPostDeleteViewTestCase(
+    OutgoingParcelPostMixin, PermissionStatusMixin, TestCase
+):
+    permission = ["monitorings.delete_parcelpost"]
+
+    def get_url(self):
+        return reverse("parcels:outgoing-delete", kwargs={"pk": self.object.pk})

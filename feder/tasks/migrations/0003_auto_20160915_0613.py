@@ -6,14 +6,8 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-    dependencies = [
-        ('tasks', '0002_auto_20151025_2345'),
-    ]
+    dependencies = [("tasks", "0002_auto_20151025_2345")]
 
     operations = [
-        migrations.RenameField(
-            model_name='answer',
-            old_name='blob',
-            new_name='content',
-        ),
+        migrations.RenameField(model_name="answer", old_name="blob", new_name="content")
     ]

@@ -22,11 +22,8 @@ class ObjectMixin(object):
 
 class CaseFormTestCase(ObjectMixin, TestCase):
     def test_standard_save(self):
-        data = {'name': 'example',
-                'institution': InstitutionFactory().pk}
-        form = CaseForm(monitoring=self.case.monitoring,
-                        user=self.user,
-                        data=data)
+        data = {"name": "example", "institution": InstitutionFactory().pk}
+        form = CaseForm(monitoring=self.case.monitoring, user=self.user, data=data)
         self.assertTrue(form.is_valid(), msg=form.errors)
         obj = form.save()
         self.assertEqual(obj.name, "example")
@@ -40,7 +37,7 @@ class CaseListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     status_no_permission = 200
 
     def get_url(self):
-        return reverse('cases:list')
+        return reverse("cases:list")
 
 
 class CaseDetailViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
@@ -49,7 +46,7 @@ class CaseDetailViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     status_no_permission = 200
 
     def get_url(self):
-        return reverse('cases:details', kwargs={'slug': self.case.slug})
+        return reverse("cases:details", kwargs={"slug": self.case.slug})
 
     def test_show_note_on_letter(self):
         letter = IncomingLetterFactory(record__case=self.case)
@@ -71,25 +68,28 @@ class CaseDetailViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
         response = self.client.get(self.get_url())
         self.assertContains(response, parcel.title)
 
+
 class CaseCreateViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
-    permission = ['monitorings.add_case', ]
+    permission = ["monitorings.add_case"]
 
     def get_url(self):
-        return reverse('cases:create', kwargs={'monitoring': str(self.case.monitoring.pk)})
+        return reverse(
+            "cases:create", kwargs={"monitoring": str(self.case.monitoring.pk)}
+        )
 
 
 class CaseUpdateViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
-    permission = ['monitorings.change_case', ]
+    permission = ["monitorings.change_case"]
 
     def get_url(self):
-        return reverse('cases:update', kwargs={'slug': self.case.slug})
+        return reverse("cases:update", kwargs={"slug": self.case.slug})
 
 
 class CaseDeleteViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
-    permission = ['monitorings.delete_case', ]
+    permission = ["monitorings.delete_case"]
 
     def get_url(self):
-        return reverse('cases:delete', kwargs={'slug': self.case.slug})
+        return reverse("cases:delete", kwargs={"slug": self.case.slug})
 
 
 class CaseAutocompleteTestCase(TestCase):
@@ -97,18 +97,18 @@ class CaseAutocompleteTestCase(TestCase):
         self.factory = RequestFactory()
 
     def test_filter_by_name(self):
-        CaseFactory(name='123')
-        CaseFactory(name='456')
-        request = self.factory.get('/customer/details', data={'q': '123'})
+        CaseFactory(name="123")
+        CaseFactory(name="456")
+        request = self.factory.get("/customer/details", data={"q": "123"})
         response = CaseAutocomplete.as_view()(request)
-        self.assertContains(response, '123')
-        self.assertNotContains(response, '456')
+        self.assertContains(response, "123")
+        self.assertNotContains(response, "456")
 
 
 class SitemapTestCase(ObjectMixin, TestCase):
     def test_cases(self):
-        url = reverse('sitemaps', kwargs={'section': 'cases'})
-        needle = reverse('cases:details', kwargs={'slug': self.case.slug})
+        url = reverse("sitemaps", kwargs={"section": "cases"})
+        needle = reverse("cases:details", kwargs={"slug": self.case.slug})
         response = self.client.get(url)
         self.assertContains(response, needle)
 
@@ -117,10 +117,14 @@ class CaseQuerySetTestCase(TestCase):
     def test_find_by_email(self):
         case = CaseFactory(email="case-123@example.com")
 
-        self.assertEqual(Case.objects.by_addresses(["case-123@example.com"]).get(), case)
+        self.assertEqual(
+            Case.objects.by_addresses(["case-123@example.com"]).get(), case
+        )
 
     def test_find_by_alias(self):
         case = CaseFactory(email="case-123@example.com")
         AliasFactory(case=case, email="alias-123@example.com")
 
-        self.assertEqual(Case.objects.by_addresses(["alias-123@example.com"]).get(), case)
+        self.assertEqual(
+            Case.objects.by_addresses(["alias-123@example.com"]).get(), case
+        )

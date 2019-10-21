@@ -6,7 +6,7 @@ from .checks import test_modulators_list_settings
 
 
 class CustomAppConfig(AppConfig):
-    name = 'feder.questionaries'
+    name = "feder.questionaries"
     verbose_name = _("Questionaries")
 
     def ready(*args, **kwargs):

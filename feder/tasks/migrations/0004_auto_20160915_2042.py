@@ -7,13 +7,12 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
     dependencies = [
-        ('questionaries', '0002_auto_20160915_0432'),
-        ('tasks', '0003_auto_20160915_0613'),
+        ("questionaries", "0002_auto_20160915_0432"),
+        ("tasks", "0003_auto_20160915_0613"),
     ]
 
     operations = [
         migrations.AlterUniqueTogether(
-            name='answer',
-            unique_together={('survey', 'question')},
-        ),
+            name="answer", unique_together={("survey", "question")}
+        )
     ]

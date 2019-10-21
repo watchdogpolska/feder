@@ -13,7 +13,7 @@ from __future__ import absolute_import, unicode_literals
 import environ
 
 ROOT_DIR = environ.Path(__file__) - 3  # (/a/b/myfile.py - 3 = /)
-APPS_DIR = ROOT_DIR.path('feder')
+APPS_DIR = ROOT_DIR.path("feder")
 
 env = environ.Env()
 
@@ -21,65 +21,63 @@ env = environ.Env()
 # ------------------------------------------------------------------------------
 DJANGO_APPS = (
     # Default Django apps:
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.sites',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.sites",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
     # Useful template tags:
-    'django.contrib.sitemaps',
-    'django.contrib.humanize',
-
+    "django.contrib.sitemaps",
+    "django.contrib.humanize",
     # Admin
-    'django.contrib.admin',
+    "django.contrib.admin",
 )
 THIRD_PARTY_APPS = (
-    'crispy_forms',  # Form layouts
-    'allauth',  # registration
-    'allauth.account',  # registration
-    'allauth.socialaccount',  # registration
-    'autofixture',
-    'dal',
-    'dal_select2',
-    'formtools',
-    'mptt',
-    'atom',
-    'guardian',
-    'teryt_tree',
-    'bootstrap_pagination',
-    'rest_framework',
-    'reversion',
-    'django_filters',
+    "crispy_forms",  # Form layouts
+    "allauth",  # registration
+    "allauth.account",  # registration
+    "allauth.socialaccount",  # registration
+    "autofixture",
+    "dal",
+    "dal_select2",
+    "formtools",
+    "mptt",
+    "atom",
+    "guardian",
+    "teryt_tree",
+    "bootstrap_pagination",
+    "rest_framework",
+    "reversion",
+    "django_filters",
 )
 
 # Apps specific for this project go here.
 LOCAL_APPS = (
-    'feder.teryt',
-    'feder.users',  # custom users app
-    'feder.institutions',
-    'feder.monitorings',
-    'feder.tasks',
-    'feder.cases',
-    'feder.letters',
-    'feder.questionaries',
-    'feder.main',
-    'feder.alerts',
-    'feder.light_user',
-    'feder.letters.logs',
-    'feder.domains',
-    'feder.records.apps.RecordsConfig',
-    'feder.parcels.apps.ParcelsConfig',
+    "feder.teryt",
+    "feder.users",  # custom users app
+    "feder.institutions",
+    "feder.monitorings",
+    "feder.tasks",
+    "feder.cases",
+    "feder.letters",
+    "feder.questionaries",
+    "feder.main",
+    "feder.alerts",
+    "feder.light_user",
+    "feder.letters.logs",
+    "feder.domains",
+    "feder.records.apps.RecordsConfig",
+    "feder.parcels.apps.ParcelsConfig",
     # Your stuff: custom apps go here
 )
 
 ALLAUTH_PROVIDERS_APPS = (
-    'allauth.socialaccount.providers.github',
-    'allauth.socialaccount.providers.gitlab',
-    'allauth.socialaccount.providers.google',
-    'allauth.socialaccount.providers.twitter',
-    'allauth.socialaccount.providers.facebook',
-
+    "allauth.socialaccount.providers.github",
+    "allauth.socialaccount.providers.gitlab",
+    "allauth.socialaccount.providers.google",
+    "allauth.socialaccount.providers.twitter",
+    "allauth.socialaccount.providers.facebook",
 )
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS + ALLAUTH_PROVIDERS_APPS
@@ -88,21 +86,19 @@ INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS + ALLAUTH_PROVIDERS
 # ------------------------------------------------------------------------------
 MIDDLEWARE = (
     # Make sure djangosecure.middleware.SecurityMiddleware is listed first
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'reversion.middleware.RevisionMiddleware',
-    'feder.light_user.middleware.LightUserMiddleware',
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "reversion.middleware.RevisionMiddleware",
+    "feder.light_user.middleware.LightUserMiddleware",
 )
 
 # MIGRATIONS CONFIGURATION
 # ------------------------------------------------------------------------------
-MIGRATION_MODULES = {
-    'sites': 'feder.contrib.sites.migrations'
-}
+MIGRATION_MODULES = {"sites": "feder.contrib.sites.migrations"}
 
 # DEBUG
 # ------------------------------------------------------------------------------
@@ -112,20 +108,18 @@ DEBUG = env.bool("DJANGO_DEBUG", False)
 # FIXTURE CONFIGURATION
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-FIXTURE_DIRS
-FIXTURE_DIRS = (
-    str(APPS_DIR.path('fixtures')),
-)
+FIXTURE_DIRS = (str(APPS_DIR.path("fixtures")),)
 
 # EMAIL CONFIGURATION
 # ------------------------------------------------------------------------------
-EMAIL_BACKEND = env('DJANGO_EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend')
+EMAIL_BACKEND = env(
+    "DJANGO_EMAIL_BACKEND", default="django.core.mail.backends.smtp.EmailBackend"
+)
 
 # MANAGER CONFIGURATION
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#admins
-ADMINS = (
-    ("""Karol Breguła""", 'karol.bregula@siecobywatelska.pl'),
-)
+ADMINS = (("""Karol Breguła""", "karol.bregula@siecobywatelska.pl"),)
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#managers
 MANAGERS = ADMINS
@@ -135,9 +129,9 @@ MANAGERS = ADMINS
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#databases
 DATABASES = {
     # Raises ImproperlyConfigured exception if DATABASE_URL not in os.environ
-    'default': env.db("DATABASE_URL", default="mysql:///feder"),
+    "default": env.db("DATABASE_URL", default="mysql:///feder")
 }
-DATABASES['default']['ATOMIC_REQUESTS'] = True
+DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
 # GENERAL CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -145,10 +139,10 @@ DATABASES['default']['ATOMIC_REQUESTS'] = True
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
 # In a Windows environment this must be set to your system time zone.
-TIME_ZONE = 'UTC'
+TIME_ZONE = "UTC"
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#language-code
-LANGUAGE_CODE = 'pl'
+LANGUAGE_CODE = "pl"
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#site-id
 SITE_ID = 1
@@ -168,91 +162,89 @@ USE_TZ = True
 TEMPLATES = [
     {
         # See: https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-TEMPLATES-BACKEND
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
         # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-dirs
-        'OPTIONS': {
+        "OPTIONS": {
             # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-debug
-            'debug': DEBUG,
+            "debug": DEBUG,
             # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-loaders
             # https://docs.djangoproject.com/en/dev/ref/templates/api/#loader-types
-            'loaders': [
-                'django.template.loaders.filesystem.Loader',
-                'django.template.loaders.app_directories.Loader',
+            "loaders": [
+                "django.template.loaders.filesystem.Loader",
+                "django.template.loaders.app_directories.Loader",
             ],
             # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-context-processors
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.template.context_processors.i18n',
-                'django.template.context_processors.media',
-                'django.template.context_processors.static',
-                'django.template.context_processors.tz',
-                'django.contrib.messages.context_processors.messages',
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.template.context_processors.i18n",
+                "django.template.context_processors.media",
+                "django.template.context_processors.static",
+                "django.template.context_processors.tz",
+                "django.contrib.messages.context_processors.messages",
                 # Your stuff: custom template context processors go here
             ],
         },
-    },
+    }
 ]
 
 # See: http://django-crispy-forms.readthedocs.org/en/latest/install.html#template-packs
-CRISPY_TEMPLATE_PACK = 'bootstrap3'
+CRISPY_TEMPLATE_PACK = "bootstrap3"
 
 # STATIC FILE CONFIGURATION
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#static-root
-STATIC_ROOT = str(ROOT_DIR('staticfiles'))
+STATIC_ROOT = str(ROOT_DIR("staticfiles"))
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#static-url
-STATIC_URL = '/static/'
+STATIC_URL = "/static/"
 
 # See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#std:setting-STATICFILES_DIRS
-STATICFILES_DIRS = (
-    str(APPS_DIR.path('static')),
-)
+STATICFILES_DIRS = (str(APPS_DIR.path("static")),)
 
 # See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#staticfiles-finders
 STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 )
 
 # MEDIA CONFIGURATION
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#media-root
-MEDIA_ROOT = str(APPS_DIR('media'))
+MEDIA_ROOT = str(APPS_DIR("media"))
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#media-url
-MEDIA_URL = '/media/'
+MEDIA_URL = "/media/"
 
 # URL Configuration
 # ------------------------------------------------------------------------------
-ROOT_URLCONF = 'feder.main.urls'
+ROOT_URLCONF = "feder.main.urls"
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#wsgi-application
-WSGI_APPLICATION = 'config.wsgi.application'
+WSGI_APPLICATION = "config.wsgi.application"
 
 # AUTHENTICATION CONFIGURATION
 # ------------------------------------------------------------------------------
 AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
-    'guardian.backends.ObjectPermissionBackend',
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
+    "guardian.backends.ObjectPermissionBackend",
 )
 
 # Some really nice defaults
-ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
-SOCIALACCOUNT_EMAIL_VERIFICATION = 'optional'
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+SOCIALACCOUNT_EMAIL_VERIFICATION = "optional"
 # Custom user app defaults
 # Select the correct user model
-AUTH_USER_MODEL = 'users.User'
-LOGIN_REDIRECT_URL = 'users:redirect'
-LOGIN_URL = 'account_login'
+AUTH_USER_MODEL = "users.User"
+LOGIN_REDIRECT_URL = "users:redirect"
+LOGIN_URL = "account_login"
 
 # SLUGLIFIER
-AUTOSLUG_SLUGIFY_FUNCTION = 'feder.main.slugifier.ascii_slugify'
+AUTOSLUG_SLUGIFY_FUNCTION = "feder.main.slugifier.ascii_slugify"
 
 # LOGGING CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -263,29 +255,17 @@ AUTOSLUG_SLUGIFY_FUNCTION = 'feder.main.slugifier.ascii_slugify'
 # See http://docs.djangoproject.com/en/dev/topics/logging for
 # more details on how to customize your logging configuration.
 LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'filters': {
-        'require_debug_false': {
-            '()': 'django.utils.log.RequireDebugFalse'
-        }
-    },
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
+    "version": 1,
+    "disable_existing_loggers": False,
+    "filters": {"require_debug_false": {"()": "django.utils.log.RequireDebugFalse"}},
+    "handlers": {"console": {"class": "logging.StreamHandler"}},
+    "loggers": {
+        "django.request": {"handlers": [], "level": "ERROR", "propagate": True},
+        "feder.letters.models": {
+            "handlers": ["console"] if "test" not in environ.sys.argv else [],
+            "level": "INFO",
         },
     },
-    'loggers': {
-        'django.request': {
-            'handlers': [],
-            'level': 'ERROR',
-            'propagate': True,
-        },
-        'feder.letters.models': {
-            'handlers': ['console'] if 'test' not in environ.sys.argv else [],
-            'level': 'INFO',
-        }
-    }
 }
 
 # Your common stuff: Below this line define 3rd party library settings
@@ -302,53 +282,46 @@ FILTERS_HELP_TEXT_FILTER = False
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly"
     ],
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.BasicAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
     ),
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 100,
-    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 100,
+    "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
 }
 
 SOCIALACCOUNT_PROVIDERS = {
-    'github': {
-        'SCOPE': [
-            'user',
-        ],
-    },
-    'gilab': {'SCOPE': ['read_user', 'openid']}
+    "github": {"SCOPE": ["user"]},
+    "gilab": {"SCOPE": ["read_user", "openid"]},
 }
-EMAIL_NOTIFICATION = env('EMAIL_NOTIFICATION', default='no-reply@siecobywatelska.pl')
+EMAIL_NOTIFICATION = env("EMAIL_NOTIFICATION", default="no-reply@siecobywatelska.pl")
 
-EMAILLABS_APP_KEY = env('EMAILLABS_APP_KEY', default="Dummy")
+EMAILLABS_APP_KEY = env("EMAILLABS_APP_KEY", default="Dummy")
 
-EMAILLABS_SECRET_KEY = env('EMAILLABS_SECRET_KEY', default="Dummy")
+EMAILLABS_SECRET_KEY = env("EMAILLABS_SECRET_KEY", default="Dummy")
 
-INSTALLED_APPS += ('github_revision', )
-GITHUB_REVISION_REPO_URL = 'https://github.com/watchdogpolska/feder'
-SENDFILE_BACKEND = 'sendfile.backends.development'
+INSTALLED_APPS += ("github_revision",)
+GITHUB_REVISION_REPO_URL = "https://github.com/watchdogpolska/feder"
+SENDFILE_BACKEND = "sendfile.backends.development"
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = 200000000  # 200MB
 
 NECCESSARY_FILES = {
-    'letters.Letter': {
-        'path': 'record__case__monitoring',
-        'fields': ['eml'],
+    "letters.Letter": {"path": "record__case__monitoring", "fields": ["eml"]},
+    "letters.Attachment": {
+        "path": "letter__record__case__monitoring",
+        "fields": ["attachment"],
     },
-    'letters.Attachment': {
-        'path': 'letter__record__case__monitoring',
-        'fields': ['attachment']
+    "parcels.IncomingParcelPost": {
+        "path": "record__case__monitoring",
+        "fields": ["content"],
     },
-    'parcels.IncomingParcelPost': {
-        'path': 'record__case__monitoring',
-        'fields': ['content'],
+    "parcels.OutgoingParcelPost": {
+        "path": "record__case__monitoring",
+        "fields": ["content"],
     },
-    'parcels.OutgoingParcelPost': {
-        'path': 'record__case__monitoring',
-        'fields': ['content'],
-    }
 }

@@ -14,40 +14,110 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('cases', '0005_auto_20160917_1347'),
-        ('letters', '0007_letter_is_spam'),
+        ("cases", "0005_auto_20160917_1347"),
+        ("letters", "0007_letter_is_spam"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='EmailLog',
+            name="EmailLog",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created', model_utils.fields.AutoCreatedField(default=django.utils.timezone.now, editable=False, verbose_name='created')),
-                ('modified', model_utils.fields.AutoLastModifiedField(default=django.utils.timezone.now, editable=False, verbose_name='modified')),
-                ('email_id', models.CharField(max_length=255, verbose_name='Message-ID')),
-                ('case', models.ForeignKey(max_length='Case', on_delete=django.db.models.deletion.CASCADE, to='cases.Case')),
-                ('letter', models.ForeignKey(blank=True, max_length='Letter', null=True, on_delete=django.db.models.deletion.CASCADE, to='letters.Letter')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "created",
+                    model_utils.fields.AutoCreatedField(
+                        default=django.utils.timezone.now,
+                        editable=False,
+                        verbose_name="created",
+                    ),
+                ),
+                (
+                    "modified",
+                    model_utils.fields.AutoLastModifiedField(
+                        default=django.utils.timezone.now,
+                        editable=False,
+                        verbose_name="modified",
+                    ),
+                ),
+                (
+                    "email_id",
+                    models.CharField(max_length=255, verbose_name="Message-ID"),
+                ),
+                (
+                    "case",
+                    models.ForeignKey(
+                        max_length="Case",
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="cases.Case",
+                    ),
+                ),
+                (
+                    "letter",
+                    models.ForeignKey(
+                        blank=True,
+                        max_length="Letter",
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="letters.Letter",
+                    ),
+                ),
             ],
             options={
-                'ordering': ['created'],
-                'verbose_name': 'Email',
-                'verbose_name_plural': 'Emails',
+                "ordering": ["created"],
+                "verbose_name": "Email",
+                "verbose_name_plural": "Emails",
             },
         ),
         migrations.CreateModel(
-            name='LogRecord',
+            name="LogRecord",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created', model_utils.fields.AutoCreatedField(default=django.utils.timezone.now, editable=False, verbose_name='created')),
-                ('modified', model_utils.fields.AutoLastModifiedField(default=django.utils.timezone.now, editable=False, verbose_name='modified')),
-                ('data', jsonfield.fields.JSONField()),
-                ('email', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='logs.EmailLog', verbose_name='Email')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "created",
+                    model_utils.fields.AutoCreatedField(
+                        default=django.utils.timezone.now,
+                        editable=False,
+                        verbose_name="created",
+                    ),
+                ),
+                (
+                    "modified",
+                    model_utils.fields.AutoLastModifiedField(
+                        default=django.utils.timezone.now,
+                        editable=False,
+                        verbose_name="modified",
+                    ),
+                ),
+                ("data", jsonfield.fields.JSONField()),
+                (
+                    "email",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="logs.EmailLog",
+                        verbose_name="Email",
+                    ),
+                ),
             ],
             options={
-                'ordering': ['created'],
-                'verbose_name': 'Log record',
-                'verbose_name_plural': 'Log records',
+                "ordering": ["created"],
+                "verbose_name": "Log record",
+                "verbose_name_plural": "Log records",
             },
         ),
     ]

@@ -15,46 +15,136 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('records', '0001_initial'),
-        ('institutions', '0015_auto_20170830_1408'),
+        ("records", "0001_initial"),
+        ("institutions", "0015_auto_20170830_1408"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='IncomingParcelPost',
+            name="IncomingParcelPost",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created', django_extensions.db.fields.CreationDateTimeField(auto_now_add=True, verbose_name='created')),
-                ('modified', django_extensions.db.fields.ModificationDateTimeField(auto_now=True, verbose_name='modified')),
-                ('title', models.CharField(max_length=200, verbose_name='Title')),
-                ('content', models.FileField(upload_to='', verbose_name='Content')),
-                ('comment', models.TextField(verbose_name='Comment')),
-                ('receive_date', models.DateField(default=django.utils.timezone.now, verbose_name='Receive date')),
-                ('created_by', models.ForeignKey(help_text='Created by', on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
-                ('record', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='parcels_incomingparcelpost_related', related_query_name='parcels_incomingparcelposts', to='records.Record')),
-                ('sender', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='institutions.Institution', verbose_name='Sender')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "created",
+                    django_extensions.db.fields.CreationDateTimeField(
+                        auto_now_add=True, verbose_name="created"
+                    ),
+                ),
+                (
+                    "modified",
+                    django_extensions.db.fields.ModificationDateTimeField(
+                        auto_now=True, verbose_name="modified"
+                    ),
+                ),
+                ("title", models.CharField(max_length=200, verbose_name="Title")),
+                ("content", models.FileField(upload_to="", verbose_name="Content")),
+                ("comment", models.TextField(verbose_name="Comment")),
+                (
+                    "receive_date",
+                    models.DateField(
+                        default=django.utils.timezone.now, verbose_name="Receive date"
+                    ),
+                ),
+                (
+                    "created_by",
+                    models.ForeignKey(
+                        help_text="Created by",
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "record",
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="parcels_incomingparcelpost_related",
+                        related_query_name="parcels_incomingparcelposts",
+                        to="records.Record",
+                    ),
+                ),
+                (
+                    "sender",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="institutions.Institution",
+                        verbose_name="Sender",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Incoming parcel post',
-                'verbose_name_plural': 'Incoming parcel posts',
+                "verbose_name": "Incoming parcel post",
+                "verbose_name_plural": "Incoming parcel posts",
             },
         ),
         migrations.CreateModel(
-            name='OutgoingParcelPost',
+            name="OutgoingParcelPost",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created', django_extensions.db.fields.CreationDateTimeField(auto_now_add=True, verbose_name='created')),
-                ('modified', django_extensions.db.fields.ModificationDateTimeField(auto_now=True, verbose_name='modified')),
-                ('title', models.CharField(max_length=200, verbose_name='Title')),
-                ('content', models.FileField(upload_to='', verbose_name='Content')),
-                ('post_date', models.DateField(default=django.utils.timezone.now, verbose_name='Post date')),
-                ('created_by', models.ForeignKey(help_text='Created by', on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
-                ('recipient', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='institutions.Institution', verbose_name='Recipient')),
-                ('record', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='parcels_outgoingparcelpost_related', related_query_name='parcels_outgoingparcelposts', to='records.Record')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "created",
+                    django_extensions.db.fields.CreationDateTimeField(
+                        auto_now_add=True, verbose_name="created"
+                    ),
+                ),
+                (
+                    "modified",
+                    django_extensions.db.fields.ModificationDateTimeField(
+                        auto_now=True, verbose_name="modified"
+                    ),
+                ),
+                ("title", models.CharField(max_length=200, verbose_name="Title")),
+                ("content", models.FileField(upload_to="", verbose_name="Content")),
+                (
+                    "post_date",
+                    models.DateField(
+                        default=django.utils.timezone.now, verbose_name="Post date"
+                    ),
+                ),
+                (
+                    "created_by",
+                    models.ForeignKey(
+                        help_text="Created by",
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "recipient",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="institutions.Institution",
+                        verbose_name="Recipient",
+                    ),
+                ),
+                (
+                    "record",
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="parcels_outgoingparcelpost_related",
+                        related_query_name="parcels_outgoingparcelposts",
+                        to="records.Record",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Outgoing parcel post',
-                'verbose_name_plural': 'Outgoing parcel posts',
+                "verbose_name": "Outgoing parcel post",
+                "verbose_name_plural": "Outgoing parcel posts",
             },
         ),
     ]

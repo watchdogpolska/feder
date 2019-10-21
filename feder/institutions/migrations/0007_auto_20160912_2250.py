@@ -6,15 +6,16 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-    dependencies = [
-        ('institutions', '0006_auto_20160907_2016'),
-    ]
+    dependencies = [("institutions", "0006_auto_20160907_2016")]
 
     operations = [
         migrations.AlterField(
-            model_name='email',
-            name='priority',
-            field=models.SmallIntegerField(default=0, help_text='Respect of confidence',
-                                           verbose_name='Priority of usage'),
-        ),
+            model_name="email",
+            name="priority",
+            field=models.SmallIntegerField(
+                default=0,
+                help_text="Respect of confidence",
+                verbose_name="Priority of usage",
+            ),
+        )
     ]

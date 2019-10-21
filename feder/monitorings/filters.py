@@ -26,39 +26,45 @@ class DisabledWhenCommunityFilter(DisabledWhenFilterMixin, CommunityFilter):
 class MonitoringFilter(DisabledWhenFilterSetMixin, django_filters.FilterSet):
     created = django_filters.DateRangeFilter(label=_("Creation date"))
     voivodeship = DisabledWhenVoivodeshipFilter(
-        widget=autocomplete.ModelSelect2(url='teryt:voivodeship-autocomplete'),
-        disabled_when=['county', 'community']
+        widget=autocomplete.ModelSelect2(url="teryt:voivodeship-autocomplete"),
+        disabled_when=["county", "community"],
     )
     county = DisabledWhenCountyFilter(
-        widget=autocomplete.ModelSelect2(url='teryt:county-autocomplete',
-                                         forward=['voivodeship']),
-        disabled_when=['community']
-
+        widget=autocomplete.ModelSelect2(
+            url="teryt:county-autocomplete", forward=["voivodeship"]
+        ),
+        disabled_when=["community"],
     )
     community = DisabledWhenCommunityFilter(
-        widget=autocomplete.ModelSelect2(url='teryt:community-autocomplete',
-                                         forward=['county']),
-        disabled_when=[]
+        widget=autocomplete.ModelSelect2(
+            url="teryt:community-autocomplete", forward=["county"]
+        ),
+        disabled_when=[],
     )
 
     def __init__(self, *args, **kwargs):
         super(MonitoringFilter, self).__init__(*args, **kwargs)
-        self.filters['name'].lookup_expr = 'icontains'
-        self.filters['name'].label = _("Name")
+        self.filters["name"].lookup_expr = "icontains"
+        self.filters["name"].label = _("Name")
         # Limit users select to which have any cases
-        qs = (get_user_model().objects.
-              annotate(case_count=Count('case')).
-              filter(case_count__gt=0).all())
-        self.filters['user'].extra['queryset'] = qs
-        self.filters['user'].widget = autocomplete.ModelSelect2(url='users:autocomplete')
+        qs = (
+            get_user_model()
+            .objects.annotate(case_count=Count("case"))
+            .filter(case_count__gt=0)
+            .all()
+        )
+        self.filters["user"].extra["queryset"] = qs
+        self.filters["user"].widget = autocomplete.ModelSelect2(
+            url="users:autocomplete"
+        )
 
     class Meta:
         model = Monitoring
-        fields = ['name', 'user', 'created']
-        order_by = ['created', '-created', '-case_count']
+        fields = ["name", "user", "created"]
+        order_by = ["created", "-created", "-case_count"]
         order_by = [
-            ('created', _('Creation date (ascending)')),
-            ('-created', _('Creation date (descending)')),
-            ('case_count', _('Cases count (ascending)')),
-            ('-case_count', _('Cases count (descending)')),
+            ("created", _("Creation date (ascending)")),
+            ("-created", _("Creation date (descending)")),
+            ("case_count", _("Cases count (ascending)")),
+            ("-case_count", _("Cases count (descending)")),
         ]

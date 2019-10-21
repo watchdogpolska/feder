@@ -7,15 +7,14 @@ from django.utils.functional import SimpleLazyObject
 
 from feder.light_user.models import LightUser
 
-COOKIE_NAME = 'light_user_id'
+COOKIE_NAME = "light_user_id"
 
 signer = Signer("LightUserMiddleware")
 
 
 def new_user(request):
     user = request.user if request.user.is_authenticated() else None
-    lu = LightUser.objects.create(user=user,
-                                  ip=request.META.get('REMOTE_ADDR'))
+    lu = LightUser.objects.create(user=user, ip=request.META.get("REMOTE_ADDR"))
     request._light_user_set_id = lu.id
     request._cached_light_user = lu
     return lu
@@ -28,9 +27,9 @@ def get_light_user_or_none(request):
     :param request:
     :return: LightUser instance
     """
-    if hasattr(request, '_cached_light_user'):
+    if hasattr(request, "_cached_light_user"):
         return request._cached_light_user
-    if 'light_user_id' not in request.COOKIES:
+    if "light_user_id" not in request.COOKIES:
         return None
 
     try:
@@ -51,7 +50,7 @@ def get_light_user(request):
     :param request:
     :return: LightUser instance
     """
-    if hasattr(request, '_cached_light_user'):
+    if hasattr(request, "_cached_light_user"):
         return request._cached_light_user
     if COOKIE_NAME not in request.COOKIES:
         new_user(request)
@@ -72,8 +71,8 @@ class LightUserMiddleware(MiddlewareMixin):
         request.light_user_new = SimpleLazyObject(lambda: get_light_user(request))
 
     def process_response(self, request, response):
-        if hasattr(request, '_light_user_reset'):
+        if hasattr(request, "_light_user_reset"):
             response.delete_cookie(COOKIE_NAME)
-        if hasattr(request, '_light_user_set_id'):
+        if hasattr(request, "_light_user_set_id"):
             response.set_cookie(COOKIE_NAME, signer.sign(request._light_user_set_id))
         return response

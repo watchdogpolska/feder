@@ -28,33 +28,25 @@ pod adresem ``http://localhost:1080``.
 Jak uruchomić automatyczne testy?
 ---------------------------------
 
-Do prawidłowego uruchomienia automatycznych testów bezwzględnie wymagane jest zainstalowanie wszystkich deweloperskich pakietów. Można to osiągnąc poprzez::
+Do prawidłowego uruchomienia automatycznych testów bezwzględnie wymagane jest zainstalowanie wszystkich deweloperskich pakietów. Można to osiągnąć poprzez::
 
-    $ pip install -r requirements/dev.txt;
+    $ make build
 
 Następnie należy wywołać::
 
-    $ python manage.py test
-
-Warto wyróznić kilka przełączników, które mogą zapewnić sprawniejsze wykorzystanie testów:
-
-- ``-v2`` oznacza, że będą na bieżąco wypisywane nazwy wszystkich testów wraz z ich rezultatem,
-- ``--keepdb`` oznacza, że struktura bazy danych nie zostanie skasowana po wykonaniu testów, co pozwala oszczędzić jej tworzenie każdorazowo, co jednak uniemożliwi wykrycie testów np. w migracjach,
-- ``--parallel 4`` oznacza, że testy będa wykonywane równolegle, a wcześniej zostaną utworzone 4 identyczne struktury bazy danych.
-
-.. warning:: Warto zaznaczyć, że zrównoleglenie testów nie oznacza, że będą one wykonywane szybciej niż proces utworzenia dodatkowych baz danych może się wydłużyć o więcej niż sam proces wykonywania testów.
+    $ make test
 
 
 Jak wygenerować dokumentacje?
 -----------------------------
 
-Do prawidłowego uruchomienia automatycznych testów bezwzględnie wymagane jest zainstalowanie wszystkich deweloperskich pakietów. Można to osiągnąc poprzez::
+Do prawidłowego zbudowania dokumentacji bezwzględnie wymagane jest zainstalowanie wszystkich deweloperskich pakietów. Można to osiągnąć poprzez::
 
-    $ pip install -r requirements/dev.txt;
+    $ make build
 
-Nastepnie należy przejść do katalogu ``docs`` i wywołać::
+Następnie wywołać::
 
-    $ make html
+    $ make docs
 
 Warto zaznaczyć, że aktualna dokumentacja jest budowana automatycznie i publikowana na `Read the Docs`_.
 

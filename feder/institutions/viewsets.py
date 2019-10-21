@@ -12,18 +12,19 @@ class InstitutionFilter(filters.FilterSet):
 
     def __init__(self, *args, **kwargs):
         super(InstitutionFilter, self).__init__(*args, **kwargs)
-        self.filters['name'].lookup_expr = 'icontains'
+        self.filters["name"].lookup_expr = "icontains"
 
     class Meta:
         model = Institution
-        fields = ['name', 'tags', 'jst', 'regon']
+        fields = ["name", "tags", "jst", "regon"]
 
 
 class InstitutionViewSet(viewsets.ModelViewSet):
-    queryset = (Institution.objects.
-                select_related('jst').
-                prefetch_related('tags','parents').
-                all())
+    queryset = (
+        Institution.objects.select_related("jst")
+        .prefetch_related("tags", "parents")
+        .all()
+    )
     serializer_class = InstitutionSerializer
     filter_backends = (filters.DjangoFilterBackend,)
     filter_class = InstitutionFilter

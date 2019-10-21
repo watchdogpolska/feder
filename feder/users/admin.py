@@ -24,7 +24,7 @@ class MyUserCreationForm(UserCreationForm):
             User.objects.get(username=username)
         except User.DoesNotExist:
             return username
-        raise forms.ValidationError(self.error_messages['duplicate_username'])
+        raise forms.ValidationError(self.error_messages["duplicate_username"])
 
 
 @admin.register(User)

@@ -7,14 +7,14 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('letters', '0015_letter_way'),
-    ]
+    dependencies = [("letters", "0015_letter_way")]
 
     operations = [
         migrations.AlterField(
-            model_name='letter',
-            name='way',
-            field=models.IntegerField(choices=[(0, 'Traditional'), (1, 'E-mail'), (2, 'Other')], default=1),
-        ),
+            model_name="letter",
+            name="way",
+            field=models.IntegerField(
+                choices=[(0, "Traditional"), (1, "E-mail"), (2, "Other")], default=1
+            ),
+        )
     ]

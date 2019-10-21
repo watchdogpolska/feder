@@ -7,13 +7,6 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('letters', '0019_remove_letter_case'),
-    ]
+    dependencies = [("letters", "0019_remove_letter_case")]
 
-    operations = [
-        migrations.RemoveField(
-            model_name='letter',
-            name='way',
-        ),
-    ]
+    operations = [migrations.RemoveField(model_name="letter", name="way")]

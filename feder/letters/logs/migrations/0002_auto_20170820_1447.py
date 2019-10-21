@@ -7,20 +7,31 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('logs', '0001_initial'),
-    ]
+    dependencies = [("logs", "0001_initial")]
 
     operations = [
         migrations.AddField(
-            model_name='emaillog',
-            name='status',
-            field=models.CharField(choices=[(b'open', 'Open'), (b'ok', 'Open'), (b'spambounce', 'Open'), (b'softbounce', 'Open'), (b'hardbounce', 'Open'), (b'dropped', 'Open'), (b'deferred', 'Deferred'), (b'unknown', 'Unknown')], default=b'unknown', max_length=20),
+            model_name="emaillog",
+            name="status",
+            field=models.CharField(
+                choices=[
+                    (b"open", "Open"),
+                    (b"ok", "Open"),
+                    (b"spambounce", "Open"),
+                    (b"softbounce", "Open"),
+                    (b"hardbounce", "Open"),
+                    (b"dropped", "Open"),
+                    (b"deferred", "Deferred"),
+                    (b"unknown", "Unknown"),
+                ],
+                default=b"unknown",
+                max_length=20,
+            ),
         ),
         migrations.AddField(
-            model_name='emaillog',
-            name='to',
-            field=models.CharField(default='', max_length=255, verbose_name='To'),
+            model_name="emaillog",
+            name="to",
+            field=models.CharField(default="", max_length=255, verbose_name="To"),
             preserve_default=False,
         ),
     ]

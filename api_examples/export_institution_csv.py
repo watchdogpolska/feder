@@ -32,7 +32,6 @@ from urllib.parse import urljoin
 
 
 class Client(object):
-
     def __init__(self, start, s=None):
         self.start = start
         self.s = s or requests.Session()
@@ -45,35 +44,42 @@ class Client(object):
             if resp.status_code != 200:
                 return
             data = resp.json()
-            if data.get('next'):
-                q.put(data['next'])
-            for row in data['results']:
+            if data.get("next"):
+                q.put(data["next"])
+            for row in data["results"]:
                 yield row
+
 
 JMES_DEFAULT = "{name: name, url:url, pk:pk, email:email, tags:join(',',tags), jst:jst, regon:regon}"
 
 
 class Command(object):
-
     def __init__(self, argv):
         self.argv = argv
         self.args = self.get_build_args(argv[1:])
-        self.s = requests.Session() if not self.args.cache else requests_cache.CachedSession()
+        self.s = (
+            requests.Session()
+            if not self.args.cache
+            else requests_cache.CachedSession()
+        )
 
     def get_build_args(self, argv):
         parser = argparse.ArgumentParser()
-        parser.add_argument('--output',
-                            required=True,
-                            type=argparse.FileType('w'),
-                            help="Output CSV-file")
-        parser.add_argument('--start',
-                            required=True,
-                            help="Start URL")
-        parser.add_argument('--jmes', type=jmespath.compile,
-                            required=False,
-                            help='JMESPath to convert values (default: "{}")'.format(JMES_DEFAULT),
-                            default=jmespath.compile(JMES_DEFAULT))
-        parser.add_argument('--cache', action='store_true', help="Enable cache")
+        parser.add_argument(
+            "--output",
+            required=True,
+            type=argparse.FileType("w"),
+            help="Output CSV-file",
+        )
+        parser.add_argument("--start", required=True, help="Start URL")
+        parser.add_argument(
+            "--jmes",
+            type=jmespath.compile,
+            required=False,
+            help='JMESPath to convert values (default: "{}")'.format(JMES_DEFAULT),
+            default=jmespath.compile(JMES_DEFAULT),
+        )
+        parser.add_argument("--cache", action="store_true", help="Enable cache")
         return parser.parse_args(argv)
 
     def run(self):
@@ -90,6 +96,7 @@ class Command(object):
         writer.writeheader()
         for item in tqdm.tqdm(itertools.chain([first], data)):
             writer.writerow(self.args.jmes.search(item))
+
 
 if __name__ == "__main__":
     sys.exit(Command(sys.argv).run())

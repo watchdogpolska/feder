@@ -8,14 +8,14 @@ import django.db.models.deletion
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('records', '0001_initial'),
-    ]
+    dependencies = [("records", "0001_initial")]
 
     operations = [
         migrations.AlterField(
-            model_name='record',
-            name='case',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='cases.Case'),
-        ),
+            model_name="record",
+            name="case",
+            field=models.ForeignKey(
+                null=True, on_delete=django.db.models.deletion.CASCADE, to="cases.Case"
+            ),
+        )
     ]

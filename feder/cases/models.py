@@ -15,67 +15,80 @@ from feder.monitorings.models import Monitoring
 
 class CaseQuerySet(models.QuerySet):
     def with_record_count(self):
-        return self.annotate(record_count=models.Count('record'))
+        return self.annotate(record_count=models.Count("record"))
 
     def area(self, jst):
-        return self.filter(institution__jst__tree_id=jst.tree_id,
-                           institution__jst__lft__range=(jst.lft, jst.rght))
+        return self.filter(
+            institution__jst__tree_id=jst.tree_id,
+            institution__jst__lft__range=(jst.lft, jst.rght),
+        )
 
     def with_milestone(self):
         from feder.records.models import Record
+
         queryset = Record.objects.for_milestone().all()
-        return self.prefetch_related(Prefetch(lookup='record_set',
-                                              queryset=queryset,
-                                              to_attr='milestone'))
+        return self.prefetch_related(
+            Prefetch(lookup="record_set", queryset=queryset, to_attr="milestone")
+        )
 
     def with_letter(self):
         from feder.records.models import Record
         from feder.letters.models import Letter
-        record_queryset = Record.objects.with_author().exclude(letters_letters__is_spam=Letter.SPAM.spam).all()
-        return self.prefetch_related(Prefetch(lookup='record_set',
-                                              queryset=record_queryset))
+
+        record_queryset = (
+            Record.objects.with_author()
+            .exclude(letters_letters__is_spam=Letter.SPAM.spam)
+            .all()
+        )
+        return self.prefetch_related(
+            Prefetch(lookup="record_set", queryset=record_queryset)
+        )
 
     def by_msg(self, message):
         email_object = message.get_email_object()
         addresses = []
         addresses += message.to_addresses
-        if 'Envelope-To' in email_object:
-            addresses += [email_object.get('Envelope-To'), ]
+        if "Envelope-To" in email_object:
+            addresses += [email_object.get("Envelope-To")]
         return self.by_addresses(addresses)
 
     def by_addresses(self, addresses):
-        return self.filter(
-            Q(email__in=addresses) | Q(alias__email__in=addresses)
-        )
+        return self.filter(Q(email__in=addresses) | Q(alias__email__in=addresses))
 
     def with_record_max(self):
-        return self.annotate(record_max=Max('record__created'))
+        return self.annotate(record_max=Max("record__created"))
 
 
 @python_2_unicode_compatible
 class Case(TimeStampedModel):
     name = models.CharField(verbose_name=_("Name"), max_length=50)
-    slug = AutoSlugField(populate_from='name', verbose_name=_("Slug"), unique=True)
+    slug = AutoSlugField(populate_from="name", verbose_name=_("Slug"), unique=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    monitoring = models.ForeignKey(Monitoring, on_delete=models.CASCADE, verbose_name=_("Monitoring"))
-    institution = models.ForeignKey(Institution, on_delete=models.CASCADE, verbose_name=_("Institution"))
+    monitoring = models.ForeignKey(
+        Monitoring, on_delete=models.CASCADE, verbose_name=_("Monitoring")
+    )
+    institution = models.ForeignKey(
+        Institution, on_delete=models.CASCADE, verbose_name=_("Institution")
+    )
     email = models.CharField(max_length=75, db_index=True, unique=True)
     objects = CaseQuerySet.as_manager()
 
     class Meta:
         verbose_name = _("Case")
         verbose_name_plural = _("Case")
-        ordering = ['created', ]
-        get_latest_by = 'created'
+        ordering = ["created"]
+        get_latest_by = "created"
 
     def __str__(self):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('cases:details', kwargs={'slug': self.slug})
+        return reverse("cases:details", kwargs={"slug": self.slug})
 
     def update_email(self, commit=True):
-        self.email = settings.CASE_EMAIL_TEMPLATE.format(pk=self.pk, domain=self.monitoring.domain.name)
+        self.email = settings.CASE_EMAIL_TEMPLATE.format(
+            pk=self.pk, domain=self.monitoring.domain.name
+        )
         if commit:
             self.save()
 

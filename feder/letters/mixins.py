@@ -10,6 +10,7 @@ class LetterObjectFeedMixin(object):
         kwargs_name (str): name used in urlpatterns
         model (model): model used to select object related to Letter
     """
+
     model = None
     filter_field = None
     kwargs_name = None
@@ -21,6 +22,8 @@ class LetterObjectFeedMixin(object):
         return obj.get_absolute_url()
 
     def get_items(self, obj):
-        return (Letter.objects.with_feed_items().
-                filter(**{self.filter_field: obj}).
-                order_by('-created')[:30])
+        return (
+            Letter.objects.with_feed_items()
+            .filter(**{self.filter_field: obj})
+            .order_by("-created")[:30]
+        )
