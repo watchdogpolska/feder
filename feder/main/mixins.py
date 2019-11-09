@@ -9,7 +9,7 @@ from guardian.shortcuts import assign_perm
 from sendfile import sendfile
 
 
-class ExtraListMixin(object):
+class ExtraListMixin:
     """Mixins for view to add additional paginated object list
 
     Attributes:
@@ -53,7 +53,7 @@ class ExtraListMixin(object):
         )
 
     def get_context_data(self, **kwargs):
-        context = super(ExtraListMixin, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         object_list = self.get_object_list(self.object)
         context[self.extra_list_context] = self.paginator(object_list)
         return context
@@ -93,16 +93,16 @@ class AttrPermissionRequiredMixin(RaisePermissionRequiredMixin):
         return obj
 
     def get_permission_object(self):
-        obj = super(AttrPermissionRequiredMixin, self).get_object()
+        obj = super().get_object()
         return self._resolve_path(obj, self.permission_attribute)
 
     def get_object(self):
         if not hasattr(self, "object"):
-            self.object = super(AttrPermissionRequiredMixin, self).get_object()
+            self.object = super().get_object()
         return self.object
 
 
-class AutocompletePerformanceMixin(object):
+class AutocompletePerformanceMixin:
     """A mixin to improve autocomplete to limit SELECTed fields
 
     Attributes:
@@ -112,9 +112,7 @@ class AutocompletePerformanceMixin(object):
     select_only = None
 
     def choices_for_request(self, *args, **kwargs):
-        qs = super(AutocompletePerformanceMixin, self).choices_for_request(
-            *args, **kwargs
-        )
+        qs = super().choices_for_request(*args, **kwargs)
         if self.select_only:
             qs = qs.only(*self.select_only)
         return qs
@@ -132,13 +130,13 @@ class DisabledWhenFilterSetMixin(django_filters.filterset.BaseFilterSet):
                 )  # legacy-filter compatible
                 if not enabled_test(self.form.cleaned_data):
                     del self.filters[name]
-        return super(DisabledWhenFilterSetMixin, self).qs
+        return super().qs
 
 
-class DisabledWhenFilterMixin(object):
+class DisabledWhenFilterMixin:
     def __init__(self, *args, **kwargs):
         self.disabled_when = kwargs.pop("disabled_when", [])
-        super(DisabledWhenFilterMixin, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def check_enabled(self, form_data):
         return not any(form_data[field] for field in self.disabled_when)

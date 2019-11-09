@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from django.urls import reverse
 from django.test import RequestFactory, TestCase
 from django.utils.encoding import force_text
@@ -70,7 +69,7 @@ class InstitutionSerializerTestCase(TestCase):
         self.assertEqual(Institution.objects.count(), 1)  # updated
 
 
-class ObjectMixin(object):
+class ObjectMixin:
     def setUp(self):
         self.user = UserFactory(username="john")
         self.institution = InstitutionFactory()

@@ -66,9 +66,9 @@ class MonitoringFilterTestCase(TestCase):
         self.assertEqual(len(mock_qs.all().mock_calls), 1, mock_qs.all().mock_calls)
 
 
-class ObjectMixin(object):
+class ObjectMixin:
     def setUp(self):
-        super(ObjectMixin, (self)).setUp()
+        super().setUp()
         self.user = UserFactory(username="john")
         self.monitoring = self.permission_object = MonitoringFactory(subject="Wniosek")
 
@@ -116,13 +116,13 @@ class MonitoringListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
 
         response = self.client.get(
             reverse("monitorings:list")
-            + "?voivodeship={0}".format(self.case.institution.jst.id)
+            + "?voivodeship={}".format(self.case.institution.jst.id)
         )
         self.assertContains(response, self.case.monitoring)
         self.assertNotContains(response, self.monitoring)
 
 
-class IncomingParcelFactory(object):
+class IncomingParcelFactory:
     pass
 
 

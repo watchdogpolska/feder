@@ -1,4 +1,3 @@
-from __future__ import unicode_literals
 from atom.views import CreateMessageMixin, DeleteMessageMixin, UpdateMessageMixin
 from braces.views import (
     FormValidMessageMixin,
@@ -32,7 +31,7 @@ class CaseListView(SelectRelatedMixin, FilterView):
     paginate_by = 25
 
     def get_queryset(self):
-        return super(CaseListView, self).get_queryset().with_record_count()
+        return super().get_queryset().with_record_count()
 
 
 class CaseDetailView(SelectRelatedMixin, PrefetchRelatedMixin, DetailView):
@@ -41,7 +40,7 @@ class CaseDetailView(SelectRelatedMixin, PrefetchRelatedMixin, DetailView):
     prefetch_related = ["record_set"]
 
     def get_queryset(self):
-        return super(CaseDetailView, self).get_queryset().with_milestone()
+        return super().get_queryset().with_milestone()
 
 
 class CaseCreateView(
@@ -59,12 +58,12 @@ class CaseCreateView(
         return self.monitoring
 
     def get_form_kwargs(self):
-        kw = super(CaseCreateView, self).get_form_kwargs()
+        kw = super().get_form_kwargs()
         kw["monitoring"] = self.monitoring
         return kw
 
     def get_context_data(self, **kwargs):
-        context = super(CaseCreateView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context["monitoring"] = self.monitoring
         return context
 
@@ -81,7 +80,7 @@ class CaseUpdateView(
     permission_required = "monitorings.change_case"
 
     def get_permission_object(self):
-        return super(CaseUpdateView, self).get_permission_object().monitoring
+        return super().get_permission_object().monitoring
 
 
 class CaseDeleteView(RaisePermissionRequiredMixin, DeleteMessageMixin, DeleteView):
@@ -90,7 +89,7 @@ class CaseDeleteView(RaisePermissionRequiredMixin, DeleteMessageMixin, DeleteVie
     permission_required = "monitorings.delete_case"
 
     def get_permission_object(self):
-        return super(CaseDeleteView, self).get_permission_object().monitoring
+        return super().get_permission_object().monitoring
 
 
 class CaseAutocomplete(autocomplete.Select2QuerySetView):
@@ -118,7 +117,5 @@ class CaseFindAutocomplete(autocomplete.Select2QuerySetView):
 
     def get_result_label(self, result):
         return "#{} - {} - {}".format(
-            six.text_type(result.pk),
-            six.text_type(result.institution),
-            six.text_type(result),
+            str(result.pk), str(result.institution), str(result)
         )

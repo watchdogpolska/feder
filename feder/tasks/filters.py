@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import django_filters
 from dal import autocomplete
 from django.utils.translation import ugettext_lazy as _
@@ -13,7 +12,7 @@ class TaskFilter(django_filters.FilterSet):
     )
 
     def __init__(self, *args, **kwargs):
-        super(TaskFilter, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.filters["name"].lookup_expr = "icontains"
         self.filters["name"].label = _("Name")
         self.filters["case"].widget = autocomplete.ModelSelect2(

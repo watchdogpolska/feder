@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from atom.ext.crispy_forms.forms import SingleButtonMixin
 from braces.forms import UserKwargModelFormMixin
 from dal import autocomplete
@@ -10,7 +9,7 @@ from .models import Case
 class CaseForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.monitoring = kwargs.pop("monitoring", None)
-        super(CaseForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.instance.user = self.user
         if self.monitoring:
             self.instance.monitoring = self.monitoring

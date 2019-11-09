@@ -26,9 +26,9 @@ class MailField(FileField):
 
 class LetterFactory(factory.django.DjangoModelFactory):
     record = factory.SubFactory(RecordFactory)
-    title = factory.Sequence("title-letter-{0}".format)
-    body = factory.Sequence("body-{0}".format)
-    quote = factory.Sequence("quote-{0}".format)
+    title = factory.Sequence("title-letter-{}".format)
+    body = factory.Sequence("body-{}".format)
+    quote = factory.Sequence("quote-{}".format)
 
     class Meta:
         model = Letter
@@ -36,7 +36,7 @@ class LetterFactory(factory.django.DjangoModelFactory):
 
 class IncomingLetterFactory(LetterFactory):
     author_institution = factory.SubFactory(InstitutionFactory)
-    email = factory.Sequence("xxx-{0}@example.com".format)
+    email = factory.Sequence("xxx-{}@example.com".format)
     note = factory.fuzzy.FuzzyText()
     eml = MailField()
 

@@ -26,7 +26,7 @@ def render_form(form):
 
 class QuestionObjectMixin(ObjectMixin):
     def setUp(self):
-        super(QuestionObjectMixin, (self)).setUp()
+        super().setUp()
         self.question = CharQuestionFactory(questionary=self.questionary, position=0)
 
 

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from atom.ext.crispy_forms.forms import SingleButtonMixin
 from atom.ext.guardian.forms import TranslatedUserObjectPermissionsForm
 from braces.forms import UserKwargModelFormMixin
@@ -13,7 +12,7 @@ from .models import Monitoring
 
 class MonitoringForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
     def __init__(self, *args, **kwargs):
-        super(MonitoringForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         if not self.instance.pk:  # disable fields for create
             del self.fields["notify_alert"]
         self.instance.user = self.user

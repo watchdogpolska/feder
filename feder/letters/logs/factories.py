@@ -1,4 +1,3 @@
-# coding=utf-8
 from collections import OrderedDict
 
 import factory.fuzzy
@@ -31,7 +30,7 @@ def get_emaillabs_row(sender_from="sprawa@example.com", **values):
 class EmailLogFactory(factory.django.DjangoModelFactory):
     status = factory.Iterator(OrderedDict(STATUS).keys())
     case = factory.SubFactory("feder.cases.factories.CaseFactory")
-    email_id = factory.Sequence("emaillog-email_id-{0}".format)
+    email_id = factory.Sequence("emaillog-email_id-{}".format)
 
     @factory.lazy_attribute
     def to(self):

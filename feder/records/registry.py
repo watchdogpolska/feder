@@ -1,4 +1,4 @@
-class TypeRegistry(object):
+class TypeRegistry:
     def __init__(self):
         self.data = {}
 

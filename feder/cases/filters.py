@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import django_filters
 from dal import autocomplete
 from django.utils.translation import ugettext_lazy as _
@@ -10,7 +9,7 @@ class CaseFilter(django_filters.FilterSet):
     created = django_filters.DateRangeFilter(label=_("Creation date"))
 
     def __init__(self, *args, **kwargs):
-        super(CaseFilter, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.filters["name"].lookup_expr = "icontains"
         self.filters["name"].label = _("Name")
         self.filters["monitoring"].field.widget = autocomplete.ModelSelect2(

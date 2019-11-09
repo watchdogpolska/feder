@@ -11,5 +11,5 @@ class JSTListView(ListView):
     model = JST
 
     def get_queryset(self):
-        qs = super(JSTListView, self).get_queryset()
+        qs = super().get_queryset()
         return qs.voivodeship()

@@ -54,7 +54,7 @@ class TaskListView(SelectRelatedMixin, FilterView):
     paginate_by = 25
 
     def get_context_data(self, **kwargs):
-        context = super(TaskListView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context["stats"] = self.object_list.survey_stats()
         return context
 
@@ -75,7 +75,7 @@ class TaskDetailView(SelectRelatedMixin, PrefetchRelatedMixin, DetailView):
             return None
 
     def get_context_data(self, **kwargs):
-        context = super(TaskDetailView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context["formset"] = AnswerFormSet(questionary=self.object.questionary)
         context["user_survey"] = self.get_user_survey()
         return context
@@ -88,7 +88,7 @@ class TaskSurveyView(SelectRelatedMixin, PrefetchRelatedMixin, DetailView):
     template_name_suffix = "_survey"
 
     def get_context_data(self, **kwargs):
-        context = super(TaskSurveyView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         survey_list = (
             Survey.objects.for_task(self.object).with_user().with_full_answer().all()
         )
@@ -117,12 +117,12 @@ class TaskCreateView(
         return self.case.monitoring
 
     def get_form_kwargs(self):
-        kw = super(TaskCreateView, self).get_form_kwargs()
+        kw = super().get_form_kwargs()
         kw["case"] = self.case
         return kw
 
     def get_context_data(self, **kwargs):
-        context = super(TaskCreateView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context["case"] = self.case
         return context
 
@@ -153,7 +153,7 @@ class SurveyDeleteView(LoginRequiredMixin, DeleteMessageMixin, DeleteView):
     slug_field = "task_id"
 
     def get_queryset(self, *args, **kwargs):
-        qs = super(SurveyDeleteView, self).get_queryset()
+        qs = super().get_queryset()
         return qs.of_user(self.request.user, self.request.light_user).with_full_answer()
 
     def get_success_url(self):
@@ -206,7 +206,7 @@ class SurveyFillView(FormView):
             return None
 
     def get_form_kwargs(self):
-        kwargs = super(SurveyFillView, self).get_form_kwargs()
+        kwargs = super().get_form_kwargs()
         kwargs["task"] = self.task
         kwargs["instance"] = self.object
         return kwargs
@@ -250,7 +250,7 @@ class SurveyFillView(FormView):
         return redirect(self.get_success_url())
 
     def get_context_data(self, **kwargs):
-        context = super(SurveyFillView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context["formset"] = self.formset
         context["object"] = self.object
         context["task"] = self.task

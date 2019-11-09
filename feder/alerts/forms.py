@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from atom.ext.crispy_forms.forms import SingleButtonMixin
 from braces.forms import UserKwargModelFormMixin
 from django import forms
@@ -9,7 +8,7 @@ from .models import Alert
 class AlertForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.monitoring = kwargs.pop("monitoring", None)
-        super(AlertForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         if not self.instance.pk and not self.user.is_anonymous:
             self.instance.author = self.user
         if self.monitoring:

@@ -33,7 +33,7 @@ class QuestionCreateView(
         return self.questionary.monitoring
 
     def get_form_kwargs(self):
-        kw = super(QuestionCreateView, self).get_form_kwargs()
+        kw = super().get_form_kwargs()
         kw["questionary"] = self.questionary
         return kw
 

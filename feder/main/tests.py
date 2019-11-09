@@ -6,7 +6,7 @@ from guardian.shortcuts import assign_perm
 from feder.users.factories import UserFactory
 
 
-class PermissionStatusMixin(object):
+class PermissionStatusMixin:
     """Mixin to verify object permission status codes for different users
 
     Require user with username='john' and password='pass'
@@ -26,7 +26,7 @@ class PermissionStatusMixin(object):
     status_has_permission = 200
 
     def setUp(self):
-        super(PermissionStatusMixin, self).setUp()
+        super().setUp()
 
         self.user = getattr(self, "user", UserFactory(username="john"))
 

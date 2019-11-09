@@ -10,4 +10,4 @@ class LetterConfig(AppConfig):
         from . import signals
         from . import types
 
-        super(LetterConfig, self).ready()
+        super().ready()

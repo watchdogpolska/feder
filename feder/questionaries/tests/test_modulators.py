@@ -20,8 +20,8 @@ from ..modulator import (
 from ...tasks.forms import AnswerForm
 
 
-class ModulatorMixin(object):
-    answer_text_cls = six.string_types
+class ModulatorMixin:
+    answer_text_cls = (str,)
 
     def setUp(self):
         self.question = Question(genre=self.tested_cls.name)
@@ -48,19 +48,19 @@ class ModulatorMixin(object):
         """Tests data format in list_create_question_fields.
         """
         for name, field in self.tested_cls().list_create_question_fields():
-            self.assertIsInstance(name, six.string_types)
+            self.assertIsInstance(name, (str,))
             self.assertIsInstance(field, Field)
 
     def test_list_create_answer_fields(self):
         for name, field in self.tested_cls().list_create_answer_fields(
             self.question.definition
         ):
-            self.assertIsInstance(name, six.string_types)
+            self.assertIsInstance(name, (str,))
             self.assertIsInstance(field, Field)
 
     def test_get_label_text(self):
         label = self.tested_cls().get_label_text(self.question.definition)
-        self.assertIsInstance(label, six.string_types)
+        self.assertIsInstance(label, (str,))
 
     def test_get_answer_text(self,):
         text = self.tested_cls().get_answer_text(self.question.definition, self.content)
@@ -127,7 +127,7 @@ class JSTModulatorTestCase(ModulatorMixin, TestCase):
 
     def setUp(self):
         self.jst = JSTFactory(pk=25)
-        super(JSTModulatorTestCase, self).setUp()
+        super().setUp()
 
 
 class LetterChoiceModulatorTestCase(ModulatorMixin, TestCase):

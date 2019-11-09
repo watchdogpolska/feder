@@ -26,7 +26,7 @@ class QuestionaryListView(UserKwargFilterSetMixin, SelectRelatedMixin, FilterVie
     paginate_by = 25
 
     def get_filterset_kwargs(self, *args, **kwargs):
-        kwargs = super(QuestionaryListView, self).get_filterset_kwargs(*args, **kwargs)
+        kwargs = super().get_filterset_kwargs(*args, **kwargs)
         kwargs["user"] = self.request.user
         return kwargs
 
@@ -36,7 +36,7 @@ class QuestionaryDetailView(PrefetchRelatedMixin, DetailView):
     prefetch_related = ["question_set"]
 
     def get_context_data(self, **kwargs):
-        context = super(QuestionaryDetailView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context["answer_forms"] = AnswerFormSet(questionary=self.object)
         return context
 
@@ -56,7 +56,7 @@ class QuestionaryCreateView(
         return self.monitoring
 
     def get_form_kwargs(self):
-        kw = super(QuestionaryCreateView, self).get_form_kwargs()
+        kw = super().get_form_kwargs()
         kw["monitoring"] = self.monitoring
         return kw
 

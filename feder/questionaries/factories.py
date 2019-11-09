@@ -5,7 +5,7 @@ from .models import Questionary, Question
 
 
 class QuestionaryFactory(factory.django.DjangoModelFactory):
-    title = factory.Sequence("questionary-{0}".format)
+    title = factory.Sequence("questionary-{}".format)
     monitoring = factory.SubFactory(MonitoringFactory)
 
     class Meta:
@@ -29,11 +29,11 @@ class CharQuestionFactory(factory.django.DjangoModelFactory):
     def definition(self, n):
         default = {
             "comment": n % 2 == 0,
-            "comment_help": "Standard help text no. {0}".format(n),
-            "comment_label": "Standard comment label {0}".format(n),
+            "comment_help": "Standard help text no. {}".format(n),
+            "comment_label": "Standard comment label {}".format(n),
             "comment_required": n % 2 == 0,
             "help_text": "Answer me, please!",
-            "name": "Question no.{0} ?".format(n),
+            "name": "Question no.{} ?".format(n),
         }
         result = {}
         for key, value in default.items():
@@ -59,8 +59,8 @@ class JSTQuestionFactory(factory.django.DjangoModelFactory):
     @factory.lazy_attribute_sequence
     def definition(self, n):
         default = {
-            "name": "Standard name no. {0}".format(n),
-            "help_text": "Standard help text no. {0}".format(n),
+            "name": "Standard name no. {}".format(n),
+            "help_text": "Standard help text no. {}".format(n),
             "required": n % 2 == 0,
             "area": "all",
         }

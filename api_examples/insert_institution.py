@@ -18,7 +18,6 @@ $ (cat /tmp/wojewodowie.csv | grep -E 'Wojewoda|TERC') | python insert_instituti
                                                         --tags="wojewoda" \
                                                         --input=-
 """
-from __future__ import print_function
 
 import argparse
 import sys
@@ -39,7 +38,7 @@ def normalize_jst(code):
 
 def insert_row(s, host, name, email, code, tags):
     response = s.post(
-        url="%s/api/institutions/" % (host,),
+        url="{}/api/institutions/".format(host),
         json={"name": name, "tags": tags, "jst": code, "email": email},
     )
     if response.status_code == 500:
@@ -71,7 +70,7 @@ def fields_validation(fields):
     result = True
     for field_name in {"Organ", "E-mail", "TERC"} - set(fields):
         print(
-            "There is missing %s field. " % (field_name,)
+            "There is missing {} field. ".format(field_name)
             + "Required fields name is Organ, E-mail, TERC"
         )
         result = False

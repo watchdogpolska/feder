@@ -13,7 +13,7 @@ from .forms import CaseForm
 from .views import CaseAutocomplete
 
 
-class ObjectMixin(object):
+class ObjectMixin:
     def setUp(self):
         self.user = UserFactory(username="john")
         self.case = CaseFactory()

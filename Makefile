@@ -13,7 +13,10 @@ wait_mysql:
 migrate:
 	docker-compose run web python manage.py migrate
 
-lint:
+pyupgrade:
+	docker run --rm -v $$(pwd):/data quay.io/watchdogpolska/pyupgrade
+
+lint: pyupgrade
 	docker run --rm -v $$(pwd):/data cytopia/black --check /data
 
 fmt:

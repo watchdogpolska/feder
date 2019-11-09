@@ -28,5 +28,5 @@ class TagAdmin(admin.ModelAdmin):
     get_institution_count.short_description = _("Institution count")
 
     def get_queryset(self, *args, **kwargs):
-        qs = super(TagAdmin, self).get_queryset(*args, **kwargs)
+        qs = super().get_queryset(*args, **kwargs)
         return qs.annotate(institution_count=Count("institution"))

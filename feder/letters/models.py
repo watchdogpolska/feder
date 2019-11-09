@@ -1,5 +1,3 @@
-from __future__ import print_function
-
 import logging
 import uuid
 
@@ -65,7 +63,7 @@ class LetterQuerySet(models.QuerySet):
 class LetterManager(BaseManager.from_queryset(LetterQuerySet)):
     def get_queryset(self):
         return (
-            super(LetterManager, self)
+            super()
             .get_queryset()
             .filter(is_spam__in=[Letter.SPAM.unknown, Letter.SPAM.non_spam])
         )
@@ -263,7 +261,7 @@ class Attachment(AttachmentBase):
 
     def delete(self, *args, **kwargs):
         self.attachment.delete()
-        super(Attachment, self).delete(*args, **kwargs)
+        super().delete(*args, **kwargs)
 
     def __str__(self):
         if self.attachment:

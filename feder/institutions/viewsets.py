@@ -11,7 +11,7 @@ class InstitutionFilter(filters.FilterSet):
     jst = django_filters.CharFilter(method=custom_area_filter)
 
     def __init__(self, *args, **kwargs):
-        super(InstitutionFilter, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.filters["name"].lookup_expr = "icontains"
 
     class Meta:

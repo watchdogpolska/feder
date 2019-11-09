@@ -31,5 +31,5 @@ class LetterAdmin(admin.ModelAdmin):
     search_fields = ("title", "body")
 
     def get_queryset(self, *args, **kwargs):
-        qs = super(LetterAdmin, self).get_queryset(*args, **kwargs)
+        qs = super().get_queryset(*args, **kwargs)
         return qs.with_author()

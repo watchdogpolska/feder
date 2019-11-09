@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from atom.views import DeleteMessageMixin
 from braces.views import (
     SelectRelatedMixin,
@@ -25,11 +22,11 @@ class ParcelPostDetailView(SelectRelatedMixin, DetailView):
     select_related = ["record__case__monitoring"]
 
 
-class CaseMixin(object):
+class CaseMixin:
     case = None
 
     def get_form_kwargs(self):
-        kwargs = super(CaseMixin, self).get_form_kwargs()
+        kwargs = super().get_form_kwargs()
         kwargs["case"] = self.case
         return kwargs
 
@@ -56,7 +53,7 @@ class ParcelPostCreateView(
         return self.case.monitoring
 
     def get_context_data(self, **kwargs):
-        context = super(ParcelPostCreateView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context["case"] = self.case
         return context
 
@@ -76,7 +73,7 @@ class ParcelPostUpdateView(
 
     def get_object(self, *args, **kwargs):
         if not hasattr(self, "_object"):
-            self._object = super(ParcelPostUpdateView, self).get_object(*args, **kwargs)
+            self._object = super().get_object(*args, **kwargs)
         return self._object
 
     @property
@@ -97,7 +94,7 @@ class ParcelPostDeleteView(
 
     def get_object(self, *args, **kwargs):
         if not hasattr(self, "_object"):
-            self._object = super(ParcelPostDeleteView, self).get_object(*args, **kwargs)
+            self._object = super().get_object(*args, **kwargs)
         return self._object
 
     def get_permission_object(self):
@@ -156,11 +153,7 @@ class AttachmentParcelPostXSendFileView(BaseXSendFileView):
     send_as_attachment = True
 
     def get_queryset(self):
-        return (
-            super(AttachmentParcelPostXSendFileView, self)
-            .get_queryset()
-            .for_user(self.request.user)
-        )
+        return super().get_queryset().for_user(self.request.user)
 
 
 class OutgoingAttachmentParcelPostXSendFileView(AttachmentParcelPostXSendFileView):

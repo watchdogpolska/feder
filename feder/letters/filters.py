@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from atom.ext.django_filters.filters import UserKwargFilterSetMixin
 from dal import autocomplete
 from django.utils.translation import ugettext_lazy as _
@@ -16,7 +15,7 @@ class LetterFilter(UserKwargFilterSetMixin, FilterSet):
     eml = BooleanFilter(label=_("Has eml?"), method=has_eml)
 
     def __init__(self, *args, **kwargs):
-        super(LetterFilter, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.filters["title"].lookup_expr = "icontains"
         self.filters["title"].label = _("Title")
         self.filters[

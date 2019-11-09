@@ -1,5 +1,4 @@
 #!/bin/python2.7
-# -*- coding: utf-8 -*-
 """
 A tool to insert institutions from CSV files.
 
@@ -14,7 +13,6 @@ Example usage:
 To run help text use:
 $ python insert_court.py -h
 """
-from __future__ import print_function, unicode_literals
 
 import argparse
 import os
@@ -40,7 +38,7 @@ if not bool(environ("GUSREGON_SANDBOX")):
     )
 
 
-class Command(object):
+class Command:
     JST_VOIVODESHIP_KEYS = ["adsiedzwojewodztwo_symbol", "adkorwojewodztwo_symbol"]
     JST_COUNTY_KEYS = ["adsiedzpowiat_symbol", "adkorpowiat_symbol"]
     JST_COMMUNITY_KEYS = ["adsiedzgmina_symbol", "adkorgmina_symbol"]
@@ -173,7 +171,7 @@ class Command(object):
         result = True
         for field_name in set(self.REQUIRED_FIELDS) - set(fields):
             print(
-                "There is missing %s field. " % (field_name,)
+                "There is missing {} field. ".format(field_name)
                 + "Required fields name is {}".format(self.REQUIRED_FIELDS)
             )
             result = False

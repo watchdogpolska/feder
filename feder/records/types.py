@@ -1,7 +1,7 @@
 from abc import abstractmethod, ABCMeta
 
 
-class BaseRecordType(object):
+class BaseRecordType:
     __metaclass__ = ABCMeta
 
     @abstractmethod
@@ -32,14 +32,14 @@ class CommonRecordType(BaseRecordType):
         return self.model_cls._meta.verbose_name_plural
 
     def get_template_milestone_item(self, obj):
-        return "%s/_%s%s.html" % (
+        return "{}/_{}{}.html".format(
             self.model_cls._meta.app_label,
             self.model_cls._meta.model_name,
             "_milestone_item",
         )
 
     def get_template_content_item(self, obj):
-        return "%s/_%s%s.html" % (
+        return "{}/_{}{}.html".format(
             self.model_cls._meta.app_label,
             self.model_cls._meta.model_name,
             "_content_item",

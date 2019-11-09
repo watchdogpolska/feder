@@ -31,7 +31,7 @@ class InstitutionListView(SelectRelatedMixin, FilterView):
     paginate_by = 25
 
     def get_queryset(self):
-        qs = super(InstitutionListView, self).get_queryset()
+        qs = super().get_queryset()
         return qs.with_case_count()
 
 
@@ -110,4 +110,4 @@ class TagAutocomplete(autocomplete.Select2QuerySetView):
         return qs.order_by("-institution_count").all()
 
     def get_result_label(self, result):
-        return "%s (%d)" % (six.text_type(result), result.institution_count)
+        return "%s (%d)" % (str(result), result.institution_count)

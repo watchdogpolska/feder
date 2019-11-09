@@ -1,5 +1,3 @@
-from __future__ import absolute_import
-
 from django.urls import reverse
 from django.test import TestCase
 
@@ -8,7 +6,7 @@ from feder.users.factories import UserFactory
 from .factories import AlertFactory
 
 
-class ObjectMixin(object):
+class ObjectMixin:
     def setUp(self):
         self.user = UserFactory(username="john")
         self.alert = AlertFactory()

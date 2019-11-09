@@ -3,7 +3,7 @@ from feder.users.factories import UserFactory
 from ..factories import QuestionaryFactory
 
 
-class ObjectMixin(object):
+class ObjectMixin:
     def setUp(self):
         self.user = UserFactory(username="john")
         self.questionary = QuestionaryFactory()
