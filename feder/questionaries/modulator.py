@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 import shlex
 from collections import OrderedDict
 
@@ -13,7 +11,7 @@ from feder.teryt.models import JST
 SHLEX_TEXT = _("Enter as space-seperated text. Use quotes to pass sentences.")
 
 
-class BaseModulator(object):
+class BaseModulator:
     """Abstract modulator which define interface
     """
 
@@ -197,7 +195,7 @@ class BaseSimpleModulator(BaseModulator):
     def get_answer_text(self, definition, content):
         definition = definition or {}
         if definition.get("comment", False):
-            return "%s (%s)" % (content.get("value", ""), content.get("comment", ""))
+            return "{} ({})".format(content.get("value", ""), content.get("comment", ""))
         return content.get("value", "")
 
     def get_label_column(self, definition):
@@ -238,13 +236,13 @@ class ChoiceModulator(BaseSimpleModulator):
     output_field_cls = forms.ChoiceField
 
     def list_create_question_fields(self):
-        items = super(ChoiceModulator, self).list_create_question_fields()
+        items = super().list_create_question_fields()
         choices_field = forms.CharField(label=_("Choices"), help_text=SHLEX_TEXT)
         items += (("choices", choices_field),)
         return items
 
     def get_kwargs(self, definition):
-        kw = super(ChoiceModulator, self).get_kwargs(definition)
+        kw = super().get_kwargs(definition)
         kw["choices"] = enumerate(shlex.split(definition.get("choices", "")))
         return kw
 
@@ -257,7 +255,7 @@ class ChoiceModulator(BaseSimpleModulator):
         if definition:
             return [v, definition["comment"]]
         if definition["comment"]:
-            return "%s (%s)" % (v, definition["comment"])
+            return "{} ({})".format(v, definition["comment"])
         return v
 
 
@@ -500,8 +498,8 @@ class LetterChoiceModulator(BaseSimpleModulator):
             TYPE: Description
         """
         return [
-            "%s-%s" % (definition["name"], "post-id"),
-            "%s-%s" % (definition["name"], "post-date"),
+            "{}-{}".format(definition["name"], "post-id"),
+            "{}-{}".format(definition["name"], "post-date"),
         ]
 
     def get_answer_columns(self, definition, content):

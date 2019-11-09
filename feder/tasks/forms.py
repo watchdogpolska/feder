@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from atom.ext.crispy_forms.forms import HelperMixin, SingleButtonMixin
 from braces.forms import UserKwargModelFormMixin
 from django import forms
@@ -12,7 +11,7 @@ from .models import Answer, Survey, Task
 class TaskForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.case = kwargs.pop("case", None)
-        super(TaskForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         if self.case:
             self.instance.case = self.case
 
@@ -27,7 +26,7 @@ class AnswerForm(HelperMixin, forms.Form):
         self.modulator = self.question.modulator
         self.survey = kwargs.pop("survey", None)
         self.instance = kwargs.pop("instance", Answer())
-        super(AnswerForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.construct_form()
         self.helper.form_tag = False
 
@@ -49,7 +48,7 @@ class AnswerForm(HelperMixin, forms.Form):
         return self.instance
 
 
-class AnswerFormSet(object):
+class AnswerFormSet:
     def __init__(self, questionary, survey=None, *args, **kwargs):
         self.questionary = questionary
         self.survey = survey
@@ -145,7 +144,7 @@ class MultiTaskForm(SingleButtonMixin, UserKwargModelFormMixin, forms.Form):
 
     def __init__(self, questionary, *args, **kwargs):
         self.questionary = questionary
-        super(MultiTaskForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.fields["cases"].queryset = questionary.monitoring.case_set.all()
         self.fields["cases"].help_text = _(
             "They are available only cases " + "relevant to the monitoring."
@@ -165,7 +164,7 @@ class MultiTaskForm(SingleButtonMixin, UserKwargModelFormMixin, forms.Form):
 class SurveyForm(SingleButtonMixin, forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.task = kwargs.pop("task")
-        super(SurveyForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.instance.task = self.task
 
     class Meta:

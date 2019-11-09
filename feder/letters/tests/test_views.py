@@ -1,5 +1,3 @@
-from __future__ import absolute_import, unicode_literals
-
 import json
 import os
 from django.core import mail
@@ -28,9 +26,9 @@ from ..factories import (
 from django.utils.translation import ugettext_lazy as _
 
 
-class ObjectMixin(object):
+class ObjectMixin:
     def setUp(self):
-        super(ObjectMixin, self).setUp()
+        super().setUp()
         self.user = UserFactory(username="john")
         self.monitoring = self.permission_object = MonitoringFactory()
         self.case = CaseFactory(monitoring=self.monitoring)
@@ -94,7 +92,7 @@ class LetterMessageXSendFileView(PermissionStatusMixin, TestCase):
     status_no_permission = 200
 
     def setUp(self):
-        super(LetterMessageXSendFileView, self).setUp()
+        super().setUp()
         self.object = IncomingLetterFactory(is_spam=Letter.SPAM.non_spam)
 
     def get_url(self):
@@ -334,9 +332,9 @@ class LetterMarkSpamViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
         self.assertEqual(self.from_institution.is_spam, Letter.SPAM.non_spam)
 
 
-class MessageObjectMixin(object):
+class MessageObjectMixin:
     def setUp(self):
-        super(MessageObjectMixin, self).setUp()
+        super().setUp()
         self.user = UserFactory(username="john")
         self.monitoring = MonitoringFactory()
         self.case = CaseFactory(monitoring=self.monitoring)
@@ -356,7 +354,7 @@ class AssignLetterFormViewTestCase(MessageObjectMixin, PermissionStatusMixin, Te
     permission = ["letters.recognize_letter"]
 
     def setUp(self):
-        super(AssignLetterFormViewTestCase, self).setUp()
+        super().setUp()
         self.user = UserFactory(username="john")
         self.msg = LetterFactory(record__case=None)
 
@@ -381,7 +379,7 @@ class SpamAttachmentXSendFileViewTestCase(PermissionStatusMixin, TestCase):
     spam_status = Letter.SPAM.spam
 
     def setUp(self):
-        super(SpamAttachmentXSendFileViewTestCase, self).setUp()
+        super().setUp()
         self.object = AttachmentFactory(letter__is_spam=self.spam_status)
 
     def get_url(self):
@@ -398,7 +396,7 @@ class StandardAttachmentXSendFileViewTestCase(PermissionStatusMixin, TestCase):
     spam_status = Letter.SPAM.non_spam
 
     def setUp(self):
-        super(StandardAttachmentXSendFileViewTestCase, self).setUp()
+        super().setUp()
         self.object = AttachmentFactory(letter__is_spam=self.spam_status)
 
     def get_url(self):
@@ -433,12 +431,8 @@ class ReceiveEmailTestCase(TestCase):
             letter.body, "W dniach 30.07-17.08.2018 r. przebywam na urlopie."
         )
         attachment = letter.attachment_set.all()[0]
-        if six.PY3:
-            self.assertEqual(letter.eml.read().decode("utf-8"), "12345")
-            self.assertEqual(attachment.attachment.read().decode("utf-8"), "12345")
-        else:
-            self.assertEqual(letter.eml.read(), "12345")
-            self.assertEqual(attachment.attachment.read(), "12345")
+        self.assertEqual(letter.eml.read().decode("utf-8"), "12345")
+        self.assertEqual(attachment.attachment.read().decode("utf-8"), "12345")
 
     def test_no_match_of_case(self):
         body = self._get_body()

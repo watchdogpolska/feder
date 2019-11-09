@@ -18,7 +18,7 @@ from .forms import AlertForm
 from .models import Alert
 
 
-class MonitoringMixin(object):
+class MonitoringMixin:
     @cached_property
     def monitoring(self):
         return get_object_or_404(Monitoring, pk=self.kwargs["monitoring"])
@@ -42,7 +42,7 @@ class AlertListView(
     permission_required = "monitorings.view_alert"
 
     def get_queryset(self):
-        qs = super(AlertListView, self).get_queryset()
+        qs = super().get_queryset()
         return qs.monitoring(self.monitoring)
 
 
@@ -58,12 +58,12 @@ class AlertCreateView(MonitoringMixin, UserFormKwargsMixin, CreateView):
     form_class = AlertForm
 
     def get_form_kwargs(self):
-        r = super(AlertCreateView, self).get_form_kwargs()
+        r = super().get_form_kwargs()
         r["monitoring"] = self.monitoring
         return r
 
     def get_context_data(self, **kwargs):
-        context = super(AlertCreateView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context["monitoring"] = self.monitoring
         return context
 

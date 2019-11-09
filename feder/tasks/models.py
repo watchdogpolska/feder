@@ -1,5 +1,3 @@
-from __future__ import division
-
 from itertools import groupby
 
 from django.conf import settings
@@ -117,7 +115,7 @@ class Task(TimeStampedModel):
     def save(self, lock_check=True, *args, **kwargs):
         if lock_check:
             self.lock_check()
-        return super(Task, self).save(*args, **kwargs)
+        return super().save(*args, **kwargs)
 
     def get_next_for_user(self, user):
         task = (

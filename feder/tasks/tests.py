@@ -14,7 +14,7 @@ from .factories import TaskFactory
 from .models import Answer, Survey
 
 
-class ObjectMixin(object):
+class ObjectMixin:
     def setUp(self):
         self.user = UserFactory(username="john")
         self.task = TaskFactory()

@@ -1,5 +1,4 @@
 #!/bin/python2.7
-# -*- coding: utf-8 -*-
 """
 A tool to insert institutions from CSV files.
 
@@ -14,7 +13,6 @@ Example usage:
 To run help text use:
 $ python insert_institution_csv.py -h
 """
-from __future__ import print_function, unicode_literals
 
 import argparse
 import sys
@@ -31,7 +29,7 @@ import requests_cache
 from urllib.parse import urljoin
 
 
-class Client(object):
+class Client:
     def __init__(self, start, s=None):
         self.start = start
         self.s = s or requests.Session()
@@ -46,14 +44,13 @@ class Client(object):
             data = resp.json()
             if data.get("next"):
                 q.put(data["next"])
-            for row in data["results"]:
-                yield row
+            yield from data["results"]
 
 
 JMES_DEFAULT = "{name: name, url:url, pk:pk, email:email, tags:join(',',tags), jst:jst, regon:regon}"
 
 
-class Command(object):
+class Command:
     def __init__(self, argv):
         self.argv = argv
         self.args = self.get_build_args(argv[1:])

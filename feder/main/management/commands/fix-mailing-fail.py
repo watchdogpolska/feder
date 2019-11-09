@@ -70,7 +70,7 @@ class Command(BaseCommand):
                 case = case_qs.get()
                 if case.email == row["case_email"]:
                     self.stdout.write(
-                        "good %s %s" % (row["institution_email"], row["case_email"])
+                        "good {} {}".format(row["institution_email"], row["case_email"])
                     )
                 else:
                     alias_founded = len(

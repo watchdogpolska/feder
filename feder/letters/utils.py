@@ -25,5 +25,5 @@ def is_spam_check(email_object):
 
 def get_body_with_footer(body, footer):
     if footer.strip():
-        return six.text_type("{}{}{}").format(body, BODY_FOOTER_SEPERATOR, footer)
+        return "{}{}{}".format(body, BODY_FOOTER_SEPERATOR, footer)
     return body

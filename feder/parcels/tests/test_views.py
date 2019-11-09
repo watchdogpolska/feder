@@ -6,22 +6,22 @@ from feder.main.tests import PermissionStatusMixin
 from feder.parcels.factories import IncomingParcelPostFactory, OutgoingParcelPostFactory
 
 
-class ParcelPostMixin(object):
+class ParcelPostMixin:
     def setUp(self):
-        super(ParcelPostMixin, self).setUp()
+        super().setUp()
         self.case = CaseFactory()
         self.permission_object = self.case.monitoring
 
 
 class IncomingParcelPostMixin(ParcelPostMixin):
     def setUp(self):
-        super(IncomingParcelPostMixin, self).setUp()
+        super().setUp()
         self.object = IncomingParcelPostFactory(record__case=self.case)
 
 
 class OutgoingParcelPostMixin(ParcelPostMixin):
     def setUp(self):
-        super(OutgoingParcelPostMixin, self).setUp()
+        super().setUp()
         self.object = OutgoingParcelPostFactory(record__case=self.case)
 
 

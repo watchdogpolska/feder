@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 import hashlib
 import inspect
 import json
@@ -36,10 +33,7 @@ def scrub_text(x, seed):
 
 
 def generator(f):
-    if six.PY3:
-        filename = "{}.PY3.{}".format(f.__self__.__class__.__name__, f.__name__)
-    else:
-        filename = "{}.PY2.{}".format(f.im_class.__name__, f.__name__)
+    filename = "{}.PY3.{}".format(f.__self__.__class__.__name__, f.__name__)
     return os.path.join(os.path.dirname(inspect.getfile(f)), "cassettes", filename)
 
 
@@ -136,7 +130,7 @@ class LogRecordQuerySet(TestCase):
         self.assertEqual(EmailLog.objects.get().letter, letter)
 
 
-class ObjectMixin(object):
+class ObjectMixin:
     def setUp(self):
         self.user = UserFactory(username="john")
         self.record = LogRecordFactory()

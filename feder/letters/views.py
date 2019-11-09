@@ -54,9 +54,9 @@ from .models import Letter, Attachment
 _("Letters index")
 
 
-class MixinGzipXSendFile(object):
+class MixinGzipXSendFile:
     def get_sendfile_kwargs(self, context):
-        kwargs = super(MixinGzipXSendFile, self).get_sendfile_kwargs(context)
+        kwargs = super().get_sendfile_kwargs(context)
         if kwargs["filename"] and kwargs["filename"].endswith(".gz"):
             kwargs["encoding"] = "gzip"
             filename = path.basename(kwargs["filename"][: -len(".gz")])
@@ -64,9 +64,9 @@ class MixinGzipXSendFile(object):
         return kwargs
 
 
-class CaseRequiredMixin(object):
+class CaseRequiredMixin:
     def get_queryset(self):
-        qs = super(CaseRequiredMixin, self).get_queryset().exclude(record__case=None)
+        qs = super().get_queryset().exclude(record__case=None)
         return qs.attachment_count()
 
 
@@ -79,7 +79,7 @@ class LetterListView(
     paginate_by = 25
 
     def get_queryset(self):
-        qs = super(LetterListView, self).get_queryset()
+        qs = super().get_queryset()
         return qs.attachment_count()
 
 
@@ -115,7 +115,7 @@ class LetterCreateView(
         return self.case.monitoring
 
     def get_form_kwargs(self):
-        kw = super(LetterCreateView, self).get_form_kwargs()
+        kw = super().get_form_kwargs()
         kw["case"] = self.case
         return kw
 
@@ -144,17 +144,17 @@ class LetterReplyView(
         return self.letter.case.monitoring
 
     def get_form_kwargs(self):
-        kw = super(LetterReplyView, self).get_form_kwargs()
+        kw = super().get_form_kwargs()
         kw["letter"] = self.letter
         return kw
 
     def get_context_data(self, **kwargs):
-        context = super(LetterReplyView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context["object"] = self.letter
         return context
 
     def forms_valid(self, form, inlines):
-        result = super(LetterReplyView, self).forms_valid(form, inlines)
+        result = super().forms_valid(form, inlines)
         if "send" in self.request.POST:
             self.object.send()
         return result
@@ -212,7 +212,7 @@ class LetterDeleteView(
     permission_required = "monitorings.delete_letter"
 
     def delete(self, request, *args, **kwargs):
-        result = super(LetterDeleteView, self).delete(request, *args, **kwargs)
+        result = super().delete(request, *args, **kwargs)
         for x in self.object.attachment_set.all():
             x.attachment.delete()  # Delete file
         self.object.attachment_set.all().delete()  # Delete objects
@@ -318,7 +318,7 @@ class LetterReportSpamView(ActionMessageMixin, CaseRequiredMixin, ActionView):
 
     def get_queryset(self):
         return (
-            super(LetterReportSpamView, self)
+            super()
             .get_queryset()
             .filter(is_spam=Letter.SPAM.unknown)
         )
@@ -351,7 +351,7 @@ class LetterMarkSpamView(
 
     def get_object(self, *args, **kwargs):
         if not hasattr(self, "object"):
-            self.object = super(LetterMarkSpamView, self).get_object(*args, **kwargs)
+            self.object = super().get_object(*args, **kwargs)
         return self.object
 
     def get_permission_object(self):
@@ -359,7 +359,7 @@ class LetterMarkSpamView(
 
     def get_queryset(self):
         return (
-            super(LetterMarkSpamView, self)
+            super()
             .get_queryset()
             .filter(is_spam=Letter.SPAM.unknown)
         )
@@ -407,13 +407,13 @@ class UnrecognizedLetterListView(
 
     def get_queryset(self):
         return (
-            super(UnrecognizedLetterListView, self)
+            super()
             .get_queryset()
             .filter(record__case=None)
         )
 
     def get_context_data(self, **kwargs):
-        context = super(UnrecognizedLetterListView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context["object_list"] = self.update_object_list(context["object_list"])
         return context
 
@@ -444,16 +444,16 @@ class AssignLetterFormView(
 
     def get_context_data(self, **kwargs):
         kwargs["object"] = self.letter
-        return super(AssignLetterFormView, self).get_context_data(**kwargs)
+        return super().get_context_data(**kwargs)
 
     def get_form_kwargs(self):
-        kwargs = super(AssignLetterFormView, self).get_form_kwargs()
+        kwargs = super().get_form_kwargs()
         kwargs["letter"] = self.letter
         return kwargs
 
     def form_valid(self, form):
         form.save()
-        return super(AssignLetterFormView, self).form_valid(form)
+        return super().form_valid(form)
 
 
 class AttachmentXSendFileView(MixinGzipXSendFile, BaseXSendFileView):
@@ -463,13 +463,13 @@ class AttachmentXSendFileView(MixinGzipXSendFile, BaseXSendFileView):
 
     def get_queryset(self):
         return (
-            super(AttachmentXSendFileView, self)
+            super()
             .get_queryset()
             .for_user(self.request.user)
         )
 
     def get_sendfile_kwargs(self, context):
-        kwargs = super(AttachmentXSendFileView, self).get_sendfile_kwargs(context)
+        kwargs = super().get_sendfile_kwargs(context)
         if kwargs["filename"].endswith(".gz"):
             kwargs["encoding"] = "gzip"
         return kwargs

@@ -4,7 +4,7 @@ import requests
 from six.moves.urllib.parse import urljoin
 
 
-class EmailLabsClient(object):
+class EmailLabsClient:
     API_URI = "https://api.emaillabs.net.pl/api/"
 
     def __init__(self, api_key, secret_key, session=None, per_page=500):
@@ -28,6 +28,5 @@ class EmailLabsClient(object):
 
         while (item is None or len(item) == self.per_page) and offset < 500 * 25:
             item = self.get_emails(offset=offset)
-            for row in item:
-                yield row
+            yield from item
             offset += self.per_page

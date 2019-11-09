@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 import email
 
 from django.core import mail
@@ -89,12 +86,9 @@ class ModelTestCase(TestCase):
         outgoing = SendOutgoingLetterFactory()
 
         self.assertTrue(outgoing.message_id_header)
-        if six.PY3:
-            message = email.message_from_string(
-                outgoing.eml.file.read().decode("utf-8")
-            )
-        else:  # Deprecated Python 2.7 support
-            message = email.message_from_file(outgoing.eml.file)
+        message = email.message_from_string(
+            outgoing.eml.file.read().decode("utf-8")
+        )
         msg_id = normalize_msg_id(message["Message-ID"])
         self.assertEqual(outgoing.message_id_header, msg_id)
 

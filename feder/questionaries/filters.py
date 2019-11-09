@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from atom.ext.django_filters.filters import UserKwargFilterSetMixin
 from dal import autocomplete
 from django.utils.translation import ugettext_lazy as _
@@ -12,7 +11,7 @@ class QuestionaryFilter(UserKwargFilterSetMixin, FilterSet):
     created = DateRangeFilter(label=_("Creation date"))
 
     def __init__(self, *args, **kwargs):
-        super(QuestionaryFilter, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         if not self.user.is_superuser:
             del self.filters["lock"]
         self.filters["monitoring"].widget = autocomplete.ModelSelect2(

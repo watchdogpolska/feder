@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import django_filters
 from dal import autocomplete
 from django.contrib.auth import get_user_model
@@ -43,7 +42,7 @@ class MonitoringFilter(DisabledWhenFilterSetMixin, django_filters.FilterSet):
     )
 
     def __init__(self, *args, **kwargs):
-        super(MonitoringFilter, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.filters["name"].lookup_expr = "icontains"
         self.filters["name"].label = _("Name")
         # Limit users select to which have any cases

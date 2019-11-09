@@ -1,7 +1,7 @@
 from .models import Letter
 
 
-class LetterObjectFeedMixin(object):
+class LetterObjectFeedMixin:
     """A mixins to view (feed) to provide easy way to generate
     feed of letters related to selected object
 

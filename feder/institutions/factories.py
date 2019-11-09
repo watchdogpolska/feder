@@ -5,16 +5,16 @@ from .models import Institution, Tag
 
 
 class InstitutionFactory(factory.django.DjangoModelFactory):
-    name = factory.Sequence("institution-{0}".format)
+    name = factory.Sequence("institution-{}".format)
     jst = factory.SubFactory(JSTFactory)
-    email = factory.Sequence("email-{0}@example.com".format)
+    email = factory.Sequence("email-{}@example.com".format)
 
     class Meta:
         model = Institution
 
 
 class TagFactory(factory.django.DjangoModelFactory):
-    name = factory.Sequence("tag-{0}".format)
+    name = factory.Sequence("tag-{}".format)
 
     class Meta:
         model = Tag

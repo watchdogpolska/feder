@@ -50,7 +50,7 @@ class MonitoringListView(SelectRelatedMixin, FilterView):
     paginate_by = 25
 
     def get_queryset(self):
-        qs = super(MonitoringListView, self).get_queryset()
+        qs = super().get_queryset()
 
         if not self.request.user.is_staff:
             qs = qs.only_public()
@@ -67,7 +67,7 @@ class MonitoringDetailView(
     paginate_by = 25
 
     def get_queryset(self):
-        qs = super(MonitoringDetailView, self).get_queryset()
+        qs = super().get_queryset()
 
         if not self.request.user.is_staff:
             qs = qs.only_public()
@@ -76,7 +76,7 @@ class MonitoringDetailView(
 
     def get_context_data(self, **kwargs):
         kwargs["url_extra_kwargs"] = {"slug": self.object.slug}
-        return super(MonitoringDetailView, self).get_context_data(**kwargs)
+        return super().get_context_data(**kwargs)
 
     def get_object_list(self, obj):
         return (
@@ -101,7 +101,7 @@ class LetterListMonitoringView(
 
     def get_context_data(self, **kwargs):
         kwargs["url_extra_kwargs"] = {"slug": self.object.slug}
-        return super(LetterListMonitoringView, self).get_context_data(**kwargs)
+        return super().get_context_data(**kwargs)
 
     def get_object_list(self, obj):
         return (
@@ -125,7 +125,7 @@ class DraftListMonitoringView(
 
     def get_context_data(self, **kwargs):
         kwargs["url_extra_kwargs"] = {"slug": self.object.slug}
-        return super(DraftListMonitoringView, self).get_context_data(**kwargs)
+        return super().get_context_data(**kwargs)
 
     def get_object_list(self, obj):
         return (
@@ -153,7 +153,7 @@ class MonitoringCreateView(
         return _("{0} created!").format(self.object)
 
     def form_valid(self, form):
-        output = super(MonitoringCreateView, self).form_valid(form)
+        output = super().form_valid(form)
         default_perm = [
             "change_monitoring",
             "delete_monitoring",
@@ -212,12 +212,12 @@ class PermissionWizard(LoginRequiredMixin, SessionWizardView):
         return Monitoring.objects.get(slug=self.kwargs["slug"])
 
     def get_context_data(self, *args, **kwargs):
-        context = super(PermissionWizard, self).get_context_data(*args, **kwargs)
+        context = super().get_context_data(*args, **kwargs)
         context["object"] = self.monitoring
         return context
 
     def get_form_kwargs(self, step=None):
-        kw = super(PermissionWizard, self).get_form_kwargs(step)
+        kw = super().get_form_kwargs(step)
         self.perm_check()
         if step == "1":
             user_pk = self.storage.get_step_data("0").get("0-user")[0]
@@ -246,7 +246,7 @@ class MonitoringPermissionView(
     permission_required = "monitorings.manage_perm"
 
     def get_context_data(self, **kwargs):
-        context = super(MonitoringPermissionView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context["user_list"], context["index"] = self.object.permission_map()
         return context
 
@@ -272,12 +272,12 @@ class MonitoringUpdatePermissionView(
         return self.monitoring
 
     def get_context_data(self, **kwargs):
-        context = super(MonitoringUpdatePermissionView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context["object"] = self.get_monitoring()
         return context
 
     def get_form_kwargs(self):
-        kw = super(MonitoringUpdatePermissionView, self).get_form_kwargs()
+        kw = super().get_form_kwargs()
         kw.update({"user": self.get_user(), "obj": self.get_monitoring()})
         return kw
 
@@ -305,7 +305,7 @@ class MonitoringAssignView(RaisePermissionRequiredMixin, FilterView):
         return self.LIMIT
 
     def get_queryset(self):
-        qs = super(MonitoringAssignView, self).get_queryset()
+        qs = super().get_queryset()
         return (
             qs.exclude(case__monitoring=self.monitoring.pk)
             .with_case_count()
@@ -320,12 +320,12 @@ class MonitoringAssignView(RaisePermissionRequiredMixin, FilterView):
         return get_object_or_404(Monitoring, slug=self.kwargs["slug"])
 
     def get_context_data(self, **kwargs):
-        context = super(MonitoringAssignView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context["monitoring"] = self.monitoring
         return context
 
     def get_filterset_kwargs(self, filterset_class):
-        kw = super(MonitoringAssignView, self).get_filterset_kwargs(filterset_class)
+        kw = super().get_filterset_kwargs(filterset_class)
         return kw
 
     def post(self, request, *args, **kwargs):

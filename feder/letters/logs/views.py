@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from django.utils import timezone
 import unicodecsv as csv
 
@@ -30,7 +27,7 @@ class ListMonitoringMixin(AttrPermissionRequiredMixin, SelectRelatedMixin):
 
     def get_queryset(self):
         return (
-            super(ListMonitoringMixin, self)
+            super()
             .get_queryset()
             .filter(case__monitoring=self.monitoring)
             .with_logrecord_count()
@@ -38,7 +35,7 @@ class ListMonitoringMixin(AttrPermissionRequiredMixin, SelectRelatedMixin):
 
     def get_context_data(self, **kwargs):
         kwargs["monitoring"] = self.monitoring
-        return super(ListMonitoringMixin, self).get_context_data(**kwargs)
+        return super().get_context_data(**kwargs)
 
 
 class EmailLogMonitoringListView(ListMonitoringMixin, ListView):
@@ -72,12 +69,12 @@ class EmailLogMonitoringCsvView(ListMonitoringMixin, ListView):
     def _get_csv_response(self):
         csv_response = HttpResponse(content_type="text/csv")
         current_time = timezone.now()
-        filename = "email_log_{0}-{1}-{2}.csv".format(
+        filename = "email_log_{}-{}-{}.csv".format(
             self.monitoring.id,
             current_time.strftime("%Y_%m_%d-%H_%M_%S"),
             current_time.tzname(),
         )
-        csv_response["Content-Disposition"] = "attachment;filename={0}".format(filename)
+        csv_response["Content-Disposition"] = "attachment;filename={}".format(filename)
         return csv_response
 
     def _write_rows(self, response, queryset):
@@ -126,7 +123,7 @@ class EmailLogCaseListView(ListMonitoringMixin, ListView):
 
     def get_context_data(self, **kwargs):
         kwargs["case"] = self.case
-        return super(EmailLogCaseListView, self).get_context_data(**kwargs)
+        return super().get_context_data(**kwargs)
 
     def get_queryset(self):
         return super(ListMonitoringMixin, self).get_queryset().filter(case=self.case)

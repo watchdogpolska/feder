@@ -8,7 +8,7 @@ from .serializers import CaseSerializer
 
 class CaseFilter(filters.FilterSet):
     def __init__(self, *args, **kwargs):
-        super(CaseFilter, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.filters["name"].lookup_expr = "icontains"
 
     class Meta:

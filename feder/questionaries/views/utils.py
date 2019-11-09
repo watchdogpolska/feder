@@ -17,8 +17,7 @@ from ..models import Questionary
 
 def chain(*args):
     for obj in args:
-        for row in obj:
-            yield row
+        yield from obj
 
 
 class TaskMultiCreateView(
@@ -38,10 +37,10 @@ class TaskMultiCreateView(
 
     def get_permission_object(self):
         self.object = self.get_object()
-        return super(TaskMultiCreateView, self).get_permission_object().monitoring
+        return super().get_permission_object().monitoring
 
     def get_form_kwargs(self):
-        kwargs = super(TaskMultiCreateView, self).get_form_kwargs()
+        kwargs = super().get_form_kwargs()
         kwargs.update({"questionary": self.object})
         return kwargs
 
@@ -53,7 +52,7 @@ class TaskMultiCreateView(
 
     def form_valid(self, form):
         form.save()
-        return super(TaskMultiCreateView, self).form_valid(form)
+        return super().form_valid(form)
 
 
 class SurveyCSVView(View):

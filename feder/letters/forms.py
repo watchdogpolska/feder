@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from textwrap import wrap
 
 from atom.ext.crispy_forms.forms import HelperMixin, SingleButtonMixin
@@ -27,7 +24,7 @@ class LetterForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         case = kwargs.pop("case", None)
-        super(LetterForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.initial["case"] = case or kwargs.get("instance").case
         self.helper.form_tag = False
 
@@ -39,13 +36,13 @@ class LetterForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
         self.instance.record.case = self.cleaned_data["case"]
         self.instance.record.save()
 
-        return super(LetterForm, self).save(*args, **kwargs)
+        return super().save(*args, **kwargs)
 
 
 class ReplyForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.letter = kwargs.pop("letter")
-        super(ReplyForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.helper.form_tag = False
         self.user_can_reply = self.user.has_perm("reply", self.letter.case.monitoring)
         self.user_can_save = self.user.has_perm(
@@ -92,7 +89,7 @@ class ReplyForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
             )
         if not self.user_can_save and "save" in self.data:
             raise forms.ValidationError(_("You do not have permission to save draft."))
-        return super(ReplyForm, self).clean()
+        return super().clean()
 
     def get_quote(self):
         quoted = "> " + "\n> ".join(wrap(self.letter.body, width=80))
@@ -102,7 +99,7 @@ class ReplyForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
         self.instance.author_user = self.user
         if not hasattr(self.instance, "record"):
             self.instance.record = Record.objects.create(case=self.letter.case)
-        obj = super(ReplyForm, self).save(*args, **kwargs)
+        obj = super().save(*args, **kwargs)
         return obj
 
     class Meta:
@@ -120,7 +117,7 @@ class AssignLetterForm(SingleButtonMixin, forms.Form):
 
     def __init__(self, *args, **kwargs):
         self.letter = kwargs.pop("letter")
-        super(AssignLetterForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def save(self):
         self.letter.case = self.cleaned_data["case"]
@@ -140,4 +137,4 @@ class ReassignLetterForm(SingleButtonMixin, forms.ModelForm):
     def save(self, commit=True):
         self.instance.case = self.cleaned_data["case"]
         self.instance.record.save()
-        return super(ReassignLetterForm, self).save(commit)
+        return super().save(commit)

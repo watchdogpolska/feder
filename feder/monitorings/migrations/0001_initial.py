@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 import autoslug.fields
 import django.utils.timezone
 import model_utils.fields

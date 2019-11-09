@@ -54,7 +54,7 @@ class InstitutionSerializer(serializers.HyperlinkedModelSerializer):
     def update(self, instance, validated_data):
         if "parents" in validated_data:
             instance.parents.set(validated_data["parents"])
-        return super(InstitutionSerializer, self).update(instance, validated_data)
+        return super().update(instance, validated_data)
 
     class Meta:
         model = Institution

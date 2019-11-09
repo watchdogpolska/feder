@@ -12,7 +12,7 @@ from .models import Answer, Survey, Task
 
 
 class TaskFactory(factory.django.DjangoModelFactory):
-    name = factory.Sequence("task-{0}".format)
+    name = factory.Sequence("task-{}".format)
     case = factory.SubFactory(CaseFactory)
     questionary = factory.SubFactory(QuestionaryFactory)
 
@@ -37,7 +37,7 @@ class CharAnswerFactory(factory.django.DjangoModelFactory):
 
     @factory.lazy_attribute_sequence
     def content(self, n):
-        return {"comment": "comment-{0}".format(n), "value": "foo-uniq-{0}".format(n)}
+        return {"comment": "comment-{}".format(n), "value": "foo-uniq-{}".format(n)}
 
     class Meta:
         model = Answer
@@ -56,7 +56,7 @@ class JSTAnswerFactory(factory.django.DjangoModelFactory):
 
     @factory.lazy_attribute_sequence
     def content(self, n):
-        default = {"comment": "comment-{0}".format(n), "value": JSTFactory().pk}
+        default = {"comment": "comment-{}".format(n), "value": JSTFactory().pk}
         result = {}
         for key, value in default.items():
             result[key] = value if getattr(self, key) is None else getattr(self, key)
