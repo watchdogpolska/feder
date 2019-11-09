@@ -14,7 +14,7 @@ migrate:
 	docker-compose run web python manage.py migrate
 
 pyupgrade:
-	docker run -it -v $$(pwd):/data quay.io/watchdogpolska/pyupgrade
+	docker run --rm -v $$(pwd):/data quay.io/watchdogpolska/pyupgrade
 
 lint: pyupgrade
 	docker run --rm -v $$(pwd):/data cytopia/black --check /data
