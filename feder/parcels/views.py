@@ -153,11 +153,7 @@ class AttachmentParcelPostXSendFileView(BaseXSendFileView):
     send_as_attachment = True
 
     def get_queryset(self):
-        return (
-            super()
-            .get_queryset()
-            .for_user(self.request.user)
-        )
+        return super().get_queryset().for_user(self.request.user)
 
 
 class OutgoingAttachmentParcelPostXSendFileView(AttachmentParcelPostXSendFileView):

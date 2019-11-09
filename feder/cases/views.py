@@ -117,7 +117,5 @@ class CaseFindAutocomplete(autocomplete.Select2QuerySetView):
 
     def get_result_label(self, result):
         return "#{} - {} - {}".format(
-            str(result.pk),
-            str(result.institution),
-            str(result),
+            str(result.pk), str(result.institution), str(result)
         )

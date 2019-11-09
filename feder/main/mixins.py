@@ -112,9 +112,7 @@ class AutocompletePerformanceMixin:
     select_only = None
 
     def choices_for_request(self, *args, **kwargs):
-        qs = super().choices_for_request(
-            *args, **kwargs
-        )
+        qs = super().choices_for_request(*args, **kwargs)
         if self.select_only:
             qs = qs.only(*self.select_only)
         return qs

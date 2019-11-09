@@ -317,11 +317,7 @@ class LetterReportSpamView(ActionMessageMixin, CaseRequiredMixin, ActionView):
     model = Letter
 
     def get_queryset(self):
-        return (
-            super()
-            .get_queryset()
-            .filter(is_spam=Letter.SPAM.unknown)
-        )
+        return super().get_queryset().filter(is_spam=Letter.SPAM.unknown)
 
     def action(self):
         author = None if self.request.user.is_anonymous else self.request.user
@@ -358,11 +354,7 @@ class LetterMarkSpamView(
         return self.get_object().case.monitoring
 
     def get_queryset(self):
-        return (
-            super()
-            .get_queryset()
-            .filter(is_spam=Letter.SPAM.unknown)
-        )
+        return super().get_queryset().filter(is_spam=Letter.SPAM.unknown)
 
     def action(self):
         if "valid" in self.request.POST:
@@ -406,11 +398,7 @@ class UnrecognizedLetterListView(
     ordering = "-pk"
 
     def get_queryset(self):
-        return (
-            super()
-            .get_queryset()
-            .filter(record__case=None)
-        )
+        return super().get_queryset().filter(record__case=None)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -462,11 +450,7 @@ class AttachmentXSendFileView(MixinGzipXSendFile, BaseXSendFileView):
     send_as_attachment = True
 
     def get_queryset(self):
-        return (
-            super()
-            .get_queryset()
-            .for_user(self.request.user)
-        )
+        return super().get_queryset().for_user(self.request.user)
 
     def get_sendfile_kwargs(self, context):
         kwargs = super().get_sendfile_kwargs(context)

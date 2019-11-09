@@ -195,7 +195,9 @@ class BaseSimpleModulator(BaseModulator):
     def get_answer_text(self, definition, content):
         definition = definition or {}
         if definition.get("comment", False):
-            return "{} ({})".format(content.get("value", ""), content.get("comment", ""))
+            return "{} ({})".format(
+                content.get("value", ""), content.get("comment", "")
+            )
         return content.get("value", "")
 
     def get_label_column(self, definition):
