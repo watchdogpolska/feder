@@ -13,7 +13,7 @@ class ParcelPostForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm
         super().__init__(*args, **kwargs)
 
     def save(self, commit=True):
-        self.instance.record = Record.objects.create(case=self.case)
+        self.instance.record = self.instance.record or Record.objects.create(case=self.case)
         self.instance.created_by = self.user
         return super().save(commit)
 
