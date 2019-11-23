@@ -9,4 +9,3 @@ class LetterConfig(AppConfig):
     def ready(self):
         from . import types  # noqa
 
-        pass

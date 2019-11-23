@@ -31,7 +31,7 @@ from urllib.parse import urljoin
 requests_cache.configure()
 
 
-if not bool(os.environ("GUSREGON_SANDBOX")):
+if not bool(os.environ.get("GUSREGON_SANDBOX")):
     sys.stderr.write(
         "You are using sandbox mode for the REGON database. Data may be incorrect. "
         "Set the environemnt variable GUSREGON_API_KEY correctly."
