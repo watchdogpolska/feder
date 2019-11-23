@@ -1,4 +1,3 @@
-
 from django.core import signing
 from django.core.signing import Signer
 from django.utils.deprecation import MiddlewareMixin

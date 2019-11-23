@@ -45,7 +45,7 @@ class Client:
             yield from data["results"]
 
 
-JMES_DEFAULT = '''
+JMES_DEFAULT = """
 {
     name: name,
     url:url, pk:pk,
@@ -54,7 +54,7 @@ JMES_DEFAULT = '''
     jst:jst,
     regon:regon
 }
-'''
+"""
 
 
 class Command:

@@ -76,6 +76,7 @@ class IncomingParcelPostUpdateViewTestCase(
         return reverse("parcels:incoming-update", kwargs={"pk": self.object.pk})
 
     def test_avoid_duplicate_record_on_update(self):
+        self.login_permitted_user()
         previous_record = self.object.record.id
 
         self.client.post(
@@ -88,9 +89,8 @@ class IncomingParcelPostUpdateViewTestCase(
             },
         )
         self.object.refresh_from_db()
-        self.assertTrue(self.object.title, "xxx")
-
-        self.assertTrue(self.object.record.id, previous_record)
+        self.assertEqual(self.object.title, "xxx")
+        self.assertEqual(self.object.record.id, previous_record)
 
 
 class IncomingParcelPostDeleteViewTestCase(

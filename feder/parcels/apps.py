@@ -6,4 +6,5 @@ class ParcelsConfig(AppConfig):
 
     def ready(self):
         from . import types  # noqa
+
         pass
