@@ -78,22 +78,20 @@ class IncomingParcelPostUpdateViewTestCase(
     def test_avoid_duplicate_record_on_update(self):
         previous_record = self.object.record.id
 
-        self.client.post(self.get_url(), data={
-            'title': 'xxx',
-            'content': 'yyy',
-            'sender': self.object.sender.pk,
-            'receive_date': self.object.receive_date
-        })
+        self.client.post(
+            self.get_url(),
+            data={
+                "title": "xxx",
+                "content": "yyy",
+                "sender": self.object.sender.pk,
+                "receive_date": self.object.receive_date,
+            },
+        )
         self.object.refresh_from_db()
-        self.assertTrue(
-            self.object.title,
-            'xxx'
-        )
+        self.assertTrue(self.object.title, "xxx")
 
-        self.assertTrue(
-            self.object.record.id,
-            previous_record
-        )
+        self.assertTrue(self.object.record.id, previous_record)
+
 
 class IncomingParcelPostDeleteViewTestCase(
     IncomingParcelPostMixin, PermissionStatusMixin, TestCase
