@@ -7,7 +7,5 @@ class LetterConfig(AppConfig):
     verbose_name = _("Letter")
 
     def ready(self):
-        from . import signals
-        from . import types
-
-        super().ready()
+        from . import types  # noqa
+        pass

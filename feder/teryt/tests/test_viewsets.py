@@ -1,8 +1,5 @@
-from django.urls import reverse
-from django.urls import reverse_lazy
 from django.test import RequestFactory, TestCase
 
-from feder.teryt import views
 from feder.teryt.factories import JSTFactory
 from teryt_tree.rest_framework_ext.viewsets import JednostkaAdministracyjnaViewSet
 

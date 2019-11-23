@@ -8,11 +8,9 @@ from braces.views import (
 from cached_property import cached_property
 from django.shortcuts import get_object_or_404
 from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
-from guardian.mixins import LoginRequiredMixin
 from django.utils.translation import ugettext_lazy as _
 
 from feder.cases.models import Case
-from feder.letters.views import MixinGzipXSendFile
 from feder.main.mixins import RaisePermissionRequiredMixin, BaseXSendFileView
 from feder.parcels.forms import IncomingParcelPostForm, OutgoingParcelPostForm
 from feder.parcels.models import IncomingParcelPost, OutgoingParcelPost

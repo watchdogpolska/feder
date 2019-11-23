@@ -1,5 +1,4 @@
-from django.template import engines, loader
-from django.template.context import Context
+from django.template import loader
 from django.test import TestCase
 
 from feder.letters.factories import IncomingLetterFactory

@@ -3,7 +3,7 @@ from collections import OrderedDict
 import factory.fuzzy
 import factory
 
-from feder.letters.logs.models import EmailLog, STATUS
+from feder.letters.logs.models import STATUS
 
 
 def get_emaillabs_row(sender_from="sprawa@example.com", **values):

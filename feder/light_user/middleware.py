@@ -1,4 +1,3 @@
-from functools import partial
 
 from django.core import signing
 from django.core.signing import Signer

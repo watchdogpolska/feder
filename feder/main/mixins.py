@@ -4,7 +4,6 @@ from django.core.exceptions import ImproperlyConfigured
 from django.core.paginator import EmptyPage, Paginator
 from django.views.generic.detail import BaseDetailView
 from guardian.mixins import PermissionRequiredMixin
-from guardian.shortcuts import assign_perm
 from sendfile import sendfile
 
 
@@ -123,7 +122,6 @@ class DisabledWhenFilterSetMixin(django_filters.filterset.BaseFilterSet):
         if not hasattr(self, "_qs") and self.is_bound and self.form.is_valid():
             for name in list(self.filters.keys()):
                 filter_ = self.filters[name]
-                value = self.form.cleaned_data.get(name)
                 enabled_test = getattr(
                     filter_, "check_enabled", lambda _: True
                 )  # legacy-filter compatible
