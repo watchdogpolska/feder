@@ -2,7 +2,6 @@
 
 from django.contrib.auth import validators
 from django.db import migrations, models
-from django.utils import six
 
 
 class Migration(migrations.Migration):

@@ -126,7 +126,7 @@ class EmailLogCaseListView(ListMonitoringMixin, ListView):
         return super().get_context_data(**kwargs)
 
     def get_queryset(self):
-        return super(ListMonitoringMixin, self).get_queryset().filter(case=self.case)
+        return super().get_queryset().filter(case=self.case)
 
 
 class EmailLogDetailView(

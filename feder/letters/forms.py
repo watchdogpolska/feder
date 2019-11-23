@@ -80,7 +80,8 @@ class ReplyForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
         if not (self.user_can_reply or self.user_can_save):
             raise forms.ValidationError(
                 _(
-                    "Nothing to do. You do not have permission to save draft or send replies."
+                    "Nothing to do. You do not have permission "
+                    + "to save draft or send replies."
                 )
             )
         if not self.user_can_reply and "send" in self.data:

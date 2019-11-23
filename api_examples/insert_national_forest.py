@@ -75,7 +75,7 @@ class Command:
             ipdb.set_trace()
         return data["results"][0]["pk"]
 
-    def insert_row(
+    def insert_row(  # noqa: C901
         self, host, name, email, tags, regon=None, regon_parent=None, **extra
     ):
         regon_data = None

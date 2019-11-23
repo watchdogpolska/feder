@@ -2,7 +2,6 @@ import django_filters
 from dal import autocomplete
 from django.contrib.auth import get_user_model
 from django.db.models import Count
-from django.utils import six
 from django.utils.translation import ugettext_lazy as _
 
 from feder.main.mixins import DisabledWhenFilterMixin, DisabledWhenFilterSetMixin

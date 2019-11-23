@@ -7,4 +7,4 @@ class LogsConfig(AppConfig):
     verbose_name = _("Logs of letter")
 
     def ready(self):
-        from . import checks
+        pass

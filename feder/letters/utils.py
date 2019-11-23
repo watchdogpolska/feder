@@ -1,5 +1,4 @@
 from textwrap import TextWrapper
-from django.utils import six
 
 BODY_FOOTER_SEPERATOR = "\n\n--\n"
 

@@ -31,7 +31,7 @@ from urllib.parse import urljoin
 requests_cache.configure()
 
 
-if not bool(environ("GUSREGON_SANDBOX")):
+if not bool(os.environ.get("GUSREGON_SANDBOX")):
     sys.stderr.write(
         "You are using sandbox mode for the REGON database. Data may be incorrect. "
         "Set the environemnt variable GUSREGON_API_KEY correctly."
@@ -58,8 +58,8 @@ class Command:
 
     def __init__(self, argv):
         self.gus = GUS(
-            api_key=os.environ("GUSREGON_API_KEY"),
-            sandbox=os.environ("GUSREGON_SANDBOX", True),
+            api_key=os.environ.get("GUSREGON_API_KEY"),
+            sandbox=os.environ.get("GUSREGON_SANDBOX", True),
         )
         self.s = requests.Session()
         self.argv = argv
@@ -164,8 +164,8 @@ class Command:
         if not parent_court:
             print("Unable to find parent court for {}".format(name))
             return
-        url = urljoin(host, "/api/institutions/{}/".format(court))
-        params = {"parents_ids": [parent_court]}
+        urljoin(host, "/api/institutions/{}/".format(court))
+        {"parents_ids": [parent_court]}
 
     def fields_validation(self, fields):
         result = True

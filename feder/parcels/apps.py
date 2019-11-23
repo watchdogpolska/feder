@@ -5,4 +5,4 @@ class ParcelsConfig(AppConfig):
     name = "feder.parcels"
 
     def ready(self):
-        from . import types
+        from . import types  # noqa

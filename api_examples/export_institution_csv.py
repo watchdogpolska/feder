@@ -26,8 +26,6 @@ import tqdm
 import unicodecsv as csv
 import requests_cache
 
-from urllib.parse import urljoin
-
 
 class Client:
     def __init__(self, start, s=None):
@@ -47,7 +45,16 @@ class Client:
             yield from data["results"]
 
 
-JMES_DEFAULT = "{name: name, url:url, pk:pk, email:email, tags:join(',',tags), jst:jst, regon:regon}"
+JMES_DEFAULT = """
+{
+    name: name,
+    url:url, pk:pk,
+    email:email,
+    tags:join(',',tags),
+    jst:jst,
+    regon:regon
+}
+"""
 
 
 class Command:

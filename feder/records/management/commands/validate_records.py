@@ -2,7 +2,6 @@ from django.core.management.base import BaseCommand
 from tqdm import tqdm
 
 from feder.records.models import Record, AbstractRecord
-from feder.users.models import User
 
 
 class Command(BaseCommand):

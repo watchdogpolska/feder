@@ -1,7 +1,5 @@
-from django.template import engines, loader
-from django.template.context import Context
+from django.template import loader
 from django.test import TestCase
-from django.utils import six
 
 from feder.letters.factories import IncomingLetterFactory
 from feder.records.registry import record_type_registry

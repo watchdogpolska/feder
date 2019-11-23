@@ -5,7 +5,6 @@ from django.core.files.base import ContentFile
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.urls import reverse
 from django.test import TestCase
-from django.utils import six
 from guardian.shortcuts import assign_perm
 
 from feder.alerts.models import Alert
