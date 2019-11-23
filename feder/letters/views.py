@@ -2,7 +2,6 @@ import base64
 import json
 import uuid
 from os import path
-from django.utils import six
 from atom.ext.django_filters.views import UserKwargFilterSetMixin
 from atom.views import (
     CreateMessageMixin,
@@ -470,11 +469,7 @@ class ReceiveEmail(View):
                 "The request has an invalid format. "
                 'The acceptable format is "{}"'.format(request.content_type)
             )
-        body = (
-            json.loads(request.read().decode("utf-8"))
-            if six.PY3
-            else json.loads(request.read())
-        )
+        body = json.loads(request.read().decode("utf-8"))
         letter = self.get_letter(**body)
 
         Attachment.objects.bulk_create(

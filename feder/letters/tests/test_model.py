@@ -2,7 +2,6 @@ import email
 
 from django.core import mail
 from django.test import TestCase
-from django.utils import six
 
 from feder.cases.models import Case
 from feder.institutions.factories import InstitutionFactory

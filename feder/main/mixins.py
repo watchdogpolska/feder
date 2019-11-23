@@ -2,7 +2,6 @@ import django_filters
 from braces.views import LoginRequiredMixin
 from django.core.exceptions import ImproperlyConfigured
 from django.core.paginator import EmptyPage, Paginator
-from django.utils import six
 from django.views.generic.detail import BaseDetailView
 from guardian.mixins import PermissionRequiredMixin
 from guardian.shortcuts import assign_perm

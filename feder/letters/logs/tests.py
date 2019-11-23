@@ -5,7 +5,6 @@ import os
 
 from django.test import TestCase
 from django.urls import reverse
-from django.utils import six
 from django.utils.encoding import force_text
 from vcr import VCR
 

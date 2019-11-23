@@ -58,8 +58,8 @@ class Command:
 
     def __init__(self, argv):
         self.gus = GUS(
-            api_key=os.environ("GUSREGON_API_KEY"),
-            sandbox=os.environ("GUSREGON_SANDBOX", True),
+            api_key=os.environ.get("GUSREGON_API_KEY"),
+            sandbox=os.environ.get("GUSREGON_SANDBOX", True),
         )
         self.s = requests.Session()
         self.argv = argv
