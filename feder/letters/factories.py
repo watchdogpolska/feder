@@ -1,4 +1,5 @@
 from email.mime.text import MIMEText
+from email.utils import make_msgid, parseaddr
 
 import factory.fuzzy
 from factory.django import FileField
@@ -9,10 +10,13 @@ from feder.users.factories import UserFactory
 from .models import Letter, Attachment
 
 
-def get_email(subject=None, from_=None, to=None):
+def get_email(subject=None, from_=None, to=None, msg_id=None):
     msg = MIMEText("Lorem ipsum")
     msg["Subject"] = subject or "Example message"
     msg["From"] = from_ or "sender@example.com"
+    msg["Message-ID"] = msg_id or make_msgid(
+        domain=parseaddr(msg["From"])[1].split("@")[1]
+    )
     msg["To"] = to or "recipient@example.com"
     return msg
 
@@ -21,7 +25,7 @@ class MailField(FileField):
     DEFAULT_FILENAME = "data.eml"
 
     def _make_data(self, params):
-        return params.get("data", get_email().as_string().encode("utf-8"))
+        return params.get("data", get_email(**params).as_string().encode("utf-8"))
 
 
 class LetterFactory(factory.django.DjangoModelFactory):
