@@ -34,3 +34,9 @@ settings:
 
 docs:
 	docker-compose run web sphinx-build -b html -d docs/_build/doctrees docs docs/_build/html
+
+push:
+	docker-compose push web
+
+pull:
+	docker pull docker-registry.siecobywatelska.pl/feder/web

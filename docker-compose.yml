@@ -1,4 +1,4 @@
-version: '2.1'
+version: '3.7'
 # This is application’s services configuration for development purposes only.
 
 services:
@@ -21,12 +21,15 @@ services:
       - .:/app
 
   web:
+    image: docker-registry.siecobywatelska.pl/feder/web
     build:
       context: .
       dockerfile: .contrib/docker/Dockerfile.web
       args:
         PYTHON_VERSION: '${PYTHON_VERSION:-3}'
         DJANGO_VERSION: '${DJANGO_VERSION:-==2.2.*}'
+      cache_from:
+        - docker-registry.siecobywatelska.pl/feder/web:latest
     volumes:
       - .:/code
     environment:

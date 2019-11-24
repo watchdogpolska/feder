@@ -17,11 +17,11 @@ jobs:
     steps:
     - uses: actions/checkout@v1
       with:
-        lfs: true
+        lfs: "true"
     - name: Start database early
       run: docker-compose up -d db
     - name: Build application
-      run: docker-compose build web
+      run: make pull build
       env:
         PYTHON_VERSION: ${{ matrix.python }}
         DJANGO_VERSION: ${{ matrix.django }}

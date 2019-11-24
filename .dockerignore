@@ -10,3 +10,4 @@ media
 feder/media
 feder/staticfiles
 htmlcov
+docker-compose.yml
