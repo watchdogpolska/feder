@@ -1,3 +1,5 @@
+.PHONY: docs
+
 clean:
 	docker-compose down
 
