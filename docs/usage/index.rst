@@ -11,3 +11,4 @@ Podręcznik użytkownika
    abuse_request
    spam
    permissions
+   add_domain
