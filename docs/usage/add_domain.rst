@@ -35,7 +35,7 @@ Aby skonfigurować serwer pocztowego do obsługiwania domeny Fedrowania należy:
 * zalogować się do Panelu Zarządzania Zenbox,
 * dodać domenę do konta Zenbox,
 * skonfigurować przekierowanie catch-all na adres
-`main@....`, zgodnie z domeną `siecobywatelska.pl`
+  `main@....`, zgodnie z domeną `siecobywatelska.pl`
 
 Proces importowania wiadomości
 ------------------------------
@@ -66,6 +66,6 @@ E-maillabs. Należy zapewnić poprawne skonfigurowanie DKIM, DMARC i SPF,
 aby wiadomości zostały uznane za wiarygodne.
 
 Aby zarządzać rekordami DNS w strefach DNS Stowarzyszenia należy zmodyfikować
- repozytorium infra_terraform_ zgodnie z regułami repozytorium.
+repozytorium infra_terraform_ zgodnie z regułami repozytorium.
 
 .. _infra_terraform: https://github.com/watchdogpolska/infra-terraform
