@@ -31,6 +31,7 @@ Fedrowania zapewnia Zenbox. Realizowane jest to poprzez gromadzenie
 wiadomości w jednej skrzynce pocztowej.
 
 Aby skonfigurować serwer pocztowego do obsługiwania domeny Fedrowania należy:
+
 * zalogować się do Panelu Zarządzania Zenbox,
 * dodać domenę do konta Zenbox,
 * skonfigurować przekierowanie catch-all na adres
