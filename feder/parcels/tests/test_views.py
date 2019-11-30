@@ -1,5 +1,8 @@
+import datetime
+
 from django.test import TestCase
 from django.urls import reverse
+from django.core.files.uploadedfile import SimpleUploadedFile
 
 from feder.cases.factories import CaseFactory
 from feder.main.tests import PermissionStatusMixin
@@ -32,6 +35,24 @@ class IncomingParcelPostCreateViewTestCase(
 
     def get_url(self):
         return reverse("parcels:incoming-create", kwargs={"case_pk": self.case.pk})
+
+    def test_create_new_parcel(self):
+        self.login_permitted_user()
+        simple_file = SimpleUploadedFile(
+            "file.mp4", b"file_content", content_type="video/mp4"
+        )
+        resp = self.client.post(
+            self.get_url(),
+            data={
+                "title": "xxx",
+                "content": "yyy",
+                "content": simple_file,
+                "sender": self.object.sender.pk,
+                "receive_date": self.object.receive_date,
+            },
+        )
+        self.assertEqual(resp.status_code, 302)
+        self.assertTrue(self.case.record_set.count(), 2)
 
 
 class IncomingParcelPostDetailViewTestCase(
@@ -78,8 +99,7 @@ class IncomingParcelPostUpdateViewTestCase(
     def test_avoid_duplicate_record_on_update(self):
         self.login_permitted_user()
         previous_record = self.object.record.id
-
-        self.client.post(
+        resp = self.client.post(
             self.get_url(),
             data={
                 "title": "xxx",
@@ -88,9 +108,27 @@ class IncomingParcelPostUpdateViewTestCase(
                 "receive_date": self.object.receive_date,
             },
         )
+        self.assertEqual(resp.status_code, 302)
         self.object.refresh_from_db()
         self.assertEqual(self.object.title, "xxx")
         self.assertEqual(self.object.record.id, previous_record)
+
+    def test_update_time_of_parcel(self):
+        self.login_permitted_user()
+        new_date = self.object.receive_date + datetime.timedelta(days=25)
+        resp = self.client.post(
+            self.get_url(),
+            data={
+                "title": "xxx",
+                "content": "yyy",
+                "sender": self.object.sender.pk,
+                "receive_date": new_date,
+            },
+        )
+        self.assertEqual(resp.status_code, 302)
+        self.object.refresh_from_db()
+        self.assertEqual(self.object.receive_date, new_date)
+        self.assertTrue(self.case.record_set.count(), 1)
 
 
 class IncomingParcelPostDeleteViewTestCase(
@@ -109,6 +147,24 @@ class OutgoingParcelPostCreateViewTestCase(
 
     def get_url(self):
         return reverse("parcels:outgoing-create", kwargs={"case_pk": self.case.pk})
+
+    def test_create_new_parcel(self):
+        self.login_permitted_user()
+        simple_file = SimpleUploadedFile(
+            "file.mp4", b"file_content", content_type="video/mp4"
+        )
+        resp = self.client.post(
+            self.get_url(),
+            data={
+                "title": "xxx",
+                "content": "yyy",
+                "content": simple_file,
+                "recipient": self.object.recipient.pk,
+                "post_date": self.object.post_date,
+            },
+        )
+        self.assertEqual(resp.status_code, 302)
+        self.assertTrue(self.case.record_set.count(), 2)
 
 
 class OutgoingParcelPostDetailViewTestCase(
