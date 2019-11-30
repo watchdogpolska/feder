@@ -1,8 +1,6 @@
 from .base import BaseEngine
 from django.conf import settings
-from virus_total_apis import PublicApi
 from feder.virus_scan.models import Request
-from time import sleep
 import requests
 
 
@@ -27,7 +25,7 @@ class AttachmentScannerEngine(BaseEngine):
         resp = self.session.post(
             "{}/v0.1/scans".format(self.url),
             files={"file": (filename, this_file, "application/octet-stream")},
-            headers={"authorization": "bearer {}".format(self.key),},
+            headers={"authorization": "bearer {}".format(self.key)},
         )
         resp.raise_for_status()
         result = resp.json()
@@ -40,7 +38,7 @@ class AttachmentScannerEngine(BaseEngine):
     def receive_result(self, engine_id):
         resp = self.session.get(
             "{}/v0.1/scans/{}".format(self.url, self.engine_id),
-            headers={"authorization": "bearer {}".format(self.key),},
+            headers={"authorization": "bearer {}".format(self.key)},
         )
         resp.raise_for_status()
         result = resp.json()
