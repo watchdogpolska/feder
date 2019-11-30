@@ -30,7 +30,7 @@ class MetaDefenderEngine(BaseEngine):
             files={"": (filename, this_file, "application/octet-stream")},
             headers={
                 "apikey": self.key,
-                "filename": filename.encode('ascii', 'ignore'),
+                "filename": filename.encode("ascii", "ignore"),
                 "callbackurl": self.get_webhook_url(),
             },
         )
