@@ -24,7 +24,10 @@
             {% for attachment in object.attachment_set.all %}
                 <li>
                     {{ attachment }}
-                    {% if not attachment.has_scan_status %}
+                    {% if attachment.current_scan_request %}
+                        ({% include 'virus_scan/_request.html' with object=attachment.current_scan_request %})
+                    {% else %}
+                        (nieskanowany)
                         <a class="btn btn-xs btn-default" href="{% url 'letters:scan' pk=attachment.pk letter_pk=object.pk %}">
                             <i class="fa fa fa-eye"></i>
                             {% trans 'Scan' %}

@@ -1,5 +1,6 @@
 from django.core.management.base import BaseCommand
 from feder.virus_scan.models import Request
+
 from feder.virus_scan.engine import get_engine
 
 current_engine = get_engine()
@@ -15,11 +16,7 @@ class Command(BaseCommand):
     def send_scan(self):
         for request in Request.objects.filter(status=Request.STATUS.created).all():
             self.stdout.write("Send to scan: {}".format(request))
-            f = request.get_file()
-            result = current_engine.send_scan(f.file, f.name)
-            request.engine_name = current_engine.name
-            for key in result:
-                setattr(request, key, result[key])
+            request.send_scan()
             request.save()
 
     def receive_result(self):
@@ -29,9 +26,7 @@ class Command(BaseCommand):
             .all()
         ):
             self.stdout.write("Receive result: {}".format(request))
-            result = current_engine.receive_result(request.engine_id)
-            for key in result:
-                setattr(request, key, result[key])
+            request.receive_result()
             request.save()
 
     def handle(self, *args, **options):

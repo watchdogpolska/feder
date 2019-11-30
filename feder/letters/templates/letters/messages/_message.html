@@ -21,12 +21,12 @@
         <td>{% trans 'EML' %}</td>
         <td><a href="{% url 'letters:messages_download' pk=object.pk %}">{% trans 'Download original message' %}</a></td>
     </tr>
-    {% if object.attachments.all %}
+    {% if object.attachment_set.all %}
         <tr>
             <td>{% trans 'Attachments' %}</td>
             <td>
                 <ul>
-                    {% for attachment in object.attachments.all %}
+                    {% for attachment in object.attachment_set.all %}
                         <li>
                             <a href="{{ attachment.document.name }}">{{ attachment.document.file.name }}</a>
                         </li>

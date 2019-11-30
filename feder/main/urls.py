@@ -64,6 +64,7 @@ urlpatterns += [
     url(_(r"^teryt/"), include("feder.teryt.urls", namespace="teryt")),
     url(_(r"^letters/logs/"), include("feder.letters.logs.urls", namespace="logs")),
     url(_(r"^parcels/"), include("feder.parcels.urls", namespace="parcels")),
+    url(_(r"^virus_scan/"), include("feder.virus_scan.urls", namespace="virus_scan")),
     url(r"^api/", include(router.urls)),
 ]
 

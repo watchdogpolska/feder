@@ -11,7 +11,6 @@ from django.contrib.contenttypes.fields import GenericRelation
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.db import models
-from django.db.models import Prefetch
 from django.db.models.manager import BaseManager
 from django.utils.encoding import python_2_unicode_compatible, force_text
 from django.utils.translation import ugettext_lazy as _
@@ -33,9 +32,7 @@ class LetterQuerySet(models.QuerySet):
         return self.select_related("author_user", "author_institution")
 
     def for_milestone(self):
-        return self.prefetch_related(
-            Prefetch("attachment_set", to_attr="attachments")
-        ).with_author()
+        return self.with_attachment().with_author()
 
     def for_api(self):
         return self.for_milestone().select_related("emaillog")
@@ -55,7 +52,7 @@ class LetterQuerySet(models.QuerySet):
             .select_related(
                 "record__case__institution__jst", "record__case__monitoring"
             )
-            .prefetch_related("attachment_set")
+            .with_attachment()
         )
 
     def with_attachment(self):
@@ -270,19 +267,19 @@ class Attachment(AttachmentBase):
     objects = AttachmentQuerySet.as_manager()
     scan_request = GenericRelation(ScanRequest, verbose_name=_("Virus scan request"))
 
-    def has_scan_status(self):
-        scans = self.scan_request.all()
-        return bool(scans)
-
-    def scan_status(self):
+    def current_scan_request(self):
         scans = self.scan_request.all()
         if scans:
-            return scans[0].status
+            return scans[0]
+
+    def scan_status(self):
+        scan = self.current_scan_request()
+        if scan:
+            return scan.status
 
     def is_infected(self):
-        return any(
-            x.status == ScanRequest.STATUS.infected for x in self.scan_request.all()
-        )
+        scan = self.scan_status()
+        return scan == ScanRequest.STATUS.infected
 
     def delete(self, *args, **kwargs):
         self.attachment.delete()

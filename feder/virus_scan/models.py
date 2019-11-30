@@ -40,6 +40,26 @@ class Request(TimeStampedModel):
     def get_file(self):
         return getattr(self.content_object, self.field_name)
 
+    def receive_result(self):
+        from feder.virus_scan.engine import get_engine
+
+        current_engine = get_engine()
+
+        result = current_engine.receive_result(self.engine_id)
+        for key in result:
+            setattr(self, key, result[key])
+
+    def send_scan(self):
+        from feder.virus_scan.engine import get_engine
+
+        current_engine = get_engine()
+
+        f = self.get_file()
+        result = current_engine.send_scan(f.file, f.name)
+        self.engine_name = current_engine.name
+        for key in result:
+            setattr(self, key, result[key])
+
     class Meta:
         verbose_name = _("Request of virus scan")
         verbose_name_plural = _("Requests of virus scan")

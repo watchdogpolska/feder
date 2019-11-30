@@ -11,6 +11,7 @@ class MetaDefenderEngine(BaseEngine):
         self.key = settings.METADEFENDER_API_KEY
         self.url = settings.METADEFENDER_API_URL
         self.session = requests.Session()
+        super().__init__()
 
     def map_status(self, resp):
         if resp.get("status", None) == "inqueue":
@@ -27,7 +28,11 @@ class MetaDefenderEngine(BaseEngine):
         resp = self.session.post(
             "{}/v4/file".format(self.url),
             files={"": (filename, this_file, "application/octet-stream")},
-            headers={"apikey": self.key, "filename": filename},
+            headers={
+                "apikey": self.key,
+                "filename": filename,
+                "callbackurl": self.get_webhook_url(),
+            },
         )
         resp.raise_for_status()
         result = resp.json()
