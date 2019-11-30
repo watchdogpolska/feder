@@ -37,12 +37,17 @@ urlpatterns = [
         name="download",
     ),
     url(
-        _(r"^attachment/(?P<pk>[\d-]+)/(?P<letter_pk>[\d-]+)"),
+        r"^attachment/(?P<pk>[\d-]+)/(?P<letter_pk>[\d-]+)/~scan",
+        views.AttachmentRequestCreateView.as_view(),
+        name="scan",
+    ),
+    url(
+        _(r"^attachment/(?P<pk>[\d-]+)/(?P<letter_pk>[\d-]+)$"),
         views.AttachmentXSendFileView.as_view(),
         name="attachment",
     ),
     url(
-        r"^attachment/(?P<pk>[\d-]+)/(?P<letter_pk>[\d-]+)",
+        r"^attachment/(?P<pk>[\d-]+)/(?P<letter_pk>[\d-]+)$",
         views.AttachmentXSendFileView.as_view(),
     ),
     # no translation for back-ward compatibility
