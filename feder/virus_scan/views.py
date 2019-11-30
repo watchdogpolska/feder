@@ -1,17 +1,17 @@
 from django.views.generic import View
 from django.core.signing import TimestampSigner, BadSignature
 from django.core.exceptions import SuspiciousOperation
-from .engine import get_engine
 from .models import Request
 from django.http import JsonResponse
-
-current_engine = get_engine()
 
 signer = TimestampSigner()
 
 
 class RequestWebhookView(View):
     def post(self, request, *args, **kwargs):
+        from .engine import get_engine
+
+        current_engine = get_engine()
         try:
             token = signer.unsign(
                 value=self.request.GET.get("token", ""), max_age=60 * 24

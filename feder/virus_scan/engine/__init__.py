@@ -4,6 +4,14 @@ from .attachmentscanner import AttachmentScannerEngine
 from .metadefender import MetaDefenderEngine
 
 
+def is_available():
+    try:
+        get_engine()
+        return True
+    except:
+        return False
+
+
 def get_engine():
     if settings.METADEFENDER_API_KEY:
         return MetaDefenderEngine()

@@ -25,6 +25,7 @@ jobs:
       env:
         PYTHON_VERSION: ${{ matrix.python }}
         DJANGO_VERSION: ${{ matrix.django }}
+        METADEFENDER_API_KEY: ${{ secrets.METADEFENDER_API_KEY }}
     - name: Lint check
       run: make lint
     - name: Migration check

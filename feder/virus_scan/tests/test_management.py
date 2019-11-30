@@ -1,15 +1,15 @@
-from django.test import TestCase
-from io import StringIO
-from django.core.management import call_command
-from io import StringIO
-from feder.virus_scan.engine import get_engine
-from feder.virus_scan.models import Request
-from feder.virus_scan.factories import AttachmentRequestFactory
+import os
 import time
 import struct
 import random
+from unittest import skipIf
+from io import StringIO
 
-current_engine = get_engine()
+from django.test import TestCase
+from django.core.management import call_command
+from feder.virus_scan.engine import get_engine, is_available
+from feder.virus_scan.models import Request
+from feder.virus_scan.factories import AttachmentRequestFactory
 
 EICAR_TEST = r"X5O!P%@AP[4\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*"
 
@@ -18,8 +18,17 @@ def random_binary():
     return struct.pack("=I", random.randint(0, ((2 ** 32) - 1)))
 
 
+def skipIfNoEngine(x):
+    return skipIf(
+        not is_available() and "CI" not in os.environ, "Missing engine configuration"
+    )(x)
+
+
 class VirusScanCommandTestCase(TestCase):
+    @skipIfNoEngine
     def test_virus_scan_for_eicar(self):
+        current_engine = get_engine()
+
         request = AttachmentRequestFactory(content_object__attachment__data=EICAR_TEST)
         stdout = StringIO()
         call_command(
@@ -32,7 +41,10 @@ class VirusScanCommandTestCase(TestCase):
         self.assertEqual(request.engine_name, current_engine.name)
         self.assertNotEqual(request.engine_id, "")
 
+    @skipIfNoEngine
     def test_virus_scan_for_safe_file(self):
+        current_engine = get_engine()
+
         request = AttachmentRequestFactory()
         stdout = StringIO()
         call_command(
@@ -60,6 +72,7 @@ class VirusScanCommandTestCase(TestCase):
             time.sleep(delay)
         raise Exception("Timeout for transition of state")
 
+    @skipIfNoEngine
     def test_virus_scan_file_for_random(self):
         request = AttachmentRequestFactory(
             content_object__attachment__data=random_binary()
