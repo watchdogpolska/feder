@@ -130,6 +130,7 @@ class IncomingParcelPostUpdateViewTestCase(
         self.assertEqual(self.object.receive_date, new_date)
         self.assertTrue(self.case.record_set.count(), 1)
 
+
 class IncomingParcelPostDeleteViewTestCase(
     IncomingParcelPostMixin, PermissionStatusMixin, TestCase
 ):
@@ -164,6 +165,7 @@ class OutgoingParcelPostCreateViewTestCase(
         )
         self.assertEqual(resp.status_code, 302)
         self.assertTrue(self.case.record_set.count(), 2)
+
 
 class OutgoingParcelPostDetailViewTestCase(
     OutgoingParcelPostMixin, PermissionStatusMixin, TestCase
