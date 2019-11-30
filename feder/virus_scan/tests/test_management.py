@@ -45,7 +45,9 @@ class VirusScanCommandTestCase(TestCase):
     def test_virus_scan_for_safe_file(self):
         current_engine = get_engine()
 
-        request = AttachmentRequestFactory()
+        request = AttachmentRequestFactory(
+            content_object__attachment__data='zółć.docx'
+        )
         stdout = StringIO()
         call_command(
             "virus_scan", stdout=stdout,
