@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-17 08:50+0000\n"
+"POT-Creation-Date: 2019-11-30 05:05+0000\n"
 "PO-Revision-Date: 2017-09-20 20:27+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: \n"
@@ -19,71 +19,71 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.8.7.1\n"
 
-#: logs/apps.py:10
+#: logs/apps.py:7
 msgid "Logs of letter"
 msgstr "Dziennik listów"
 
-#: logs/models.py:16
+#: logs/models.py:17
 msgid "Open"
 msgstr "Otwarty"
 
-#: logs/models.py:17
+#: logs/models.py:18
 msgid "Delivered"
 msgstr "Dostarczony"
 
-#: logs/models.py:18
+#: logs/models.py:19
 msgid "Spam-bounce"
 msgstr "Odrzucony z powodu spamu"
 
-#: logs/models.py:19
+#: logs/models.py:20
 msgid "Soft-bounce"
 msgstr "Miękko odrzucony"
 
-#: logs/models.py:20
+#: logs/models.py:21
 msgid "Hard-bounce"
 msgstr "Twardo odrzucony"
 
-#: logs/models.py:21
+#: logs/models.py:22
 msgid "Dropped"
 msgstr "Porzucone"
 
-#: logs/models.py:22
+#: logs/models.py:23
 msgid "Deferred"
 msgstr "Odroczone"
 
-#: logs/models.py:23
+#: logs/models.py:24
 msgid "Unknown"
 msgstr "Nieznane"
 
-#: logs/models.py:35 logs/templates/logs/_list.html:7
+#: logs/models.py:36 logs/templates/logs/_list.html:7
 msgid "Case"
 msgstr "Sprawa"
 
-#: logs/models.py:36 logs/templates/logs/_list.html:9
+#: logs/models.py:38 logs/templates/logs/_list.html:9
 msgid "Letter"
 msgstr "List"
 
-#: logs/models.py:37
+#: logs/models.py:40
 msgid "Message-ID"
 msgstr "Message-ID"
 
-#: logs/models.py:38
+#: logs/models.py:41
 msgid "To"
 msgstr "Do"
 
-#: logs/models.py:48 logs/models.py:82
+#: logs/models.py:51 logs/models.py:93
 msgid "Email"
 msgstr "E-mail"
 
-#: logs/models.py:49
+#: logs/models.py:52
 msgid "Emails"
 msgstr "E-maile"
 
-#: logs/models.py:99
+#: logs/models.py:111
 msgid "Log record"
 msgstr "Rekord dziennika"
 
-#: logs/models.py:100
+#: logs/models.py:112
 msgid "Log records"
 msgstr "Rekordy dziennika"
 
@@ -108,18 +108,18 @@ msgstr "Dziennik"
 msgid "Download .csv"
 msgstr "Pobierz .csv"
 
-#: logs/urls.py:10
+#: logs/urls.py:8
 msgid "^case-(?P<case_pk>[\\d-]+)$"
 msgstr "^spraw-(?P<case_pk>[\\d-]+)$"
 
-#: logs/urls.py:12
+#: logs/urls.py:13
 msgid "^monitoring-(?P<monitoring_pk>[\\d-]+)$"
 msgstr "^monitoring-(?P<monitoring_pk>[\\d-]+)$"
 
-#: logs/urls.py:14
+#: logs/urls.py:18
 msgid "^monitoring-(?P<monitoring_pk>[\\d-]+)/export$"
 msgstr "^monitoring-(?P<monitoring_pk>[\\d-]+)/eksport$"
 
-#: logs/urls.py:16
+#: logs/urls.py:22
 msgid "^log-(?P<pk>[\\d-]+)$"
 msgstr "^wpis-(?P<pk>[\\d-]+)$"

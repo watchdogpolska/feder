@@ -7,7 +7,7 @@ https://docs.djangoproject.com/en/dev/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/dev/ref/settings/
 """
-
+import sys
 import environ
 
 ROOT_DIR = environ.Path(__file__) - 3  # (/a/b/myfile.py - 3 = /)
@@ -67,6 +67,7 @@ LOCAL_APPS = (
     "feder.domains",
     "feder.records.apps.RecordsConfig",
     "feder.parcels.apps.ParcelsConfig",
+    "feder.virus_scan",
     # Your stuff: custom apps go here
 )
 
@@ -323,3 +324,13 @@ NECCESSARY_FILES = {
         "fields": ["content"],
     },
 }
+
+VIRUSTOTAL_API_KEY = env("VIRUSTOTAL_API_KEY", default=None)
+ATTACHMENTSCANNER_API_KEY = env("ATTACHMENTSCANNER_API_KEY", default=None)
+ATTACHMENTSCANNER_API_URL = env(
+    "ATTACHMENTSCANNER_API_URL", default="https://beta-eu.attachmentscanner.com"
+)
+METADEFENDER_API_KEY = env("METADEFENDER_API_KEY", default=None)
+METADEFENDER_API_URL = env(
+    "METADEFENDER_API_URL", default="https://api.metadefender.com"
+)

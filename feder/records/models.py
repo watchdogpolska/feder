@@ -40,7 +40,7 @@ class RecordQuerySet(models.QuerySet):
     def with_author(self):
         from feder.letters.models import Letter
 
-        letter_queryset = Letter.objects.with_author().all()
+        letter_queryset = Letter.objects.with_author().with_attachment().all()
         return self.prefetch_related(
             Prefetch(lookup="letters_letter_related", queryset=letter_queryset)
         ).all()

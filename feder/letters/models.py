@@ -7,10 +7,10 @@ from django.contrib.auth import get_user_model
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.files.base import ContentFile
 from django.core.mail.message import make_msgid, EmailMultiAlternatives
+from django.contrib.contenttypes.fields import GenericRelation
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.db import models
-from django.db.models import Prefetch
 from django.db.models.manager import BaseManager
 from django.utils.encoding import python_2_unicode_compatible, force_text
 from django.utils.translation import ugettext_lazy as _
@@ -19,6 +19,7 @@ from feder.cases.models import Case
 from feder.institutions.models import Institution
 from feder.records.models import AbstractRecord, Record
 from .utils import email_wrapper, normalize_msg_id, get_body_with_footer
+from ..virus_scan.models import Request as ScanRequest
 
 logger = logging.getLogger(__name__)
 
@@ -31,9 +32,7 @@ class LetterQuerySet(models.QuerySet):
         return self.select_related("author_user", "author_institution")
 
     def for_milestone(self):
-        return self.prefetch_related(
-            Prefetch("attachment_set", to_attr="attachments")
-        ).with_author()
+        return self.with_attachment().with_author()
 
     def for_api(self):
         return self.for_milestone().select_related("emaillog")
@@ -53,7 +52,12 @@ class LetterQuerySet(models.QuerySet):
             .select_related(
                 "record__case__institution__jst", "record__case__monitoring"
             )
-            .prefetch_related("attachment_set")
+            .with_attachment()
+        )
+
+    def with_attachment(self):
+        return self.prefetch_related("attachment_set").prefetch_related(
+            "attachment_set__scan_request"
         )
 
     def exclude_spam(self):
@@ -253,11 +257,29 @@ class AttachmentQuerySet(models.QuerySet):
             )
         return self
 
+    def with_scan_result(self):
+        return self.prefetch_related("scan_request")
+
 
 @python_2_unicode_compatible
 class Attachment(AttachmentBase):
     letter = models.ForeignKey(Letter, on_delete=models.CASCADE)
     objects = AttachmentQuerySet.as_manager()
+    scan_request = GenericRelation(ScanRequest, verbose_name=_("Virus scan request"))
+
+    def current_scan_request(self):
+        scans = self.scan_request.all()
+        if scans:
+            return scans[0]
+
+    def scan_status(self):
+        scan = self.current_scan_request()
+        if scan:
+            return scan.status
+
+    def is_infected(self):
+        scan = self.scan_status()
+        return scan == ScanRequest.STATUS.infected
 
     def delete(self, *args, **kwargs):
         self.attachment.delete()

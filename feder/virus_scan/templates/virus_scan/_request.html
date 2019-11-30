@@ -1,0 +1,7 @@
+{% if object.engine_link %}
+    <a href="{{object.engine_link}}">
+{% endif %}
+{{object.get_status_display}}
+{% if object.engine_link %}
+    </a>
+{% endif %}

@@ -1,0 +1,76 @@
+{% extends 'letters/base.html' %}
+{% load i18n humanize %}
+
+{% block breadcrumbs %}
+    <ol
+        class="breadcrumb"
+        itemscope
+        itemtype="http://schema.org/BreadcrumbList">
+        <li
+            itemprop="itemListElement"
+            itemscope
+            itemtype="http://schema.org/ListItem">
+            <a itemprop="item" href="{{ object.letter.case.monitoring.get_absolute_url }}">
+                {{ object.letter.case.monitoring }}
+            </a>
+        </li>
+        <li
+            itemprop="itemListElement"
+            itemscope
+            itemtype="http://schema.org/ListItem">
+            <a itemprop="item" href="{{ object.letter.case.get_absolute_url }}">
+                <span itemprop="name">{{ object.letter.case }}</span>
+            </a>
+        </li>
+        <li
+            itemprop="itemListElement"
+            itemscope
+            itemtype="http://schema.org/ListItem">
+            <a itemprop="item" href="{{ object.letter.get_absolute_url }}">
+                <span itemprop="name">{{ object.letter }}</span>
+            </a>
+        </li>
+        <li
+            itemprop="itemListElement"
+            itemscope
+            itemtype="http://schema.org/ListItem">
+            <a itemprop="item" href="{{ object.get_absolute_url }}">
+                <span itemprop="name">{{ object }}</span>
+            </a>
+        </li>
+        {% block breadcrumb_row %}
+            <li
+                itemprop="itemListElement"
+                itemscope
+                itemtype="http://schema.org/ListItem"
+                class="active">
+                <span itemprop="name">{% if headline %}{{ headline }}{% else %}{% trans 'Edit' %}{% endif %}</span>
+            </li>
+        {% endblock %}
+    </ol>
+{% endblock %}
+
+{% block buttons %}
+    {% if object %}
+        {% include 'letters/_btn.html' with object=object.letter %}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h2>
+            <i class="fa fa-envelope"></i>
+            {% blocktrans with object=object.letter object_url=object.letter.get_absolute_url author=object.letter.author author_url=object.letter.author.get_absolute_url case=object.letter.case case_url=object.letter.case.get_absolute_url institution=object.letter.case.institution institution=object.letter.case.institution created=object.created created_natural=object.created|naturaltime %}
+                <a href="{{ object_url }}">{{ object }}</a>
+                <small>by <a href="{{ author_url }}"> {{ author }} </a>
+                    <time datetime="{{ created }}" title="{{ created_natural }}">{{ created }}</time>
+                    in case <a href="{{ case_url }}">{{ case }}</a> with <a
+                            href="{{ institution_url }}">{{ institution }}</a></small>{% endblocktrans %}
+        </h2>
+    </div>
+    <div class="gray">
+
+        {% block content_object %}{% endblock %}
+    </div>
+
+{% endblock %}

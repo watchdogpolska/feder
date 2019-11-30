@@ -23,9 +23,22 @@
         <ul>
             {% for attachment in object.attachment_set.all %}
                 <li>
-                    <a href="{{ attachment.get_absolute_url }}">
-                        {{ attachment }}
-                    </a>
+                    {{ attachment }}
+                    {% if attachment.current_scan_request %}
+                        ({% include 'virus_scan/_request.html' with object=attachment.current_scan_request %})
+                    {% else %}
+                        (nieskanowany)
+                        <a class="btn btn-xs btn-default" href="{% url 'letters:scan' pk=attachment.pk letter_pk=object.pk %}">
+                            <i class="fa fa fa-eye"></i>
+                            {% trans 'Scan' %}
+                        </a>
+                    {% endif %}
+                    {% if not attachment.is_infected %}
+                        <a class="btn btn-xs btn-primary" href="{{ attachment.get_absolute_url }}">
+                            <i class="fa fa fa-download"></i>
+                            {% trans 'Download' %}
+                        </a>
+                    {% endif %}
                 </li>
             {% endfor %}
         </ul>

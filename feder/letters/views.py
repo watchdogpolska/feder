@@ -49,6 +49,8 @@ from .filters import LetterFilter
 from .forms import LetterForm, ReplyForm, AssignLetterForm
 from .mixins import LetterObjectFeedMixin
 from .models import Letter, Attachment
+from ..virus_scan.models import Request as ScanRequest
+
 
 _("Letters index")
 
@@ -85,6 +87,10 @@ class LetterListView(
 class LetterDetailView(SelectRelatedMixin, CaseRequiredMixin, DetailView):
     model = Letter
     select_related = ["author_institution", "author_user", "record__case__monitoring"]
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        return qs.with_attachment()
 
 
 class LetterMessageXSendFileView(MixinGzipXSendFile, BaseXSendFileView):
@@ -202,6 +208,10 @@ class LetterUpdateView(
     permission_attribute = "record__case__monitoring"
     permission_required = "monitorings.change_letter"
 
+    def get_queryset(self):
+        qs = super().get_queryset()
+        return qs.with_attachment()
+
 
 class LetterDeleteView(
     AttrPermissionRequiredMixin, DeleteMessageMixin, CaseRequiredMixin, DeleteView
@@ -220,6 +230,10 @@ class LetterDeleteView(
 
     def get_success_url(self):
         return self.object.case.get_absolute_url()
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        return qs.with_attachment()
 
 
 class LetterRssFeed(Feed):
@@ -456,6 +470,38 @@ class AttachmentXSendFileView(MixinGzipXSendFile, BaseXSendFileView):
         if kwargs["filename"].endswith(".gz"):
             kwargs["encoding"] = "gzip"
         return kwargs
+
+    def render_to_response(self, context):
+        if context["object"].is_infected():
+            raise PermissionDenied(
+                "You do not have permission to view that file. "
+                "The file was considered dangerous."
+            )
+        return super().render_to_response(context)
+
+
+class AttachmentRequestCreateView(ActionMessageMixin, ActionView):
+    template_name_suffix = "_request_scan"
+    model = Attachment
+
+    def get_object(self, *args, **kwargs):
+        if not hasattr(self, "object"):
+            self.object = super().get_object(*args, **kwargs)
+        return self.object
+
+    def get_queryset(self):
+        return super().get_queryset().for_user(self.request.user)
+
+    def action(self):
+        ScanRequest.objects.create(
+            content_object=self.object, field_name="attachment",
+        )
+
+    def get_success_message(self):
+        return _("The file {} has been queued for scanning").format(self.object)
+
+    def get_success_url(self):
+        return self.object.letter.get_absolute_url()
 
 
 class ReceiveEmail(View):

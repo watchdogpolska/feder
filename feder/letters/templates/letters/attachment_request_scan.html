@@ -1,0 +1,27 @@
+{% extends 'letters/attachment_base_object.html' %}
+
+{% load i18n %}
+
+{% block meta %}
+    <meta name="robots" content="noindex">
+{% endblock %}
+
+{% block breadcrumb_row %}
+    <li
+        itemprop="itemListElement"
+        itemscope
+        itemtype="http://schema.org/ListItem"
+        class="active">
+        <span itmeprop="name">{% trans 'Scan request' %}</span>
+    </li>
+{% endblock %}
+
+{% block content_object %}
+    {% blocktrans with object=object %}Are you sure you want to request scan of "{{ object }}"?{% endblocktrans %}
+    <form method="POST">
+        <div style="display:none">
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+        </div>
+     <input type="submit" class="btn btn-default" value="{% trans 'Request scan' %}">
+    </form>
+{% endblock %}

@@ -6,7 +6,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.urls import reverse
 from django.test import TestCase
 from guardian.shortcuts import assign_perm
-
+from feder.virus_scan.factories import AttachmentRequestFactory
 from feder.alerts.models import Alert
 from feder.cases.factories import CaseFactory
 from feder.cases.models import Case
@@ -15,6 +15,8 @@ from feder.letters.settings import LETTER_RECEIVE_SECRET
 from feder.main.tests import PermissionStatusMixin
 from feder.monitorings.factories import MonitoringFactory
 from feder.records.models import Record
+from ...virus_scan.models import Request as ScanRequest
+
 from feder.users.factories import UserFactory
 from ..factories import (
     IncomingLetterFactory,
@@ -402,6 +404,14 @@ class StandardAttachmentXSendFileViewTestCase(PermissionStatusMixin, TestCase):
         return reverse(
             "letters:attachment", kwargs={"pk": self.object.pk, "letter_pk": 0}
         )
+
+    def test_forbid_access_for_infected(self):
+        AttachmentRequestFactory(
+            content_object=self.object, status=ScanRequest.STATUS.infected
+        )
+        self.login_permitted_user()
+        resp = self.client.get(self.get_url())
+        self.assertEqual(resp.status_code, 403)
 
 
 class ReceiveEmailTestCase(TestCase):
