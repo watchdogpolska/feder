@@ -18,6 +18,8 @@ jobs:
     - uses: actions/checkout@v1
       with:
         lfs: true
+    - name: Lint check
+      run: make lint
     - name: Start database early
       run: docker-compose up -d db
     - name: Build application
@@ -26,8 +28,6 @@ jobs:
         PYTHON_VERSION: ${{ matrix.python }}
         DJANGO_VERSION: ${{ matrix.django }}
         METADEFENDER_API_KEY: ${{ secrets.METADEFENDER_API_KEY }}
-    - name: Lint check
-      run: make lint
     - name: Migration check
       run: make check
     - name: Show MySQL logs

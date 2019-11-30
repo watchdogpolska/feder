@@ -4,11 +4,15 @@ from .attachmentscanner import AttachmentScannerEngine
 from .metadefender import MetaDefenderEngine
 
 
+class NotFoundEngineException(Exception):
+    pass
+
+
 def is_available():
     try:
         get_engine()
         return True
-    except:
+    except NotFoundEngineException:
         return False
 
 
@@ -19,4 +23,4 @@ def get_engine():
         return AttachmentScannerEngine()
     if settings.VIRUSTOTAL_API_KEY:
         return VirusTotalEngine()
-    raise Exception("Not found available virus_scan engine")
+    raise NotFoundEngineException("Not found available virus_scan engine")
