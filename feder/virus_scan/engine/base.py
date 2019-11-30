@@ -8,7 +8,7 @@ class BaseEngine:
         self.signer = TimestampSigner()
 
     def get_webhook_url(self):
-        return "{}://{}/{}?token={}".format(
+        return "{}://{}{}?token={}".format(
             "https",
             get_current_site(None).domain,
             reverse("virus_scan:webhook"),
