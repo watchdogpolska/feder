@@ -48,7 +48,7 @@ django-bootstrap-pagination==1.7.1
 django-reversion==3.0.5
 djangorestframework==3.10.3
 unicodecsv==0.14.1
-tqdm==4.40.0
+tqdm==4.40.1
 djangorestframework-filters==0.11.1
 django-github-revision==0.0.3
 django-extensions==2.2.5
