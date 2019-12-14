@@ -1,28 +1,20 @@
 from django.views.generic import View
-from django.core.signing import TimestampSigner, BadSignature
 from django.core.exceptions import SuspiciousOperation
 from .models import Request
 from django.http import JsonResponse
-
-signer = TimestampSigner()
+from .signer import TokenSigner
 
 
 class RequestWebhookView(View):
+    signer = TokenSigner()
+
     def post(self, request, *args, **kwargs):
         from .engine import get_engine
 
         current_engine = get_engine()
-        try:
-            token = signer.unsign(
-                value=self.request.GET.get("token", ""), max_age=60 * 24
-            )
-            if token != current_engine.name:
-                raise SuspiciousOperation(
-                    "The token does not match the current engine."
-                )
-        except BadSignature:
-            raise SuspiciousOperation("The token signature is invalid.")
-        # Ignore payload to process in generic way
+        token = self.signer.sign(self.request.GET.get("token", ""))
+        if token != current_engine.name:
+            raise SuspiciousOperation("The token does not match the current engine.")
         for request in (
             Request.objects.filter(status=Request.STATUS.queued)
             .filter(engine_name=current_engine.name)
