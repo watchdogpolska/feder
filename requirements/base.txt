@@ -55,5 +55,5 @@ django-extensions==2.2.5
 
 # Ping commit due missing cached object in <=4.7.1
 django-extra-views==0.12.0
-django-sendfile2==0.4.3
+django-sendfile2==0.5.1
 virustotal-api==1.1.11
