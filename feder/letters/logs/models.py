@@ -4,7 +4,6 @@ from collections import OrderedDict
 from django.db import models
 from django.db.models import Count
 from django.urls import reverse
-from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from jsonfield import JSONField
 from model_utils import Choices
@@ -30,7 +29,6 @@ class EmailQuerySet(models.QuerySet):
         return self.annotate(Count("logrecord"))
 
 
-@python_2_unicode_compatible
 class EmailLog(TimeStampedModel):
     status = models.CharField(choices=STATUS, default=STATUS.unknown, max_length=20)
     case = models.ForeignKey(Case, on_delete=models.CASCADE, max_length=_("Case"))
@@ -87,7 +85,6 @@ class LogRecordQuerySet(models.QuerySet):
         return skipped, saved
 
 
-@python_2_unicode_compatible
 class LogRecord(TimeStampedModel):
     email = models.ForeignKey(
         EmailLog, on_delete=models.CASCADE, verbose_name=_("Email")

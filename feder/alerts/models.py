@@ -6,7 +6,6 @@ from django.urls import reverse
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from model_utils.models import TimeStampedModel
 
@@ -24,7 +23,6 @@ class AlertQuerySet(models.QuerySet):
         return self.filter(content_type__pk=obj_type.id, object_id=obj.id)
 
 
-@python_2_unicode_compatible
 class Alert(TimeStampedModel):
     monitoring = models.ForeignKey(
         Monitoring, on_delete=models.CASCADE, verbose_name=_("Monitoring")

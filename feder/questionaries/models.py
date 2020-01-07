@@ -1,6 +1,5 @@
 from django.urls import reverse
 from django.db import models
-from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from jsonfield import JSONField
 from model_utils.models import TimeStampedModel
@@ -13,7 +12,6 @@ _("Questionaries index")
 LOCK_HELP = _("Prevent of edit question to protect against destruction the data set")
 
 
-@python_2_unicode_compatible
 class Questionary(TimeStampedModel):
     title = models.CharField(max_length=250, verbose_name=_("Title"))
     monitoring = models.ForeignKey(
@@ -35,7 +33,6 @@ class Questionary(TimeStampedModel):
         verbose_name_plural = _("Questionaries")
 
 
-@python_2_unicode_compatible
 class Question(models.Model):
     questionary = models.ForeignKey(
         Questionary, on_delete=models.CASCADE, verbose_name=_("Questionary")
