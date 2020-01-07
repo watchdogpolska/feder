@@ -9,13 +9,6 @@ Założenia
 
 Moduł stanowi mechanizm gromadzenia danych adresowych o instytucjach i przedstawienie spraw w jakich dany urząd jest zaaganżowany.
 
-Dane testowe
-############
-
-Generowanie testowych danych możliwe jest przykładowo z wykorzystaniem::
-
-    python manage.py loadtestdata institutions.Institution:25
-
 Architektura
 ############
 

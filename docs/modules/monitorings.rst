@@ -9,13 +9,6 @@ Założenia
 
 Moduł stanowi komponent, który agreguje sprawy związane z różnymi urzędami, które odnoszą się do zbiernia informacji tej samej kategorii. Zatem monitoringiem będzie np. zainteresowanie wysoką opłaty za śmieci w Polsce. Na tej postawie system tworzy liczne sprawy dla każdego urzędu, który ma być objęty badaniem.
 
-Dane testowe
-############
-
-Wygenerowanie danych testowych może zostać przeprowadzone z wykorzystaniem polecenia::
-
-    python manage.py loadtestdata monitorings.Monitoring:25
-
 Architektura
 ############
 

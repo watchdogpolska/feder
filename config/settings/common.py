@@ -36,7 +36,6 @@ THIRD_PARTY_APPS = (
     "allauth",  # registration
     "allauth.account",  # registration
     "allauth.socialaccount",  # registration
-    "autofixture",
     "dal",
     "dal_select2",
     "formtools",
