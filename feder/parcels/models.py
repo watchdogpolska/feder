@@ -3,7 +3,6 @@ import datetime
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
-from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
 from feder.institutions.models import Institution
@@ -27,7 +26,6 @@ class AbstractParcelPost(AbstractRecord):
         abstract = True
 
 
-@python_2_unicode_compatible
 class IncomingParcelPost(AbstractParcelPost):
     sender = models.ForeignKey(
         to=Institution, on_delete=models.CASCADE, verbose_name=_("Sender")
@@ -51,7 +49,6 @@ class IncomingParcelPost(AbstractParcelPost):
         verbose_name_plural = _("Incoming parcel posts")
 
 
-@python_2_unicode_compatible
 class OutgoingParcelPost(AbstractParcelPost):
     recipient = models.ForeignKey(
         to=Institution, on_delete=models.CASCADE, verbose_name=_("Recipient")

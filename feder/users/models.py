@@ -1,10 +1,8 @@
 from django.contrib.auth.models import AbstractUser
 from django.urls import reverse
-from django.utils.encoding import python_2_unicode_compatible
 from guardian.mixins import GuardianUserMixin
 
 
-@python_2_unicode_compatible
 class User(GuardianUserMixin, AbstractUser):
     def __str__(self):
         return self.username

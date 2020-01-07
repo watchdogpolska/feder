@@ -1,7 +1,6 @@
 from django.db import models
 
 # Create your models here.
-from django.utils.encoding import python_2_unicode_compatible
 from model_utils.models import TimeStampedModel
 
 from django.conf import settings
@@ -13,7 +12,6 @@ class LightUserQuerySet(models.QuerySet):
     pass
 
 
-@python_2_unicode_compatible
 class LightUser(TimeStampedModel):
     ip = models.GenericIPAddressField()
     user = models.ForeignKey(

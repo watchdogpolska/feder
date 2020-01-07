@@ -5,7 +5,6 @@ from django.db.models import Max, Prefetch, Q
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.urls import reverse
-from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from model_utils.models import TimeStampedModel
 
@@ -59,7 +58,6 @@ class CaseQuerySet(models.QuerySet):
         return self.annotate(record_max=Max("record__created"))
 
 
-@python_2_unicode_compatible
 class Case(TimeStampedModel):
     name = models.CharField(verbose_name=_("Name"), max_length=50)
     slug = AutoSlugField(populate_from="name", verbose_name=_("Slug"), unique=True)

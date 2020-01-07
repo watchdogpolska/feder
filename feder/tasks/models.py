@@ -6,7 +6,6 @@ from django.db.models import Q
 from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
 from django.urls import reverse
-from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from jsonfield import JSONField
 from model_utils.models import TimeStampedModel
@@ -70,7 +69,6 @@ class TaskQuerySet(models.QuerySet):
         )
 
 
-@python_2_unicode_compatible
 class Task(TimeStampedModel):
     name = models.CharField(max_length=75, verbose_name=_("Name"))
     case = models.ForeignKey(Case, on_delete=models.CASCADE, verbose_name=_("Case"))

@@ -12,7 +12,7 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.db import models
 from django.db.models.manager import BaseManager
-from django.utils.encoding import python_2_unicode_compatible, force_text
+from django.utils.encoding import force_text
 from django.utils.translation import ugettext_lazy as _
 from model_utils import Choices
 from feder.cases.models import Case
@@ -73,7 +73,6 @@ class LetterManager(BaseManager.from_queryset(LetterQuerySet)):
         )
 
 
-@python_2_unicode_compatible
 class Letter(AbstractRecord):
     SPAM = Choices(
         (0, "unknown", _("Unknown")),
@@ -261,7 +260,6 @@ class AttachmentQuerySet(models.QuerySet):
         return self.prefetch_related("scan_request")
 
 
-@python_2_unicode_compatible
 class Attachment(AttachmentBase):
     letter = models.ForeignKey(Letter, on_delete=models.CASCADE)
     objects = AttachmentQuerySet.as_manager()

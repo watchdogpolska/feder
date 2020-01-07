@@ -3,7 +3,6 @@ from autoslug.fields import AutoSlugField
 from django.urls import reverse
 from django.db import models
 from django.db.models import Count
-from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from jsonfield import JSONField
 from model_utils.models import TimeStampedModel
@@ -23,7 +22,6 @@ class InstitutionQuerySet(models.QuerySet):
         )
 
 
-@python_2_unicode_compatible
 @reversion.register()
 class Institution(TimeStampedModel):
     name = models.CharField(max_length=250, verbose_name=_("Name"))
@@ -68,7 +66,6 @@ class TagQuerySet(models.QuerySet):
         )
 
 
-@python_2_unicode_compatible
 class Tag(models.Model):
     name = models.CharField(
         max_length=250, db_index=True, unique=True, verbose_name=_("Name")
