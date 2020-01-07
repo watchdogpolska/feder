@@ -82,8 +82,15 @@ class LetterDetailViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
 
     def test_contains_link_to_attachment(self):
         attachment = AttachmentFactory(letter=self.letter)
-        response = self.client.get(self.get_url())
-        self.assertContains(response, attachment.get_absolute_url())
+        self.assertNotContains(
+            self.client.get(self.get_url()), attachment.get_absolute_url()
+        )
+        AttachmentRequestFactory(
+            content_object=attachment, status=ScanRequest.STATUS.not_detected,
+        )
+        self.assertContains(
+            self.client.get(self.get_url()), attachment.get_absolute_url()
+        )
 
 
 class LetterMessageXSendFileView(PermissionStatusMixin, TestCase):

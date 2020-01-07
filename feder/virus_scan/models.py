@@ -11,6 +11,12 @@ class RequestQuerySet(models.QuerySet):
     def with_content_object(self):
         return self.prefetch_related("content_object").select_related("content_type")
 
+    def for_object(self, obj):
+        return self.filter(
+            content_type=ContentType.objects.get_for_model(obj._meta.model),
+            object_id=obj.pk,
+        )
+
 
 class Request(TimeStampedModel):
     STATUS = Choices(

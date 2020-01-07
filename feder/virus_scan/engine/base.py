@@ -1,18 +1,20 @@
+import urllib.parse
+
 from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
-from django.core.signing import TimestampSigner
+from ..signer import TokenSigner
 
 
 class BaseEngine:
     def __init__(self):
-        self.signer = TimestampSigner()
+        self.signer = TokenSigner()
 
     def get_webhook_url(self):
         return "{}://{}{}?token={}".format(
             "https",
             get_current_site(None).domain,
             reverse("virus_scan:webhook"),
-            self.signer.sign(self.name),
+            urllib.parse.quote(self.signer.sign(self.name)),
         )
 
     def send_scan(self, this_file, filename):
