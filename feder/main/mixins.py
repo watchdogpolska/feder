@@ -4,7 +4,7 @@ from django.core.exceptions import ImproperlyConfigured
 from django.core.paginator import EmptyPage, Paginator
 from django.views.generic.detail import BaseDetailView
 from guardian.mixins import PermissionRequiredMixin
-from sendfile import sendfile
+from django_sendfile import sendfile
 
 
 class ExtraListMixin:
