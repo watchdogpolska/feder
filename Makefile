@@ -7,7 +7,7 @@ build:
 	docker-compose build web
 
 test:
-	docker-compose run web python manage.py test --verbosity=2 --keepdb --parallel=$$(nproc)
+	docker-compose run web python manage.py test --verbosity=2 --parallel=$$(nproc)
 
 wait_mysql:
 	docker-compose up -d db
@@ -26,7 +26,7 @@ lint: pyupgrade
 fmt:
 	docker run --rm -v $$(pwd):/data cytopia/black /data
 
-check: wait_mysql
+check: wait_mysql migrate
 	docker-compose run web python manage.py makemigrations --check
 
 migrations: wait_mysql
