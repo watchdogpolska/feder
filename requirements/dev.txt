@@ -11,3 +11,4 @@ coverage==5.0.2
 coveralls==1.10.0
 vcrpy==4.0.2
 sphinxcontrib-programoutput==0.15
+tblib==1.6.0
