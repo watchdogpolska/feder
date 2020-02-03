@@ -42,7 +42,7 @@ django-mptt==0.11.0
 https://github.com/dmkoch/django-jsonfield/archive/30beb147db39780477ae904ba1ba08bb84da4ff2.zip
 # pin version for following PR:
 # - https://github.com/dmkoch/django-jsonfield/pull/230
-django-guardian==2.1.0
+django-guardian==2.2.0
 django-teryt-tree==0.16.1
 cached-property==1.5.1
 django-bootstrap-pagination==1.7.1
