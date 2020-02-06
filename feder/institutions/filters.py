@@ -32,8 +32,3 @@ class InstitutionFilter(django_filters.FilterSet):
     class Meta:
         model = Institution
         fields = ["name", "tags", "regon"]
-        order_by = [
-            ("case_count", _("Cases count (descending)")),
-            ("-case_count", _("Cases count (ascending)")),
-            ("jst", _("Area")),
-        ]

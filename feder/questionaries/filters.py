@@ -21,7 +21,3 @@ class QuestionaryFilter(UserKwargFilterSetMixin, FilterSet):
     class Meta:
         model = Questionary
         fields = ["title", "monitoring", "created", "lock"]
-        order_by = [
-            ("created", _("Creation date (ascending)")),
-            ("-created", _("Creation date (descending)")),
-        ]

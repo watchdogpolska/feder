@@ -10,6 +10,8 @@ from model_utils.models import TimeStampedModel
 
 from feder.institutions.models import Institution
 from feder.monitorings.models import Monitoring
+from django.utils.timezone import datetime
+from datetime import timedelta
 
 
 class CaseQuerySet(models.QuerySet):
@@ -50,6 +52,9 @@ class CaseQuerySet(models.QuerySet):
         if "Envelope-To" in email_object:
             addresses += [email_object.get("Envelope-To")]
         return self.by_addresses(addresses)
+
+    def recent(self):
+        return self.filter(created__gt=datetime.now() - timedelta(days=7))
 
     def by_addresses(self, addresses):
         return self.filter(Q(email__in=addresses) | Q(alias__email__in=addresses))

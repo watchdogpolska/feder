@@ -20,6 +20,8 @@ from feder.institutions.models import Institution
 from feder.records.models import AbstractRecord, Record
 from .utils import email_wrapper, normalize_msg_id, get_body_with_footer
 from ..virus_scan.models import Request as ScanRequest
+from django.utils.timezone import datetime
+from datetime import timedelta
 
 logger = logging.getLogger(__name__)
 
@@ -45,6 +47,9 @@ class LetterQuerySet(models.QuerySet):
 
     def is_incoming(self):
         return self.filter(author_user__isnull=True)
+
+    def recent(self):
+        return self.filter(created__gt=datetime.now() - timedelta(days=7))
 
     def with_feed_items(self):
         return (
