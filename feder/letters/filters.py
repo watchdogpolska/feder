@@ -27,8 +27,4 @@ class LetterFilter(UserKwargFilterSetMixin, FilterSet):
 
     class Meta:
         model = Letter
-        order_by = [
-            ("created", _("Creation date (ascending)")),
-            ("-created", _("Creation date (descending)")),
-        ]
         fields = ["title", "created", "record__case__institution"]

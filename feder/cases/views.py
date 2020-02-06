@@ -19,11 +19,12 @@ from feder.monitorings.models import Monitoring
 from .filters import CaseFilter
 from .forms import CaseForm
 from .models import Case
+from feder.main.mixins import DisableOrderingListViewMixin
 
 _("Case index")
 
 
-class CaseListView(SelectRelatedMixin, FilterView):
+class CaseListView(SelectRelatedMixin, DisableOrderingListViewMixin, FilterView):
     filterset_class = CaseFilter
     model = Case
     select_related = ["user", "monitoring", "institution"]
@@ -93,7 +94,7 @@ class CaseDeleteView(RaisePermissionRequiredMixin, DeleteMessageMixin, DeleteVie
 
 class CaseAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
-        qs = Case.objects.all()
+        qs = Case.objects.all().order_by()
 
         if self.q:
             qs = qs.filter(name__istartswith=self.q)
@@ -103,7 +104,7 @@ class CaseAutocomplete(autocomplete.Select2QuerySetView):
 
 class CaseFindAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
-        qs = Case.objects.all()
+        qs = Case.objects.all().order_by()
 
         if self.q:
             qs = qs.filter(

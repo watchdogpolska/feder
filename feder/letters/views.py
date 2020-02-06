@@ -35,7 +35,7 @@ from extra_views import UpdateWithInlinesView, CreateWithInlinesView
 
 from feder.alerts.models import Alert
 from feder.cases.models import Case
-
+from feder.main.mixins import DisableOrderingListViewMixin
 from feder.letters.formsets import AttachmentInline
 from feder.letters.settings import LETTER_RECEIVE_SECRET
 from feder.main.mixins import (
@@ -72,7 +72,11 @@ class CaseRequiredMixin:
 
 
 class LetterListView(
-    UserKwargFilterSetMixin, CaseRequiredMixin, SelectRelatedMixin, FilterView
+    UserKwargFilterSetMixin,
+    DisableOrderingListViewMixin,
+    CaseRequiredMixin,
+    SelectRelatedMixin,
+    FilterView,
 ):
     filterset_class = LetterFilter
     model = Letter
@@ -250,6 +254,7 @@ class LetterRssFeed(Feed):
         return (
             Letter.objects.with_feed_items()
             .exclude(record__case=None)
+            .recent()
             .order_by("-created")[:30]
         )
 

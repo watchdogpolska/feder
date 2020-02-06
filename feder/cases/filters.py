@@ -22,9 +22,3 @@ class CaseFilter(django_filters.FilterSet):
     class Meta:
         model = Case
         fields = ["name", "monitoring", "institution", "created"]
-        order_by = [
-            ("record_count", _("Record count (descending)")),
-            ("-record_count", _("Record count (ascending)")),
-            ("created", _("creation date (ascending)")),
-            ("-created", _("creation date (descending)")),
-        ]

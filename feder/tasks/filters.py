@@ -30,7 +30,3 @@ class TaskFilter(django_filters.FilterSet):
     class Meta:
         model = Task
         fields = ["name", "case", "case__institution", "case__monitoring"]
-        order_by = [
-            ("created", _("creation date (ascending)")),
-            ("-created", _("creation date (descending)")),
-        ]
