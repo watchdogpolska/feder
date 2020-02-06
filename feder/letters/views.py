@@ -72,7 +72,11 @@ class CaseRequiredMixin:
 
 
 class LetterListView(
-    UserKwargFilterSetMixin, DisableOrderingListViewMixin, CaseRequiredMixin, SelectRelatedMixin, FilterView
+    UserKwargFilterSetMixin,
+    DisableOrderingListViewMixin,
+    CaseRequiredMixin,
+    SelectRelatedMixin,
+    FilterView,
 ):
     filterset_class = LetterFilter
     model = Letter

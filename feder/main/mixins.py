@@ -159,6 +159,7 @@ class BaseXSendFileView(BaseDetailView):
     def render_to_response(self, context):
         return sendfile(**self.get_sendfile_kwargs(context))
 
+
 class DisableOrderingListViewMixin:
     def get_queryset(self):
         return super().get_queryset().order_by()
