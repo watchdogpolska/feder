@@ -66,7 +66,7 @@ class MixinGzipXSendFile:
 
 class CaseRequiredMixin:
     def get_queryset(self):
-        qs = super().get_queryset().exclude(record__case=None)
+        qs = super().get_queryset().filter(record__case__gte=0)
         return qs.attachment_count()
 
 
@@ -74,13 +74,19 @@ class LetterListView(
     UserKwargFilterSetMixin,
     DisableOrderingListViewMixin,
     CaseRequiredMixin,
+    PrefetchRelatedMixin,
     SelectRelatedMixin,
     PerformantPagintorMixin,
     FilterView,
 ):
     filterset_class = LetterFilter
     model = Letter
-    select_related = ["author_user", "author_institution", "record__case__institution"]
+    select_related = ["record__case"]
+    prefetch_related = [
+        "author_user",
+        "author_institution",
+        "record__case__institution",
+    ]
     paginate_by = 25
 
     def get_queryset(self):
