@@ -1,8 +1,8 @@
-from six import text_type
 from base64 import b64decode, b64encode
 from django.core.paginator import InvalidPage
 from performant_pagination.pagination import PerformantPaginator, PerformantPage
 import binascii
+
 
 class ModernPerformantPaginator(PerformantPaginator):
     def validate_number(self, number):
@@ -11,6 +11,7 @@ class ModernPerformantPaginator(PerformantPaginator):
             return number
         except (TypeError, binascii.Error):
             raise InvalidPage("Page number is invalid")
+
     def _object_to_token(self, obj):
         """
         Override to add support for Python 3
@@ -29,7 +30,7 @@ class ModernPerformantPaginator(PerformantPaginator):
             value = obj._meta.get_field(pieces[-1]).value_to_string(obj)
 
         # return our value
-        if isinstance(value, text_type):
+        if isinstance(value, str):
             value = value.encode("utf-8")
         return b64encode(value).decode("utf-8")
 

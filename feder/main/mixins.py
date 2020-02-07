@@ -6,11 +6,11 @@ from django.core.paginator import EmptyPage, Paginator
 from django.views.generic.detail import BaseDetailView
 from guardian.mixins import PermissionRequiredMixin
 from django_sendfile import sendfile
-from six import text_type
 from django.core.paginator import InvalidPage
 from .paginator import ModernPerformantPaginator
 from django.http import Http404
 from django.utils.translation import ugettext as _
+
 
 class ExtraListMixin:
     """Mixins for view to add additional paginated object list
@@ -172,7 +172,8 @@ class DisableOrderingListViewMixin:
 
 class PerformantPagintorMixin:
     paginator_class = ModernPerformantPaginator
-    first_page = b64encode(b'0').decode('utf-8')
+    first_page = b64encode(b"0").decode("utf-8")
+
     def paginate_queryset(self, queryset, page_size):
         """
         Overwrite pagination for support non-number paginator
@@ -185,7 +186,11 @@ class PerformantPagintorMixin:
             allow_empty_first_page=self.get_allow_empty(),
         )
         page_kwarg = self.page_kwarg
-        page = self.kwargs.get(page_kwarg) or self.request.GET.get(page_kwarg) or self.first_page
+        page = (
+            self.kwargs.get(page_kwarg)
+            or self.request.GET.get(page_kwarg)
+            or self.first_page
+        )
         try:
             page_number = paginator.validate_number(page)
         except ValueError:

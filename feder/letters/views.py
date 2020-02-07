@@ -15,7 +15,6 @@ from braces.views import (
     SelectRelatedMixin,
     PrefetchRelatedMixin,
     UserFormKwargsMixin,
-    PrefetchRelatedMixin,
 )
 from cached_property import cached_property
 from django.contrib.messages.views import SuccessMessageMixin
@@ -33,7 +32,6 @@ from django.views import View
 from django.views.generic import CreateView, DeleteView, DetailView, FormView
 from django_filters.views import FilterView
 from extra_views import UpdateWithInlinesView, CreateWithInlinesView
-from django.http import Http404
 
 from feder.alerts.models import Alert
 from feder.cases.models import Case
