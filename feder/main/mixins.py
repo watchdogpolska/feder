@@ -167,7 +167,7 @@ class BaseXSendFileView(BaseDetailView):
 
 class DisableOrderingListViewMixin:
     def get_queryset(self):
-        return super().get_queryset().order_by()
+        return super().get_queryset().order_by('pk')
 
 
 class PerformantPagintorMixin:
