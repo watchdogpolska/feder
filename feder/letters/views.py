@@ -66,7 +66,7 @@ class MixinGzipXSendFile:
 
 class CaseRequiredMixin:
     def get_queryset(self):
-        qs = super().get_queryset().filter(record__case__gte=0)
+        qs = super().get_queryset().exclude(record__case=None)
         return qs.attachment_count()
 
 
