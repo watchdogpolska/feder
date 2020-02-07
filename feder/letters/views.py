@@ -13,6 +13,7 @@ from atom.views import (
 from braces.views import (
     FormValidMessageMixin,
     SelectRelatedMixin,
+    PrefetchRelatedMixin,
     UserFormKwargsMixin,
     PrefetchRelatedMixin,
 )
@@ -32,10 +33,11 @@ from django.views import View
 from django.views.generic import CreateView, DeleteView, DetailView, FormView
 from django_filters.views import FilterView
 from extra_views import UpdateWithInlinesView, CreateWithInlinesView
+from django.http import Http404
 
 from feder.alerts.models import Alert
 from feder.cases.models import Case
-from feder.main.mixins import DisableOrderingListViewMixin
+from feder.main.mixins import DisableOrderingListViewMixin, PerformantPagintorMixin
 from feder.letters.formsets import AttachmentInline
 from feder.letters.settings import LETTER_RECEIVE_SECRET
 from feder.main.mixins import (
@@ -50,7 +52,6 @@ from .forms import LetterForm, ReplyForm, AssignLetterForm
 from .mixins import LetterObjectFeedMixin
 from .models import Letter, Attachment
 from ..virus_scan.models import Request as ScanRequest
-
 
 _("Letters index")
 
@@ -76,6 +77,7 @@ class LetterListView(
     DisableOrderingListViewMixin,
     CaseRequiredMixin,
     SelectRelatedMixin,
+    PerformantPagintorMixin,
     FilterView,
 ):
     filterset_class = LetterFilter

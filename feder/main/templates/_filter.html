@@ -17,9 +17,11 @@
                 </p>
             </div>
         {% endfor %}
-
-        {% bootstrap_paginate page_obj %}
-
+        {% if pager == 'performant' %}
+            {% bootstrap_pager page_obj %}
+        {% else %}
+            {% bootstrap_paginate page_obj %}
+        {% endif %}
     </div>
 
     <div class="col-sm-4 col-sm-pull-8">

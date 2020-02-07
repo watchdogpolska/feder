@@ -5,6 +5,7 @@ from braces.views import (
     SelectRelatedMixin,
     UserFormKwargsMixin,
 )
+
 from cached_property import cached_property
 from dal import autocomplete
 from django.urls import reverse_lazy
@@ -19,19 +20,24 @@ from feder.monitorings.models import Monitoring
 from .filters import CaseFilter
 from .forms import CaseForm
 from .models import Case
-from feder.main.mixins import DisableOrderingListViewMixin
+from feder.main.mixins import DisableOrderingListViewMixin, PerformantPagintorMixin
 
 _("Case index")
 
 
-class CaseListView(SelectRelatedMixin, DisableOrderingListViewMixin, FilterView):
+class CaseListView(
+    SelectRelatedMixin,
+    DisableOrderingListViewMixin,
+    PerformantPagintorMixin,
+    FilterView,
+):
     filterset_class = CaseFilter
     model = Case
     select_related = ["user", "monitoring", "institution"]
     paginate_by = 25
 
     def get_queryset(self):
-        return super().get_queryset().with_record_count()
+        return super().get_queryset()
 
 
 class CaseDetailView(SelectRelatedMixin, PrefetchRelatedMixin, DetailView):
