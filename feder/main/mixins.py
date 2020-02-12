@@ -1,10 +1,15 @@
 import django_filters
+from base64 import b64encode
 from braces.views import LoginRequiredMixin
 from django.core.exceptions import ImproperlyConfigured
 from django.core.paginator import EmptyPage, Paginator
 from django.views.generic.detail import BaseDetailView
 from guardian.mixins import PermissionRequiredMixin
 from django_sendfile import sendfile
+from django.core.paginator import InvalidPage
+from .paginator import ModernPerformantPaginator
+from django.http import Http404
+from django.utils.translation import ugettext as _
 
 
 class ExtraListMixin:
@@ -162,4 +167,45 @@ class BaseXSendFileView(BaseDetailView):
 
 class DisableOrderingListViewMixin:
     def get_queryset(self):
-        return super().get_queryset().order_by()
+        return super().get_queryset().order_by("pk")
+
+
+class PerformantPagintorMixin:
+    paginator_class = ModernPerformantPaginator
+    first_page = b64encode(b"0").decode("utf-8")
+
+    def paginate_queryset(self, queryset, page_size):
+        """
+        Overwrite pagination for support non-number paginator
+        See https://github.com/django/django/pull/12429 for details
+        """
+        paginator = self.get_paginator(
+            queryset,
+            page_size,
+            orphans=self.get_paginate_orphans(),
+            allow_empty_first_page=self.get_allow_empty(),
+        )
+        page_kwarg = self.page_kwarg
+        page = (
+            self.kwargs.get(page_kwarg)
+            or self.request.GET.get(page_kwarg)
+            or self.first_page
+        )
+        try:
+            page_number = paginator.validate_number(page)
+        except ValueError:
+            raise Http404(_("Page number is not valid."))
+        try:
+            page = paginator.page(page_number)
+            return (paginator, page, page.object_list, page.has_other_pages())
+        except InvalidPage as e:
+            raise Http404(
+                _("Invalid page (%(page_number)s): %(message)s")
+                % {"page_number": page_number, "message": str(e)}
+            )
+
+    def get_context_data(self, **kwargs):
+        """Insert the single object into the context dict."""
+        context = {"pager": "performant"}
+        context.update(kwargs)
+        return super().get_context_data(**context)
