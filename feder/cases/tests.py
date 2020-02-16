@@ -11,6 +11,7 @@ from feder.users.factories import UserFactory
 from .factories import CaseFactory, AliasFactory
 from .forms import CaseForm
 from .views import CaseAutocomplete
+from feder.teryt.factories import JSTFactory, CommunityJSTFactory, CountyJSTFactory
 
 
 class ObjectMixin:
@@ -38,6 +39,25 @@ class CaseListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
 
     def get_url(self):
         return reverse("cases:list")
+
+    def test_for_filter_cases_by_community(self):
+        common_county = CountyJSTFactory()
+        valid = CaseFactory(institution__jst=CommunityJSTFactory(parent=common_county))
+        invalid = CaseFactory(
+            institution__jst=CommunityJSTFactory(parent=common_county)
+        )
+        response = self.client.get(
+            "{}?voideship={}&county={}&community={}".format(
+                self.get_url(),
+                common_county.parent.pk,
+                common_county.pk,
+                valid.institution.jst.pk,
+            )
+        )
+        self.assertContains(response, valid.name)
+        self.assertContains(response, valid.institution.name)
+        self.assertNotContains(response, invalid.name)
+        self.assertNotContains(response, invalid.institution.name)
 
 
 class CaseDetailViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):

@@ -1,4 +1,5 @@
 import django_filters
+from django.db import models
 from base64 import b64encode
 from braces.views import LoginRequiredMixin
 from django.core.exceptions import ImproperlyConfigured
@@ -122,17 +123,20 @@ class AutocompletePerformanceMixin:
 
 
 class DisabledWhenFilterSetMixin(django_filters.filterset.BaseFilterSet):
-    @property
-    def qs(self):
-        if not hasattr(self, "_qs") and self.is_bound and self.form.is_valid():
-            for name in list(self.filters.keys()):
-                filter_ = self.filters[name]
-                enabled_test = getattr(
-                    filter_, "check_enabled", lambda _: True
-                )  # legacy-filter compatible
-                if not enabled_test(self.form.cleaned_data):
-                    del self.filters[name]
-        return super().qs
+    def filter_queryset(self, queryset):
+        for name, value in self.form.cleaned_data.items():
+            filter_ = self.filters[name]
+            enabled_test = getattr(
+                filter_, "check_enabled", lambda _: True
+            )  # standard-filter compatible
+            if not enabled_test(self.form.cleaned_data):
+                continue
+            queryset = self.filters[name].filter(queryset, value)
+            assert isinstance(queryset, models.QuerySet), (
+                "Expected '%s.%s' to return a QuerySet, but got a %s instead."
+                % (type(self).__name__, name, type(queryset).__name__)
+            )
+        return queryset
 
 
 class DisabledWhenFilterMixin:
