@@ -13,8 +13,8 @@ from atom.views import (
 from braces.views import (
     FormValidMessageMixin,
     SelectRelatedMixin,
-    UserFormKwargsMixin,
     PrefetchRelatedMixin,
+    UserFormKwargsMixin,
 )
 from cached_property import cached_property
 from django.contrib.messages.views import SuccessMessageMixin
@@ -35,7 +35,7 @@ from extra_views import UpdateWithInlinesView, CreateWithInlinesView
 
 from feder.alerts.models import Alert
 from feder.cases.models import Case
-from feder.main.mixins import DisableOrderingListViewMixin
+from feder.main.mixins import DisableOrderingListViewMixin, PerformantPagintorMixin
 from feder.letters.formsets import AttachmentInline
 from feder.letters.settings import LETTER_RECEIVE_SECRET
 from feder.main.mixins import (
@@ -50,7 +50,6 @@ from .forms import LetterForm, ReplyForm, AssignLetterForm
 from .mixins import LetterObjectFeedMixin
 from .models import Letter, Attachment
 from ..virus_scan.models import Request as ScanRequest
-
 
 _("Letters index")
 
@@ -75,12 +74,19 @@ class LetterListView(
     UserKwargFilterSetMixin,
     DisableOrderingListViewMixin,
     CaseRequiredMixin,
+    PrefetchRelatedMixin,
     SelectRelatedMixin,
+    PerformantPagintorMixin,
     FilterView,
 ):
     filterset_class = LetterFilter
     model = Letter
-    select_related = ["author_user", "author_institution", "record__case__institution"]
+    select_related = ["record__case"]
+    prefetch_related = [
+        "author_user",
+        "author_institution",
+        "record__case__institution",
+    ]
     paginate_by = 25
 
     def get_queryset(self):

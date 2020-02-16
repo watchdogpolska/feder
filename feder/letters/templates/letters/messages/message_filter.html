@@ -2,7 +2,7 @@
 {% load i18n crispy_forms_tags %}
 
 {% block content %}
-    {% include '_filter.html' with title='Message index' form=filter.form object_list=object_list object_template='letters/messages/_message.html' %}
+    {% include '_filter.html' with pager=pager title='Message index' form=filter.form object_list=object_list object_template='letters/messages/_message.html' %}
 {% endblock %}
 
 {% block javascript %}

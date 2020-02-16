@@ -11,5 +11,5 @@
 {% endblock %}
 
 {% block content %}
-    {% include '_filter.html' with title='Monitorings index' form=filter.form object_list=object_list object_template='monitorings/_monitoring_small.html' %}
+    {% include '_filter.html' with pager=pager title='Monitorings index' form=filter.form object_list=object_list object_template='monitorings/_monitoring_small.html' %}
 {% endblock %}

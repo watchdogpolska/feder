@@ -52,9 +52,12 @@ unicodecsv==0.14.1
 tqdm==4.42.1
 djangorestframework-filters==0.11.1
 django-github-revision==0.0.3
-django-extensions==2.2.6
+django-extensions==2.2.8
 
 # Ping commit due missing cached object in <=4.7.1
 django-extra-views==0.13.0
 django-sendfile2==0.5.1
 virustotal-api==1.1.11
+
+https://github.com/ross/performant-pagination/archive/5b537da95728d622792031071ecc4cb5154ec86f.zip
+# not available on pypi - see https://github.com/ross/performant-pagination/issues/5

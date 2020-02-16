@@ -1,5 +1,5 @@
 {% extends 'cases/base.html' %}
 {% load i18n %}
 {% block content %}
-    {% include '_filter.html' with title='Case index' form=filter.form object_list=object_list object_template='cases/_case_small.html' %}
+    {% include '_filter.html' with pager=pager title='Case index' form=filter.form object_list=object_list object_template='cases/_case_small.html' %}
 {% endblock %}
