@@ -18,7 +18,7 @@ import argparse
 import sys
 
 import requests
-import unicodecsv as csv
+import csv
 from gusregon import GUS
 
 from utils import environ
