@@ -47,6 +47,7 @@ THIRD_PARTY_APPS = (
     "rest_framework",
     "reversion",
     "django_filters",
+    "background_task",
 )
 
 # Apps specific for this project go here.

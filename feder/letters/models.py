@@ -15,7 +15,6 @@ from django.db.models.manager import BaseManager
 from django.utils.encoding import force_text
 from django.utils.translation import ugettext_lazy as _
 from model_utils import Choices
-from feder.cases.models import Case
 from feder.institutions.models import Institution
 from feder.records.models import AbstractRecord, Record
 from .utils import email_wrapper, normalize_msg_id, get_body_with_footer
@@ -187,18 +186,12 @@ class Letter(AbstractRecord):
             )
 
     @classmethod
-    def send_new_case(cls, user, monitoring, institution, text, postfix=""):
-        case = Case.objects.create(
-            user=user,
-            name=monitoring.name + postfix,
-            monitoring=monitoring,
-            institution=institution,
-        )
+    def send_new_case(cls, case):
         letter = cls(
-            author_user=user,
+            author_user=case.user,
             record=Record.objects.create(case=case),
-            title=monitoring.subject,
-            body=text,
+            title=case.monitoring.subject,
+            body=case.monitoring.template,
         )
         letter.send(commit=True, only_email=False)
         return letter
@@ -241,6 +234,7 @@ class Letter(AbstractRecord):
         return msg
 
     def send(self, commit=True, only_email=False):
+        self.case.update_email()
         msg_id = make_msgid(domain=self.case.email.split("@", 2)[1])
         message = self._construct_message(msg_id=msg_id)
         text = message.message().as_bytes()

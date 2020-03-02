@@ -2,8 +2,6 @@ from autoslug.fields import AutoSlugField
 from django.conf import settings
 from django.db import models
 from django.db.models import Max, Prefetch, Q
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from model_utils.models import TimeStampedModel
@@ -73,7 +71,10 @@ class Case(TimeStampedModel):
     institution = models.ForeignKey(
         Institution, on_delete=models.CASCADE, verbose_name=_("Institution")
     )
-    email = models.CharField(max_length=75, db_index=True, unique=True)
+    mass_assign = models.UUIDField(
+        verbose_name="Mass assign ID", blank=True, null=True, editable=False
+    )
+    email = models.CharField(max_length=75, db_index=True)
     objects = CaseQuerySet.as_manager()
 
     class Meta:
@@ -88,18 +89,10 @@ class Case(TimeStampedModel):
     def get_absolute_url(self):
         return reverse("cases:details", kwargs={"slug": self.slug})
 
-    def update_email(self, commit=True):
+    def update_email(self):
         self.email = settings.CASE_EMAIL_TEMPLATE.format(
             pk=self.pk, domain=self.monitoring.domain.name
         )
-        if commit:
-            self.save()
-
-
-@receiver(post_save, sender=Case)
-def my_callback(sender, instance, *args, **kwargs):
-    if not instance.email:
-        instance.update_email()
 
 
 class Alias(models.Model):

@@ -8,6 +8,7 @@ from braces.views import (
     UserFormKwargsMixin,
     PrefetchRelatedMixin,
 )
+import uuid
 from cached_property import cached_property
 from dal import autocomplete
 from django.contrib import messages
@@ -41,6 +42,7 @@ from .forms import (
     SelectUserForm,
 )
 from .models import Monitoring
+from .tasks import send_letter_for_mass_assign
 
 
 class MonitoringListView(SelectRelatedMixin, FilterView):
@@ -351,19 +353,24 @@ class MonitoringAssignView(RaisePermissionRequiredMixin, FilterView):
             ) % {"count": to_assign_count, "limit": self.get_limit_simultaneously()}
             messages.error(self.request, msg)
             return HttpResponseRedirect(self.request.path)
-
+        cases = []
+        mass_assign = uuid.uuid4()
         for i, institution in enumerate(qs):
             postfix = " #%d" % (i + count + 1,)
-            Letter.send_new_case(
-                user=self.request.user,
-                monitoring=self.monitoring,
-                postfix=postfix,
-                institution=institution,
-                text=self.monitoring.template,
+            cases.append(
+                Case(
+                    user=self.request.user,
+                    name=self.monitoring.name + postfix,
+                    monitoring=self.monitoring,
+                    institution=institution,
+                    mass_assign=mass_assign,
+                )
             )
+        Case.objects.bulk_create(cases)
+        send_letter_for_mass_assign(mass_assign.hex)
         msg = _(
-            "%(count)d institutions was assigned "
-            + "to %(monitoring)s. The requests was sent."
+            "%(count)d institutions was assigned to %(monitoring)s. "
+            + " The requests scheduled to sent."
         ) % {"count": to_assign_count, "monitoring": self.monitoring}
         messages.success(self.request, msg)
         url = reverse("monitorings:assign", kwargs={"slug": self.monitoring.slug})
