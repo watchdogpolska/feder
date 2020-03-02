@@ -9,7 +9,11 @@ from django.utils.encoding import force_text
 from vcr import VCR
 
 from feder.cases.factories import CaseFactory
-from feder.letters.factories import LetterFactory, SendOutgoingLetterFactory, OutgoingLetterFactory
+from feder.letters.factories import (
+    LetterFactory,
+    SendOutgoingLetterFactory,
+    OutgoingLetterFactory,
+)
 from feder.letters.logs.factories import get_emaillabs_row, LogRecordFactory
 from feder.letters.logs.models import LogRecord, EmailLog, STATUS
 from feder.letters.logs.utils import get_emaillabs_client

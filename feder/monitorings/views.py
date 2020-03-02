@@ -44,6 +44,7 @@ from .forms import (
 from .models import Monitoring
 from .tasks import send_letter_for_mass_assign
 
+
 class MonitoringListView(SelectRelatedMixin, FilterView):
     filterset_class = MonitoringFilter
     model = Monitoring
@@ -356,18 +357,20 @@ class MonitoringAssignView(RaisePermissionRequiredMixin, FilterView):
         mass_assign = uuid.uuid4()
         for i, institution in enumerate(qs):
             postfix = " #%d" % (i + count + 1,)
-            cases.append(Case(
-                user=self.request.user,
-                name=self.monitoring.name + postfix,
-                monitoring=self.monitoring,
-                institution=institution,
-                mass_assign=mass_assign,
-            ))
+            cases.append(
+                Case(
+                    user=self.request.user,
+                    name=self.monitoring.name + postfix,
+                    monitoring=self.monitoring,
+                    institution=institution,
+                    mass_assign=mass_assign,
+                )
+            )
         Case.objects.bulk_create(cases)
         send_letter_for_mass_assign(mass_assign.hex)
         msg = _(
-            "%(count)d institutions was assigned to %(monitoring)s. " +
-            " The requests scheduled to sent."
+            "%(count)d institutions was assigned to %(monitoring)s. "
+            + " The requests scheduled to sent."
         ) % {"count": to_assign_count, "monitoring": self.monitoring}
         messages.success(self.request, msg)
         url = reverse("monitorings:assign", kwargs={"slug": self.monitoring.slug})

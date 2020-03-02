@@ -2,8 +2,6 @@ from autoslug.fields import AutoSlugField
 from django.conf import settings
 from django.db import models
 from django.db.models import Max, Prefetch, Q
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from model_utils.models import TimeStampedModel
@@ -73,7 +71,9 @@ class Case(TimeStampedModel):
     institution = models.ForeignKey(
         Institution, on_delete=models.CASCADE, verbose_name=_("Institution")
     )
-    mass_assign = models.UUIDField(verbose_name="Mass assign ID", blank=True, null=True, editable=False)
+    mass_assign = models.UUIDField(
+        verbose_name="Mass assign ID", blank=True, null=True, editable=False
+    )
     email = models.CharField(max_length=75, db_index=True)
     objects = CaseQuerySet.as_manager()
 
@@ -93,6 +93,7 @@ class Case(TimeStampedModel):
         self.email = settings.CASE_EMAIL_TEMPLATE.format(
             pk=self.pk, domain=self.monitoring.domain.name
         )
+
 
 class Alias(models.Model):
     case = models.ForeignKey(Case, on_delete=models.CASCADE, verbose_name=_("Case"))

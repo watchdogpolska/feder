@@ -292,7 +292,15 @@ class MonitoringAssignViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
         return reverse("monitorings:assign", kwargs={"slug": self.monitoring.slug})
 
     def send_all_pending(self):
-        ids = list({x for x in Case.objects.annotate(count=Count('record')).filter(count=0).all().values_list('mass_assign',flat=True)})
+        ids = list(
+            {
+                x
+                for x in Case.objects.annotate(count=Count("record"))
+                .filter(count=0)
+                .all()
+                .values_list("mass_assign", flat=True)
+            }
+        )
         for mass_assign in ids:
             send_letter_for_mass_assign.now(mass_assign)
 

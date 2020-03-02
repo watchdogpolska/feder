@@ -15,7 +15,6 @@ from django.db.models.manager import BaseManager
 from django.utils.encoding import force_text
 from django.utils.translation import ugettext_lazy as _
 from model_utils import Choices
-from feder.cases.models import Case
 from feder.institutions.models import Institution
 from feder.records.models import AbstractRecord, Record
 from .utils import email_wrapper, normalize_msg_id, get_body_with_footer
