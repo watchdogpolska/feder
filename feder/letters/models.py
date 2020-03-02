@@ -187,18 +187,12 @@ class Letter(AbstractRecord):
             )
 
     @classmethod
-    def send_new_case(cls, user, monitoring, institution, text, postfix=""):
-        case = Case.objects.create(
-            user=user,
-            name=monitoring.name + postfix,
-            monitoring=monitoring,
-            institution=institution,
-        )
+    def send_new_case(cls, case):
         letter = cls(
-            author_user=user,
+            author_user=case.user,
             record=Record.objects.create(case=case),
-            title=monitoring.subject,
-            body=text,
+            title=case.monitoring.subject,
+            body=case.monitoring.template,
         )
         letter.send(commit=True, only_email=False)
         return letter
@@ -241,6 +235,7 @@ class Letter(AbstractRecord):
         return msg
 
     def send(self, commit=True, only_email=False):
+        self.case.update_email()
         msg_id = make_msgid(domain=self.case.email.split("@", 2)[1])
         message = self._construct_message(msg_id=msg_id)
         text = message.message().as_bytes()

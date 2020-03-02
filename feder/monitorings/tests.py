@@ -5,7 +5,8 @@ from django.core import mail
 from django.urls import reverse
 from django.test import TestCase
 from guardian.shortcuts import assign_perm
-
+from django.core.management import call_command
+from django.db.models import Count
 from feder.cases.factories import CaseFactory
 from feder.cases.models import Case
 from feder.domains.factories import DomainFactory
@@ -20,6 +21,7 @@ from feder.users.factories import UserFactory
 from .factories import MonitoringFactory
 from .forms import MonitoringForm
 from .models import Monitoring
+from .tasks import send_letter_for_mass_assign
 
 EXAMPLE_DATA = {
     "name": "foo-bar-monitoring",
@@ -289,6 +291,11 @@ class MonitoringAssignViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
     def get_url(self):
         return reverse("monitorings:assign", kwargs={"slug": self.monitoring.slug})
 
+    def send_all_pending(self):
+        ids = list({x for x in Case.objects.annotate(count=Count('record')).filter(count=0).all().values_list('mass_assign',flat=True)})
+        for mass_assign in ids:
+            send_letter_for_mass_assign.now(mass_assign)
+
     def test_assign_display_institutions(self):
         self.login_permitted_user()
         institution_1 = InstitutionFactory()
@@ -303,6 +310,7 @@ class MonitoringAssignViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
         InstitutionFactory(name="Office 2")
         InstitutionFactory()
         self.client.post(self.get_url() + "?name=Office", data={"all": "yes"})
+        self.send_all_pending()
         self.assertEqual(len(mail.outbox), 2)
 
     def test_force_filtering_before_assign(self):
@@ -311,6 +319,7 @@ class MonitoringAssignViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
         InstitutionFactory(name="Office 2")
         InstitutionFactory()
         response = self.client.post(self.get_url(), data={"all": "yes"})
+        self.send_all_pending()
         self.assertEqual(len(mail.outbox), 0)
         self.assertRedirects(response, self.get_url())
 
@@ -321,6 +330,7 @@ class MonitoringAssignViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
         InstitutionFactory()
         to_send_ids = [institution_1.pk, institution_2.pk]
         self.client.post(self.get_url() + "?name=", data={"to_assign": to_send_ids})
+        self.send_all_pending()
         self.assertEqual(len(mail.outbox), 2)
         self.assertEqual(mail.outbox[0].to[0], institution_1.email)
         self.assertEqual(mail.outbox[1].to[0], institution_2.email)
@@ -335,6 +345,7 @@ class MonitoringAssignViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
         self.client.post(
             self.get_url() + "?name=Office", data={"to_assign": [institution_1.pk]}
         )
+        self.send_all_pending()
         self.assertEqual(len(mail.outbox), 1)
 
         self.assertTrue(
@@ -345,6 +356,7 @@ class MonitoringAssignViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
             self.get_url() + "?name=Office",
             data={"to_assign": [institution_2.pk, institution_3.pk]},
         )
+        self.send_all_pending()
         self.assertEqual(len(mail.outbox), 3)
         self.assertTrue(institution_2.case_set.all()[0].name.endswith(" #2"))
         self.assertTrue(institution_3.case_set.all()[0].name.endswith(" #3"))
@@ -363,6 +375,7 @@ class MonitoringAssignViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
         response = self.client.post(
             self.get_url() + "?name=Office", data={"all": "yes"}
         )
+        self.send_all_pending()
         self.assertEqual(len(mail.outbox), 0)
         self.assertRedirects(response, self.get_url())
 
@@ -374,6 +387,7 @@ class MonitoringAssignViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
         InstitutionFactory(name="Office 2")
         InstitutionFactory()
         self.client.post(self.get_url() + "?name=Office", data={"all": "yes"})
+        self.send_all_pending()
         self.assertEqual(len(mail.outbox), 2)
         self.assertTrue(mail.outbox[0].from_email.endswith("custom-domain.com"))
 

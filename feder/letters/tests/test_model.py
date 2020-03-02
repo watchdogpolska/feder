@@ -5,6 +5,7 @@ from django.test import TestCase
 
 from feder.cases.models import Case
 from feder.institutions.factories import InstitutionFactory
+from feder.cases.factories import CaseFactory
 from feder.letters.utils import normalize_msg_id
 from feder.monitorings.factories import MonitoringFactory
 from feder.users.factories import UserFactory
@@ -91,30 +92,20 @@ class ModelTestCase(TestCase):
 
     def test_send_new_case(self):
         user = UserFactory(username="tom")
-        institution = InstitutionFactory()
-        Letter.send_new_case(
-            user=user,
-            monitoring=MonitoringFactory(),
-            institution=institution,
-            text="Przeslac informacje szybko",
-        )
+        case = CaseFactory()
+        Letter.send_new_case(case=case)
         self.assertEqual(Case.objects.count(), 1)
         self.assertEqual(Letter.objects.count(), 1)
         self.assertEqual(len(mail.outbox), 1)
-        self.assertIn(institution.email, mail.outbox[0].to)
+        self.assertIn(case.institution.email, mail.outbox[0].to)
 
     def test_send_new_case_adds_footer_from_monitoring(self):
         user = UserFactory(username="jerry")
         footer_text = "some footer zażółć gęślą jaźń"
 
         monitoring = MonitoringFactory(email_footer=footer_text)
-        institution = InstitutionFactory()
-        Letter.send_new_case(
-            user=user,
-            monitoring=monitoring,
-            institution=institution,
-            text="Przeslac informacje szybko",
-        )
+        case = CaseFactory(monitoring=monitoring)
+        Letter.send_new_case(case=case)
         self.assertEqual(Case.objects.count(), 1)
         self.assertEqual(Letter.objects.count(), 1)
         self.assertIn(

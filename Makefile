@@ -37,3 +37,9 @@ settings:
 
 docs:
 	docker-compose run web sphinx-build -b html -d docs/_build/doctrees docs docs/_build/html
+
+importterc:
+	docker-compose run web sh -c 'curl http://cdn.files.jawne.info.pl/public_html/2017/12/03_05_43_05/TERC_Urzedowy_2017-12-03.xml --output /tmp/TERC.xml && python manage.py load_terc --input /tmp/TERC.xml'
+
+createsuperuser:
+	docker-compose run -e DJANGO_SUPERUSER_PASSWORD=root web python manage.py createsuperuser --username root --email root@example.com --noinput
