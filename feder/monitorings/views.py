@@ -42,7 +42,7 @@ from .forms import (
     SelectUserForm,
 )
 from .models import Monitoring
-from .tasks import send_letter_for_mass_assign
+from .tasks import handle_mass_assign
 
 
 class MonitoringListView(SelectRelatedMixin, FilterView):
@@ -367,7 +367,7 @@ class MonitoringAssignView(RaisePermissionRequiredMixin, FilterView):
                 )
             )
         Case.objects.bulk_create(cases)
-        send_letter_for_mass_assign(mass_assign.hex)
+        handle_mass_assign(mass_assign.hex)
         msg = _(
             "%(count)d institutions was assigned to %(monitoring)s. "
             + " The requests scheduled to sent."

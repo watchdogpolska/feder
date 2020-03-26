@@ -21,7 +21,7 @@ from feder.users.factories import UserFactory
 from .factories import MonitoringFactory
 from .forms import MonitoringForm
 from .models import Monitoring
-from .tasks import send_letter_for_mass_assign
+from .tasks import send_letter_for_mass_assign, handle_mass_assign
 
 EXAMPLE_DATA = {
     "name": "foo-bar-monitoring",
@@ -302,7 +302,9 @@ class MonitoringAssignViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
             }
         )
         for mass_assign in ids:
-            send_letter_for_mass_assign.now(mass_assign)
+            handle_mass_assign.now(str(mass_assign))
+        for mass_assign in ids:
+            send_letter_for_mass_assign.now(str(mass_assign))
 
     def test_assign_display_institutions(self):
         self.login_permitted_user()
@@ -344,6 +346,15 @@ class MonitoringAssignViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
         self.assertEqual(mail.outbox[1].to[0], institution_2.email)
         for x in (0, 1):
             self.assertEqual(mail.outbox[x].subject, "Wniosek")
+
+    def test_update_email_after_send(self):
+        self.login_permitted_user()
+        institution = InstitutionFactory(name="Office 1")
+        to_send_ids = [institution.pk]
+        self.client.post(self.get_url() + "?name=", data={"to_assign": to_send_ids})
+        self.send_all_pending()
+        case = Case.objects.filter(monitoring=self.monitoring, institution=institution).get()
+        self.assertTrue(case.email)
 
     def test_constant_increment_local_id(self):
         self.login_permitted_user()

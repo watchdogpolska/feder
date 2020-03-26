@@ -6,22 +6,24 @@
         class="breadcrumb"
         itemscope
         itemtype="http://schema.org/BreadcrumbList">
-        <li
-            itemprop="itemListElement"
-            itemscope
-            itemtype="http://schema.org/ListItem">
-            <a itemprop="item" href="{{ object.letter.case.monitoring.get_absolute_url }}">
-                {{ object.letter.case.monitoring }}
-            </a>
-        </li>
-        <li
-            itemprop="itemListElement"
-            itemscope
-            itemtype="http://schema.org/ListItem">
-            <a itemprop="item" href="{{ object.letter.case.get_absolute_url }}">
-                <span itemprop="name">{{ object.letter.case }}</span>
-            </a>
-        </li>
+        {% if object.letter %}
+            <li
+                itemprop="itemListElement"
+                itemscope
+                itemtype="http://schema.org/ListItem">
+                <a itemprop="item" href="{{ object.letter.case.monitoring.get_absolute_url }}">
+                    {{ object.letter.case.monitoring }}
+                </a>
+            </li>
+            <li
+                itemprop="itemListElement"
+                itemscope
+                itemtype="http://schema.org/ListItem">
+                <a itemprop="item" href="{{ object.letter.case.get_absolute_url }}">
+                    <span itemprop="name">{{ object.letter.case }}</span>
+                </a>
+            </li>
+        {% endif %}
         <li
             itemprop="itemListElement"
             itemscope
