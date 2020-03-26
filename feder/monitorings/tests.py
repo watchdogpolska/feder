@@ -353,7 +353,9 @@ class MonitoringAssignViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
         to_send_ids = [institution.pk]
         self.client.post(self.get_url() + "?name=", data={"to_assign": to_send_ids})
         self.send_all_pending()
-        case = Case.objects.filter(monitoring=self.monitoring, institution=institution).get()
+        case = Case.objects.filter(
+            monitoring=self.monitoring, institution=institution
+        ).get()
         self.assertTrue(case.email)
 
     def test_constant_increment_local_id(self):

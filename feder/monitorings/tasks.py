@@ -10,6 +10,7 @@ def handle_mass_assign(mass_assign):
         case.save()
     send_letter_for_mass_assign(mass_assign)
 
+
 @background
 def send_letter_for_mass_assign(mass_assign):
     for case in Case.objects.filter(mass_assign=mass_assign).all():
