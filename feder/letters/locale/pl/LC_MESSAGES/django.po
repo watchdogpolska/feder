@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: letters 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-30 05:05+0000\n"
-"PO-Revision-Date: 2019-11-30 06:06+0100\n"
+"POT-Creation-Date: 2020-03-27 01:21+0000\n"
+"PO-Revision-Date: 2020-03-27 02:22+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -38,14 +38,6 @@ msgstr "Tytuł"
 #: filters.py:24
 msgid "Institution"
 msgstr "Instytucja"
-
-#: filters.py:31
-msgid "Creation date (ascending)"
-msgstr "Data utworzenia (rosnąco)"
-
-#: filters.py:32
-msgid "Creation date (descending)"
-msgstr "Data utworzenia (malejąco)"
 
 #: forms.py:21
 msgid "Case"
@@ -166,35 +158,35 @@ msgstr "Może rozpoznawać listy"
 msgid "(no subject)"
 msgstr "(bez tematu)"
 
-#: models.py:271
+#: models.py:265
 msgid "Virus scan request"
 msgstr "Żądanie skanowania antywirusowego"
 
-#: templates/letters/_btn.html:7
-#: templates/letters/attachment_base_object.html:47
+#: templates/letters/_btn.html:8
+#: templates/letters/attachment_base_object.html:49
 #: templates/letters/base_object.html:39
 msgid "Edit"
 msgstr "Edytuj"
 
-#: templates/letters/_btn.html:13
+#: templates/letters/_btn.html:14
 msgid "Delete"
 msgstr "Usuń"
 
-#: templates/letters/_btn.html:20 templates/letters/letter_reply.html:10
+#: templates/letters/_btn.html:21 templates/letters/letter_reply.html:10
 msgid "Reply"
 msgstr "Odpowiedź"
 
-#: templates/letters/_btn.html:25 templates/letters/letter_send.html:11
+#: templates/letters/_btn.html:26 templates/letters/letter_send.html:11
 #: templates/letters/letter_send.html:21
 msgid "Send draft"
 msgstr "Wyślij ten szkic"
 
-#: templates/letters/_btn.html:32 templates/letters/letter_spam.html:15
+#: templates/letters/_btn.html:33 templates/letters/letter_spam.html:15
 #: tests/test_views.py:78
 msgid "Report spam"
 msgstr "Zgłoś spam"
 
-#: templates/letters/_btn.html:37
+#: templates/letters/_btn.html:38
 msgid "Mark spam"
 msgstr "Oznacz spam"
 
@@ -262,15 +254,59 @@ msgstr ""
 "To jest tylko szablon wiadomości. Wiadomość nie została wysłana do "
 "instytucji."
 
-#: templates/letters/_object.html:30
-msgid "Scan"
-msgstr "Skanuj"
-
-#: templates/letters/_object.html:36
+#: templates/letters/_object.html:32
 msgid "Download"
 msgstr "Pobierz"
 
-#: templates/letters/attachment_base_object.html:63
+#: templates/letters/_object.html:39
+msgid "Scan"
+msgstr "Skanuj"
+
+#: templates/letters/attachment_base_object.html:65
+#, python-format
+msgid ""
+"\n"
+"                <a href=\"%(object_url)s\">%(object)s</a>\n"
+"                <small>by <a href=\"%(author_url)s\"> %(author)s </a>\n"
+"                    <time datetime=\"%(created)s\" title="
+"\"%(created_natural)s\">%(created)s</time>\n"
+"            "
+msgstr ""
+"\n"
+"                <a href=\"%(object_url)s\">%(object)s</a>\n"
+"                <small>by <a href=\"%(author_url)s\"> %(author)s </a>\n"
+"                    <time datetime=\"%(created)s\" title="
+"\"%(created_natural)s\">%(created)s</time>\n"
+"            "
+
+#: templates/letters/attachment_base_object.html:71
+#, python-format
+msgid ""
+"\n"
+"                in case <a href=\"%(case_url)s\">%(case)s</a> with <a\n"
+"                        href=\"%(institution_url)s\">%(institution)s</a></"
+"small>%%}\n"
+"            "
+msgstr ""
+"\n"
+"                w sprawie <a href=\"%(case_url)s\">%(case)s</a> z <a\n"
+"                        href=\"%(institution_url)s\">%(institution)s</a></"
+"small>%%}\n"
+"            "
+
+#: templates/letters/attachment_request_scan.html:15
+msgid "Scan request"
+msgstr "Żądaj skanowania"
+
+#: templates/letters/attachment_request_scan.html:20
+#, python-format
+msgid "Are you sure you want to request scan of \"%(object)s\"?"
+msgstr "Czy jesteś pewien, że chcesz zażądać skanowania \"%(object)s\"?"
+
+#: templates/letters/attachment_request_scan.html:25
+msgid "Request scan"
+msgstr "Żądaj skanowania"
+
 #: templates/letters/base_object.html:55
 #, python-format
 msgid ""
@@ -291,19 +327,6 @@ msgstr ""
 "                    w sprawie <a href=\"%(case_url)s\">%(case)s</a> z <a\n"
 "                            href=\"%(institution_url)s\">%(institution)s</"
 "a></small>"
-
-#: templates/letters/attachment_request_scan.html:15
-msgid "Scan request"
-msgstr "Żądaj skanowania"
-
-#: templates/letters/attachment_request_scan.html:20
-#, python-format
-msgid "Are you sure you want to request scan of \"%(object)s\"?"
-msgstr "Czy jesteś pewien, że chcesz zażądać skanowania \"%(object)s\"?"
-
-#: templates/letters/attachment_request_scan.html:25
-msgid "Request scan"
-msgstr "Żądaj skanowania"
 
 #: templates/letters/letter_confirm_delete.html:9
 msgid "Confirm delete"
@@ -494,30 +517,30 @@ msgstr "^~przypisz-(?P<pk>[\\d-]+)$"
 msgid "^webhook"
 msgstr "^webhook"
 
-#: views.py:55
+#: views.py:54
 msgid "Letters index"
 msgstr "Wykaz listów"
 
-#: views.py:169
+#: views.py:179
 #, python-brace-format
 msgid "Reply {reply} to {letter} saved and send!"
 msgstr "Odpowiedź {reply} na {letter} zapisana i wysłana!"
 
-#: views.py:172
+#: views.py:182
 #, python-brace-format
 msgid "Reply {reply} to {letter} saved to review!"
 msgstr "Odpowiedź {reply} do listu {letter} zapisana do przejrzenia!"
 
-#: views.py:189
+#: views.py:199
 #, python-brace-format
 msgid "Reply {letter} send to {institution}!"
 msgstr "Odpowiedź {letter} wysłana do {institution}!"
 
-#: views.py:240
+#: views.py:250
 msgid "Latest letters on whole site"
 msgstr "Ostatnie listy na całej stronie"
 
-#: views.py:243
+#: views.py:253
 msgid ""
 "Updates on new letters on site including receving and sending in all "
 "monitorings."
@@ -525,53 +548,59 @@ msgstr ""
 "Aktualizacje wszystkich listów na stronie włączając w to listy przychodzące "
 "i wychodzące w wszystkich monitoringach."
 
-#: views.py:296
+#: views.py:307
 #, python-format
 msgid "Letter for monitoring %s"
 msgstr "Listy monitoringu %s "
 
-#: views.py:300
+#: views.py:311
 #, python-format
 msgid "Archive of letter for cases which involved in monitoring %s"
 msgstr "Archiwum listów w sprawach z monitoringu %s"
 
-#: views.py:316
+#: views.py:327
 #, python-format
 msgid "Letter for case %s"
 msgstr "Listy w sprawie %s"
 
-#: views.py:319
+#: views.py:330
 #, python-format
 msgid "Archive of letter for case %s"
 msgstr "Archiwum listów w sprawie %s"
 
-#: views.py:339
+#: views.py:350
 msgid "SPAM"
 msgstr "SPAM"
 
-#: views.py:346
+#: views.py:357
 msgid "Thanks for your help. The report was forwarded to responsible persons."
 msgstr ""
 "Dziękujemy za pomoc. Zgłoszenie zostało przekazane do odpowiedzialnych osób."
 
-#: views.py:386
+#: views.py:397
 #, python-brace-format
 msgid "The letter {object} has been marked as valid."
 msgstr "List {object} został oznaczony jako spam i ukryty."
 
-#: views.py:389
+#: views.py:400
 #, python-brace-format
 msgid "The message {object} has been marked as spam and hidden."
 msgstr "List {object} został oznaczony jako spam i ukryty."
 
-#: views.py:438
+#: views.py:449
 #, python-format
 msgid "Assigned letter to case '%(case)s'"
 msgstr "Przypisano list do sprawy '%(case)s'"
 
-#: views.py:500
+#: views.py:512
 msgid "The file {} has been queued for scanning"
 msgstr "Plik {} został zakolejkowany do skanowania."
+
+#~ msgid "Creation date (ascending)"
+#~ msgstr "Data utworzenia (rosnąco)"
+
+#~ msgid "Creation date (descending)"
+#~ msgstr "Data utworzenia (malejąco)"
 
 #~ msgid "Message"
 #~ msgstr "Wiadomość"

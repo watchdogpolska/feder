@@ -6,7 +6,7 @@
         class="breadcrumb"
         itemscope
         itemtype="http://schema.org/BreadcrumbList">
-        {% if object.letter %}
+        {% if object.letter.case %}
             <li
                 itemprop="itemListElement"
                 itemscope
@@ -62,16 +62,20 @@
     <div class="page-header">
         <h2>
             <i class="fa fa-envelope"></i>
-            {% blocktrans with object=object.letter object_url=object.letter.get_absolute_url author=object.letter.author author_url=object.letter.author.get_absolute_url case=object.letter.case case_url=object.letter.case.get_absolute_url institution=object.letter.case.institution institution=object.letter.case.institution created=object.created created_natural=object.created|naturaltime %}
+            {% blocktrans with object=object.letter object_url=object.letter.get_absolute_url author=object.letter.author author_url=object.letter.author.get_absolute_url created=object.created created_natural=object.created|naturaltime %}
                 <a href="{{ object_url }}">{{ object }}</a>
                 <small>by <a href="{{ author_url }}"> {{ author }} </a>
                     <time datetime="{{ created }}" title="{{ created_natural }}">{{ created }}</time>
-                    in case <a href="{{ case_url }}">{{ case }}</a> with <a
-                            href="{{ institution_url }}">{{ institution }}</a></small>{% endblocktrans %}
+            {% endblocktrans %}
+            {% if object.letter.case %}
+            {% blocktrans with case=object.letter.case case_url=object.letter.case.get_absolute_url institution=object.letter.case.institution institution=object.letter.case.institution %}
+                in case <a href="{{ case_url }}">{{ case }}</a> with <a
+                        href="{{ institution_url }}">{{ institution }}</a></small>%}
+            {% endblocktrans %}
+            {% endif %}
         </h2>
     </div>
     <div class="gray">
-
         {% block content_object %}{% endblock %}
     </div>
 
