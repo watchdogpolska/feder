@@ -38,8 +38,10 @@ class MonitoringQuerySet(models.QuerySet):
 @reversion.register()
 class Monitoring(TimeStampedModel):
     perm_model = "monitoringuserobjectpermission"
-    name = models.CharField(verbose_name=_("Name"), max_length=50)
-    slug = AutoSlugField(populate_from="name", verbose_name=_("Slug"), unique=True)
+    name = models.CharField(verbose_name=_("Name"), max_length=100)
+    slug = AutoSlugField(
+        populate_from="name", max_length=110, verbose_name=_("Slug"), unique=True
+    )
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name=_("User")
     )

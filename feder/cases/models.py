@@ -62,8 +62,10 @@ class CaseQuerySet(models.QuerySet):
 
 
 class Case(TimeStampedModel):
-    name = models.CharField(verbose_name=_("Name"), max_length=50)
-    slug = AutoSlugField(populate_from="name", verbose_name=_("Slug"), unique=True)
+    name = models.CharField(verbose_name=_("Name"), max_length=100)
+    slug = AutoSlugField(
+        populate_from="name", verbose_name=_("Slug"), max_length=110, unique=True
+    )
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     monitoring = models.ForeignKey(
         Monitoring, on_delete=models.CASCADE, verbose_name=_("Monitoring")
