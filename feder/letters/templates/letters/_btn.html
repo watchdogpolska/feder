@@ -1,4 +1,5 @@
 {% load guardian_tags i18n %}
+{% if object.case %}
 {% get_obj_perms request.user for object.case.monitoring as "monitoring_perms" %}
 <div class="clearfix">
     <div class="pull-right btn-group">
@@ -40,3 +41,4 @@
         {% endif %}
     </div>
 </div>
+{% endif %}

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-30 05:05+0000\n"
+"POT-Creation-Date: 2020-03-27 01:21+0000\n"
 "PO-Revision-Date: 2017-09-20 20:27+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: \n"
@@ -23,67 +23,67 @@ msgstr ""
 msgid "Logs of letter"
 msgstr "Dziennik listów"
 
-#: logs/models.py:17
+#: logs/models.py:16
 msgid "Open"
 msgstr "Otwarty"
 
-#: logs/models.py:18
+#: logs/models.py:17
 msgid "Delivered"
 msgstr "Dostarczony"
 
-#: logs/models.py:19
+#: logs/models.py:18
 msgid "Spam-bounce"
 msgstr "Odrzucony z powodu spamu"
 
-#: logs/models.py:20
+#: logs/models.py:19
 msgid "Soft-bounce"
 msgstr "Miękko odrzucony"
 
-#: logs/models.py:21
+#: logs/models.py:20
 msgid "Hard-bounce"
 msgstr "Twardo odrzucony"
 
-#: logs/models.py:22
+#: logs/models.py:21
 msgid "Dropped"
 msgstr "Porzucone"
 
-#: logs/models.py:23
+#: logs/models.py:22
 msgid "Deferred"
 msgstr "Odroczone"
 
-#: logs/models.py:24
+#: logs/models.py:23
 msgid "Unknown"
 msgstr "Nieznane"
 
-#: logs/models.py:36 logs/templates/logs/_list.html:7
+#: logs/models.py:34 logs/templates/logs/_list.html:7
 msgid "Case"
 msgstr "Sprawa"
 
-#: logs/models.py:38 logs/templates/logs/_list.html:9
+#: logs/models.py:36 logs/templates/logs/_list.html:9
 msgid "Letter"
 msgstr "List"
 
-#: logs/models.py:40
+#: logs/models.py:38
 msgid "Message-ID"
 msgstr "Message-ID"
 
-#: logs/models.py:41
+#: logs/models.py:39
 msgid "To"
 msgstr "Do"
 
-#: logs/models.py:51 logs/models.py:93
+#: logs/models.py:49 logs/models.py:90
 msgid "Email"
 msgstr "E-mail"
 
-#: logs/models.py:52
+#: logs/models.py:50
 msgid "Emails"
 msgstr "E-maile"
 
-#: logs/models.py:111
+#: logs/models.py:108
 msgid "Log record"
 msgstr "Rekord dziennika"
 
-#: logs/models.py:112
+#: logs/models.py:109
 msgid "Log records"
 msgstr "Rekordy dziennika"
 
