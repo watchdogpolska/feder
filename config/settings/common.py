@@ -338,8 +338,8 @@ METADEFENDER_API_URL = env(
 )
 
 CORS_ORIGIN_WHITELIST = [
-    "https://sprawdzamyjakjest.pl/",
-    "https://demo.sprawdzamyjakjest.pl/",
-    "https://sjj.127.0.0.1.xip.io/",
+    "https://sprawdzamyjakjest.pl",
+    "https://demo.sprawdzamyjakjest.pl",
+    "https://sjj.127.0.0.1.xip.io",
 ]
 CORS_URLS_REGEX = r"^/api/.*$"
