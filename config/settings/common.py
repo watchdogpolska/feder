@@ -48,6 +48,7 @@ THIRD_PARTY_APPS = (
     "reversion",
     "django_filters",
     "background_task",
+    "corsheaders",
 )
 
 # Apps specific for this project go here.
@@ -86,6 +87,7 @@ INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS + ALLAUTH_PROVIDERS
 MIDDLEWARE = (
     # Make sure djangosecure.middleware.SecurityMiddleware is listed first
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -334,3 +336,10 @@ METADEFENDER_API_KEY = env("METADEFENDER_API_KEY", default=None)
 METADEFENDER_API_URL = env(
     "METADEFENDER_API_URL", default="https://api.metadefender.com"
 )
+
+CORS_ORIGIN_WHITELIST = [
+    "https://sprawdzamyjakjest.pl",
+    "https://demo.sprawdzamyjakjest.pl",
+    "https://sjj.127.0.0.1.xip.io",
+]
+CORS_URLS_REGEX = r"^/api/.*$"
