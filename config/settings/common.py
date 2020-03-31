@@ -342,4 +342,4 @@ CORS_ORIGIN_WHITELIST = [
     "https://demo.sprawdzamyjakjest.pl/",
     "https://sjj.127.0.0.1.xip.io/",
 ]
-CORS_URLS_REGEX = r'^/api/.*$'
+CORS_URLS_REGEX = r"^/api/.*$"
