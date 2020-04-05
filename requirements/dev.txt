@@ -1,6 +1,6 @@
 # Local development dependencies go here
 -r base.txt
-Sphinx==2.4.4
+Sphinx==3.0.0
 Werkzeug==1.0.0
 django-debug-toolbar==2.2
 ipdb==0.13.2
