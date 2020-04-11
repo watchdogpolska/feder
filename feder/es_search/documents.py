@@ -1,4 +1,4 @@
-from elasticsearch_dsl import Document, InnerDoc, Nested, Date, Keyword, Text
+from elasticsearch_dsl import Document, Keyword, Text
 
 
 class LetterDocument(Document):

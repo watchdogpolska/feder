@@ -1,6 +1,4 @@
-from elasticsearch_dsl import Search, Index
-from elasticsearch_dsl.query import MultiMatch, Match, Q, MoreLikeThis
-from elasticsearch_dsl.connections import get_connection, connections
+from elasticsearch_dsl.query import MultiMatch, MoreLikeThis
 from .documents import LetterDocument
 
 
