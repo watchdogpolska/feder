@@ -20,7 +20,5 @@ def more_like_this(doc):
     like = serialize_document(doc)
     q = MoreLikeThis(like=like, fields=["title", "body"],)
     query = LetterDocument.search().query(q)
-    print(query.to_dict())
-    x = query.execute()
-    print(x)
-    return x
+    # print(query.to_dict())
+    return query.execute()
