@@ -102,6 +102,11 @@ class LetterDetailView(SelectRelatedMixin, CaseRequiredMixin, DetailView):
         qs = super().get_queryset()
         return qs.with_attachment()
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["similiar_list"] = context["object"].get_more_like_this()
+        return context
+
 
 class LetterMessageXSendFileView(MixinGzipXSendFile, BaseXSendFileView):
     model = Letter

@@ -25,6 +25,7 @@ from ..factories import (
     LetterFactory,
 )
 from django.utils.translation import ugettext_lazy as _
+from ...es_search.tests import ESMixin
 
 
 class ObjectMixin:
@@ -55,7 +56,7 @@ class LetterListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
         self.assertContains(response, "Wniosek")
 
 
-class LetterDetailViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
+class LetterDetailViewTestCase(ESMixin, ObjectMixin, PermissionStatusMixin, TestCase):
     status_anonymous = 200
     status_no_permission = 200
     permission = []
@@ -91,6 +92,13 @@ class LetterDetailViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
         self.assertContains(
             self.client.get(self.get_url()), attachment.get_absolute_url()
         )
+
+    def test_contain_link_to_similiar(self):
+        similiar = IncomingLetterFactory(title="similiar-letter-xx", body=self.letter)
+        self.index([similiar, self.letter])
+        response = self.client.get(self.get_url())
+        self.assertContains(response, similiar.title)
+        self.assertContains(response, similiar.get_absolute_url())
 
 
 class LetterMessageXSendFileView(PermissionStatusMixin, TestCase):

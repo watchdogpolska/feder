@@ -34,6 +34,8 @@ jobs:
     - name: Show MySQL logs
       if: failure()
       run: docker-compose logs db
+    - name: Run side services
+      run: make wait_elasticsearch wait_tika
     - name: Show settings
       run: make settings
     - name: Build test

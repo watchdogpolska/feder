@@ -69,6 +69,7 @@ LOCAL_APPS = (
     "feder.records.apps.RecordsConfig",
     "feder.parcels.apps.ParcelsConfig",
     "feder.virus_scan",
+    "feder.es_search.apps.EsSearchConfig",
     # Your stuff: custom apps go here
 )
 
@@ -343,3 +344,6 @@ CORS_ORIGIN_WHITELIST = [
     "https://sjj.127.0.0.1.xip.io",
 ]
 CORS_URLS_REGEX = r"^/api/.*$"
+
+ELASTICSEARCH_URL = env("ELASTICSEARCH_URL", default="http://localhost:9200/")
+APACHE_TIKA_URL = env("APACHE_TIKA_URL", default="http://localhost:9998/tika")

@@ -21,6 +21,9 @@ from .utils import email_wrapper, normalize_msg_id, get_body_with_footer
 from ..virus_scan.models import Request as ScanRequest
 from django.utils.timezone import datetime
 from datetime import timedelta
+from ..es_search.documents import LetterDocument
+from ..es_search.queries import more_like_this
+from elasticsearch.exceptions import NotFoundError
 
 logger = logging.getLogger(__name__)
 
@@ -245,6 +248,17 @@ class Letter(AbstractRecord):
         if commit:
             self.save(update_fields=["eml", "email"] if only_email else None)
         return message.send()
+
+    def get_more_like_this(self):
+        try:
+            doc = LetterDocument.get(self.pk)
+        except NotFoundError:
+            return Letter._default_manager.none()
+        result = more_like_this(doc)
+        # print(result)
+        return Letter._default_manager.filter(
+            pk__in=[x.__dict__["meta"]["id"] for x in result]
+        ).all()
 
 
 class AttachmentQuerySet(models.QuerySet):
