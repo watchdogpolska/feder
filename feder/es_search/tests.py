@@ -7,6 +7,7 @@ from time import sleep
 from elasticsearch_dsl import Search, Index
 from elasticsearch_dsl.query import MultiMatch, Match, Q, MoreLikeThis
 from elasticsearch_dsl.connections import get_connection, connections
+from elasticsearch.exceptions import ElasticsearchException
 from .documents import LetterDocument
 from django.core.management import call_command
 import time
@@ -54,7 +55,7 @@ class ESMixin:
                 try:
                     if not LetterDocument.get(pk):
                         break
-                except Exception as e:
+                except ElasticsearchException as e:
                     print(e)
                     break
             else:
