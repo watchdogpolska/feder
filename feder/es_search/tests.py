@@ -14,9 +14,11 @@ from collections.abc import Iterable
 from .queries import more_like_this, search_keywords
 import time
 
+
 class ESMixin:
     connection_alias = "default"
     index_delay = 2
+
     def setUp(self):
         super().setUp()
         es = get_connection()
