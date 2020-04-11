@@ -50,5 +50,7 @@ jobs:
       env:
         DJANGO_VERSION: "==2.2.*"
         PYTHON_VERSION: "3.7"
+    - name: Run side services
+      run: make wait_elasticsearch wait_tika
     - name: Build documentation
       run: make docs
