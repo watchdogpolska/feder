@@ -21,14 +21,14 @@ jobs:
         lfs: true
     - name: Lint check
       run: make lint
-    - name: Run side services
-      run: make wait_mysql wait_elasticsearch wait_tika
     - name: Build application
       run: docker-compose build web
       env:
         PYTHON_VERSION: ${{ matrix.python }}
         DJANGO_VERSION: ${{ matrix.django }}
         METADEFENDER_API_KEY: ${{ secrets.METADEFENDER_API_KEY }}
+    - name: Run side services
+      run: make wait_mysql wait_elasticsearch wait_tika
     - name: Migration check
       run: make check
     - name: Show MySQL logs
