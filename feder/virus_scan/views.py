@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from .signer import TokenSigner
 from .tasks import scan_request
 
+
 class RequestWebhookView(View):
     signer = TokenSigner()
 
