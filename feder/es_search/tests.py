@@ -12,11 +12,11 @@ from django.core.management import call_command
 import time
 from collections.abc import Iterable
 from .queries import more_like_this, search_keywords
-
+import time
 
 class ESMixin:
     connection_alias = "default"
-
+    index_delay = 2
     def setUp(self):
         super().setUp()
         es = get_connection()
@@ -24,8 +24,7 @@ class ESMixin:
             Search.from_dict({"query": {"match_all": {}}}).index(index).delete()
 
     def refresh_all(self):
-        for index in get_connection().indices.get_alias("*").keys():
-            Index(index).refresh()
+        time.sleep(self.index_delay)
 
     def assertMatch(self, result, items):
         items = items if isinstance(items, Iterable) else [items]
