@@ -14,10 +14,9 @@ from collections.abc import Iterable
 from .queries import more_like_this, search_keywords
 import time
 
-
 class ESMixin:
     connection_alias = "default"
-    index_delay = 2
+    index_delay = 3
 
     def setUp(self):
         super().setUp()
@@ -26,6 +25,11 @@ class ESMixin:
             Search.from_dict({"query": {"match_all": {}}}).index(index).delete()
 
     def refresh_all(self):
+        for index in get_connection().indices.get_alias("*").keys():
+            Index(index).flush()
+            Index(index).refresh()
+            Index(index).clear_cache()
+            Index(index).forcemerge()
         time.sleep(self.index_delay)
 
     def assertMatch(self, result, items):
