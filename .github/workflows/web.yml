@@ -45,6 +45,9 @@ jobs:
     - name: Show Tika logs
       run: docker-compose logs tika
       if: failure()
+    - name: Show docker process
+      run: docker ps
+      if: always()
 
   docs:
     runs-on: ubuntu-latest
