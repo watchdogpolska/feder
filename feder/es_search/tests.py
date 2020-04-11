@@ -50,7 +50,7 @@ class ESMixin:
         stop = True
         while stop:
             print("Delay for indexing")
-            time.sleep(1)
+            time.sleep(20)
             for pk in pks:
                 try:
                     if not LetterDocument.get(pk):
