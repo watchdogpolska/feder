@@ -17,6 +17,10 @@ with open(WORD_LIST_FILE, encoding="utf-8") as fp:
     words = fp.readlines()
 
 
+def get_text(size=25):
+    return " ".join(random.choices(words, k=size))
+
+
 def get_email(subject=None, from_=None, to=None, msg_id=None):
     msg = MIMEText("Lorem ipsum")
     msg["Subject"] = subject or "Example message"
@@ -39,13 +43,13 @@ class FileTextField(FileField):
     DEFAULT_FILENAME = "content.txt"
 
     def _make_data(self, params):
-        return params.get("text", " ".join(random.choices(words, k=25)))
+        return params.get("text", get_text())
 
 
 class LetterFactory(factory.django.DjangoModelFactory):
     record = factory.SubFactory(RecordFactory)
     title = factory.Sequence("title-letter-{}".format)
-    body = factory.Sequence("body-{}".format)
+    body = factory.fuzzy.FuzzyAttribute(get_text)
     quote = factory.Sequence("quote-{}".format)
 
     class Meta:

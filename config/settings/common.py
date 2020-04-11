@@ -345,5 +345,5 @@ CORS_ORIGIN_WHITELIST = [
 ]
 CORS_URLS_REGEX = r"^/api/.*$"
 
-ELASTICSEARCH_URL = env("ELASTICSEARCH_URL", default="http://localhost:9200/")
+ELASTICSEARCH_URL = env("ELASTICSEARCH_URL", default=None)
 APACHE_TIKA_URL = env("APACHE_TIKA_URL", default="http://localhost:9998/tika")

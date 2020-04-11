@@ -19,7 +19,6 @@ class ESMixin:
 
     def setUp(self):
         super().setUp()
-        call_command("es_init", stdout=StringIO())
         es = get_connection()
         for index in es.indices.get_alias("*").keys():
             Search.from_dict({"query": {"match_all": {}}}).index(index).delete()

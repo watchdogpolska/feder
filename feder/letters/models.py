@@ -255,10 +255,10 @@ class Letter(AbstractRecord):
         except NotFoundError:
             return Letter._default_manager.none()
         result = more_like_this(doc)
-        # print(result)
-        return Letter._default_manager.filter(
-            pk__in=[x.__dict__["meta"]["id"] for x in result]
-        ).all()
+        # print('result', result)
+        ids = [x.__dict__["meta"]["id"] for x in result]
+        # print('ids', ids)
+        return Letter._default_manager.filter(pk__in=ids).all()
 
 
 class AttachmentQuerySet(models.QuerySet):

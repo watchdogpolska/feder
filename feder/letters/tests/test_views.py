@@ -94,11 +94,17 @@ class LetterDetailViewTestCase(ESMixin, ObjectMixin, PermissionStatusMixin, Test
         )
 
     def test_contain_link_to_similiar(self):
-        similiar = IncomingLetterFactory(title="similiar-letter-xx", body=self.letter)
+        similiar = IncomingLetterFactory(body=self.letter.body)
         self.index([similiar, self.letter])
         response = self.client.get(self.get_url())
-        self.assertContains(response, similiar.title)
-        self.assertContains(response, similiar.get_absolute_url())
+        self.assertContains(
+            response, similiar.title, msg_prefix="Not found title of similiar letter"
+        )
+        self.assertContains(
+            response,
+            similiar.get_absolute_url(),
+            msg_prefix="Not found link to similiar letter",
+        )
 
 
 class LetterMessageXSendFileView(PermissionStatusMixin, TestCase):
