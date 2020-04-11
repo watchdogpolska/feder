@@ -14,7 +14,7 @@ from collections.abc import Iterable
 from .queries import more_like_this, search_keywords
 
 
-class ESMixin(object):
+class ESMixin:
     connection_alias = "default"
 
     def setUp(self):
