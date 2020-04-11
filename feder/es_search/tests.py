@@ -19,7 +19,7 @@ import time
 
 class ESMixin:
     connection_alias = "default"
-    index_delay = 5
+    index_delay = 3
 
     def setUp(self):
         super().setUp()
@@ -50,7 +50,7 @@ class ESMixin:
         stop = True
         while stop:
             print("Delay for indexing")
-            time.sleep(20)
+            time.sleep(self.index_delay)
             for pk in pks:
                 try:
                     if not LetterDocument.get(pk):
