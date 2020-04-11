@@ -31,19 +31,20 @@ jobs:
       run: make wait_mysql wait_elasticsearch wait_tika
     - name: Migration check
       run: make check
-    - name: Show MySQL logs
-      if: failure()
-      run: docker-compose logs db
-    - name: Show Elasticsearch logs
-      if: failure()
-      run: docker-compose logs elasticsearch
-    - name: Show Tika logs
-      if: failure()
-      run: docker-compose logs tika
     - name: Show settings
       run: make settings
     - name: Build test
       run: make test
+
+    - name: Show MySQL logs
+      run: docker-compose logs db
+      if: failure()
+    - name: Show Elasticsearch logs
+      run: docker-compose logs elasticsearch
+      if: failure()
+    - name: Show Tika logs
+      run: docker-compose logs tika
+      if: failure()
 
   docs:
     runs-on: ubuntu-latest
