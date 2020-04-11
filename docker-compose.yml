@@ -49,6 +49,7 @@ services:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.6.2
     environment:
       discovery.type: single-node
+      cluster.routing.allocation.disk.threshold_enabled: 'false'
 
   tika:
     image: quay.io/watchdogpolska/apache-tika
