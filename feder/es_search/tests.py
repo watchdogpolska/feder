@@ -11,13 +11,14 @@ from .documents import LetterDocument
 from django.core.management import call_command
 import time
 from collections.abc import Iterable
+from elasticsearch.exceptions import ConflictError
 from .queries import more_like_this, search_keywords
 import time
 
 
 class ESMixin:
     connection_alias = "default"
-    index_delay = 3
+    index_delay = 5
 
     def setUp(self):
         super().setUp()
@@ -25,13 +26,15 @@ class ESMixin:
         for index in es.indices.get_alias("*").keys():
             Search.from_dict({"query": {"match_all": {}}}).index(index).delete()
 
-    def refresh_all(self):
-        for index in get_connection().indices.get_alias("*").keys():
-            Index(index).flush()
-            Index(index).refresh()
-            Index(index).clear_cache()
-            Index(index).forcemerge()
-        time.sleep(self.index_delay)
+    # def refresh_all(self):
+    #     for index in get_connection().indices.get_alias("*").keys():
+    #         Index(index).flush()
+    #         Index(index).refresh()
+    #         Index(index).clear_cache()
+    #         Index(index).forcemerge()
+    #         print(Index(index).stats())
+    #     es = get_connection().health()
+    #     time.sleep(self.index_delay)
 
     def assertMatch(self, result, items):
         items = items if isinstance(items, Iterable) else [items]
@@ -41,14 +44,28 @@ class ESMixin:
 
     def index(self, items):
         items = items if isinstance(items, Iterable) else [items]
-        index_letter.now([x.pk for x in items])
-        self.refresh_all()
+        pks = [x.pk for x in items]
+        index_letter.now(pks)
+        stop = True
+        while stop:
+            print("Delay for indexing")
+            time.sleep(1)
+            for pk in pks:
+                try:
+                    if not LetterDocument.get(pk):
+                        break
+                except Exception as e:
+                    print(e)
+                    break
+            else:
+                stop = False
 
 
 class IndexLetterTestCase(ESMixin, TestCase):
     def test_single_letter_index(self):
         letter = IncomingLetterFactory()
         self.index(letter)
+
         result = search_keywords(letter.title)
 
         self.assertMatch(result, letter)
