@@ -21,9 +21,7 @@ from .utils import email_wrapper, normalize_msg_id, get_body_with_footer
 from ..virus_scan.models import Request as ScanRequest
 from django.utils.timezone import datetime
 from datetime import timedelta
-from ..es_search.documents import LetterDocument
 from ..es_search.queries import more_like_this, find_document
-from elasticsearch.exceptions import NotFoundError
 
 logger = logging.getLogger(__name__)
 

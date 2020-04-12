@@ -1,5 +1,5 @@
 from background_task import background
-from .queries import find_document, delete_document
+from .queries import delete_document
 from .serializers import letter_serialize
 
 
