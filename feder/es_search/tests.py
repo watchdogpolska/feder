@@ -13,19 +13,23 @@ from django.core.management import call_command
 import time
 from collections.abc import Iterable
 from elasticsearch.exceptions import ConflictError
-from .queries import more_like_this, search_keywords
+from .queries import more_like_this, search_keywords, find_document, delete_document
 import time
 
 
 class ESMixin:
     connection_alias = "default"
-    index_delay = 3
+    index_delay = 10
 
     def setUp(self):
         super().setUp()
-        es = get_connection()
-        for index in es.indices.get_alias("*").keys():
-            Search.from_dict({"query": {"match_all": {}}}).index(index).delete()
+        for x in range(10):
+            try:
+                return LetterDocument.search().query().delete()
+            except Exception:
+                print("Sleep time for delete setUp")
+                time.sleep(1)
+                pass
 
     # def refresh_all(self):
     #     for index in get_connection().indices.get_alias("*").keys():
@@ -53,7 +57,7 @@ class ESMixin:
             time.sleep(self.index_delay)
             for pk in pks:
                 try:
-                    if not LetterDocument.get(pk):
+                    if not find_document(pk):
                         break
                 except ElasticsearchException as e:
                     print(e)
@@ -63,6 +67,8 @@ class ESMixin:
 
 
 class IndexLetterTestCase(ESMixin, TestCase):
+    text = "Lorem ipsum dolor sit amet consectetur adipiscing elit"
+
     def test_single_letter_index(self):
         letter = IncomingLetterFactory()
         self.index(letter)
@@ -81,50 +87,49 @@ class IndexLetterTestCase(ESMixin, TestCase):
         self.assertMatch(result, letter)
 
     def test_search_by_attachment_content(self):
-        attachment = AttachmentFactory(attachment__text="hello world")
+        attachment = AttachmentFactory(attachment__text=self.text)
         letter = attachment.letter
         self.index(letter)
 
-        result = search_keywords("hello")
+        result = search_keywords("dolor")
 
         self.assertMatch(result, letter)
 
     def test_search_by_title(self):
-        letter = IncomingLetterFactory(body="hello world")
+        letter = IncomingLetterFactory(body=self.text)
         self.index(letter)
 
-        result = search_keywords("hello")
+        result = search_keywords("dolor")
 
         self.assertMatch(result, letter)
 
     def test_search_more_like_this_by_title(self):
-        letter_a = IncomingLetterFactory(title="hello world bla bla")
-        letter_b = IncomingLetterFactory(title="hello world bla bla")
+        letter_a = IncomingLetterFactory(title=self.text)
+        letter_b = IncomingLetterFactory(title=self.text)
         self.index([letter_a, letter_b])
 
-        doc = LetterDocument.get(letter_a.pk)
+        doc = find_document(letter_a.pk)
         result = more_like_this(doc)
 
         self.assertMatch(result, letter_b)
 
     def test_search_more_like_this_by_attachment(self):
-        text = "hello world bla bla"
-        letter_a = AttachmentFactory(attachment__text=text).letter
-        letter_b = AttachmentFactory(attachment__text=text).letter
+        letter_a = AttachmentFactory(attachment__text=self.text).letter
+        letter_b = AttachmentFactory(attachment__text=self.text).letter
         self.index([letter_a, letter_b])
 
-        doc = LetterDocument.get(letter_a.pk)
+        doc = find_document(letter_a.pk)
         result = more_like_this(doc)
 
         self.assertMatch(result, letter_b)
 
 
 class IndexCommandTestCase(ESMixin, TestCase):
-    def test_single_letter_index(self):
+    def test_single_letter_command(self):
         letter = IncomingLetterFactory()
+        delete_document(letter.pk)
         call_command("es_index", "--skip-queue", stdout=StringIO())
-        self.refresh_all()
-
+        time.sleep(5)
         result = search_keywords(letter.title)
 
         self.assertMatch(result, letter)

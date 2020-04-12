@@ -7,7 +7,8 @@ build:
 	docker-compose build web
 
 test:
-	docker-compose run web python manage.py test --keepdb --verbosity=2 feder.es_search.tests.IndexLetterTestCase
+	docker-compose run web python manage.py test --keepdb --verbosity=2 feder.es_search.tests
+	docker-compose run web python manage.py test --keepdb --verbosity=2 feder.letters.tests.test_views.LetterDetailViewTestCase.test_contain_link_to_similiar
 
 wait_mysql:
 	docker-compose up -d db

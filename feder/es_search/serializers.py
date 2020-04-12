@@ -7,12 +7,10 @@ def letter_serialize(letter):
     doc = LetterDocument()
     doc.title = letter.title
     doc.body = letter.body
-    doc.meta.id = letter.id
-    chunks = []
+    doc.letter_id = letter.pk
     for attachment in letter.attachment_set.all():
         text = parser.from_file(attachment.attachment.file.file, APACHE_TIKA_URL)[
             "content"
         ].strip()
-        chunks.append(text)
-    doc.content = chunks
+        doc.content.append(text)
     return doc

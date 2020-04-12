@@ -22,7 +22,7 @@ from ..virus_scan.models import Request as ScanRequest
 from django.utils.timezone import datetime
 from datetime import timedelta
 from ..es_search.documents import LetterDocument
-from ..es_search.queries import more_like_this
+from ..es_search.queries import more_like_this, find_document
 from elasticsearch.exceptions import NotFoundError
 
 logger = logging.getLogger(__name__)
@@ -250,13 +250,12 @@ class Letter(AbstractRecord):
         return message.send()
 
     def get_more_like_this(self):
-        try:
-            doc = LetterDocument.get(self.pk)
-        except NotFoundError:
+        doc = find_document(self.pk)
+        if not doc:
             return Letter._default_manager.none()
         result = more_like_this(doc)
         # print('result', result)
-        ids = [x.__dict__["meta"]["id"] for x in result]
+        ids = [x.letter_id for x in result]
         # print('ids', ids)
         return Letter._default_manager.filter(pk__in=ids).all()
 

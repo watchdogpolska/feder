@@ -5,6 +5,7 @@ class LetterDocument(Document):
     title = Text(analyzer="snowball", required=True, fields={"raw": Keyword()})
     body = Text(analyzer="snowball", required=True)
     content = Text(analyzer="snowball", multi=True)
+    letter_id = Text(multi=False)
 
     class Index:
         name = "letter"

@@ -14,7 +14,7 @@ from os.path import join, dirname
 WORD_LIST_FILE = join(dirname(__file__), "fixtures/words.txt")
 
 with open(WORD_LIST_FILE, encoding="utf-8") as fp:
-    words = fp.readlines()
+    words = [x.strip() for x in fp.readlines()]
 
 
 def get_text(size=25):
