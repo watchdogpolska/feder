@@ -17,15 +17,7 @@ def find_document(letter_id=None):
 
 
 def delete_document(letter_id):
-    for x in range(10):
-        try:
-            return (
-                LetterDocument.search().query(Q("match", letter_id=letter_id)).delete()
-            )
-        except Exception:
-            print("Sleep time for delete")
-            time.sleep(1)
-            pass
+    LetterDocument.search().query(Q("match", letter_id=letter_id)).delete()
 
 
 def search_keywords(query):
@@ -39,5 +31,5 @@ def more_like_this(doc):
         like=like, fields=["title", "body", "content"], min_term_freq=1, min_doc_freq=1
     )
     query = LetterDocument.search().query(q)
-    print(query.to_dict())
+    # print(query.to_dict())
     return query.execute()
