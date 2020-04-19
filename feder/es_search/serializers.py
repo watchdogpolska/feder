@@ -11,8 +11,9 @@ def letter_serialize(letter):
     for attachment in letter.attachment_set.all():
         text = parser.from_file(attachment.attachment.file.file, APACHE_TIKA_URL)[
             "content"
-        ].strip()
-        doc.content.append(text)
+        ]
+        if text:
+            doc.content.append(text.strip())
     # print("title", doc.title)
     # print("body", doc.body)
     # print("content", doc.content)
