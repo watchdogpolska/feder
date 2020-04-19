@@ -124,11 +124,16 @@ class IndexCommandTestCase(ESMixin, TestCase):
         self.assertMatch(result, letter)
 
     def test_with_specific_monitoring(self):
-        letter_valid = IncomingLetterFactory(title='my-text')
-        letter_invalid = IncomingLetterFactory(title='my-text')
+        letter_valid = IncomingLetterFactory(title="my-text")
+        letter_invalid = IncomingLetterFactory(title="my-text")
         delete_document(letter_invalid.pk)
         delete_document(letter_valid.pk)
-        call_command("es_index", letter_valid.record.case.monitoring.pk, "--skip-queue", stdout=StringIO())
+        call_command(
+            "es_index",
+            letter_valid.record.case.monitoring.pk,
+            "--skip-queue",
+            stdout=StringIO(),
+        )
         self.index([])
         result = search_keywords(letter_valid.title)
         self.assertMatch(result, letter_valid)
