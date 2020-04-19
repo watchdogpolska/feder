@@ -20,7 +20,7 @@ from pprint import pprint
 
 class ESMixin:
     connection_alias = "default"
-    index_delay = 10
+    index_delay = 1
     _index_suffix = "_test"
     documents = [LetterDocument]
 
