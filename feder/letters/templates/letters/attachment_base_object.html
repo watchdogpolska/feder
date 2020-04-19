@@ -70,7 +70,7 @@
             {% if object.letter.case %}
             {% blocktrans with case=object.letter.case case_url=object.letter.case.get_absolute_url institution=object.letter.case.institution institution=object.letter.case.institution %}
                 in case <a href="{{ case_url }}">{{ case }}</a> with <a
-                        href="{{ institution_url }}">{{ institution }}</a></small>%}
+                        href="{{ institution_url }}">{{ institution }}</a></small>
             {% endblocktrans %}
             {% endif %}
         </h2>

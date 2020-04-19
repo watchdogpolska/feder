@@ -30,15 +30,28 @@ services:
       - .:/code
     environment: &webEnvironment
       DATABASE_URL: mysql://root:password@db/feder
+      ELASTICSEARCH_URL: http://elasticsearch:9200/
+      APACHE_TIKA_URL: 'http://tika:9998/'
       VIRUSTOTAL_API_KEY:
       ATTACHMENTSCANNER_API_KEY:
       ATTACHMENTSCANNER_API_URL:
       METADEFENDER_API_KEY:
     ports:
       - "8000:8000"
-  
+
   worker:
     command: python manage.py process_tasks
     build: *webBuild
     volumes: *webVolumes
     environment: *webEnvironment
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.6.2
+    environment:
+      discovery.type: single-node
+      cluster.routing.allocation.disk.threshold_enabled: 'false'
+    ports:
+      - "9200:9200"
+
+  tika:
+    image: quay.io/watchdogpolska/apache-tika

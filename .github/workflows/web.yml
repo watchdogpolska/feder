@@ -21,23 +21,33 @@ jobs:
         lfs: true
     - name: Lint check
       run: make lint
-    - name: Start database early
-      run: docker-compose up -d db
     - name: Build application
       run: docker-compose build web
       env:
         PYTHON_VERSION: ${{ matrix.python }}
         DJANGO_VERSION: ${{ matrix.django }}
         METADEFENDER_API_KEY: ${{ secrets.METADEFENDER_API_KEY }}
+    - name: Run side services
+      run: make wait_mysql wait_elasticsearch wait_tika
     - name: Migration check
       run: make check
-    - name: Show MySQL logs
-      if: failure()
-      run: docker-compose logs db
     - name: Show settings
       run: make settings
     - name: Build test
       run: make test
+
+    - name: Show MySQL logs
+      run: docker-compose logs db
+      if: failure()
+    - name: Show Elasticsearch logs
+      run: docker-compose logs elasticsearch
+      if: failure()
+    - name: Show Tika logs
+      run: docker-compose logs tika
+      if: failure()
+    - name: Show docker process
+      run: docker ps
+      if: always()
 
   docs:
     runs-on: ubuntu-latest
@@ -48,5 +58,7 @@ jobs:
       env:
         DJANGO_VERSION: "==2.2.*"
         PYTHON_VERSION: "3.7"
+    - name: Run side services
+      run: make wait_elasticsearch wait_tika
     - name: Build documentation
       run: make docs

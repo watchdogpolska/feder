@@ -7,11 +7,19 @@ build:
 	docker-compose build web
 
 test:
-	docker-compose run web python manage.py test --keepdb --verbosity=2
+	docker-compose run web python manage.py test --keepdb --verbosity=2 feder
 
 wait_mysql:
 	docker-compose up -d db
 	docker-compose run web bash -c 'wait-for-it db:3306'
+
+wait_elasticsearch:
+	docker-compose up -d elasticsearch
+	docker-compose run web bash -c 'wait-for-it elasticsearch:9200'
+
+wait_tika:
+	docker-compose up -d tika
+	docker-compose run web bash -c 'wait-for-it tika:9998'
 
 migrate:
 	docker-compose run web python manage.py migrate

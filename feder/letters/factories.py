@@ -1,3 +1,4 @@
+import random
 from email.mime.text import MIMEText
 from email.utils import make_msgid, parseaddr
 
@@ -8,6 +9,16 @@ from feder.institutions.factories import InstitutionFactory
 from feder.records.factories import RecordFactory
 from feder.users.factories import UserFactory
 from .models import Letter, Attachment
+from os.path import join, dirname
+
+WORD_LIST_FILE = join(dirname(__file__), "fixtures/words.txt")
+
+with open(WORD_LIST_FILE, encoding="utf-8") as fp:
+    words = [x.strip() for x in fp.readlines()]
+
+
+def get_text(size=25):
+    return " ".join(random.choices(words, k=size))
 
 
 def get_email(subject=None, from_=None, to=None, msg_id=None):
@@ -28,10 +39,17 @@ class MailField(FileField):
         return params.get("data", get_email(**params).as_string().encode("utf-8"))
 
 
+class FileTextField(FileField):
+    DEFAULT_FILENAME = "content.txt"
+
+    def _make_data(self, params):
+        return params.get("text", get_text())
+
+
 class LetterFactory(factory.django.DjangoModelFactory):
     record = factory.SubFactory(RecordFactory)
     title = factory.Sequence("title-letter-{}".format)
-    body = factory.Sequence("body-{}".format)
+    body = factory.fuzzy.FuzzyAttribute(get_text)
     quote = factory.Sequence("quote-{}".format)
 
     class Meta:
@@ -62,7 +80,7 @@ class SendOutgoingLetterFactory(LetterFactory):
 
 class AttachmentFactory(factory.django.DjangoModelFactory):
     letter = factory.SubFactory(LetterFactory)
-    attachment = factory.django.FileField()
+    attachment = FileTextField()
 
     class Meta:
         model = Attachment
