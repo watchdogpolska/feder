@@ -13,4 +13,7 @@ def letter_serialize(letter):
             "content"
         ].strip()
         doc.content.append(text)
+    print('title', doc.title)
+    print('body', doc.body)
+    print('content', doc.content)
     return doc

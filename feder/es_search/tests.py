@@ -15,31 +15,39 @@ from collections.abc import Iterable
 from elasticsearch.exceptions import ConflictError
 from .queries import more_like_this, search_keywords, find_document, delete_document
 import time
+from pprint import pprint
 
 
 class ESMixin:
     connection_alias = "default"
     index_delay = 10
+    _index_suffix = '_test'
+    documents = [LetterDocument]
 
     def setUp(self):
         super().setUp()
-        for x in range(10):
-            try:
-                return LetterDocument.search().query().delete()
-            except Exception:
-                print("Sleep time for delete setUp")
-                time.sleep(1)
-                pass
+        for document in self.documents:
+            document._index._orig_name = f'{document._index._name}'
+            document._index._name += self._index_suffix
+            document._index.delete(ignore=[404, 400])
+            document._index.create(ignore=[404, 400])
 
-    # def refresh_all(self):
-    #     for index in get_connection().indices.get_alias("*").keys():
-    #         Index(index).flush()
-    #         Index(index).refresh()
-    #         Index(index).clear_cache()
-    #         Index(index).forcemerge()
-    #         print(Index(index).stats())
-    #     es = get_connection().health()
-    #     time.sleep(self.index_delay)
+    def tearDown(self):
+        for document in self.documents:
+            document._index.delete(ignore=[404, 400])
+            document._index._name = document._index._orig_name
+
+    def refresh_all(self):
+        es = get_connection()
+        for document in self.documents:
+            index = document._index
+            index.flush()
+            index.refresh()
+            # index.clear_cache()
+            # index.forcemerge()
+            # pprint(index.stats())
+        # pprint(es.cluster.health(wait_for_status='yellow'))
+        time.sleep(self.index_delay)
 
     def assertMatch(self, result, items):
         items = items if isinstance(items, Iterable) else [items]
@@ -51,6 +59,7 @@ class ESMixin:
         items = items if isinstance(items, Iterable) else [items]
         pks = [x.pk for x in items]
         index_letter.now(pks)
+        self.refresh_all()
         stop = True
         while stop:
             print("Delay for indexing")
@@ -115,11 +124,17 @@ class IndexLetterTestCase(ESMixin, TestCase):
 
     def test_search_more_like_this_by_attachment(self):
         letter_a = AttachmentFactory(attachment__text=self.text).letter
-        letter_b = AttachmentFactory(attachment__text=self.text).letter
+        letter_b = AttachmentFactory(
+            attachment__text=self.text, 
+            # letter__title=letter_a.title,
+            # letter__body=letter_a.body
+        ).letter
         self.index([letter_a, letter_b])
 
         doc = find_document(letter_a.pk)
+        print(doc)
         result = more_like_this(doc)
+        print(result)
 
         self.assertMatch(result, letter_b)
 

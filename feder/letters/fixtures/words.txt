@@ -7,7 +7,6 @@ instytucje
 kultury
 lekarze
 media
-mieszkańcy
 ministerstwach
 monitoring
 obieg
@@ -20,7 +19,6 @@ radni
 raport
 raportu
 rekrutacja
-specjaliści
 stanie
 szpitalach
 warunki

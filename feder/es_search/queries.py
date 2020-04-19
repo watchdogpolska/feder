@@ -35,7 +35,12 @@ def search_keywords(query):
 
 def more_like_this(doc):
     like = serialize_document(doc)
-    q = MoreLikeThis(like=like, fields=["title", "body", "content"])
+    q = MoreLikeThis(
+        like=like,
+        fields=["title", "body", "content"],
+        min_term_freq=1,
+        min_doc_freq=1
+    )
     query = LetterDocument.search().query(q)
-    # print(query.to_dict())
+    print(query.to_dict())
     return query.execute()
