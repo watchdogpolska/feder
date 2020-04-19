@@ -2,7 +2,7 @@
 #	production that isn't in development.
 -r base.txt
 Django==2.2.12
-gevent==1.4.0
+gevent==1.5.0
 gunicorn==20.0.4
 
 raven==6.10.0
