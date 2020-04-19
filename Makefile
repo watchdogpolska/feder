@@ -7,7 +7,7 @@ build:
 	docker-compose build web
 
 test:
-	docker-compose run web python manage.py test --keepdb --verbosity=2 feder
+	docker-compose run web python manage.py test --keepdb --verbosity=2 feder.es_search
 
 wait_mysql:
 	docker-compose up -d db
