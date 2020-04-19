@@ -1,6 +1,5 @@
 from elasticsearch_dsl.query import MultiMatch, MoreLikeThis, Q
 from .documents import LetterDocument
-import time
 
 
 def serialize_document(doc):
