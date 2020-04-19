@@ -25,7 +25,7 @@ class ESMixin:
     def setUp(self):
         super().setUp()
         for document in self.documents:
-            document._index._orig_name = f"{document._index._name}"
+            document._index._orig_name = document._index._name
             document._index._name += self._index_suffix
             document._index.delete(ignore=[404, 400])
             document._index.create(ignore=[404, 400])
@@ -38,9 +38,7 @@ class ESMixin:
     def _refresh_all(self):
         es = get_connection()
         for document in self.documents:
-            index = document._index
-            index.flush()
-            index.refresh()
+            document._index.refresh()
 
     def assertMatch(self, result, items):
         items = items if isinstance(items, Iterable) else [items]
