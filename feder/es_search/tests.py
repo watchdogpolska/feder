@@ -21,13 +21,13 @@ from pprint import pprint
 class ESMixin:
     connection_alias = "default"
     index_delay = 10
-    _index_suffix = '_test'
+    _index_suffix = "_test"
     documents = [LetterDocument]
 
     def setUp(self):
         super().setUp()
         for document in self.documents:
-            document._index._orig_name = f'{document._index._name}'
+            document._index._orig_name = f"{document._index._name}"
             document._index._name += self._index_suffix
             document._index.delete(ignore=[404, 400])
             document._index.create(ignore=[404, 400])
@@ -125,7 +125,7 @@ class IndexLetterTestCase(ESMixin, TestCase):
     def test_search_more_like_this_by_attachment(self):
         letter_a = AttachmentFactory(attachment__text=self.text).letter
         letter_b = AttachmentFactory(
-            attachment__text=self.text, 
+            attachment__text=self.text,
             # letter__title=letter_a.title,
             # letter__body=letter_a.body
         ).letter
