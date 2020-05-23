@@ -347,3 +347,5 @@ CORS_URLS_REGEX = r"^/api/.*$"
 
 ELASTICSEARCH_URL = env("ELASTICSEARCH_URL", default=None)
 APACHE_TIKA_URL = env("APACHE_TIKA_URL", default="http://localhost:9998/tika")
+
+ELASTICSEARCH_SHOW_SIMILAR = env("ELASTICSEARCH_SHOW_SIMILAR", default=False)

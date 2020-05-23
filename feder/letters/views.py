@@ -27,6 +27,7 @@ from django.urls import reverse_lazy
 from django.utils.datetime_safe import datetime
 from django.utils.encoding import force_text
 from django.utils.feedgenerator import Atom1Feed
+from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.views import View
 from django.views.generic import CreateView, DeleteView, DetailView, FormView
@@ -104,7 +105,9 @@ class LetterDetailView(SelectRelatedMixin, CaseRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["similiar_list"] = context["object"].get_more_like_this()
+        if settings.ELASTICSEARCH_SHOW_SIMILAR:
+            context["similar_list"] = context["object"].get_more_like_this()
+        context['show_similar'] = settings.ELASTICSEARCH_SHOW_SIMILAR
         return context
 
 

@@ -41,13 +41,13 @@
             {% trans 'Download letter' %}
         </a>
     {% endif %}
-    {% if similiar_list %}
+    {% if show_similar and similar_list %}
     <div class="panel panel-default">
         <div class="panel-heading">
-            {% trans 'Similiar list' %}
+            {% trans 'Similar list' %}
         </div>
         <table class="table">
-            {% for sm in similiar_list %}
+            {% for sm in similar_list %}
                 {% include 'letters/_letter_content_item.html' with object=sm %}
             {% endfor %}
         </table>
