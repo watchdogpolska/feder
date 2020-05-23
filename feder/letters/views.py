@@ -107,7 +107,7 @@ class LetterDetailView(SelectRelatedMixin, CaseRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         if settings.ELASTICSEARCH_SHOW_SIMILAR:
             context["similar_list"] = context["object"].get_more_like_this()
-        context['show_similar'] = settings.ELASTICSEARCH_SHOW_SIMILAR
+        context["show_similar"] = settings.ELASTICSEARCH_SHOW_SIMILAR
         return context
 
 

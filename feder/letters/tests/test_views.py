@@ -99,7 +99,9 @@ class LetterDetailViewTestCase(ESMixin, ObjectMixin, PermissionStatusMixin, Test
         with self.settings(ELASTICSEARCH_SHOW_SIMILAR=False):
             response = self.client.get(self.get_url())
             self.assertNotContains(
-                response, similiar.title, msg_prefix="Not found title of similiar letter"
+                response,
+                similiar.title,
+                msg_prefix="Not found title of similiar letter",
             )
             self.assertNotContains(
                 response,
@@ -113,7 +115,9 @@ class LetterDetailViewTestCase(ESMixin, ObjectMixin, PermissionStatusMixin, Test
         with self.settings(ELASTICSEARCH_SHOW_SIMILAR=True):
             response = self.client.get(self.get_url())
             self.assertContains(
-                response, similiar.title, msg_prefix="Not found title of similiar letter"
+                response,
+                similiar.title,
+                msg_prefix="Not found title of similiar letter",
             )
             self.assertContains(
                 response,
