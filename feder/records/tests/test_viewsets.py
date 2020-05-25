@@ -4,6 +4,7 @@ from ..serializers import RecordSerializer
 from ..factories import RecordFactory
 from ...letters.factories import IncomingLetterFactory
 
+
 class ReadOnlyViewSetMixin:
     basename = None
     serializer_class = None
@@ -44,6 +45,7 @@ class ReadOnlyViewSetMixin:
     def validate_item(self, item):
         raise NotImplementedError("validate_item must be overridden")
 
+
 class RecordViewSetTestCase(ReadOnlyViewSetMixin, TestCase):
     basename = "record"
     serializer_class = RecordSerializer
@@ -51,6 +53,7 @@ class RecordViewSetTestCase(ReadOnlyViewSetMixin, TestCase):
 
     def validate_item(self, item):
         self.assertEqual(item[self.pk_field], self.obj.pk)
+
 
 class RecordLetterViewSetTestCase(ReadOnlyViewSetMixin, TestCase):
     basename = "record"
@@ -64,4 +67,3 @@ class RecordLetterViewSetTestCase(ReadOnlyViewSetMixin, TestCase):
     def validate_item(self, item):
         self.assertEqual(item[self.pk_field], self.obj.pk)
         self.assertEqual(item["content_object"]["title"], self.letter.title)
-
