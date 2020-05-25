@@ -92,7 +92,8 @@ class Record(TimeStampedModel):
         return self.type.get_template_content_item(self.content_object)
 
     def content_type_name(self):
-        return self.content_object._meta.model_name
+        if self.content_object:
+            return self.content_object._meta.model_name
 
     @cached_property
     def type(self):
