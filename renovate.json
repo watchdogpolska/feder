@@ -8,6 +8,11 @@
       "managers": ["pip_requirements"],
       "paths": ["requirements/dev.txt","requirements/test.txt"],
       "groupName": "non-production-dependencies"
+    },
+    {
+      "managers": ["pip_requirements"],
+      "packageNames": ["gevent", "django-allauth", "django-floppyforms", "django-guardian", "django-crispy-forms", "elasticsearch-dsl", "Sphinx", "Pillow", "pytz"],
+      "automerge": true
     }
   ],
   "pip_requirements": {
