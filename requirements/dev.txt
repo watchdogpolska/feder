@@ -1,11 +1,11 @@
 # Local development dependencies go here
 -r base.txt
-Sphinx==3.0.3
+Sphinx==3.0.4
 Werkzeug==1.0.1
 django-debug-toolbar==2.2
 ipdb==0.13.2
 factory-boy==2.12.0
-lxml==4.5.0
+lxml==4.5.1
 django-coverage-plugin==1.8.0
 vcrpy==4.0.2
 sphinxcontrib-programoutput==0.16
