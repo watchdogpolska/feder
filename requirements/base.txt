@@ -43,7 +43,7 @@ https://github.com/dmkoch/django-jsonfield/archive/30beb147db39780477ae904ba1ba0
 # pin version for following PR:
 # - https://github.com/dmkoch/django-jsonfield/pull/230
 django-guardian==2.3.0
-django-teryt-tree==0.16.2
+django-teryt-tree==0.16.3
 cached-property==1.5.1
 django-bootstrap-pagination==1.7.1
 django-reversion==3.0.7
