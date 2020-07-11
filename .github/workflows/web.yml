@@ -35,7 +35,11 @@ jobs:
       run: make settings
     - name: Build test
       run: make test
-
+    - name: Send coverage report
+      run: make coverage_send
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
     - name: Show MySQL logs
       run: docker-compose logs db
       if: failure()
