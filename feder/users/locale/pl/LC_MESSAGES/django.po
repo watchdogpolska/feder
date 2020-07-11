@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-15 18:51+0000\n"
-"PO-Revision-Date: 2018-01-15 19:52+0100\n"
+"POT-Creation-Date: 2020-07-11 21:52+0000\n"
+"PO-Revision-Date: 2020-07-11 23:52+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -52,6 +52,10 @@ msgstr "O mnie"
 msgid "E-Mail"
 msgstr "E-mail"
 
+#: templates/users/user_detail.html:22
+msgid "Password change"
+msgstr "Zmień hasło"
+
 #: templates/users/user_form.html:18
 msgid "Update"
 msgstr "Aktualizuj"
@@ -64,15 +68,15 @@ msgstr "Członkowie"
 msgid "Users"
 msgstr "Użytkownicy / użytkowniczki"
 
-#: urls.py:11
+#: urls.py:8
 msgid "^$"
 msgstr "^$"
 
-#: urls.py:14
+#: urls.py:11
 msgid "^~redirect/$"
 msgstr "^~przekieruj/$"
 
-#: urls.py:17
+#: urls.py:15
 msgid "^(?P<username>[\\w.@+-]+)/$"
 msgstr "^(?P<username>[\\w.@+-]+)/$"
 

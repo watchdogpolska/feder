@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: alerts 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-15 18:50+0000\n"
+"POT-Creation-Date: 2020-07-11 21:53+0000\n"
 "PO-Revision-Date: 2016-09-18 01:57+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: pl_PL <naczelnik@jawnosc.tk>\n"
@@ -19,11 +19,11 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.8.7.1\n"
 
-#: models.py:15 templates/alerts/base_alert.html:21
+#: models.py:14 templates/alerts/base_alert.html:21
 msgid "Alerts index"
 msgstr "Wykaz alertów"
 
-#: models.py:29
+#: models.py:28
 msgid "Monitoring"
 msgstr "Monitoring"
 
@@ -31,33 +31,33 @@ msgstr "Monitoring"
 msgid "Reason"
 msgstr "Przyczyna"
 
-#: models.py:32 templates/alerts/_alert_small.html:13
+#: models.py:34 templates/alerts/_alert_small.html:13
 #: templates/alerts/alert_detail.html:14
 msgid "Author"
 msgstr "Autor"
 
-#: models.py:36
+#: models.py:41
 msgid "Solver"
 msgstr "Rozwiązywacz/-ka"
 
-#: models.py:39 templates/alerts/_alert_small.html:17
+#: models.py:45 templates/alerts/_alert_small.html:17
 #: templates/alerts/alert_detail.html:18
 msgid "Status"
 msgstr "Status"
 
-#: models.py:46
+#: models.py:52
 msgid "Alert"
 msgstr "Alert"
 
-#: models.py:47
+#: models.py:53
 msgid "Alerts"
 msgstr "Alerty"
 
-#: models.py:51
+#: models.py:57
 msgid "Closed"
 msgstr "Zamknięte"
 
-#: models.py:51
+#: models.py:57
 msgid "Open"
 msgstr "Otwarte"
 
@@ -97,23 +97,23 @@ msgstr "Dodaj alert"
 msgid "Switch"
 msgstr "Przestaw"
 
-#: urls.py:10
+#: urls.py:8
 msgid "^monitoring-(?P<monitoring>[\\d]+)$"
 msgstr "^monitoring-(?P<monitoring>[\\d]+)$"
 
-#: urls.py:12
+#: urls.py:13
 msgid "^monitoring-(?P<monitoring>[\\d]+)/~create$"
 msgstr "^monitoring-(?P<monitoring>[\\d]+)/~utworz$"
 
-#: urls.py:14
+#: urls.py:17
 msgid "^(?P<pk>[\\d]+)$"
 msgstr "^(?P<pk>[\\d]+)$"
 
-#: urls.py:16
+#: urls.py:18
 msgid "^(?P<pk>[\\d]+)/~update$"
 msgstr "^(?P<pk>[\\d]+)/~aktualizuj$"
 
-#: urls.py:18
+#: urls.py:19
 msgid "^(?P<pk>[\\d]+)/~delete$"
 msgstr "^(?P<pk>[\\d]+)/~usun$"
 
@@ -121,17 +121,17 @@ msgstr "^(?P<pk>[\\d]+)/~usun$"
 msgid "^(?P<pk>[\\d]+)/~status$"
 msgstr "^(?P<pk>[\\d]+)/~status$"
 
-#: views.py:63
+#: views.py:71
 #, python-brace-format
 msgid "{object} created!"
 msgstr "{object} utworzony!"
 
-#: views.py:74
+#: views.py:83
 #, python-brace-format
 msgid "{object} updated!"
 msgstr "{object} zaktualizowany!"
 
-#: views.py:84
+#: views.py:92
 #, python-brace-format
 msgid "{object} deleted!"
 msgstr "{object} usunięty!"
