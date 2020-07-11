@@ -31,6 +31,7 @@ jobs:
       run: make coverage_send
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
     - name: Run side services
       run: make wait_mysql wait_elasticsearch wait_tika
     - name: Migration check
