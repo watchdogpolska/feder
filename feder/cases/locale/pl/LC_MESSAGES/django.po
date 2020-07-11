@@ -100,10 +100,6 @@ msgstr "Sprawy"
 msgid "Confirm delete"
 msgstr "Potwierdź usunięcie"
 
-#: templates/cases/case_detail.html:37
-msgid "Tasks"
-msgstr "Zadania"
-
 #: templates/cases/case_detail.html:42 templates/cases/case_detail.html:57
 msgid "No rows."
 msgstr "Brak wierszy"

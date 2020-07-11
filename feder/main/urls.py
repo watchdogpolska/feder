@@ -18,9 +18,7 @@ from feder.letters.sitemaps import LetterSitemap
 from feder.main.sitemaps import StaticSitemap
 from feder.monitorings.sitemaps import MonitoringPagesSitemap, MonitoringSitemap
 from feder.monitorings.viewsets import MonitoringViewSet
-from feder.questionaries.sitemaps import QuestionarySitemap
 from feder.records.viewsets import RecordViewSet
-from feder.tasks.sitemaps import TaskSitemap
 from feder.teryt.sitemaps import JSTSitemap
 from . import views
 
@@ -54,11 +52,6 @@ urlpatterns += [
         _(r"^monitorings/"), include("feder.monitorings.urls", namespace="monitorings")
     ),
     url(_(r"^cases/"), include("feder.cases.urls", namespace="cases")),
-    url(_(r"^tasks/"), include("feder.tasks.urls", namespace="tasks")),
-    url(
-        _(r"^questionaries/"),
-        include("feder.questionaries.urls", namespace="questionaries"),
-    ),
     url(_(r"^alerts/"), include("feder.alerts.urls", namespace="alerts")),
     url(_(r"^letters/"), include("feder.letters.urls", namespace="letters")),
     url(_(r"^teryt/"), include("feder.teryt.urls", namespace="teryt")),
@@ -78,8 +71,6 @@ sitemaps = {
     "main": StaticSitemap,
     "monitorings": MonitoringSitemap,
     "monitorings_pages": MonitoringPagesSitemap,
-    "questionaries": QuestionarySitemap,
-    "tasks": TaskSitemap,
     "teryt": JSTSitemap,
 }
 

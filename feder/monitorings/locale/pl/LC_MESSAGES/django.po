@@ -95,18 +95,6 @@ msgstr "Czy publicznie widoczny?"
 msgid "Domain used to sends emails"
 msgstr "Domena użyta do wysłania wiadomości"
 
-#: models.py:74
-msgid "Can add questionary"
-msgstr "Może tworzyć kwestionariusz"
-
-#: models.py:75
-msgid "Can change questionary"
-msgstr "Może zmieniać kwestionariusz"
-
-#: models.py:76
-msgid "Can delete questionary"
-msgstr "Może usuwać kwestionariusz"
-
 #: models.py:77
 msgid "Can add case"
 msgstr "Może tworzyć sprawę"
@@ -118,18 +106,6 @@ msgstr "Może zmieniać sprawę"
 #: models.py:79
 msgid "Can delete case"
 msgstr "Może usuwać sprawę"
-
-#: models.py:80
-msgid "Can add task"
-msgstr "Może dodawać zadanie"
-
-#: models.py:81 models.py:86
-msgid "Can change task"
-msgstr "Może zmieniać zadanie"
-
-#: models.py:82
-msgid "Can delete task"
-msgstr "Może usuwać zadanie"
 
 #: models.py:83
 msgid "Can add letter"
@@ -203,10 +179,6 @@ msgstr "Przypisz"
 msgid "Delete"
 msgstr "Usuń"
 
-#: templates/monitorings/_btn.html:22
-msgid "Add questionary"
-msgstr "Utwórz kwestionariusz"
-
 #: templates/monitorings/_btn.html:27
 msgid "Add case"
 msgstr "Utwórz sprawę"
@@ -237,8 +209,8 @@ msgstr "Liczba spraw"
 
 #: templates/monitorings/_tabs.html:8
 #: templates/monitorings/monitoring_detail.html:5
-msgid "Institutions, cases and tasks"
-msgstr "Instytucje, sprawy i zadania"
+msgid "Institutions and cases"
+msgstr "Instytucje i sprawy"
 
 #: templates/monitorings/_tabs.html:13
 #: templates/monitorings/monitoring_letter_list.html:5
@@ -292,10 +264,6 @@ msgstr "Filtruj"
 #: templates/monitorings/monitoring_confirm_delete.html:9
 msgid "Confirm delete"
 msgstr "Potwierdz usuwanie"
-
-#: templates/monitorings/monitoring_detail.html:17
-msgid "Tasks"
-msgstr "Zadania"
 
 #: templates/monitorings/monitoring_detail.html:36
 msgid "Contents"
@@ -496,6 +464,3 @@ msgstr ""
 
 #~ msgid "Reply"
 #~ msgstr "Odpowiedź"
-
-#~ msgid "Create questionary"
-#~ msgstr "Utwórz kwestionariusz"

@@ -400,9 +400,6 @@ msgstr "Listy"
 msgid "Institutions"
 msgstr "Instytucje"
 
-#: templates/base.html:88
-msgid "Questionaries"
-msgstr "Kwestionariusze"
 
 #: templates/base.html:94
 msgid "Tasks"
@@ -510,10 +507,6 @@ msgstr "^monitoringi/"
 #: urls.py:58
 msgid "^cases/"
 msgstr "^sprawy/"
-
-#: urls.py:59
-msgid "^tasks/"
-msgstr "^zadania/"
 
 #: urls.py:60
 msgid "^questionaries/"

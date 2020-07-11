@@ -104,10 +104,6 @@ msgstr "Brak wierszy."
 msgid "Cases"
 msgstr "Sprawy"
 
-#: templates/teryt/jst_detail.html:84
-msgid "Tasks"
-msgstr "Zadania"
-
 #: templates/teryt/jst_list.html:6
 msgid "Voivodeship"
 msgstr "Województwa"

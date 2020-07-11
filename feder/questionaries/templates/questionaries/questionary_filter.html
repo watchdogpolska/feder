@@ -1,6 +1,0 @@
-{% extends 'questionaries/base.html' %}
-{% load i18n crispy_forms_tags %}
-
-{% block content %}
-    {% include '_filter.html' with pager=pager title='Questionaries index' form=filter.form object_list=object_list object_template='questionaries/_questionary_small.html' %}
-{% endblock %}

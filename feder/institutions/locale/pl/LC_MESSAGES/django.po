@@ -107,8 +107,8 @@ msgid "E-mail"
 msgstr "E-mail"
 
 #: templates/institutions/institution_detail.html:60
-msgid "Cases and tasks"
-msgstr "Sprawy i zadania"
+msgid "Cases"
+msgstr "Sprawy"
 
 #: templates/institutions/institution_detail.html:74
 msgid "No rows."

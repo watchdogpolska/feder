@@ -54,16 +54,13 @@ THIRD_PARTY_APPS = (
 # Apps specific for this project go here.
 LOCAL_APPS = (
     "feder.teryt",
-    "feder.users",  # custom users app
+    "feder.users",
     "feder.institutions",
     "feder.monitorings",
-    "feder.tasks",
     "feder.cases",
     "feder.letters",
-    "feder.questionaries",
     "feder.main",
     "feder.alerts",
-    "feder.light_user",
     "feder.letters.logs",
     "feder.domains",
     "feder.records.apps.RecordsConfig",
@@ -95,7 +92,6 @@ MIDDLEWARE = (
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "reversion.middleware.RevisionMiddleware",
-    "feder.light_user.middleware.LightUserMiddleware",
 )
 
 # MIGRATIONS CONFIGURATION
