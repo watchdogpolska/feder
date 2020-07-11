@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-28 02:00+0000\n"
+"POT-Creation-Date: 2020-07-11 21:52+0000\n"
 "PO-Revision-Date: 2018-02-28 03:00+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: \n"
@@ -20,13 +20,13 @@ msgstr ""
 "%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
 "X-Generator: Poedit 1.8.7.1\n"
 
-#: models.py:19
+#: models.py:18
 msgid "Title"
 msgstr "Tytuł"
 
-#: models.py:20 templates/parcels/incomingparcelpost_milestone_item.html:19
-#: templates/parcels/outgoingparcelpost_milestone_item.html:13
-#: templates/parcels/parcelpost_detail.html:17
+#: models.py:19 templates/parcels/_incomingparcelpost_milestone_item.html:19
+#: templates/parcels/_outgoingparcelpost_milestone_item.html:18
+#: templates/parcels/parcelpost_detail.html:19
 msgid "Content"
 msgstr "Treść"
 
@@ -34,40 +34,41 @@ msgstr "Treść"
 msgid "Created by"
 msgstr "Utworzone przez"
 
-#: models.py:28 templates/parcels/incomingparcelpost_detail.html:8
-#: templates/parcels/incomingparcelpost_milestone_item.html:14
+#: models.py:31 templates/parcels/_incomingparcelpost_milestone_item.html:14
+#: templates/parcels/_outgoingparcelpost_milestone_item.html:15
+#: templates/parcels/incomingparcelpost_detail.html:8
 msgid "Sender"
 msgstr "Nadawca"
 
-#: models.py:29
+#: models.py:33
 msgid "Comment"
 msgstr "Komentarz"
 
-#: models.py:30
+#: models.py:35
 msgid "Receive date"
 msgstr "Data odbioru"
 
-#: models.py:39
+#: models.py:48
 msgid "Incoming parcel post"
 msgstr "Przychodząca przesyłka pocztowa"
 
-#: models.py:40
+#: models.py:49
 msgid "Incoming parcel posts"
 msgstr "Wychodzące przesyłki pocztowe"
 
-#: models.py:44 templates/parcels/outgoingparcelpost_detail.html:7
+#: models.py:54 templates/parcels/outgoingparcelpost_detail.html:7
 msgid "Recipient"
 msgstr "Adresat"
 
-#: models.py:45 templates/parcels/outgoingparcelpost_detail.html:16
+#: models.py:57 templates/parcels/outgoingparcelpost_detail.html:16
 msgid "Post date"
 msgstr "Data wysłania"
 
-#: models.py:54
+#: models.py:70
 msgid "Outgoing parcel post"
 msgstr "Wychodząca przesyłka pocztowa"
 
-#: models.py:55
+#: models.py:71
 msgid "Outgoing parcel posts"
 msgstr "Wychodzące przesyłki pocztowe"
 
@@ -79,21 +80,21 @@ msgstr "Edytuj"
 msgid "Delete"
 msgstr "Usuń"
 
+#: templates/parcels/_incomingparcelpost_milestone_item.html:9
+#: templates/parcels/_outgoingparcelpost_milestone_item.html:9
+msgid "by"
+msgstr "przez"
+
+#: templates/parcels/_incomingparcelpost_milestone_item.html:20
+#: templates/parcels/_outgoingparcelpost_milestone_item.html:20
+#: templates/parcels/parcelpost_detail.html:20
+msgid "Download"
+msgstr "Pobierz"
+
 #: templates/parcels/incomingparcelpost_confirm_delete.html:9
 #: templates/parcels/outgoingparcelpost_confirm_delete.html:9
 msgid "Confirm delete"
 msgstr "Potwierdź usunięcie"
-
-#: templates/parcels/incomingparcelpost_milestone_item.html:9
-#: templates/parcels/outgoingparcelpost_milestone_item.html:9
-msgid "by"
-msgstr "przez"
-
-#: templates/parcels/incomingparcelpost_milestone_item.html:20
-#: templates/parcels/outgoingparcelpost_milestone_item.html:13
-#: templates/parcels/parcelpost_detail.html:18
-msgid "Download"
-msgstr "Pobierz"
 
 #: templates/parcels/parcel_base.html:5
 msgid "Parcel post"
@@ -103,37 +104,37 @@ msgstr "Przesyłka pocztowa"
 msgid "Creation date"
 msgstr "Data utworzenia"
 
-#: templates/parcels/parcelpost_detail.html:13
+#: templates/parcels/parcelpost_detail.html:14
 msgid "Modification date"
 msgstr "Data modyfikacji"
 
-#: views.py:50
+#: views.py:59
 #, python-brace-format
 msgid "{0} created!"
 msgstr "{0} utworzony!"
 
-#: views.py:70
+#: views.py:85
 #, python-brace-format
 msgid "{0} updated!"
 msgstr "{0} zaktualizowany!"
 
-#: views.py:88
+#: views.py:105
 #, python-brace-format
 msgid "{0} deleted!"
 msgstr "{0} usunięty!"
 
-#: views.py:98
+#: views.py:115
 msgid "Add incoming parcel post"
 msgstr "Dodaj przychodzącą przesyłkę pocztową"
 
-#: views.py:104
+#: views.py:121
 msgid "Update incoming parcel post"
 msgstr "Zaktualizuj przychodzącą przesyłkę pocztową"
 
-#: views.py:119
+#: views.py:136
 msgid "Add outgoing parcel post"
 msgstr "Dodaj wychodzącą przesyłkę pocztową"
 
-#: views.py:125
+#: views.py:142
 msgid "Update outgoing parcel post"
 msgstr "Zaktualizujs wychodzącą przesyłkę pocztową"

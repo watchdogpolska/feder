@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-monitorings 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-11 19:23+0000\n"
-"PO-Revision-Date: 2020-04-11 21:23+0200\n"
+"POT-Creation-Date: 2020-07-11 21:53+0000\n"
+"PO-Revision-Date: 2020-07-11 23:53+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -96,98 +96,74 @@ msgid "Domain used to sends emails"
 msgstr "Domena użyta do wysłania wiadomości"
 
 #: models.py:74
-msgid "Can add questionary"
-msgstr "Może tworzyć kwestionariusz"
-
-#: models.py:75
-msgid "Can change questionary"
-msgstr "Może zmieniać kwestionariusz"
-
-#: models.py:76
-msgid "Can delete questionary"
-msgstr "Może usuwać kwestionariusz"
-
-#: models.py:77
 msgid "Can add case"
 msgstr "Może tworzyć sprawę"
 
-#: models.py:78
+#: models.py:75
 msgid "Can change case"
 msgstr "Może zmieniać sprawę"
 
-#: models.py:79
+#: models.py:76
 msgid "Can delete case"
 msgstr "Może usuwać sprawę"
 
-#: models.py:80
-msgid "Can add task"
-msgstr "Może dodawać zadanie"
-
-#: models.py:81 models.py:86
-msgid "Can change task"
-msgstr "Może zmieniać zadanie"
-
-#: models.py:82
-msgid "Can delete task"
-msgstr "Może usuwać zadanie"
-
-#: models.py:83
+#: models.py:77
 msgid "Can add letter"
 msgstr "Może dodawać list"
 
-#: models.py:84
+#: models.py:78
 msgid "Can reply"
 msgstr "Może odpowiadać"
 
-#: models.py:85
+#: models.py:79
 msgid "Add reply draft"
 msgstr "Dodaj szkic odpowiedzi"
 
-#: models.py:87
+#: models.py:80
+msgid "Can change letter"
+msgstr "Może zmieniać list"
+
+#: models.py:81
 msgid "Can delete letter"
 msgstr "Może usuwać list"
 
-#: models.py:88
+#: models.py:82
 msgid "Can view alert"
 msgstr "Może dodawać alert"
 
-#: models.py:89
+#: models.py:83
 msgid "Can change alert"
 msgstr "Może zmieniać alert"
 
-#: models.py:90
+#: models.py:84
 msgid "Can delete alert"
 msgstr "Może usuwać alert"
 
-#: models.py:91
+#: models.py:85
 msgid "Can manage perms"
 msgstr "Może zarządzać uprawnieniami"
 
-#: models.py:92
-msgid "Can select answer"
-msgstr "Może  wybierać odpowiedź"
-
-#: models.py:93
+#: models.py:86
 msgid "Can view logs"
 msgstr "Może widzieć dzienniki"
 
-#: models.py:94
+#: models.py:87
 msgid "Can mark spam"
 msgstr "Może oznaczyć spam"
 
-#: models.py:95
+#: models.py:88
 msgid "Can add parcel post"
 msgstr "Może dodać przesyłkę pocztową"
 
-#: models.py:96
+#: models.py:89
 msgid "Can change parcel post"
 msgstr "Może zmieniać przesyłkę pocztową"
 
-#: models.py:97
+#: models.py:90
 msgid "Can delete parcel post"
 msgstr "Może usuwać przesyłkę pocztową"
 
-#: models.py:98
+#: models.py:91
 msgid "Can view e-mail address"
 msgstr "Może wyświetlać adres e-mail"
 
@@ -204,22 +180,18 @@ msgid "Delete"
 msgstr "Usuń"
 
 #: templates/monitorings/_btn.html:22
-msgid "Add questionary"
-msgstr "Utwórz kwestionariusz"
-
-#: templates/monitorings/_btn.html:27
 msgid "Add case"
 msgstr "Utwórz sprawę"
 
-#: templates/monitorings/_btn.html:32
+#: templates/monitorings/_btn.html:27
 msgid "Permissions"
 msgstr "Uprawnienia"
 
-#: templates/monitorings/_btn.html:37
+#: templates/monitorings/_btn.html:32
 msgid "Alerts list"
 msgstr "Lista alertów"
 
-#: templates/monitorings/_btn.html:43
+#: templates/monitorings/_btn.html:38
 msgid "View logs"
 msgstr "Zobacz dzienniki"
 
@@ -237,8 +209,8 @@ msgstr "Liczba spraw"
 
 #: templates/monitorings/_tabs.html:8
 #: templates/monitorings/monitoring_detail.html:5
-msgid "Institutions, cases and tasks"
-msgstr "Instytucje, sprawy i zadania"
+msgid "Institutions and cases"
+msgstr "Instytucje i sprawy"
 
 #: templates/monitorings/_tabs.html:13
 #: templates/monitorings/monitoring_letter_list.html:5
@@ -254,17 +226,6 @@ msgstr "Projekty"
 #: templates/monitorings/base_monitoring_detail.html:3
 msgid "Monitorings"
 msgstr "Monitoringi"
-
-#: templates/monitorings/base_monitoring_detail.html:36
-msgid "Questionaries"
-msgstr "Kwestionariusze"
-
-#: templates/monitorings/base_monitoring_detail.html:40
-#: templates/monitorings/monitoring_detail.html:54
-#: templates/monitorings/monitoring_draft_list.html:17
-#: templates/monitorings/monitoring_letter_list.html:17
-msgid "No rows."
-msgstr "Brak wierszy."
 
 #: templates/monitorings/institution_assign.html:22
 #: templates/monitorings/institution_assign.html:29
@@ -294,12 +255,14 @@ msgid "Confirm delete"
 msgstr "Potwierdz usuwanie"
 
 #: templates/monitorings/monitoring_detail.html:17
-msgid "Tasks"
-msgstr "Zadania"
-
-#: templates/monitorings/monitoring_detail.html:36
 msgid "Contents"
 msgstr "Zawartość"
+
+#: templates/monitorings/monitoring_detail.html:35
+#: templates/monitorings/monitoring_draft_list.html:17
+#: templates/monitorings/monitoring_letter_list.html:17
+msgid "No rows."
+msgstr "Brak wierszy."
 
 #: templates/monitorings/monitoring_filter.html:7
 #: templates/monitorings/monitoring_form.html:11
@@ -402,26 +365,26 @@ msgstr "^(?P<slug>[\\w-]+)/~przypisz$"
 msgid "Using field {{EMAIL}} is mandatory."
 msgstr "Użycie pola {{EMAIL}} jest obowiązkowe."
 
-#: views.py:155
+#: views.py:145
 #, python-brace-format
 msgid "{0} created!"
 msgstr "{0} utworzony!"
 
-#: views.py:232
+#: views.py:215
 #, python-brace-format
 msgid "Permissions to {monitoring} updated!"
 msgstr "Uprawnienia dla {monitoring} zaktualizowane!"
 
-#: views.py:287
+#: views.py:270
 #, python-brace-format
 msgid "Permissions to {monitoring} of {user} updated!"
 msgstr "Uprawnienia do {monitoring} dla {user} zaktualizowane!"
 
-#: views.py:335
+#: views.py:318
 msgid "You can not send letters without using filtering."
 msgstr "Nie możesz wysyłać listów bez używania filtrowania."
 
-#: views.py:351
+#: views.py:334
 #, python-format
 msgid ""
 "You can not send %(count)d letters at once. The maximum is %(limit)d. Use "
@@ -430,7 +393,7 @@ msgstr ""
 "Nie możesz wysłać %(count)d listów na raz. Maksimum to %(limit)d. Użyj "
 "filtrowania."
 
-#: views.py:372
+#: views.py:355
 #, python-format
 msgid ""
 "%(count)d institutions was assigned to %(monitoring)s.  The requests "
@@ -438,6 +401,12 @@ msgid ""
 msgstr ""
 "%(count)d instytucji zostało przypisanych do %(monitoring)s. Wysyłka "
 "wniosków została zaplanowana."
+
+#~ msgid "Can select answer"
+#~ msgstr "Może  wybierać odpowiedź"
+
+#~ msgid "Questionaries"
+#~ msgstr "Kwestionariusze"
 
 #~ msgid "Creation date (ascending)"
 #~ msgstr "Data utworzenia (rosnąco)"
@@ -496,6 +465,3 @@ msgstr ""
 
 #~ msgid "Reply"
 #~ msgstr "Odpowiedź"
-
-#~ msgid "Create questionary"
-#~ msgstr "Utwórz kwestionariusz"

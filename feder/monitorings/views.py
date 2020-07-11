@@ -6,7 +6,6 @@ from braces.views import (
     PermissionRequiredMixin,
     SelectRelatedMixin,
     UserFormKwargsMixin,
-    PrefetchRelatedMixin,
 )
 import uuid
 from cached_property import cached_property
@@ -60,12 +59,9 @@ class MonitoringListView(SelectRelatedMixin, FilterView):
         return qs.with_case_count()
 
 
-class MonitoringDetailView(
-    SelectRelatedMixin, PrefetchRelatedMixin, ExtraListMixin, DetailView
-):
+class MonitoringDetailView(SelectRelatedMixin, ExtraListMixin, DetailView):
     model = Monitoring
     select_related = ["user"]
-    prefetch_related = ["questionary_set"]
     paginate_by = 25
 
     def get_queryset(self):
@@ -84,7 +80,6 @@ class MonitoringDetailView(
         return (
             Case.objects.filter(monitoring=obj)
             .select_related("institution")
-            .prefetch_related("task_set")
             .with_record_max()
             .with_letter()
             .order_by("-record_max")
@@ -92,13 +87,10 @@ class MonitoringDetailView(
         )
 
 
-class LetterListMonitoringView(
-    SelectRelatedMixin, PrefetchRelatedMixin, ExtraListMixin, DetailView
-):
+class LetterListMonitoringView(SelectRelatedMixin, ExtraListMixin, DetailView):
     model = Monitoring
     template_name_suffix = "_letter_list"
     select_related = ["user"]
-    prefetch_related = ["questionary_set"]
     paginate_by = 25
 
     def get_context_data(self, **kwargs):
@@ -116,13 +108,10 @@ class LetterListMonitoringView(
         )
 
 
-class DraftListMonitoringView(
-    SelectRelatedMixin, PrefetchRelatedMixin, ExtraListMixin, DetailView
-):
+class DraftListMonitoringView(SelectRelatedMixin, ExtraListMixin, DetailView):
     model = Monitoring
     template_name_suffix = "_draft_list"
     select_related = ["user"]
-    prefetch_related = ["questionary_set"]
     paginate_by = 25
 
     def get_context_data(self, **kwargs):
@@ -159,21 +148,14 @@ class MonitoringCreateView(
         default_perm = [
             "change_monitoring",
             "delete_monitoring",
-            "add_questionary",
-            "change_questionary",
-            "delete_questionary",
             "add_case",
             "change_case",
             "delete_case",
-            "add_task",
-            "change_task",
-            "delete_task",
             "reply",
             "view_alert",
             "change_alert",
             "delete_alert",
             "manage_perm",
-            "select_survey",
             "add_draft",
         ]
         for perm in default_perm:

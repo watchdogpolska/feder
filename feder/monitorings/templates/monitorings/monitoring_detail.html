@@ -2,7 +2,7 @@
 {% load i18n humanize bootstrap_pagination %}
 {% block content_object %}
     {% include 'monitorings/_tabs.html' with tab='general' %}
-    <h3 class="sr-only">{% trans 'Institutions, cases and tasks' %}</h3>
+    <h3 class="sr-only">{% trans 'Institutions and cases' %}</h3>
     {% if object_list %}
         {% for case in object_list %}
             <div class="gray">
@@ -10,25 +10,6 @@
                     <i class="fa fa-folder-open"></i>
                     <a href="{{ case.get_absolute_url }}">{{ case.institution }}</a>
                 </h4>
-
-                {% if case.task_set.all %}
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            {% trans 'Tasks' %}
-                        </div>
-                        <table class="table">
-                            {% for task in case.task_set.all %}
-                                <tr>
-                                    <td>
-                                        {% include 'tasks/_task_progress.html' with object=task %}
-                                        <i class="fa fa-edit"></i>
-                                        <a href="{{ task.get_absolute_url }}">{{ task }}</a>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </table>
-                    </div>
-                {% endif %}
 
                 {% if case.record_set.all %}
                     <div class="panel panel-default">

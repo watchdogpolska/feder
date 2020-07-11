@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-institutions 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-15 18:50+0000\n"
+"POT-Creation-Date: 2020-07-11 21:53+0000\n"
 "PO-Revision-Date: 2017-08-11 03:25+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -19,68 +19,56 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.8.7.1\n"
 
-#: admin.py:27
+#: admin.py:28
 msgid "Institution count"
 msgstr "Liczba instytucji"
 
-#: filters.py:25 models.py:28 models.py:62
+#: filters.py:27 models.py:27 models.py:71
 msgid "Name"
 msgstr "Nazwa"
 
-#: filters.py:33
-msgid "Cases count (descending)"
-msgstr "Liczba spraw (malejąco)"
-
-#: filters.py:34
-msgid "Cases count (ascending)"
-msgstr "Liczba spraw (rosnąco)"
-
-#: filters.py:35
-msgid "Area"
-msgstr "Obszar"
-
-#: models.py:13
+#: models.py:12
 msgid "Institution index"
 msgstr "Wykaz instytucji"
 
-#: models.py:29 models.py:63
+#: models.py:28 models.py:73
 msgid "Slug"
 msgstr "Identyfikator redakcyjny"
 
-#: models.py:32 models.py:73
+#: models.py:29 models.py:83
 msgid "Tag"
 msgstr "Tag"
 
-#: models.py:34 templates/institutions/_institution_small.html:9
+#: models.py:33 templates/institutions/_institution_small.html:9
 msgid "Unit of administrative division"
 msgstr "Jednostka podziału terytorialnego"
 
-#: models.py:36
+#: models.py:38
 msgid "REGON number"
 msgstr "Kod REGON"
 
-#: models.py:37
+#: models.py:44
 msgid "Parent institutions"
 msgstr "Instytucja nadrzędna"
 
-#: models.py:39
+#: models.py:47
 msgid "Email of institution"
 msgstr "Adres e-mail instytucji"
 
-#: models.py:43 models.py:44
+#: models.py:51 models.py:52
 msgid "Institution"
 msgstr "Instytucja"
 
-#: models.py:74 templates/institutions/institution_detail.html:53
+#: models.py:84 templates/institutions/institution_detail.html:53
 msgid "Tags"
 msgstr "Tagi"
 
-#: templates/institutions/_btn.html:7
+#: templates/institutions/_btn.html:8
 #: templates/institutions/base_object.html:43
 msgid "Edit"
 msgstr "Edycja"
 
-#: templates/institutions/_btn.html:12
+#: templates/institutions/_btn.html:13
 msgid "Delete"
 msgstr "Usuń"
 
@@ -107,8 +95,8 @@ msgid "E-mail"
 msgstr "E-mail"
 
 #: templates/institutions/institution_detail.html:60
-msgid "Cases and tasks"
-msgstr "Sprawy i zadania"
+msgid "Cases"
+msgstr "Sprawy"
 
 #: templates/institutions/institution_detail.html:74
 msgid "No rows."
@@ -129,41 +117,50 @@ msgstr "Strona %(no)s z %(total)s"
 msgid "next"
 msgstr "następna"
 
-#: urls.py:10
+#: urls.py:7
 msgid "^$"
 msgstr "^$"
 
-#: urls.py:11
+#: urls.py:8
 msgid "^~create$"
 msgstr "^~utworz$"
 
-#: urls.py:13
+#: urls.py:10
 msgid "^(?P<slug>[\\w-]+)$"
 msgstr "^(?P<slug>[\\w-]+)$"
 
-#: urls.py:16
+#: urls.py:15
 msgid "^(?P<slug>[\\w-]+)/(?P<page>[\\d]+)$"
 msgstr "^(?P<slug>[\\w-]+)/(?P<page>[\\d]+)$"
 
-#: urls.py:18
+#: urls.py:20
 msgid "^(?P<slug>[\\w-]+)/~update$"
 msgstr "^(?P<slug>[\\w-]+)/~edytuj$"
 
-#: urls.py:20
+#: urls.py:25
 msgid "^(?P<slug>[\\w-]+)/~delete$"
 msgstr "^(?P<slug>[\\w-]+)/~usun$"
 
-#: urls.py:22
+#: urls.py:30
 msgid "^~autocomplete$"
 msgstr "^~autocomplete$"
 
-#: urls.py:24
+#: urls.py:35
 msgid "^~autocomplete-tag$"
 msgstr "^~autocomplete-tag$"
 
-#: views.py:20
+#: views.py:23
 msgid "Institutions index"
 msgstr "Wykaz instytucji"
+
+#~ msgid "Cases count (descending)"
+#~ msgstr "Liczba spraw (malejąco)"
+
+#~ msgid "Cases count (ascending)"
+#~ msgstr "Liczba spraw (rosnąco)"
+
+#~ msgid "Area"
+#~ msgstr "Obszar"
 
 #~ msgid "Email count"
 #~ msgstr "Liczba spraw"

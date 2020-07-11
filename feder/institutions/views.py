@@ -44,7 +44,6 @@ class InstitutionDetailView(ExtraListMixin, PrefetchRelatedMixin, DetailView):
         return (
             Case.objects.filter(institution=obj)
             .select_related("monitoring")
-            .prefetch_related("task_set")
             .order_by("monitoring")
             .all()
         )

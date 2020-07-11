@@ -7,8 +7,7 @@ Powiadomienia
 Założenia
 #########
 
-Moduł stanowi komponent powiadomień do operatora o konieczności podjęcia akcji w systemie. Takie powiadomienia mogą być kierowane w związku z rozbieżnością w odpowiedziach, ale także ze względu na konieczność ochrony prywatności, gdyby jakiś urząd dokonał nieuprawnionego ujawnienia danych prywatnych.
-
+Moduł stanowi komponent powiadomień do operatora o konieczności podjęcia akcji w systemie. Takie powiadomienia mogą być kierowane m. in. w związku z zgłoszeniem spamu.
 
 Dane testowe
 ############

@@ -5,7 +5,7 @@
                 {% if tab != 'general' %}
                     href="{% url 'monitorings:details' slug=object.slug %}"
                 {% endif %}
-            >{% trans 'Institutions, cases and tasks' %}</a></li>
+            >{% trans 'Institutions and cases' %}</a></li>
             <li{% if tab == 'letters' %} class="active"{% endif %}><a
                 {% if tab != 'letters' %}
                     href="{% url 'monitorings:letters' slug=object.slug %}"

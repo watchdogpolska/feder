@@ -37,7 +37,7 @@
 
     <div class="row">
         {% if object.children.with_category.all %}
-            <div class="col-md-3">
+            <div class="col-md-4">
                 {% if object.level < 2 %}
                     <div class="gray">
                         <h3 class="title">{% trans 'Voivodeships' %}</h3>
@@ -55,7 +55,7 @@
             </div>
         {% endif %}
 
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="red">
                 <h3 class="title">
                     <i class="fa fa-home"></i>
@@ -68,22 +68,13 @@
                 {% endif %}
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="gray">
                 <h3 class="title">
                     <i class="fa fa-search"></i>
                     {% trans 'Cases' %}
                 </h3>
                 {% include '_select_list.html' with object_list=object.case_qs.all %}
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="red">
-                <h3 class="title">
-                    <i class="fa fa-folder-open"></i>
-                    {% trans 'Tasks' %}
-                </h3>
-                {% include '_select_list.html' with object_list=object.task_qs.all %}
             </div>
         </div>
     </div>
