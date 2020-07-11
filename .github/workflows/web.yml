@@ -27,6 +27,10 @@ jobs:
         PYTHON_VERSION: ${{ matrix.python }}
         DJANGO_VERSION: ${{ matrix.django }}
         METADEFENDER_API_KEY: ${{ secrets.METADEFENDER_API_KEY }}
+    - name: Send coverage report
+      run: make coverage_send
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Run side services
       run: make wait_mysql wait_elasticsearch wait_tika
     - name: Migration check

@@ -15,7 +15,7 @@ coverage_html:
 	docker-compose run web coverage html
 
 coverage_send:
-	docker-compose run -e GITHUB_ACTIONS -e GITHUB_REF -e GITHUB_SHA -e GITHUB_HEAD_REF -e GITHUB_REPOSITORY -e GITHUB_RUN_ID -e GITHUB_TOKEN web coveralls
+	docker-compose run -e GITHUB_ACTIONS -e GITHUB_REF -e GITHUB_SHA -e GITHUB_HEAD_REF -e GITHUB_REPOSITORY -e GITHUB_RUN_ID -e GITHUB_TOKEN web bash -c 'export; coveralls'
 
 wait_mysql:
 	docker-compose up -d db
