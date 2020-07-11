@@ -6,7 +6,6 @@ from braces.views import (
     PermissionRequiredMixin,
     SelectRelatedMixin,
     UserFormKwargsMixin,
-    PrefetchRelatedMixin,
 )
 import uuid
 from cached_property import cached_property
