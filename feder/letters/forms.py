@@ -5,7 +5,7 @@ from braces.forms import UserKwargModelFormMixin
 from crispy_forms.layout import Submit
 from dal import autocomplete
 from django import forms
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from feder.cases.models import Case
 from feder.letters.utils import get_body_with_footer

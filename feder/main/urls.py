@@ -5,7 +5,7 @@ from django.contrib import admin
 from django.contrib.sitemaps.views import index, sitemap
 from django.http import HttpResponseServerError
 from django.template import loader
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.views.generic import TemplateView
 from rest_framework import routers
 from teryt_tree.rest_framework_ext.viewsets import JednostkaAdministracyjnaViewSet

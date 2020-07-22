@@ -3,7 +3,7 @@ from autoslug.fields import AutoSlugField
 from django.urls import reverse
 from django.db import models
 from django.db.models import Count
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from jsonfield import JSONField
 from model_utils.models import TimeStampedModel
 

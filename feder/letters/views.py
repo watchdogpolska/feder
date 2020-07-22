@@ -28,7 +28,7 @@ from django.utils.datetime_safe import datetime
 from django.utils.encoding import force_text
 from django.utils.feedgenerator import Atom1Feed
 from django.conf import settings
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.views import View
 from django.views.generic import CreateView, DeleteView, DetailView, FormView
 from django_filters.views import FilterView

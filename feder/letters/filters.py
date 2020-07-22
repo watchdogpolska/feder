@@ -1,6 +1,6 @@
 from atom.ext.django_filters.filters import UserKwargFilterSetMixin
 from dal import autocomplete
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django_filters import BooleanFilter, DateRangeFilter, FilterSet
 
 from .models import Letter

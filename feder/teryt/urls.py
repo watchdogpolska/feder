@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from teryt_tree.dal_ext.views import (
     CommunityAutocomplete,
     CountyAutocomplete,

@@ -24,7 +24,7 @@ from ..factories import (
     AttachmentFactory,
     LetterFactory,
 )
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from ...es_search.tests import ESMixin
 
 

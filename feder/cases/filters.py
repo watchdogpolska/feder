@@ -1,6 +1,6 @@
 import django_filters
 from dal import autocomplete
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from .models import Case
 from feder.main.mixins import DisabledWhenFilterSetMixin

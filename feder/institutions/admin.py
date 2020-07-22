@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.db.models import Count
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from reversion.admin import VersionAdmin
 
 from .models import Institution, Tag
