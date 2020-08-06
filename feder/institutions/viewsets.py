@@ -25,8 +25,20 @@ class InstitutionFilter(filters.FilterSet):
 
 class InstitutionCSVRenderer(PaginatedCSVRenderer):
     header = [
-        "pk", "name", "email", "jst", "jst_name", "jst_voivodeship", "jst_category", "created", "modified", "regon",
-        "self", "slug", "tags.0", "url"
+        "pk",
+        "name",
+        "email",
+        "jst",
+        "jst_name",
+        "jst_voivodeship",
+        "jst_category",
+        "created",
+        "modified",
+        "regon",
+        "self",
+        "slug",
+        "tags.0",
+        "url",
     ]
     labels = {
         "pk": _("Primary key"),
@@ -47,8 +59,10 @@ class InstitutionCSVRenderer(PaginatedCSVRenderer):
 
 
 class InstitutionPaginator(PageNumberPagination):
-    max_page_size = 10000  # increased maximum page size to allow export to CSV without pagination
-    page_size_query_param = 'page_size'
+    max_page_size = (
+        10000  # increased maximum page size to allow export to CSV without pagination
+    )
+    page_size_query_param = "page_size"
 
 
 class InstitutionViewSet(viewsets.ModelViewSet):
@@ -60,7 +74,9 @@ class InstitutionViewSet(viewsets.ModelViewSet):
     serializer_class = InstitutionSerializer
     filter_backends = (filters.DjangoFilterBackend,)
     filter_class = InstitutionFilter
-    renderer_classes = tuple(api_settings.DEFAULT_RENDERER_CLASSES) + (InstitutionCSVRenderer,)
+    renderer_classes = tuple(api_settings.DEFAULT_RENDERER_CLASSES) + (
+        InstitutionCSVRenderer,
+    )
     pagination_class = InstitutionPaginator
 
 

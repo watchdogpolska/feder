@@ -41,8 +41,8 @@ class InstitutionSerializer(serializers.HyperlinkedModelSerializer):
         source="parents",
     )
     jst = serializers.PrimaryKeyRelatedField(queryset=JST.objects)
-    jst_name = serializers.CharField(source='jst.name', read_only=True)
-    jst_category = serializers.CharField(source='jst.category.name', read_only=True)
+    jst_name = serializers.CharField(source="jst.name", read_only=True)
+    jst_category = serializers.CharField(source="jst.category.name", read_only=True)
     jst_voivodeship = serializers.SerializerMethodField()
     extra = serializers.JSONField(required=False)
 
@@ -65,7 +65,8 @@ class InstitutionSerializer(serializers.HyperlinkedModelSerializer):
 
     def _get_jst(self, jst_id):
         """
-        Gets JST instance by given id and caches the results to avoid further unnecessary queries.
+        Gets JST instance by given id and caches the results to avoid further
+        unnecessary queries.
         """
         jst = self._jst_cache.get(jst_id)
         if not jst:
@@ -75,7 +76,8 @@ class InstitutionSerializer(serializers.HyperlinkedModelSerializer):
 
     def get_jst_voivodeship(self, obj):
         """
-        Gets top level JST of given institution instance. This operation may be quite expensive.
+        Gets top level JST of given institution instance.
+        This operation may be quite expensive.
         """
         jst = self._get_jst(obj.jst_id)
         while jst and jst.parent_id:
