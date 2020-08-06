@@ -41,6 +41,9 @@ class InstitutionSerializer(serializers.HyperlinkedModelSerializer):
         source="parents",
     )
     jst = serializers.PrimaryKeyRelatedField(queryset=JST.objects)
+    jst_name = serializers.CharField(source='jst.name', read_only=True)
+    jst_category = serializers.CharField(source='jst.category.name', read_only=True)
+    jst_voivodeship = serializers.SerializerMethodField()
     extra = serializers.JSONField(required=False)
 
     def create(self, validated_data):
@@ -56,6 +59,29 @@ class InstitutionSerializer(serializers.HyperlinkedModelSerializer):
             instance.parents.set(validated_data["parents"])
         return super().update(instance, validated_data)
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._jst_cache = {}
+
+    def _get_jst(self, jst_id):
+        """
+        Gets JST instance by given id and caches the results to avoid further unnecessary queries.
+        """
+        jst = self._jst_cache.get(jst_id)
+        if not jst:
+            jst = JST.objects.get(id=jst_id)
+            self._jst_cache[jst_id] = jst
+        return jst
+
+    def get_jst_voivodeship(self, obj):
+        """
+        Gets top level JST of given institution instance. This operation may be quite expensive.
+        """
+        jst = self._get_jst(obj.jst_id)
+        while jst and jst.parent_id:
+            jst = self._get_jst(jst.parent_id)
+        return jst.name
+
     class Meta:
         model = Institution
         fields = (
@@ -65,6 +91,9 @@ class InstitutionSerializer(serializers.HyperlinkedModelSerializer):
             "parents_ids",
             "tags",
             "jst",
+            "jst_name",
+            "jst_category",
+            "jst_voivodeship",
             "email",
             "url",
             "regon",

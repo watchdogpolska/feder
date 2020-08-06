@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-institutions 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-11 21:53+0000\n"
-"PO-Revision-Date: 2017-08-11 03:25+0200\n"
+"POT-Creation-Date: 2020-08-05 20:39+0000\n"
+"PO-Revision-Date: 2020-08-05 22:41+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -17,13 +17,13 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #: admin.py:28
 msgid "Institution count"
 msgstr "Liczba instytucji"
 
-#: filters.py:27 models.py:27 models.py:71
+#: filters.py:27 models.py:27 models.py:71 viewsets.py:33
 msgid "Name"
 msgstr "Nazwa"
 
@@ -31,11 +31,11 @@ msgstr "Nazwa"
 msgid "Institution index"
 msgstr "Wykaz instytucji"
 
-#: models.py:28 models.py:73
+#: models.py:28 models.py:73 viewsets.py:43
 msgid "Slug"
 msgstr "Identyfikator redakcyjny"
 
-#: models.py:29 models.py:83
+#: models.py:29 models.py:83 viewsets.py:44
 msgid "Tag"
 msgstr "Tag"
 
@@ -43,15 +43,15 @@ msgstr "Tag"
 msgid "Unit of administrative division"
 msgstr "Jednostka podziału terytorialnego"
 
-#: models.py:38
+#: models.py:38 viewsets.py:41
 msgid "REGON number"
 msgstr "Kod REGON"
 
-#: models.py:44
+#: models.py:44 viewsets.py:42
 msgid "Parent institutions"
 msgstr "Instytucja nadrzędna"
 
-#: models.py:47
+#: models.py:47 viewsets.py:34
 msgid "Email of institution"
 msgstr "Adres e-mail instytucji"
 
@@ -149,9 +149,41 @@ msgstr "^~autocomplete$"
 msgid "^~autocomplete-tag$"
 msgstr "^~autocomplete-tag$"
 
-#: views.py:23
+#: views.py:24
 msgid "Institutions index"
 msgstr "Wykaz instytucji"
+
+#: viewsets.py:32
+msgid "Primary key"
+msgstr "Klucz główny"
+
+#: viewsets.py:35
+msgid "JST id"
+msgstr "JST id"
+
+#: viewsets.py:36
+msgid "JST name"
+msgstr "JST nazwa"
+
+#: viewsets.py:37
+msgid "JST category"
+msgstr "JST kategoria"
+
+#: viewsets.py:38
+msgid "JST voivodeship"
+msgstr "JST Województwo"
+
+#: viewsets.py:39
+msgid "Created"
+msgstr "Dodany"
+
+#: viewsets.py:40
+msgid "Modified"
+msgstr "Zmieniony"
+
+#: viewsets.py:45
+msgid "URL"
+msgstr "URL"
 
 #~ msgid "Cases count (descending)"
 #~ msgstr "Liczba spraw (malejąco)"
@@ -180,12 +212,6 @@ msgstr "Wykaz instytucji"
 #~ msgid "E-mails"
 #~ msgstr "Adresy e-mail"
 
-#~ msgid "Primary"
-#~ msgstr "Podstawowy"
-
-#~ msgid "Voivodeship"
-#~ msgstr "Województwo"
-
 #~ msgid "County"
 #~ msgstr "Powiat"
 
@@ -197,9 +223,6 @@ msgstr "Wykaz instytucji"
 
 #~ msgid "Filter"
 #~ msgstr "Filtruj"
-
-#~ msgid "{0} created!"
-#~ msgstr "{0} dodany!"
 
 #~ msgid "{0} updated!"
 #~ msgstr "{0} zaktualizowany!"
