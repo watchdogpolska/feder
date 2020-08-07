@@ -67,8 +67,9 @@ class InstitutionPaginator(PageNumberPagination):
 
 class InstitutionViewSet(viewsets.ModelViewSet):
     queryset = (
-        Institution.objects.select_related("jst")
-        .prefetch_related("tags", "parents", "jst", "jst__category")
+        Institution.objects.with_voivodeship()
+        .select_related("jst__category")
+        .prefetch_related("tags", "parents")
         .all()
     )
     serializer_class = InstitutionSerializer
