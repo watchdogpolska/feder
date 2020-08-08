@@ -4,7 +4,7 @@ from django_filters import rest_framework as filters
 from rest_framework import viewsets
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.settings import api_settings
-from rest_framework_csv.renderers import PaginatedCSVRenderer, CSVStreamingRenderer
+from rest_framework_csv.renderers import CSVStreamingRenderer
 from teryt_tree.rest_framework_ext.viewsets import custom_area_filter
 
 from .models import Institution, Tag
@@ -56,7 +56,7 @@ class InstitutionCSVRenderer(CSVStreamingRenderer):
         """Copied form PaginatedCSVRenderer to support paginated results."""
         if not isinstance(data, list):
             data = data.get(self.results_field, [])
-        return super(InstitutionCSVRenderer, self).render(data, *args, **kwargs)
+        return super().render(data, *args, **kwargs)
 
 
 class InstitutionPaginator(PageNumberPagination):
