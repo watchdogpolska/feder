@@ -101,7 +101,7 @@ class InstitutionCSVSerializer(InstitutionSerializer):
         )
 
     def get_tag_names(self, obj):
-        return " | ".join([t.name for t in obj.tags.all()])
+        return " | ".join(t.name for t in obj.tags.all())
 
 
 class TagSerializer(serializers.HyperlinkedModelSerializer):

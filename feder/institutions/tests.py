@@ -129,7 +129,7 @@ class InstitutionDeleteViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase
         return reverse("institutions:delete", kwargs={"slug": self.institution.slug})
 
 
-class InstitutionRestApiTestCase(ObjectMixin, TestCase):
+class InstitutionViewSetTestCase(ObjectMixin, TestCase):
     def test_csv_renderer(self):
         response = self.client.get("{0}?format=csv".format(reverse("institution-list")))
         self.assertEqual(response.status_code, 200)
