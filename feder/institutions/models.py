@@ -61,16 +61,16 @@ class Institution(TimeStampedModel):
     def get_absolute_url(self):
         return reverse("institutions:details", kwargs={"slug": self.slug})
 
-    def get_voivodeship(self):
+    def get_top_jst(self):
         """
-        Returns voivodeship by searching top level parent of related JST.
+        Returns voivodeship JST instance by searching top level parent of related JST.
         This operation may be expensive, so in queries it should be used with
         with_voivodeship manager method.
         """
         jst = self.jst
         while jst and jst.parent_id:
             jst = jst.parent
-        return jst.name
+        return jst
 
 
 class TagQuerySet(models.QuerySet):

@@ -4,11 +4,11 @@ from django_filters import rest_framework as filters
 from rest_framework import viewsets
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.settings import api_settings
-from rest_framework_csv.renderers import PaginatedCSVRenderer
+from rest_framework_csv.renderers import PaginatedCSVRenderer, CSVStreamingRenderer
 from teryt_tree.rest_framework_ext.viewsets import custom_area_filter
 
 from .models import Institution, Tag
-from .serializers import InstitutionSerializer, TagSerializer
+from .serializers import InstitutionSerializer, TagSerializer, InstitutionCSVSerializer
 
 
 class InstitutionFilter(filters.FilterSet):
@@ -23,39 +23,40 @@ class InstitutionFilter(filters.FilterSet):
         fields = ["name", "tags", "jst", "regon"]
 
 
-class InstitutionCSVRenderer(PaginatedCSVRenderer):
+class InstitutionCSVRenderer(CSVStreamingRenderer):
     header = [
         "pk",
         "name",
         "email",
+        "regon",
         "jst",
+        "jst_category",
         "jst_name",
         "jst_voivodeship",
-        "jst_category",
         "created",
         "modified",
-        "regon",
-        "self",
-        "slug",
-        "tags.0",
-        "url",
+        "tag_names",
     ]
     labels = {
-        "pk": _("Primary key"),
+        "pk": _("Id"),
         "name": _("Name"),
         "email": _("Email of institution"),
+        "regon": _("REGON number"),
         "jst": _("JST id"),
-        "jst_name": _("JST name"),
         "jst_category": _("JST category"),
+        "jst_name": _("JST name"),
         "jst_voivodeship": _("JST voivodeship"),
         "created": _("Created"),
         "modified": _("Modified"),
-        "regon": _("REGON number"),
-        "self": _("Parent institutions"),
-        "slug": _("Slug"),
-        "tags.0": _("Tag"),
-        "url": _("URL"),
+        "tag_names": _("Tag names"),
     }
+    results_field = "results"
+
+    def render(self, data, *args, **kwargs):
+        """Copied form PaginatedCSVRenderer to support paginated results."""
+        if not isinstance(data, list):
+            data = data.get(self.results_field, [])
+        return super(InstitutionCSVRenderer, self).render(data, *args, **kwargs)
 
 
 class InstitutionPaginator(PageNumberPagination):
@@ -72,13 +73,18 @@ class InstitutionViewSet(viewsets.ModelViewSet):
         .prefetch_related("tags", "parents")
         .all()
     )
-    serializer_class = InstitutionSerializer
     filter_backends = (filters.DjangoFilterBackend,)
     filter_class = InstitutionFilter
     renderer_classes = tuple(api_settings.DEFAULT_RENDERER_CLASSES) + (
         InstitutionCSVRenderer,
     )
     pagination_class = InstitutionPaginator
+
+    def get_serializer_class(self):
+        if isinstance(self.request.accepted_renderer, InstitutionCSVRenderer):
+            return InstitutionCSVSerializer
+        else:
+            return InstitutionSerializer
 
 
 class TagViewSet(viewsets.ModelViewSet):
