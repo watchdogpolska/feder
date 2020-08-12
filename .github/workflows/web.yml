@@ -22,7 +22,7 @@ jobs:
       with:
         lfs: true
     - name: Lint check
-      run: make lint
+      uses: pre-commit/action@v2.0.0
     - name: Build application
       run: docker-compose build web
       env:
