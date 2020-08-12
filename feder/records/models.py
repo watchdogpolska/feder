@@ -76,7 +76,7 @@ class Record(TimeStampedModel):
             ):
                 return getattr(self, field.related_name)
 
-    @cached_property
+    @property
     def milestone_template(self):
         warnings.warn(
             "Call to deprecated method '{}.content_template'.".format(
@@ -87,7 +87,7 @@ class Record(TimeStampedModel):
         )
         return self.type.get_template_milestone_item(self.content_object)
 
-    @cached_property
+    @property
     def content_template(self):
         return self.type.get_template_content_item(self.content_object)
 
@@ -95,7 +95,7 @@ class Record(TimeStampedModel):
         if self.content_object:
             return self.content_object._meta.model_name
 
-    @cached_property
+    @property
     def type(self):
         return record_type_registry.get_type(self.content_object)
 

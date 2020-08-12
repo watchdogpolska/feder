@@ -17,6 +17,7 @@ from feder.main.tests import PermissionStatusMixin
 from feder.monitorings.filters import MonitoringFilter
 from feder.parcels.factories import IncomingParcelPostFactory, OutgoingParcelPostFactory
 from feder.teryt.factories import JSTFactory
+from feder.records.factories import RecordFactory
 from feder.users.factories import UserFactory
 from .factories import MonitoringFactory
 from .forms import MonitoringForm
@@ -156,6 +157,14 @@ class MonitoringDetailViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
         response = self.client.get(self.get_url())
         self.assertContains(response, ipp)
         self.assertContains(response, opp)
+
+    def test_display_invalid_record(self):
+        # see following issues regarding details of source of inconsistency:
+        # https://github.com/watchdogpolska/feder/issues/748
+        # https://github.com/watchdogpolska/feder/issues/769
+        RecordFactory(case__monitoring=self.monitoring)
+        response = self.client.get(self.get_url())
+        self.assertEqual(response.status_code, 200)
 
 
 class LetterListMonitoringViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
