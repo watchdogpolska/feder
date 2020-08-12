@@ -9,4 +9,5 @@ lxml==4.5.2
 django-coverage-plugin==1.8.0
 vcrpy==4.1.0
 sphinxcontrib-programoutput==0.16
+pre-commit==2.6.0
 coveralls==2.1.2

@@ -21,8 +21,6 @@ jobs:
     - uses: actions/checkout@v1
       with:
         lfs: true
-    - name: Lint check
-      run: make lint
     - name: Build application
       run: docker-compose build web
       env:
