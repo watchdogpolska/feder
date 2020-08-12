@@ -1,5 +1,7 @@
 <ul class="milestones">
     {% for object in object_list %}
-        {% include object.milestone_template with object=object.content_object %}
+        {% if object.content_object %}
+            {% include object.milestone_template with object=object.content_object %}
+        {% endif %}
     {% endfor %}
 </ul>
