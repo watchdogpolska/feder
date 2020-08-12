@@ -21,8 +21,6 @@ jobs:
     - uses: actions/checkout@v1
       with:
         lfs: true
-    - name: Lint check
-      uses: pre-commit/action@v2.0.0
     - name: Build application
       run: docker-compose build web
       env:
