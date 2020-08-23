@@ -47,7 +47,7 @@ django-reversion==3.0.7
 djangorestframework==3.11.0
 djangorestframework-csv==2.1.0
 unicodecsv==0.14.1
-tqdm==4.48.0
+tqdm==4.48.2
 djangorestframework-filters==0.11.1
 django-github-revision==0.0.3
 django-extensions==3.0.3
