@@ -45,6 +45,7 @@ cached-property==1.5.1
 django-bootstrap-pagination==1.7.1
 django-reversion==3.0.7
 djangorestframework==3.11.0
+djangorestframework-csv==2.1.0
 unicodecsv==0.14.1
 tqdm==4.48.0
 djangorestframework-filters==0.11.1

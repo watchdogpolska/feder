@@ -77,6 +77,33 @@ class InstitutionSerializer(serializers.HyperlinkedModelSerializer):
         extra_kwargs = {"jst": {"view_name": "jednostkaadministracyjna-detail"}}
 
 
+class InstitutionCSVSerializer(InstitutionSerializer):
+    jst_name = serializers.CharField(source="jst.name", read_only=True)
+    jst_category = serializers.CharField(source="jst.category.name", read_only=True)
+    jst_voivodeship = serializers.CharField(source="get_top_jst.name", read_only=True)
+    tag_names = serializers.SerializerMethodField()
+    created = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
+    modified = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
+
+    class Meta(InstitutionSerializer.Meta):
+        fields = (
+            "pk",
+            "name",
+            "email",
+            "regon",
+            "jst",
+            "jst_category",
+            "jst_name",
+            "jst_voivodeship",
+            "created",
+            "modified",
+            "tag_names",
+        )
+
+    def get_tag_names(self, obj):
+        return " | ".join(t.name for t in obj.tags.all())
+
+
 class TagSerializer(serializers.HyperlinkedModelSerializer):
     slug = serializers.CharField(read_only=True)
 
