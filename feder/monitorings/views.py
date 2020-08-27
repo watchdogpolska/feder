@@ -1,4 +1,3 @@
-from atom.ext.guardian.forms import TranslatedUserObjectPermissionsForm
 from atom.views import DeleteMessageMixin, UpdateMessageMixin
 from braces.views import (
     FormValidMessageMixin,
