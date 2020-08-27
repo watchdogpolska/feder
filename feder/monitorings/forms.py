@@ -42,7 +42,12 @@ class SelectUserForm(forms.Form):
     )
 
 
+class CheckboxTranslatedUserObjectPermissionsForm(TranslatedUserObjectPermissionsForm):
+    def get_obj_perms_field_widget(self):
+        return forms.CheckboxSelectMultiple
+
+
 class SaveTranslatedUserObjectPermissionsForm(
-    SingleButtonMixin, TranslatedUserObjectPermissionsForm
+    SingleButtonMixin, CheckboxTranslatedUserObjectPermissionsForm
 ):
     pass

@@ -39,6 +39,7 @@ from .forms import (
     MonitoringForm,
     SaveTranslatedUserObjectPermissionsForm,
     SelectUserForm,
+    CheckboxTranslatedUserObjectPermissionsForm,
 )
 from .models import Monitoring
 from .tasks import handle_mass_assign
@@ -184,7 +185,7 @@ class MonitoringDeleteView(
 
 
 class PermissionWizard(LoginRequiredMixin, SessionWizardView):
-    form_list = [SelectUserForm, TranslatedUserObjectPermissionsForm]
+    form_list = [SelectUserForm, CheckboxTranslatedUserObjectPermissionsForm]
     template_name = "monitorings/permission_wizard.html"
 
     def perm_check(self):
@@ -214,8 +215,9 @@ class PermissionWizard(LoginRequiredMixin, SessionWizardView):
         return _("Permissions to {monitoring} updated!").format(monitoring=self.object)
 
     def done(self, form_list, *args, **kwargs):
-        form_list[1].save_obj_perms()
-        self.object = form_list[1].obj
+        form = kwargs["form_dict"]["1"]
+        form.save_obj_perms()
+        self.object = form.obj
         messages.success(self.request, self.get_success_message())
         url = reverse("monitorings:perm", kwargs={"slug": self.object.slug})
         return HttpResponseRedirect(url)
