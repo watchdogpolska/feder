@@ -268,10 +268,7 @@ class PermissionWizardTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
         self.client.login(username="john", password="pass")
 
         # First step - selecting user to set permissions to
-        data = {
-            "0-user": normal_user.pk,
-            "permission_wizard-current_step": "0"
-        }
+        data = {"0-user": normal_user.pk, "permission_wizard-current_step": "0"}
         response = self.client.post(self.get_url(), data=data)
         self.assertEqual(response.status_code, 200)
 
@@ -279,14 +276,14 @@ class PermissionWizardTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
         granted_permission = ["add_case", "add_draft", "add_letter"]
         data = {
             "1-permissions": granted_permission,
-            "permission_wizard-current_step": "1"
+            "permission_wizard-current_step": "1",
         }
         response = self.client.post(self.get_url(), data=data)
         self.assertEqual(response.status_code, 302)
         self.assertCountEqual(
-            get_user_perms(normal_user, self.monitoring),
-            granted_permission
+            get_user_perms(normal_user, self.monitoring), granted_permission
         )
+
 
 class MonitoringPermissionViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     permission = ["monitorings.manage_perm"]
