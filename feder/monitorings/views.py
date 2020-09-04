@@ -204,7 +204,7 @@ class PermissionWizard(LoginRequiredMixin, SessionWizardView):
         kw = super().get_form_kwargs(step)
         self.perm_check()
         if step == "1":
-            user_pk = self.storage.get_step_data("0").get("0-user")[0]
+            user_pk = self.storage.get_step_data("0").get("0-user")
             user = get_user_model().objects.get(pk=user_pk)
             kw["user"] = user
             kw["obj"] = self.monitoring
@@ -213,8 +213,8 @@ class PermissionWizard(LoginRequiredMixin, SessionWizardView):
     def get_success_message(self):
         return _("Permissions to {monitoring} updated!").format(monitoring=self.object)
 
-    def done(self, form_list, *args, **kwargs):
-        form = kwargs["form_dict"]["1"]
+    def done(self, form_list, form_dict, *args, **kwargs):
+        form = form_dict["1"]
         form.save_obj_perms()
         self.object = form.obj
         messages.success(self.request, self.get_success_message())

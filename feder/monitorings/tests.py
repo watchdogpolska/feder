@@ -4,7 +4,7 @@ from unittest.mock import Mock, patch
 from django.core import mail
 from django.urls import reverse
 from django.test import TestCase
-from guardian.shortcuts import assign_perm
+from guardian.shortcuts import assign_perm, get_user_perms
 from django.db.models import Count
 from feder.cases.factories import CaseFactory
 from feder.cases.models import Case
@@ -269,20 +269,24 @@ class PermissionWizardTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
 
         # First step - selecting user to set permissions to
         data = {
-            "0-user": "{0}".format(normal_user.pk),
+            "0-user": normal_user.pk,
             "permission_wizard-current_step": "0"
         }
         response = self.client.post(self.get_url(), data=data)
         self.assertEqual(response.status_code, 200)
 
         # Second step - updating user's permissions
+        granted_permission = ["add_case", "add_draft", "add_letter"]
         data = {
-            "1-permissions": ["add_case", "add_draft", "add_letter", "add_monitoring"],
+            "1-permissions": granted_permission,
             "permission_wizard-current_step": "1"
         }
         response = self.client.post(self.get_url(), data=data)
-        self.assertEqual(response.status_code, 200)
-
+        self.assertEqual(response.status_code, 302)
+        self.assertCountEqual(
+            get_user_perms(normal_user, self.monitoring),
+            granted_permission
+        )
 
 class MonitoringPermissionViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     permission = ["monitorings.manage_perm"]
