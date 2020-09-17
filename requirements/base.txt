@@ -62,5 +62,5 @@ https://github.com/ross/performant-pagination/archive/5b537da95728d622792031071e
 
 django-background-tasks==1.2.5
 django-cors-headers==3.4.0
-elasticsearch-dsl==7.2.1
+elasticsearch-dsl==7.3.0
 tika==1.24
