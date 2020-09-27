@@ -5,6 +5,10 @@ TEST?=feder
 clean:
 	docker-compose down
 
+regenerate_frontend:
+	docker-compose run web python manage.py collectstatic -c --noinput
+	docker-compose up gulp
+
 build:
 	docker-compose build web
 
@@ -16,6 +20,8 @@ coverage_html:
 
 coverage_send:
 	docker-compose run -e GITHUB_ACTIONS -e GITHUB_REF -e GITHUB_SHA -e GITHUB_HEAD_REF -e GITHUB_REPOSITORY -e GITHUB_RUN_ID -e GITHUB_TOKEN -e COVERALLS_REPO_TOKEN web coveralls
+
+wait_web: wait_mysql wait_elasticsearch wait_tika
 
 wait_mysql:
 	docker-compose up -d db
