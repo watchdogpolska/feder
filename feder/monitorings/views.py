@@ -1,4 +1,3 @@
-from atom.ext.guardian.forms import TranslatedUserObjectPermissionsForm
 from atom.views import DeleteMessageMixin, UpdateMessageMixin
 from braces.views import (
     FormValidMessageMixin,
@@ -39,6 +38,7 @@ from .forms import (
     MonitoringForm,
     SaveTranslatedUserObjectPermissionsForm,
     SelectUserForm,
+    CheckboxTranslatedUserObjectPermissionsForm,
 )
 from .models import Monitoring
 from .tasks import handle_mass_assign
@@ -184,7 +184,7 @@ class MonitoringDeleteView(
 
 
 class PermissionWizard(LoginRequiredMixin, SessionWizardView):
-    form_list = [SelectUserForm, TranslatedUserObjectPermissionsForm]
+    form_list = [SelectUserForm, CheckboxTranslatedUserObjectPermissionsForm]
     template_name = "monitorings/permission_wizard.html"
 
     def perm_check(self):
@@ -204,7 +204,7 @@ class PermissionWizard(LoginRequiredMixin, SessionWizardView):
         kw = super().get_form_kwargs(step)
         self.perm_check()
         if step == "1":
-            user_pk = self.storage.get_step_data("0").get("0-user")[0]
+            user_pk = self.storage.get_step_data("0").get("0-user")
             user = get_user_model().objects.get(pk=user_pk)
             kw["user"] = user
             kw["obj"] = self.monitoring
@@ -213,9 +213,10 @@ class PermissionWizard(LoginRequiredMixin, SessionWizardView):
     def get_success_message(self):
         return _("Permissions to {monitoring} updated!").format(monitoring=self.object)
 
-    def done(self, form_list, *args, **kwargs):
-        form_list[1].save_obj_perms()
-        self.object = form_list[1].obj
+    def done(self, form_list, form_dict, *args, **kwargs):
+        form = form_dict["1"]
+        form.save_obj_perms()
+        self.object = form.obj
         messages.success(self.request, self.get_success_message())
         url = reverse("monitorings:perm", kwargs={"slug": self.object.slug})
         return HttpResponseRedirect(url)

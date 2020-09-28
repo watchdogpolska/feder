@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-institutions 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-11 21:53+0000\n"
-"PO-Revision-Date: 2017-08-11 03:25+0200\n"
+"POT-Creation-Date: 2020-08-07 23:16+0000\n"
+"PO-Revision-Date: 2020-08-08 01:17+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -17,13 +17,13 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #: admin.py:28
 msgid "Institution count"
 msgstr "Liczba instytucji"
 
-#: filters.py:27 models.py:27 models.py:71
+#: filters.py:27 models.py:30 models.py:85 viewsets.py:42
 msgid "Name"
 msgstr "Nazwa"
 
@@ -31,35 +31,35 @@ msgstr "Nazwa"
 msgid "Institution index"
 msgstr "Wykaz instytucji"
 
-#: models.py:28 models.py:73
+#: models.py:31 models.py:87
 msgid "Slug"
 msgstr "Identyfikator redakcyjny"
 
-#: models.py:29 models.py:83
+#: models.py:32 models.py:97
 msgid "Tag"
 msgstr "Tag"
 
-#: models.py:33 templates/institutions/_institution_small.html:9
+#: models.py:36 templates/institutions/_institution_small.html:9
 msgid "Unit of administrative division"
 msgstr "Jednostka podziału terytorialnego"
 
-#: models.py:38
+#: models.py:41 viewsets.py:44
 msgid "REGON number"
 msgstr "Kod REGON"
 
-#: models.py:44
+#: models.py:47
 msgid "Parent institutions"
 msgstr "Instytucja nadrzędna"
 
-#: models.py:47
+#: models.py:50 viewsets.py:43
 msgid "Email of institution"
 msgstr "Adres e-mail instytucji"
 
-#: models.py:51 models.py:52
+#: models.py:54 models.py:55
 msgid "Institution"
 msgstr "Instytucja"
 
-#: models.py:84 templates/institutions/institution_detail.html:53
+#: models.py:98 templates/institutions/institution_detail.html:53
 msgid "Tags"
 msgstr "Tagi"
 
@@ -153,6 +153,44 @@ msgstr "^~autocomplete-tag$"
 msgid "Institutions index"
 msgstr "Wykaz instytucji"
 
+#: viewsets.py:41
+msgid "Id"
+msgstr "Id"
+
+#: viewsets.py:45
+msgid "JST id"
+msgstr "JST id"
+
+#: viewsets.py:46
+msgid "JST name"
+msgstr "JST nazwa"
+
+#: viewsets.py:47
+msgid "JST category"
+msgstr "JST kategoria"
+
+#: viewsets.py:48
+msgid "JST voivodeship"
+msgstr "JST Województwo"
+
+#: viewsets.py:49
+msgid "Created"
+msgstr "Dodany"
+
+#: viewsets.py:50
+msgid "Modified"
+msgstr "Zmieniony"
+
+#: viewsets.py:51
+msgid "Tag names"
+msgstr "Nazwy tagów"
+
+#~ msgid "Primary key"
+#~ msgstr "Klucz główny"
+
+#~ msgid "URL"
+#~ msgstr "URL"
+
 #~ msgid "Cases count (descending)"
 #~ msgstr "Liczba spraw (malejąco)"
 
@@ -180,12 +218,6 @@ msgstr "Wykaz instytucji"
 #~ msgid "E-mails"
 #~ msgstr "Adresy e-mail"
 
-#~ msgid "Primary"
-#~ msgstr "Podstawowy"
-
-#~ msgid "Voivodeship"
-#~ msgstr "Województwo"
-
 #~ msgid "County"
 #~ msgstr "Powiat"
 
@@ -197,9 +229,6 @@ msgstr "Wykaz instytucji"
 
 #~ msgid "Filter"
 #~ msgstr "Filtruj"
-
-#~ msgid "{0} created!"
-#~ msgstr "{0} dodany!"
 
 #~ msgid "{0} updated!"
 #~ msgstr "{0} zaktualizowany!"

@@ -4,8 +4,7 @@ from unittest.mock import Mock, patch
 from django.core import mail
 from django.urls import reverse
 from django.test import TestCase
-from guardian.shortcuts import assign_perm
-from django.core.management import call_command
+from guardian.shortcuts import assign_perm, get_user_perms
 from django.db.models import Count
 from feder.cases.factories import CaseFactory
 from feder.cases.models import Case
@@ -17,6 +16,7 @@ from feder.main.tests import PermissionStatusMixin
 from feder.monitorings.filters import MonitoringFilter
 from feder.parcels.factories import IncomingParcelPostFactory, OutgoingParcelPostFactory
 from feder.teryt.factories import JSTFactory
+from feder.records.factories import RecordFactory
 from feder.users.factories import UserFactory
 from .factories import MonitoringFactory
 from .forms import MonitoringForm
@@ -157,6 +157,14 @@ class MonitoringDetailViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
         self.assertContains(response, ipp)
         self.assertContains(response, opp)
 
+    def test_display_invalid_record(self):
+        # see following issues regarding details of source of inconsistency:
+        # https://github.com/watchdogpolska/feder/issues/748
+        # https://github.com/watchdogpolska/feder/issues/769
+        RecordFactory(case__monitoring=self.monitoring)
+        response = self.client.get(self.get_url())
+        self.assertEqual(response.status_code, 200)
+
 
 class LetterListMonitoringViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     status_anonymous = 200
@@ -252,6 +260,29 @@ class PermissionWizardTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
         self.client.login(username="john", password="pass")
         response = self.client.get(self.get_url())
         self.assertTemplateUsed(response, "monitorings/permission_wizard.html")
+
+    def test_set_permissions(self):
+        normal_user = UserFactory(username="barney")
+
+        assign_perm("monitorings.manage_perm", self.user, self.monitoring)
+        self.client.login(username="john", password="pass")
+
+        # First step - selecting user to set permissions to
+        data = {"0-user": normal_user.pk, "permission_wizard-current_step": "0"}
+        response = self.client.post(self.get_url(), data=data)
+        self.assertEqual(response.status_code, 200)
+
+        # Second step - updating user's permissions
+        granted_permission = ["add_case", "add_draft", "add_letter"]
+        data = {
+            "1-permissions": granted_permission,
+            "permission_wizard-current_step": "1",
+        }
+        response = self.client.post(self.get_url(), data=data)
+        self.assertEqual(response.status_code, 302)
+        self.assertCountEqual(
+            get_user_perms(normal_user, self.monitoring), granted_permission
+        )
 
 
 class MonitoringPermissionViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
