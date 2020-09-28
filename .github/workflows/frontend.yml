@@ -13,7 +13,7 @@ jobs:
       run: git status
     - name: Require rebuild content
       run: >
-        git diff-index --quiet HEAD -- "feder/static/" || (
+        git diff-index --quiet HEAD -- feder/static/ package*.json || (
           echo "Pending changes in the front-end have been detected.";
           echo "Use 'make regenerate_frontend' to regenerate front-end and commit changes.";
           exit 1;
