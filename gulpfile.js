@@ -106,4 +106,8 @@ gulp.task('watch', function () {
     });
 });
 
-gulp.task('default', ['icons', 'js', 'scss', 'watch']);
+
+gulp.task('build', ['icons', 'js', 'scss']);
+
+gulp.task('default', ['build', 'watch']);
+
