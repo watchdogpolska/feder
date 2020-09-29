@@ -176,9 +176,9 @@ boom@2.x.x:
   dependencies:
     hoek "2.x.x"
 
-bootstrap-sass@3.3.7:
-  version "3.3.7"
-  resolved "http://registry.npmjs.org/bootstrap-sass/-/bootstrap-sass-3.3.7.tgz#6596c7ab40f6637393323ab0bc80d064fc630498"
+bootstrap-sass@3.4.1:
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/bootstrap-sass/-/bootstrap-sass-3.4.1.tgz#6843c73b1c258a0ac5cb2cc6f6f5285b664a8e9a"
 
 brace-expansion@^1.0.0:
   version "1.1.8"
@@ -874,7 +874,7 @@ gulp-concat@2.6.1:
 
 gulp-livereload@3.8.1:
   version "3.8.1"
-  resolved "http://registry.npmjs.org/gulp-livereload/-/gulp-livereload-3.8.1.tgz#00f744b2d749d3e9e3746589c8a44acac779b50f"
+  resolved "https://registry.npmjs.org/gulp-livereload/-/gulp-livereload-3.8.1.tgz#00f744b2d749d3e9e3746589c8a44acac779b50f"
   dependencies:
     chalk "^0.5.1"
     debug "^2.1.0"
@@ -885,7 +885,7 @@ gulp-livereload@3.8.1:
 
 gulp-minify-css@1.2.4:
   version "1.2.4"
-  resolved "http://registry.npmjs.org/gulp-minify-css/-/gulp-minify-css-1.2.4.tgz#b6164957602ea27f9e5ad88227695dd205778c06"
+  resolved "https://registry.npmjs.org/gulp-minify-css/-/gulp-minify-css-1.2.4.tgz#b6164957602ea27f9e5ad88227695dd205778c06"
   dependencies:
     clean-css "^3.3.3"
     gulp-util "^3.0.5"
@@ -909,7 +909,7 @@ gulp-rename@1.2.2:
 
 gulp-sass@3.1.0:
   version "3.1.0"
-  resolved "http://registry.npmjs.org/gulp-sass/-/gulp-sass-3.1.0.tgz#53dc4b68a1f5ddfe4424ab4c247655269a8b74b7"
+  resolved "https://registry.npmjs.org/gulp-sass/-/gulp-sass-3.1.0.tgz#53dc4b68a1f5ddfe4424ab4c247655269a8b74b7"
   dependencies:
     gulp-util "^3.0"
     lodash.clonedeep "^4.3.2"
@@ -954,7 +954,7 @@ gulp-util@3.0.8, gulp-util@^3.0, gulp-util@^3.0.0, gulp-util@^3.0.2, gulp-util@^
 
 gulp@3.9.1:
   version "3.9.1"
-  resolved "http://registry.npmjs.org/gulp/-/gulp-3.9.1.tgz#571ce45928dd40af6514fc4011866016c13845b4"
+  resolved "https://registry.npmjs.org/gulp/-/gulp-3.9.1.tgz#571ce45928dd40af6514fc4011866016c13845b4"
   dependencies:
     archy "^1.0.0"
     chalk "^1.0.0"
