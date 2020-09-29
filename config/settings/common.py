@@ -334,7 +334,7 @@ METADEFENDER_API_URL = env(
     "METADEFENDER_API_URL", default="https://api.metadefender.com"
 )
 
-CORS_ORIGIN_WHITELIST = [
+CORS_ALLOWED_ORIGINS = [
     "https://sprawdzamyjakjest.pl",
     "https://demo.sprawdzamyjakjest.pl",
     "https://sjj.127.0.0.1.xip.io",
