@@ -61,6 +61,6 @@ https://github.com/ross/performant-pagination/archive/5b537da95728d622792031071e
 # not available on pypi - see https://github.com/ross/performant-pagination/issues/5
 
 django-background-tasks==1.2.5
-django-cors-headers==3.4.0
+django-cors-headers==3.5.0
 elasticsearch-dsl==7.3.0
 tika==1.24
