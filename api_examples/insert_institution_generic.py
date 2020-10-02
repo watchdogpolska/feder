@@ -133,7 +133,7 @@ class Command:
                         json=data,
                     )
                 else:
-                    print("Simulated PATH for {}".format(name.encode("utf-8")))
+                    print("Simulated PATCH for {}".format(name.encode("utf-8")))
             else:
                 if not self.args.simulate:
                     response = self.s.post(
