@@ -21,8 +21,8 @@ import requests
 import csv
 from gusregon import GUS
 
-from .utils import environ
-from .insert_institution import normalize_jst
+from utils import environ
+from insert_institution import normalize_jst
 
 from urllib.parse import urljoin
 
@@ -39,7 +39,7 @@ class Command:
 
     def __init__(self, argv):
         self.gus = GUS(
-            api_key=environ("GUSREGON_API_KEY"),
+            api_key=environ("GUSREGON_API_KEY", required=False),
             sandbox=environ("GUSREGON_SANDBOX", True),
         )
         self.s = requests.Session()
@@ -58,6 +58,14 @@ class Command:
         parser.add_argument("--user", required=True, help="User to authentication")
         parser.add_argument(
             "--password", required=True, help="Password to authentication"
+        )
+        parser.add_argument(
+            "--simulate",
+            required=False,
+            help="Do not insert any data",
+            dest="simulate",
+            action="store_true",
+            default=False,
         )
         return parser.parse_args(argv)
 
@@ -112,22 +120,36 @@ class Command:
         if regon_parent:
             data.update({"parents_ids": [self._find(host, regon=regon_parent)]})
 
+        response = None
+
         if regon:
             pk = self._match(host, regon=regon)
 
             if pk:
                 data.update({"id": pk})
-                response = self.s.patch(
-                    url=urljoin(urljoin(host, "/api/institutions/"), str(pk) + "/"),
-                    json=data,
-                )
+                if not self.args.simulate:
+                    response = self.s.patch(
+                        url=urljoin(urljoin(host, "/api/institutions/"), str(pk) + "/"),
+                        json=data,
+                    )
+                else:
+                    print("Simulated PATH for {}".format(name.encode("utf-8")))
             else:
+                if not self.args.simulate:
+                    response = self.s.post(
+                        url=urljoin(host, "/api/institutions/"), json=data
+                    )
+                else:
+                    print("Simulated POST for {}".format(name.encode("utf-8")))
+        else:
+            if not self.args.simulate:
                 response = self.s.post(
                     url=urljoin(host, "/api/institutions/"), json=data
                 )
-        else:
-            response = self.s.post(url=urljoin(host, "/api/institutions/"), json=data)
-        if response.status_code >= 300:
+            else:
+                print("Simulated POST for {}".format(name.encode("utf-8")))
+
+        if response and response.status_code >= 300:
             print(
                 name.encode("utf-8"),
                 " response 500",
@@ -137,23 +159,26 @@ class Command:
             )
             print(response.text, file=sys.stderr)
             return
-        json = response.json()
+
         self.done_count += 1
         progress = (self.done_count / self.total_count) * 100
-        if response.status_code == 201:
-            print(progress, name.encode("utf-8"), " created as PK", json["pk"])
-        elif response.status_code == 200:
-            print(progress, name.encode("utf-8"), " updated as PK", json["pk"])
-        else:
-            print(
-                progress,
-                name.encode("utf-8"),
-                "response ",
-                response.status_code,
-                ":",
-                file=sys.stderr,
-            )
-            print(json, file=sys.stderr)
+
+        if response:
+            json = response.json()
+            if response.status_code == 201:
+                print(progress, name.encode("utf-8"), " created as PK", json["pk"])
+            elif response.status_code == 200:
+                print(progress, name.encode("utf-8"), " updated as PK", json["pk"])
+            else:
+                print(
+                    progress,
+                    name.encode("utf-8"),
+                    "response ",
+                    response.status_code,
+                    ":",
+                    file=sys.stderr,
+                )
+                print(json, file=sys.stderr)
 
     def fields_validation(self, fields):
         result = True

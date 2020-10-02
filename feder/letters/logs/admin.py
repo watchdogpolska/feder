@@ -6,7 +6,7 @@ from feder.letters.logs.models import EmailLog, LogRecord
 
 class LogRecordInline(admin.StackedInline):
     """
-        Stacked Inline View for LogRecord
+    Stacked Inline View for LogRecord
     """
 
     model = LogRecord
@@ -15,7 +15,7 @@ class LogRecordInline(admin.StackedInline):
 
 class EmailLogAdmin(admin.ModelAdmin):
     """
-        Admin View for EmailLog
+    Admin View for EmailLog
     """
 
     list_display = ("case", "email_id", "status")
