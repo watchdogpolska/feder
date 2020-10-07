@@ -12,8 +12,8 @@ from feder.teryt.filters import (
 class MonitoringFilter(django_filters.FilterSet):
     created = django_filters.DateRangeFilter(label=_("Creation date"))
     voivodeship = DisabledWhenVoivodeshipFilter()
-    county = DisabledWhenCountyFilter()
-    community = DisabledWhenCommunityFilter()
+    county = DisabledWhenCountyFilter(label=_("County"))
+    community = DisabledWhenCommunityFilter(label=_("Community"))
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
