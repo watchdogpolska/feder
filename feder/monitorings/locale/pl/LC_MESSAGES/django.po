@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-monitorings 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-07 20:52+0000\n"
+"POT-Creation-Date: 2020-10-08 15:02+0000\n"
 "PO-Revision-Date: 2020-07-11 23:53+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -22,12 +22,6 @@ msgstr ""
 #: filters.py:13 templates/monitorings/_monitoring_small.html:12
 msgid "Creation date"
 msgstr "Data utworzenia"
-
-#: filters.py:15
-#, fuzzy
-#| msgid "Case count"
-msgid "County"
-msgstr "Powiat"
 
 #: filters.py:16
 msgid "Community"
@@ -411,6 +405,11 @@ msgid ""
 msgstr ""
 "%(count)d instytucji zostało przypisanych do %(monitoring)s. Wysyłka "
 "wniosków została zaplanowana."
+
+#, fuzzy
+#~| msgid "Case count"
+#~ msgid "County"
+#~ msgstr "Powiat"
 
 #~ msgid "Can select answer"
 #~ msgstr "Może  wybierać odpowiedź"

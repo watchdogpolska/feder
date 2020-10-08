@@ -1,4 +1,5 @@
 from dal import autocomplete
+from django.utils.translation import ugettext_lazy as _
 
 from teryt_tree.dal_ext.filters import VoivodeshipFilter, CountyFilter, CommunityFilter
 from feder.main.mixins import DisabledWhenFilterMixin
@@ -22,6 +23,7 @@ class DisabledWhenCountyFilter(DisabledWhenFilterMixin, CountyFilter):
             ),
         )
         kwargs.setdefault("disabled_when", ["community"])
+        kwargs.setdefault("label", _("County"))
         super().__init__(*args, **kwargs)
 
 
