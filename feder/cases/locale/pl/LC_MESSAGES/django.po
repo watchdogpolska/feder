@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cases 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-07 20:39+0000\n"
+"POT-Creation-Date: 2020-10-08 15:10+0000\n"
 "PO-Revision-Date: 2018-02-28 01:34+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -22,14 +22,6 @@ msgstr ""
 #: filters.py:15
 msgid "Creation date"
 msgstr "Data utworzenia"
-
-#: filters.py:17
-msgid "County"
-msgstr "Powiat"
-
-#: filters.py:18
-msgid "Community"
-msgstr "Gmina"
 
 #: filters.py:23 models.py:65
 msgid "Name"
@@ -131,6 +123,12 @@ msgstr "^~autocomplete-szukaj$"
 #: views.py:25
 msgid "Case index"
 msgstr "Wykaz spraw"
+
+#~ msgid "Community"
+#~ msgstr "Gmina"
+
+#~ msgid "County"
+#~ msgstr "Powiat"
 
 #~ msgid "Record count (descending)"
 #~ msgstr "Liczba listów (malejąco)"

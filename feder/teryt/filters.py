@@ -36,4 +36,5 @@ class DisabledWhenCommunityFilter(DisabledWhenFilterMixin, CommunityFilter):
             ),
         )
         kwargs.setdefault("disabled_when", [])
+        kwargs.setdefault("label", _("Community"))
         super().__init__(*args, **kwargs)
