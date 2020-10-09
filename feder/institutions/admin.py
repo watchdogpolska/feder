@@ -9,7 +9,7 @@ from .models import Institution, Tag
 @admin.register(Institution)
 class InstitutionAdmin(VersionAdmin):
     """
-        Admin View for Institution
+    Admin View for Institution
     """
 
     list_display = ("name", "jst", "email")

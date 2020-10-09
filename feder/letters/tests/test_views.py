@@ -87,7 +87,8 @@ class LetterDetailViewTestCase(ESMixin, ObjectMixin, PermissionStatusMixin, Test
             self.client.get(self.get_url()), attachment.get_absolute_url()
         )
         AttachmentRequestFactory(
-            content_object=attachment, status=ScanRequest.STATUS.not_detected,
+            content_object=attachment,
+            status=ScanRequest.STATUS.not_detected,
         )
         self.assertContains(
             self.client.get(self.get_url()), attachment.get_absolute_url()
