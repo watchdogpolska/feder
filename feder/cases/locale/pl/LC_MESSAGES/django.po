@@ -124,12 +124,6 @@ msgstr "^~autocomplete-szukaj$"
 msgid "Case index"
 msgstr "Wykaz spraw"
 
-#~ msgid "Community"
-#~ msgstr "Gmina"
-
-#~ msgid "County"
-#~ msgstr "Powiat"
-
 #~ msgid "Record count (descending)"
 #~ msgstr "Liczba listów (malejąco)"
 
