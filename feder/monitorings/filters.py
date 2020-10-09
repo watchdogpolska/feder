@@ -13,7 +13,7 @@ class MonitoringFilter(django_filters.FilterSet):
     created = django_filters.DateRangeFilter(label=_("Creation date"))
     voivodeship = DisabledWhenVoivodeshipFilter()
     county = DisabledWhenCountyFilter()
-    community = DisabledWhenCommunityFilter(label=_("Community"))
+    community = DisabledWhenCommunityFilter()
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
