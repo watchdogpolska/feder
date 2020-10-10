@@ -63,8 +63,7 @@ class PermissionStatusMixin:
         return self.permission
 
     def get_permission_object(self):
-        """Returns object of permission-carrying object for grant permission
-        """
+        """Returns object of permission-carrying object for grant permission"""
         return getattr(self, "permission_object", None)
 
     def grant_permission(self):
@@ -78,16 +77,12 @@ class PermissionStatusMixin:
             assign_perm(perm, self.user, obj)
 
     def login_permitted_user(self):
-        """Login client to user with granted permissions
-
-        """
+        """Login client to user with granted permissions"""
         self.grant_permission()
         self.client.login(username="john", password="pass")
 
     def test_status_code_for_anonymous_user(self):
-        """A test status code of response for anonymous user
-
-        """
+        """A test status code of response for anonymous user"""
         response = self.client.get(self.get_url())
         self.assertEqual(response.status_code, self.status_anonymous)
 

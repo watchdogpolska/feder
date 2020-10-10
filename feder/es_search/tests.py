@@ -102,7 +102,9 @@ class IndexLetterTestCase(ESMixin, TestCase):
 
     def test_search_more_like_this_by_attachment(self):
         letter_a = AttachmentFactory(attachment__text=self.text).letter
-        letter_b = AttachmentFactory(attachment__text=self.text,).letter
+        letter_b = AttachmentFactory(
+            attachment__text=self.text,
+        ).letter
         self.index([letter_a, letter_b])
 
         doc = find_document(letter_a.pk)
