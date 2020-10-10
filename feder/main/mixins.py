@@ -64,8 +64,7 @@ class ExtraListMixin:
 
 
 class RaisePermissionRequiredMixin(LoginRequiredMixin, PermissionRequiredMixin):
-    """Mixin to verify object permission with preserve correct status code in view
-    """
+    """Mixin to verify object permission with preserve correct status code in view"""
 
     raise_exception = True
     redirect_unauthenticated_users = True
@@ -132,9 +131,12 @@ class DisabledWhenFilterSetMixin(django_filters.filterset.BaseFilterSet):
             if not enabled_test(self.form.cleaned_data):
                 continue
             queryset = self.filters[name].filter(queryset, value)
-            assert isinstance(queryset, models.QuerySet), (
-                "Expected '%s.%s' to return a QuerySet, but got a %s instead."
-                % (type(self).__name__, name, type(queryset).__name__)
+            assert isinstance(
+                queryset, models.QuerySet
+            ), "Expected '{}.{}' to return a QuerySet, but got a {} instead.".format(
+                type(self).__name__,
+                name,
+                type(queryset).__name__,
             )
         return queryset
 

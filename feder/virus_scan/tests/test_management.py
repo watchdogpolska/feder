@@ -33,7 +33,8 @@ class VirusScanCommandTestCase(TestCase):
         request = AttachmentRequestFactory(content_object__attachment__data=EICAR_TEST)
         stdout = StringIO()
         call_command(
-            "virus_scan", stdout=stdout,
+            "virus_scan",
+            stdout=stdout,
         )
         request.refresh_from_db()
         if request.status == Request.STATUS.queued:
@@ -49,7 +50,8 @@ class VirusScanCommandTestCase(TestCase):
         request = AttachmentRequestFactory(content_object__attachment__data="zółć.docx")
         stdout = StringIO()
         call_command(
-            "virus_scan", stdout=stdout,
+            "virus_scan",
+            stdout=stdout,
         )
         request.refresh_from_db()
         if request.status == Request.STATUS.queued:
@@ -64,7 +66,9 @@ class VirusScanCommandTestCase(TestCase):
 
         for _ in range(round(timeout / delay)):
             call_command(
-                "virus_scan", "--skip-send", stdout=stdout,
+                "virus_scan",
+                "--skip-send",
+                stdout=stdout,
             )
             obj.refresh_from_db()
             if obj.status != initial_state:
@@ -80,7 +84,9 @@ class VirusScanCommandTestCase(TestCase):
         )
         stdout = StringIO()
         call_command(
-            "virus_scan", "--skip-receive", stdout=stdout,
+            "virus_scan",
+            "--skip-receive",
+            stdout=stdout,
         )
         request.refresh_from_db()
         self.assertEqual(request.status, Request.STATUS.queued)
@@ -92,7 +98,8 @@ class VirusScanCommandTestCase(TestCase):
         stdout = StringIO()
         self.assertEqual(Request.objects.for_object(request.content_object).count(), 1)
         call_command(
-            "queue_virus_scan", stdout=stdout,
+            "queue_virus_scan",
+            stdout=stdout,
         )
         self.assertEqual(Request.objects.for_object(request.content_object).count(), 1)
 
@@ -101,6 +108,7 @@ class VirusScanCommandTestCase(TestCase):
         stdout = StringIO()
         self.assertEqual(Request.objects.for_object(attachment).count(), 0)
         call_command(
-            "queue_virus_scan", stdout=stdout,
+            "queue_virus_scan",
+            stdout=stdout,
         )
         self.assertEqual(Request.objects.for_object(attachment).count(), 1)
