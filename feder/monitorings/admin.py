@@ -8,7 +8,7 @@ from .models import Monitoring
 @admin.register(Monitoring)
 class MonitoringAdmin(VersionAdmin, GuardedModelAdmin):
     """
-        Admin View for Monitoring
+    Admin View for Monitoring
     """
 
     list_display = ("name", "user")

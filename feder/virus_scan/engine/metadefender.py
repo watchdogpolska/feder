@@ -44,7 +44,8 @@ class MetaDefenderEngine(BaseEngine):
 
     def receive_result(self, engine_id):
         resp = self.session.get(
-            "{}/v4/file/{}".format(self.url, engine_id), headers={"apikey": self.key},
+            "{}/v4/file/{}".format(self.url, engine_id),
+            headers={"apikey": self.key},
         )
         resp.raise_for_status()
         result = resp.json()
