@@ -32,6 +32,7 @@ Inicjalizacja bazy danych:
 
     make importterc  # wypełnienie bazy jednostek organizacyjnych
     make createsuperuser  # stworzenie konta administratora
+    make create_fake_socialapp  # utworzenie sztucznej integracji z platformą FB. Konieczne dla odblokowania ekranu logowania.
 
 Inicjalizacja jest konieczna przed pierwszym użyciem. W trakcie wywoływania komend aplikacja powinna działać w tle, tj. wcześniej
 należy wywołać komendę
@@ -39,7 +40,6 @@ należy wywołać komendę
 .. code-block:: bash
 
     docker-compose up
-
 
 Statyczna kontrola kodu
 -----------------------
@@ -69,4 +69,5 @@ W celu wykonania kontroli statycznej kodu, należy wykonać:
 Aby włączyć automatyczne sprawdzanie kodu przed stworzeniem zmiany (*commit*), należy wykonać:
 
 .. code-block:: bash
+
     pre-commit install
