@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-11 21:52+0000\n"
+"POT-Creation-Date: 2020-10-08 15:17+0000\n"
 "PO-Revision-Date: 2017-08-13 06:29+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: \n"
@@ -19,6 +19,14 @@ msgstr ""
 "%100<12 || n%100>=14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n"
 "%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
 "X-Generator: Poedit 1.8.7.1\n"
+
+#: filters.py:26
+msgid "County"
+msgstr "Powiat"
+
+#: filters.py:39
+msgid "Community"
+msgstr "Gmina"
 
 #: templates/teryt/_voivodeship_map.svg.html:20
 msgid "Subcarpathian"

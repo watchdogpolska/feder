@@ -24,7 +24,8 @@ services:
       context: .
       dockerfile: .contrib/docker/Dockerfile.web
       args:
-        PYTHON_VERSION: '${PYTHON_VERSION:-3}'
+        # Match to production environment
+        PYTHON_VERSION: '${PYTHON_VERSION:-3.6.9}'
         DJANGO_VERSION: '${DJANGO_VERSION:-==2.2.*}'
     volumes: &webVolumes
       - .:/code
