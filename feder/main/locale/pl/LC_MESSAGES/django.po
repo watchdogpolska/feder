@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: main 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-19 13:58+0000\n"
-"PO-Revision-Date: 2020-10-19 16:00+0200\n"
+"PO-Revision-Date: 2020-10-19 20:06+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -21,16 +21,16 @@ msgstr ""
 
 #: mixins.py:205
 msgid "Page number is not valid."
-msgstr ""
+msgstr "Numer trony jest nieprawidłowy."
 
 #: mixins.py:211
 #, python-format
 msgid "Invalid page (%(page_number)s): %(message)s"
-msgstr ""
+msgstr "Nieprawidłowa strona (%(page_number)s): %(message)s"
 
 #: mixins.py:223
 msgid "data"
-msgstr ""
+msgstr "dane"
 
 #: templates/_confirm_delete.html:2
 #, python-format
@@ -538,7 +538,7 @@ msgstr "^przesylki/"
 
 #: urls.py:60
 msgid "^virus_scan/"
-msgstr ""
+msgstr "^skan_wirusowy/"
 
 #~ msgid "Tasks"
 #~ msgstr "Zadania"
