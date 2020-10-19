@@ -18,7 +18,9 @@
                         </div>
                         <table class="table">
                             {% for record in case.record_set.all %}
-                                {% include record.content_template with object=record.content_object %}
+                                {% if record.content_object %}
+                                    {% include record.content_template with object=record.content_object %}
+                                {% endif %}
                             {% endfor %}
                         </table>
                     </div>

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-monitorings 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-11 21:53+0000\n"
+"POT-Creation-Date: 2020-10-09 21:12+0000\n"
 "PO-Revision-Date: 2020-07-11 23:53+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -258,7 +258,7 @@ msgstr "Potwierdz usuwanie"
 msgid "Contents"
 msgstr "Zawartość"
 
-#: templates/monitorings/monitoring_detail.html:35
+#: templates/monitorings/monitoring_detail.html:37
 #: templates/monitorings/monitoring_draft_list.html:17
 #: templates/monitorings/monitoring_letter_list.html:17
 msgid "No rows."
@@ -365,12 +365,12 @@ msgstr "^(?P<slug>[\\w-]+)/~przypisz$"
 msgid "Using field {{EMAIL}} is mandatory."
 msgstr "Użycie pola {{EMAIL}} jest obowiązkowe."
 
-#: views.py:145
+#: views.py:144
 #, python-brace-format
 msgid "{0} created!"
 msgstr "{0} utworzony!"
 
-#: views.py:215
+#: views.py:214
 #, python-brace-format
 msgid "Permissions to {monitoring} updated!"
 msgstr "Uprawnienia dla {monitoring} zaktualizowane!"

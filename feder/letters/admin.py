@@ -5,7 +5,7 @@ from .models import Letter, Attachment
 
 class AttachmentInline(admin.StackedInline):
     """
-        Stacked Inline View for Attachment
+    Stacked Inline View for Attachment
     """
 
     model = Attachment
@@ -14,7 +14,7 @@ class AttachmentInline(admin.StackedInline):
 @admin.register(Letter)
 class LetterAdmin(admin.ModelAdmin):
     """
-        Admin View for Letter
+    Admin View for Letter
     """
 
     list_display = (

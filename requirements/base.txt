@@ -13,11 +13,11 @@ django-floppyforms==1.9.0
 django-model-utils==4.0.0
 
 # Images
-Pillow==7.2.0
+Pillow==8.0.0
 
 # For user registration, either via email or social
 # Well-built with regular release cycles!
-django-allauth==0.42.0
+django-allauth==0.43.0
 
 # For the persistence stores
 mysqlclient==2.0.1
@@ -25,7 +25,7 @@ mysqlclient==2.0.1
 
 # Unicode slugification
 unicode-slugify==0.1.3
-django-autoslug==1.9.7
+django-autoslug==1.9.8
 
 # Time zones support
 pytz==2020.1
@@ -33,37 +33,34 @@ pytz==2020.1
 
 
 # Your custom requirements go here
-django-filter==2.3.0
+django-filter==2.4.0
 django-autocomplete-light==3.5.1
 django-atom==0.16.3
 django-formtools==2.2
 django-mptt==0.11.0
-# jsonfield==2.0.2
-https://github.com/dmkoch/django-jsonfield/archive/30beb147db39780477ae904ba1ba08bb84da4ff2.zip
-# pin version for following PR:
-# - https://github.com/dmkoch/django-jsonfield/pull/230
+jsonfield==3.1.0
 django-guardian==2.3.0
 django-teryt-tree==0.16.3
-cached-property==1.5.1
+cached-property==1.5.2
 django-bootstrap-pagination==1.7.1
-django-reversion==3.0.7
-djangorestframework==3.11.0
+django-reversion==3.0.8
+djangorestframework==3.12.1
 djangorestframework-csv==2.1.0
 unicodecsv==0.14.1
-tqdm==4.47.0
+tqdm==4.50.0
 djangorestframework-filters==0.11.1
 django-github-revision==0.0.3
-django-extensions==3.0.2
+django-extensions==3.0.9
 
 # Ping commit due missing cached object in <=4.7.1
 django-extra-views==0.13.0
-django-sendfile2==0.5.1
+django-sendfile2==0.6.0
 virustotal-api==1.1.11
 
 https://github.com/ross/performant-pagination/archive/5b537da95728d622792031071ecc4cb5154ec86f.zip
 # not available on pypi - see https://github.com/ross/performant-pagination/issues/5
 
 django-background-tasks==1.2.5
-django-cors-headers==3.4.0
-elasticsearch-dsl==7.2.1
+django-cors-headers==3.5.0
+elasticsearch-dsl==7.3.0
 tika==1.24
