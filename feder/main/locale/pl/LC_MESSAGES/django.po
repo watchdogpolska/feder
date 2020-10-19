@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: main 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-19 13:58+0000\n"
-"PO-Revision-Date: 2020-10-19 20:06+0200\n"
+"PO-Revision-Date: 2020-10-19 20:16+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -538,7 +538,7 @@ msgstr "^przesylki/"
 
 #: urls.py:60
 msgid "^virus_scan/"
-msgstr "^skan_wirusowy/"
+msgstr "^virus_scan/"
 
 #~ msgid "Tasks"
 #~ msgstr "Zadania"
