@@ -27,10 +27,12 @@
         <div class="red">
             <form method="GET">
                 {{ filter.form | crispy }}
-                <button type="submit" class="btn btn-primary">
+                {% block form_buttons %}
+                <button type="submit" class="btn btn-primary btn-block">
                     <i class="fa fa-search" aria-hidden="true"></i>
-                    {% trans 'Filtr' %}
+                    {% trans 'Filter' %}
                 </button>
+                {% endblock %}
             </form>
         </div>
     </div>

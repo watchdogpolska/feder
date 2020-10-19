@@ -19,6 +19,7 @@ from feder.main.mixins import ExtraListMixin
 from .filters import InstitutionFilter
 from .forms import InstitutionForm
 from .models import Institution, Tag
+from .viewsets import InstitutionPaginator
 
 _("Institutions index")
 
@@ -32,6 +33,23 @@ class InstitutionListView(SelectRelatedMixin, FilterView):
     def get_queryset(self):
         qs = super().get_queryset()
         return qs.with_case_count()
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        csv_url = reverse_lazy("institution-list") + "?format=csv&page_size={}".format(
+            InstitutionPaginator.max_page_size
+        )
+
+        for name in ("name", "tags", "regon", "voivodeship", "county", "community"):
+            api_name = "jst" if name in ("voivodeship", "county", "community") else name
+            val_list = self.request.GET.getlist(name)
+            if val_list:
+                for val in val_list:
+                    if val:
+                        csv_url += "&{name}={val}".format(name=api_name, val=val)
+
+        context["csv_url"] = csv_url
+        return context
 
 
 class InstitutionDetailView(ExtraListMixin, PrefetchRelatedMixin, DetailView):
