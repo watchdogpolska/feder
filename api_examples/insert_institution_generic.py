@@ -11,7 +11,7 @@ Requirements:
 Example usage:
 
 To run help text use:
-$ python insert_court.py -h
+$ python insert_institution_generic.py -h
 """
 
 import argparse
