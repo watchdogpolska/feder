@@ -9,6 +9,7 @@ from teryt_tree.rest_framework_ext.viewsets import custom_area_filter
 
 from .models import Institution, Tag
 from .serializers import InstitutionSerializer, TagSerializer, InstitutionCSVSerializer
+from ..main.mixins import CsvRendererViewMixin
 
 
 class InstitutionFilter(filters.FilterSet):
@@ -60,13 +61,12 @@ class InstitutionCSVRenderer(CSVStreamingRenderer):
 
 
 class InstitutionPaginator(PageNumberPagination):
-    max_page_size = (
-        10000  # increased maximum page size to allow export to CSV without pagination
-    )
+    # increased maximum page size to allow export to CSV without pagination
+    max_page_size = 10000
     page_size_query_param = "page_size"
 
 
-class InstitutionViewSet(viewsets.ModelViewSet):
+class InstitutionViewSet(CsvRendererViewMixin, viewsets.ModelViewSet):
     queryset = (
         Institution.objects.with_voivodeship()
         .select_related("jst__category")
@@ -80,11 +80,10 @@ class InstitutionViewSet(viewsets.ModelViewSet):
     )
     pagination_class = InstitutionPaginator
 
-    def get_serializer_class(self):
-        if isinstance(self.request.accepted_renderer, InstitutionCSVRenderer):
-            return InstitutionCSVSerializer
-        else:
-            return InstitutionSerializer
+    # custom attributes:
+    csv_serializer = InstitutionCSVSerializer
+    default_serializer = InstitutionSerializer
+    csv_file_name = _("institutions")
 
 
 class TagViewSet(viewsets.ModelViewSet):

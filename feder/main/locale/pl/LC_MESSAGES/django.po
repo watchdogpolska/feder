@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: main 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-21 00:58+0000\n"
-"PO-Revision-Date: 2018-10-21 02:59+0200\n"
+"POT-Creation-Date: 2020-10-19 13:58+0000\n"
+"PO-Revision-Date: 2020-10-19 20:16+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -17,7 +17,20 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 2.0.6\n"
+
+#: mixins.py:205
+msgid "Page number is not valid."
+msgstr "Numer trony jest nieprawidłowy."
+
+#: mixins.py:211
+#, python-format
+msgid "Invalid page (%(page_number)s): %(message)s"
+msgstr "Nieprawidłowa strona (%(page_number)s): %(message)s"
+
+#: mixins.py:223
+msgid "data"
+msgstr "dane"
 
 #: templates/_confirm_delete.html:2
 #, python-format
@@ -28,12 +41,12 @@ msgstr "Czy na pewno chcesz usunąć \"%(object)s\"?"
 msgid "Delete"
 msgstr "Usuń"
 
-#: templates/_filter.html:16 templates/main/home.html:23
+#: templates/_filter.html:15 templates/main/home.html:23
 msgid "No rows."
 msgstr "Brak wierszy"
 
-#: templates/_filter.html:31
-msgid "Filtr"
+#: templates/_filter.html:33
+msgid "Filter"
 msgstr "Filtruj"
 
 #: templates/account/_social.html:6
@@ -287,7 +300,7 @@ msgid "Signup"
 msgstr "Zarejestruj się"
 
 #: templates/account/signup.html:10 templates/account/signup.html:22
-#: templates/base.html:112
+#: templates/base.html:111
 msgid "Sign Up"
 msgstr "Zarejestuj się"
 
@@ -368,72 +381,67 @@ msgstr ""
 "<strong>Uwaga:</strong> możesz ciągle <a href=\"%(email_url)s\">zmienić swój "
 "adres e-mail</a>."
 
-#: templates/base.html:7 templates/base.html:42
+#: templates/base.html:7 templates/base.html:53
 msgid "Civil data mining"
 msgstr "Obywatelskie fedrowanie danych"
 
-#: templates/base.html:34
+#: templates/base.html:45
 msgid "Toggle navigation"
 msgstr "Przełącz nawigacje"
 
-#: templates/base.html:51
+#: templates/base.html:62
 msgid "Homepage"
 msgstr "Strona główna"
 
-#: templates/base.html:58
+#: templates/base.html:69
 msgid "Search"
 msgstr "Szukaj"
 
-#: templates/base.html:65
+#: templates/base.html:76
 msgid "Cases"
 msgstr "Sprawy"
 
-#: templates/base.html:71
+#: templates/base.html:82
 msgid "Monitorings"
 msgstr "Monitoringi"
 
-#: templates/base.html:77
+#: templates/base.html:88
 msgid "Letters"
 msgstr "Listy"
 
-#: templates/base.html:83
+#: templates/base.html:94
 msgid "Institutions"
 msgstr "Instytucje"
 
-
-#: templates/base.html:94
-msgid "Tasks"
-msgstr "Zadania"
-
-#: templates/base.html:101
+#: templates/base.html:100
 msgid "Information about the site you are currently visiting"
 msgstr "Informacje o stronie którą właśnie odwiedzasz"
 
-#: templates/base.html:102
+#: templates/base.html:101
 msgid "About page"
 msgstr "O stronie"
 
-#: templates/base.html:109
+#: templates/base.html:108
 msgid "My Profile"
 msgstr "Mój profil"
 
-#: templates/base.html:110
+#: templates/base.html:109
 msgid "Logout"
 msgstr "Wyloguj"
 
-#: templates/base.html:113
+#: templates/base.html:112
 msgid "Log In"
 msgstr "Zaloguj"
 
-#: templates/base.html:149
+#: templates/base.html:148
 msgid "This site uses cookies."
 msgstr "Ta strona wykorzystuje cookies."
 
-#: templates/base.html:167
+#: templates/base.html:166
 msgid "Show quote"
 msgstr "Pokaż cytat"
 
-#: templates/base.html:168
+#: templates/base.html:167
 msgid "Hide quote"
 msgstr "Ukryj cytat"
 
@@ -484,53 +492,59 @@ msgstr ""
 msgid "Add a 3rd Party Account"
 msgstr "Dodaj konto zewnętrzne"
 
-#: urls.py:42
+#: urls.py:33
 msgid "^$"
 msgstr "^$"
 
-#: urls.py:46
+#: urls.py:37
 msgid "^about/$"
 msgstr "^o-stronie/"
 
-#: urls.py:52
+#: urls.py:44
 msgid "^users/"
 msgstr "^uzytkownik/"
 
-#: urls.py:56
+#: urls.py:48
 msgid "^institutions/"
 msgstr "^instytucje/"
 
-#: urls.py:57
+#: urls.py:52
 msgid "^monitorings/"
 msgstr "^monitoringi/"
 
-#: urls.py:58
+#: urls.py:54
 msgid "^cases/"
 msgstr "^sprawy/"
 
-#: urls.py:60
-msgid "^questionaries/"
-msgstr "^kwestionariusze/"
-
-#: urls.py:61
+#: urls.py:55
 msgid "^alerts/"
 msgstr "^alerty/"
 
-#: urls.py:62
+#: urls.py:56
 msgid "^letters/"
 msgstr "^listy/"
 
-#: urls.py:63
+#: urls.py:57
 msgid "^teryt/"
 msgstr "^jst/"
 
-#: urls.py:64
+#: urls.py:58
 msgid "^letters/logs/"
 msgstr "^listy/logi/"
 
-#: urls.py:65
+#: urls.py:59
 msgid "^parcels/"
 msgstr "^przesylki/"
+
+#: urls.py:60
+msgid "^virus_scan/"
+msgstr "^virus_scan/"
+
+#~ msgid "Tasks"
+#~ msgstr "Zadania"
+
+#~ msgid "^questionaries/"
+#~ msgstr "^kwestionariusze/"
 
 #~ msgid "Social media assist"
 #~ msgstr "Wsparcie mediów społecznościowcyh"

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-institutions 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-07 23:16+0000\n"
-"PO-Revision-Date: 2020-08-08 01:17+0200\n"
+"POT-Creation-Date: 2020-10-19 13:55+0000\n"
+"PO-Revision-Date: 2020-10-19 15:44+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -23,7 +23,7 @@ msgstr ""
 msgid "Institution count"
 msgstr "Liczba instytucji"
 
-#: filters.py:27 models.py:30 models.py:85 viewsets.py:42
+#: filters.py:27 models.py:30 models.py:85 viewsets.py:43
 msgid "Name"
 msgstr "Nazwa"
 
@@ -43,7 +43,7 @@ msgstr "Tag"
 msgid "Unit of administrative division"
 msgstr "Jednostka podziału terytorialnego"
 
-#: models.py:41 viewsets.py:44
+#: models.py:41 viewsets.py:45
 msgid "REGON number"
 msgstr "Kod REGON"
 
@@ -51,7 +51,7 @@ msgstr "Kod REGON"
 msgid "Parent institutions"
 msgstr "Instytucja nadrzędna"
 
-#: models.py:50 viewsets.py:43
+#: models.py:50 viewsets.py:44
 msgid "Email of institution"
 msgstr "Adres e-mail instytucji"
 
@@ -71,6 +71,10 @@ msgstr "Edycja"
 #: templates/institutions/_btn.html:13
 msgid "Delete"
 msgstr "Usuń"
+
+#: templates/institutions/_filter_form.html:8
+msgid "Download as CSV"
+msgstr "Pobierz jako CSV"
 
 #: templates/institutions/_institution_small.html:13
 msgid "Case count"
@@ -149,41 +153,45 @@ msgstr "^~autocomplete$"
 msgid "^~autocomplete-tag$"
 msgstr "^~autocomplete-tag$"
 
-#: views.py:23
+#: views.py:24
 msgid "Institutions index"
 msgstr "Wykaz instytucji"
 
-#: viewsets.py:41
+#: viewsets.py:42
 msgid "Id"
 msgstr "Id"
 
-#: viewsets.py:45
+#: viewsets.py:46
 msgid "JST id"
 msgstr "JST id"
-
-#: viewsets.py:46
-msgid "JST name"
-msgstr "JST nazwa"
 
 #: viewsets.py:47
 msgid "JST category"
 msgstr "JST kategoria"
 
 #: viewsets.py:48
+msgid "JST name"
+msgstr "JST nazwa"
+
+#: viewsets.py:49
 msgid "JST voivodeship"
 msgstr "JST Województwo"
 
-#: viewsets.py:49
+#: viewsets.py:50
 msgid "Created"
 msgstr "Dodany"
 
-#: viewsets.py:50
+#: viewsets.py:51
 msgid "Modified"
 msgstr "Zmieniony"
 
-#: viewsets.py:51
+#: viewsets.py:52
 msgid "Tag names"
 msgstr "Nazwy tagów"
+
+#: viewsets.py:86
+msgid "institutions"
+msgstr "instytucje"
 
 #~ msgid "Primary key"
 #~ msgstr "Klucz główny"

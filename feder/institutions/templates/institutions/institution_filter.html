@@ -14,5 +14,5 @@
 {% endblock %}
 
 {% block content %}
-    {% include '_filter.html' with pager=pager title='Institutions index' form=filter.form object_list=object_list object_template='institutions/_institution_small.html' %}
+    {% include 'institutions/_filter_form.html' with pager=pager title='Institutions index' form=filter.form object_list=object_list object_template='institutions/_institution_small.html' %}
 {% endblock %}
