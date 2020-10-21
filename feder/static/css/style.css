@@ -7473,3 +7473,7 @@ button.close {
   border-radius: 15px;
   padding: 1px 5px;
   font-size: 0.8em; }
+
+.scrollable-widget {
+  max-height: 400px;
+  overflow-y: scroll; }

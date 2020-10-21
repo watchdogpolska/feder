@@ -39,6 +39,9 @@ services:
       METADEFENDER_API_KEY:
     ports:
       - "8000:8000"
+    # Uncomment following to enable debug in development:
+    # stdin_open: true
+    # tty: true
 
   worker:
     command: python manage.py process_tasks
