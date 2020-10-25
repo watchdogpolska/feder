@@ -25,15 +25,15 @@ wait_web: wait_mysql wait_elasticsearch wait_tika
 
 wait_mysql:
 	docker-compose up -d db
-	docker-compose run web bash -c 'wait-for-it -t 30 db:3306' || docker-compose logs db
+	docker-compose run web bash -c 'wait-for-it -t 30 db:3306' || (docker-compose logs db; exit -1)
 
 wait_elasticsearch:
 	docker-compose up -d elasticsearch
-	docker-compose run web bash -c 'wait-for-it -t 30 elasticsearch:9200' || docker-compose logs elasticsearch
+	docker-compose run web bash -c 'wait-for-it -t 30 elasticsearch:9200' || (docker-compose logs elasticsearch; exit -1)
 
 wait_tika:
 	docker-compose up -d tika
-	docker-compose run web bash -c 'wait-for-it -t 60 tika:9998' || docker-compose logs tika
+	docker-compose run web bash -c 'wait-for-it -t 60 tika:9998' || (docker-compose logs tika; exit -1)
 
 migrate:
 	docker-compose run web python manage.py migrate
