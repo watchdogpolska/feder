@@ -33,7 +33,7 @@ wait_elasticsearch:
 
 wait_tika:
 	docker-compose up -d tika
-	docker-compose run web bash -c 'wait-for-it -t 30 tika:9998'
+	docker-compose run web bash -c 'wait-for-it -t 60 tika:9998'
 
 migrate:
 	docker-compose run web python manage.py migrate
