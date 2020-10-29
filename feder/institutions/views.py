@@ -16,10 +16,10 @@ from django_filters.views import FilterView
 
 from feder.cases.models import Case
 from feder.main.mixins import ExtraListMixin
+from feder.main.paginator import DefaultPagination
 from .filters import InstitutionFilter
 from .forms import InstitutionForm
 from .models import Institution, Tag
-from .viewsets import InstitutionPaginator
 
 _("Institutions index")
 
@@ -37,7 +37,7 @@ class InstitutionListView(SelectRelatedMixin, FilterView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         csv_url = reverse_lazy("institution-list") + "?format=csv&page_size={}".format(
-            InstitutionPaginator.max_page_size
+            DefaultPagination.max_page_size
         )
 
         for name in ("name", "tags", "regon", "voivodeship", "county", "community"):
