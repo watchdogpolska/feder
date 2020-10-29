@@ -123,7 +123,7 @@ class TagAutocomplete(autocomplete.Select2QuerySetView):
         qs = Tag.objects.annotate(institution_count=Count("institution"))
         if self.q:
             qs = qs.filter(name__icontains=self.q)
-        return qs.order_by("name").all()
+        return qs
 
     def get_result_label(self, result):
         return "%s (%d)" % (str(result), result.institution_count)
