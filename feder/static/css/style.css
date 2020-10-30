@@ -7477,3 +7477,8 @@ button.close {
 .scrollable-widget {
   max-height: 400px;
   overflow-y: scroll; }
+
+.checkbox-utils button.btn {
+  display: block;
+  float: right;
+  margin-left: 10px; }
