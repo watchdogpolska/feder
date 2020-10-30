@@ -12146,7 +12146,7 @@ return jQuery;
 
 /**
  * Adds additional utility buttons to form groups having "checkbox-utils" class
- * which allows to select unselect all choices in CheckboxSelectMultiple widgets.
+ * which allows user to select unselect all options in CheckboxSelectMultiple widgets.
  */
 $(function () {
     var $inputs = $('.checkbox-utils');
