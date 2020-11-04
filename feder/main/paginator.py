@@ -3,6 +3,8 @@ from django.core.paginator import InvalidPage
 from performant_pagination.pagination import PerformantPaginator, PerformantPage
 import binascii
 
+from rest_framework.pagination import PageNumberPagination
+
 
 class ModernPerformantPaginator(PerformantPaginator):
     def validate_number(self, number):
@@ -65,3 +67,9 @@ class ModernPerformantPaginator(PerformantPaginator):
                 previous_token = ""
 
         return PerformantPage(self, object_list, previous_token, token, next_token)
+
+
+class DefaultPagination(PageNumberPagination):
+    # increased maximum page size to allow export to CSV without pagination
+    max_page_size = 10000
+    page_size_query_param = "page_size"
