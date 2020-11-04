@@ -10,6 +10,7 @@ from braces.views import (
 from dal import autocomplete
 from django.urls import reverse_lazy
 from django.db.models import Count
+from django.utils.http import urlencode
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
 from django_filters.views import FilterView
@@ -35,10 +36,8 @@ class InstitutionListView(SelectRelatedMixin, FilterView):
         return qs.with_case_count()
 
     def get_context_data(self, *args, **kwargs):
+        params = [["format", "csv"], ["page_size", DefaultPagination.max_page_size]]
         context = super().get_context_data(*args, **kwargs)
-        csv_url = reverse_lazy("institution-list") + "?format=csv&page_size={}".format(
-            DefaultPagination.max_page_size
-        )
 
         for name in ("name", "tags", "regon", "voivodeship", "county", "community"):
             api_name = "jst" if name in ("voivodeship", "county", "community") else name
@@ -46,9 +45,11 @@ class InstitutionListView(SelectRelatedMixin, FilterView):
             if val_list:
                 for val in val_list:
                     if val:
-                        csv_url += "&{name}={val}".format(name=api_name, val=val)
+                        params.append([api_name, val])
 
-        context["csv_url"] = csv_url
+        context["csv_url"] = "{}?{}".format(
+            reverse_lazy("institution-list"), urlencode(params)
+        )
         return context
 
 
@@ -123,7 +124,7 @@ class TagAutocomplete(autocomplete.Select2QuerySetView):
         qs = Tag.objects.annotate(institution_count=Count("institution"))
         if self.q:
             qs = qs.filter(name__icontains=self.q)
-        return qs.order_by("-institution_count").all()
+        return qs
 
     def get_result_label(self, result):
         return "%s (%d)" % (str(result), result.institution_count)

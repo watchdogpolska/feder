@@ -155,3 +155,11 @@ $gray: #F0F0F0;
   max-height: 400px;
   overflow-y: scroll;
 }
+
+.checkbox-utils {
+  button.btn {
+    display: block;
+    float: right;
+    margin-left: 10px;
+  }
+}
