@@ -1,4 +1,4 @@
-FROM node:10
+FROM node:12
 WORKDIR /app
 VOLUME /app
 CMD ["bash","-c", "npm install && npm rebuild node-sass && npx gulp build"]
