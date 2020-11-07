@@ -16,5 +16,7 @@ jobs:
         git diff-index --quiet HEAD -- feder/static/ package*.json || (
           echo "Pending changes in the front-end have been detected.";
           echo "Use 'make regenerate_frontend' to regenerate front-end and commit changes.";
+          echo "Following changes pending:";
+          git diff;
           exit 1;
         )
