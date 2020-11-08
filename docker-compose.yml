@@ -24,7 +24,8 @@ services:
       context: .
       dockerfile: .contrib/docker/Dockerfile.web
       args:
-        PYTHON_VERSION: '${PYTHON_VERSION:-3}'
+        # Match to production environment
+        PYTHON_VERSION: '${PYTHON_VERSION:-3.6.9}'
         DJANGO_VERSION: '${DJANGO_VERSION:-==2.2.*}'
     volumes: &webVolumes
       - .:/code
@@ -38,6 +39,10 @@ services:
       METADEFENDER_API_KEY:
     ports:
       - "8000:8000"
+    # Following allows to execute `docker attach feder_web_1`
+    # necessary when using ipdb in development:
+    stdin_open: true
+    tty: true
 
   worker:
     command: python manage.py process_tasks

@@ -23,7 +23,7 @@ from feder.teryt.sitemaps import JSTSitemap
 from . import views
 
 router = routers.DefaultRouter()
-router.register(r"institutions", InstitutionViewSet)
+router.register(r"institutions", InstitutionViewSet, basename="institution")
 router.register(r"tags", TagViewSet)
 router.register(r"teryt", JednostkaAdministracyjnaViewSet)
 router.register(r"records", RecordViewSet)

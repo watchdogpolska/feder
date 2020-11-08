@@ -513,7 +513,8 @@ class AttachmentRequestCreateView(ActionMessageMixin, ActionView):
 
     def action(self):
         ScanRequest.objects.create(
-            content_object=self.object, field_name="attachment",
+            content_object=self.object,
+            field_name="attachment",
         )
 
     def get_success_message(self):

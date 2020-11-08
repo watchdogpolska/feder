@@ -150,3 +150,16 @@ $gray: #F0F0F0;
   padding: 1px 5px;
   font-size: 0.8em;
 }
+
+.scrollable-widget {
+  max-height: 400px;
+  overflow-y: scroll;
+}
+
+.checkbox-utils {
+  button.btn {
+    display: block;
+    float: right;
+    margin-left: 10px;
+  }
+}

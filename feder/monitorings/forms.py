@@ -1,4 +1,4 @@
-from atom.ext.crispy_forms.forms import SingleButtonMixin
+from atom.ext.crispy_forms.forms import SingleButtonMixin, HelperMixin
 from atom.ext.guardian.forms import TranslatedUserObjectPermissionsForm
 from braces.forms import UserKwargModelFormMixin
 from crispy_forms.layout import Layout, Fieldset
@@ -42,9 +42,17 @@ class SelectUserForm(forms.Form):
     )
 
 
-class CheckboxTranslatedUserObjectPermissionsForm(TranslatedUserObjectPermissionsForm):
+class CheckboxTranslatedUserObjectPermissionsForm(
+    HelperMixin, TranslatedUserObjectPermissionsForm
+):
     def get_obj_perms_field_widget(self):
         return forms.CheckboxSelectMultiple
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper.layout = Layout(
+            Fieldset("", "permissions", css_class="form-group checkbox-utils"),
+        )
 
 
 class SaveTranslatedUserObjectPermissionsForm(

@@ -287,7 +287,7 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.BasicAuthentication",
         "rest_framework.authentication.SessionAuthentication",
     ),
-    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "DEFAULT_PAGINATION_CLASS": "feder.main.paginator.DefaultPagination",
     "PAGE_SIZE": 100,
     "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
 }
@@ -335,7 +335,7 @@ METADEFENDER_API_URL = env(
     "METADEFENDER_API_URL", default="https://api.metadefender.com"
 )
 
-CORS_ORIGIN_WHITELIST = [
+CORS_ALLOWED_ORIGINS = [
     "https://sprawdzamyjakjest.pl",
     "https://demo.sprawdzamyjakjest.pl",
     "https://sjj.127.0.0.1.xip.io",

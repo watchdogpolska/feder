@@ -8,6 +8,8 @@ from django.views.generic.detail import BaseDetailView
 from guardian.mixins import PermissionRequiredMixin
 from django_sendfile import sendfile
 from django.core.paginator import InvalidPage
+from rest_framework_csv.renderers import CSVRenderer
+
 from .paginator import ModernPerformantPaginator
 from django.http import Http404
 from django.utils.translation import ugettext as _
@@ -64,8 +66,7 @@ class ExtraListMixin:
 
 
 class RaisePermissionRequiredMixin(LoginRequiredMixin, PermissionRequiredMixin):
-    """Mixin to verify object permission with preserve correct status code in view
-    """
+    """Mixin to verify object permission with preserve correct status code in view"""
 
     raise_exception = True
     redirect_unauthenticated_users = True
@@ -132,9 +133,12 @@ class DisabledWhenFilterSetMixin(django_filters.filterset.BaseFilterSet):
             if not enabled_test(self.form.cleaned_data):
                 continue
             queryset = self.filters[name].filter(queryset, value)
-            assert isinstance(queryset, models.QuerySet), (
-                "Expected '%s.%s' to return a QuerySet, but got a %s instead."
-                % (type(self).__name__, name, type(queryset).__name__)
+            assert isinstance(
+                queryset, models.QuerySet
+            ), "Expected '{}.{}' to return a QuerySet, but got a {} instead.".format(
+                type(self).__name__,
+                name,
+                type(queryset).__name__,
             )
         return queryset
 
@@ -213,3 +217,30 @@ class PerformantPagintorMixin:
         context = {"pager": "performant"}
         context.update(kwargs)
         return super().get_context_data(**context)
+
+
+class CsvRendererViewMixin:
+    csv_file_name = _("data")
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for attr_name in ("csv_serializer", "default_serializer"):
+            if not hasattr(self, attr_name):
+                raise ImproperlyConfigured(
+                    "{} attribute is required by CsvRendererViewMixin "
+                    "on {}.".format(attr_name, self.__class__)
+                )
+
+    def get_serializer_class(self):
+        if isinstance(self.request.accepted_renderer, CSVRenderer):
+            return self.csv_serializer
+        else:
+            return self.default_serializer
+
+    def finalize_response(self, request, response, *args, **kwargs):
+        response = super().finalize_response(request, response, *args, **kwargs)
+        if isinstance(self.request.accepted_renderer, CSVRenderer):
+            response["Content-Disposition"] = "attachment; filename={}.csv".format(
+                self.csv_file_name
+            )
+        return response
