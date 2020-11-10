@@ -1,4 +1,4 @@
-#!/bin/python2.7
+#!/bin/python
 """
 A tool to insert institutions from CSV files.
 
@@ -264,7 +264,7 @@ class Command:
                     regon_data["adsiedzgmina_symbol"],
                 ]
             )
-            if normalize_jst(jst) != normalize_jst(terc):
+            if jst and normalize_jst(jst) != normalize_jst(terc):
                 print(
                     'Warning! Row JST: "{}" differs from GUS JST: "{}" '
                     'for institution "{}"'.format(jst, terc, data["name"])
