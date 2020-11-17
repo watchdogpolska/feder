@@ -2,7 +2,6 @@ import django_filters
 from django.utils.translation import ugettext_lazy as _
 from django_filters import rest_framework as filters
 from rest_framework import viewsets
-from rest_framework.pagination import PageNumberPagination
 from rest_framework.settings import api_settings
 from rest_framework_csv.renderers import CSVStreamingRenderer
 from teryt_tree.rest_framework_ext.viewsets import custom_area_filter
@@ -60,12 +59,6 @@ class InstitutionCSVRenderer(CSVStreamingRenderer):
         return super().render(data, *args, **kwargs)
 
 
-class InstitutionPaginator(PageNumberPagination):
-    # increased maximum page size to allow export to CSV without pagination
-    max_page_size = 10000
-    page_size_query_param = "page_size"
-
-
 class InstitutionViewSet(CsvRendererViewMixin, viewsets.ModelViewSet):
     queryset = (
         Institution.objects.with_voivodeship()
@@ -78,7 +71,6 @@ class InstitutionViewSet(CsvRendererViewMixin, viewsets.ModelViewSet):
     renderer_classes = tuple(api_settings.DEFAULT_RENDERER_CLASSES) + (
         InstitutionCSVRenderer,
     )
-    pagination_class = InstitutionPaginator
 
     # custom attributes:
     csv_serializer = InstitutionCSVSerializer

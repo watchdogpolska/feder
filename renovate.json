@@ -17,5 +17,8 @@
   ],
   "pip_requirements": {
     "fileMatch": ["requirements/.+?.txt"]
+  },
+  "dockerfile": {
+    "fileMatch": ["^.contrib/docker/Dockerfile\\..*$"]
   }
 }
