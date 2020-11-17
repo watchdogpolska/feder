@@ -116,7 +116,7 @@ class InstitutionAutocomplete(autocomplete.Select2QuerySetView):
         qs = Institution.objects
         if self.q:
             qs = qs.filter(name__icontains=self.q)
-        return qs.all()
+        return qs.all().order_by("name")
 
 
 class TagAutocomplete(autocomplete.Select2QuerySetView):
