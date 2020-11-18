@@ -553,9 +553,9 @@ class ReceiveEmail(View):
             record=Record.objects.create(case=case),
             title=headers["subject"],
             body=text["content"],
-            html_body=text.get("html_content"),
+            html_body=text.get("html_content", ""),
             quote=text["quote"],
-            html_quote=text.get("html_quote"),
+            html_quote=text.get("html_quote", ""),
             eml=eml_file,
             is_draft=False,
         )
