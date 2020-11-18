@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-11 21:54+0000\n"
+"POT-Creation-Date: 2020-11-18 14:43+0000\n"
 "PO-Revision-Date: 2017-09-20 20:27+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: \n"
@@ -19,107 +19,107 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.8.7.1\n"
 
-#: apps.py:7
+#: logs/apps.py:7
 msgid "Logs of letter"
 msgstr "Dziennik listów"
 
-#: models.py:16
+#: logs/models.py:16
 msgid "Open"
 msgstr "Otwarty"
 
-#: models.py:17
+#: logs/models.py:17
 msgid "Delivered"
 msgstr "Dostarczony"
 
-#: models.py:18
+#: logs/models.py:18
 msgid "Spam-bounce"
 msgstr "Odrzucony z powodu spamu"
 
-#: models.py:19
+#: logs/models.py:19
 msgid "Soft-bounce"
 msgstr "Miękko odrzucony"
 
-#: models.py:20
+#: logs/models.py:20
 msgid "Hard-bounce"
 msgstr "Twardo odrzucony"
 
-#: models.py:21
+#: logs/models.py:21
 msgid "Dropped"
 msgstr "Porzucone"
 
-#: models.py:22
+#: logs/models.py:22
 msgid "Deferred"
 msgstr "Odroczone"
 
-#: models.py:23
+#: logs/models.py:23
 msgid "Unknown"
 msgstr "Nieznane"
 
-#: models.py:34 templates/logs/_list.html:7
+#: logs/models.py:34 logs/templates/logs/_list.html:7
 msgid "Case"
 msgstr "Sprawa"
 
-#: models.py:36 templates/logs/_list.html:9
+#: logs/models.py:36 logs/templates/logs/_list.html:9
 msgid "Letter"
 msgstr "List"
 
-#: models.py:38
+#: logs/models.py:38
 msgid "Message-ID"
 msgstr "Message-ID"
 
-#: models.py:39
+#: logs/models.py:39
 msgid "To"
 msgstr "Do"
 
-#: models.py:49 models.py:90
+#: logs/models.py:49 logs/models.py:90
 msgid "Email"
 msgstr "E-mail"
 
-#: models.py:50
+#: logs/models.py:50
 msgid "Emails"
 msgstr "E-maile"
 
-#: models.py:108
+#: logs/models.py:108
 msgid "Log record"
 msgstr "Rekord dziennika"
 
-#: models.py:109
+#: logs/models.py:109
 msgid "Log records"
 msgstr "Rekordy dziennika"
 
-#: templates/logs/_list.html:6
+#: logs/templates/logs/_list.html:6
 msgid "ID"
 msgstr "ID"
 
-#: templates/logs/_list.html:8
+#: logs/templates/logs/_list.html:8
 msgid "Status"
 msgstr "Status"
 
-#: templates/logs/_list.html:10
+#: logs/templates/logs/_list.html:10
 msgid "Records count"
 msgstr "Liczba wpisów"
 
-#: templates/logs/emaillog_list_for_case.html:29
-#: templates/logs/emaillog_list_for_monitoring.html:21
+#: logs/templates/logs/emaillog_list_for_case.html:29
+#: logs/templates/logs/emaillog_list_for_monitoring.html:21
 msgid "Logs"
 msgstr "Dziennik"
 
-#: templates/logs/emaillog_list_for_monitoring.html:36
+#: logs/templates/logs/emaillog_list_for_monitoring.html:36
 msgid "Download .csv"
 msgstr "Pobierz .csv"
 
-#: urls.py:8
+#: logs/urls.py:8
 msgid "^case-(?P<case_pk>[\\d-]+)$"
 msgstr "^spraw-(?P<case_pk>[\\d-]+)$"
 
-#: urls.py:13
+#: logs/urls.py:13
 msgid "^monitoring-(?P<monitoring_pk>[\\d-]+)$"
 msgstr "^monitoring-(?P<monitoring_pk>[\\d-]+)$"
 
-#: urls.py:18
+#: logs/urls.py:18
 msgid "^monitoring-(?P<monitoring_pk>[\\d-]+)/export$"
 msgstr "^monitoring-(?P<monitoring_pk>[\\d-]+)/eksport$"
 
-#: urls.py:22
+#: logs/urls.py:22
 msgid "^log-(?P<pk>[\\d-]+)$"
 msgstr "^wpis-(?P<pk>[\\d-]+)$"

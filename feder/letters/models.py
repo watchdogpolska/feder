@@ -99,10 +99,14 @@ class Letter(AbstractRecord):
     )
     title = models.CharField(verbose_name=_("Title"), max_length=200)
     body = models.TextField(verbose_name=_("Text"))
+    html_body = models.TextField(verbose_name=_("Text in HTML"), blank=True)
     quote = models.TextField(verbose_name=_("Quote"), blank=True)
+    html_quote = models.TextField(verbose_name=_("Quote in HTML"), blank=True)
     email = models.EmailField(verbose_name=_("E-mail"), max_length=100, blank=True)
     note = models.TextField(verbose_name=_("Comments from editor"), blank=True)
-    is_spam = models.IntegerField(choices=SPAM, default=SPAM.unknown, db_index=True)
+    is_spam = models.IntegerField(
+        verbose_name=_("Is SPAM?"), choices=SPAM, default=SPAM.unknown, db_index=True
+    )
     is_draft = models.BooleanField(verbose_name=_("Is draft?"), default=True)
     mark_spam_by = models.ForeignKey(
         to=settings.AUTH_USER_MODEL,

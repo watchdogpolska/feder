@@ -7482,3 +7482,7 @@ button.close {
   display: block;
   float: right;
   margin-left: 10px; }
+
+/* Letters app */
+.letter-body {
+  margin-bottom: 20px; }

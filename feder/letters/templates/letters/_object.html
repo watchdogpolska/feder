@@ -1,9 +1,19 @@
 {% load i18n %}
-{{ object.body|linebreaks }}
+<div class="letter-body">
+    {% if object.html_body %}
+        {{ object.html_body|safe }}
+    {% else %}
+        {{ object.body|linebreaks }}
+    {% endif %}
+</div>
 
-{% if object.quote %}
+{% if object.quote or object.html_quote %}
     <blockquote class="expandable">
-        {{ object.quote|linebreaks }}
+        {% if object.html_quote %}
+            {{ object.html_quote|safe }}
+        {% else %}
+            {{ object.quote|linebreaks }}
+        {% endif %}
     </blockquote>
 {% endif %}
 

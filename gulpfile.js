@@ -107,7 +107,7 @@ gulp.task('watch', function () {
 });
 
 
-gulp.task('build', ['icons', 'js', 'scss']);
+gulp.task('build', gulp.series('icons', 'js', 'scss'));
 
-gulp.task('default', ['build', 'watch']);
+gulp.task('default', gulp.series('build', 'watch'));
 
