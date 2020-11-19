@@ -1,7 +1,9 @@
 {% load i18n %}
 <div class="letter-body">
     {% if object.html_body %}
-        {{ object.html_body|safe }}
+        <iframe srcdoc="{{ object.html_body|escape }}"
+                sandbox="allow-top-navigation">
+        </iframe>
     {% else %}
         {{ object.body|linebreaks }}
     {% endif %}
@@ -10,7 +12,10 @@
 {% if object.quote or object.html_quote %}
     <blockquote class="expandable">
         {% if object.html_quote %}
-            {{ object.html_quote|safe }}
+            <iframe srcdoc="{{ object.html_quote|escape }}"
+                    class="letter-quote"
+                    sandbox="allow-top-navigation">
+            </iframe>
         {% else %}
             {{ object.quote|linebreaks }}
         {% endif %}

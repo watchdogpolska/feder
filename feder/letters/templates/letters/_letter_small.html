@@ -2,7 +2,9 @@
 {% include 'letters/_header.html' %}
 <div class="letter-body">
     {% if object.html_body %}
-        {{ object.html_body|safe }}
+        <iframe srcdoc="{{ object.html_body|escape }}"
+                sandbox="allow-top-navigation">
+        </iframe>
     {% else %}
         {{ object.body|linebreaks }}
     {% endif %}

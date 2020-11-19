@@ -499,8 +499,21 @@ class ReceiveEmailTestCase(TestCase):
         self.assertEqual(Case.objects.count(), 0)
         self.assertEqual(letter.case, None)
 
-    def _get_body(self, case=None):
-        return {
+    def test_html_body(self):
+        body = self._get_body(html_body=True)
+
+        response = self.client.post(
+            path=self.authenticated_url,
+            data=json.dumps(body),
+            content_type="application/imap-to-webhook-v1+json",
+        )
+        letter = Letter.objects.first()
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(letter.body)
+        self.assertTrue(letter.html_body)
+
+    def _get_body(self, case=None, html_body=False):
+        body = {
             "headers": {
                 "auto_reply_type": "vacation-reply",
                 "cc": [],
@@ -516,6 +529,8 @@ class ReceiveEmailTestCase(TestCase):
                 ],
             },
             "text": {
+                # It's assumed that content is always given to webhook endpoint,
+                # otherwise endpoint will generate exception.
                 "content": "W dniach 30.07-17.08.2018 r. przebywam na urlopie.",
                 "quote": "",
             },
@@ -527,3 +542,11 @@ class ReceiveEmailTestCase(TestCase):
                 "content": "MTIzNDU=",
             },
         }
+
+        if html_body:
+            body["text"][
+                "html_content"
+            ] = "<p>W dniach <i>30.07-17.08.2018 r.</i> przebywam na urlopie.</p>"
+            body["text"]["html_quote"] = ""
+
+        return body
