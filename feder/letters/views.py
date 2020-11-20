@@ -525,7 +525,7 @@ class AttachmentRequestCreateView(ActionMessageMixin, ActionView):
 
 
 class ReceiveEmail(View):
-    required_content_type = "application/imap-to-webhook-v1+json"
+    required_content_type = "application/imap-to-webhook-v2+json"
 
     def post(self, request):
         if request.GET.get("secret") != LETTER_RECEIVE_SECRET:
