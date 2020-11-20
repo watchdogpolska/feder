@@ -471,7 +471,7 @@ class ReceiveEmailTestCase(TestCase):
         response = self.client.post(
             path=self.authenticated_url,
             data=json.dumps(body),
-            content_type="application/imap-to-webhook-v1+json",
+            content_type="application/imap-to-webhook-v2+json",
         )
         self.assertEqual(response.json()["status"], "OK")
 
@@ -492,7 +492,7 @@ class ReceiveEmailTestCase(TestCase):
         response = self.client.post(
             path=self.authenticated_url,
             data=json.dumps(body),
-            content_type="application/imap-to-webhook-v1+json",
+            content_type="application/imap-to-webhook-v2+json",
         )
         letter = Letter.objects.first()
         self.assertEqual(response.status_code, 200)
@@ -505,7 +505,7 @@ class ReceiveEmailTestCase(TestCase):
         response = self.client.post(
             path=self.authenticated_url,
             data=json.dumps(body),
-            content_type="application/imap-to-webhook-v1+json",
+            content_type="application/imap-to-webhook-v2+json",
         )
         letter = Letter.objects.first()
         self.assertEqual(response.status_code, 200)
