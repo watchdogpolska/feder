@@ -15,30 +15,59 @@ Feder
 
 Mechanizm do automatycznego wysyłania wniosków o informację do dużej liczby podmiotów, automatycznego przyjmowania odpowiedzi, udostępnienia otrzymanych odpowiedzi do analizy pod wybranym kątem przez masowo angażowanych do tego zadania obywateli oraz  upubliczniania zweryfikowanych odpowiedzi i zestawień uzyskanych danych.
 
+Testowanie w lokalnym środowisku
+--------------------------------
+
+Zbudowanie usługi:
+
+.. code-block:: bash
+
+    make build  # zbudowanie wszystkich zależności; może zająć trochę czasu przy pierwszym wywołaniu
+    make wait_web  # inicjalizacja lokalnych zależności
+    docker-compose up  # inicjalizacja samej aplikacji; po wykonaniu, aplikacja powinna być widoczna w localhost:8000
+
+Inicjalizacja bazy danych:
+
+.. code-block:: bash
+
+    make importterc  # wypełnienie bazy jednostek organizacyjnych
+    make createsuperuser  # stworzenie konta administratora
+    make create_fake_socialapp  # utworzenie sztucznej integracji z platformą FB. Konieczne dla odblokowania ekranu logowania.
+
+Inicjalizacja jest konieczna przed pierwszym użyciem. W trakcie wywoływania komend aplikacja powinna działać w tle, tj. wcześniej
+należy wywołać komendę
+
+.. code-block:: bash
+
+    docker-compose up
+
 Statyczna kontrola kodu
 -----------------------
 
 Statyczna kontrola kodu w projekcie służy do sprawdzenia, czy kod spełnia określone standardy jakości.
 
-Wszystkie sprawdzenia kodu statycznego można uruchamiać za pomocą [pre-commit run](https://pre-commit.com/). Są one
-także weryfikowane w środowisku [GitHub Actions](https://github.com/watchdogpolska/feder/actions), przy każdej
+Wszystkie sprawdzenia kodu statycznego można uruchamiać za pomocą `pre-commit run`_. Są one
+także weryfikowane w środowisku `GitHub Actions`_, przy każdej
 propozycji zmian zawartości repozytorium.
+
+.. _pre-commit run: https://pre-commit.com/
+.. _GitHub Actions: https://github.com/watchdogpolska/feder/actions
 
 W celu instalacji narzędzia do statycznej kontroli kodu, należy wykonać:
 
-```
-pip install -r requirements/dev.txt
-```
+.. code-block:: bash
+
+    pip install -r requirements/dev.txt
 
 W celu wykonania kontroli statycznej kodu, należy wykonać:
 
-```bash
-git add .
-make lint
-```
+.. code-block:: bash
 
-Aby włączyć automatyczne sprawdzanie kodu przed stworzeniem zmiany (`commit`), należy wykonać:
+    git add .
+    make lint
 
-```bash
-pre-commit install
-```
+Aby włączyć automatyczne sprawdzanie kodu przed stworzeniem zmiany (*commit*), należy wykonać:
+
+.. code-block:: bash
+
+    pre-commit install

@@ -13,7 +13,7 @@ class InstitutionAdmin(VersionAdmin):
     """
 
     list_display = ("name", "jst", "email")
-    search_fields = ["name"]
+    search_fields = ["name", "tags__name"]
     raw_id_fields = ("jst",)
 
 

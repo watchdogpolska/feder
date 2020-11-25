@@ -2,13 +2,13 @@ import django_filters
 from django.utils.translation import ugettext_lazy as _
 from django_filters import rest_framework as filters
 from rest_framework import viewsets
-from rest_framework.pagination import PageNumberPagination
 from rest_framework.settings import api_settings
 from rest_framework_csv.renderers import CSVStreamingRenderer
 from teryt_tree.rest_framework_ext.viewsets import custom_area_filter
 
 from .models import Institution, Tag
 from .serializers import InstitutionSerializer, TagSerializer, InstitutionCSVSerializer
+from ..main.mixins import CsvRendererViewMixin
 
 
 class InstitutionFilter(filters.FilterSet):
@@ -59,14 +59,7 @@ class InstitutionCSVRenderer(CSVStreamingRenderer):
         return super().render(data, *args, **kwargs)
 
 
-class InstitutionPaginator(PageNumberPagination):
-    max_page_size = (
-        10000  # increased maximum page size to allow export to CSV without pagination
-    )
-    page_size_query_param = "page_size"
-
-
-class InstitutionViewSet(viewsets.ModelViewSet):
+class InstitutionViewSet(CsvRendererViewMixin, viewsets.ModelViewSet):
     queryset = (
         Institution.objects.with_voivodeship()
         .select_related("jst__category")
@@ -78,13 +71,11 @@ class InstitutionViewSet(viewsets.ModelViewSet):
     renderer_classes = tuple(api_settings.DEFAULT_RENDERER_CLASSES) + (
         InstitutionCSVRenderer,
     )
-    pagination_class = InstitutionPaginator
 
-    def get_serializer_class(self):
-        if isinstance(self.request.accepted_renderer, InstitutionCSVRenderer):
-            return InstitutionCSVSerializer
-        else:
-            return InstitutionSerializer
+    # custom attributes:
+    csv_serializer = InstitutionCSVSerializer
+    default_serializer = InstitutionSerializer
+    csv_file_name = _("institutions")
 
 
 class TagViewSet(viewsets.ModelViewSet):
