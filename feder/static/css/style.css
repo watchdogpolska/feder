@@ -7475,7 +7475,7 @@ button.close {
   font-size: 0.8em; }
 
 .scrollable-widget {
-  max-height: 400px;
+  height: 400px;
   overflow-y: scroll; }
 
 .checkbox-utils button.btn {
