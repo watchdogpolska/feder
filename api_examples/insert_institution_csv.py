@@ -93,6 +93,14 @@ class Command:
             default=None,
         )
         parser.add_argument(
+            "--starting-row",
+            required=False,
+            help="CSV input file row to start export",
+            dest="starting_row",
+            type=int,
+            default=1,
+        )
+        parser.add_argument(
             "--name-exact",
             required=False,
             help="Do institution name should match exact GUS data name?",
@@ -109,11 +117,20 @@ class Command:
             default="",
         )
         parser.add_argument(
-            "--name-suffix-field",
+            "--name-prefix-no-check",
             required=False,
-            help="In what field of GUS REGON data should institution suffix "
+            help="Should name prefix be compared with GUS data "
+            "or only used to get suffix",
+            dest="name_prefix_no_check",
+            action="store_true",
+            default=False,
+        )
+        parser.add_argument(
+            "--name-suffix-gus-field",
+            required=False,
+            help="In which field of GUS REGON data should institution suffix "
             "be looked for",
-            dest="name_suffix_field",
+            dest="name_suffix_gus_field",
             action="store",
             default=None,
         )
@@ -223,6 +240,7 @@ class Command:
 
         if (
             self.args.name_prefix
+            and not self.args.name_prefix_no_check
             and self.args.name_prefix.upper() not in regon_data_name
         ):
             print(
@@ -238,13 +256,13 @@ class Command:
         expected_suffix = (
             data["name"].upper().replace(self.args.name_prefix.upper(), "").strip()
         )
-        regon_suffix = regon_data.get(self.args.name_suffix_field, "").upper()
+        gus_suffix_field = regon_data.get(self.args.name_suffix_gus_field, "").upper()
 
-        if self.args.name_suffix_field and expected_suffix not in regon_suffix:
+        if self.args.name_suffix_gus_field and expected_suffix not in gus_suffix_field:
             print(
                 'Warning! GUS field "{}" does not contain '
                 'expected value "{}" but "{}".'.format(
-                    self.args.name_suffix_field, expected_suffix, regon_suffix
+                    self.args.name_suffix_gus_field, expected_suffix, gus_suffix_field
                 )
             )
             if self.args.explicit:
@@ -336,7 +354,7 @@ class Command:
                 data["name"], response.status_code
             )
             print(error_msg, file=sys.stderr)
-            print(response.text, file=sys.stderr)
+            print("\n{}\n".format(response.text), file=sys.stderr)
             if self.args.explicit:
                 self._print_gus_data(data["name"], regon_data)
             raise ScriptError(error_msg)
@@ -403,6 +421,7 @@ class Command:
             return 5
 
         data = list(reader)
+        data = data[self.args.starting_row - 1 :]
         self.total_count = len(data)
         for row in data:
             normalized_row = self._normalize_row(**row)
