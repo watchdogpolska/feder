@@ -1,10 +1,13 @@
 import json
 import os
+from io import BytesIO
+
 from django.core import mail
 from django.core.files.base import ContentFile
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.urls import reverse
 from django.test import TestCase
+from django.utils.datastructures import MultiValueDict
 from guardian.shortcuts import assign_perm
 from feder.virus_scan.factories import AttachmentRequestFactory
 from feder.alerts.models import Alert
@@ -466,13 +469,10 @@ class ReceiveEmailTestCase(TestCase):
 
     def test_add_to_case(self):
         case = CaseFactory()
-
         body = self._get_body(case)
-        response = self.client.post(
-            path=self.authenticated_url,
-            data=json.dumps(body),
-            content_type="application/imap-to-webhook-v2+json",
-        )
+        files = self._get_files(body)
+
+        response = self.client.post(path=self.authenticated_url, files=files)
         self.assertEqual(response.json()["status"], "OK")
 
         self.assertEqual(case.record_set.count(), 1)
@@ -481,18 +481,17 @@ class ReceiveEmailTestCase(TestCase):
             letter.body, "W dniach 30.07-17.08.2018 r. przebywam na urlopie."
         )
         attachment = letter.attachment_set.all()[0]
-        self.assertEqual(letter.eml.read().decode("utf-8"), "12345")
-        self.assertEqual(attachment.attachment.read().decode("utf-8"), "12345")
+        self.assertEqual(letter.eml.read(), "12345")
+        self.assertEqual(attachment.attachment.read(), "12345")
 
     def test_no_match_of_case(self):
         body = self._get_body()
+        files = self._get_files(body)
 
         self.assertEqual(Case.objects.count(), 0)
 
         response = self.client.post(
-            path=self.authenticated_url,
-            data=json.dumps(body),
-            content_type="application/imap-to-webhook-v2+json",
+            path=self.authenticated_url, files=files, content_type="multipart/form-data"
         )
         letter = Letter.objects.first()
         self.assertEqual(response.status_code, 200)
@@ -501,16 +500,30 @@ class ReceiveEmailTestCase(TestCase):
 
     def test_html_body(self):
         body = self._get_body(html_body=True)
+        files = self._get_files(body)
 
         response = self.client.post(
-            path=self.authenticated_url,
-            data=json.dumps(body),
-            content_type="application/imap-to-webhook-v2+json",
+            path=self.authenticated_url, files=files, content_type="multipart/form-data"
         )
         letter = Letter.objects.first()
         self.assertEqual(response.status_code, 200)
         self.assertTrue(letter.body)
         self.assertTrue(letter.html_body)
+
+    def _get_files(self, body):
+        files = MultiValueDict()
+        files["manifest"] = (
+            "manifest.json",
+            BytesIO(json.dumps(body).encode("utf-8")),
+            "application/json",
+        )
+        files["eml"] = (
+            "a9a7b32cdfa34a7f91c826ff9b3831bb.eml.gz",
+            b"MTIzNDU=",
+            "message/rfc822",
+        )
+        files["attachment"] = ("my-doc.txt", b"MTIzNDU=")
+        return MultiValueDict(files)
 
     def _get_body(self, case=None, html_body=False):
         body = {
