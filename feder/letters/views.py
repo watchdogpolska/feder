@@ -1,4 +1,3 @@
-import base64
 import json
 import uuid
 from os import path
@@ -525,7 +524,7 @@ class AttachmentRequestCreateView(ActionMessageMixin, ActionView):
 
 
 class ReceiveEmail(View):
-    required_content_type = "application/imap-to-webhook-v2+json"
+    required_content_type = "multipart/form-data"
 
     def post(self, request):
         if request.GET.get("secret") != LETTER_RECEIVE_SECRET:
@@ -535,17 +534,24 @@ class ReceiveEmail(View):
                 "The request has an invalid format. "
                 'The acceptable format is "{}"'.format(request.content_type)
             )
-        body = json.loads(request.read().decode("utf-8"))
-        letter = self.get_letter(**body)
+        manifest = json.load(request.FILES["manifest"])
+        eml_data = request.FILES["eml"]
 
+        letter = self.get_letter(
+            headers=manifest["headers"],
+            eml_manifest=manifest["eml"],
+            text=manifest["text"],
+            eml_data=eml_data,
+        )
         Attachment.objects.bulk_create(
-            self.get_attachment(attachment, letter) for attachment in body["files"]
+            self.get_attachment(attachment, letter)
+            for attachment in request.FILES.getlist("attachment")
         )
         return JsonResponse({"status": "OK", "letter": letter.pk})
 
-    def get_letter(self, headers, eml, text, **kwargs):
+    def get_letter(self, headers, eml_manifest, text, eml_data, **kwargs):
         case = self.get_case(headers["to+"])
-        eml_file = self.get_eml_file(eml)
+        eml_file = self.get_eml_file(eml_manifest, eml_data)
         from_email = headers["from"][0] if headers["from"][0] else "unknown@domain.gov"
         return Letter.objects.create(
             author_institution=case.institution if case else None,
@@ -564,13 +570,11 @@ class ReceiveEmail(View):
         return Case.objects.select_related("institution").by_addresses(to_plus).first()
 
     def get_attachment(self, attachment, letter):
-        file_obj = ContentFile(
-            content=base64.b64decode(attachment["content"]), name=attachment["filename"]
-        )
+        file_obj = ContentFile(content=attachment.read(), name=attachment.name)
         return Attachment(letter=letter, attachment=file_obj)
 
-    def get_eml_file(self, eml):
-        eml_extensions = "eml.gz" if eml["compressed"] else "eml"
+    def get_eml_file(self, eml_manifest, eml_data):
+        eml_extensions = "eml.gz" if eml_manifest["compressed"] else "eml"
         eml_filename = "{}.{}".format(uuid.uuid4().hex, eml_extensions)
-        eml_content = base64.b64decode(eml["content"])
+        eml_content = eml_data.read()
         return ContentFile(eml_content, eml_filename)
