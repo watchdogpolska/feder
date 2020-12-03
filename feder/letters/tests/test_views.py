@@ -490,9 +490,7 @@ class ReceiveEmailTestCase(TestCase):
 
         self.assertEqual(Case.objects.count(), 0)
 
-        response = self.client.post(
-            path=self.authenticated_url, files=files, content_type="multipart/form-data"
-        )
+        response = self.client.post(path=self.authenticated_url, files=files)
         letter = Letter.objects.first()
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Case.objects.count(), 0)
@@ -502,9 +500,7 @@ class ReceiveEmailTestCase(TestCase):
         body = self._get_body(html_body=True)
         files = self._get_files(body)
 
-        response = self.client.post(
-            path=self.authenticated_url, files=files, content_type="multipart/form-data"
-        )
+        response = self.client.post(path=self.authenticated_url, files=files)
         letter = Letter.objects.first()
         self.assertEqual(response.status_code, 200)
         self.assertTrue(letter.body)
@@ -512,18 +508,18 @@ class ReceiveEmailTestCase(TestCase):
 
     def _get_files(self, body):
         files = MultiValueDict()
-        files["manifest"] = (
-            "manifest.json",
-            BytesIO(json.dumps(body).encode("utf-8")),
-            "application/json",
+        files["manifest"] = SimpleUploadedFile(
+            name="manifest.json",
+            content=json.dumps(body).encode("utf-8"),
+            content_type="application/json",
         )
-        files["eml"] = (
-            "a9a7b32cdfa34a7f91c826ff9b3831bb.eml.gz",
-            b"MTIzNDU=",
-            "message/rfc822",
+        files["eml"] = SimpleUploadedFile(
+            name="a9a7b32cdfa34a7f91c826ff9b3831bb.eml.gz",
+            content=b"MTIzNDU=",
+            content_type="message/rfc822",
         )
-        files["attachment"] = ("my-doc.txt", b"MTIzNDU=")
-        return MultiValueDict(files)
+        files["attachment"] = SimpleUploadedFile(name="my-doc.txt", content=b"MTIzNDU=")
+        return files
 
     def _get_body(self, case=None, html_body=False):
         body = {
