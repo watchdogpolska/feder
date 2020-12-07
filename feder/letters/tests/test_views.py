@@ -1,6 +1,6 @@
+import codecs
 import json
 import os
-from io import BytesIO
 
 from django.core import mail
 from django.core.files.base import ContentFile
@@ -472,7 +472,7 @@ class ReceiveEmailTestCase(TestCase):
         body = self._get_body(case)
         files = self._get_files(body)
 
-        response = self.client.post(path=self.authenticated_url, files=files)
+        response = self.client.post(path=self.authenticated_url, data=files)
         self.assertEqual(response.json()["status"], "OK")
 
         self.assertEqual(case.record_set.count(), 1)
@@ -481,8 +481,10 @@ class ReceiveEmailTestCase(TestCase):
             letter.body, "W dniach 30.07-17.08.2018 r. przebywam na urlopie."
         )
         attachment = letter.attachment_set.all()[0]
-        self.assertEqual(letter.eml.read(), "12345")
-        self.assertEqual(attachment.attachment.read(), "12345")
+        self.assertEqual(
+            codecs.decode(letter.eml.read(), "zlib").decode("utf-8"), "12345"
+        )
+        self.assertEqual(attachment.attachment.read().decode("utf8"), "54321")
 
     def test_no_match_of_case(self):
         body = self._get_body()
@@ -490,7 +492,7 @@ class ReceiveEmailTestCase(TestCase):
 
         self.assertEqual(Case.objects.count(), 0)
 
-        response = self.client.post(path=self.authenticated_url, files=files)
+        response = self.client.post(path=self.authenticated_url, data=files)
         letter = Letter.objects.first()
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Case.objects.count(), 0)
@@ -500,7 +502,7 @@ class ReceiveEmailTestCase(TestCase):
         body = self._get_body(html_body=True)
         files = self._get_files(body)
 
-        response = self.client.post(path=self.authenticated_url, files=files)
+        response = self.client.post(path=self.authenticated_url, data=files)
         letter = Letter.objects.first()
         self.assertEqual(response.status_code, 200)
         self.assertTrue(letter.body)
@@ -515,10 +517,10 @@ class ReceiveEmailTestCase(TestCase):
         )
         files["eml"] = SimpleUploadedFile(
             name="a9a7b32cdfa34a7f91c826ff9b3831bb.eml.gz",
-            content=b"MTIzNDU=",
+            content=codecs.encode(b"12345", "zlib"),
             content_type="message/rfc822",
         )
-        files["attachment"] = SimpleUploadedFile(name="my-doc.txt", content=b"MTIzNDU=")
+        files["attachment"] = SimpleUploadedFile(name="my-doc.txt", content=b"54321")
         return files
 
     def _get_body(self, case=None, html_body=False):
@@ -548,7 +550,6 @@ class ReceiveEmailTestCase(TestCase):
             "eml": {
                 "filename": "a9a7b32cdfa34a7f91c826ff9b3831bb.eml.gz",
                 "compressed": True,
-                "content": "MTIzNDU=",
             },
         }
 

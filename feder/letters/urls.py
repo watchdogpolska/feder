@@ -75,7 +75,7 @@ urlpatterns = [
         views.AssignLetterFormView.as_view(),
         name="assign",
     ),
-    url(_(r"^webhook"), csrf_exempt(views.ReceiveEmail.as_view()), name="webhook"),
+    url(_(r"^webhook$"), csrf_exempt(views.ReceiveEmail.as_view()), name="webhook"),
 ]
 
 app_name = "feder.letters"
