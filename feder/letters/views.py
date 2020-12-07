@@ -525,16 +525,27 @@ class AttachmentRequestCreateView(ActionMessageMixin, ActionView):
 
 class ReceiveEmail(View):
     required_content_type = "multipart/form-data"
+    required_version = "v2"
 
     def post(self, request):
         if request.GET.get("secret") != LETTER_RECEIVE_SECRET:
             raise PermissionDenied
         if request.content_type != self.required_content_type:
             return HttpResponseBadRequest(
-                "The request has an invalid format. "
-                'The acceptable format is "{}"'.format(request.content_type)
+                "The request has an invalid Content-Type. "
+                'The acceptable Content-Type is "{}".'.format(
+                    self.required_content_type
+                )
             )
+
         manifest = json.load(request.FILES["manifest"])
+
+        if manifest.get("version") != self.required_version:
+            return HttpResponseBadRequest(
+                "The request has an invalid format version. "
+                'The acceptable format version is "{}".'.format(self.required_version)
+            )
+
         eml_data = request.FILES["eml"]
 
         letter = self.get_letter(

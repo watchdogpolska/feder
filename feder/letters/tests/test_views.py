@@ -508,6 +508,13 @@ class ReceiveEmailTestCase(TestCase):
         self.assertTrue(letter.body)
         self.assertTrue(letter.html_body)
 
+    def test_missing_version(self):
+        body = self._get_body(html_body=True)
+        del body["version"]
+        files = self._get_files(body)
+        response = self.client.post(path=self.authenticated_url, data=files)
+        self.assertEqual(response.status_code, 400)
+
     def _get_files(self, body):
         files = MultiValueDict()
         files["manifest"] = SimpleUploadedFile(
@@ -539,6 +546,7 @@ class ReceiveEmailTestCase(TestCase):
                     case.email if case else "user-b@example.com",
                 ],
             },
+            "version": "v2",
             "text": {
                 # It's assumed that content is always given to webhook endpoint,
                 # otherwise endpoint will generate exception.
