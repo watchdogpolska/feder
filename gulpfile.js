@@ -110,4 +110,3 @@ gulp.task('watch', function () {
 gulp.task('build', gulp.series('icons', 'js', 'scss'));
 
 gulp.task('default', gulp.series('build', 'watch'));
-
