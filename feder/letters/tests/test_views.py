@@ -1,10 +1,13 @@
+import codecs
 import json
 import os
+
 from django.core import mail
 from django.core.files.base import ContentFile
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.urls import reverse
 from django.test import TestCase
+from django.utils.datastructures import MultiValueDict
 from guardian.shortcuts import assign_perm
 from feder.virus_scan.factories import AttachmentRequestFactory
 from feder.alerts.models import Alert
@@ -466,13 +469,10 @@ class ReceiveEmailTestCase(TestCase):
 
     def test_add_to_case(self):
         case = CaseFactory()
-
         body = self._get_body(case)
-        response = self.client.post(
-            path=self.authenticated_url,
-            data=json.dumps(body),
-            content_type="application/imap-to-webhook-v1+json",
-        )
+        files = self._get_files(body)
+
+        response = self.client.post(path=self.authenticated_url, data=files)
         self.assertEqual(response.json()["status"], "OK")
 
         self.assertEqual(case.record_set.count(), 1)
@@ -481,26 +481,57 @@ class ReceiveEmailTestCase(TestCase):
             letter.body, "W dniach 30.07-17.08.2018 r. przebywam na urlopie."
         )
         attachment = letter.attachment_set.all()[0]
-        self.assertEqual(letter.eml.read().decode("utf-8"), "12345")
-        self.assertEqual(attachment.attachment.read().decode("utf-8"), "12345")
+        self.assertEqual(
+            codecs.decode(letter.eml.read(), "zlib").decode("utf-8"), "12345"
+        )
+        self.assertEqual(attachment.attachment.read().decode("utf8"), "54321")
 
     def test_no_match_of_case(self):
         body = self._get_body()
+        files = self._get_files(body)
 
         self.assertEqual(Case.objects.count(), 0)
 
-        response = self.client.post(
-            path=self.authenticated_url,
-            data=json.dumps(body),
-            content_type="application/imap-to-webhook-v1+json",
-        )
+        response = self.client.post(path=self.authenticated_url, data=files)
         letter = Letter.objects.first()
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Case.objects.count(), 0)
         self.assertEqual(letter.case, None)
 
-    def _get_body(self, case=None):
-        return {
+    def test_html_body(self):
+        body = self._get_body(html_body=True)
+        files = self._get_files(body)
+
+        response = self.client.post(path=self.authenticated_url, data=files)
+        letter = Letter.objects.first()
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(letter.body)
+        self.assertTrue(letter.html_body)
+
+    def test_missing_version(self):
+        body = self._get_body(html_body=True)
+        del body["version"]
+        files = self._get_files(body)
+        response = self.client.post(path=self.authenticated_url, data=files)
+        self.assertEqual(response.status_code, 400)
+
+    def _get_files(self, body):
+        files = MultiValueDict()
+        files["manifest"] = SimpleUploadedFile(
+            name="manifest.json",
+            content=json.dumps(body).encode("utf-8"),
+            content_type="application/json",
+        )
+        files["eml"] = SimpleUploadedFile(
+            name="a9a7b32cdfa34a7f91c826ff9b3831bb.eml.gz",
+            content=codecs.encode(b"12345", "zlib"),
+            content_type="message/rfc822",
+        )
+        files["attachment"] = SimpleUploadedFile(name="my-doc.txt", content=b"54321")
+        return files
+
+    def _get_body(self, case=None, html_body=False):
+        body = {
             "headers": {
                 "auto_reply_type": "vacation-reply",
                 "cc": [],
@@ -515,7 +546,10 @@ class ReceiveEmailTestCase(TestCase):
                     case.email if case else "user-b@example.com",
                 ],
             },
+            "version": "v2",
             "text": {
+                # It's assumed that content is always given to webhook endpoint,
+                # otherwise endpoint will generate exception.
                 "content": "W dniach 30.07-17.08.2018 r. przebywam na urlopie.",
                 "quote": "",
             },
@@ -524,6 +558,13 @@ class ReceiveEmailTestCase(TestCase):
             "eml": {
                 "filename": "a9a7b32cdfa34a7f91c826ff9b3831bb.eml.gz",
                 "compressed": True,
-                "content": "MTIzNDU=",
             },
         }
+
+        if html_body:
+            body["text"][
+                "html_content"
+            ] = "<p>W dniach <i>30.07-17.08.2018 r.</i> przebywam na urlopie.</p>"
+            body["text"]["html_quote"] = ""
+
+        return body
