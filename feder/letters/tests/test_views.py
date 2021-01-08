@@ -194,6 +194,13 @@ class LetterDeleteViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
         self.client.post(self.get_url())
         self.assertFalse(os.path.isfile(self.from_user.eml.file.name))
 
+    def test_remove_letter_with_attachment(self):
+        self.login_permitted_user()
+        attachment = AttachmentFactory(letter=self.from_user)
+        self.assertTrue(os.path.isfile(attachment.attachment.file.name))
+        self.client.post(self.get_url())
+        self.assertFalse(os.path.isfile(attachment.attachment.file.name))
+
 
 class LetterReplyViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     permission = ["monitorings.reply", "monitorings.add_draft"]
