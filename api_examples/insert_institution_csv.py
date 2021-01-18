@@ -32,7 +32,7 @@ class ScriptError(Exception):
 
 
 class Command:
-    REQUIRED_FIELDS = ["name", "email", "regon", "tags"]
+    REQUIRED_FIELDS = ["name", "email", "regon"]
     FIELDS_MAP = {
         # Fields which are processed with their alternate names
         "obj_id": "Id",
@@ -160,12 +160,21 @@ class Command:
             action="store_true",
             default=False,
         )
+        parser.add_argument(
+            "--append-tags",
+            required=False,
+            help="This tags will be appended to each imported institution. "
+            "You can use | (pipe) character to append several tags.",
+            dest="append_tags",
+            action="store",
+            default=None,
+        )
         return parser.parse_args(argv)
 
-    def _match(self, host, **query):
+    def _match_record(self, host, **query):
         response = self.s.get(url=urljoin(host, "/api/institutions/"), params=query)
         data = response.json()
-        return data["results"][0]["pk"] if data["results"] else None
+        return data["results"][0] if data["results"] else None
 
     def _get_tags(self):
         response = self.s.get(
@@ -187,28 +196,30 @@ class Command:
                 print(" - {}: {}".format(key, val))
         print()
 
-    def _normalize_row(self, **data):
-        def _get_val(f_name):
-            return (
-                data.get(f_name) or data.get(self.FIELDS_MAP[f_name])
-                if f_name in self.FIELDS_MAP
-                else None
-            )
+    def _get_row_val(self, data, f_name):
+        return (
+            data.get(f_name) or data.get(self.FIELDS_MAP[f_name])
+            if f_name in self.FIELDS_MAP
+            else None
+        )
 
+    def _map_tags_from_data(self, data):
         mapped = {}
         for field_name in self.FIELDS_MAP.keys():
-            mapped[field_name] = _get_val(field_name)
+            mapped[field_name] = self._get_row_val(data, field_name)
 
-        tag_names = [tag.strip() for tag in mapped["tags"].split("|")]
+        if mapped["tags"]:
+            tag_names = [tag.strip() for tag in mapped["tags"].split("|")]
+        else:
+            tag_names = []
+
         mapped["tags"] = []
-
         for tag_name in tag_names:
             tag = self._find_tag(tag_name)
             if tag:
                 mapped["tags"].append(tag["name"])
             else:
                 print('Warning! Found nonexistent tag named "{}".'.format(tag_name))
-
                 if not self.args.create_tags:
                     raise ScriptError(
                         'Missing tag named "{}" with --create-tags flag turned off. '
@@ -216,6 +227,25 @@ class Command:
                     )
                 else:
                     mapped["tags"].append(tag_name)
+
+        return mapped
+
+    def _normalize_row(self, **data):
+        new_tags = self.args.append_tags
+        if new_tags:
+            new_tags = new_tags.split("|")
+
+        mapped = self._map_tags_from_data(data)
+
+        if new_tags:
+            for new_tag in new_tags:
+                if not self.args.create_tags and not self._find_tag(new_tag):
+                    raise ScriptError(
+                        'Missing tag named "{}" with --create-tags flag turned '
+                        "off. The script will be terminated.".format(new_tag)
+                    )
+                if new_tag not in mapped["tags"]:
+                    mapped["tags"].append(new_tag)
 
         return mapped
 
@@ -323,13 +353,20 @@ class Command:
 
     def _push_to_api(self, data, regon_data, obj_id):
         response = None
+        pk = None
 
         if obj_id:
             pk = obj_id
-        elif data["regon"]:
-            pk = self._match(self.args.host, regon=data["regon"])
+
         else:
-            pk = None
+            record = self._match_record(self.args.host, regon=data["regon"])
+            if record:
+                pk = record["pk"]
+
+                # This operation should append tags but not override existing ones
+                # so we need to append them to the data.
+                for tag in [t for t in record["tags"] if t not in data["tags"]]:
+                    data["tags"].append(tag)
 
         if pk:
             data.update({"id": pk})
@@ -383,23 +420,27 @@ class Command:
 
         regon_parent = extra.get("regon_parent")
         if regon_parent:
-            matched_parent = [self._match(host, regon=regon_parent)]
+            matched_parent = self._match_record(host, regon=regon_parent)
             if matched_parent is None:
                 raise ScriptError(
                     "Parent institution with REGON {} not found".format(regon_parent)
                 )
-            data["parents_ids"] = [matched_parent]
+            data["parents_ids"] = [matched_parent["pk"]]
 
         self._push_to_api(data, regon_data, obj_id)
 
     def fields_validation(self, fields):
+        req_fields = self.REQUIRED_FIELDS.copy()
+        if not self.args.append_tags:
+            req_fields.append("tags")
+
         recog_fields = []
         for field in fields:
-            if field in self.REQUIRED_FIELDS or field in self.FIELDS_MAP.values():
+            if field in req_fields or field in self.FIELDS_MAP.values():
                 recog_fields.append(field)
 
         result = True
-        for req_field in self.REQUIRED_FIELDS:
+        for req_field in req_fields:
             if req_field not in fields and self.FIELDS_MAP.get(req_field) not in fields:
                 alt_name = ""
                 for key, val in self.FIELDS_MAP.items():
