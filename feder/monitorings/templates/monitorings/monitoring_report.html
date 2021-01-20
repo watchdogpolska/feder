@@ -1,0 +1,43 @@
+{% extends 'monitorings/base_monitoring_detail.html' %}
+{% load i18n humanize bootstrap_pagination %}
+{% block content_object %}
+    {% include 'monitorings/_tabs.html' with tab='report' %}
+    <h3 class="sr-only">{% trans 'Report' %}</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>instytucja</th>
+                <th>e-mail</th>
+                <th>gmina</th>
+                <th>powiat</th>
+                <th>województwo > gmina > powiat</th>
+                <th>data wysłania wniosku</th>
+                <th>status wniosku</th>
+                <th>jest odpowiedź</th>
+                <th>wniosek przeczytany</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for case in object_list %}
+            <tr>
+                <td>{{ case.institution.name }}</td>
+                <td>{{ case.institution.email }}</td>
+                <td>
+                    {{ case.institution.jst }}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="9">{% trans 'No rows.' %}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="text-center">
+        {% bootstrap_paginate object_list url_view_name='monitorings:report' url_extra_kwargs=url_extra_kwargs %}
+    </div>
+
+{% endblock %}

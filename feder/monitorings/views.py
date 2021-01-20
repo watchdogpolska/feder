@@ -108,6 +108,20 @@ class LetterListMonitoringView(SelectRelatedMixin, ExtraListMixin, DetailView):
         )
 
 
+class ReportMonitoringView(SelectRelatedMixin, ExtraListMixin, DetailView):
+    model = Monitoring
+    template_name_suffix = "_report"
+    select_related = ["user"]
+    paginate_by = 100
+
+    def get_context_data(self, **kwargs):
+        kwargs["url_extra_kwargs"] = {"slug": self.object.slug}
+        return super().get_context_data(**kwargs)
+
+    def get_object_list(self, obj):
+        return Case.objects.filter(monitoring=obj)
+
+
 class DraftListMonitoringView(SelectRelatedMixin, ExtraListMixin, DetailView):
     model = Monitoring
     template_name_suffix = "_draft_list"

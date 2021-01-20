@@ -1,21 +1,26 @@
 {% load i18n guardian_tags %}
 {% get_obj_perms request.user for object as "monitoring_perms" %}
     <ul class="nav nav-tabs" role="nav">
-            <li {% if tab == 'general' %} class="active"{% endif %}><a
-                {% if tab != 'general' %}
-                    href="{% url 'monitorings:details' slug=object.slug %}"
-                {% endif %}
-            >{% trans 'Institutions and cases' %}</a></li>
-            <li{% if tab == 'letters' %} class="active"{% endif %}><a
-                {% if tab != 'letters' %}
-                    href="{% url 'monitorings:letters' slug=object.slug %}"
-                {% endif %}
-            >{% trans 'Letters' %}</a></li>
+        <li {% if tab == 'general' %} class="active"{% endif %}><a
+            {% if tab != 'general' %}
+                href="{% url 'monitorings:details' slug=object.slug %}"
+            {% endif %}
+        >{% trans 'Institutions and cases' %}</a></li>
+        <li{% if tab == 'letters' %} class="active"{% endif %}><a
+            {% if tab != 'letters' %}
+                href="{% url 'monitorings:letters' slug=object.slug %}"
+            {% endif %}
+        >{% trans 'Letters' %}</a></li>
+        <li{% if tab == 'report' %} class="active"{% endif %}><a
+            {% if tab != 'report' %}
+                href="{% url 'monitorings:report' slug=object.slug %}"
+            {% endif %}
+        >{% trans 'Report' %}</a></li>
         {% if 'reply' in monitoring_perms or 'add_draft' in monitoring_perms %}
-            <li{% if tab == 'drafts' %} class="active"{% endif %}><a
-                {% if tab != 'drafts' %}
-                    href="{% url 'monitorings:drafts' slug=object.slug %}"
-                {% endif %}
-            >{% trans 'Drafts' %}</a></li>
+        <li{% if tab == 'drafts' %} class="active"{% endif %}><a
+            {% if tab != 'drafts' %}
+                href="{% url 'monitorings:drafts' slug=object.slug %}"
+            {% endif %}
+        >{% trans 'Drafts' %}</a></li>
         {% endif %}
     </ul>
