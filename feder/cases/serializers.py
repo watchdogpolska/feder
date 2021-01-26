@@ -1,7 +1,6 @@
 from rest_framework import serializers
 
 from feder.cases.models import Case
-from feder.main.utils import void
 
 
 class CaseSerializer(serializers.HyperlinkedModelSerializer):
@@ -23,9 +22,9 @@ class CaseSerializer(serializers.HyperlinkedModelSerializer):
 class CaseReportSerializer(serializers.HyperlinkedModelSerializer):
     institution_name = serializers.SerializerMethodField()
     institution_email = serializers.SerializerMethodField()
-    community = serializers.SerializerMethodField()
-    county = serializers.SerializerMethodField()
-    voivodeship = serializers.SerializerMethodField()
+    community = serializers.CharField(source="institution.community.name")
+    county = serializers.CharField(source="institution.county.name")
+    voivodeship = serializers.CharField(source="institution.voivodeship.name")
     request_date = serializers.SerializerMethodField()
     request_status = serializers.SerializerMethodField()
     response_received = serializers.SerializerMethodField()
@@ -45,33 +44,6 @@ class CaseReportSerializer(serializers.HyperlinkedModelSerializer):
             "response_received",
             "receiving_confirmed",
         )
-
-    def to_representation(self, instance):
-        data = super().to_representation(instance)
-
-        jst = instance.institution.jst
-        jst_list = [jst]
-
-        while jst and jst.parent_id:
-            jst = jst.parent
-            jst_list.append(jst)
-        jst_list.reverse()
-
-        data.update(
-            {
-                "voivodeship": jst_list[0].name,
-                "county": jst_list[1].name if len(jst_list) > 1 else None,
-                "community": jst_list[2].name if len(jst_list) > 2 else None,
-            }
-        )
-        return data
-
-    # Following would never be called because the values are calculated in
-    # to_representation although these function definitions are required
-    # by serializer itself:
-    get_community = void
-    get_county = void
-    get_voivodeship = void
 
     def get_institution_name(self, obj):
         return obj.institution.name

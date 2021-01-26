@@ -4,7 +4,12 @@ from django.utils.encoding import force_text
 from guardian.shortcuts import assign_perm
 
 from feder.main.tests import PermissionStatusMixin
-from feder.teryt.factories import JSTFactory
+from feder.teryt.factories import (
+    JSTFactory,
+    CountyJSTFactory,
+    CommunityJSTFactory,
+    VoivodeshipJSTFactory,
+)
 from feder.users.factories import UserFactory
 from .factories import InstitutionFactory, TagFactory
 from .models import Institution
@@ -13,6 +18,16 @@ from .views import InstitutionAutocomplete, TagAutocomplete
 
 
 class InstitutionTestCase(TestCase):
+    def _assign_community(self):
+        self.voivodeship = VoivodeshipJSTFactory(name="Common voivodeship")
+        self.county = CountyJSTFactory(parent=self.voivodeship, name="Common county")
+        self.community = CommunityJSTFactory(
+            parent=self.county, name="Common community"
+        )
+
+        self.obj.jst = self.community
+        self.obj.save()
+
     def setUp(self):
         self.obj = InstitutionFactory(name="Example institution")
 
@@ -21,6 +36,51 @@ class InstitutionTestCase(TestCase):
 
     def test_get_str(self):
         self.assertEqual(force_text(self.obj), "Example institution")
+
+    def test_get_voivodeship(self):
+        # Third level JST
+        self._assign_community()
+        self.assertEqual(self.obj.voivodeship.name, "Common voivodeship")
+
+        # Second level JST
+        self.obj.jst = self.county
+        self.obj.save()
+        self.assertEqual(self.obj.voivodeship.name, "Common voivodeship")
+
+        # First level JST
+        self.obj.jst = self.voivodeship
+        self.obj.save()
+        self.assertEqual(self.obj.voivodeship.name, "Common voivodeship")
+
+    def test_get_county(self):
+        # Third level JST
+        self._assign_community()
+        self.assertEqual(self.obj.county.name, "Common county")
+
+        # Second level JST
+        self.obj.jst = self.county
+        self.obj.save()
+        self.assertEqual(self.obj.county.name, "Common county")
+
+        # First level JST
+        self.obj.jst = self.voivodeship
+        self.obj.save()
+        self.assertIsNone(self.obj.county)
+
+    def test_get_community(self):
+        # Third level JST
+        self._assign_community()
+        self.assertEqual(self.obj.community.name, "Common community")
+
+        # Second level JST
+        self.obj.jst = self.county
+        self.obj.save()
+        self.assertIsNone(self.obj.community)
+
+        # First level JST
+        self.obj.jst = self.voivodeship
+        self.obj.save()
+        self.assertIsNone(self.obj.community)
 
 
 class InstitutionSerializerTestCase(TestCase):

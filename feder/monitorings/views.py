@@ -116,7 +116,8 @@ class ReportMonitoringView(SelectRelatedMixin, ExtraListMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         kwargs["url_extra_kwargs"] = {"slug": self.object.slug}
-        return super().get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
+        return context
 
     def get_object_list(self, obj):
         return Case.objects.filter(monitoring=obj)

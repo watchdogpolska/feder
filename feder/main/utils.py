@@ -14,10 +14,6 @@ def get_full_url_for_context(path, context):
     )
 
 
-def void(*args, **kwargs):
-    pass
-
-
 class PaginatedCSVStreamingRenderer(CSVStreamingRenderer):
     def render(self, data, *args, **kwargs):
         """Copied form PaginatedCSVRenderer to support paginated results."""

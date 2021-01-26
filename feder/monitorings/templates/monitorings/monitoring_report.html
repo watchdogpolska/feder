@@ -9,9 +9,9 @@
             <tr>
                 <th>instytucja</th>
                 <th>e-mail</th>
-                <th>gmina</th>
+                <th>województwo</th>
                 <th>powiat</th>
-                <th>województwo > gmina > powiat</th>
+                <th>gmina</th>
                 <th>data wysłania wniosku</th>
                 <th>status wniosku</th>
                 <th>jest odpowiedź</th>
@@ -24,9 +24,12 @@
             <tr>
                 <td>{{ case.institution.name }}</td>
                 <td>{{ case.institution.email }}</td>
-                <td>
-                    {{ case.institution.jst }}
-                </td>
+                <td>{{ case.institution.voivodeship }}</td>
+                <td>{{ case.institution.county }}</td>
+                <td>{{ case.institution.community }}</td>
+                <td>?</td>
+                <td>?</td>
+                <td>?</td>
             </tr>
             {% empty %}
             <tr>

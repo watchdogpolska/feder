@@ -61,7 +61,7 @@ class InstitutionCSVRenderer(PaginatedCSVStreamingRenderer):
 
 class InstitutionViewSet(CsvRendererViewMixin, viewsets.ModelViewSet):
     queryset = (
-        Institution.objects.with_voivodeship()
+        Institution.objects.with_jst()
         .select_related("jst__category")
         .prefetch_related("tags", "parents")
         .all()

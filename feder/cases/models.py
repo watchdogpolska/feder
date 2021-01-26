@@ -43,6 +43,14 @@ class CaseQuerySet(models.QuerySet):
             Prefetch(lookup="record_set", queryset=record_queryset)
         )
 
+    def with_institution(self):
+        return self.select_related(
+            "institution",
+            "institution__jst",
+            "institution__jst__parent",
+            "institution__jst__parent__parent",
+        )
+
     def by_msg(self, message):
         email_object = message.get_email_object()
         addresses = []

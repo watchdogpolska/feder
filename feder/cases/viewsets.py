@@ -59,9 +59,4 @@ class CaseReportViewSet(CsvRendererViewMixin, viewsets.ReadOnlyModelViewSet):
     csv_file_name = _("case_report")
 
     def get_queryset(self):
-        return Case.objects.select_related(
-            "institution",
-            "institution__jst",
-            "institution__jst__parent",
-            "institution__jst__parent__parent",
-        )
+        return Case.objects.with_institution()
