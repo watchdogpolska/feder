@@ -1,4 +1,5 @@
 from autoslug.fields import AutoSlugField
+from django.apps import apps
 from django.conf import settings
 from django.db import models
 from django.db.models import Max, Prefetch, Q
@@ -102,6 +103,34 @@ class Case(TimeStampedModel):
     def update_email(self):
         self.email = settings.CASE_EMAIL_TEMPLATE.format(
             pk=self.pk, domain=self.monitoring.domain.name
+        )
+
+    @property
+    def application_letter(self):
+        return (
+            apps.get_model("letters", "Letter")
+            .objects.filter(record__case=self, author_user_id__isnull=False)
+            .order_by("created")
+            .first()
+        )
+
+    @property
+    def confirmation_received(self):
+        return (
+            apps.get_model("letters", "Letter")
+            .objects.filter(record__case=self, author_user_id__isnull=True)
+            .filter_confirmations()
+            .exists()
+        )
+
+    @property
+    def response_received(self):
+        return (
+            apps.get_model("letters", "Letter")
+            .objects.filter(record__case=self, author_user_id__isnull=True)
+            .exclude_confirmations()
+            .count()
+            > 1
         )
 
 

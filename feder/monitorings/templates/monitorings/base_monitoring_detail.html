@@ -31,6 +31,8 @@
                     {{ object.description|linebreaks }}
                 </div>
             {% endif %}
+            {% block sub_content_panel %}
+            {% endblock %}
         </div>
         <div class="col-md-8">
             {% block content_object %}

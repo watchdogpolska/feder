@@ -7495,3 +7495,10 @@ iframe.letter-quote {
   width: 100%;
   height: 200px;
   border: 0; }
+
+/* colors */
+.color-danger {
+  color: #d9534f !important; }
+
+.color-success {
+  color: #5cb85c !important; }

@@ -1,39 +1,80 @@
 {% extends 'monitorings/base_monitoring_detail.html' %}
 {% load i18n humanize bootstrap_pagination %}
+
+{% block sub_content_panel %}
+    <div class="red">
+        <h3>{% trans "Options" %}</h3>
+        <a href="{{ csv_url }}"
+           class="btn btn-primary btn-block{% if not object_list %} disabled{% endif %}"
+           target="_blank">
+            <i class="fa fa-download" aria-hidden="true"></i>
+            {% trans 'Download as CSV' %}
+        </a>
+    </div>
+{% endblock %}
+
 {% block content_object %}
     {% include 'monitorings/_tabs.html' with tab='report' %}
     <h3 class="sr-only">{% trans 'Report' %}</h3>
 
-    <table>
+    <table class="table">
         <thead>
             <tr>
                 <th>instytucja</th>
-                <th>e-mail</th>
-                <th>województwo</th>
-                <th>powiat</th>
-                <th>gmina</th>
+                <th>Jedn. teryt.</th>
                 <th>data wysłania wniosku</th>
                 <th>status wniosku</th>
-                <th>jest odpowiedź</th>
                 <th>wniosek przeczytany</th>
+                <th>jest odpowiedź</th>
             </tr>
         </thead>
 
         <tbody>
             {% for case in object_list %}
             <tr>
-                <td>{{ case.institution.name }}</td>
-                <td>{{ case.institution.email }}</td>
-                <td>{{ case.institution.voivodeship }}</td>
-                <td>{{ case.institution.county }}</td>
-                <td>{{ case.institution.community }}</td>
-                <td>?</td>
-                <td>?</td>
-                <td>?</td>
+                <td>
+                    <a href="{% url 'cases:details' slug=case.slug %}">
+                      {{ case.institution.name }}
+                    </a><br>
+                    {{ case.institution.email }}
+                </td>
+                <td>
+                    {{ case.institution.voivodeship }}<br>
+                    {{ case.institution.county }}<br>
+                    {{ case.institution.community }}
+                </td>
+                {% with case.application_letter as application_letter %}
+                <td>{{ application_letter.created|date }}</td>
+                <td>
+                    {% if application_letter %}
+                        {{ application_letter.status_str }}
+                    {% else %}
+                        {% trans "unknown" %}
+                    {% endif %}
+                </td>
+                <td>
+                    {% if case.response_received %}
+                        <i class="fa fa-check-circle fa-lg color-success"
+                           title="{% trans 'yes' %}"></i>
+                    {% else %}
+                        <i class="fa fa-times-circle fa-lg color-danger"
+                           title="{% trans 'no' %}"></i>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if case.confirmation_received %}
+                        <i class="fa fa-check-circle fa-lg color-success"
+                           title="{% trans 'yes' %}"></i>
+                    {% else %}
+                        <i class="fa fa-times-circle fa-lg color-danger"
+                           title="{% trans 'no' %}"></i>
+                    {% endif %}
+                </td>
+                {% endwith %}
             </tr>
             {% empty %}
             <tr>
-                <td colspan="9">{% trans 'No rows.' %}</td>
+                <td colspan="6">{% trans 'No rows.' %}</td>
             </tr>
             {% endfor %}
         </tbody>

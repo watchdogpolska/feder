@@ -1,5 +1,7 @@
 import logging
 import uuid
+from operator import or_
+from functools import reduce
 
 from atom.models import AttachmentBase
 from django.conf import settings
@@ -8,6 +10,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.core.files.base import ContentFile
 from django.core.mail.message import make_msgid, EmailMultiAlternatives
 from django.contrib.contenttypes.fields import GenericRelation
+from django.db.models import Q
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.db import models
@@ -26,6 +29,15 @@ logger = logging.getLogger(__name__)
 
 
 class LetterQuerySet(models.QuerySet):
+    CONFIRMATION_MARKS = (
+        "potwierdzenie doręczenia",
+        "doręczono",
+        "doręczenie",
+        "potwierdzenie przeczytania",
+        "przeczytano",
+        "przeczytane",
+    )
+
     def attachment_count(self):
         return self.annotate(attachment_count=models.Count("attachment"))
 
@@ -66,6 +78,17 @@ class LetterQuerySet(models.QuerySet):
 
     def exclude_spam(self):
         return self.exclude(is_spam=Letter.SPAM.spam)
+
+    def _build_confirmation_query(self):
+        return reduce(
+            or_, (Q(title__icontains=mark) for mark in self.CONFIRMATION_MARKS)
+        )
+
+    def filter_confirmations(self):
+        return self.filter(self._build_confirmation_query())
+
+    def exclude_confirmations(self):
+        return self.exclude(self._build_confirmation_query())
 
 
 class LetterManager(BaseManager.from_queryset(LetterQuerySet)):
@@ -153,6 +176,14 @@ class Letter(AbstractRecord):
     @property
     def is_outgoing(self):
         return bool(self.author_user_id)
+
+    @property
+    def status_str(self):
+        return (
+            self.emaillog.get_status_display
+            if self.emaillog is not None
+            else _("unknown")
+        )
 
     def get_title(self):
         if self.title and self.title.strip():
