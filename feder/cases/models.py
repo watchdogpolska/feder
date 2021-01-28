@@ -119,7 +119,7 @@ class Case(TimeStampedModel):
         return (
             apps.get_model("letters", "Letter")
             .objects.filter(record__case=self, author_user_id__isnull=True)
-            .filter_confirmations()
+            .filter_automatic()
             .exists()
         )
 
@@ -128,7 +128,7 @@ class Case(TimeStampedModel):
         return (
             apps.get_model("letters", "Letter")
             .objects.filter(record__case=self, author_user_id__isnull=True)
-            .exclude_confirmations()
+            .exclude_automatic()
             .count()
             > 1
         )

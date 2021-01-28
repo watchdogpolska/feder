@@ -1,7 +1,5 @@
 import logging
 import uuid
-from operator import or_
-from functools import reduce
 
 from atom.models import AttachmentBase
 from django.conf import settings
@@ -10,7 +8,6 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.core.files.base import ContentFile
 from django.core.mail.message import make_msgid, EmailMultiAlternatives
 from django.contrib.contenttypes.fields import GenericRelation
-from django.db.models import Q
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.db import models
@@ -29,15 +26,6 @@ logger = logging.getLogger(__name__)
 
 
 class LetterQuerySet(models.QuerySet):
-    CONFIRMATION_MARKS = (
-        "potwierdzenie doręczenia",
-        "doręczono",
-        "doręczenie",
-        "potwierdzenie przeczytania",
-        "przeczytano",
-        "przeczytane",
-    )
-
     def attachment_count(self):
         return self.annotate(attachment_count=models.Count("attachment"))
 
@@ -79,16 +67,11 @@ class LetterQuerySet(models.QuerySet):
     def exclude_spam(self):
         return self.exclude(is_spam=Letter.SPAM.spam)
 
-    def _build_confirmation_query(self):
-        return reduce(
-            or_, (Q(title__icontains=mark) for mark in self.CONFIRMATION_MARKS)
-        )
+    def filter_automatic(self):
+        return self.filter(message_type__in=[i[0] for i in Letter.MESSAGE_TYPES_AUTO])
 
-    def filter_confirmations(self):
-        return self.filter(self._build_confirmation_query())
-
-    def exclude_confirmations(self):
-        return self.exclude(self._build_confirmation_query())
+    def exclude_automatic(self):
+        return self.exclude(message_type__in=[i[0] for i in Letter.MESSAGE_TYPES_AUTO])
 
 
 class LetterManager(BaseManager.from_queryset(LetterQuerySet)):
@@ -106,6 +89,16 @@ class Letter(AbstractRecord):
         (1, "spam", _("Spam")),
         (2, "non_spam", _("Non-spam")),
     )
+    MESSAGE_TYPES = Choices(
+        (0, "unknown", _("Unknown")),
+        (1, "regular", _("Regular")),
+        (2, "disposition-notification", _("Disposition notification")),
+        (3, "vacation-reply", _("Vacation reply")),
+    )
+    MESSAGE_TYPES_AUTO = MESSAGE_TYPES.subset(
+        "disposition-notification", "vacation-reply"
+    )
+
     author_user = models.ForeignKey(
         to=settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -131,6 +124,11 @@ class Letter(AbstractRecord):
         verbose_name=_("Is SPAM?"), choices=SPAM, default=SPAM.unknown, db_index=True
     )
     is_draft = models.BooleanField(verbose_name=_("Is draft?"), default=True)
+    message_type = models.IntegerField(
+        verbose_name=_("Message type"),
+        choices=MESSAGE_TYPES,
+        default=MESSAGE_TYPES.unknown,
+    )
     mark_spam_by = models.ForeignKey(
         to=settings.AUTH_USER_MODEL,
         null=True,

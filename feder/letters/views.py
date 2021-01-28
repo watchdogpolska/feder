@@ -564,10 +564,14 @@ class ReceiveEmail(View):
         case = self.get_case(headers["to+"])
         eml_file = self.get_eml_file(eml_manifest, eml_data)
         from_email = headers["from"][0] if headers["from"][0] else "unknown@domain.gov"
+        message_type = Letter.MESSAGE_TYPES.get(
+            headers["auto_reply_type"], Letter.MESSAGE_TYPES["regular"]
+        )
         return Letter.objects.create(
             author_institution=case.institution if case else None,
             email=from_email,
             record=Record.objects.create(case=case),
+            message_type=message_type,
             title=headers["subject"],
             body=text["content"],
             html_body=text.get("html_content", ""),
