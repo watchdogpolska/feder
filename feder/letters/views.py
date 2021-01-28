@@ -564,9 +564,16 @@ class ReceiveEmail(View):
         case = self.get_case(headers["to+"])
         eml_file = self.get_eml_file(eml_manifest, eml_data)
         from_email = headers["from"][0] if headers["from"][0] else "unknown@domain.gov"
-        message_type = Letter.MESSAGE_TYPES.get(
-            headers["auto_reply_type"], Letter.MESSAGE_TYPES["regular"]
-        )
+
+        auto_reply = headers.get("auto_reply_type")
+        if auto_reply is not None:
+            auto_reply = auto_reply.replace("-", "_")
+            message_type = getattr(
+                Letter.MESSAGE_TYPES, auto_reply, Letter.MESSAGE_TYPES.unknown
+            )
+        else:
+            message_type = Letter.MESSAGE_TYPES.regular
+
         return Letter.objects.create(
             author_institution=case.institution if case else None,
             email=from_email,

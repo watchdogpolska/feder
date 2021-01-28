@@ -92,11 +92,11 @@ class Letter(AbstractRecord):
     MESSAGE_TYPES = Choices(
         (0, "unknown", _("Unknown")),
         (1, "regular", _("Regular")),
-        (2, "disposition-notification", _("Disposition notification")),
-        (3, "vacation-reply", _("Vacation reply")),
+        (2, "disposition_notification", _("Disposition notification")),
+        (3, "vacation_reply", _("Vacation reply")),
     )
     MESSAGE_TYPES_AUTO = MESSAGE_TYPES.subset(
-        "disposition-notification", "vacation-reply"
+        "disposition_notification", "vacation_reply"
     )
 
     author_user = models.ForeignKey(
