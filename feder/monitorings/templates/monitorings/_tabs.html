@@ -11,11 +11,6 @@
                 href="{% url 'monitorings:letters' slug=object.slug %}"
             {% endif %}
         >{% trans 'Letters' %}</a></li>
-        <li{% if tab == 'report' %} class="active"{% endif %}><a
-            {% if tab != 'report' %}
-                href="{% url 'monitorings:report' slug=object.slug %}"
-            {% endif %}
-        >{% trans 'Report' %}</a></li>
         {% if 'reply' in monitoring_perms or 'add_draft' in monitoring_perms %}
         <li{% if tab == 'drafts' %} class="active"{% endif %}><a
             {% if tab != 'drafts' %}

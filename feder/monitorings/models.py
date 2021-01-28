@@ -89,6 +89,7 @@ class Monitoring(TimeStampedModel):
             ("change_parcelpost", _("Can change parcel post")),
             ("delete_parcelpost", _("Can delete parcel post")),
             ("view_email_address", _("Can view e-mail address")),
+            ("view_report", _("Can view report")),
         )
 
     def __str__(self):

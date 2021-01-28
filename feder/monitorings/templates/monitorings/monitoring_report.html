@@ -1,87 +1,43 @@
-{% extends 'monitorings/base_monitoring_detail.html' %}
-{% load i18n humanize bootstrap_pagination %}
+{% extends 'monitorings/monitoring_single.html' %}
+{% load i18n humanize guardian_tags %}
+{% block breadcrumbs %}
+    <ol
+        class="breadcrumb"
+        itemscope
+        itemtype="http://schema.org/BreadcrumbList">
+        <li
+            itemprop="itemListElement"
+            itemscope
+            itemtype="http://schema.org/ListItem">
+            <a itemprop="item" href="{{ monitoring.get_absolute_url }}">
+                <span itemprop="name">{{ monitoring }}</span>
+            </a>
+        </li>
+        <li
+            itemprop="itemListElement"
+            itemscope
+            itemtype="http://schema.org/ListItem"
+            class="active">
+            <span itemprop="name">{% trans 'Report' %}</span>
+        </li>
+    </ol>
+{% endblock %}
 
-{% block sub_content_panel %}
-    <div class="red">
-        <h3>{% trans "Options" %}</h3>
-        <a href="{{ csv_url }}"
-           class="btn btn-primary btn-block{% if not object_list %} disabled{% endif %}"
-           target="_blank">
-            <i class="fa fa-download" aria-hidden="true"></i>
-            {% trans 'Download as CSV' %}
+{% block buttons %}
+    {% include 'monitorings/_btn.html' with object=monitoring %}
+{% endblock %}
+
+{% block content %}
+    {% get_obj_perms request.user for monitoring as "monitoring_perms" %}
+    {% include 'monitorings/_header.html' with object=monitoring %}
+    <div class="sub-menu">
+        <a class="btn btn-primary" href="{{ csv_url }}">
+            <i class="fa fa-download" aria-hidden></i> {% trans 'Download .csv' %}
         </a>
     </div>
+    {% include 'monitorings/_report_content.html' %}
 {% endblock %}
 
-{% block content_object %}
-    {% include 'monitorings/_tabs.html' with tab='report' %}
-    <h3 class="sr-only">{% trans 'Report' %}</h3>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>instytucja</th>
-                <th>Jedn. teryt.</th>
-                <th>data wysłania wniosku</th>
-                <th>status wniosku</th>
-                <th>wniosek przeczytany</th>
-                <th>jest odpowiedź</th>
-            </tr>
-        </thead>
 
-        <tbody>
-            {% for case in object_list %}
-            <tr>
-                <td>
-                    <a href="{% url 'cases:details' slug=case.slug %}">
-                      {{ case.institution.name }}
-                    </a><br>
-                    {{ case.institution.email }}
-                </td>
-                <td>
-                    {{ case.institution.voivodeship }}<br>
-                    {{ case.institution.county }}<br>
-                    {{ case.institution.community }}
-                </td>
-                {% with case.application_letter as application_letter %}
-                <td>{{ application_letter.created|date }}</td>
-                <td>
-                    {% if application_letter %}
-                        {{ application_letter.status_str }}
-                    {% else %}
-                        {% trans "unknown" %}
-                    {% endif %}
-                </td>
-                <td>
-                    {% if case.response_received %}
-                        <i class="fa fa-check-circle fa-lg color-success"
-                           title="{% trans 'yes' %}"></i>
-                    {% else %}
-                        <i class="fa fa-times-circle fa-lg color-danger"
-                           title="{% trans 'no' %}"></i>
-                    {% endif %}
-                </td>
-                <td>
-                    {% if case.confirmation_received %}
-                        <i class="fa fa-check-circle fa-lg color-success"
-                           title="{% trans 'yes' %}"></i>
-                    {% else %}
-                        <i class="fa fa-times-circle fa-lg color-danger"
-                           title="{% trans 'no' %}"></i>
-                    {% endif %}
-                </td>
-                {% endwith %}
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="6">{% trans 'No rows.' %}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
 
-    <div class="text-center">
-        {% bootstrap_paginate object_list url_view_name='monitorings:report' url_extra_kwargs=url_extra_kwargs %}
-    </div>
-
-{% endblock %}

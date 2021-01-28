@@ -38,6 +38,12 @@
                     {% trans 'View logs' %}
                 </a>
             {% endif %}
+            {% if "view_report" in monitoring_perms %}
+                <a class="btn btn-default" href="{% url 'monitorings:report' slug=object.slug %}">
+                    <i class="fa fa-file" aria-hidden="true"></i>
+                    {% trans 'View report' %}
+                </a>
+            {% endif %}
         </div>
     </div>
 {% endif %}
