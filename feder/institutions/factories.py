@@ -22,6 +22,7 @@ class InstitutionFactory(factory.django.DjangoModelFactory):
             for tag in extracted:
                 self.tags.add(tag)
 
+
 class TagFactory(factory.django.DjangoModelFactory):
     name = factory.Sequence("tag-{}".format)
 
