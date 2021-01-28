@@ -1,3 +1,4 @@
+import json
 from django.urls import reverse
 from django.test import RequestFactory, TestCase
 from django.utils.encoding import force_text
@@ -177,6 +178,18 @@ class TagAutocompleteTestCase(TestCase):
         response = TagAutocomplete.as_view()(request)
         self.assertContains(response, "123 (1)")
 
+    def test_get_sorted_by_name(self):
+        source_names = ["a2", "a3", "a1"]
+        tags = [TagFactory(name=name) for name in source_names]
+        [InstitutionFactory.create_batch(tags=[tag], size=count) for count, tag in enumerate(tags)]
+        request = self.factory.get("/customer/details")
+        response = TagAutocomplete.as_view()(request)
+        body = json.loads(response.content)
+
+        expected_names = sorted(source_names)
+        result_names = [x["text"].split(' ')[0] for x in body['results']]
+
+        self.assertListEqual(expected_names, result_names)
 
 class SitemapTestCase(ObjectMixin, TestCase):
     def test_institutions(self):
