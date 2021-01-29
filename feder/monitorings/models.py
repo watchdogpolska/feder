@@ -31,6 +31,9 @@ class MonitoringQuerySet(models.QuerySet):
             case__institution__jst__lft__range=(jst.lft, jst.rght),
         )
 
+    def for_user(self, user):
+        return self
+
     def only_public(self):
         return self.filter(is_public=True)
 
@@ -89,6 +92,9 @@ class Monitoring(TimeStampedModel):
             ("change_parcelpost", _("Can change parcel post")),
             ("delete_parcelpost", _("Can delete parcel post")),
             ("view_email_address", _("Can view e-mail address")),
+            ("view_tag", _("Can view tag")),
+            ("change_tag", _("Can change tag")),
+            ("delete_tag", _("Can delete tag")),
         )
 
     def __str__(self):

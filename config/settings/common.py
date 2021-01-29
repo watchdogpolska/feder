@@ -58,6 +58,7 @@ LOCAL_APPS = (
     "feder.institutions",
     "feder.monitorings",
     "feder.cases",
+    "feder.cases_tags",
     "feder.letters",
     "feder.main",
     "feder.alerts",

@@ -1,0 +1,5 @@
+{% extends 'cases_tags/base_tag.html' %}
+{% load i18n %}
+{% block content %}
+    {% include '_filter.html' with pager=pager title='Tag index' form=filter.form object_list=object_list object_template='cases_tags/_tag_small.html' %}
+{% endblock %}
