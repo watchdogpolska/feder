@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-monitorings 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-09 21:12+0000\n"
-"PO-Revision-Date: 2020-07-11 23:53+0200\n"
+"POT-Creation-Date: 2021-01-29 00:45+0000\n"
+"PO-Revision-Date: 2021-01-29 01:45+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -23,19 +23,19 @@ msgstr ""
 msgid "Creation date"
 msgstr "Data utworzenia"
 
-#: filters.py:21 models.py:41 templates/monitorings/institution_assign.html:44
+#: filters.py:21 models.py:44 templates/monitorings/institution_assign.html:44
 msgid "Name"
 msgstr "Nazwa"
 
-#: forms.py:20 models.py:70 models.py:71
+#: forms.py:20 models.py:73 models.py:74
 msgid "Monitoring"
 msgstr "Monitoring"
 
-#: forms.py:21 models.py:51
+#: forms.py:21 models.py:54
 msgid "Template"
 msgstr "Szablon"
 
-#: forms.py:41 models.py:46 templates/monitorings/_monitoring_small.html:8
+#: forms.py:41 models.py:49 templates/monitorings/_monitoring_small.html:8
 msgid "User"
 msgstr "Użytkownik"
 
@@ -59,113 +59,125 @@ msgstr "Może usunąć monitoring"
 msgid "Notify about new alerts person who can view alerts"
 msgstr "Powiadom o nowych alertach osoby, które mogą je widzieć"
 
-#: models.py:43
+#: models.py:46
 msgid "Slug"
 msgstr "Identyfikator redakcyjny"
 
-#: models.py:48 templates/monitorings/base_monitoring_detail.html:30
+#: models.py:51 templates/monitorings/base_monitoring_detail.html:30
 msgid "Description"
 msgstr "Opis"
 
-#: models.py:49
+#: models.py:52
 msgid "Subject"
 msgstr "Tytuł"
 
-#: models.py:52
+#: models.py:55
 msgid "Use {{EMAIL}} for insert reply address"
 msgstr "Użyj {{EMAIL}} aby umieścić adres odpowiedzi."
 
-#: models.py:57
+#: models.py:60
 msgid "Email footer"
 msgstr "Podpis w e-mail"
 
-#: models.py:58
+#: models.py:61
 msgid "Footer for sent mail and replies"
 msgstr "Podpis w stopce e-maili, w tym w odpowiedziach na e-maile"
 
-#: models.py:61
+#: models.py:64
 msgid "Notify about alerts"
 msgstr "Powiadamiaj o alertach"
 
-#: models.py:64
+#: models.py:67
 msgid "Is public visible?"
 msgstr "Czy publicznie widoczny?"
 
-#: models.py:66
+#: models.py:69
 msgid "Domain used to sends emails"
 msgstr "Domena użyta do wysłania wiadomości"
 
-#: models.py:74
+#: models.py:77
 msgid "Can add case"
 msgstr "Może tworzyć sprawę"
 
-#: models.py:75
+#: models.py:78
 msgid "Can change case"
 msgstr "Może zmieniać sprawę"
 
-#: models.py:76
+#: models.py:79
 msgid "Can delete case"
 msgstr "Może usuwać sprawę"
 
-#: models.py:77
+#: models.py:80
 msgid "Can add letter"
 msgstr "Może dodawać list"
 
-#: models.py:78
+#: models.py:81
 msgid "Can reply"
 msgstr "Może odpowiadać"
 
-#: models.py:79
+#: models.py:82
 msgid "Add reply draft"
 msgstr "Dodaj szkic odpowiedzi"
 
-#: models.py:80
+#: models.py:83
 msgid "Can change letter"
 msgstr "Może zmieniać list"
 
-#: models.py:81
+#: models.py:84
 msgid "Can delete letter"
 msgstr "Może usuwać list"
 
-#: models.py:82
+#: models.py:85
 msgid "Can view alert"
 msgstr "Może dodawać alert"
 
-#: models.py:83
+#: models.py:86
 msgid "Can change alert"
 msgstr "Może zmieniać alert"
 
-#: models.py:84
+#: models.py:87
 msgid "Can delete alert"
 msgstr "Może usuwać alert"
 
-#: models.py:85
+#: models.py:88
 msgid "Can manage perms"
 msgstr "Może zarządzać uprawnieniami"
 
-#: models.py:86
+#: models.py:89
 msgid "Can view logs"
 msgstr "Może widzieć dzienniki"
 
-#: models.py:87
+#: models.py:90
 msgid "Can mark spam"
 msgstr "Może oznaczyć spam"
 
-#: models.py:88
+#: models.py:91
 msgid "Can add parcel post"
 msgstr "Może dodać przesyłkę pocztową"
 
-#: models.py:89
+#: models.py:92
 msgid "Can change parcel post"
 msgstr "Może zmieniać przesyłkę pocztową"
 
-#: models.py:90
+#: models.py:93
 msgid "Can delete parcel post"
 msgstr "Może usuwać przesyłkę pocztową"
 
-#: models.py:91
+#: models.py:94
 msgid "Can view e-mail address"
 msgstr "Może wyświetlać adres e-mail"
+
+#: models.py:95
+msgid "Can view tag"
+msgstr "Może widzieć tagi"
+
+#: models.py:96
+msgid "Can change tag"
+msgstr "Może zmieniać tagi"
+
+#: models.py:97
+msgid "Can delete tag"
+msgstr "Może usuwać tagi"
 
 #: templates/monitorings/_btn.html:9
 msgid "Edit"
@@ -194,6 +206,10 @@ msgstr "Lista alertów"
 #: templates/monitorings/_btn.html:38
 msgid "View logs"
 msgstr "Zobacz dzienniki"
+
+#: templates/monitorings/_btn.html:44
+msgid "View tags"
+msgstr "Zobacz tagi"
 
 #: templates/monitorings/_header.html:7 templates/monitorings/_letter.html:7
 msgid "by"

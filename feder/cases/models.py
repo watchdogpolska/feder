@@ -86,6 +86,9 @@ class Case(TimeStampedModel):
         verbose_name="Mass assign ID", blank=True, null=True, editable=False
     )
     email = models.CharField(max_length=75, db_index=True)
+    tags = models.ManyToManyField(
+        to="cases_tags.Tag", verbose_name=_("Tags"), blank=True
+    )
     objects = CaseQuerySet.as_manager()
 
     class Meta:

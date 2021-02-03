@@ -11,7 +11,7 @@ from feder.users.factories import UserFactory
 from .factories import CaseFactory, AliasFactory
 from .forms import CaseForm
 from .views import CaseAutocomplete
-from feder.teryt.factories import JSTFactory, CommunityJSTFactory, CountyJSTFactory
+from feder.teryt.factories import CommunityJSTFactory, CountyJSTFactory
 
 
 class ObjectMixin:

@@ -45,7 +45,7 @@ django-guardian==2.3.0
 django-teryt-tree==0.17.0
 cached-property==1.5.2
 django-bootstrap-pagination==1.7.1
-django-reversion==3.0.8
+django-reversion==3.0.9
 djangorestframework==3.12.2
 djangorestframework-csv==2.1.0
 unicodecsv==0.14.1
@@ -63,6 +63,6 @@ https://github.com/ross/performant-pagination/archive/5b537da95728d622792031071e
 # not available on pypi - see https://github.com/ross/performant-pagination/issues/5
 
 django-background-tasks==1.2.5
-django-cors-headers==3.6.0
+django-cors-headers==3.7.0
 elasticsearch-dsl==7.3.0
 tika==1.24
