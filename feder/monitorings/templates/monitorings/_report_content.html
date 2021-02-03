@@ -5,12 +5,12 @@
     <table class="table">
         <thead>
             <tr>
-                <th>instytucja</th>
-                <th>Jedn. teryt.</th>
-                <th>data wysłania wniosku</th>
-                <th>status wniosku</th>
-                <th>potwierdzenie dostarczenia</th>
-                <th>jest odpowiedź</th>
+                <th>{% trans 'institution' %}</th>
+                <th>{% trans 'administrative unit' %}</th>
+                <th>{% trans 'request sending date' %}</th>
+                <th>{% trans 'request status' %}</th>
+                <th>{% trans 'request confirmed' %}</th>
+                <th>{% trans 'response received' %}</th>
             </tr>
         </thead>
 
@@ -38,20 +38,20 @@
                     {% endif %}
                 </td>
                 <td>
-                    {% if case.response_received %}
-                        <i class="fa fa-check-circle fa-lg color-success"
+                    {% if case.confirmation_received %}
+                        <i class="fa fa-check-circle fa-lg color-success centered"
                            title="{% trans 'yes' %}"></i>
                     {% else %}
-                        <i class="fa fa-times-circle fa-lg color-danger"
+                        <i class="fa fa-times-circle fa-lg color-danger centered"
                            title="{% trans 'no' %}"></i>
                     {% endif %}
                 </td>
                 <td>
-                    {% if case.confirmation_received %}
-                        <i class="fa fa-check-circle fa-lg color-success"
+                    {% if case.response_received %}
+                        <i class="fa fa-check-circle fa-lg color-success centered"
                            title="{% trans 'yes' %}"></i>
                     {% else %}
-                        <i class="fa fa-times-circle fa-lg color-danger"
+                        <i class="fa fa-times-circle fa-lg color-danger centered"
                            title="{% trans 'no' %}"></i>
                     {% endif %}
                 </td>

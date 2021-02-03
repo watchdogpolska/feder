@@ -1,3 +1,5 @@
+from django.utils import formats
+from django.utils.translation import ugettext_lazy as _
 from rest_framework import serializers
 
 from feder.cases.models import Case
@@ -27,8 +29,8 @@ class CaseReportSerializer(serializers.HyperlinkedModelSerializer):
     voivodeship = serializers.CharField(source="institution.voivodeship.name")
     request_date = serializers.SerializerMethodField()
     request_status = serializers.SerializerMethodField()
+    confirmation_received = serializers.SerializerMethodField()
     response_received = serializers.SerializerMethodField()
-    receiving_confirmed = serializers.SerializerMethodField()
 
     class Meta:
         model = Case
@@ -36,13 +38,13 @@ class CaseReportSerializer(serializers.HyperlinkedModelSerializer):
             "pk",
             "institution_name",
             "institution_email",
-            "community",
-            "county",
             "voivodeship",
+            "county",
+            "community",
             "request_date",
             "request_status",
+            "confirmation_received",
             "response_received",
-            "receiving_confirmed",
         )
 
     def get_institution_name(self, obj):
@@ -52,13 +54,15 @@ class CaseReportSerializer(serializers.HyperlinkedModelSerializer):
         return obj.institution.email
 
     def get_request_date(self, obj):
-        return obj.institution.created
+        letter = obj.application_letter
+        return formats.date_format(letter.created, format="Y-m-d") if letter else None
 
     def get_request_status(self, obj):
-        return "?"
+        letter = obj.application_letter
+        return letter.status_str if letter else _("unknown")
+
+    def get_confirmation_received(self, obj):
+        return _("yes") if obj.confirmation_received else _("no")
 
     def get_response_received(self, obj):
-        return "?"
-
-    def get_receiving_confirmed(self, obj):
-        return "?"
+        return _("yes") if obj.response_received else _("no")

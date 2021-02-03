@@ -7496,6 +7496,11 @@ iframe.letter-quote {
   height: 200px;
   border: 0; }
 
+/* utility classes */
+.centered {
+  display: block;
+  text-align: center; }
+
 /* colors */
 .color-danger {
   color: #d9534f !important; }
