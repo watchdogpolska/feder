@@ -34,7 +34,7 @@ from feder.institutions.filters import InstitutionFilter
 from feder.institutions.models import Institution
 from feder.letters.models import Letter
 from feder.main.mixins import ExtraListMixin, RaisePermissionRequiredMixin
-from .filters import MonitoringFilter
+from .filters import MonitoringFilter, ReportMonitoringFilter
 from .forms import (
     MonitoringForm,
     SaveTranslatedUserObjectPermissionsForm,
@@ -110,24 +110,31 @@ class LetterListMonitoringView(SelectRelatedMixin, ExtraListMixin, DetailView):
         )
 
 
-class ReportMonitoringView(SelectRelatedMixin, ExtraListMixin, DetailView):
-    model = Monitoring
-    template_name_suffix = "_report"
-    select_related = ["user"]
+class ReportMonitoringView(FilterView):
+    model = Case
+    filterset_class = ReportMonitoringFilter
     paginate_by = 100
 
-    def get_context_data(self, **kwargs):
-        kwargs["url_extra_kwargs"] = {"slug": self.object.slug}
-        context = super().get_context_data(**kwargs)
+    def get_template_names(self):
+        return "monitorings/monitoring_report.html"
 
-        csv_params = [["format", "csv"], ["page_size", DefaultPagination.max_page_size]]
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["monitoring"] = Monitoring.objects.get(slug=self.kwargs["slug"])
+        get_params = {
+            key: value
+            for key, value in context["filter"].data.items()
+            if key in ("name", "voivodeship", "county", "community")
+        }
+        get_params["format"] = "csv"
+        get_params["page_size"]: DefaultPagination.max_page_size
         context["csv_url"] = "{}?{}".format(
-            reverse_lazy("case-report-list"), urlencode(csv_params)
+            reverse_lazy("case-report-list"), urlencode(get_params)
         )
         return context
 
-    def get_object_list(self, obj):
-        return Case.objects.filter(monitoring=obj)
+    def get_queryset(self):
+        return super().get_queryset().filter(monitoring__slug=self.kwargs["slug"])
 
 
 class DraftListMonitoringView(SelectRelatedMixin, ExtraListMixin, DetailView):

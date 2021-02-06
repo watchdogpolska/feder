@@ -1,5 +1,5 @@
 {% extends 'monitorings/monitoring_single.html' %}
-{% load i18n humanize guardian_tags %}
+{% load i18n humanize guardian_tags crispy_forms_tags %}
 {% block breadcrumbs %}
     <ol
         class="breadcrumb"
@@ -30,10 +30,19 @@
 {% block content %}
     {% get_obj_perms request.user for monitoring as "monitoring_perms" %}
     {% include 'monitorings/_header.html' with object=monitoring %}
-    <div class="sub-menu">
-        <a class="btn btn-primary" href="{{ csv_url }}">
-            <i class="fa fa-download" aria-hidden></i> {% trans 'Download .csv' %}
-        </a>
+    <div class="block block_gray">
+        <form method="GET">
+            {{ filter.form | crispy }}
+            {% block form_buttons %}
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                    {% trans 'Filter' %}
+                </button>
+                <a class="btn btn-primary" href="{{ csv_url }}">
+                    <i class="fa fa-download" aria-hidden></i> {% trans 'Download .csv' %}
+                </a>
+            {% endblock %}
+        </form>
     </div>
     {% include 'monitorings/_report_content.html' %}
 {% endblock %}

@@ -40,7 +40,6 @@ $gray: #F0F0F0;
   width: 100%;
 }
 
-
 .red {
   @extend .block;
   background-color: $red;
@@ -62,6 +61,13 @@ $gray: #F0F0F0;
   }
   .has-error .help-block, .has-error .control-label, .has-error .radio, .has-error .checkbox, .has-error .radio-inline, .has-error .checkbox-inline, .has-error.radio label, .has-error.checkbox label, .has-error.radio-inline label, .has-error.checkbox-inline label {
     color: #FFF643;
+  }
+}
+
+.block {
+  &_gray {
+    background-color: $gray;
+    color: #000;
   }
 }
 
