@@ -5,7 +5,7 @@ default_language_version:
   python: python3
 minimum_pre_commit_version: "1.20.0"
 repos:
-  - repo: https://github.com/ambv/black
+  - repo: https://github.com/psf/black
     rev: 20.8b1
     hooks:
     - id: black
@@ -19,7 +19,7 @@ repos:
       args:
       - --config=./setup.cfg
   - repo: https://github.com/asottile/pyupgrade
-    rev: v2.7.2
+    rev: v2.10.0
     hooks:
     - id: pyupgrade
       args:
