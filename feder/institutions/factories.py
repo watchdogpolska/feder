@@ -12,6 +12,16 @@ class InstitutionFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Institution
 
+    @factory.post_generation
+    def tags(self, create, extracted, **kwargs):
+        if not create:
+            # Simple build, do nothing.
+            return
+
+        if extracted:
+            for tag in extracted:
+                self.tags.add(tag)
+
 
 class TagFactory(factory.django.DjangoModelFactory):
     name = factory.Sequence("tag-{}".format)
