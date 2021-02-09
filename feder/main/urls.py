@@ -52,6 +52,7 @@ urlpatterns += [
         _(r"^monitorings/"), include("feder.monitorings.urls", namespace="monitorings")
     ),
     url(_(r"^cases/"), include("feder.cases.urls", namespace="cases")),
+    url(_(r"^cases/tags/"), include("feder.cases_tags.urls", namespace="cases_tags")),
     url(_(r"^alerts/"), include("feder.alerts.urls", namespace="alerts")),
     url(_(r"^letters/"), include("feder.letters.urls", namespace="letters")),
     url(_(r"^teryt/"), include("feder.teryt.urls", namespace="teryt")),

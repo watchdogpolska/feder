@@ -84,13 +84,13 @@ class MonitoringCreateViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
 
     def test_template_used(self):
         assign_perm("monitorings.add_monitoring", self.user)
-        self.client.login(username="john", password="pass")
+        self.login_permitted_user()
         response = self.client.get(self.get_url())
         self.assertTemplateUsed(response, "monitorings/monitoring_form.html")
 
     def test_assign_perm_for_creator(self):
         assign_perm("monitorings.add_monitoring", self.user)
-        self.client.login(username="john", password="pass")
+        self.login_permitted_user()
         data = EXAMPLE_DATA.copy()
         response = self.client.post(self.get_url(), data=data)
         self.assertEqual(response.status_code, 302)
@@ -162,8 +162,26 @@ class MonitoringDetailViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
         # https://github.com/watchdogpolska/feder/issues/748
         # https://github.com/watchdogpolska/feder/issues/769
         RecordFactory(case__monitoring=self.monitoring)
+
+    def test_skip_link_to_tag_index_if_no_permission(self):
         response = self.client.get(self.get_url())
         self.assertEqual(response.status_code, 200)
+        self.assertNotContains(
+            response,
+            reverse("cases_tags:list", kwargs={"monitoring": self.monitoring.pk}),
+        )
+
+    def test_show_link_to_tag_index_if_permitted(self):
+        assign_perm("monitorings.view_tag", self.user, self.monitoring)
+        # TODO: analyze why 'change_monitoring' is always required
+        assign_perm("monitorings.change_monitoring", self.user, self.monitoring)
+        self.login_permitted_user()
+        response = self.client.get(self.get_url())
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(
+            response,
+            reverse("cases_tags:list", kwargs={"monitoring": self.monitoring.pk}),
+        )
 
 
 class LetterListMonitoringViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
@@ -231,7 +249,7 @@ class MonitoringUpdateViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
 
     def test_template_used(self):
         assign_perm("monitorings.change_monitoring", self.user, self.monitoring)
-        self.client.login(username="john", password="pass")
+        self.login_permitted_user()
         response = self.client.get(self.get_url())
         self.assertTemplateUsed(response, "monitorings/monitoring_form.html")
 
@@ -244,7 +262,7 @@ class MonitoringDeleteViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
 
     def test_template_used(self):
         assign_perm("monitorings.delete_monitoring", self.user, self.monitoring)
-        self.client.login(username="john", password="pass")
+        self.login_permitted_user()
         response = self.client.get(self.get_url())
         self.assertTemplateUsed(response, "monitorings/monitoring_confirm_delete.html")
 
@@ -257,7 +275,7 @@ class PermissionWizardTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
 
     def test_template_used(self):
         assign_perm("monitorings.manage_perm", self.user, self.monitoring)
-        self.client.login(username="john", password="pass")
+        self.login_permitted_user()
         response = self.client.get(self.get_url())
         self.assertTemplateUsed(response, "monitorings/permission_wizard.html")
 
@@ -265,7 +283,7 @@ class PermissionWizardTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
         normal_user = UserFactory(username="barney")
 
         assign_perm("monitorings.manage_perm", self.user, self.monitoring)
-        self.client.login(username="john", password="pass")
+        self.login_permitted_user()
 
         # First step - selecting user to set permissions to
         data = {"0-user": normal_user.pk, "permission_wizard-current_step": "0"}
@@ -293,7 +311,7 @@ class MonitoringPermissionViewTestCase(ObjectMixin, PermissionStatusMixin, TestC
 
     def test_template_used(self):
         assign_perm("monitorings.manage_perm", self.user, self.monitoring)
-        self.client.login(username="john", password="pass")
+        self.login_permitted_user()
         response = self.client.get(self.get_url())
         self.assertTemplateUsed(response, "monitorings/monitoring_permissions.html")
 
@@ -311,7 +329,7 @@ class MonitoringUpdatePermissionViewTestCase(
 
     def test_template_used(self):
         self.grant_permission()
-        self.client.login(username="john", password="pass")
+        self.login_permitted_user()
         response = self.client.get(self.get_url())
         self.assertTemplateUsed(response, "monitorings/monitoring_form.html")
 

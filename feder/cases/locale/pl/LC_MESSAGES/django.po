@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cases 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-08 15:10+0000\n"
-"PO-Revision-Date: 2018-02-28 01:34+0100\n"
+"POT-Creation-Date: 2021-01-29 00:45+0000\n"
+"PO-Revision-Date: 2021-01-29 01:45+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -40,7 +40,11 @@ msgstr "Monitoring"
 msgid "Institution"
 msgstr "Instytucja"
 
-#: models.py:83 models.py:84 models.py:101
+#: models.py:81
+msgid "Tags"
+msgstr "Tagi"
+
+#: models.py:86 models.py:87 models.py:104
 msgid "Case"
 msgstr "Sprawa"
 

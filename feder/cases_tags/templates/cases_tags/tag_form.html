@@ -1,0 +1,32 @@
+{% extends 'cases_tags/base_tag.html' %}
+{% load crispy_forms_tags i18n %}
+{% block breadcrumbs %}
+    {% if object %}
+        {{ block.super }}
+    {% elif monitoring %}
+        <ol
+        class="breadcrumb"
+        itemscope
+        itemtype="http://schema.org/BreadcrumbList">
+            <li
+                itemprop="itemListElement"
+                itemscope
+                itemtype="http://schema.org/ListItem">
+                <a itemprop="item" href="{{ monitoring.get_absolute_url }}">
+                    <span itemprop="name">{{ monitoring }}</span>
+                </a>
+            </li>
+            <li
+                itemprop="itemListElement"
+                itemscope
+                itemtype="http://schema.org/ListItem"
+                class="active">
+                <span itemprop="name">{% trans 'Add tag' %}</span>
+            </li>
+        </ol>
+    {% endif %}
+{% endblock %}
+
+{% block content_object %}
+    {% crispy form %}
+{% endblock %}
