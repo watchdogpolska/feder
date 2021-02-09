@@ -7,6 +7,7 @@
             <tr>
                 <th>{% trans 'institution' %}</th>
                 <th>{% trans 'administrative unit' %}</th>
+                <th>{% trans 'tags' %}</th>
                 <th>{% trans 'request sending date' %}</th>
                 <th>{% trans 'request status' %}</th>
                 <th>{% trans 'request confirmed' %}</th>
@@ -27,6 +28,9 @@
                     {{ case.institution.voivodeship }}<br>
                     {{ case.institution.county }}<br>
                     {{ case.institution.community }}
+                </td>
+                <td>
+                    {{ case.tags_str }}
                 </td>
                 {% with case.application_letter as application_letter %}
                 <td>{{ application_letter.created|date }}</td>

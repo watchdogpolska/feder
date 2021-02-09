@@ -27,6 +27,7 @@ class CaseReportSerializer(serializers.HyperlinkedModelSerializer):
     community = serializers.CharField(source="institution.community.name")
     county = serializers.CharField(source="institution.county.name")
     voivodeship = serializers.CharField(source="institution.voivodeship.name")
+    tags = serializers.CharField(source="tags_str")
     request_date = serializers.SerializerMethodField()
     request_status = serializers.SerializerMethodField()
     confirmation_received = serializers.SerializerMethodField()
@@ -41,6 +42,7 @@ class CaseReportSerializer(serializers.HyperlinkedModelSerializer):
             "voivodeship",
             "county",
             "community",
+            "tags",
             "request_date",
             "request_status",
             "confirmation_received",

@@ -42,6 +42,7 @@ class CaseCSVRenderer(PaginatedCSVStreamingRenderer):
         "community": _("Community"),
         "county": _("County"),
         "voivodeship": _("Voivodeship"),
+        "tags": _("Tags"),
         "request_date": _("Request date"),
         "request_status": _("Request status"),
         "response_received": _("Response received"),

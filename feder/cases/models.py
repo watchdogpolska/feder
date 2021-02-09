@@ -136,6 +136,10 @@ class Case(TimeStampedModel):
             > 1
         )
 
+    @property
+    def tags_str(self):
+        return " | ".join([t.name for t in self.tags.all().order_by("name")])
+
 
 class Alias(models.Model):
     case = models.ForeignKey(Case, on_delete=models.CASCADE, verbose_name=_("Case"))
