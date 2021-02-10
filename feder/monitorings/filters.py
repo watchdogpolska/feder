@@ -33,7 +33,7 @@ class MonitoringFilter(django_filters.FilterSet):
 
 class ReportMonitoringFilter(django_filters.FilterSet):
     name = django_filters.CharFilter(
-        label=_("institution name"),
+        label=_("Institution name"),
         field_name="institution__name",
         lookup_expr="icontains",
     )
@@ -51,7 +51,7 @@ class ReportMonitoringFilter(django_filters.FilterSet):
         )
     )
     tags = django_filters.ModelMultipleChoiceFilter(
-        label=_("tags"), field_name="tags", widget=forms.CheckboxSelectMultiple
+        label=_("Tags"), field_name="tags", widget=forms.CheckboxSelectMultiple
     )
 
     def __init__(self, *args, **kwargs):
