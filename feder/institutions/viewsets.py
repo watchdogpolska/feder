@@ -3,12 +3,12 @@ from django.utils.translation import ugettext_lazy as _
 from django_filters import rest_framework as filters
 from rest_framework import viewsets
 from rest_framework.settings import api_settings
-from rest_framework_csv.renderers import CSVStreamingRenderer
 from teryt_tree.rest_framework_ext.viewsets import custom_area_filter
 
 from .models import Institution, Tag
 from .serializers import InstitutionSerializer, TagSerializer, InstitutionCSVSerializer
-from ..main.mixins import CsvRendererViewMixin
+from feder.main.mixins import CsvRendererViewMixin
+from feder.main.utils import PaginatedCSVStreamingRenderer
 
 
 class InstitutionFilter(filters.FilterSet):
@@ -23,7 +23,7 @@ class InstitutionFilter(filters.FilterSet):
         fields = ["name", "tags", "jst", "regon"]
 
 
-class InstitutionCSVRenderer(CSVStreamingRenderer):
+class InstitutionCSVRenderer(PaginatedCSVStreamingRenderer):
     header = [
         "pk",
         "name",
@@ -61,7 +61,7 @@ class InstitutionCSVRenderer(CSVStreamingRenderer):
 
 class InstitutionViewSet(CsvRendererViewMixin, viewsets.ModelViewSet):
     queryset = (
-        Institution.objects.with_voivodeship()
+        Institution.objects.with_jst()
         .select_related("jst__category")
         .prefetch_related("tags", "parents")
         .all()

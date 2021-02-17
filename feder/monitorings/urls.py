@@ -33,6 +33,16 @@ urlpatterns = [
         name="letters",
     ),
     url(
+        _(r"^(?P<slug>[\w-]+)/report$"),
+        views.ReportMonitoringView.as_view(),
+        name="report",
+    ),
+    url(
+        _(r"^(?P<slug>[\w-]+)/report/page-(?P<page>[\d]+)$"),
+        views.ReportMonitoringView.as_view(),
+        name="report",
+    ),
+    url(
         _(r"^(?P<slug>[\w-]+)/drafts"),
         views.DraftListMonitoringView.as_view(),
         name="drafts",

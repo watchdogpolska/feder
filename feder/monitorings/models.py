@@ -95,6 +95,7 @@ class Monitoring(TimeStampedModel):
             ("view_tag", _("Can view tag")),
             ("change_tag", _("Can change tag")),
             ("delete_tag", _("Can delete tag")),
+            ("view_report", _("Can view report")),
         )
 
     def __str__(self):

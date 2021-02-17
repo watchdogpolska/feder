@@ -67,6 +67,12 @@ class LetterQuerySet(models.QuerySet):
     def exclude_spam(self):
         return self.exclude(is_spam=Letter.SPAM.spam)
 
+    def filter_automatic(self):
+        return self.filter(message_type__in=[i[0] for i in Letter.MESSAGE_TYPES_AUTO])
+
+    def exclude_automatic(self):
+        return self.exclude(message_type__in=[i[0] for i in Letter.MESSAGE_TYPES_AUTO])
+
 
 class LetterManager(BaseManager.from_queryset(LetterQuerySet)):
     def get_queryset(self):
@@ -83,6 +89,16 @@ class Letter(AbstractRecord):
         (1, "spam", _("Spam")),
         (2, "non_spam", _("Non-spam")),
     )
+    MESSAGE_TYPES = Choices(
+        (0, "unknown", _("Unknown")),
+        (1, "regular", _("Regular")),
+        (2, "disposition_notification", _("Disposition notification")),
+        (3, "vacation_reply", _("Vacation reply")),
+    )
+    MESSAGE_TYPES_AUTO = MESSAGE_TYPES.subset(
+        "disposition_notification", "vacation_reply"
+    )
+
     author_user = models.ForeignKey(
         to=settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -108,6 +124,11 @@ class Letter(AbstractRecord):
         verbose_name=_("Is SPAM?"), choices=SPAM, default=SPAM.unknown, db_index=True
     )
     is_draft = models.BooleanField(verbose_name=_("Is draft?"), default=True)
+    message_type = models.IntegerField(
+        verbose_name=_("Message type"),
+        choices=MESSAGE_TYPES,
+        default=MESSAGE_TYPES.unknown,
+    )
     mark_spam_by = models.ForeignKey(
         to=settings.AUTH_USER_MODEL,
         null=True,
@@ -153,6 +174,15 @@ class Letter(AbstractRecord):
     @property
     def is_outgoing(self):
         return bool(self.author_user_id)
+
+    @property
+    def status_str(self):
+        from .logs.models import EmailLog
+
+        try:
+            return self.emaillog.get_status_display
+        except EmailLog.DoesNotExist:
+            return _("unknown")
 
     def get_title(self):
         if self.title and self.title.strip():

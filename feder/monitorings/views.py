@@ -17,6 +17,7 @@ from django.db.models import Count
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext_lazy as _
+from django.utils.http import urlencode
 from django.views.generic import (
     CreateView,
     DeleteView,
@@ -33,7 +34,7 @@ from feder.institutions.filters import InstitutionFilter
 from feder.institutions.models import Institution
 from feder.letters.models import Letter
 from feder.main.mixins import ExtraListMixin, RaisePermissionRequiredMixin
-from .filters import MonitoringFilter
+from .filters import MonitoringFilter, ReportMonitoringFilter
 from .forms import (
     MonitoringForm,
     SaveTranslatedUserObjectPermissionsForm,
@@ -42,6 +43,7 @@ from .forms import (
 )
 from .models import Monitoring
 from .tasks import handle_mass_assign
+from ..main.paginator import DefaultPagination
 
 
 class MonitoringListView(SelectRelatedMixin, FilterView):
@@ -106,6 +108,33 @@ class LetterListMonitoringView(SelectRelatedMixin, ExtraListMixin, DetailView):
             .order_by("-created")
             .all()
         )
+
+
+class ReportMonitoringView(FilterView):
+    model = Case
+    filterset_class = ReportMonitoringFilter
+    paginate_by = 100
+
+    def get_template_names(self):
+        return "monitorings/monitoring_report.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["monitoring"] = Monitoring.objects.get(slug=self.kwargs["slug"])
+        get_params = {
+            key: value
+            for key, value in context["filter"].data.items()
+            if key in ("name", "voivodeship", "county", "community")
+        }
+        get_params["format"] = "csv"
+        get_params["page_size"]: DefaultPagination.max_page_size
+        context["csv_url"] = "{}?{}".format(
+            reverse_lazy("case-report-list"), urlencode(get_params)
+        )
+        return context
+
+    def get_queryset(self):
+        return super().get_queryset().filter(monitoring__slug=self.kwargs["slug"])
 
 
 class DraftListMonitoringView(SelectRelatedMixin, ExtraListMixin, DetailView):

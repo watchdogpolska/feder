@@ -11,7 +11,7 @@ from rest_framework import routers
 from teryt_tree.rest_framework_ext.viewsets import JednostkaAdministracyjnaViewSet
 
 from feder.cases.sitemaps import CaseSitemap
-from feder.cases.viewsets import CaseViewSet
+from feder.cases.viewsets import CaseViewSet, CaseReportViewSet
 from feder.institutions.sitemaps import InstitutionSitemap, TagSitemap
 from feder.institutions.viewsets import InstitutionViewSet, TagViewSet
 from feder.letters.sitemaps import LetterSitemap
@@ -27,6 +27,7 @@ router.register(r"institutions", InstitutionViewSet, basename="institution")
 router.register(r"tags", TagViewSet)
 router.register(r"teryt", JednostkaAdministracyjnaViewSet)
 router.register(r"records", RecordViewSet)
+router.register(r"cases/report", CaseReportViewSet, basename="case-report")
 router.register(r"cases", CaseViewSet)
 router.register(r"monitoring", MonitoringViewSet)
 
