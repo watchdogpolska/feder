@@ -493,6 +493,42 @@ class ReceiveEmailTestCase(TestCase):
         )
         self.assertEqual(attachment.attachment.read().decode("utf8"), "54321")
 
+    def test_vacation_reply_type(self):
+        case = CaseFactory()
+        body = self._get_body(case, auto_reply_type="vacation-reply")
+        files = self._get_files(body)
+
+        response = self.client.post(path=self.authenticated_url, data=files)
+        self.assertEqual(response.json()["status"], "OK")
+        self.assertEqual(
+            case.record_set.all()[0].content_object.message_type,
+            Letter.MESSAGE_TYPES.vacation_reply,
+        )
+
+    def test_disposition_notification_type(self):
+        case = CaseFactory()
+        body = self._get_body(case, auto_reply_type="disposition-notification")
+        files = self._get_files(body)
+
+        response = self.client.post(path=self.authenticated_url, data=files)
+        self.assertEqual(response.json()["status"], "OK")
+        self.assertEqual(
+            case.record_set.all()[0].content_object.message_type,
+            Letter.MESSAGE_TYPES.disposition_notification,
+        )
+
+    def test_regular_type(self):
+        case = CaseFactory()
+        body = self._get_body(case, auto_reply_type=None)
+        files = self._get_files(body)
+
+        response = self.client.post(path=self.authenticated_url, data=files)
+        self.assertEqual(response.json()["status"], "OK")
+        self.assertEqual(
+            case.record_set.all()[0].content_object.message_type,
+            Letter.MESSAGE_TYPES.regular,
+        )
+
     def test_no_match_of_case(self):
         body = self._get_body()
         files = self._get_files(body)
@@ -537,10 +573,10 @@ class ReceiveEmailTestCase(TestCase):
         files["attachment"] = SimpleUploadedFile(name="my-doc.txt", content=b"54321")
         return files
 
-    def _get_body(self, case=None, html_body=False):
+    def _get_body(self, case=None, html_body=False, auto_reply_type="vacation-reply"):
         body = {
             "headers": {
-                "auto_reply_type": "vacation-reply",
+                "auto_reply_type": auto_reply_type,
                 "cc": [],
                 "date": "2018-07-30T11:33:22",
                 "from": ["user-a@siecobywatelska.pl"],
