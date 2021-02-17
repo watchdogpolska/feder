@@ -48,7 +48,7 @@ SENDFILE_URL = MEDIA_URL
 DEFAULT_FROM_EMAIL = env(
     "DJANGO_DEFAULT_FROM_EMAIL", default="feder <noreply@dane.siecobywatelska.pl>"
 )
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 EMAIL_SUBJECT_PREFIX = env("DJANGO_EMAIL_SUBJECT_PREFIX", default="[feder] ")
 SERVER_EMAIL = env("DJANGO_SERVER_EMAIL")
 
