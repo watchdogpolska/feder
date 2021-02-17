@@ -132,8 +132,7 @@ class Case(TimeStampedModel):
             apps.get_model("letters", "Letter")
             .objects.filter(record__case=self, author_user_id__isnull=True)
             .exclude_automatic()
-            .count()
-            > 1
+            .exists()
         )
 
     @property
