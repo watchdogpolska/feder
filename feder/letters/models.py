@@ -177,15 +177,6 @@ class Letter(AbstractRecord):
     def is_outgoing(self):
         return bool(self.author_user_id)
 
-    @property
-    def status_str(self):
-        from .logs.models import EmailLog
-
-        try:
-            return self.emaillog.get_status_display
-        except EmailLog.DoesNotExist:
-            return _("unknown")
-
     def get_title(self):
         if self.title and self.title.strip():
             return self.title

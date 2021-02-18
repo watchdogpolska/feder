@@ -67,4 +67,12 @@ class ReportMonitoringFilter(django_filters.FilterSet):
 
     class Meta:
         model = Case
-        fields = []
+        fields = [
+            "name",
+            "voivodeship",
+            "county",
+            "community",
+            "tags",
+            "confirmation_received",
+            "response_received",
+        ]

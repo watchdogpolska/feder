@@ -7,11 +7,18 @@
             <tr>
                 <th>{% trans 'institution' %}</th>
                 <th>{% trans 'administrative unit' %}</th>
-                <th>{% trans 'tags' %}</th>
-                <th>{% trans 'request sending date' %}</th>
-                <th>{% trans 'request status' %}</th>
-                <th>{% trans 'request confirmed' %}</th>
-                <th>{% trans 'response received' %}</th>
+                <th class="centered centered_cell">
+                    {% trans 'tags' %}
+                </th>
+                <th class="table__col_narrow centered centered_cell">
+                    {% trans 'request sending date' %}
+                </th>
+                <th class="table__col_narrow centered centered_cell">
+                    {% trans 'request confirmed' %}
+                </th>
+                <th class="table__col_narrow centered centered_cell">
+                    {% trans 'response received' %}
+                </th>
             </tr>
         </thead>
 
@@ -22,7 +29,8 @@
                     <a href="{% url 'cases:details' slug=case.slug %}">
                       {{ case.institution.name }}
                     </a><br>
-                    {{ case.institution.email }}
+                    {{ case.institution.email }}<br>
+                    REGON: {{ case.institution.regon }}
                 </td>
                 <td>
                     {{ case.institution.voivodeship }}<br>
@@ -34,13 +42,6 @@
                 </td>
                 {% with case.application_letter as application_letter %}
                 <td>{{ application_letter.created|date }}</td>
-                <td>
-                    {% if application_letter %}
-                        {{ application_letter.status_str }}
-                    {% else %}
-                        {% trans "unknown" %}
-                    {% endif %}
-                </td>
                 <td>
                     {% if case.confirmation_received %}
                         <i class="fa fa-check-circle fa-lg color-success centered"

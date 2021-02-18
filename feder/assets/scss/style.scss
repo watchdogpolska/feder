@@ -193,6 +193,25 @@ iframe.letter-quote {
 .centered {
   display: block;
   text-align: center;
+
+  &_inline {
+    display: inline;
+  }
+
+  &_block {
+    display: block;
+  }
+
+  &_cell {
+    display: table-cell;
+  }
+}
+
+
+/* tables */
+
+.table__col_narrow {
+  max-width: 120px;
 }
 
 

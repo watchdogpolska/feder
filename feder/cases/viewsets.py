@@ -39,14 +39,14 @@ class CaseCSVRenderer(PaginatedCSVStreamingRenderer):
         "pk": _("Id"),
         "institution_name": _("Name"),
         "institution_email": _("Email of institution"),
+        "institution_regon": _("REGON"),
         "community": _("Community"),
         "county": _("County"),
         "voivodeship": _("Voivodeship"),
         "tags": _("Tags"),
         "request_date": _("Request date"),
-        "request_status": _("Request status"),
+        "confirmation_received": _("Confirmation received"),
         "response_received": _("Response received"),
-        "receiving_confirmed": _("Receiving confirmed"),
     }
     results_field = "results"
 

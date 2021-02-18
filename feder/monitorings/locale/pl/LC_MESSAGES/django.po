@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-monitorings 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-10 17:57+0100\n"
-"PO-Revision-Date: 2021-02-10 17:58+0100\n"
+"POT-Creation-Date: 2021-02-18 13:40+0000\n"
+"PO-Revision-Date: 2021-02-18 14:46+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -81,7 +81,7 @@ msgstr "Tytuł"
 
 #: models.py:55
 msgid "Use {{EMAIL}} for insert reply address"
-msgstr "Użyj {{EMAIL}} aby umieścić adres odpowiedzi."
+msgstr "Użyj {{EMAIL}} aby umieścić adres odpowiedzi"
 
 #: models.py:60
 msgid "Email footer"
@@ -233,7 +233,7 @@ msgstr "przez"
 
 #: templates/monitorings/_letter.html:10
 msgid "in case of "
-msgstr "w sprawie"
+msgstr "w sprawie "
 
 #: templates/monitorings/_monitoring_small.html:16
 msgid "Case count"
@@ -252,41 +252,33 @@ msgstr "instytucja"
 msgid "administrative unit"
 msgstr "jednostka administracyjna"
 
-#: templates/monitorings/_report_content.html:10
+#: templates/monitorings/_report_content.html:11
 msgid "tags"
 msgstr "tagi"
 
-#: templates/monitorings/_report_content.html:11
+#: templates/monitorings/_report_content.html:14
 msgid "request sending date"
 msgstr "data wysłania wniosku"
 
-#: templates/monitorings/_report_content.html:12
-msgid "request status"
-msgstr "status wniosku"
-
-#: templates/monitorings/_report_content.html:13
+#: templates/monitorings/_report_content.html:17
 msgid "request confirmed"
 msgstr "potwierdzenie dostarczenia wniosku"
 
-#: templates/monitorings/_report_content.html:14
+#: templates/monitorings/_report_content.html:20
 msgid "response received"
 msgstr "otrzymano odpowiedź"
 
-#: templates/monitorings/_report_content.html:41
-msgid "unknown"
-msgstr "nieznany"
-
-#: templates/monitorings/_report_content.html:47
-#: templates/monitorings/_report_content.html:56
+#: templates/monitorings/_report_content.html:48
+#: templates/monitorings/_report_content.html:57
 msgid "yes"
 msgstr "tak"
 
-#: templates/monitorings/_report_content.html:50
-#: templates/monitorings/_report_content.html:59
+#: templates/monitorings/_report_content.html:51
+#: templates/monitorings/_report_content.html:60
 msgid "no"
 msgstr "nie"
 
-#: templates/monitorings/_report_content.html:66
+#: templates/monitorings/_report_content.html:67
 #: templates/monitorings/monitoring_detail.html:37
 #: templates/monitorings/monitoring_draft_list.html:17
 #: templates/monitorings/monitoring_letter_list.html:17
@@ -383,7 +375,7 @@ msgstr "poprzedni krok"
 
 #: templates/monitorings/permission_wizard.html:24
 msgid "submit"
-msgstr "Zgłoś"
+msgstr "zgłoś"
 
 #: urls.py:7
 msgid "^$"
@@ -461,26 +453,26 @@ msgstr "^(?P<slug>[\\w-]+)/~przypisz$"
 msgid "Using field {{EMAIL}} is mandatory."
 msgstr "Użycie pola {{EMAIL}} jest obowiązkowe."
 
-#: views.py:173
+#: views.py:181
 #, python-brace-format
 msgid "{0} created!"
 msgstr "{0} utworzony!"
 
-#: views.py:243
+#: views.py:251
 #, python-brace-format
 msgid "Permissions to {monitoring} updated!"
 msgstr "Uprawnienia dla {monitoring} zaktualizowane!"
 
-#: views.py:299
+#: views.py:307
 #, python-brace-format
 msgid "Permissions to {monitoring} of {user} updated!"
 msgstr "Uprawnienia do {monitoring} dla {user} zaktualizowane!"
 
-#: views.py:347
+#: views.py:355
 msgid "You can not send letters without using filtering."
 msgstr "Nie możesz wysyłać listów bez używania filtrowania."
 
-#: views.py:363
+#: views.py:371
 #, python-format
 msgid ""
 "You can not send %(count)d letters at once. The maximum is %(limit)d. Use "
@@ -489,7 +481,7 @@ msgstr ""
 "Nie możesz wysłać %(count)d listów na raz. Maksimum to %(limit)d. Użyj "
 "filtrowania."
 
-#: views.py:384
+#: views.py:392
 #, python-format
 msgid ""
 "%(count)d institutions was assigned to %(monitoring)s.  The requests "
@@ -497,6 +489,12 @@ msgid ""
 msgstr ""
 "%(count)d instytucji zostało przypisanych do %(monitoring)s. Wysyłka "
 "wniosków została zaplanowana."
+
+#~ msgid "request status"
+#~ msgstr "status wniosku"
+
+#~ msgid "unknown"
+#~ msgstr "nieznany"
 
 #~ msgid "Can select answer"
 #~ msgstr "Może  wybierać odpowiedź"
