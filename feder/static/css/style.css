@@ -7511,9 +7511,6 @@ iframe.letter-quote {
   .centered_cell {
     display: table-cell; }
 
-.centered_inline {
-  text-align: center; }
-
 /* tables */
 .table__col_narrow {
   max-width: 120px; }
