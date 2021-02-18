@@ -89,6 +89,12 @@ class Case(TimeStampedModel):
     tags = models.ManyToManyField(
         to="cases_tags.Tag", verbose_name=_("Tags"), blank=True
     )
+    confirmation_received = models.BooleanField(
+        verbose_name=_("Confirmation received"), default=False
+    )
+    response_received = models.BooleanField(
+        verbose_name=_("Response received"), default=False
+    )
     objects = CaseQuerySet.as_manager()
 
     class Meta:
@@ -117,8 +123,7 @@ class Case(TimeStampedModel):
             .first()
         )
 
-    @property
-    def confirmation_received(self):
+    def get_confirmation_received(self):
         return (
             apps.get_model("letters", "Letter")
             .objects.filter(record__case=self, author_user_id__isnull=True)
@@ -126,8 +131,7 @@ class Case(TimeStampedModel):
             .exists()
         )
 
-    @property
-    def response_received(self):
+    def get_response_received(self):
         return (
             apps.get_model("letters", "Letter")
             .objects.filter(record__case=self, author_user_id__isnull=True)

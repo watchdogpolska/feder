@@ -529,6 +529,31 @@ class ReceiveEmailTestCase(TestCase):
             Letter.MESSAGE_TYPES.regular,
         )
 
+    def test_case_status(self):
+        case = CaseFactory()
+
+        # No letters yet
+        self.assertFalse(case.confirmation_received)
+        self.assertFalse(case.response_received)
+
+        # Sending automatic response
+        body = self._get_body(case, auto_reply_type="disposition-notification")
+        files = self._get_files(body)
+        response = self.client.post(path=self.authenticated_url, data=files)
+        self.assertEqual(response.json()["status"], "OK")
+        case = Case.objects.get(id=case.id)
+        self.assertTrue(case.confirmation_received)
+        self.assertFalse(case.response_received)
+
+        # Sending regular response
+        body = self._get_body(case, auto_reply_type=None)
+        files = self._get_files(body)
+        response = self.client.post(path=self.authenticated_url, data=files)
+        self.assertEqual(response.json()["status"], "OK")
+        case = Case.objects.get(id=case.id)
+        self.assertTrue(case.confirmation_received)
+        self.assertTrue(case.response_received)
+
     def test_no_match_of_case(self):
         body = self._get_body()
         files = self._get_files(body)
