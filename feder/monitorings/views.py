@@ -124,7 +124,15 @@ class ReportMonitoringView(FilterView):
         get_params = {
             key: value
             for key, value in context["filter"].data.items()
-            if key in ("name", "voivodeship", "county", "community")
+            if key
+            in (
+                "name",
+                "voivodeship",
+                "county",
+                "community",
+                "confirmation_received",
+                "response_received",
+            )
         }
         get_params["format"] = "csv"
         get_params["page_size"]: DefaultPagination.max_page_size

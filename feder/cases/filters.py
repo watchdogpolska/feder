@@ -30,4 +30,11 @@ class CaseFilter(DisabledWhenFilterSetMixin, django_filters.FilterSet):
 
     class Meta:
         model = Case
-        fields = ["name", "monitoring", "institution", "created"]
+        fields = [
+            "name",
+            "monitoring",
+            "institution",
+            "created",
+            "confirmation_received",
+            "response_received",
+        ]

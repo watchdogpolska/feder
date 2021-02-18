@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: letters 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-18 14:43+0000\n"
-"PO-Revision-Date: 2020-11-18 15:43+0100\n"
+"POT-Creation-Date: 2021-02-18 13:40+0000\n"
+"PO-Revision-Date: 2021-02-18 14:46+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -17,9 +17,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.4.1\n"
 
-#: apps.py:7 models.py:144
+#: apps.py:7 models.py:164
 msgid "Letter"
 msgstr "List"
 
@@ -31,7 +31,7 @@ msgstr "Data utworzenia"
 msgid "Has eml?"
 msgstr "Ma plik .eml?"
 
-#: filters.py:20 models.py:100
+#: filters.py:20 models.py:118
 msgid "Title"
 msgstr "Tytuł"
 
@@ -77,100 +77,116 @@ msgstr "Numer sprawy"
 msgid "Reassign"
 msgstr "Przepisz"
 
-#: models.py:82
+#: models.py:90 models.py:95
 msgid "Unknown"
 msgstr "Nieznane"
 
-#: models.py:83
+#: models.py:91
 msgid "Spam"
 msgstr "Spam"
 
-#: models.py:84
+#: models.py:92
 msgid "Non-spam"
 msgstr "Nie-spam"
 
-#: models.py:89
+#: models.py:96
+msgid "Regular"
+msgstr "Zwyczajny"
+
+#: models.py:97
+msgid "Disposition notification"
+msgstr "Potwierdzenie dostarczenia"
+
+#: models.py:98
+msgid "Vacation reply"
+msgstr "Odpowiedź urlopowa"
+
+#: models.py:107
 msgid "Author (if user)"
 msgstr "Autor (jeżeli użytkownik)"
 
-#: models.py:96
+#: models.py:114
 msgid "Author (if institution)"
 msgstr "Autor (jeżeli instytucja)"
 
-#: models.py:101 templates/letters/messages/_message.html:13
+#: models.py:119 templates/letters/messages/_message.html:13
 msgid "Text"
 msgstr "Treść"
 
-#: models.py:102
+#: models.py:120
 msgid "Text in HTML"
 msgstr "Treść w formacie HTML"
 
-#: models.py:103
+#: models.py:121
 msgid "Quote"
 msgstr "Cytat"
 
-#: models.py:104
+#: models.py:122
 msgid "Quote in HTML"
 msgstr "Cytat w formacie HTML"
 
-#: models.py:105
+#: models.py:123
 msgid "E-mail"
 msgstr "E-mail"
 
-#: models.py:106
+#: models.py:124
 msgid "Comments from editor"
 msgstr "Komentarz od redakcji"
 
-#: models.py:108
+#: models.py:126
 msgid "Is SPAM?"
 msgstr "Oznaczony jako SPAM?"
 
-#: models.py:113
+#: models.py:128
 msgid "Is draft?"
 msgstr "Czy szkic?"
 
-#: models.py:119
+#: models.py:130
+msgid "Message type"
+msgstr "Typ wiadomości"
+
+#: models.py:139
 msgid "Spam marker"
 msgstr "Oznacz spam"
 
-#: models.py:120
+#: models.py:140
 msgid "The person who marked it as spam"
 msgstr "Osoba, która oznaczyła jako spam"
 
-#: models.py:126
+#: models.py:146
 msgid "Time of mark as spam"
 msgstr "Czas oznaczenia jako spam"
 
-#: models.py:127
+#: models.py:147
 msgid "Time when letter was marked as spam"
 msgstr "Czas kiedy list został oznaczony jako spam"
 
-#: models.py:131
+#: models.py:151
 msgid "ID of sent email message \"Message-ID\""
 msgstr "ID wysłanej wiadomości e-mail \"Message-ID\""
 
-#: models.py:135
+#: models.py:155
 msgid "File"
 msgstr "Plik"
 
-#: models.py:145 templates/letters/base.html:5
+#: models.py:165 templates/letters/base.html:5
 #: templates/letters/letter_detail.html:3
 msgid "Letters"
 msgstr "Listy"
 
-#: models.py:148
+#: models.py:168
 msgid "Can filter eml"
 msgstr "Może filtrować po eml"
 
-#: models.py:149
+#: models.py:169
 msgid "Can recognize letter"
 msgstr "Może rozpoznawać listy"
 
-#: models.py:163
+#: models.py:183
 msgid "(no subject)"
 msgstr "(bez tematu)"
 
-#: models.py:282
+#: models.py:302
 msgid "Virus scan request"
 msgstr "Żądanie skanowania antywirusowego"
 
@@ -194,7 +210,7 @@ msgid "Send draft"
 msgstr "Wyślij ten szkic"
 
 #: templates/letters/_btn.html:33 templates/letters/letter_spam.html:15
-#: tests/test_views.py:79
+#: tests/test_views.py:82
 msgid "Report spam"
 msgstr "Zgłoś spam"
 
@@ -232,7 +248,7 @@ msgid "E-mail of case"
 msgstr "Adres e-mail sprawy"
 
 #: templates/letters/_letter_reply_body.html:5
-#: templates/letters/_letter_reply_body.txt:4 templates/letters/_object.html:31
+#: templates/letters/_letter_reply_body.txt:4 templates/letters/_object.html:36
 #: templates/letters/messages/_message.html:26
 msgid "Attachments"
 msgstr "Załączniki"
@@ -259,18 +275,18 @@ msgstr ""
 msgid "Download letter"
 msgstr "Pobierz list"
 
-#: templates/letters/_object.html:25
+#: templates/letters/_object.html:30
 msgid ""
 "This is just a draft message. The message was not sent to the institution."
 msgstr ""
 "To jest tylko szablon wiadomości. Wiadomość nie została wysłana do "
 "instytucji."
 
-#: templates/letters/_object.html:42
+#: templates/letters/_object.html:47
 msgid "Download"
 msgstr "Pobierz"
 
-#: templates/letters/_object.html:49
+#: templates/letters/_object.html:54
 msgid "Scan"
 msgstr "Skanuj"
 
@@ -530,33 +546,33 @@ msgid "^~assign-(?P<pk>[\\d-]+)$"
 msgstr "^~przypisz-(?P<pk>[\\d-]+)$"
 
 #: urls.py:78
-msgid "^webhook"
-msgstr "^webhook"
+msgid "^webhook$"
+msgstr "^webhook$"
 
-#: views.py:55
+#: views.py:54
 msgid "Letters index"
 msgstr "Wykaz listów"
 
-#: views.py:187
+#: views.py:186
 #, python-brace-format
 msgid "Reply {reply} to {letter} saved and send!"
 msgstr "Odpowiedź {reply} na {letter} zapisana i wysłana!"
 
-#: views.py:190
+#: views.py:189
 #, python-brace-format
 msgid "Reply {reply} to {letter} saved to review!"
 msgstr "Odpowiedź {reply} do listu {letter} zapisana do przejrzenia!"
 
-#: views.py:207
+#: views.py:206
 #, python-brace-format
 msgid "Reply {letter} send to {institution}!"
 msgstr "Odpowiedź {letter} wysłana do {institution}!"
 
-#: views.py:258
+#: views.py:257
 msgid "Latest letters on whole site"
 msgstr "Ostatnie listy na całej stronie"
 
-#: views.py:261
+#: views.py:260
 msgid ""
 "Updates on new letters on site including receving and sending in all "
 "monitorings."
@@ -564,51 +580,51 @@ msgstr ""
 "Aktualizacje wszystkich listów na stronie włączając w to listy przychodzące "
 "i wychodzące w wszystkich monitoringach."
 
-#: views.py:315
+#: views.py:314
 #, python-format
 msgid "Letter for monitoring %s"
 msgstr "Listy monitoringu %s "
 
-#: views.py:319
+#: views.py:318
 #, python-format
 msgid "Archive of letter for cases which involved in monitoring %s"
 msgstr "Archiwum listów w sprawach z monitoringu %s"
 
-#: views.py:335
+#: views.py:334
 #, python-format
 msgid "Letter for case %s"
 msgstr "Listy w sprawie %s"
 
-#: views.py:338
+#: views.py:337
 #, python-format
 msgid "Archive of letter for case %s"
 msgstr "Archiwum listów w sprawie %s"
 
-#: views.py:358
+#: views.py:357
 msgid "SPAM"
 msgstr "SPAM"
 
-#: views.py:365
+#: views.py:364
 msgid "Thanks for your help. The report was forwarded to responsible persons."
 msgstr ""
 "Dziękujemy za pomoc. Zgłoszenie zostało przekazane do odpowiedzialnych osób."
 
-#: views.py:405
+#: views.py:404
 #, python-brace-format
 msgid "The letter {object} has been marked as valid."
 msgstr "List {object} został oznaczony jako spam i ukryty."
 
-#: views.py:408
+#: views.py:407
 #, python-brace-format
 msgid "The message {object} has been marked as spam and hidden."
 msgstr "List {object} został oznaczony jako spam i ukryty."
 
-#: views.py:457
+#: views.py:456
 #, python-format
 msgid "Assigned letter to case '%(case)s'"
 msgstr "Przypisano list do sprawy '%(case)s'"
 
-#: views.py:521
+#: views.py:520
 msgid "The file {} has been queued for scanning"
 msgstr "Plik {} został zakolejkowany do skanowania."
 
@@ -617,9 +633,6 @@ msgstr "Plik {} został zakolejkowany do skanowania."
 
 #~ msgid "Creation date (descending)"
 #~ msgstr "Data utworzenia (malejąco)"
-
-#~ msgid "Message"
-#~ msgstr "Wiadomość"
 
 #~ msgid "Recognize messages"
 #~ msgstr "Rozpoznaj wiadomości"

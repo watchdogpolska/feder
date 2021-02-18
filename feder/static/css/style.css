@@ -7504,6 +7504,16 @@ iframe.letter-quote {
 .centered {
   display: block;
   text-align: center; }
+  .centered_inline {
+    display: inline; }
+  .centered_block {
+    display: block; }
+  .centered_cell {
+    display: table-cell; }
+
+/* tables */
+.table__col_narrow {
+  max-width: 120px; }
 
 /* colors */
 .color-danger {
