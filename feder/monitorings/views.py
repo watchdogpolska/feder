@@ -34,7 +34,7 @@ from feder.institutions.filters import InstitutionFilter
 from feder.institutions.models import Institution
 from feder.letters.models import Letter
 from feder.main.mixins import ExtraListMixin, RaisePermissionRequiredMixin
-from .filters import MonitoringFilter, ReportMonitoringFilter
+from .filters import MonitoringFilter, CaseReportFilter
 from .forms import (
     MonitoringForm,
     SaveTranslatedUserObjectPermissionsForm,
@@ -110,17 +110,24 @@ class LetterListMonitoringView(SelectRelatedMixin, ExtraListMixin, DetailView):
         )
 
 
-class ReportMonitoringView(FilterView):
+class MonitoringReportView(LoginRequiredMixin, PermissionRequiredMixin, FilterView):
     model = Case
-    filterset_class = ReportMonitoringFilter
+    filterset_class = CaseReportFilter
     paginate_by = 100
+    permission_required = "monitorings.view_report"
+    object_level_permissions = True
+    raise_exception = True
+    redirect_unauthenticated_users = True
 
     def get_template_names(self):
         return "monitorings/monitoring_report.html"
 
+    def get_object(self):
+        return Monitoring.objects.get(slug=self.kwargs["slug"])
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["monitoring"] = Monitoring.objects.get(slug=self.kwargs["slug"])
+        context["monitoring"] = self.get_object()
         get_params = {
             key: value
             for key, value in context["filter"].data.items()

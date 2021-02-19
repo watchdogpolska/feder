@@ -7,7 +7,7 @@ from .models import Case
 from .serializers import CaseSerializer, CaseReportSerializer
 from feder.main.utils import PaginatedCSVStreamingRenderer
 from feder.main.mixins import CsvRendererViewMixin
-from feder.monitorings.filters import ReportMonitoringFilter
+from feder.monitorings.filters import CaseReportFilter
 
 
 class CaseFilter(filters.FilterSet):
@@ -25,12 +25,6 @@ class CaseViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = CaseSerializer
     filter_backends = (filters.DjangoFilterBackend,)
     filter_class = CaseFilter
-
-
-class CaseReportFilter(filters.FilterSet):
-    class Meta:
-        model = Case
-        fields = ["name", "monitoring"]
 
 
 class CaseCSVRenderer(PaginatedCSVStreamingRenderer):
@@ -54,7 +48,7 @@ class CaseCSVRenderer(PaginatedCSVStreamingRenderer):
 class CaseReportViewSet(CsvRendererViewMixin, viewsets.ReadOnlyModelViewSet):
     serializer_class = CaseReportSerializer
     filter_backends = (filters.DjangoFilterBackend,)
-    filter_class = ReportMonitoringFilter
+    filter_class = CaseReportFilter
     renderer_classes = tuple(api_settings.DEFAULT_RENDERER_CLASSES) + (CaseCSVRenderer,)
 
     # custom attributes:

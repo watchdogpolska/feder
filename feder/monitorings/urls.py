@@ -34,12 +34,12 @@ urlpatterns = [
     ),
     url(
         _(r"^(?P<slug>[\w-]+)/report$"),
-        views.ReportMonitoringView.as_view(),
+        views.MonitoringReportView.as_view(),
         name="report",
     ),
     url(
         _(r"^(?P<slug>[\w-]+)/report/page-(?P<page>[\d]+)$"),
-        views.ReportMonitoringView.as_view(),
+        views.MonitoringReportView.as_view(),
         name="report",
     ),
     url(
