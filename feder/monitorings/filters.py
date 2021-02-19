@@ -31,7 +31,7 @@ class MonitoringFilter(django_filters.FilterSet):
         fields = ["name", "created"]
 
 
-class ReportMonitoringFilter(django_filters.FilterSet):
+class CaseReportFilter(django_filters.FilterSet):
     name = django_filters.CharFilter(
         label=_("Institution name"),
         field_name="institution__name",
