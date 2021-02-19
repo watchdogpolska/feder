@@ -34,7 +34,8 @@ from feder.institutions.filters import InstitutionFilter
 from feder.institutions.models import Institution
 from feder.letters.models import Letter
 from feder.main.mixins import ExtraListMixin, RaisePermissionRequiredMixin
-from .filters import MonitoringFilter, CaseReportFilter
+from feder.main.paginator import DefaultPagination
+from .filters import MonitoringFilter, MonitoringCaseReportFilter
 from .forms import (
     MonitoringForm,
     SaveTranslatedUserObjectPermissionsForm,
@@ -43,7 +44,6 @@ from .forms import (
 )
 from .models import Monitoring
 from .tasks import handle_mass_assign
-from ..main.paginator import DefaultPagination
 
 
 class MonitoringListView(SelectRelatedMixin, FilterView):
@@ -112,7 +112,7 @@ class LetterListMonitoringView(SelectRelatedMixin, ExtraListMixin, DetailView):
 
 class MonitoringReportView(LoginRequiredMixin, PermissionRequiredMixin, FilterView):
     model = Case
-    filterset_class = CaseReportFilter
+    filterset_class = MonitoringCaseReportFilter
     paginate_by = 100
     permission_required = "monitorings.view_report"
     object_level_permissions = True
@@ -142,7 +142,8 @@ class MonitoringReportView(LoginRequiredMixin, PermissionRequiredMixin, FilterVi
             )
         }
         get_params["format"] = "csv"
-        get_params["page_size"]: DefaultPagination.max_page_size
+        get_params["page_size"] = DefaultPagination.max_page_size
+        get_params["monitoring"] = context["monitoring"].id
         context["csv_url"] = "{}?{}".format(
             reverse_lazy("case-report-list"), urlencode(get_params)
         )

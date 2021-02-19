@@ -33,9 +33,9 @@
                     REGON: {{ case.institution.regon }}
                 </td>
                 <td>
-                    {{ case.institution.voivodeship }}<br>
-                    {{ case.institution.county }}<br>
-                    {{ case.institution.community }}
+                    {{ case.institution.voivodeship|default:'' }}<br>
+                    {{ case.institution.county|default:'' }}<br>
+                    {{ case.institution.community|default:'' }}
                 </td>
                 <td>
                     {{ case.tags_str }}
