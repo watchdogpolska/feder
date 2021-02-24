@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cases 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-18 13:51+0000\n"
-"PO-Revision-Date: 2021-02-18 14:52+0100\n"
+"POT-Creation-Date: 2021-02-24 19:15+0000\n"
+"PO-Revision-Date: 2021-02-24 20:16+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -19,13 +19,21 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 2.4.1\n"
 
-#: filters.py:15 templates/cases/_case_small.html:7
+#: filters.py:20 templates/cases/_case_small.html:7
 msgid "Creation date"
 msgstr "Data utworzenia"
 
-#: filters.py:23 models.py:74 viewsets.py:40
+#: filters.py:28 models.py:74 viewsets.py:34
 msgid "Name"
 msgstr "Nazwa"
+
+#: filters.py:51
+msgid "Institution name"
+msgstr "Nazwa instyticji"
+
+#: filters.py:69 models.py:90 viewsets.py:40
+msgid "Tags"
+msgstr "Tagi"
 
 #: models.py:76
 msgid "Slug"
@@ -41,15 +49,11 @@ msgstr "Monitoring"
 msgid "Institution"
 msgstr "Instytucja"
 
-#: models.py:90 viewsets.py:46
-msgid "Tags"
-msgstr "Tagi"
-
-#: models.py:93 viewsets.py:48
+#: models.py:93 viewsets.py:43
 msgid "Confirmation received"
 msgstr "Otrzymano potwierdzenie"
 
-#: models.py:96 viewsets.py:49
+#: models.py:96 viewsets.py:44
 msgid "Response received"
 msgstr "Otrzymano odpowiedź"
 
@@ -57,11 +61,15 @@ msgstr "Otrzymano odpowiedź"
 msgid "Case"
 msgstr "Sprawa"
 
-#: serializers.py:66 serializers.py:69
+#: serializers.py:72
+msgid "unknown"
+msgstr "nieznany"
+
+#: serializers.py:75 serializers.py:78
 msgid "yes"
 msgstr "tak"
 
-#: serializers.py:66 serializers.py:69
+#: serializers.py:75 serializers.py:78
 msgid "no"
 msgstr "nie"
 
@@ -145,35 +153,39 @@ msgstr "^~autocomplete-szukaj$"
 msgid "Case index"
 msgstr "Wykaz spraw"
 
-#: viewsets.py:39
+#: viewsets.py:33
 msgid "Id"
 msgstr "Id"
 
-#: viewsets.py:41
+#: viewsets.py:35
 msgid "Email of institution"
 msgstr "E-mail instytucji"
 
-#: viewsets.py:42
+#: viewsets.py:36
 msgid "REGON"
 msgstr "REGON"
 
-#: viewsets.py:43
+#: viewsets.py:37
 msgid "Community"
 msgstr "Gmina"
 
-#: viewsets.py:44
+#: viewsets.py:38
 msgid "County"
 msgstr "Powiat"
 
-#: viewsets.py:45
+#: viewsets.py:39
 msgid "Voivodeship"
 msgstr "Województwo"
 
-#: viewsets.py:47
+#: viewsets.py:41
 msgid "Request date"
 msgstr "Data wniosku"
 
-#: viewsets.py:61
+#: viewsets.py:42
+msgid "Request status"
+msgstr "Status wniosku"
+
+#: viewsets.py:56
 msgid "case_report"
 msgstr "raport_spraw"
 
@@ -181,12 +193,6 @@ msgstr "raport_spraw"
 #~| msgid "Confirmation received"
 #~ msgid "Confirmation confirmed"
 #~ msgstr "Otrzymano potwierdzenie"
-
-#~ msgid "unknown"
-#~ msgstr "nieznany"
-
-#~ msgid "Request status"
-#~ msgstr "Status wniosku"
 
 #~ msgid "Receiving confirmed"
 #~ msgstr "Potwierdzono dostarczenie"

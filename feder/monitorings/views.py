@@ -150,7 +150,18 @@ class MonitoringReportView(LoginRequiredMixin, PermissionRequiredMixin, FilterVi
         return context
 
     def get_queryset(self):
-        return super().get_queryset().filter(monitoring__slug=self.kwargs["slug"])
+        return (
+            super()
+            .get_queryset()
+            .filter(monitoring__slug=self.kwargs["slug"])
+            .with_institution()
+            .order_by(
+                "institution__jst__parent__parent__name",
+                "institution__jst__parent__name",
+                "institution__jst__name",
+                "institution__name",
+            )
+        )
 
 
 class DraftListMonitoringView(SelectRelatedMixin, ExtraListMixin, DetailView):

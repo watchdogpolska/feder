@@ -39,6 +39,7 @@ class CaseCSVRenderer(PaginatedCSVStreamingRenderer):
         "voivodeship": _("Voivodeship"),
         "tags": _("Tags"),
         "request_date": _("Request date"),
+        "request_status": _("Request status"),
         "confirmation_received": _("Confirmation received"),
         "response_received": _("Response received"),
     }
@@ -55,4 +56,9 @@ class CaseReportViewSet(CsvRendererViewMixin, viewsets.ReadOnlyModelViewSet):
     csv_file_name = _("case_report")
 
     def get_queryset(self):
-        return Case.objects.with_institution()
+        return Case.objects.with_institution().order_by(
+            "institution__jst__parent__parent__name",
+            "institution__jst__parent__name",
+            "institution__jst__name",
+            "institution__name",
+        )
