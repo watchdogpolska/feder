@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-monitorings 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-18 13:40+0000\n"
-"PO-Revision-Date: 2021-02-18 14:46+0100\n"
+"POT-Creation-Date: 2021-02-24 19:15+0000\n"
+"PO-Revision-Date: 2021-02-24 20:18+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -19,21 +19,13 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 2.4.1\n"
 
-#: filters.py:19 templates/monitorings/_monitoring_small.html:12
+#: filters.py:14 templates/monitorings/_monitoring_small.html:12
 msgid "Creation date"
 msgstr "Data utworzenia"
 
-#: filters.py:27 models.py:44 templates/monitorings/institution_assign.html:44
+#: filters.py:22 models.py:44 templates/monitorings/institution_assign.html:44
 msgid "Name"
 msgstr "Nazwa"
-
-#: filters.py:36
-msgid "Institution name"
-msgstr "Nazwa instytucji"
-
-#: filters.py:54
-msgid "Tags"
-msgstr "Tagi"
 
 #: forms.py:20 models.py:73 models.py:74
 msgid "Monitoring"
@@ -261,24 +253,28 @@ msgid "request sending date"
 msgstr "data wysłania wniosku"
 
 #: templates/monitorings/_report_content.html:17
+msgid "request status"
+msgstr "status wniosku"
+
+#: templates/monitorings/_report_content.html:20
 msgid "request confirmed"
 msgstr "potwierdzenie dostarczenia wniosku"
 
-#: templates/monitorings/_report_content.html:20
+#: templates/monitorings/_report_content.html:23
 msgid "response received"
 msgstr "otrzymano odpowiedź"
 
-#: templates/monitorings/_report_content.html:48
-#: templates/monitorings/_report_content.html:57
+#: templates/monitorings/_report_content.html:53
+#: templates/monitorings/_report_content.html:62
 msgid "yes"
 msgstr "tak"
 
-#: templates/monitorings/_report_content.html:51
-#: templates/monitorings/_report_content.html:60
+#: templates/monitorings/_report_content.html:56
+#: templates/monitorings/_report_content.html:65
 msgid "no"
 msgstr "nie"
 
-#: templates/monitorings/_report_content.html:67
+#: templates/monitorings/_report_content.html:71
 #: templates/monitorings/monitoring_detail.html:37
 #: templates/monitorings/monitoring_draft_list.html:17
 #: templates/monitorings/monitoring_letter_list.html:17
@@ -453,26 +449,26 @@ msgstr "^(?P<slug>[\\w-]+)/~przypisz$"
 msgid "Using field {{EMAIL}} is mandatory."
 msgstr "Użycie pola {{EMAIL}} jest obowiązkowe."
 
-#: views.py:181
+#: views.py:197
 #, python-brace-format
 msgid "{0} created!"
 msgstr "{0} utworzony!"
 
-#: views.py:251
+#: views.py:267
 #, python-brace-format
 msgid "Permissions to {monitoring} updated!"
 msgstr "Uprawnienia dla {monitoring} zaktualizowane!"
 
-#: views.py:307
+#: views.py:323
 #, python-brace-format
 msgid "Permissions to {monitoring} of {user} updated!"
 msgstr "Uprawnienia do {monitoring} dla {user} zaktualizowane!"
 
-#: views.py:355
+#: views.py:371
 msgid "You can not send letters without using filtering."
 msgstr "Nie możesz wysyłać listów bez używania filtrowania."
 
-#: views.py:371
+#: views.py:387
 #, python-format
 msgid ""
 "You can not send %(count)d letters at once. The maximum is %(limit)d. Use "
@@ -481,7 +477,7 @@ msgstr ""
 "Nie możesz wysłać %(count)d listów na raz. Maksimum to %(limit)d. Użyj "
 "filtrowania."
 
-#: views.py:392
+#: views.py:408
 #, python-format
 msgid ""
 "%(count)d institutions was assigned to %(monitoring)s.  The requests "
@@ -490,8 +486,11 @@ msgstr ""
 "%(count)d instytucji zostało przypisanych do %(monitoring)s. Wysyłka "
 "wniosków została zaplanowana."
 
-#~ msgid "request status"
-#~ msgstr "status wniosku"
+#~ msgid "Institution name"
+#~ msgstr "Nazwa instytucji"
+
+#~ msgid "Tags"
+#~ msgstr "Tagi"
 
 #~ msgid "unknown"
 #~ msgstr "nieznany"
