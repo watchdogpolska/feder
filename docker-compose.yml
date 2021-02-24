@@ -33,7 +33,7 @@ services:
     volumes: &webVolumes
       - .:/code
     environment: &webEnvironment
-      DATABASE_URL: mysql://root:password@db/feder3
+      DATABASE_URL: mysql://root:password@db/feder
       ELASTICSEARCH_URL: http://elasticsearch:9200/
       APACHE_TIKA_URL: 'http://tika:9998/'
       VIRUSTOTAL_API_KEY:
