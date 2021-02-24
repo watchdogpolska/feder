@@ -31,7 +31,7 @@ class CaseReportSerializer(serializers.HyperlinkedModelSerializer):
     voivodeship = serializers.CharField(source="institution.voivodeship")
     tags = serializers.CharField(source="tags_str")
     request_date = serializers.SerializerMethodField()
-    response_status = serializers.SerializerMethodField()
+    request_status = serializers.SerializerMethodField(label=_("Request status"))
     confirmation_received = serializers.SerializerMethodField()
     response_received = serializers.SerializerMethodField()
 
@@ -47,7 +47,7 @@ class CaseReportSerializer(serializers.HyperlinkedModelSerializer):
             "community",
             "tags",
             "request_date",
-            "response_status",
+            "request_status",
             "confirmation_received",
             "response_received",
         )
@@ -65,7 +65,7 @@ class CaseReportSerializer(serializers.HyperlinkedModelSerializer):
         letter = obj.application_letter
         return formats.date_format(letter.created, format="Y-m-d") if letter else None
 
-    def get_response_status(self, obj):
+    def get_request_status(self, obj):
         letter = obj.application_letter
         if letter:
             try:
