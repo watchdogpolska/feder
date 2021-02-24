@@ -33,7 +33,9 @@
                       {{ case.institution.name }}
                     </a><br>
                     {{ case.institution.email }}<br>
-                    REGON: {{ case.institution.regon }}
+                    {% if case.institution.regon %}
+                      REGON: {{ case.institution.regon }}
+                    {% endif %}
                 </td>
                 <td>
                     {{ case.institution.voivodeship|default:'' }}<br>
