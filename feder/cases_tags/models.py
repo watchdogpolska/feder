@@ -12,7 +12,7 @@ class TagQuerySet(models.QuerySet):
         return self.annotate(case_count=models.Count("case")).filter(case_count__gte=1)
 
     def for_monitoring(self, obj):
-        return self.filter(Q(monitoring=None) | Q(monitoring__id=obj.pk))
+        return self.filter(Q(monitoring__isnull=True) | Q(monitoring__id=obj.pk))
 
 
 class Tag(TimeStampedModel):
