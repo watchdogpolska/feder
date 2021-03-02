@@ -9,4 +9,4 @@ django-coverage-plugin==1.8.0
 vcrpy==4.1.1
 sphinxcontrib-programoutput==0.16
 pre-commit==2.10.1
-coveralls==3.0.0
+coveralls==3.0.1
