@@ -17,6 +17,7 @@ from django.db.models import Count
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext_lazy as _
+from django.utils.http import urlencode
 from django.views.generic import (
     CreateView,
     DeleteView,
@@ -33,7 +34,8 @@ from feder.institutions.filters import InstitutionFilter
 from feder.institutions.models import Institution
 from feder.letters.models import Letter
 from feder.main.mixins import ExtraListMixin, RaisePermissionRequiredMixin
-from .filters import MonitoringFilter
+from feder.main.paginator import DefaultPagination
+from .filters import MonitoringFilter, MonitoringCaseReportFilter
 from .forms import (
     MonitoringForm,
     SaveTranslatedUserObjectPermissionsForm,
@@ -105,6 +107,60 @@ class LetterListMonitoringView(SelectRelatedMixin, ExtraListMixin, DetailView):
             .attachment_count()
             .order_by("-created")
             .all()
+        )
+
+
+class MonitoringReportView(LoginRequiredMixin, PermissionRequiredMixin, FilterView):
+    model = Case
+    filterset_class = MonitoringCaseReportFilter
+    paginate_by = 100
+    permission_required = "monitorings.view_report"
+    object_level_permissions = True
+    raise_exception = True
+    redirect_unauthenticated_users = True
+
+    def get_template_names(self):
+        return "monitorings/monitoring_report.html"
+
+    def get_object(self):
+        return Monitoring.objects.get(slug=self.kwargs["slug"])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["monitoring"] = self.get_object()
+        get_params = {
+            key: value
+            for key, value in context["filter"].data.items()
+            if key
+            in (
+                "name",
+                "voivodeship",
+                "county",
+                "community",
+                "confirmation_received",
+                "response_received",
+            )
+        }
+        get_params["format"] = "csv"
+        get_params["page_size"] = DefaultPagination.max_page_size
+        get_params["monitoring"] = context["monitoring"].id
+        context["csv_url"] = "{}?{}".format(
+            reverse_lazy("case-report-list"), urlencode(get_params)
+        )
+        return context
+
+    def get_queryset(self):
+        return (
+            super()
+            .get_queryset()
+            .filter(monitoring__slug=self.kwargs["slug"])
+            .with_institution()
+            .order_by(
+                "institution__jst__parent__parent__name",
+                "institution__jst__parent__name",
+                "institution__jst__name",
+                "institution__name",
+            )
         )
 
 

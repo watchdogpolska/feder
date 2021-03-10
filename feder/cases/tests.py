@@ -1,5 +1,6 @@
 from django.urls import reverse
 from django.test import RequestFactory, TestCase
+from django.utils.http import urlencode
 
 from feder.cases.models import Case
 from feder.institutions.factories import InstitutionFactory
@@ -148,3 +149,23 @@ class CaseQuerySetTestCase(TestCase):
         self.assertEqual(
             Case.objects.by_addresses(["alias-123@example.com"]).get(), case
         )
+
+
+class CaseReportViewSetTestCase(TestCase):
+    # TODO: Tests for other available filters could be added here
+
+    def test_filter_by_name(self):
+        CaseFactory(institution=InstitutionFactory(name="123"))
+        CaseFactory(institution=InstitutionFactory(name="456"))
+        response = self.client.get(
+            "{}?{}".format(reverse("case-report-list"), urlencode({"name": "2"}))
+        )
+        self.assertContains(response, "123")
+        self.assertNotContains(response, "456")
+
+    def test_csv_renderer_used(self):
+        response = self.client.get(
+            "{}?{}".format(reverse("case-report-list"), urlencode({"format": "csv"}))
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("text/csv", response["content-type"])

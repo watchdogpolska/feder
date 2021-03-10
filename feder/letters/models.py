@@ -8,6 +8,8 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.core.files.base import ContentFile
 from django.core.mail.message import make_msgid, EmailMultiAlternatives
 from django.contrib.contenttypes.fields import GenericRelation
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.db import models
@@ -67,6 +69,12 @@ class LetterQuerySet(models.QuerySet):
     def exclude_spam(self):
         return self.exclude(is_spam=Letter.SPAM.spam)
 
+    def filter_automatic(self):
+        return self.filter(message_type__in=[i[0] for i in Letter.MESSAGE_TYPES_AUTO])
+
+    def exclude_automatic(self):
+        return self.exclude(message_type__in=[i[0] for i in Letter.MESSAGE_TYPES_AUTO])
+
 
 class LetterManager(BaseManager.from_queryset(LetterQuerySet)):
     def get_queryset(self):
@@ -83,6 +91,16 @@ class Letter(AbstractRecord):
         (1, "spam", _("Spam")),
         (2, "non_spam", _("Non-spam")),
     )
+    MESSAGE_TYPES = Choices(
+        (0, "unknown", _("Unknown")),
+        (1, "regular", _("Regular")),
+        (2, "disposition_notification", _("Disposition notification")),
+        (3, "vacation_reply", _("Vacation reply")),
+    )
+    MESSAGE_TYPES_AUTO = MESSAGE_TYPES.subset(
+        "disposition_notification", "vacation_reply"
+    )
+
     author_user = models.ForeignKey(
         to=settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -108,6 +126,11 @@ class Letter(AbstractRecord):
         verbose_name=_("Is SPAM?"), choices=SPAM, default=SPAM.unknown, db_index=True
     )
     is_draft = models.BooleanField(verbose_name=_("Is draft?"), default=True)
+    message_type = models.IntegerField(
+        verbose_name=_("Message type"),
+        choices=MESSAGE_TYPES,
+        default=MESSAGE_TYPES.unknown,
+    )
     mark_spam_by = models.ForeignKey(
         to=settings.AUTH_USER_MODEL,
         null=True,
@@ -310,3 +333,15 @@ class Attachment(AttachmentBase):
         return "".join(
             ["https://", get_current_site(None).domain, self.get_absolute_url()]
         )
+
+
+@receiver(post_save, sender=Letter)
+def update_case_statuses(sender, instance, created, raw, **kwargs):
+    if not raw and created and instance.record.case_id:
+        case = instance.record.case
+        prev_cr = case.confirmation_received
+        prev_rr = case.response_received
+        case.confirmation_received = case.get_confirmation_received()
+        case.response_received = case.get_response_received()
+        if prev_cr != case.confirmation_received or prev_rr != case.response_received:
+            case.save()

@@ -16,7 +16,7 @@ class InstitutionQuerySet(models.QuerySet):
     def with_case_count(self):
         return self.annotate(case_count=models.Count("case"))
 
-    def with_voivodeship(self):
+    def with_jst(self):
         return self.select_related("jst", "jst__parent", "jst__parent__parent")
 
     def area(self, jst):
@@ -61,16 +61,34 @@ class Institution(TimeStampedModel):
     def get_absolute_url(self):
         return reverse("institutions:details", kwargs={"slug": self.slug})
 
-    def get_top_jst(self):
+    def get_jst_tree(self):
         """
-        Returns voivodeship JST instance by searching top level parent of related JST.
+        Returns voivodeship JST list in order: voivodeship, county, community
+        by searching over parents of related JST.
         This operation may be expensive, so in queries it should be used with
-        with_voivodeship manager method.
+        with_jst manager method.
         """
         jst = self.jst
-        while jst and jst.parent_id:
+        tree = [jst]
+        while jst.parent_id:
             jst = jst.parent
-        return jst
+            tree.append(jst)
+        tree.reverse()
+        return tree
+
+    @property
+    def voivodeship(self):
+        return self.get_jst_tree()[0]
+
+    @property
+    def county(self):
+        tree = self.get_jst_tree()
+        return tree[1] if len(tree) > 1 else None
+
+    @property
+    def community(self):
+        tree = self.get_jst_tree()
+        return tree[2] if len(tree) > 2 else None
 
 
 class TagQuerySet(models.QuerySet):

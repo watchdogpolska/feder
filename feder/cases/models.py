@@ -1,4 +1,5 @@
 from autoslug.fields import AutoSlugField
+from django.apps import apps
 from django.conf import settings
 from django.db import models
 from django.db.models import Max, Prefetch, Q
@@ -43,6 +44,14 @@ class CaseQuerySet(models.QuerySet):
             Prefetch(lookup="record_set", queryset=record_queryset)
         )
 
+    def with_institution(self):
+        return self.select_related(
+            "institution",
+            "institution__jst",
+            "institution__jst__parent",
+            "institution__jst__parent__parent",
+        )
+
     def by_msg(self, message):
         email_object = message.get_email_object()
         addresses = []
@@ -80,6 +89,12 @@ class Case(TimeStampedModel):
     tags = models.ManyToManyField(
         to="cases_tags.Tag", verbose_name=_("Tags"), blank=True
     )
+    confirmation_received = models.BooleanField(
+        verbose_name=_("Confirmation received"), default=False
+    )
+    response_received = models.BooleanField(
+        verbose_name=_("Response received"), default=False
+    )
     objects = CaseQuerySet.as_manager()
 
     class Meta:
@@ -98,6 +113,35 @@ class Case(TimeStampedModel):
         self.email = settings.CASE_EMAIL_TEMPLATE.format(
             pk=self.pk, domain=self.monitoring.domain.name
         )
+
+    @property
+    def application_letter(self):
+        return (
+            apps.get_model("letters", "Letter")
+            .objects.filter(record__case=self, author_user_id__isnull=False)
+            .order_by("created")
+            .first()
+        )
+
+    def get_confirmation_received(self):
+        return (
+            apps.get_model("letters", "Letter")
+            .objects.filter(record__case=self, author_user_id__isnull=True)
+            .filter_automatic()
+            .exists()
+        )
+
+    def get_response_received(self):
+        return (
+            apps.get_model("letters", "Letter")
+            .objects.filter(record__case=self, author_user_id__isnull=True)
+            .exclude_automatic()
+            .exists()
+        )
+
+    @property
+    def tags_str(self):
+        return " | ".join([t.name for t in self.tags.all().order_by("name")])
 
 
 class Alias(models.Model):

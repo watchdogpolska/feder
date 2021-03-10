@@ -1,0 +1,87 @@
+{% load i18n bootstrap_pagination %}
+<div class="monitoring-report-content">
+    <h3 class="sr-only">{% trans 'Report' %}</h3>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>{% trans 'institution' %}</th>
+                <th>{% trans 'administrative unit' %}</th>
+                <th class="centered centered_cell">
+                    {% trans 'tags' %}
+                </th>
+                <th class="table__col_narrow centered centered_cell">
+                    {% trans 'request sending date' %}
+                </th>
+                <th class="table__col_narrow centered centered_cell">
+                    {% trans 'request status' %}
+                </th>
+                <th class="table__col_narrow centered centered_cell">
+                    {% trans 'request confirmed' %}
+                </th>
+                <th class="table__col_narrow centered centered_cell">
+                    {% trans 'response received' %}
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for case in object_list %}
+            <tr>
+                <td>
+                    <a href="{% url 'cases:details' slug=case.slug %}">
+                      {{ case.institution.name }}
+                    </a><br>
+                    {{ case.institution.email }}<br>
+                    {% if case.institution.regon %}
+                      REGON: {{ case.institution.regon }}
+                    {% endif %}
+                </td>
+                <td>
+                    {{ case.institution.voivodeship|default:'' }}<br>
+                    {{ case.institution.county|default:'' }}<br>
+                    {{ case.institution.community|default:'' }}
+                </td>
+                <td>
+                    {{ case.tags_str }}
+                </td>
+                {% with case.application_letter as letter %}
+                <td class="centered centered_cell">{{ letter.created|date }}</td>
+                <td class="centered centered_cell">{{ letter.emaillog.status }}</td>
+                {% endwith %}
+                <td>
+                    {% if case.confirmation_received %}
+                        <i class="fa fa-check-circle fa-lg color-success centered"
+                           title="{% trans 'yes' %}"></i>
+                    {% else %}
+                        <i class="fa fa-times-circle fa-lg color-danger centered"
+                           title="{% trans 'no' %}"></i>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if case.response_received %}
+                        <i class="fa fa-check-circle fa-lg color-success centered"
+                           title="{% trans 'yes' %}"></i>
+                    {% else %}
+                        <i class="fa fa-times-circle fa-lg color-danger centered"
+                           title="{% trans 'no' %}"></i>
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6">{% trans 'No rows.' %}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="text-center">
+        {# bootstrap_paginate object_list url_view_name='monitorings:report' url_extra_kwargs=url_extra_kwargs #}
+        {% if pager == 'performant' %}
+            {% bootstrap_pager page_obj %}
+        {% else %}
+            {% bootstrap_paginate page_obj %}
+        {% endif %}
+    </div>
+</div>

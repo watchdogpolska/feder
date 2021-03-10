@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cases 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-29 00:45+0000\n"
-"PO-Revision-Date: 2021-01-29 01:45+0100\n"
+"POT-Creation-Date: 2021-02-24 19:15+0000\n"
+"PO-Revision-Date: 2021-02-24 20:16+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -17,36 +17,61 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 2.4.1\n"
 
-#: filters.py:15
+#: filters.py:20 templates/cases/_case_small.html:7
 msgid "Creation date"
 msgstr "Data utworzenia"
 
-#: filters.py:23 models.py:65
+#: filters.py:28 models.py:74 viewsets.py:34
 msgid "Name"
 msgstr "Nazwa"
 
-#: models.py:67
+#: filters.py:51
+msgid "Institution name"
+msgstr "Nazwa instyticji"
+
+#: filters.py:69 models.py:90 viewsets.py:40
+msgid "Tags"
+msgstr "Tagi"
+
+#: models.py:76
 msgid "Slug"
 msgstr "Identyfikator redakcyjny"
 
-#: models.py:71 templates/cases/_case_small.html:7
+#: models.py:80 templates/cases/_case_small.html:11
 #: templates/cases/_desc.html:10
 msgid "Monitoring"
 msgstr "Monitoring"
 
-#: models.py:74 templates/cases/_case_small.html:6 templates/cases/_desc.html:4
+#: models.py:83 templates/cases/_case_small.html:10
+#: templates/cases/_desc.html:4
 msgid "Institution"
 msgstr "Instytucja"
 
-#: models.py:81
-msgid "Tags"
-msgstr "Tagi"
+#: models.py:93 viewsets.py:43
+msgid "Confirmation received"
+msgstr "Otrzymano potwierdzenie"
 
-#: models.py:86 models.py:87 models.py:104
+#: models.py:96 viewsets.py:44
+msgid "Response received"
+msgstr "Otrzymano odpowiedź"
+
+#: models.py:101 models.py:102 models.py:148
 msgid "Case"
 msgstr "Sprawa"
+
+#: serializers.py:72
+msgid "unknown"
+msgstr "nieznany"
+
+#: serializers.py:75 serializers.py:78
+msgid "yes"
+msgstr "tak"
+
+#: serializers.py:75 serializers.py:78
+msgid "no"
+msgstr "nie"
 
 #: templates/cases/_btn.html:9
 msgid "Edit"
@@ -86,7 +111,7 @@ msgstr "Treść"
 
 #: templates/cases/case_detail.html:46
 msgid "No rows."
-msgstr "Brak wierszy"
+msgstr "Brak wierszy."
 
 #: templates/cases/case_form.html:33
 msgid "Update case"
@@ -127,6 +152,50 @@ msgstr "^~autocomplete-szukaj$"
 #: views.py:25
 msgid "Case index"
 msgstr "Wykaz spraw"
+
+#: viewsets.py:33
+msgid "Id"
+msgstr "Id"
+
+#: viewsets.py:35
+msgid "Email of institution"
+msgstr "E-mail instytucji"
+
+#: viewsets.py:36
+msgid "REGON"
+msgstr "REGON"
+
+#: viewsets.py:37
+msgid "Community"
+msgstr "Gmina"
+
+#: viewsets.py:38
+msgid "County"
+msgstr "Powiat"
+
+#: viewsets.py:39
+msgid "Voivodeship"
+msgstr "Województwo"
+
+#: viewsets.py:41
+msgid "Request date"
+msgstr "Data wniosku"
+
+#: viewsets.py:42
+msgid "Request status"
+msgstr "Status wniosku"
+
+#: viewsets.py:56
+msgid "case_report"
+msgstr "raport_spraw"
+
+#, fuzzy
+#~| msgid "Confirmation received"
+#~ msgid "Confirmation confirmed"
+#~ msgstr "Otrzymano potwierdzenie"
+
+#~ msgid "Receiving confirmed"
+#~ msgstr "Potwierdzono dostarczenie"
 
 #~ msgid "Record count (descending)"
 #~ msgstr "Liczba listów (malejąco)"

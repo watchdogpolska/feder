@@ -124,6 +124,18 @@ class MonitoringListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
         self.assertNotContains(response, self.monitoring)
 
 
+class MonitoringReportTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
+    permission = ["monitorings.view_report"]
+
+    def get_url(self):
+        return reverse("monitorings:report", kwargs={"slug": self.monitoring.slug})
+
+    def test_template_used(self):
+        self.login_permitted_user()
+        response = self.client.get(self.get_url())
+        self.assertTemplateUsed(response, "monitorings/monitoring_report.html")
+
+
 class IncomingParcelFactory:
     pass
 

@@ -220,22 +220,19 @@ class PerformantPagintorMixin:
 
 
 class CsvRendererViewMixin:
-    csv_file_name = _("data")
+    """
+    csv_serializer and default_serializer attributes can be set on derived class
+    to be used accordingly with CSV and other renderers.
+    """
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        for attr_name in ("csv_serializer", "default_serializer"):
-            if not hasattr(self, attr_name):
-                raise ImproperlyConfigured(
-                    "{} attribute is required by CsvRendererViewMixin "
-                    "on {}.".format(attr_name, self.__class__)
-                )
+    csv_file_name = _("data")
 
     def get_serializer_class(self):
         if isinstance(self.request.accepted_renderer, CSVRenderer):
-            return self.csv_serializer
+            serializer = getattr(self, "csv_serializer", None)
         else:
-            return self.default_serializer
+            serializer = getattr(self, "default_serializer", None)
+        return serializer or super().get_serializer_class()
 
     def finalize_response(self, request, response, *args, **kwargs):
         response = super().finalize_response(request, response, *args, **kwargs)

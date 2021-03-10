@@ -7,6 +7,7 @@ from feder.teryt.filters import (
     DisabledWhenCountyFilter,
     DisabledWhenCommunityFilter,
 )
+from feder.cases.filters import CaseReportFilter
 
 
 class MonitoringFilter(django_filters.FilterSet):
@@ -23,3 +24,12 @@ class MonitoringFilter(django_filters.FilterSet):
     class Meta:
         model = Monitoring
         fields = ["name", "created"]
+
+
+class MonitoringCaseReportFilter(CaseReportFilter):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        del self.filters["monitoring"]
+
+    class Meta(CaseReportFilter.Meta):
+        fields = [el for el in CaseReportFilter.Meta.fields if el != "monitoring"]
