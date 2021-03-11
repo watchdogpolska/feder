@@ -87,7 +87,10 @@ class Case(TimeStampedModel):
     )
     email = models.CharField(max_length=75, db_index=True)
     tags = models.ManyToManyField(
-        to="cases_tags.Tag", verbose_name=_("Tags"), blank=True
+        to="cases_tags.Tag",
+        through="cases_tags.CaseTag",
+        verbose_name=_("Tags"),
+        blank=True,
     )
     confirmation_received = models.BooleanField(
         verbose_name=_("Confirmation received"), default=False

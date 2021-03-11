@@ -7415,6 +7415,10 @@ button.close {
   background-color: #F0F0F0;
   color: #000; }
 
+.block__title {
+  margin-top: 0;
+  margin-bottom: 25px; }
+
 .metadata-toggle {
   background-image: none;
   border: 1px solid transparent;

@@ -31,6 +31,7 @@
     {% get_obj_perms request.user for monitoring as "monitoring_perms" %}
     {% include 'monitorings/_header.html' with object=monitoring %}
     <div class="block block_gray">
+        <h2 class="block__title">{% trans "Filters" %}</h2>
         <form method="GET">
             {{ filter.form | crispy }}
             {% block form_buttons %}
@@ -44,7 +45,15 @@
             {% endblock %}
         </form>
     </div>
-    {% include 'monitorings/_report_content.html' %}
+
+    <form method="POST">
+        <div class="block block_gray">
+            <h2 class="block__title">{% trans "Tag assignment" %}</h2>
+
+        </div>
+
+        {% include 'monitorings/_report_content.html' %}
+    </form>
 {% endblock %}
 
 

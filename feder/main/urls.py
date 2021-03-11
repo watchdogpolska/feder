@@ -20,7 +20,9 @@ from feder.monitorings.sitemaps import MonitoringPagesSitemap, MonitoringSitemap
 from feder.monitorings.viewsets import MonitoringViewSet
 from feder.records.viewsets import RecordViewSet
 from feder.teryt.sitemaps import JSTSitemap
+from feder.monitorings.views import MultiCaseTagManagement
 from . import views
+
 
 router = routers.DefaultRouter()
 router.register(r"institutions", InstitutionViewSet, basename="institution")
@@ -29,7 +31,7 @@ router.register(r"teryt", JednostkaAdministracyjnaViewSet)
 router.register(r"records", RecordViewSet)
 router.register(r"cases/report", CaseReportViewSet, basename="case-report")
 router.register(r"cases", CaseViewSet)
-router.register(r"monitoring", MonitoringViewSet)
+router.register(r"monitorings", MonitoringViewSet)
 
 urlpatterns = [url(_(r"^$"), views.HomeView.as_view(), name="home")]
 
@@ -60,6 +62,11 @@ urlpatterns += [
     url(_(r"^letters/logs/"), include("feder.letters.logs.urls", namespace="logs")),
     url(_(r"^parcels/"), include("feder.parcels.urls", namespace="parcels")),
     url(_(r"^virus_scan/"), include("feder.virus_scan.urls", namespace="virus_scan")),
+    url(
+        r"^api/monitorings/(?P<monitoring_pk>\d+)/case-tags/update/$",
+        MultiCaseTagManagement.as_view(),
+        name="monitoring-case-tags-update",
+    ),
     url(r"^api/", include(router.urls)),
 ]
 

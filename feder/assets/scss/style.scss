@@ -69,6 +69,11 @@ $gray: #F0F0F0;
     background-color: $gray;
     color: #000;
   }
+
+  &__title {
+    margin-top: 0;
+    margin-bottom: 25px;
+  }
 }
 
 .metadata-toggle {
