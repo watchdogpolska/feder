@@ -201,7 +201,7 @@ class PerformantPagintorMixin:
         )
         try:
             page_number = paginator.validate_number(page)
-        except ValueError:
+        except (ValueError, InvalidPage):
             raise Http404(_("Page number is not valid."))
         try:
             page = paginator.page(page_number)
