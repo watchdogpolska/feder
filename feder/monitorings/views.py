@@ -38,6 +38,7 @@ from feder.institutions.models import Institution
 from feder.letters.models import Letter
 from feder.main.mixins import ExtraListMixin, RaisePermissionRequiredMixin
 from feder.main.paginator import DefaultPagination
+from feder.cases_tags.models import Tag
 from .filters import MonitoringFilter, MonitoringCaseReportFilter
 from .forms import (
     MonitoringForm,
@@ -133,6 +134,7 @@ class MonitoringReportView(LoginRequiredMixin, PermissionRequiredMixin, FilterVi
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["monitoring"] = self.get_object()
+        context["tags"] = Tag.objects.for_monitoring(context["monitoring"])
         get_params = {
             key: value
             for key, value in context["filter"].data.items()

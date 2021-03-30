@@ -63,7 +63,7 @@ class MultiCaseTagSerializer(serializers.Serializer):
     def validate_tags(self, tags):
         errors = []
         for tag in tags:
-            if tag.monitoring != self._monitoring:
+            if tag.monitoring and tag.monitoring != self._monitoring:
                 errors.append(
                     "Tag {} does not belong to monitoring {}".format(
                         tag, self._monitoring
