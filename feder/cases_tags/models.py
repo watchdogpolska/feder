@@ -4,6 +4,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.db.models import Q
 from model_utils.models import TimeStampedModel
+
 from feder.monitorings.models import Monitoring
 
 
@@ -12,7 +13,7 @@ class TagQuerySet(models.QuerySet):
         return self.annotate(case_count=models.Count("case")).filter(case_count__gte=1)
 
     def for_monitoring(self, obj):
-        return self.filter(Q(monitoring=None) | Q(monitoring__id=obj.pk))
+        return self.filter(Q(monitoring__isnull=True) | Q(monitoring__id=obj.pk))
 
 
 class Tag(TimeStampedModel):
@@ -43,3 +44,12 @@ class Tag(TimeStampedModel):
         verbose_name = _("Tag")
         verbose_name_plural = _("Tags")
         ordering = ["name"]
+
+
+class CaseTag(TimeStampedModel):
+    """
+    Intermediate m2m through model to allow making direct queries.
+    """
+
+    tag = models.ForeignKey(to=Tag, on_delete=models.CASCADE)
+    case = models.ForeignKey(to="cases.Case", on_delete=models.CASCADE)

@@ -1,5 +1,15 @@
 {% extends 'monitorings/monitoring_single.html' %}
-{% load i18n humanize guardian_tags crispy_forms_tags %}
+{% load static i18n humanize guardian_tags crispy_forms_tags %}
+
+{% block javascript %}
+    {{ block.super }}
+    <script>
+        var monitoringCaseTagsUpdateUrl = "{% url 'monitoring-case-tags-update' monitoring.id %}",
+            csrfToken = "{{ csrf_token }}";
+    </script>
+    <script src="{% static 'js/monitorings/multi_case_tag_form.js' %}"></script>
+{% endblock %}
+
 {% block breadcrumbs %}
     <ol
         class="breadcrumb"
@@ -31,6 +41,7 @@
     {% get_obj_perms request.user for monitoring as "monitoring_perms" %}
     {% include 'monitorings/_header.html' with object=monitoring %}
     <div class="block block_gray">
+        <h2 class="block__title">{% trans "Filters" %}</h2>
         <form method="GET">
             {{ filter.form | crispy }}
             {% block form_buttons %}
@@ -44,6 +55,36 @@
             {% endblock %}
         </form>
     </div>
+
+    <div class="block block_gray">
+        <h2 class="block__title">{% trans "Tag assignment" %}</h2>
+
+        <p class="pb-1">{% trans "Select tags to add or remove, select cases from the list below and then confirm by clicking selected action button." %}</p>
+
+        <div id="multi-case-tags" class="form-group">
+            <div class="controls">
+                {% for tag in tags %}
+                    <div class="checkbox">
+                        <label for="multi-case-tag-{{ tag.id }}">
+                            <input type="checkbox"
+                                   id="multi-case-tag-{{ tag.id }}"
+                                   name="multi-case-tag-{{ tag.id }}"
+                                   value="{{ tag.id }}">
+                            {{ tag.name }}
+                        </label>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <button type="button" id="multi-case-tag-assign-btn" class="btn btn-primary">
+            <i class="fa fa-tag"></i> {% trans "Add" %}
+        </button>
+        <button type="button" id="multi-case-tag-remove-btn" class="btn btn-primary">
+            <i class="fa fa-eraser"></i> {% trans "Remove" %}
+        </button>
+    </div>
+
     {% include 'monitorings/_report_content.html' %}
 {% endblock %}
 

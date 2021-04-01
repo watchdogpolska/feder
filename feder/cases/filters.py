@@ -1,7 +1,6 @@
 import django_filters
 from dal import autocomplete
 from django import forms
-from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
 from teryt_tree.dal_ext.filters import VoivodeshipFilter, CountyFilter, CommunityFilter
 
@@ -73,11 +72,7 @@ class CaseReportFilter(django_filters.FilterSet):
         super().__init__(data, queryset, request=request, prefix=prefix)
         case = queryset.first()
         self.filters["tags"].queryset = (
-            Tag.objects.filter(
-                Q(monitoring__isnull=True) | Q(monitoring=case.monitoring)
-            )
-            if case
-            else Tag.objects.none()
+            Tag.objects.for_monitoring(case.monitoring) if case else Tag.objects.none()
         )
 
     class Meta:
