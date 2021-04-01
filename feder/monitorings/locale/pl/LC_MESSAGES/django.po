@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-monitorings 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-24 19:15+0000\n"
-"PO-Revision-Date: 2021-02-24 20:18+0100\n"
+"POT-Creation-Date: 2021-04-01 12:35+0000\n"
+"PO-Revision-Date: 2021-04-01 14:39+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -183,6 +183,14 @@ msgstr "Może usuwać tagi"
 msgid "Can view report"
 msgstr "Może widzieć raport"
 
+#: serializers.py:40 templates/monitorings/monitoring_report.html:81
+msgid "Add"
+msgstr "Dodaj"
+
+#: serializers.py:40 templates/monitorings/monitoring_report.html:84
+msgid "Remove"
+msgstr "Usuń"
+
 #: templates/monitorings/_btn.html:9
 msgid "Edit"
 msgstr "Edycja"
@@ -232,49 +240,53 @@ msgid "Case count"
 msgstr "Liczba spraw"
 
 #: templates/monitorings/_report_content.html:3
-#: templates/monitorings/monitoring_report.html:21
+#: templates/monitorings/monitoring_report.html:31
 msgid "Report"
 msgstr "Raport"
 
-#: templates/monitorings/_report_content.html:8
+#: templates/monitorings/_report_content.html:9
 msgid "institution"
 msgstr "instytucja"
 
-#: templates/monitorings/_report_content.html:9
+#: templates/monitorings/_report_content.html:10
 msgid "administrative unit"
 msgstr "jednostka administracyjna"
 
-#: templates/monitorings/_report_content.html:11
+#: templates/monitorings/_report_content.html:12
 msgid "tags"
 msgstr "tagi"
 
-#: templates/monitorings/_report_content.html:14
+#: templates/monitorings/_report_content.html:15
 msgid "request sending date"
 msgstr "data wysłania wniosku"
 
-#: templates/monitorings/_report_content.html:17
+#: templates/monitorings/_report_content.html:18
 msgid "request status"
 msgstr "status wniosku"
 
-#: templates/monitorings/_report_content.html:20
+#: templates/monitorings/_report_content.html:21
 msgid "request confirmed"
 msgstr "potwierdzenie dostarczenia wniosku"
 
-#: templates/monitorings/_report_content.html:23
+#: templates/monitorings/_report_content.html:24
 msgid "response received"
 msgstr "otrzymano odpowiedź"
 
-#: templates/monitorings/_report_content.html:53
-#: templates/monitorings/_report_content.html:62
+#: templates/monitorings/_report_content.html:34
+msgid "case"
+msgstr "sprawa"
+
+#: templates/monitorings/_report_content.html:66
+#: templates/monitorings/_report_content.html:75
 msgid "yes"
 msgstr "tak"
 
-#: templates/monitorings/_report_content.html:56
-#: templates/monitorings/_report_content.html:65
+#: templates/monitorings/_report_content.html:69
+#: templates/monitorings/_report_content.html:78
 msgid "no"
 msgstr "nie"
 
-#: templates/monitorings/_report_content.html:71
+#: templates/monitorings/_report_content.html:84
 #: templates/monitorings/monitoring_detail.html:37
 #: templates/monitorings/monitoring_draft_list.html:17
 #: templates/monitorings/monitoring_letter_list.html:17
@@ -346,13 +358,29 @@ msgstr "Zaktualizuj monitoring"
 msgid "Add user"
 msgstr "Dodaj użytkownika"
 
-#: templates/monitorings/monitoring_report.html:39
+#: templates/monitorings/monitoring_report.html:44
+msgid "Filters"
+msgstr "Filtry"
+
+#: templates/monitorings/monitoring_report.html:50
 msgid "Filter"
 msgstr "Filtruj"
 
-#: templates/monitorings/monitoring_report.html:42
+#: templates/monitorings/monitoring_report.html:53
 msgid "Download .csv"
 msgstr "Pobierz .csv"
+
+#: templates/monitorings/monitoring_report.html:60
+msgid "Tag assignment"
+msgstr "Zarządzanie tagami"
+
+#: templates/monitorings/monitoring_report.html:62
+msgid ""
+"Select tags to add or remove, select cases from the list below and then "
+"confirm by clicking selected action button."
+msgstr ""
+"Wybierz tagi, które chcesz dodać lub usunąć, wybierz sprawy z listy poniżej, "
+"a następnie potwierdź klikając w przycisk wybranej akcji."
 
 #: templates/monitorings/permission_wizard.html:4
 #, python-format
@@ -449,26 +477,26 @@ msgstr "^(?P<slug>[\\w-]+)/~przypisz$"
 msgid "Using field {{EMAIL}} is mandatory."
 msgstr "Użycie pola {{EMAIL}} jest obowiązkowe."
 
-#: views.py:197
+#: views.py:207
 #, python-brace-format
 msgid "{0} created!"
 msgstr "{0} utworzony!"
 
-#: views.py:267
+#: views.py:277
 #, python-brace-format
 msgid "Permissions to {monitoring} updated!"
 msgstr "Uprawnienia dla {monitoring} zaktualizowane!"
 
-#: views.py:323
+#: views.py:333
 #, python-brace-format
 msgid "Permissions to {monitoring} of {user} updated!"
 msgstr "Uprawnienia do {monitoring} dla {user} zaktualizowane!"
 
-#: views.py:371
+#: views.py:381
 msgid "You can not send letters without using filtering."
 msgstr "Nie możesz wysyłać listów bez używania filtrowania."
 
-#: views.py:387
+#: views.py:397
 #, python-format
 msgid ""
 "You can not send %(count)d letters at once. The maximum is %(limit)d. Use "
@@ -477,7 +505,7 @@ msgstr ""
 "Nie możesz wysłać %(count)d listów na raz. Maksimum to %(limit)d. Użyj "
 "filtrowania."
 
-#: views.py:408
+#: views.py:418
 #, python-format
 msgid ""
 "%(count)d institutions was assigned to %(monitoring)s.  The requests "
@@ -531,9 +559,6 @@ msgstr ""
 
 #~ msgid "Update"
 #~ msgstr "Aktualizuj"
-
-#~ msgid "Add"
-#~ msgstr "Dodaj"
 
 #~ msgid "Preview your submission"
 #~ msgstr "Pogląd:"
