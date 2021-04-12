@@ -64,7 +64,7 @@ class MonitoringListView(SelectRelatedMixin, FilterView):
         if not self.request.user.is_staff:
             qs = qs.only_public()
 
-        return qs.with_case_count()
+        return qs.with_case_count().order_by("-created")
 
 
 class MonitoringDetailView(SelectRelatedMixin, ExtraListMixin, DetailView):
