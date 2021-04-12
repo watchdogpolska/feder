@@ -5,7 +5,14 @@
     <table class="table">
         <thead>
             <tr>
-                <th class="table__col_checkbox"></th>
+                <th class="table__col_checkbox table__col_bottom">
+                    <label for="multi-case-tag-select-all">
+                        <span class="sr-only">{% trans "select or unselect all" %}</span>
+                        <input type="checkbox"
+                               id="multi-case-tag-select-all"
+                               name="select-all-cases">
+                    </label>
+                </th>
                 <th>{% trans 'institution' %}</th>
                 <th>{% trans 'administrative unit' %}</th>
                 <th class="centered centered_cell">
