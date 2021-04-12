@@ -45,11 +45,13 @@ from .forms import (
     SaveTranslatedUserObjectPermissionsForm,
     SelectUserForm,
     CheckboxTranslatedUserObjectPermissionsForm,
+    MassMessageForm,
 )
 from .models import Monitoring
 from .permissions import MultiCaseTagManagementPerm
 from .serializers import MultiCaseTagSerializer
 from .tasks import handle_mass_assign
+from ..letters.formsets import AttachmentInline
 
 
 class MonitoringListView(SelectRelatedMixin, FilterView):
@@ -421,6 +423,14 @@ class MonitoringAssignView(RaisePermissionRequiredMixin, FilterView):
         messages.success(self.request, msg)
         url = reverse("monitorings:assign", kwargs={"slug": self.monitoring.slug})
         return HttpResponseRedirect(url)
+
+
+class MassMessageView(RaisePermissionRequiredMixin, UserFormKwargsMixin, FormView):
+    template_name = "monitorings/mass_message.html"
+    model = Monitoring
+    form_class = MassMessageForm
+    inlines = [AttachmentInline]
+    permission_required = "monitorings.add_letter"
 
 
 class MonitoringAutocomplete(autocomplete.Select2QuerySetView):

@@ -59,3 +59,15 @@ class SaveTranslatedUserObjectPermissionsForm(
     SingleButtonMixin, CheckboxTranslatedUserObjectPermissionsForm
 ):
     pass
+
+
+class MassMessageForm(SingleButtonMixin, UserKwargModelFormMixin, forms.Form):
+    subject = forms.CharField(max_length=80, required=True)
+    content = forms.CharField(required=True, widget=forms.Textarea)
+    email_footer = forms.CharField(required=False, widget=forms.Textarea)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper.layout = Layout(
+            Fieldset(_("Message"), "subject", "content", "email_footer"),
+        )

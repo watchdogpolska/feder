@@ -1,0 +1,17 @@
+{% extends 'monitorings/monitoring_single.html' %}
+{% load crispy_forms_tags i18n %}
+{% block breadcrumbs_row %}
+    <li
+        itemprop="itemListElement"
+        itemscope
+        itemtype="http://schema.org/ListItem"
+        class="active">
+        <span itemprop="name">{% if headline %}
+            {{ headline }}{% trans 'Mass message' %}
+        {% endif %}</span>
+    </li>
+{% endblock %}
+
+{% block content_object %}
+    {% crispy form %}
+{% endblock %}
