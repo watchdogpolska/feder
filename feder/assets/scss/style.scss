@@ -228,21 +228,32 @@ iframe.letter-quote {
 
 /* tables */
 
-.table__col_narrow {
-  max-width: 120px;
-}
+.table {
+  &__col_narrow {
+    max-width: 120px;
+  }
 
-.table__col_checkbox {
-  max-width: 20px;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-  vertical-align: top !important;
+  &__col_checkbox {
+    max-width: 20px;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    vertical-align: top !important;
 
-  input, label {
-    margin: 0 !important;
-    font-size: 16px;
+    input, label {
+      margin: 0 !important;
+      font-size: 16px;
+    }
+  }
+
+  &__col_bottom {
+    vertical-align: bottom !important;
+    padding-bottom: 4px !important;
   }
 }
+
+
+
+
 
 
 /* colors */

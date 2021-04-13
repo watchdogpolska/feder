@@ -7673,6 +7673,10 @@ iframe.letter-quote {
     margin: 0 !important;
     font-size: 16px; }
 
+.table__col_bottom {
+  vertical-align: bottom !important;
+  padding-bottom: 4px !important; }
+
 /* colors */
 .color-danger {
   color: #d9534f !important; }
