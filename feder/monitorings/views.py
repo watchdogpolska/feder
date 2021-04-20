@@ -51,7 +51,9 @@ from .models import Monitoring
 from .permissions import MultiCaseTagManagementPerm
 from .serializers import MultiCaseTagSerializer
 from .tasks import handle_mass_assign
-from ..letters.formsets import AttachmentInline
+from feder.letters.formsets import AttachmentInline
+from feder.letters.views import CaseRequiredMixin
+from extra_views import CreateWithInlinesView
 
 
 class MonitoringListView(SelectRelatedMixin, FilterView):
@@ -425,12 +427,48 @@ class MonitoringAssignView(RaisePermissionRequiredMixin, FilterView):
         return HttpResponseRedirect(url)
 
 
-class MassMessageView(RaisePermissionRequiredMixin, UserFormKwargsMixin, FormView):
+class MassMessageView(
+    RaisePermissionRequiredMixin,
+    UserFormKwargsMixin,
+    FormValidMessageMixin,
+    CaseRequiredMixin,
+    CreateWithInlinesView,
+):
     template_name = "monitorings/mass_message.html"
-    model = Monitoring
+    model = Letter
     form_class = MassMessageForm
     inlines = [AttachmentInline]
-    permission_required = "monitorings.add_letter"
+    permission_required = "monitorings.add_draft"
+
+    def dispatch(self, request, *args, **kwargs):
+        self.monitoring = Monitoring.objects.get(slug=kwargs["slug"])
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_permission_object(self):
+        return self.monitoring
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["monitoring"] = self.monitoring
+        return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["monitoring"] = self.monitoring
+        return context
+
+    def forms_valid(self, form, inlines):
+        result = super().forms_valid(form, inlines)
+        if "send" in self.request.POST:
+            self.object.mass_send()
+        return result
+
+    def get_form_valid_message(self):
+        if self.object.eml:
+            return _("Message {message} saved and sent to {count} recipients!").format(
+                message=self.object, count="?"
+            )
+        return _("Message {message} saved to review!").format(message=self.object)
 
 
 class MonitoringAutocomplete(autocomplete.Select2QuerySetView):

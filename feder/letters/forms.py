@@ -6,6 +6,7 @@ from crispy_forms.layout import Submit
 from dal import autocomplete
 from django import forms
 from django.utils.translation import ugettext_lazy as _
+from django.conf import settings
 
 from feder.cases.models import Case
 from feder.letters.utils import get_body_with_footer
@@ -94,7 +95,11 @@ class ReplyForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
 
     def get_quote(self):
         quoted = "> " + "\n> ".join(wrap(self.letter.body, width=80))
-        return QUOTE_TPL.format(quoted=quoted, **self.letter.__dict__)
+        return QUOTE_TPL.format(
+            created=self.letter.created.strftime(settings.STRFTIME_FORMAT),
+            email=self.letter.email,
+            quoted=quoted,
+        )
 
     def save(self, *args, **kwargs):
         self.instance.author_user = self.user

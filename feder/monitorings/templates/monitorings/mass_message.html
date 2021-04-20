@@ -1,17 +1,43 @@
 {% extends 'monitorings/monitoring_single.html' %}
 {% load crispy_forms_tags i18n %}
-{% block breadcrumbs_row %}
-    <li
-        itemprop="itemListElement"
+
+{% block breadcrumbs %}
+    <ol
+        class="breadcrumb"
         itemscope
-        itemtype="http://schema.org/ListItem"
-        class="active">
-        <span itemprop="name">{% if headline %}
-            {{ headline }}{% trans 'Mass message' %}
-        {% endif %}</span>
-    </li>
+        itemtype="http://schema.org/BreadcrumbList">
+        <li
+            itemprop="itemListElement"
+            itemscope
+            itemtype="http://schema.org/ListItem"
+            class="active">
+            <span itemprop="name">{{ monitoring }}</span>
+        </li>
+    </ol>
 {% endblock %}
 
-{% block content_object %}
-    {% crispy form %}
+{% block buttons %}
+    {% include 'monitorings/_btn.html' with object=monitoring %}
 {% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h2>
+            <i class="fa fa-mail-bulk"></i>
+            {% trans 'Send mass message for ' %}
+            <a href="{{ monitoring.get_absolute_url }}">{{ monitoring }}</a>
+        </h2>
+    </div>
+
+    {% block content_object %}
+        <div class="gray">
+            <form enctype="multipart/form-data" method="POST">
+                {% crispy form %}
+                {% for inline in inlines %}
+                    {% crispy inline %}
+                {% endfor %}
+            </form>
+        </div>
+    {% endblock %}
+{% endblock %}
+

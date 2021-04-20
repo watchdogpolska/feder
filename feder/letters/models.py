@@ -96,6 +96,7 @@ class Letter(AbstractRecord):
         (1, "regular", _("Regular")),
         (2, "disposition_notification", _("Disposition notification")),
         (3, "vacation_reply", _("Vacation reply")),
+        (4, "mass_draft", _("Mass message draft")),
     )
     MESSAGE_TYPES_AUTO = MESSAGE_TYPES.subset(
         "disposition_notification", "vacation_reply"
@@ -126,6 +127,12 @@ class Letter(AbstractRecord):
         verbose_name=_("Is SPAM?"), choices=SPAM, default=SPAM.unknown, db_index=True
     )
     is_draft = models.BooleanField(verbose_name=_("Is draft?"), default=True)
+    recipients_tags = models.ManyToManyField(
+        to="cases_tags.Tag",
+        verbose_name=_("Recipient tags"),
+        help_text=_("Used in mass message draft to determine recipients by case tags."),
+        blank=True,
+    )
     message_type = models.IntegerField(
         verbose_name=_("Message type"),
         choices=MESSAGE_TYPES,
@@ -260,7 +267,12 @@ class Letter(AbstractRecord):
         msg.attach_alternative(html_content, "text/html")
         return msg
 
+    def mass_send(self, commit=True, only_email=False):
+        assert self.message_type == self.MESSAGE_TYPES.mass_draft
+        raise NotImplementedError("... TODO ...")
+
     def send(self, commit=True, only_email=False):
+        assert self.message_type != self.MESSAGE_TYPES.mass_draft
         self.case.update_email()
         msg_id = make_msgid(domain=self.case.email.split("@", 2)[1])
         message = self._construct_message(msg_id=msg_id)
