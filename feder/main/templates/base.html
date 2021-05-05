@@ -71,26 +71,25 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li>
-                            {# performant paginator does not support last #}
                             <a href="{% url 'cases:list' %}">
                                 <i class="fa fa-folder-open"></i>
                                 {% trans 'Cases' %}
                             </a>
                         </li>
                         <li>
-                            <a href="{% url 'monitorings:list' %}?page=last">
+                            <a href="{% url 'monitorings:list' %}">
                                 <i class="fa fa-search" aria-hidden="true"></i>
                                 {% trans 'Monitorings' %}
                             </a>
                         </li>
                         <li>
-                            <a href="{% url 'letters:list' %}?page=last">
+                            <a href="{% url 'letters:list' %}">
                                 <i class="fa fa-envelope" aria-hidden="true"></i>
                                 {% trans 'Letters' %}
                             </a>
                         </li>
                         <li>
-                            <a href="{% url 'institutions:list' %}?page=last">
+                            <a href="{% url 'institutions:list' %}">
                                 <i class="fa fa-home" aria-hidden="true"></i>
                                 {% trans 'Institutions' %}</a>
                         </li>

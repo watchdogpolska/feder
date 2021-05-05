@@ -12,14 +12,14 @@ repos:
       args:
         - --config
         - ./pyproject.toml
-  - repo: https://gitlab.com/pycqa/flake8
-    rev: 3.9.0
+  - repo: https://github.com/PyCQA/flake8
+    rev: 3.9.1
     hooks:
     - id: flake8
       args:
       - --config=./setup.cfg
   - repo: https://github.com/asottile/pyupgrade
-    rev: v2.10.0
+    rev: v2.12.0
     hooks:
     - id: pyupgrade
       args:

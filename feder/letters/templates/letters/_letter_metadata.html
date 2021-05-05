@@ -1,5 +1,9 @@
 {% load guardian_tags i18n %}
-{% get_obj_perms request.user for object.case.monitoring as "monitoring_perms" %}
+{% if object.is_mass_draft %}
+    {% get_obj_perms request.user for object.mass_draft.monitoring as "monitoring_perms" %}
+{% else %}
+    {% get_obj_perms request.user for object.case.monitoring as "monitoring_perms" %}
+{% endif %}
 <div class="metadata-button-container">
     <button type="button" class="btn btn-primary metadata-toggle" aria-expanded="false" data-toggle="collapse" data-target=".email_metadata">
         <span class="sr-only">{% trans 'Toggle metadata' %}</span>

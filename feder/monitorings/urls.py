@@ -82,6 +82,11 @@ urlpatterns = [
         views.MonitoringAssignView.as_view(),
         name="assign",
     ),
+    url(
+        _(r"^(?P<slug>[\w-]+)/~mass-message$"),
+        views.MassMessageView.as_view(),
+        name="mass-message",
+    ),
 ]
 
 app_name = "feder.monitorings"

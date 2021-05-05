@@ -9,6 +9,9 @@ $(function () {
            operation: operation
         };
 
+        $('#multi-case-tag-assign-btn').prop('disabled', 'disabled');
+        $('#multi-case-tag-remove-btn').prop('disabled', 'disabled');
+
         $('input[name^=select-case-]:checked').each(function (index) {
             payload.cases.push(parseInt($(this).val()));
         });
@@ -43,5 +46,13 @@ $(function () {
     $('#multi-case-tag-remove-btn').on('click', function (event) {
         event.preventDefault();
         submitMultiTagForm(OPERATION_REMOVE);
+    });
+
+    $('#multi-case-tag-select-all').change(function () {
+        var checked = ($(this).is(':checked'));
+
+        $('input[name^=select-case-]').each(function () {
+            $(this).prop('checked', checked);
+        });
     });
 });

@@ -23,11 +23,26 @@
 {% endif %}
 
 {% if object.note %}
-    <div class="alert alert-warning">{{ object.note }}</div>
+    <div class="alert alert-warning mt-1">{{ object.note }}</div>
 {% endif %}
 
 {% if object.is_draft %}
-    <div class="alert alert-warning">{% trans 'This is just a draft message. The message was not sent to the institution.' %}</div>
+    <div class="alert alert-warning mt-1">
+        {% if object.is_mass_draft %}
+            {% trans 'This is a mass message draft. The message has not been sent to any recipients yet.' %}
+        {% else %}
+            {% trans 'This is just a draft message. The message was not sent to the institution.' %}
+        {% endif %}
+    </div>
+{% endif %}
+
+{% if object.is_mass_draft %}
+    <h4>{% trans "Recipient's tags" %}</h4>
+    <ul>
+        {% for tag in object.mass_draft.recipients_tags.all %}
+            <li>{{ tag.name }}</li>
+        {% endfor %}
+    </ul>
 {% endif %}
 
 {% if object.attachment_set.all %}
