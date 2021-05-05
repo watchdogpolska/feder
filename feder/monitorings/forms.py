@@ -9,7 +9,7 @@ from django.utils.translation import ugettext as _
 from django.conf import settings
 
 from feder.users.models import User
-from feder.letters.models import Letter
+from feder.letters.models import Letter, MassMessageDraft
 from feder.letters.utils import get_body_with_footer
 from feder.letters.forms import QUOTE_TPL
 from feder.cases_tags.models import Tag
@@ -70,7 +70,10 @@ class SaveTranslatedUserObjectPermissionsForm(
 
 class MassMessageForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
     recipients_tags = forms.ModelMultipleChoiceField(
-        help_text=None, widget=forms.CheckboxSelectMultiple, queryset=Tag.objects.none()
+        label=_("Recipient's tags"),
+        help_text=None,
+        widget=forms.CheckboxSelectMultiple,
+        queryset=Tag.objects.none(),
     )
 
     class Meta:
@@ -105,13 +108,14 @@ class MassMessageForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
         )
 
     def set_dynamic_field_initial(self):
-        self.fields["title"].initial = "Re: {title}".format(
-            title=self.application_letter.title
-        )
-        self.fields["body"].initial = get_body_with_footer(
-            "", self.monitoring.email_footer
-        )
-        self.fields["quote"].initial = self.get_quote()
+        if self.application_letter:
+            self.fields["title"].initial = "Re: {title}".format(
+                title=self.application_letter.title
+            )
+            self.fields["body"].initial = get_body_with_footer(
+                "", self.monitoring.email_footer
+            )
+            self.fields["quote"].initial = self.get_quote()
 
     def add_form_buttons(self):
         if self.user_can_save:
@@ -145,5 +149,14 @@ class MassMessageForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
         self.instance.is_draft = True
         self.instance.author_user = self.user
         self.instance.record = Record.objects.create()
+        letter = super().save(commit=commit)
+        return letter
 
-        return super().save(commit=commit)
+    def _save_m2m(self):
+        super()._save_m2m()
+        draft = MassMessageDraft(
+            letter=self.instance,
+            monitoring=self.monitoring,
+        )
+        draft.save()
+        draft.recipients_tags.set(self.cleaned_data["recipients_tags"])

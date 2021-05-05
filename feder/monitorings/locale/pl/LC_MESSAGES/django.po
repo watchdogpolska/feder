@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-monitorings 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-01 12:35+0000\n"
-"PO-Revision-Date: 2021-04-01 14:39+0200\n"
+"POT-Creation-Date: 2021-04-30 15:31+0000\n"
+"PO-Revision-Date: 2021-04-30 19:41+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -27,17 +27,37 @@ msgstr "Data utworzenia"
 msgid "Name"
 msgstr "Nazwa"
 
-#: forms.py:20 models.py:73 models.py:74
+#: forms.py:27 models.py:73 models.py:74
 msgid "Monitoring"
 msgstr "Monitoring"
 
-#: forms.py:21 models.py:54
+#: forms.py:28 models.py:54
 msgid "Template"
 msgstr "Szablon"
 
-#: forms.py:41 models.py:49 templates/monitorings/_monitoring_small.html:8
+#: forms.py:48 models.py:49 templates/monitorings/_monitoring_small.html:8
 msgid "User"
 msgstr "Użytkownik"
+
+#: forms.py:96
+msgid "Message"
+msgstr "Wiadomość"
+
+#: forms.py:122
+msgid "Save draft"
+msgstr "Zapisz szkic"
+
+#: forms.py:126
+msgid "Send message"
+msgstr "Wyślij wiadomość"
+
+#: forms.py:140
+msgid "You do not have permission to send messages."
+msgstr "Nie posiadasz uprawnień do wysyłki wiadomości."
+
+#: forms.py:144
+msgid "You do not have permission to save draft."
+msgstr "Nie posiadasz uprawnień aby zapisać szkic."
 
 #: models.py:16
 msgid "Monitorings index"
@@ -208,22 +228,26 @@ msgid "Add case"
 msgstr "Utwórz sprawę"
 
 #: templates/monitorings/_btn.html:27
+msgid "Mass message"
+msgstr "Wiadomość masowa"
+
+#: templates/monitorings/_btn.html:32
 msgid "Permissions"
 msgstr "Uprawnienia"
 
-#: templates/monitorings/_btn.html:32
+#: templates/monitorings/_btn.html:37
 msgid "Alerts list"
 msgstr "Lista alertów"
 
-#: templates/monitorings/_btn.html:38
+#: templates/monitorings/_btn.html:43
 msgid "View logs"
 msgstr "Zobacz dzienniki"
 
-#: templates/monitorings/_btn.html:44
+#: templates/monitorings/_btn.html:49
 msgid "View tags"
 msgstr "Zobacz tagi"
 
-#: templates/monitorings/_btn.html:50
+#: templates/monitorings/_btn.html:55
 msgid "View report"
 msgstr "Zobacz raport"
 
@@ -244,49 +268,53 @@ msgstr "Liczba spraw"
 msgid "Report"
 msgstr "Raport"
 
-#: templates/monitorings/_report_content.html:9
+#: templates/monitorings/_report_content.html:10
+msgid "select or unselect all"
+msgstr "zaznacz lub odznacz wszystkie"
+
+#: templates/monitorings/_report_content.html:16
 msgid "institution"
 msgstr "instytucja"
 
-#: templates/monitorings/_report_content.html:10
+#: templates/monitorings/_report_content.html:17
 msgid "administrative unit"
 msgstr "jednostka administracyjna"
 
-#: templates/monitorings/_report_content.html:12
+#: templates/monitorings/_report_content.html:19
 msgid "tags"
 msgstr "tagi"
 
-#: templates/monitorings/_report_content.html:15
+#: templates/monitorings/_report_content.html:22
 msgid "request sending date"
 msgstr "data wysłania wniosku"
 
-#: templates/monitorings/_report_content.html:18
+#: templates/monitorings/_report_content.html:25
 msgid "request status"
 msgstr "status wniosku"
 
-#: templates/monitorings/_report_content.html:21
+#: templates/monitorings/_report_content.html:28
 msgid "request confirmed"
 msgstr "potwierdzenie dostarczenia wniosku"
 
-#: templates/monitorings/_report_content.html:24
+#: templates/monitorings/_report_content.html:31
 msgid "response received"
 msgstr "otrzymano odpowiedź"
 
-#: templates/monitorings/_report_content.html:34
+#: templates/monitorings/_report_content.html:41
 msgid "case"
 msgstr "sprawa"
 
-#: templates/monitorings/_report_content.html:66
-#: templates/monitorings/_report_content.html:75
+#: templates/monitorings/_report_content.html:73
+#: templates/monitorings/_report_content.html:82
 msgid "yes"
 msgstr "tak"
 
-#: templates/monitorings/_report_content.html:69
-#: templates/monitorings/_report_content.html:78
+#: templates/monitorings/_report_content.html:76
+#: templates/monitorings/_report_content.html:85
 msgid "no"
 msgstr "nie"
 
-#: templates/monitorings/_report_content.html:84
+#: templates/monitorings/_report_content.html:91
 #: templates/monitorings/monitoring_detail.html:37
 #: templates/monitorings/monitoring_draft_list.html:17
 #: templates/monitorings/monitoring_letter_list.html:17
@@ -335,6 +363,10 @@ msgstr "Region"
 #: templates/monitorings/institution_assign.html:79
 msgid "Filtr"
 msgstr "Filtruj"
+
+#: templates/monitorings/mass_message.html:27
+msgid "Send mass message for "
+msgstr "Wyślij wiadomość masową dla "
 
 #: templates/monitorings/monitoring_confirm_delete.html:9
 msgid "Confirm delete"
@@ -473,30 +505,34 @@ msgstr "^(?P<slug>[\\w-]+)/~uprawnienia$"
 msgid "^(?P<slug>[\\w-]+)/~assign$"
 msgstr "^(?P<slug>[\\w-]+)/~przypisz$"
 
+#: urls.py:86
+msgid "^(?P<slug>[\\w-]+)/~mass-message$"
+msgstr "^(?P<slug>[\\w-]+)/~wiadomosc-masowa$"
+
 #: validators.py:7
 msgid "Using field {{EMAIL}} is mandatory."
 msgstr "Użycie pola {{EMAIL}} jest obowiązkowe."
 
-#: views.py:207
+#: views.py:215
 #, python-brace-format
 msgid "{0} created!"
 msgstr "{0} utworzony!"
 
-#: views.py:277
+#: views.py:285
 #, python-brace-format
 msgid "Permissions to {monitoring} updated!"
 msgstr "Uprawnienia dla {monitoring} zaktualizowane!"
 
-#: views.py:333
+#: views.py:341
 #, python-brace-format
 msgid "Permissions to {monitoring} of {user} updated!"
 msgstr "Uprawnienia do {monitoring} dla {user} zaktualizowane!"
 
-#: views.py:381
+#: views.py:389
 msgid "You can not send letters without using filtering."
 msgstr "Nie możesz wysyłać listów bez używania filtrowania."
 
-#: views.py:397
+#: views.py:405
 #, python-format
 msgid ""
 "You can not send %(count)d letters at once. The maximum is %(limit)d. Use "
@@ -505,7 +541,7 @@ msgstr ""
 "Nie możesz wysłać %(count)d listów na raz. Maksimum to %(limit)d. Użyj "
 "filtrowania."
 
-#: views.py:418
+#: views.py:426
 #, python-format
 msgid ""
 "%(count)d institutions was assigned to %(monitoring)s.  The requests "
@@ -513,6 +549,16 @@ msgid ""
 msgstr ""
 "%(count)d instytucji zostało przypisanych do %(monitoring)s. Wysyłka "
 "wniosków została zaplanowana."
+
+#: views.py:482
+#, python-brace-format
+msgid "Message sent to {count} recipients!"
+msgstr "Wiadomość wysłana do {count} odbiorców!"
+
+#: views.py:487
+#, python-brace-format
+msgid "Message {message} saved to review!"
+msgstr "Wiadomość {message} zapisana do przejrzenia!"
 
 #~ msgid "Institution name"
 #~ msgstr "Nazwa instytucji"
