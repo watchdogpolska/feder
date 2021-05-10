@@ -73,6 +73,11 @@ class CaseRequiredMixin:
 
 
 class LetterCommonMixin:
+    """
+    Defines get_queryset and get_permission_object methods.
+    It should to be specified before permission related mixins.
+    """
+
     def get_queryset(self):
         return (
             super()
@@ -95,9 +100,9 @@ class LetterCommonMixin:
 
 
 class LetterListView(
+    LetterCommonMixin,
     UserKwargFilterSetMixin,
     DisableOrderingListViewMixin,
-    LetterCommonMixin,
     PrefetchRelatedMixin,
     SelectRelatedMixin,
     PerformantPagintorMixin,
@@ -163,10 +168,10 @@ class LetterCreateView(
 
 
 class LetterReplyView(
+    LetterCommonMixin,
     RaisePermissionRequiredMixin,
     UserFormKwargsMixin,
     FormValidMessageMixin,
-    LetterCommonMixin,
     CreateWithInlinesView,
 ):
     template_name = "letters/letter_reply.html"
@@ -212,7 +217,7 @@ class LetterReplyView(
 
 
 class LetterSendView(
-    AttrPermissionRequiredMixin, LetterCommonMixin, MessageMixin, ActionView
+    LetterCommonMixin, AttrPermissionRequiredMixin, MessageMixin, ActionView
 ):
     model = Letter
     permission_required = "monitorings.reply"
@@ -248,11 +253,11 @@ class LetterSendView(
 
 
 class LetterUpdateView(
+    LetterCommonMixin,
     AttrPermissionRequiredMixin,
     UserFormKwargsMixin,
     UpdateMessageMixin,
     FormValidMessageMixin,
-    LetterCommonMixin,
     UpdateWithInlinesView,
 ):
     model = Letter
@@ -266,7 +271,7 @@ class LetterUpdateView(
 
 
 class LetterDeleteView(
-    AttrPermissionRequiredMixin, DeleteMessageMixin, LetterCommonMixin, DeleteView
+    LetterCommonMixin, AttrPermissionRequiredMixin, DeleteMessageMixin, DeleteView
 ):
     model = Letter
     permission_required = "monitorings.delete_letter"
