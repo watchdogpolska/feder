@@ -51,7 +51,8 @@ from .filters import LetterFilter
 from .forms import LetterForm, ReplyForm, AssignLetterForm
 from .mixins import LetterObjectFeedMixin
 from .models import Letter, Attachment
-from ..virus_scan.models import Request as ScanRequest
+from feder.monitorings.tasks import send_mass_draft
+from feder.virus_scan.models import Request as ScanRequest
 
 _("Letters index")
 
@@ -225,12 +226,11 @@ class LetterSendView(
 
     def action(self):
         if self.object.is_mass_draft():
-            letters = self.object.generate_mass_letters()
-            for letter in letters:
-                letter.send()
+            cases_count = self.object.mass_draft.determine_cases().count()
+            send_mass_draft(self.object.pk)
             self.messages.success(
                 _('Message "{letter}" has been sent to {count} recipients!').format(
-                    letter=self.object, count=len(letters)
+                    letter=self.object, count=len(cases_count)
                 ),
                 fail_silently=True,
             )

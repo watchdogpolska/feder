@@ -19,8 +19,9 @@ from feder.teryt.factories import JSTFactory
 from feder.records.factories import RecordFactory
 from feder.users.factories import UserFactory
 from feder.cases_tags.factories import TagFactory
+from feder.letters.models import Letter, MassMessageDraft
 from .factories import MonitoringFactory
-from .forms import MonitoringForm
+from .forms import MonitoringForm, MassMessageForm
 from .models import Monitoring
 from .serializers import MultiCaseTagSerializer
 from .tasks import send_letter_for_mass_assign, handle_mass_assign
@@ -566,3 +567,115 @@ class MultiCaseTagManagementTestCase(ObjectMixin, PermissionStatusMixin, TestCas
 
         # case should have no tags assigned
         self.assertEqual(self.case.tags.all().count(), 0)
+
+
+class MassMessageViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
+    permission = ["monitorings.add_draft"]
+    status_anonymous = 302  # redirects to login page
+    status_no_permission = 403
+    status_has_permission = 200
+
+    def setUp(self):
+        super().setUp()
+        self.case1_tag = TagFactory(monitoring=self.monitoring, name="case1_tag")
+        self.case2_tag = TagFactory(monitoring=self.monitoring, name="case2_tag")
+        self.global_tag = TagFactory(monitoring=None, name="global_tag")
+        self.not_used_tag = TagFactory(monitoring=self.monitoring, name="not_used_tag")
+        self.case1 = CaseFactory(monitoring=self.monitoring, tags=[self.case1_tag])
+        self.case2 = CaseFactory(monitoring=self.monitoring, tags=[self.case2_tag])
+        self.case3 = CaseFactory(monitoring=self.monitoring, tags=[self.global_tag])
+        self.case4 = CaseFactory(monitoring=self.monitoring)
+
+    def get_url(self):
+        return reverse(
+            "monitorings:mass-message", kwargs={"slug": self.monitoring.slug}
+        )
+
+    def get_form_data(self, **kwargs):
+        data = {}
+        form = MassMessageForm(self.monitoring, user=self.user)
+        for field_name in ["recipients_tags", "title", "body", "quote", "note"]:
+            data[field_name] = kwargs.get(field_name) or form.fields[field_name]
+        if "send" in kwargs.keys():
+            data["send"] = "send"
+        data.update(
+            **{
+                "attachment_set-TOTAL_FORMS": 0,
+                "attachment_set-INITIAL_FORMS": 0,
+                "attachment_set-MAX_NUM_FORMS": 1,
+            }
+        )
+        return data
+
+    def check_template_used(self):
+        self.grant_permission()
+        self.client.login(username="john", password="pass")
+        response = self.client.get()
+        self.assertTemplateUsed(response, "monitorings/mass_message.html")
+
+    def test_create_mass_draft(self):
+        # Ensuring no Letter objects yet
+        self.assertEqual(Letter.objects.all().count(), 0)
+
+        # posting to API to create mass draft
+        self.grant_permission()
+        self.client.login(username="john", password="pass")
+        response = self.client.post(
+            self.get_url(),
+            data=self.get_form_data(
+                recipients_tags=[
+                    self.case1_tag.pk,
+                    self.case2_tag.pk,
+                    self.global_tag.pk,
+                ]
+            ),
+        )
+        self.assertEqual(response.status_code, 302)  # redirection after success
+
+        # getting mass draft letter object
+        mass_draft = Letter.objects.get(message_type=Letter.MESSAGE_TYPES.mass_draft)
+        self.assertTrue(mass_draft.is_mass_draft())
+        self.assertEqual(
+            response.url, reverse("letters:details", kwargs={"pk": mass_draft.pk})
+        )
+
+        # ensuring no regular letters has been created
+        self.assertFalse(
+            Letter.objects.exclude(
+                message_type=Letter.MESSAGE_TYPES.mass_draft
+            ).exists()
+        )
+
+    def test_create_mass_message(self):
+        # Ensuring no Letter objects yet
+        self.assertEqual(Letter.objects.all().count(), 0)
+
+        # grant additional permission for sending message
+        self.grant_permission("monitorings.reply")
+
+        # posting to API to send mass message
+        self.client.login(username="john", password="pass")
+        response = self.client.post(
+            self.get_url(),
+            data=self.get_form_data(
+                recipients_tags=[
+                    self.case1_tag.pk,
+                    self.case2_tag.pk,
+                    self.global_tag.pk,
+                ],
+                send="send",
+            ),
+        )
+
+        self.assertEqual(response.status_code, 302)  # redirection after success
+        self.assertEqual(
+            response.url,
+            reverse("monitorings:details", kwargs={"slug": self.monitoring.slug}),
+        )
+
+        # letters will be sent asynchronously, so we only can check draft here
+        draft = MassMessageDraft.objects.get()
+        recipients_tags = draft.recipients_tags.all()
+        self.assertIn(self.case1_tag, recipients_tags)
+        self.assertIn(self.case2_tag, recipients_tags)
+        self.assertIn(self.global_tag, recipients_tags)
