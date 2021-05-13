@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: main 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-29 01:07+0000\n"
-"PO-Revision-Date: 2020-10-19 20:16+0200\n"
+"POT-Creation-Date: 2021-05-13 16:09+0000\n"
+"PO-Revision-Date: 2021-05-13 18:18+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.4.1\n"
 
 #: mixins.py:205
 msgid "Page number is not valid."
@@ -28,7 +28,7 @@ msgstr "Numer strony jest nieprawidłowy."
 msgid "Invalid page (%(page_number)s): %(message)s"
 msgstr "Nieprawidłowa strona (%(page_number)s): %(message)s"
 
-#: mixins.py:223
+#: mixins.py:228
 msgid "data"
 msgstr "dane"
 
@@ -43,31 +43,15 @@ msgstr "Usuń"
 
 #: templates/_filter.html:15 templates/main/home.html:23
 msgid "No rows."
-msgstr "Brak wierszy"
+msgstr "Brak wierszy."
 
 #: templates/_filter.html:33
 msgid "Filter"
 msgstr "Filtruj"
 
 #: templates/account/_social.html:6
-msgid "Facebook"
-msgstr "Facebook"
-
-#: templates/account/_social.html:10
-msgid "Twitter"
-msgstr "Twitter"
-
-#: templates/account/_social.html:14
-msgid "GitLab"
-msgstr "GitLab"
-
-#: templates/account/_social.html:18
 msgid "Google"
 msgstr "Google"
-
-#: templates/account/_social.html:22
-msgid "GitHub"
-msgstr "GitHub"
 
 #: templates/account/email.html:6
 msgid "Account"
@@ -174,7 +158,7 @@ msgstr ""
 "Potwierdziłeś, że adres <a href=\"mailto:%(email)s\">%(email)s</a> jest "
 "adresem e-mail użytkownika %(user_display)s."
 
-#: templates/account/login.html:7 templates/account/login.html:29
+#: templates/account/login.html:7 templates/account/login.html:31
 msgid "Sign In"
 msgstr "Zaloguj"
 
@@ -185,32 +169,30 @@ msgstr "Zaloguj poprzez media społecznościowe"
 #: templates/account/login.html:15
 #, python-format
 msgid ""
-"Please sign in with one\n"
-"                        of your existing third party accounts. Or, <a href="
-"\"%(signup_url)s\">sign up</a>\n"
-"                        for a account and sign in below."
+"Please sign in with Google account,\n"
+"                        or <a href=\"%(signup_url)s\">sign&nbsp;up</a>\n"
+"                        for an account and sign in below."
 msgstr ""
-"Proszę zaloguj się jednym\n"
-"z Twoich kont społecznościowcyh. Lub <a href=\"%(signup_url)s\">zarejestruj "
-"się</a> \n"
-"na stronie i zaloguj się poniżej:"
+"Proszę zaloguj się za pomocą konta Google, lub <a href=\"%(signup_url)s"
+"\">zarejestruj się</a> \n"
+"na stronie i zaloguj poniżej."
 
-#: templates/account/login.html:21
-msgid "… or use user account"
-msgstr "… lub użyj konta użytkownika"
+#: templates/account/login.html:23
+msgid "Alternatively use user account"
+msgstr "Możesz też użyć konta użytkownika"
 
-#: templates/account/login.html:31
+#: templates/account/login.html:33
 msgid "Forgot Password?"
 msgstr "Zapomniałeś hasła?"
 
-#: templates/account/login.html:33
+#: templates/account/login.html:35
 #, python-format
 msgid ""
 "If you do not have a user account,\n"
 "                            <a href=\"%(signup_url)s\">sign up</a>"
 msgstr ""
 "Jeżeli nie masz jeszcze konta, to proszę <a href=\"%(signup_url)s"
-"\">zarejestruj się</a>."
+"\">zarejestruj się</a>"
 
 #: templates/account/logout.html:5 templates/account/logout.html:12
 #: templates/account/logout.html:21
@@ -279,7 +261,7 @@ msgid ""
 "\">new password reset</a>."
 msgstr ""
 "Łącze resetujące hasło jest niepoprawne, prawdopodobnie już go użyłeś.  <a "
-"href=\"%(passwd_reset_url)s\">Zresetuj hasło jeszcze raz.</a>"
+"href=\"%(passwd_reset_url)s\">Zresetuj hasło jeszcze raz.</a>."
 
 #: templates/account/password_reset_from_key.html:23
 msgid "change password"
@@ -359,7 +341,7 @@ msgid ""
 "                    verify ownership of your e-mail address. "
 msgstr ""
 "Ta część strony wymaga weryfikacji tego, kim jesteś. Dlatego wymagamy "
-"weryfikacji Twojego adresu e-mail"
+"weryfikacji Twojego adresu e-mail."
 
 #: templates/account/verified_email_required.html:19
 msgid ""
@@ -370,7 +352,7 @@ msgid ""
 msgstr ""
 "Wysłaliśmy Tobie wiadomość e-mail.\n"
 "W celu weryfikacji musisz kliknąć w łącze zawarte w wiadomości. Proszę "
-"skontaktuj się z nami, jeśli jej nie otrzymałeś w ciągu paru minut. "
+"skontaktuj się z nami, jeśli jej nie otrzymałeś w ciągu paru minut."
 
 #: templates/account/verified_email_required.html:23
 #, python-format
@@ -492,53 +474,69 @@ msgstr ""
 msgid "Add a 3rd Party Account"
 msgstr "Dodaj konto zewnętrzne"
 
-#: urls.py:33
+#: urls.py:36
 msgid "^$"
 msgstr "^$"
 
-#: urls.py:37
+#: urls.py:40
 msgid "^about/$"
 msgstr "^o-stronie/"
 
-#: urls.py:44
+#: urls.py:47
 msgid "^users/"
 msgstr "^uzytkownik/"
 
-#: urls.py:48
+#: urls.py:51
 msgid "^institutions/"
 msgstr "^instytucje/"
 
-#: urls.py:52
+#: urls.py:55
 msgid "^monitorings/"
 msgstr "^monitoringi/"
 
-#: urls.py:54
+#: urls.py:57
 msgid "^cases/"
 msgstr "^sprawy/"
 
-#: urls.py:55
+#: urls.py:58
+msgid "^cases/tags/"
+msgstr "^sprawy/tagi/"
+
+#: urls.py:59
 msgid "^alerts/"
 msgstr "^alerty/"
 
-#: urls.py:56
+#: urls.py:60
 msgid "^letters/"
 msgstr "^listy/"
 
-#: urls.py:57
+#: urls.py:61
 msgid "^teryt/"
 msgstr "^jst/"
 
-#: urls.py:58
+#: urls.py:62
 msgid "^letters/logs/"
 msgstr "^listy/logi/"
 
-#: urls.py:59
+#: urls.py:63
 msgid "^parcels/"
 msgstr "^przesylki/"
 
-#: urls.py:60
+#: urls.py:64
 msgid "^virus_scan/"
 msgstr "^virus_scan/"
+
+#~ msgid "Facebook"
+#~ msgstr "Facebook"
+
+#~ msgid "Twitter"
+#~ msgstr "Twitter"
+
+#~ msgid "GitLab"
+#~ msgstr "GitLab"
+
+#~ msgid "GitHub"
+#~ msgstr "GitHub"
 
 #~ msgid "Tasks"
 #~ msgstr "Zadania"
