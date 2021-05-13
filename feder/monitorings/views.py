@@ -7,7 +7,6 @@ from braces.views import (
     SelectRelatedMixin,
     UserFormKwargsMixin,
 )
-import uuid
 from cached_property import cached_property
 from dal import autocomplete
 from django.contrib import messages
@@ -51,9 +50,9 @@ from .forms import (
 from .models import Monitoring
 from .permissions import MultiCaseTagManagementPerm
 from .serializers import MultiCaseTagSerializer
-from .tasks import handle_mass_assign
+from .tasks import handle_mass_assign, send_mass_draft
 from feder.letters.formsets import AttachmentInline
-from feder.letters.views import CaseRequiredMixin
+from feder.letters.views import LetterCommonMixin
 from extra_views import CreateWithInlinesView
 
 
@@ -407,7 +406,7 @@ class MonitoringAssignView(RaisePermissionRequiredMixin, FilterView):
             messages.error(self.request, msg)
             return HttpResponseRedirect(self.request.path)
         cases = []
-        mass_assign = uuid.uuid4()
+        mass_assign = Case.objects.get_mass_assign_uid()
         for i, institution in enumerate(qs):
             postfix = " #%d" % (i + count + 1,)
             cases.append(
@@ -431,17 +430,17 @@ class MonitoringAssignView(RaisePermissionRequiredMixin, FilterView):
 
 
 class MassMessageView(
+    LetterCommonMixin,
     RaisePermissionRequiredMixin,
     UserFormKwargsMixin,
     MessageMixin,
-    CaseRequiredMixin,
     CreateWithInlinesView,
 ):
     template_name = "monitorings/mass_message.html"
     model = Letter
     form_class = MassMessageForm
     inlines = [AttachmentInline]
-    permission_required = "monitorings.add_draft"
+    permission_required = ["monitorings.add_draft"]
 
     def dispatch(self, request, *args, **kwargs):
         self.monitoring = Monitoring.objects.get(slug=kwargs["slug"])
@@ -470,15 +469,13 @@ class MassMessageView(
         result = super().forms_valid(form, inlines)
 
         if "send" in self.request.POST:
-            letters = self.object.generate_mass_letters()
-            for letter in letters:
-                letter.send()
-
-            # Remove this template letter after successful sending.
-            self.object.delete()
-
+            cases_count = self.object.mass_draft.determine_cases().count()
+            send_mass_draft(self.object.pk)
             self.messages.success(
-                _("Message sent to {count} recipients!").format(count=len(letters)),
+                _(
+                    'Message "{letter}" has been scheduled for sending '
+                    "to {count} recipients!"
+                ).format(letter=self.object, count=cases_count),
                 fail_silently=True,
             )
         else:

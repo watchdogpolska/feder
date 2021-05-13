@@ -13,7 +13,13 @@
       "managers": ["pip_requirements"],
       "packageNames": ["gevent", "coveralls", "django-allauth", "django-floppyforms", "django-guardian", "django-crispy-forms", "elasticsearch-dsl", "Sphinx", "lxml", "mysqlclient", "Pillow", "pytz"],
       "automerge": true
+    },
+    {
+      "packageNames": ["cryptography"],
+      "enabled": false,
+      "__comment__": "New version of cryptography require rust not available in production" 
     }
+  ]
   ],
   "pip_requirements": {
     "fileMatch": ["requirements/.+?.txt"]

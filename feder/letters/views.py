@@ -51,7 +51,8 @@ from .filters import LetterFilter
 from .forms import LetterForm, ReplyForm, AssignLetterForm
 from .mixins import LetterObjectFeedMixin
 from .models import Letter, Attachment
-from ..virus_scan.models import Request as ScanRequest
+from feder.monitorings.tasks import send_mass_draft
+from feder.virus_scan.models import Request as ScanRequest
 
 _("Letters index")
 
@@ -73,6 +74,11 @@ class CaseRequiredMixin:
 
 
 class LetterCommonMixin:
+    """
+    Defines get_queryset and get_permission_object methods.
+    It should to be specified before permission related mixins.
+    """
+
     def get_queryset(self):
         return (
             super()
@@ -95,9 +101,9 @@ class LetterCommonMixin:
 
 
 class LetterListView(
+    LetterCommonMixin,
     UserKwargFilterSetMixin,
     DisableOrderingListViewMixin,
-    LetterCommonMixin,
     PrefetchRelatedMixin,
     SelectRelatedMixin,
     PerformantPagintorMixin,
@@ -163,10 +169,10 @@ class LetterCreateView(
 
 
 class LetterReplyView(
+    LetterCommonMixin,
     RaisePermissionRequiredMixin,
     UserFormKwargsMixin,
     FormValidMessageMixin,
-    LetterCommonMixin,
     CreateWithInlinesView,
 ):
     template_name = "letters/letter_reply.html"
@@ -212,7 +218,7 @@ class LetterReplyView(
 
 
 class LetterSendView(
-    AttrPermissionRequiredMixin, LetterCommonMixin, MessageMixin, ActionView
+    LetterCommonMixin, AttrPermissionRequiredMixin, MessageMixin, ActionView
 ):
     model = Letter
     permission_required = "monitorings.reply"
@@ -220,16 +226,15 @@ class LetterSendView(
 
     def action(self):
         if self.object.is_mass_draft():
-            letters = self.object.generate_mass_letters()
-            for letter in letters:
-                letter.send()
+            cases_count = self.object.mass_draft.determine_cases().count()
+            send_mass_draft(self.object.pk)
             self.messages.success(
-                _('Message "{letter}" has been sent to {count} recipients!').format(
-                    letter=self.object, count=len(letters)
-                ),
+                _(
+                    'Message "{letter}" has been scheduled for sending '
+                    "to {count} recipients!"
+                ).format(letter=self.object, count=cases_count),
                 fail_silently=True,
             )
-            self.object.delete()
         else:
             self.object.send()
             self.messages.success(
@@ -248,11 +253,11 @@ class LetterSendView(
 
 
 class LetterUpdateView(
+    LetterCommonMixin,
     AttrPermissionRequiredMixin,
     UserFormKwargsMixin,
     UpdateMessageMixin,
     FormValidMessageMixin,
-    LetterCommonMixin,
     UpdateWithInlinesView,
 ):
     model = Letter
@@ -266,7 +271,7 @@ class LetterUpdateView(
 
 
 class LetterDeleteView(
-    AttrPermissionRequiredMixin, DeleteMessageMixin, LetterCommonMixin, DeleteView
+    LetterCommonMixin, AttrPermissionRequiredMixin, DeleteMessageMixin, DeleteView
 ):
     model = Letter
     permission_required = "monitorings.delete_letter"
