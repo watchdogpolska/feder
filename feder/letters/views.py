@@ -230,7 +230,7 @@ class LetterSendView(
             send_mass_draft(self.object.pk)
             self.messages.success(
                 _('Message "{letter}" has been sent to {count} recipients!').format(
-                    letter=self.object, count=len(cases_count)
+                    letter=self.object, count=cases_count
                 ),
                 fail_silently=True,
             )
