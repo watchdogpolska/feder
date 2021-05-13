@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-monitorings 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-30 15:31+0000\n"
-"PO-Revision-Date: 2021-04-30 19:41+0200\n"
+"POT-Creation-Date: 2021-05-13 10:41+0000\n"
+"PO-Revision-Date: 2021-05-13 12:43+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -39,23 +39,31 @@ msgstr "Szablon"
 msgid "User"
 msgstr "Użytkownik"
 
-#: forms.py:96
+#: forms.py:73
+msgid "Recipient's tags"
+msgstr "Tagi odbiorców"
+
+#: forms.py:94
+msgid "Use {{EMAIL}} to insert reply address."
+msgstr "Użyj {{EMAIL}} aby umieścić adres odpowiedzi."
+
+#: forms.py:98
 msgid "Message"
 msgstr "Wiadomość"
 
-#: forms.py:122
+#: forms.py:124
 msgid "Save draft"
 msgstr "Zapisz szkic"
 
-#: forms.py:126
+#: forms.py:128
 msgid "Send message"
 msgstr "Wyślij wiadomość"
 
-#: forms.py:140
+#: forms.py:142
 msgid "You do not have permission to send messages."
 msgstr "Nie posiadasz uprawnień do wysyłki wiadomości."
 
-#: forms.py:144
+#: forms.py:145
 msgid "You do not have permission to save draft."
 msgstr "Nie posiadasz uprawnień aby zapisać szkic."
 
@@ -255,7 +263,7 @@ msgstr "Zobacz raport"
 msgid "by"
 msgstr "przez"
 
-#: templates/monitorings/_letter.html:10
+#: templates/monitorings/_letter.html:11
 msgid "in case of "
 msgstr "w sprawie "
 
@@ -513,26 +521,26 @@ msgstr "^(?P<slug>[\\w-]+)/~wiadomosc-masowa$"
 msgid "Using field {{EMAIL}} is mandatory."
 msgstr "Użycie pola {{EMAIL}} jest obowiązkowe."
 
-#: views.py:215
+#: views.py:213
 #, python-brace-format
 msgid "{0} created!"
 msgstr "{0} utworzony!"
 
-#: views.py:285
+#: views.py:283
 #, python-brace-format
 msgid "Permissions to {monitoring} updated!"
 msgstr "Uprawnienia dla {monitoring} zaktualizowane!"
 
-#: views.py:341
+#: views.py:339
 #, python-brace-format
 msgid "Permissions to {monitoring} of {user} updated!"
 msgstr "Uprawnienia do {monitoring} dla {user} zaktualizowane!"
 
-#: views.py:389
+#: views.py:387
 msgid "You can not send letters without using filtering."
 msgstr "Nie możesz wysyłać listów bez używania filtrowania."
 
-#: views.py:405
+#: views.py:403
 #, python-format
 msgid ""
 "You can not send %(count)d letters at once. The maximum is %(limit)d. Use "
@@ -541,7 +549,7 @@ msgstr ""
 "Nie możesz wysłać %(count)d listów na raz. Maksimum to %(limit)d. Użyj "
 "filtrowania."
 
-#: views.py:426
+#: views.py:424
 #, python-format
 msgid ""
 "%(count)d institutions was assigned to %(monitoring)s.  The requests "
@@ -550,12 +558,13 @@ msgstr ""
 "%(count)d instytucji zostało przypisanych do %(monitoring)s. Wysyłka "
 "wniosków została zaplanowana."
 
-#: views.py:482
+#: views.py:476
 #, python-brace-format
-msgid "Message sent to {count} recipients!"
-msgstr "Wiadomość wysłana do {count} odbiorców!"
+msgid ""
+"Message \"{letter}\" has been scheduled for sending to {count} recipients!"
+msgstr "Wiadomość \"{letter}\" zaplanowana do wysyłki do {count} odbiorców!"
 
-#: views.py:487
+#: views.py:485
 #, python-brace-format
 msgid "Message {message} saved to review!"
 msgstr "Wiadomość {message} zapisana do przejrzenia!"
@@ -608,9 +617,6 @@ msgstr "Wiadomość {message} zapisana do przejrzenia!"
 
 #~ msgid "Preview your submission"
 #~ msgstr "Pogląd:"
-
-#~ msgid "Recipients"
-#~ msgstr "Odbiorcy"
 
 #~ msgid "Submit"
 #~ msgstr "Zgłoś"

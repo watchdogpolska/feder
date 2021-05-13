@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: letters 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-10 12:42+0000\n"
-"PO-Revision-Date: 2021-05-10 14:42+0200\n"
+"POT-Creation-Date: 2021-05-13 10:41+0000\n"
+"PO-Revision-Date: 2021-05-13 12:45+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -43,37 +43,37 @@ msgstr "Instytucja"
 msgid "Case"
 msgstr "Sprawa"
 
-#: forms.py:66 forms.py:73
+#: forms.py:70 forms.py:77
 msgid "Save draft"
 msgstr "Zapisz szkic"
 
-#: forms.py:69 forms.py:77
+#: forms.py:73 forms.py:81
 msgid "Send reply"
 msgstr "Wyślij odpowiedź"
 
-#: forms.py:84
+#: forms.py:88
 msgid ""
 "Nothing to do. You do not have permission to save draft or send replies."
 msgstr ""
 "Nic do zrobienia. Nie masz uprawnień, aby zapisać szkic lub wysłać odpowiedź."
 
-#: forms.py:90
+#: forms.py:94
 msgid "You do not have permission to send replies."
 msgstr "Nie masz uprawnień, aby wysłać odpowiedzi."
 
-#: forms.py:93
+#: forms.py:97
 msgid "You do not have permission to save draft."
 msgstr "Nie masz odpowiedzi, aby wysłać odpowiedź."
 
-#: forms.py:117
+#: forms.py:121
 msgid "Assign"
 msgstr "Przypisz"
 
-#: forms.py:120 forms.py:139
+#: forms.py:124 forms.py:143
 msgid "Case number"
 msgstr "Numer sprawy"
 
-#: forms.py:135
+#: forms.py:139
 msgid "Reassign"
 msgstr "Przepisz"
 
@@ -569,35 +569,36 @@ msgstr "^~przypisz-(?P<pk>[\\d-]+)$"
 msgid "^webhook$"
 msgstr "^webhook$"
 
-#: views.py:56
+#: views.py:57
 msgid "Letters index"
 msgstr "Wykaz listów"
 
-#: views.py:206
+#: views.py:212
 #, python-brace-format
 msgid "Reply {reply} to {letter} saved and send!"
 msgstr "Odpowiedź {reply} na {letter} zapisana i wysłana!"
 
-#: views.py:209
+#: views.py:215
 #, python-brace-format
 msgid "Reply {reply} to {letter} saved to review!"
 msgstr "Odpowiedź {reply} do listu {letter} zapisana do przejrzenia!"
 
-#: views.py:227
+#: views.py:233
 #, python-brace-format
-msgid "Message \"{letter}\" has been sent to {count} recipients!"
-msgstr "Wiadomość \"{letter}\" została wysłana do {count} odbiorców!"
+msgid ""
+"Message \"{letter}\" has been scheduled for sending to {count} recipients!"
+msgstr "Wiadomość \"{letter}\" zaplanowana do wysyłki do {count} odbiorców!"
 
-#: views.py:236
+#: views.py:243
 #, python-brace-format
 msgid "Reply \"{letter}\" has been sent to {institution}!"
 msgstr "Odpowiedź \"{letter}\" została wysłana do {institution}!"
 
-#: views.py:291
+#: views.py:298
 msgid "Latest letters on whole site"
 msgstr "Ostatnie listy na całej stronie"
 
-#: views.py:294
+#: views.py:301
 msgid ""
 "Updates on new letters on site including receving and sending in all "
 "monitorings."
@@ -605,51 +606,51 @@ msgstr ""
 "Aktualizacje wszystkich listów na stronie włączając w to listy przychodzące "
 "i wychodzące w wszystkich monitoringach."
 
-#: views.py:348
+#: views.py:355
 #, python-format
 msgid "Letter for monitoring %s"
 msgstr "Listy monitoringu %s"
 
-#: views.py:352
+#: views.py:359
 #, python-format
 msgid "Archive of letter for cases which involved in monitoring %s"
 msgstr "Archiwum listów w sprawach z monitoringu %s"
 
-#: views.py:368
+#: views.py:375
 #, python-format
 msgid "Letter for case %s"
 msgstr "Listy w sprawie %s"
 
-#: views.py:371
+#: views.py:378
 #, python-format
 msgid "Archive of letter for case %s"
 msgstr "Archiwum listów w sprawie %s"
 
-#: views.py:391
+#: views.py:398
 msgid "SPAM"
 msgstr "SPAM"
 
-#: views.py:398
+#: views.py:405
 msgid "Thanks for your help. The report was forwarded to responsible persons."
 msgstr ""
 "Dziękujemy za pomoc. Zgłoszenie zostało przekazane do odpowiedzialnych osób."
 
-#: views.py:438
+#: views.py:445
 #, python-brace-format
 msgid "The letter {object} has been marked as valid."
 msgstr "List {object} został oznaczony jako spam i ukryty."
 
-#: views.py:441
+#: views.py:448
 #, python-brace-format
 msgid "The message {object} has been marked as spam and hidden."
 msgstr "List {object} został oznaczony jako spam i ukryty."
 
-#: views.py:495
+#: views.py:502
 #, python-format
 msgid "Assigned letter to case '%(case)s'"
 msgstr "Przypisano list do sprawy '%(case)s'"
 
-#: views.py:559
+#: views.py:566
 msgid "The file {} has been queued for scanning"
 msgstr "Plik {} został zakolejkowany do skanowania"
 

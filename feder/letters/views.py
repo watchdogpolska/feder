@@ -229,12 +229,12 @@ class LetterSendView(
             cases_count = self.object.mass_draft.determine_cases().count()
             send_mass_draft(self.object.pk)
             self.messages.success(
-                _('Message "{letter}" has been sent to {count} recipients!').format(
-                    letter=self.object, count=cases_count
-                ),
+                _(
+                    'Message "{letter}" has been scheduled for sending '
+                    "to {count} recipients!"
+                ).format(letter=self.object, count=cases_count),
                 fail_silently=True,
             )
-            self.object.delete()
         else:
             self.object.send()
             self.messages.success(

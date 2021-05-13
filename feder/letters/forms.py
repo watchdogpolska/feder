@@ -25,8 +25,12 @@ class LetterForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         case = kwargs.pop("case", None)
+        letter = kwargs.get("instance")
         super().__init__(*args, **kwargs)
-        self.initial["case"] = case or kwargs.get("instance").case
+        if letter.is_mass_draft():
+            del self.fields["case"]
+        else:
+            self.initial["case"] = case or letter.case
         self.helper.form_tag = False
 
     class Meta:
@@ -34,9 +38,9 @@ class LetterForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
         fields = ["title", "body", "case", "note"]
 
     def save(self, *args, **kwargs):
-        self.instance.record.case = self.cleaned_data["case"]
-        self.instance.record.save()
-
+        if not self.instance.is_mass_draft():
+            self.instance.record.case = self.cleaned_data["case"]
+            self.instance.record.save()
         return super().save(*args, **kwargs)
 
 

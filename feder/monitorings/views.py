@@ -472,7 +472,10 @@ class MassMessageView(
             cases_count = self.object.mass_draft.determine_cases().count()
             send_mass_draft(self.object.pk)
             self.messages.success(
-                _("Message sent to {count} recipients!").format(count=cases_count),
+                _(
+                    'Message "{letter}" has been scheduled for sending '
+                    "to {count} recipients!"
+                ).format(letter=self.object, count=cases_count),
                 fail_silently=True,
             )
         else:
