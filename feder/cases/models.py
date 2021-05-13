@@ -140,6 +140,10 @@ class Case(TimeStampedModel):
             .objects.filter(record__case=self, author_user_id__isnull=True)
             .exclude_automatic()
             .exists()
+        ) or (
+            apps.get_model("parcels", "IncomingParcelPost")
+            .objects.filter(record__case=self)
+            .exists()
         )
 
     @property
