@@ -69,6 +69,11 @@ $gray: #F0F0F0;
     background-color: $gray;
     color: #000;
   }
+
+  &__title {
+    margin-top: 0;
+    margin-bottom: 25px;
+  }
 }
 
 .metadata-toggle {
@@ -208,11 +213,47 @@ iframe.letter-quote {
 }
 
 
+/* generic padding and margin classes */
+
+@each $propLong, $propShort in ("margin": "m", "padding": "p") {
+    @each $sideLong, $sideShort in ("top": "t", "right": "r", "bottom": "b", "left": "l") {
+        @for $val from 0 through 5 {
+            .#{$propShort}#{$sideShort}-#{$val} {
+                #{$propLong}-#{$sideLong}: #{$val}em !important;
+            }
+        }
+    }
+}
+
+
 /* tables */
 
-.table__col_narrow {
-  max-width: 120px;
+.table {
+  &__col_narrow {
+    max-width: 120px;
+  }
+
+  &__col_checkbox {
+    max-width: 20px;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    vertical-align: top !important;
+
+    input, label {
+      margin: 0 !important;
+      font-size: 16px;
+    }
+  }
+
+  &__col_bottom {
+    vertical-align: bottom !important;
+    padding-bottom: 4px !important;
+  }
 }
+
+
+
+
 
 
 /* colors */

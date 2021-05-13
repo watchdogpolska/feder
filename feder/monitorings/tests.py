@@ -18,9 +18,11 @@ from feder.parcels.factories import IncomingParcelPostFactory, OutgoingParcelPos
 from feder.teryt.factories import JSTFactory
 from feder.records.factories import RecordFactory
 from feder.users.factories import UserFactory
+from feder.cases_tags.factories import TagFactory
 from .factories import MonitoringFactory
 from .forms import MonitoringForm
 from .models import Monitoring
+from .serializers import MultiCaseTagSerializer
 from .tasks import send_letter_for_mass_assign, handle_mass_assign
 
 EXAMPLE_DATA = {
@@ -488,3 +490,79 @@ class SitemapTestCase(ObjectMixin, TestCase):
         )
         response = self.client.get(url)
         self.assertContains(response, needle)
+
+
+class MultiCaseTagManagementTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
+    permission = ["monitorings.change_case"]
+    status_anonymous = 401
+    status_no_permission = 403
+    status_has_permission = 202
+
+    def setUp(self):
+        super().setUp()
+        self.case = CaseFactory(monitoring=self.monitoring)
+        self.tag_global = TagFactory(name="global", monitoring=None)
+        self.tag_local = TagFactory(name="local", monitoring=self.monitoring)
+
+    def get_url(self):
+        return reverse(
+            "monitoring-case-tags-update", kwargs={"monitoring_pk": self.monitoring.pk}
+        )
+
+    def get_form_data(self, case_ids=None, tag_ids=None, operation=None):
+        return {
+            "cases": case_ids or [self.case.id],
+            "tags": tag_ids or [],
+            "operation": operation or MultiCaseTagSerializer.OPERATIONS.add,
+        }
+
+    def test_status_code_for_privileged_user(self):
+        self.grant_permission()
+        self.client.login(username="john", password="pass")
+        response = self.client.post(self.get_url(), data=self.get_form_data())
+        self.assertEqual(response.status_code, self.status_has_permission)
+
+    def test_add_tags(self):
+        # no case tags yet
+        self.assertEqual(self.case.tags.all().count(), 0)
+
+        # posting to API to add tags
+        self.grant_permission()
+        self.client.login(username="john", password="pass")
+        response = self.client.post(
+            self.get_url(),
+            data=self.get_form_data(
+                tag_ids=[self.tag_global.id, self.tag_local.id],
+                operation=MultiCaseTagSerializer.OPERATIONS.add,
+            ),
+        )
+        self.assertEqual(response.status_code, 202)
+
+        # both tags should now be assigned with the case
+        case_tags = self.case.tags.all()
+        self.assertIn(self.tag_global, case_tags)
+        self.assertIn(self.tag_local, case_tags)
+
+    def test_remove_tags(self):
+        self.case.tags.add(self.tag_local)
+        self.case.tags.add(self.tag_global)
+
+        # both tags assigned
+        case_tags = self.case.tags.all()
+        self.assertIn(self.tag_global, case_tags)
+        self.assertIn(self.tag_local, case_tags)
+
+        # posting to API to remove the tags
+        self.grant_permission()
+        self.client.login(username="john", password="pass")
+        response = self.client.post(
+            self.get_url(),
+            data=self.get_form_data(
+                tag_ids=[self.tag_global.id, self.tag_local.id],
+                operation=MultiCaseTagSerializer.OPERATIONS.remove,
+            ),
+        )
+        self.assertEqual(response.status_code, 202)
+
+        # case should have no tags assigned
+        self.assertEqual(self.case.tags.all().count(), 0)

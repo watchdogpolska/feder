@@ -5,6 +5,14 @@
     <table class="table">
         <thead>
             <tr>
+                <th class="table__col_checkbox table__col_bottom">
+                    <label for="multi-case-tag-select-all">
+                        <span class="sr-only">{% trans "select or unselect all" %}</span>
+                        <input type="checkbox"
+                               id="multi-case-tag-select-all"
+                               name="select-all-cases">
+                    </label>
+                </th>
                 <th>{% trans 'institution' %}</th>
                 <th>{% trans 'administrative unit' %}</th>
                 <th class="centered centered_cell">
@@ -28,6 +36,16 @@
         <tbody>
             {% for case in object_list %}
             <tr>
+                <td class="table__col_checkbox centered centered_cell">
+                    <label for="select-case-{{ case.id }}">
+                        <span class="sr-only">{% trans "case" %} {{ case.slug }}</span>
+                        <input type="checkbox"
+                               id="select-case-{{ case.id }}"
+                               name="select-case-{{ case.id }}"
+                               value="{{ case.id }}"
+                               class="select-case-input">
+                    </label>
+                </td>
                 <td>
                     <a href="{% url 'cases:details' slug=case.slug %}">
                       {{ case.institution.name }}

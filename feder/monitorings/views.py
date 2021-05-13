@@ -26,6 +26,9 @@ from django.views.generic import (
     UpdateView,
 )
 from django_filters.views import FilterView
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
 from formtools.wizard.views import SessionWizardView
 from guardian.shortcuts import assign_perm
 
@@ -35,6 +38,7 @@ from feder.institutions.models import Institution
 from feder.letters.models import Letter
 from feder.main.mixins import ExtraListMixin, RaisePermissionRequiredMixin
 from feder.main.paginator import DefaultPagination
+from feder.cases_tags.models import Tag
 from .filters import MonitoringFilter, MonitoringCaseReportFilter
 from .forms import (
     MonitoringForm,
@@ -43,6 +47,8 @@ from .forms import (
     CheckboxTranslatedUserObjectPermissionsForm,
 )
 from .models import Monitoring
+from .permissions import MultiCaseTagManagementPerm
+from .serializers import MultiCaseTagSerializer
 from .tasks import handle_mass_assign
 
 
@@ -128,6 +134,7 @@ class MonitoringReportView(LoginRequiredMixin, PermissionRequiredMixin, FilterVi
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["monitoring"] = self.get_object()
+        context["tags"] = Tag.objects.for_monitoring(context["monitoring"])
         get_params = {
             key: value
             for key, value in context["filter"].data.items()
@@ -439,3 +446,25 @@ class UserMonitoringAutocomplete(autocomplete.Select2QuerySetView):
         if self.q:
             qs = qs.filter(name__icontains=self.q)
         return qs.all()
+
+
+# DRF views:
+
+
+class MultiCaseTagManagement(APIView):
+    permission_classes = [MultiCaseTagManagementPerm]
+
+    def get_object(self):
+        try:
+            obj = Monitoring.objects.get(pk=self.kwargs.get("monitoring_pk"))
+        except Monitoring.DoesNotExist:
+            obj = None
+        return obj
+
+    def post(self, request, monitoring_pk, format=None):
+        monitoring = self.get_object()
+        serializer = MultiCaseTagSerializer(monitoring=monitoring, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

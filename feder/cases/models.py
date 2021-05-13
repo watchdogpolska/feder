@@ -87,7 +87,10 @@ class Case(TimeStampedModel):
     )
     email = models.CharField(max_length=75, db_index=True)
     tags = models.ManyToManyField(
-        to="cases_tags.Tag", verbose_name=_("Tags"), blank=True
+        to="cases_tags.Tag",
+        through="cases_tags.CaseTag",
+        verbose_name=_("Tags"),
+        blank=True,
     )
     confirmation_received = models.BooleanField(
         verbose_name=_("Confirmation received"), default=False
@@ -136,6 +139,10 @@ class Case(TimeStampedModel):
             apps.get_model("letters", "Letter")
             .objects.filter(record__case=self, author_user_id__isnull=True)
             .exclude_automatic()
+            .exists()
+        ) or (
+            apps.get_model("parcels", "IncomingParcelPost")
+            .objects.filter(record__case=self)
             .exists()
         )
 
