@@ -27,7 +27,7 @@ class LetterForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
         case = kwargs.pop("case", None)
         letter = kwargs.get("instance")
         super().__init__(*args, **kwargs)
-        if letter.is_mass_draft():
+        if letter and letter.is_mass_draft():
             del self.fields["case"]
         else:
             self.initial["case"] = case or letter.case
