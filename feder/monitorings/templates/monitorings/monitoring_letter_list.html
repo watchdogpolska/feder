@@ -8,7 +8,7 @@
             {% include 'monitorings/_letter.html' with object=object %}
         {% endfor %}
         <div class="text-center">
-            {% bootstrap_paginate object_list url_view_name='monitorings:details' url_extra_kwargs=url_extra_kwargs %}
+            {% bootstrap_paginate object_list url_view_name='monitorings:letters' url_extra_kwargs=url_extra_kwargs %}
         </div>
 
     {% else %}
