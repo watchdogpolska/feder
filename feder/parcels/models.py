@@ -2,6 +2,8 @@ import datetime
 
 from django.conf import settings
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
@@ -69,3 +71,13 @@ class OutgoingParcelPost(AbstractParcelPost):
     class Meta:
         verbose_name = _("Outgoing parcel post")
         verbose_name_plural = _("Outgoing parcel posts")
+
+
+@receiver(post_save, sender=IncomingParcelPost)
+def update_case_statuses(sender, instance, created, raw, **kwargs):
+    if not raw and created and instance.record.case_id:
+        case = instance.record.case
+        prev_rr = case.response_received
+        case.response_received = case.get_response_received()
+        if prev_rr != case.response_received:
+            case.save()

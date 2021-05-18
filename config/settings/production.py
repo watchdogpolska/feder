@@ -1,6 +1,8 @@
-from dealer.auto import auto
-
 from .common import *  # noqa
+
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
 
 # SECRET CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -77,21 +79,25 @@ CACHES = {
     "default": env.cache_url("DJANGO_CACHE_URL", default="memcache://127.0.0.1:11211")
 }
 
-
-RELEASE_ID = auto.revision
-RAVEN_CONFIG = {
-    "dsn": env.str("RAVEN_DSN", "http://example.com"),
-    "release": RELEASE_ID,
-}
-INSTALLED_APPS = INSTALLED_APPS + ("raven.contrib.django.raven_compat",)
-
-MIDDLEWARE = (
-    # 'raven.contrib.django.raven_compat.middleware.Sentry404CatchMiddleware',
-    "raven.contrib.django.raven_compat.middleware.SentryResponseErrorIdMiddleware",
-) + MIDDLEWARE
-
 EMAILLABS_APP_KEY = env("EMAILLABS_APP_KEY")
 
 EMAILLABS_SECRET_KEY = env("EMAILLABS_SECRET_KEY")
 
 LETTER_RECEIVE_SECRET = env("LETTER_RECEIVE_SECRET")
+
+# SENTRY CONFIGURATION
+# ------------------------------------------------------------------------------
+
+SENTRY_DSN = env("SENTRY_DSN", default="")
+if SENTRY_DSN:
+    sentry_sdk.init(
+        dsn=SENTRY_DSN,
+        integrations=[DjangoIntegration()],
+        # Set traces_sample_rate to 1.0 to capture 100%
+        # of transactions for performance monitoring.
+        # We recommend adjusting this value in production.
+        traces_sample_rate=0.1,
+        # If you wish to associate users to errors (assuming you are using
+        # django.contrib.auth) you may enable sending PII data.
+        send_default_pii=True,
+    )
