@@ -336,7 +336,7 @@ METADEFENDER_API_URL = env(
 CORS_ALLOWED_ORIGINS = [
     "https://sprawdzamyjakjest.pl",
     "https://demo.sprawdzamyjakjest.pl",
-    "https://sjj.127.0.0.1.xip.io",
+    "https://sjj.127.0.0.1.nip.io",
 ]
 CORS_URLS_REGEX = r"^/api/.*$"
 
