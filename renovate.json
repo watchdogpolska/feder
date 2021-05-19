@@ -19,7 +19,6 @@
       "enabled": false,
       "__comment__": "New version of cryptography require rust not available in production" 
     }
-  ]
   ],
   "pip_requirements": {
     "fileMatch": ["requirements/.+?.txt"]
