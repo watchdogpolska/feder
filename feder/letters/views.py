@@ -10,6 +10,7 @@ from atom.views import (
     ActionMessageMixin,
 )
 from braces.views import (
+    MessageMixin,
     FormValidMessageMixin,
     SelectRelatedMixin,
     PrefetchRelatedMixin,
@@ -20,6 +21,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.syndication.views import Feed
 from django.core.exceptions import PermissionDenied
 from django.core.files.base import ContentFile
+from django.db.models import Q
 from django.http import HttpResponseBadRequest, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
@@ -49,7 +51,8 @@ from .filters import LetterFilter
 from .forms import LetterForm, ReplyForm, AssignLetterForm
 from .mixins import LetterObjectFeedMixin
 from .models import Letter, Attachment
-from ..virus_scan.models import Request as ScanRequest
+from feder.monitorings.tasks import send_mass_draft
+from feder.virus_scan.models import Request as ScanRequest
 
 _("Letters index")
 
@@ -70,10 +73,37 @@ class CaseRequiredMixin:
         return qs.attachment_count()
 
 
+class LetterCommonMixin:
+    """
+    Defines get_queryset and get_permission_object methods.
+    It should to be specified before permission related mixins.
+    """
+
+    def get_queryset(self):
+        return (
+            super()
+            .get_queryset()
+            .exclude(
+                Q(record__case__isnull=True)
+                & ~Q(message_type=Letter.MESSAGE_TYPES.mass_draft)
+            )
+            .attachment_count()
+            .with_attachment()
+        )
+
+    def get_permission_object(self):
+        obj = super().get_object()
+        return (
+            obj.mass_draft.monitoring
+            if obj.is_mass_draft()
+            else obj.record.case.monitoring
+        )
+
+
 class LetterListView(
+    LetterCommonMixin,
     UserKwargFilterSetMixin,
     DisableOrderingListViewMixin,
-    CaseRequiredMixin,
     PrefetchRelatedMixin,
     SelectRelatedMixin,
     PerformantPagintorMixin,
@@ -94,13 +124,9 @@ class LetterListView(
         return qs.attachment_count()
 
 
-class LetterDetailView(SelectRelatedMixin, CaseRequiredMixin, DetailView):
+class LetterDetailView(SelectRelatedMixin, LetterCommonMixin, DetailView):
     model = Letter
     select_related = ["author_institution", "author_user", "record__case__monitoring"]
-
-    def get_queryset(self):
-        qs = super().get_queryset()
-        return qs.with_attachment()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -143,10 +169,10 @@ class LetterCreateView(
 
 
 class LetterReplyView(
+    LetterCommonMixin,
     RaisePermissionRequiredMixin,
     UserFormKwargsMixin,
     FormValidMessageMixin,
-    CaseRequiredMixin,
     CreateWithInlinesView,
 ):
     template_name = "letters/letter_reply.html"
@@ -192,37 +218,51 @@ class LetterReplyView(
 
 
 class LetterSendView(
-    AttrPermissionRequiredMixin, ActionMessageMixin, CaseRequiredMixin, ActionView
+    LetterCommonMixin, AttrPermissionRequiredMixin, MessageMixin, ActionView
 ):
     model = Letter
-    permission_attribute = "record__case__monitoring"
     permission_required = "monitorings.reply"
     template_name_suffix = "_send"
 
     def action(self):
-        self.object.send()
-
-    def get_success_message(self):
-        return _("Reply {letter} send to {institution}!").format(
-            letter=self.object, institution=self.object.case.institution
-        )
+        if self.object.is_mass_draft():
+            cases_count = self.object.mass_draft.determine_cases().count()
+            send_mass_draft(self.object.pk)
+            self.messages.success(
+                _(
+                    'Message "{letter}" has been scheduled for sending '
+                    "to {count} recipients!"
+                ).format(letter=self.object, count=cases_count),
+                fail_silently=True,
+            )
+        else:
+            self.object.send()
+            self.messages.success(
+                _('Reply "{letter}" has been sent to {institution}!').format(
+                    letter=self.object, institution=self.object.case.institution
+                ),
+                fail_silently=True,
+            )
 
     def get_success_url(self):
-        return self.object.get_absolute_url()
+        if self.object.is_mass_draft():
+            obj = self.object.mass_draft.monitoring
+        else:
+            obj = self.object
+        return obj.get_absolute_url()
 
 
 class LetterUpdateView(
+    LetterCommonMixin,
     AttrPermissionRequiredMixin,
     UserFormKwargsMixin,
     UpdateMessageMixin,
     FormValidMessageMixin,
-    CaseRequiredMixin,
     UpdateWithInlinesView,
 ):
     model = Letter
     form_class = LetterForm
     inlines = [AttachmentInline]
-    permission_attribute = "record__case__monitoring"
     permission_required = "monitorings.change_letter"
 
     def get_queryset(self):
@@ -231,10 +271,9 @@ class LetterUpdateView(
 
 
 class LetterDeleteView(
-    AttrPermissionRequiredMixin, DeleteMessageMixin, CaseRequiredMixin, DeleteView
+    LetterCommonMixin, AttrPermissionRequiredMixin, DeleteMessageMixin, DeleteView
 ):
     model = Letter
-    permission_attribute = "record__case__monitoring"
     permission_required = "monitorings.delete_letter"
 
     def delete(self, request, *args, **kwargs):
@@ -246,11 +285,11 @@ class LetterDeleteView(
         return super().delete(request, *args, **kwargs)
 
     def get_success_url(self):
-        return self.object.case.get_absolute_url()
-
-    def get_queryset(self):
-        qs = super().get_queryset()
-        return qs.with_attachment()
+        if self.object.is_mass_draft():
+            url = self.object.mass_draft.monitoring.get_absolute_url()
+        else:
+            url = self.object.case.get_absolute_url()
+        return url
 
 
 class LetterRssFeed(Feed):
@@ -429,7 +468,12 @@ class UnrecognizedLetterListView(
     ordering = "-pk"
 
     def get_queryset(self):
-        return super().get_queryset().filter(record__case=None)
+        return (
+            super()
+            .get_queryset()
+            .filter(record__case=None)
+            .exclude(message_type=Letter.MESSAGE_TYPES.mass_draft)
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

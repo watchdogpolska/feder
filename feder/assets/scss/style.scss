@@ -252,10 +252,6 @@ iframe.letter-quote {
 }
 
 
-
-
-
-
 /* colors */
 
 .color-danger {
@@ -266,3 +262,8 @@ iframe.letter-quote {
   color: $brand-success !important;
 }
 
+
+/* select2 fix */
+.select2-selection__rendered {
+    line-height: 20px !important;
+}

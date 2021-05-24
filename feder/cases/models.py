@@ -1,3 +1,5 @@
+import uuid
+
 from autoslug.fields import AutoSlugField
 from django.apps import apps
 from django.conf import settings
@@ -68,6 +70,13 @@ class CaseQuerySet(models.QuerySet):
 
     def with_record_max(self):
         return self.annotate(record_max=Max("record__created"))
+
+    def get_mass_assign_uid(self):
+        """Returns random UUID identifier ensuring it's unique."""
+        while True:
+            uid = uuid.uuid4()
+            if not self.filter(mass_assign=uid).exists():
+                return uid
 
 
 class Case(TimeStampedModel):

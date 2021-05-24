@@ -16,9 +16,12 @@ from django.db import models
 from django.db.models.manager import BaseManager
 from django.utils.encoding import force_text
 from django.utils.translation import ugettext_lazy as _
+from django_extensions.db.models import TimeStampedModel
 from model_utils import Choices
 from feder.institutions.models import Institution
 from feder.records.models import AbstractRecord, Record
+from feder.main.exceptions import FederValueError
+from feder.cases.models import Case
 from .utils import email_wrapper, normalize_msg_id, get_body_with_footer
 from ..virus_scan.models import Request as ScanRequest
 from django.utils import timezone
@@ -96,6 +99,7 @@ class Letter(AbstractRecord):
         (1, "regular", _("Regular")),
         (2, "disposition_notification", _("Disposition notification")),
         (3, "vacation_reply", _("Vacation reply")),
+        (4, "mass_draft", _("Mass message draft")),
     )
     MESSAGE_TYPES_AUTO = MESSAGE_TYPES.subset(
         "disposition_notification", "vacation_reply"
@@ -160,6 +164,9 @@ class Letter(AbstractRecord):
     def is_spam_validated(self):
         return self.is_spam != Letter.SPAM.unknown
 
+    def is_mass_draft(self):
+        return self.is_draft and self.message_type == self.MESSAGE_TYPES.mass_draft
+
     class Meta:
         verbose_name = _("Letter")
         verbose_name_plural = _("Letters")
@@ -186,9 +193,11 @@ class Letter(AbstractRecord):
         return force_text(self.get_title())
 
     def get_absolute_url(self):
-        if not self.case:
-            return reverse("letters:assign", kwargs={"pk": self.pk})
-        return reverse("letters:details", kwargs={"pk": self.pk})
+        if self.case or self.is_mass_draft():
+            url = reverse("letters:details", kwargs={"pk": self.pk})
+        else:
+            url = reverse("letters:assign", kwargs={"pk": self.pk})
+        return url
 
     def get_eml_url(self):
         if not self.eml:
@@ -260,7 +269,47 @@ class Letter(AbstractRecord):
         msg.attach_alternative(html_content, "text/html")
         return msg
 
+    def generate_mass_letters(self):
+        """
+        Uses this letter as a template for generating mass message
+         (it has to be defined with "mass draft" message type).
+         prepares and returns generated letters ready for sending.
+        """
+        if not self.is_mass_draft():
+            raise FederValueError(
+                'mass_send method can only be executed for "mass_draft" message type.'
+            )
+
+        # preparing letter content
+        letter_data = {}
+        for name in ["author_user", "title", "body", "quote", "note"]:
+            letter_data[name] = getattr(self, name)
+        letter_data["is_draft"] = False
+        letter_data["message_type"] = self.MESSAGE_TYPES.regular
+
+        letters = []
+        for case in self.mass_draft.determine_cases():
+            letter = Letter(**letter_data)
+            letter.record = Record.objects.create(case=case)
+            letter.save()
+
+            # Copying attachments
+            for attachment in self.attachment_set.all():
+                attachment_copy = Attachment(letter=letter)
+                file_copy = ContentFile(attachment.attachment.read())
+                file_copy.name = attachment.attachment.name
+                attachment_copy.attachment = file_copy
+                attachment_copy.save()
+
+            letters.append(letter)
+
+        return letters
+
     def send(self, commit=True, only_email=False):
+        if self.is_mass_draft():
+            raise FederValueError(
+                'send method can not be executed for "mass_draft" message type.'
+            )
         self.case.update_email()
         msg_id = make_msgid(domain=self.case.email.split("@", 2)[1])
         message = self._construct_message(msg_id=msg_id)
@@ -282,6 +331,38 @@ class Letter(AbstractRecord):
         ids = [x.letter_id for x in result]
         # print('ids', ids)
         return Letter._default_manager.filter(pk__in=ids).all()
+
+
+class MassMessageDraft(TimeStampedModel):
+    letter = models.OneToOneField(
+        to=Letter,
+        verbose_name=_("Letter"),
+        related_name="mass_draft",
+        on_delete=models.CASCADE,
+    )
+    monitoring = models.ForeignKey(
+        to="monitorings.Monitoring",
+        verbose_name=_("Monitoring"),
+        on_delete=models.CASCADE,
+    )
+    recipients_tags = models.ManyToManyField(
+        to="cases_tags.Tag",
+        verbose_name=_("Recipient tags"),
+        help_text=_("Used to determine recipients by case tags."),
+        blank=True,
+    )
+
+    class Meta:
+        verbose_name = _("Mass message draft")
+        verbose_name_plural = _("Mass message drafts")
+
+    def __str__(self):
+        return "Mass draft for {}".format(self.letter)
+
+    def determine_cases(self):
+        return Case.objects.filter(
+            monitoring=self.monitoring, tags__in=self.recipients_tags.all()
+        )
 
 
 class AttachmentQuerySet(models.QuerySet):

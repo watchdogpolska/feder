@@ -1,13 +1,15 @@
 from atom.ext.django_filters.filters import UserKwargFilterSetMixin
 from dal import autocomplete
+from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
 from django_filters import BooleanFilter, DateRangeFilter, FilterSet
 
 from .models import Letter
 
 
-def has_eml(qs, v):
-    return qs.filter(eml="") if v else qs.exclude(eml="")
+def has_eml(qs, name, value):
+    lookup = Q(eml__isnull=True) | Q(eml="")
+    return qs.exclude(lookup) if value else qs.filter(lookup)
 
 
 class LetterFilter(UserKwargFilterSetMixin, FilterSet):

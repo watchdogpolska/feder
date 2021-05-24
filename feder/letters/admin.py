@@ -29,6 +29,7 @@ class LetterAdmin(admin.ModelAdmin):
     list_filter = ("created", "modified", "is_spam")
     inlines = [AttachmentInline]
     search_fields = ("title", "body")
+    raw_id_fields = ("author_user", "author_institution", "record")
 
     def get_queryset(self, *args, **kwargs):
         qs = super().get_queryset(*args, **kwargs)

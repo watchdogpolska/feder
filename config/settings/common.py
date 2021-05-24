@@ -152,6 +152,9 @@ USE_L10N = True
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#use-tz
 USE_TZ = True
 
+# Default format for datetime.strftime.method
+STRFTIME_FORMAT = "%Y-%m-%d %H:%M:%S"
+
 # TEMPLATE CONFIGURATION
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#templates

@@ -1,6 +1,9 @@
 {% load guardian_tags i18n %}
-{% if object.case %}
-{% get_obj_perms request.user for object.case.monitoring as "monitoring_perms" %}
+{% if object.is_mass_draft %}
+    {% get_obj_perms request.user for object.mass_draft.monitoring as "monitoring_perms" %}
+{% else %}
+    {% get_obj_perms request.user for object.case.monitoring as "monitoring_perms" %}
+{% endif %}
 <div class="clearfix">
     <div class="pull-right btn-group">
         {% if 'change_letter' in monitoring_perms %}
@@ -16,16 +19,18 @@
         {% endif %}
 
         {% if 'reply' in monitoring_perms or 'add_draft' in monitoring_perms %}
-            <a class="btn btn-primary" href="{% url 'letters:reply' pk=object.pk %}">
-                <i class="fa fa-reply"></i>
-                {% trans 'Reply' %}
-            </a>
             {% if object.is_draft %}
                 <a class="btn btn-primary" href="{% url 'letters:send' pk=object.pk %}">
                     <i class="fa fa-send"></i>
                     {% trans 'Send draft' %}
                 </a>
+            {% else %}
+                <a class="btn btn-primary" href="{% url 'letters:reply' pk=object.pk %}">
+                    <i class="fa fa-reply"></i>
+                    {% trans 'Reply' %}
+                </a>
             {% endif %}
+
         {% endif %}
         {% if not object.is_spam_validated %}
             <a class="btn btn-primary" href="{% url 'letters:spam' pk=object.pk %}">
@@ -41,4 +46,3 @@
         {% endif %}
     </div>
 </div>
-{% endif %}

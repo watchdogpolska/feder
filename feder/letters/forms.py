@@ -6,6 +6,7 @@ from crispy_forms.layout import Submit
 from dal import autocomplete
 from django import forms
 from django.utils.translation import ugettext_lazy as _
+from django.conf import settings
 
 from feder.cases.models import Case
 from feder.letters.utils import get_body_with_footer
@@ -24,8 +25,12 @@ class LetterForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         case = kwargs.pop("case", None)
+        letter = kwargs.get("instance")
         super().__init__(*args, **kwargs)
-        self.initial["case"] = case or kwargs.get("instance").case
+        if letter and letter.is_mass_draft():
+            del self.fields["case"]
+        else:
+            self.initial["case"] = case or letter.case
         self.helper.form_tag = False
 
     class Meta:
@@ -33,9 +38,9 @@ class LetterForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
         fields = ["title", "body", "case", "note"]
 
     def save(self, *args, **kwargs):
-        self.instance.record.case = self.cleaned_data["case"]
-        self.instance.record.save()
-
+        if not self.instance.is_mass_draft():
+            self.instance.record.case = self.cleaned_data["case"]
+            self.instance.record.save()
         return super().save(*args, **kwargs)
 
 
@@ -94,7 +99,11 @@ class ReplyForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
 
     def get_quote(self):
         quoted = "> " + "\n> ".join(wrap(self.letter.body, width=80))
-        return QUOTE_TPL.format(quoted=quoted, **self.letter.__dict__)
+        return QUOTE_TPL.format(
+            created=self.letter.created.strftime(settings.STRFTIME_FORMAT),
+            email=self.letter.email,
+            quoted=quoted,
+        )
 
     def save(self, *args, **kwargs):
         self.instance.author_user = self.user

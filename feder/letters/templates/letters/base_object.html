@@ -52,16 +52,17 @@
     <div class="page-header">
         <h2>
             <i class="fa fa-envelope"></i>
-            {% blocktrans with object=object object_url=object.get_absolute_url author=object.author author_url=object.author.get_absolute_url case=object.case case_url=object.case.get_absolute_url institution=object.case.institution institution=object.case.institution created=object.created created_natural=object.created|naturaltime %}
-                <a href="{{ object_url }}">{{ object }}</a>
-                <small>by <a href="{{ author_url }}"> {{ author }} </a>
-                    <time datetime="{{ created }}" title="{{ created_natural }}">{{ created }}</time>
-                    in case <a href="{{ case_url }}">{{ case }}</a> with <a
-                            href="{{ institution_url }}">{{ institution }}</a></small>{% endblocktrans %}
+            <a href="{{ object.get_absolute_url }}">{{ object }}</a>
+            <small>{% trans 'by' %} <a href="{{ object.author.get_absolute_url }}"> {{ object.author }}</a>
+                <time datetime="{{ created }}" title="{{ object.created|naturaltime }}">{{ object.created }}</time>
+                {% if object.case %}
+                    {% trans 'in case of' %} <a href="{{ object.case.get_absolute_url }}">{{ object.case }}</a>
+                    {% trans 'with' %} <a href="{{ object.case.institution.get_absolute_url }}">{{ object.case.institution }}</a>
+                {% endif %}
+            </small>
         </h2>
     </div>
     <div class="gray">
-
         {% block content_object %}{% endblock %}
     </div>
 

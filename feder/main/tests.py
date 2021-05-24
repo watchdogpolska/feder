@@ -66,12 +66,19 @@ class PermissionStatusMixin:
         """Returns object of permission-carrying object for grant permission"""
         return getattr(self, "permission_object", None)
 
-    def grant_permission(self):
+    def grant_permission(self, extra_permission=None):
         """Grant permission to user in self.user
 
         Returns:
             TYPE: Description
         """
+        permission_list = self.get_permission()
+        if extra_permission is not None:
+            permission_list += (
+                extra_permission
+                if isinstance(extra_permission, (tuple, list))
+                else [extra_permission]
+            )
         for perm in self.get_permission():
             obj = self.get_permission_object()
             assign_perm(perm, self.user, obj)

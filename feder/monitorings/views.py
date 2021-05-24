@@ -1,19 +1,19 @@
 from atom.views import DeleteMessageMixin, UpdateMessageMixin
 from braces.views import (
+    MessageMixin,
     FormValidMessageMixin,
     LoginRequiredMixin,
     PermissionRequiredMixin,
     SelectRelatedMixin,
     UserFormKwargsMixin,
 )
-import uuid
 from cached_property import cached_property
 from dal import autocomplete
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.core.exceptions import PermissionDenied
 from django.urls import reverse, reverse_lazy
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext_lazy as _
@@ -45,11 +45,15 @@ from .forms import (
     SaveTranslatedUserObjectPermissionsForm,
     SelectUserForm,
     CheckboxTranslatedUserObjectPermissionsForm,
+    MassMessageForm,
 )
 from .models import Monitoring
 from .permissions import MultiCaseTagManagementPerm
 from .serializers import MultiCaseTagSerializer
-from .tasks import handle_mass_assign
+from .tasks import handle_mass_assign, send_mass_draft
+from feder.letters.formsets import AttachmentInline
+from feder.letters.views import LetterCommonMixin
+from extra_views import CreateWithInlinesView
 
 
 class MonitoringListView(SelectRelatedMixin, FilterView):
@@ -183,7 +187,9 @@ class DraftListMonitoringView(SelectRelatedMixin, ExtraListMixin, DetailView):
 
     def get_object_list(self, obj):
         return (
-            Letter.objects.filter(record__case__monitoring=obj)
+            Letter.objects.filter(
+                Q(record__case__monitoring=obj) | Q(mass_draft__monitoring=obj)
+            )
             .is_draft()
             .select_related("record__case")
             .with_author()
@@ -400,7 +406,7 @@ class MonitoringAssignView(RaisePermissionRequiredMixin, FilterView):
             messages.error(self.request, msg)
             return HttpResponseRedirect(self.request.path)
         cases = []
-        mass_assign = uuid.uuid4()
+        mass_assign = Case.objects.get_mass_assign_uid()
         for i, institution in enumerate(qs):
             postfix = " #%d" % (i + count + 1,)
             cases.append(
@@ -421,6 +427,64 @@ class MonitoringAssignView(RaisePermissionRequiredMixin, FilterView):
         messages.success(self.request, msg)
         url = reverse("monitorings:assign", kwargs={"slug": self.monitoring.slug})
         return HttpResponseRedirect(url)
+
+
+class MassMessageView(
+    LetterCommonMixin,
+    RaisePermissionRequiredMixin,
+    UserFormKwargsMixin,
+    MessageMixin,
+    CreateWithInlinesView,
+):
+    template_name = "monitorings/mass_message.html"
+    model = Letter
+    form_class = MassMessageForm
+    inlines = [AttachmentInline]
+    permission_required = ["monitorings.add_draft"]
+
+    def dispatch(self, request, *args, **kwargs):
+        self.monitoring = Monitoring.objects.get(slug=kwargs["slug"])
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_success_url(self):
+        if "send" in self.request.POST:
+            return reverse("monitorings:details", kwargs={"slug": self.kwargs["slug"]})
+        else:
+            return super().get_success_url()
+
+    def get_permission_object(self):
+        return self.monitoring
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["monitoring"] = self.monitoring
+        return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["monitoring"] = self.monitoring
+        return context
+
+    def forms_valid(self, form, inlines):
+        result = super().forms_valid(form, inlines)
+
+        if "send" in self.request.POST:
+            cases_count = self.object.mass_draft.determine_cases().count()
+            send_mass_draft(self.object.pk)
+            self.messages.success(
+                _(
+                    'Message "{letter}" has been scheduled for sending '
+                    "to {count} recipients!"
+                ).format(letter=self.object, count=cases_count),
+                fail_silently=True,
+            )
+        else:
+            self.messages.success(
+                _("Message {message} saved to review!").format(message=self.object),
+                fail_silently=True,
+            )
+
+        return result
 
 
 class MonitoringAutocomplete(autocomplete.Select2QuerySetView):
