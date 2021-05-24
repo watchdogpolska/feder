@@ -73,7 +73,7 @@ LOCAL_APPS = (
 
 ALLAUTH_PROVIDERS_APPS = ("allauth.socialaccount.providers.google",)
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
-INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS + ALLAUTH_PROVIDERS_APPS
+INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + ALLAUTH_PROVIDERS_APPS + LOCAL_APPS
 
 # MIDDLEWARE CONFIGURATION
 # ------------------------------------------------------------------------------
