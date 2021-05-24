@@ -71,15 +71,9 @@ LOCAL_APPS = (
     # Your stuff: custom apps go here
 )
 
-ALLAUTH_PROVIDERS_APPS = (
-    "allauth.socialaccount.providers.github",
-    "allauth.socialaccount.providers.gitlab",
-    "allauth.socialaccount.providers.google",
-    "allauth.socialaccount.providers.twitter",
-    "allauth.socialaccount.providers.facebook",
-)
+ALLAUTH_PROVIDERS_APPS = ("allauth.socialaccount.providers.google",)
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
-INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS + ALLAUTH_PROVIDERS_APPS
+INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + ALLAUTH_PROVIDERS_APPS + LOCAL_APPS
 
 # MIDDLEWARE CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -345,7 +339,7 @@ METADEFENDER_API_URL = env(
 CORS_ALLOWED_ORIGINS = [
     "https://sprawdzamyjakjest.pl",
     "https://demo.sprawdzamyjakjest.pl",
-    "https://sjj.127.0.0.1.xip.io",
+    "https://sjj.127.0.0.1.nip.io",
 ]
 CORS_URLS_REGEX = r"^/api/.*$"
 

@@ -184,7 +184,7 @@ class LetterReplyView(
     @cached_property
     def letter(self):
         return get_object_or_404(
-            Letter.objects.select_related("record__case__monitoring"),
+            self.get_queryset().select_related("record__case__monitoring"),
             pk=self.kwargs["pk"],
         )
 

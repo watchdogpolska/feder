@@ -16,10 +16,8 @@
     },
     {
       "packageNames": ["cryptography"],
-      "enabled": false,
-      "__comment__": "New version of cryptography require rust not available in production" 
+      "enabled": false
     }
-  ]
   ],
   "pip_requirements": {
     "fileMatch": ["requirements/.+?.txt"]

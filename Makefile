@@ -61,6 +61,3 @@ importterc:
 
 createsuperuser:  # polyfill for django <3. On django 3+ you can use the `DJANGO_SUPERUSER_PASSWORD` env variable.
 	docker-compose run web python manage.py createsuperuserwithpassword --username root --email root@example.com --password root --noinput
-
-create_fake_socialapp:  # unblock the login screen in a local deployment. To be executed once, on a fresh database. To be used only in debug environments.
-	docker-compose run web python manage.py create_social_app

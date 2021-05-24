@@ -12,13 +12,15 @@
             <div class="col-md-4 col-md-offset-4">
                 <div class="gray">
                     <h2>{% trans "Sign In using Social Media" %}</h2>
-                    <p>{% blocktrans with site.name as site_name %}Please sign in with one
-                        of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>
-                        for a account and sign in below.{% endblocktrans %}</p>
+                    <p>{% blocktrans %}Please sign in with Google account,
+                        or <a href="{{ signup_url }}">sign&nbsp;up</a>
+                        for an account and sign in below.{% endblocktrans %}</p>
+
                     {% include 'account/_social.html' %}
 
                     {% include "socialaccount/snippets/login_extra.html" %}
-                    <h2 class="login-or">{% trans '… or use user account' %}</h2>
+
+                    <h2 class="login-or">{% trans 'Alternatively use user account' %}</h2>
 
                     <form class="login" method="POST" action="{% url 'account_login' %}">
                         {% csrf_token %}
@@ -30,7 +32,7 @@
                         <a class="btn btn-default"
                            href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
 
-                        <p>{% blocktrans %}If you do not have a user account,
+                        <p class="mt-1">{% blocktrans %}If you do not have a user account,
                             <a href="{{ signup_url }}">sign up</a>{% endblocktrans %}.</p>
                     </form>
                 </div>
