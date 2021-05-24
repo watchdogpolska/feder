@@ -82,12 +82,3 @@ Jak utworzyć konto administratora?
 ----------------------------------
 
 Konto administratora może zostać utworzone poprzez polecenie ``python manage.py creatsuperuser``. Szczegółowe parametry są przedstawione na `odpowiedniej podstronie dokumentacji Django <https://docs.djangoproject.com/en/1.11/ref/django-admin/#createsuperuser>`_.
-
-
-W jaki sposób postępować w przypadku błędu ``No Facebook app configured`` na ekranie logowania?
--------------------------------------------------------------------------------------------------
-
-Przedstawiony błąd związany jest z próbą uzyskania kluczy API dla logowania społecznościowego za pośrednictwem Facebook-a. Należy utworzyć konto adinistratora (zob. :ref:`add_admin_account` ), następnie zalogować się do panelu administracyjnego (``http://localhost:8000/admin/``). Ostatecznie należy dodać aplikacje ``ScoialApp`` (``https://localhost:8000/admin/socialaccount/socialapp/``) typu Facebook z losowymi danymi kluczy.
-Alternatywnie, można wywołać komendę::
-
-    $ make create_fake_socialapp
