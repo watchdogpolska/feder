@@ -51,6 +51,10 @@ THIRD_PARTY_APPS = (
     "corsheaders",
 )
 
+# Local apps which should be put before any other apps
+# allowing for example to override third party app's templates.
+PRIORITY_LOCAL_APPS = ("feder.main",)
+
 # Apps specific for this project go here.
 LOCAL_APPS = (
     "feder.teryt",
@@ -60,7 +64,6 @@ LOCAL_APPS = (
     "feder.cases",
     "feder.cases_tags",
     "feder.letters",
-    "feder.main",
     "feder.alerts",
     "feder.letters.logs",
     "feder.domains",
@@ -73,7 +76,13 @@ LOCAL_APPS = (
 
 ALLAUTH_PROVIDERS_APPS = ("allauth.socialaccount.providers.google",)
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
-INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + ALLAUTH_PROVIDERS_APPS + LOCAL_APPS
+INSTALLED_APPS = (
+    PRIORITY_LOCAL_APPS
+    + DJANGO_APPS
+    + THIRD_PARTY_APPS
+    + ALLAUTH_PROVIDERS_APPS
+    + LOCAL_APPS
+)
 
 # MIDDLEWARE CONFIGURATION
 # ------------------------------------------------------------------------------
