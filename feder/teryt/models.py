@@ -14,5 +14,16 @@ class JST(JednostkaAdministracyjna):
     def get_absolute_url(self):
         return reverse("teryt:details", kwargs={"slug": self.slug})
 
+    def get_full_name(self):
+        name = "{} ({}, {})".format(self.name, self.id, self.category)
+        if self.parent:
+            name = "{} / {}".format(self.parent, name)
+            if self.parent.parent:
+                name = "{} / {}".format(self.parent.parent, name)
+        return name
+
+    def __str__(self):
+        return self.get_full_name()
+
     class Meta:
         proxy = True
