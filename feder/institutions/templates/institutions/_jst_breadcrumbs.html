@@ -1,0 +1,18 @@
+{% for jst in obj_jst.get_ancestors.all %}
+    <li
+        itemprop="itemListElement"
+        itemscope
+        itemtype="http://schema.org/ListItem">
+        <a itemprop="item" href="{{ jst.get_absolute_url }}">
+            <span itemprop="name">{{ jst }}</span>
+        </a>
+    </li>
+{% endfor %}
+<li
+    itemprop="itemListElement"
+    itemscope
+    itemtype="http://schema.org/ListItem">
+    <a itemprop="item" href="{{ obj_jst.get_absolute_url }}">
+        <span itemprop="name">{{ obj_jst.name }}</span>
+    </a>
+</li>

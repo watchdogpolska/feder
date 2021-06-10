@@ -6,24 +6,9 @@
         itemscope
         itemtype="http://schema.org/BreadcrumbList">
         {% if object %}
-            {% for jst in object.jst.get_ancestors.all %}
-                <li
-                    itemprop="itemListElement"
-                    itemscope
-                    itemtype="http://schema.org/ListItem">
-                    <a itemprop="item" href="{{ jst.get_absolute_url }}">
-                        <span itemprop="name">{{ jst }}</span>
-                    </a>
-                </li>
-            {% endfor %}
-            <li
-                itemprop="itemListElement"
-                itemscope
-                itemtype="http://schema.org/ListItem">
-                <a itemprop="item" href="{{ object.jst.get_absolute_url }}">
-                    <span itemprop="name">{{ object.jst }}</span>
-                </a>
-            </li>
+            {% with obj_jst=object.jst %}
+                {% include "institutions/_jst_breadcrumbs.html" %}
+            {% endwith %}
             <li
                 itemprop="itemListElement"
                 itemscope
