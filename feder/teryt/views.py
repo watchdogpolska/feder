@@ -35,3 +35,6 @@ class CustomCommunityAutocomplete(CommunityAutocomplete):
         if county:
             return qs.filter(parent=county)
         return qs
+
+    def get_result_label(self, result):
+        return result.get_full_name()
