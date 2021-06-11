@@ -319,7 +319,7 @@ SENDFILE_ROOT = MEDIA_ROOT
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = 200000000  # 200MB
 
-NECCESSARY_FILES = {
+NECESSARY_FILES = {
     "letters.Letter": {"path": "record__case__monitoring", "fields": ["eml"]},
     "letters.Attachment": {
         "path": "letter__record__case__monitoring",
