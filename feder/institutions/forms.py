@@ -19,6 +19,6 @@ class InstitutionForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelFor
         model = Institution
         fields = ["name", "tags", "jst", "regon", "email"]
         widgets = {
-            "jst": autocomplete.ModelSelect2(url="teryt:community-autocomplete"),
+            "jst": autocomplete.ModelSelect2(url="teryt:jst-autocomplete"),
             "tags": forms.CheckboxSelectMultiple,
         }

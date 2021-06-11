@@ -27,6 +27,11 @@ urlpatterns = [
         views.CustomCommunityAutocomplete.as_view(),
         name="community-autocomplete",
     ),
+    url(
+        _(r"^jst-autocomplete/$"),
+        views.JSTAutocomplete.as_view(),
+        name="jst-autocomplete",
+    ),
 ]
 
 app_name = "feder.teryt"
