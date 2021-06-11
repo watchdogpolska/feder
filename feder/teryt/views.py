@@ -16,17 +16,20 @@ class JSTListView(ListView):
         return qs.voivodeship()
 
 
-class CustomCommunityAutocomplete(CommunityAutocomplete):
-    def get_queryset(self):
+class JSTAutocompleteMixin:
+    def get_base_queryset(self):
         """
-        Overridden to use JST model instead fo JednostkaAdministracyjna.
-        additionally select_related "parent" and "parent__parent" has been added.
+        Refactored from CommunityAutocomplete view to use JST model
+        instead of JednostkaAdministracyjna.
+        additionally select_related "parent" and "parent__parent" has been added
+        and filtered only the active records.
         """
-        qs = (
-            JST.objects.community()
-            .select_related("category", "parent", "parent__parent")
-            .all()
+        return JST.objects.filter(active=True).select_related(
+            "category", "parent", "parent__parent"
         )
+
+    def get_queryset(self):
+        qs = self.get_base_queryset()
 
         if self.q:
             qs = qs.filter(name__istartswith=self.q)
@@ -34,7 +37,17 @@ class CustomCommunityAutocomplete(CommunityAutocomplete):
         county = self.forwarded.get("county", None)
         if county:
             return qs.filter(parent=county)
+
         return qs
 
     def get_result_label(self, result):
         return result.get_full_name()
+
+
+class CustomCommunityAutocomplete(JSTAutocompleteMixin, CommunityAutocomplete):
+    def get_base_queryset(self):
+        return super().get_base_queryset().community()
+
+
+class JSTAutocomplete(JSTAutocompleteMixin, CommunityAutocomplete):
+    pass
