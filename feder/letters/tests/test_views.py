@@ -195,6 +195,7 @@ class LetterDeleteViewTestCase(ObjectMixin, PermissionStatusMixin, TransactionTe
         self.assertFalse(os.path.isfile(self.from_user.eml.file.name))
 
     def test_remove_letter_with_attachment(self):
+        # TransactionTestCase has to be used to test file cleanup feature.
         self.login_permitted_user()
         attachment = AttachmentFactory(letter=self.from_user)
         self.assertTrue(os.path.isfile(attachment.attachment.file.name))
