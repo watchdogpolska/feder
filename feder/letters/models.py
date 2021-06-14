@@ -8,8 +8,6 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.core.files.base import ContentFile
 from django.core.mail.message import make_msgid, EmailMultiAlternatives
 from django.contrib.contenttypes.fields import GenericRelation
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.db import models
@@ -327,9 +325,7 @@ class Letter(AbstractRecord):
         if not doc:
             return Letter._default_manager.none()
         result = more_like_this(doc)
-        # print('result', result)
         ids = [x.letter_id for x in result]
-        # print('ids', ids)
         return Letter._default_manager.filter(pk__in=ids).all()
 
 
@@ -396,10 +392,6 @@ class Attachment(AttachmentBase):
         scan = self.scan_status()
         return scan == ScanRequest.STATUS.infected
 
-    def delete(self, *args, **kwargs):
-        self.attachment.delete()
-        super().delete(*args, **kwargs)
-
     def __str__(self):
         if self.attachment:
             return "{}".format(self.filename)
@@ -414,15 +406,3 @@ class Attachment(AttachmentBase):
         return "".join(
             ["https://", get_current_site(None).domain, self.get_absolute_url()]
         )
-
-
-@receiver(post_save, sender=Letter)
-def update_case_statuses(sender, instance, created, raw, **kwargs):
-    if not raw and created and instance.record.case_id:
-        case = instance.record.case
-        prev_cr = case.confirmation_received
-        prev_rr = case.response_received
-        case.confirmation_received = case.get_confirmation_received()
-        case.response_received = case.get_response_received()
-        if prev_cr != case.confirmation_received or prev_rr != case.response_received:
-            case.save()

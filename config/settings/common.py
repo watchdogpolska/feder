@@ -82,6 +82,7 @@ INSTALLED_APPS = (
     + THIRD_PARTY_APPS
     + ALLAUTH_PROVIDERS_APPS
     + LOCAL_APPS
+    + ("django_cleanup.apps.CleanupConfig",)  # should be placed after all other apps
 )
 
 # MIDDLEWARE CONFIGURATION
