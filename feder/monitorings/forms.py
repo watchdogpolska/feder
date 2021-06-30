@@ -68,6 +68,10 @@ class SaveTranslatedUserObjectPermissionsForm(
     pass
 
 
+def recipients_tags_label_from_instance(obj):
+    return "{} ({})".format(obj.name, obj.cases_count)
+
+
 class MassMessageForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
     recipients_tags = forms.ModelMultipleChoiceField(
         label=_("Recipient's tags"),
@@ -91,6 +95,9 @@ class MassMessageForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
         self.fields["recipients_tags"].queryset = Tag.objects.for_monitoring(
             obj=monitoring
         )
+        self.fields[
+            "recipients_tags"
+        ].label_from_instance = recipients_tags_label_from_instance
         self.fields["body"].help_text = _("Use {{EMAIL}} to insert reply address.")
 
         self.helper.form_tag = False

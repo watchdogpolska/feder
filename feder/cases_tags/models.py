@@ -2,7 +2,7 @@ from django.urls import reverse
 from autoslug.fields import AutoSlugField
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from django.db.models import Q
+from django.db.models import Q, Count
 from model_utils.models import TimeStampedModel
 
 from feder.monitorings.models import Monitoring
@@ -10,10 +10,16 @@ from feder.monitorings.models import Monitoring
 
 class TagQuerySet(models.QuerySet):
     def used(self):
-        return self.annotate(case_count=models.Count("case")).filter(case_count__gte=1)
+        return self.annotate(case_count=Count("case")).filter(case_count__gte=1)
 
     def for_monitoring(self, obj):
-        return self.filter(Q(monitoring__isnull=True) | Q(monitoring__id=obj.pk))
+        return self.filter(
+            Q(monitoring__isnull=True) | Q(monitoring__id=obj.pk)
+        ).annotate(
+            cases_count=Count(
+                "casetag__id", filter=Q(case__monitoring__id=obj.id), distinct=True
+            )
+        )
 
 
 class Tag(TimeStampedModel):
