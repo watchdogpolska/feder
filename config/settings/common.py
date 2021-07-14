@@ -51,6 +51,10 @@ THIRD_PARTY_APPS = (
     "corsheaders",
 )
 
+# Local apps which should be put before any other apps
+# allowing for example to override third party app's templates.
+PRIORITY_LOCAL_APPS = ("feder.main",)
+
 # Apps specific for this project go here.
 LOCAL_APPS = (
     "feder.teryt",
@@ -60,7 +64,6 @@ LOCAL_APPS = (
     "feder.cases",
     "feder.cases_tags",
     "feder.letters",
-    "feder.main",
     "feder.alerts",
     "feder.letters.logs",
     "feder.domains",
@@ -73,7 +76,14 @@ LOCAL_APPS = (
 
 ALLAUTH_PROVIDERS_APPS = ("allauth.socialaccount.providers.google",)
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
-INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS + ALLAUTH_PROVIDERS_APPS
+INSTALLED_APPS = (
+    PRIORITY_LOCAL_APPS
+    + DJANGO_APPS
+    + THIRD_PARTY_APPS
+    + ALLAUTH_PROVIDERS_APPS
+    + LOCAL_APPS
+    + ("django_cleanup.apps.CleanupConfig",)  # should be placed after all other apps
+)
 
 # MIDDLEWARE CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -310,7 +320,7 @@ SENDFILE_ROOT = MEDIA_ROOT
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = 200000000  # 200MB
 
-NECCESSARY_FILES = {
+NECESSARY_FILES = {
     "letters.Letter": {"path": "record__case__monitoring", "fields": ["eml"]},
     "letters.Attachment": {
         "path": "letter__record__case__monitoring",

@@ -6,7 +6,7 @@ from django.core import mail
 from django.core.files.base import ContentFile
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.urls import reverse
-from django.test import TestCase
+from django.test import TestCase, TransactionTestCase
 from django.utils.datastructures import MultiValueDict
 from guardian.shortcuts import assign_perm
 from feder.virus_scan.factories import AttachmentRequestFactory
@@ -182,7 +182,7 @@ class LetterUpdateViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
         self.assertEqual(self.from_user.case, new_case)
 
 
-class LetterDeleteViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
+class LetterDeleteViewTestCase(ObjectMixin, PermissionStatusMixin, TransactionTestCase):
     permission = ["monitorings.delete_letter"]
 
     def get_url(self):
@@ -195,6 +195,7 @@ class LetterDeleteViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
         self.assertFalse(os.path.isfile(self.from_user.eml.file.name))
 
     def test_remove_letter_with_attachment(self):
+        # TransactionTestCase has to be used to test file cleanup feature.
         self.login_permitted_user()
         attachment = AttachmentFactory(letter=self.from_user)
         self.assertTrue(os.path.isfile(attachment.attachment.file.name))

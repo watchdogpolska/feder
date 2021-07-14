@@ -6,18 +6,18 @@ django-environ==0.4.5
 
 # Forms
 django-braces==1.14.0
-django-crispy-forms==1.11.2
+django-crispy-forms==1.12.0
 django-floppyforms==1.9.0
 
 # Models
 django-model-utils==4.0.0
 
 # Images
-Pillow==8.2.0
+Pillow==8.3.1
 
 # For user registration, either via email or social
 # Well-built with regular release cycles!
-django-allauth==0.44.0
+django-allauth==0.45.0
 
 # For the persistence stores
 mysqlclient==2.0.3
@@ -42,7 +42,7 @@ django-atom==0.16.3
 django-formtools==2.3
 django-mptt==0.11.0
 jsonfield==3.1.0
-django-guardian==2.3.0
+django-guardian==2.4.0
 django-teryt-tree==0.17.0
 cached-property==1.5.2
 django-bootstrap-pagination==1.7.1
@@ -54,6 +54,7 @@ tqdm==4.56.0
 djangorestframework-filters==0.11.1
 django-github-revision==0.0.3
 django-extensions==3.1.0
+django-cleanup==5.2.0
 
 # Ping commit due missing cached object in <=4.7.1
 django-extra-views==0.13.0

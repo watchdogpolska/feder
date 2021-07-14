@@ -8,29 +8,16 @@
         class="breadcrumb"
         itemscope
         itemtype="http://schema.org/BreadcrumbList">
-        {% for jst in object.get_ancestors.all %}
-            <li
-                itemprop="itemListElement"
-                itemscope
-                itemtype="http://schema.org/ListItem">
-                <a itemprop="item" href="{{ jst.get_absolute_url }}">
-                    <span itemprop="name">{{ jst }}</span>
-                </a>
-            </li>
-        {% endfor %}
-        <li
-            itemprop="itemListElement"
-            itemscope
-            itemtype="http://schema.org/ListItem"
-            class="active">
-            <span itemprop="name">{{ object }}</span>
-        </li>
+
+        {% with obj_jst=object %}
+            {% include "institutions/_jst_breadcrumbs.html" %}
+        {% endwith %}
     </ol>
 {% endblock %}
 
 {% block content %}
     <div class="page-header">
-        <h2><i class="fa fa-globe"></i> {{ object }}
+        <h2><i class="fa fa-globe"></i> {{ object.name }}
             <small>{{ object.category }}</small>
         </h2>
     </div>

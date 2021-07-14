@@ -29,7 +29,7 @@ class Command(BaseCommand):
         for monitoring in Monitoring.objects.filter(**qs_filter).all():
             size = sum(
                 safe_stat(os.path.join(settings.MEDIA_ROOT, getattr(obj, field).name))
-                for model_str, params in settings.NECCESSARY_FILES.items()
+                for model_str, params in settings.NECESSARY_FILES.items()
                 for field in params["fields"]
                 for obj in apps.get_model(model_str)
                 .objects.filter(**{params["path"]: monitoring})

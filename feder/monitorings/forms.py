@@ -10,7 +10,7 @@ from django.conf import settings
 
 from feder.users.models import User
 from feder.letters.models import Letter, MassMessageDraft
-from feder.letters.utils import get_body_with_footer
+from feder.letters.utils import get_body_with_footer, BODY_REPLY_TPL
 from feder.letters.forms import QUOTE_TPL
 from feder.cases_tags.models import Tag
 from feder.letters.models import Record
@@ -27,6 +27,7 @@ class MonitoringForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm
             Fieldset(_("Monitoring"), "name", "description", "notify_alert"),
             Fieldset(_("Template"), "subject", "template", "email_footer", "domain"),
         )
+        self.fields["template"].initial = BODY_REPLY_TPL
 
     class Meta:
         model = Monitoring
@@ -68,6 +69,10 @@ class SaveTranslatedUserObjectPermissionsForm(
     pass
 
 
+def recipients_tags_label_from_instance(obj):
+    return "{} ({})".format(obj.name, obj.cases_count)
+
+
 class MassMessageForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
     recipients_tags = forms.ModelMultipleChoiceField(
         label=_("Recipient's tags"),
@@ -91,6 +96,9 @@ class MassMessageForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
         self.fields["recipients_tags"].queryset = Tag.objects.for_monitoring(
             obj=monitoring
         )
+        self.fields[
+            "recipients_tags"
+        ].label_from_instance = recipients_tags_label_from_instance
         self.fields["body"].help_text = _("Use {{EMAIL}} to insert reply address.")
 
         self.helper.form_tag = False

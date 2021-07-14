@@ -184,7 +184,7 @@ class LetterReplyView(
     @cached_property
     def letter(self):
         return get_object_or_404(
-            Letter.objects.select_related("record__case__monitoring"),
+            self.get_queryset().select_related("record__case__monitoring"),
             pk=self.kwargs["pk"],
         )
 
@@ -275,14 +275,6 @@ class LetterDeleteView(
 ):
     model = Letter
     permission_required = "monitorings.delete_letter"
-
-    def delete(self, request, *args, **kwargs):
-        obj = self.get_object()
-        # Manually deleting related files
-        for att_obj in obj.attachment_set.all():
-            att_obj.attachment.delete()
-        obj.eml.delete()
-        return super().delete(request, *args, **kwargs)
 
     def get_success_url(self):
         if self.object.is_mass_draft():

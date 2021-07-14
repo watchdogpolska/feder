@@ -1,12 +1,12 @@
 from django.conf.urls import url
 from django.utils.translation import ugettext_lazy as _
 from teryt_tree.dal_ext.views import (
-    CommunityAutocomplete,
     CountyAutocomplete,
     VoivodeshipAutocomplete,
 )
 
 from . import views
+
 
 urlpatterns = [
     url(_(r"^(?P<slug>[\w-]+)$"), views.JSTDetailView.as_view(), name="details"),
@@ -24,8 +24,13 @@ urlpatterns = [
     ),
     url(
         _(r"^community-autocomplete/$"),
-        CommunityAutocomplete.as_view(),
+        views.CustomCommunityAutocomplete.as_view(),
         name="community-autocomplete",
+    ),
+    url(
+        _(r"^jst-autocomplete/$"),
+        views.JSTAutocomplete.as_view(),
+        name="jst-autocomplete",
     ),
 ]
 
