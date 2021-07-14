@@ -10,7 +10,7 @@ from django.conf import settings
 
 from feder.users.models import User
 from feder.letters.models import Letter, MassMessageDraft
-from feder.letters.utils import get_body_with_footer
+from feder.letters.utils import get_body_with_footer, BODY_REPLY_TPL
 from feder.letters.forms import QUOTE_TPL
 from feder.cases_tags.models import Tag
 from feder.letters.models import Record
@@ -27,6 +27,7 @@ class MonitoringForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm
             Fieldset(_("Monitoring"), "name", "description", "notify_alert"),
             Fieldset(_("Template"), "subject", "template", "email_footer", "domain"),
         )
+        self.fields["template"].initial = BODY_REPLY_TPL
 
     class Meta:
         model = Monitoring

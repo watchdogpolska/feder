@@ -1,5 +1,6 @@
 from textwrap import TextWrapper
 
+BODY_REPLY_TPL = "\n\nProsimy o odpowiedź na adres {{EMAIL}}"
 BODY_FOOTER_SEPERATOR = "\n\n--\n"
 
 
@@ -23,6 +24,7 @@ def is_spam_check(email_object):
 
 
 def get_body_with_footer(body, footer):
+    full_body = "{}{}".format(body, BODY_REPLY_TPL)
     if footer.strip():
-        return "{}{}{}".format(body, BODY_FOOTER_SEPERATOR, footer)
-    return body
+        full_body = "{}{}{}".format(full_body, BODY_FOOTER_SEPERATOR, footer)
+    return full_body

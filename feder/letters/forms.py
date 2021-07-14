@@ -13,6 +13,7 @@ from feder.letters.utils import get_body_with_footer
 from feder.records.models import Record
 from .models import Letter
 
+
 QUOTE_TPL = "W nawiązaniu do pisma z dnia {created} z adresu {email}:\n{quoted}"
 
 
