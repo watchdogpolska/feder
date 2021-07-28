@@ -4,7 +4,7 @@ from autoslug.fields import AutoSlugField
 from django.apps import apps
 from django.conf import settings
 from django.db import models
-from django.db.models import Max, Prefetch, Q
+from django.db.models import Max, Prefetch, Q, Subquery, OuterRef
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from model_utils.models import TimeStampedModel
@@ -44,6 +44,28 @@ class CaseQuerySet(models.QuerySet):
         )
         return self.prefetch_related(
             Prefetch(lookup="record_set", queryset=record_queryset)
+        )
+
+    @staticmethod
+    def _get_application_letter_subquery():
+        from feder.letters.models import Letter
+
+        return Letter.objects.filter(
+            record__case=OuterRef("pk"), author_user_id__isnull=False
+        ).order_by("created")
+
+    def with_application_letter_date(self):
+        return self.annotate(
+            application_letter_date=Subquery(
+                self._get_application_letter_subquery().values("created")[:1]
+            )
+        )
+
+    def with_application_letter_status(self):
+        return self.annotate(
+            application_letter_status=Subquery(
+                self._get_application_letter_subquery().values("emaillog__status")[:1]
+            )
         )
 
     def with_institution(self):

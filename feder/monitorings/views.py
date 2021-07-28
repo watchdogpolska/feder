@@ -139,19 +139,7 @@ class MonitoringReportView(LoginRequiredMixin, PermissionRequiredMixin, FilterVi
         context = super().get_context_data(**kwargs)
         context["monitoring"] = self.get_object()
         context["tags"] = Tag.objects.for_monitoring(context["monitoring"])
-        get_params = {
-            key: value
-            for key, value in context["filter"].data.items()
-            if key
-            in (
-                "name",
-                "voivodeship",
-                "county",
-                "community",
-                "confirmation_received",
-                "response_received",
-            )
-        }
+        get_params = {key: value for key, value in context["filter"].data.items()}
         get_params["format"] = "csv"
         get_params["page_size"] = DefaultPagination.max_page_size
         get_params["monitoring"] = context["monitoring"].id
@@ -166,6 +154,8 @@ class MonitoringReportView(LoginRequiredMixin, PermissionRequiredMixin, FilterVi
             .get_queryset()
             .filter(monitoring__slug=self.kwargs["slug"])
             .with_institution()
+            .with_application_letter_date()
+            .with_application_letter_status()
             .order_by(
                 "institution__jst__parent__parent__name",
                 "institution__jst__parent__name",
