@@ -13,6 +13,7 @@ from feder.teryt.filters import (
 )
 from feder.cases_tags.models import Tag
 from feder.monitorings.models import Monitoring
+from feder.letters.logs.models import STATUS as EMAIL_LOG_STATUS
 
 
 class CaseFilter(DisabledWhenFilterSetMixin, django_filters.FilterSet):
@@ -67,6 +68,14 @@ class CaseReportFilter(django_filters.FilterSet):
     tags = django_filters.ModelMultipleChoiceFilter(
         label=_("Tags"), field_name="tags", widget=forms.CheckboxSelectMultiple
     )
+    application_letter_date = django_filters.DateFromToRangeFilter(
+        label=_("Application letter sending date"), field_name="application_letter_date"
+    )
+    application_letter_status = django_filters.ChoiceFilter(
+        label=_("Application letter status"),
+        field_name="application_letter_status",
+        choices=EMAIL_LOG_STATUS,
+    )
 
     def __init__(self, data=None, queryset=None, *, request=None, prefix=None):
         super().__init__(data, queryset, request=request, prefix=prefix)
@@ -84,6 +93,8 @@ class CaseReportFilter(django_filters.FilterSet):
             "county",
             "community",
             "tags",
+            "application_letter_date",
+            "application_letter_status",
             "confirmation_received",
             "response_received",
         ]

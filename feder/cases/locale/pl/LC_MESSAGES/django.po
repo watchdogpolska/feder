@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cases 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-01 12:34+0000\n"
-"PO-Revision-Date: 2021-02-24 20:16+0100\n"
+"POT-Creation-Date: 2021-07-28 12:59+0000\n"
+"PO-Revision-Date: 2021-07-28 15:01+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -17,47 +17,55 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 2.4.1\n"
+"X-Generator: Poedit 2.4.2\n"
 
-#: filters.py:19 templates/cases/_case_small.html:7
+#: filters.py:20 templates/cases/_case_small.html:7
 msgid "Creation date"
 msgstr "Data utworzenia"
 
-#: filters.py:27 models.py:74 viewsets.py:34
+#: filters.py:28 models.py:105 viewsets.py:34
 msgid "Name"
 msgstr "Nazwa"
 
-#: filters.py:50
+#: filters.py:51
 msgid "Institution name"
 msgstr "Nazwa instyticji"
 
-#: filters.py:68 models.py:92 viewsets.py:40
+#: filters.py:69 models.py:123 viewsets.py:40
 msgid "Tags"
 msgstr "Tagi"
 
-#: models.py:76
+#: filters.py:72
+msgid "Application letter sending date"
+msgstr "Data wysyłki wniosku"
+
+#: filters.py:76
+msgid "Application letter status"
+msgstr "Status wniosku"
+
+#: models.py:107
 msgid "Slug"
 msgstr "Identyfikator redakcyjny"
 
-#: models.py:80 templates/cases/_case_small.html:11
+#: models.py:111 templates/cases/_case_small.html:11
 #: templates/cases/_desc.html:10
 msgid "Monitoring"
 msgstr "Monitoring"
 
-#: models.py:83 templates/cases/_case_small.html:10
+#: models.py:114 templates/cases/_case_small.html:10
 #: templates/cases/_desc.html:4
 msgid "Institution"
 msgstr "Instytucja"
 
-#: models.py:96 viewsets.py:43
+#: models.py:127 viewsets.py:43
 msgid "Confirmation received"
 msgstr "Otrzymano potwierdzenie"
 
-#: models.py:99 viewsets.py:44
+#: models.py:130 viewsets.py:44
 msgid "Response received"
 msgstr "Otrzymano odpowiedź"
 
-#: models.py:104 models.py:105 models.py:151
+#: models.py:135 models.py:136 models.py:186
 msgid "Case"
 msgstr "Sprawa"
 
@@ -202,9 +210,6 @@ msgstr "raport_spraw"
 
 #~ msgid "Record count (ascending)"
 #~ msgstr "Liczba listów (rosnąco)"
-
-#~ msgid "creation date (ascending)"
-#~ msgstr "Data utworzenia (od najstarszych)"
 
 #~ msgid "creation date (descending)"
 #~ msgstr "Data utworzenia (od najnowszych)"
