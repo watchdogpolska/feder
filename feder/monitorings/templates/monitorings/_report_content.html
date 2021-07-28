@@ -65,7 +65,7 @@
                 </td>
                 {% with case.application_letter as letter %}
                 <td class="centered centered_cell">{{ letter.created|date }}</td>
-                <td class="centered centered_cell">{{ letter.emaillog.status }}</td>
+                <td class="centered centered_cell">{{ letter.emaillog.get_status_display }}</td>
                 {% endwith %}
                 <td>
                     {% if case.confirmation_received %}
