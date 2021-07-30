@@ -1,0 +1,14 @@
+{% load i18n %}
+    <h3>{% trans 'Sort by' %}</h3>
+    <p>
+        {% for name, item in order_dict.items %}
+            <a class="
+                {% if item.is_current == '+' %}order-item--current{% endif %}
+                {% if item.is_current == '-' %}order-item--current-rev{% endif %}"
+               href="{{ item.url }}">
+                {{ item.name }}
+            </a>
+            {% if not forloop.last %} | {% endif %}
+        {% endfor %}
+    </p>
+

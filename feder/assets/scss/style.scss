@@ -193,6 +193,7 @@ iframe.letter-quote {
   border: 0;
 }
 
+
 /* utility classes */
 
 .centered {
@@ -209,6 +210,27 @@ iframe.letter-quote {
 
   &_cell {
     display: table-cell;
+  }
+}
+
+
+/* OrderedViewMixin */
+
+.order-item--current {
+  font-weight: bold;
+
+  &::after {
+    font-weight: bold;
+    content: '\21E9';
+  }
+}
+
+.order-item--current-rev {
+  font-weight: bold;
+
+  &::after {
+    font-weight: bold;
+    content: '\21E7';
   }
 }
 

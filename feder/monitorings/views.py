@@ -36,7 +36,11 @@ from feder.cases.models import Case
 from feder.institutions.filters import InstitutionFilter
 from feder.institutions.models import Institution
 from feder.letters.models import Letter
-from feder.main.mixins import ExtraListMixin, RaisePermissionRequiredMixin
+from feder.main.mixins import (
+    ExtraListMixin,
+    RaisePermissionRequiredMixin,
+    OrderedViewMixin,
+)
 from feder.main.paginator import DefaultPagination
 from feder.cases_tags.models import Tag
 from .filters import MonitoringFilter, MonitoringCaseReportFilter
@@ -71,10 +75,17 @@ class MonitoringListView(SelectRelatedMixin, FilterView):
         return qs.with_case_count().order_by("-created")
 
 
-class MonitoringDetailView(SelectRelatedMixin, ExtraListMixin, DetailView):
+class MonitoringDetailView(
+    OrderedViewMixin, SelectRelatedMixin, ExtraListMixin, DetailView
+):
     model = Monitoring
     select_related = ["user"]
     paginate_by = 25
+    order_options = [
+        (_("updated"), "record_max"),
+        (_("name"), "institution__name"),
+    ]
+    order_default = ["-record_max"]
 
     def get_queryset(self):
         qs = super().get_queryset()
@@ -94,7 +105,6 @@ class MonitoringDetailView(SelectRelatedMixin, ExtraListMixin, DetailView):
             .select_related("institution")
             .with_record_max()
             .with_letter()
-            .order_by("-record_max")
             .all()
         )
 

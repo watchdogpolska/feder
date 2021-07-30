@@ -7515,6 +7515,19 @@ iframe.letter-quote {
   .centered_cell {
     display: table-cell; }
 
+/* OrderedViewMixin */
+.order-item--current {
+  font-weight: bold; }
+  .order-item--current::after {
+    font-weight: bold;
+    content: '\21E9'; }
+
+.order-item--current-rev {
+  font-weight: bold; }
+  .order-item--current-rev::after {
+    font-weight: bold;
+    content: '\21E7'; }
+
 /* generic padding and margin classes */
 .mt-0 {
   margin-top: 0em !important; }

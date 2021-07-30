@@ -1,9 +1,13 @@
+from functools import wraps
+from types import MethodType
+
 import django_filters
 from django.db import models
 from base64 import b64encode
 from braces.views import LoginRequiredMixin
 from django.core.exceptions import ImproperlyConfigured
 from django.core.paginator import EmptyPage, Paginator
+from django.utils.http import urlencode
 from django.views.generic.detail import BaseDetailView
 from guardian.mixins import PermissionRequiredMixin
 from django_sendfile import sendfile
@@ -241,3 +245,74 @@ class CsvRendererViewMixin:
                 self.csv_file_name
             )
         return response
+
+
+class OrderedViewMixin:
+    apply_order_to = "get_object_list"
+    order_param_name = "order_by"
+    order_options = []
+    order_default = []
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.order_current = None
+
+        parent_method = getattr(self.__class__, self.apply_order_to)
+
+        @wraps(parent_method)
+        def wrapped(self_, *args_, **kwargs_):
+            return parent_method(self_, *args_, **kwargs_).order_by(
+                *self_.order_current
+            )
+
+        setattr(self, self.apply_order_to, MethodType(wrapped, self))
+
+    def _set_order_current(self):
+        order_by = self.request.GET.get(self.order_param_name, None)
+        self.order_current = (
+            [i.strip() for i in order_by.split(",")]
+            if order_by
+            else self.order_default.copy()
+        )
+
+    def _get_ordering_url(self, order_field):
+        get_params = {key: value for key, value in self.request.GET.items()}
+        get_params.pop(self.order_param_name, None)
+
+        order_list = self.order_current.copy()
+        if order_field in order_list:
+            order_list[order_list.index(order_field)] = f"-{order_field}"
+        elif f"-{order_field}" in order_list:
+            # TODO: When this is the last, we want to switch ordering to opposite
+            order_list.remove(f"-{order_field}")
+        else:
+            order_list.append(order_field)
+
+        return "{}?{}".format(
+            self.request.path,
+            urlencode(
+                dict(**get_params, **{self.order_param_name: ",".join(order_list)})
+            ),
+        )
+
+    def get_context_data(self, **kwargs):
+        self._set_order_current()
+        context = super().get_context_data(**kwargs)
+
+        order_dict = {}
+
+        for option in self.order_options:
+            order_dict[option[1]] = {
+                "name": option[0],
+                "field_name": option[1],
+                "is_current": "",
+                "url": self._get_ordering_url(option[1]),
+            }
+            if option[1] in self.order_current:
+                order_dict[option[1]]["is_current"] = "+"
+            if f"-{option[1]}" in self.order_current:
+                order_dict[option[1]]["is_current"] = "-"
+        context["order_dict"] = order_dict
+
+        return context

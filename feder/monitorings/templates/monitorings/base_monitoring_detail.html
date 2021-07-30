@@ -27,8 +27,10 @@
         <div class="col-md-4">
             {% if object.description %}
                 <div class="red">
-                    <h3>{% trans 'Description' %}</h3>
-                    {{ object.description|linebreaks }}
+                    {% block side_panel %}
+                        <h3>{% trans 'Description' %}</h3>
+                        {{ object.description|linebreaks }}
+                    {% endblock %}
                 </div>
             {% endif %}
         </div>
