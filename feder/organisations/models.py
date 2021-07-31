@@ -10,6 +10,7 @@ from model_utils.models import TimeStampedModel
 class OrganisationQuerySet(models.QuerySet):
     pass
 
+
 class Organisation(TimeStampedModel):
     name = models.CharField(verbose_name=_("Name"), max_length=100)
     slug = AutoSlugField(
