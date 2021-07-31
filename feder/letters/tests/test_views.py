@@ -262,6 +262,10 @@ class LetterSendViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
         response = self.client.post(self.get_url())
         self.assertEqual(response.status_code, 302)
         self.assertEqual(len(mail.outbox), 1)
+        # reply to email should have organisation name
+        self.assertTrue(
+            self.monitoring.domain.organisation.name in mail.outbox[0].from_email
+        )
 
 
 class LetterRssFeedTestCase(ObjectMixin, PermissionStatusMixin, TestCase):

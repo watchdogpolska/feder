@@ -474,7 +474,17 @@ class MonitoringAssignViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
         self.client.post(self.get_url() + "?name=Office", data={"all": "yes"})
         self.send_all_pending()
         self.assertEqual(len(mail.outbox), 2)
-        self.assertTrue(mail.outbox[0].from_email.endswith("custom-domain.com"))
+
+    def test_assign_using_organisation(self):
+        self.monitoring.domain = DomainFactory(organisation__name="angel-corp")
+        self.monitoring.save()
+        self.login_permitted_user()
+        InstitutionFactory(name="Office 1")
+        self.client.post(self.get_url() + "?name=Office", data={"all": "yes"})
+        self.send_all_pending()
+        self.assertEqual(len(mail.outbox), 1)
+        # reply to email should have organisation name
+        self.assertTrue("angel-corp" in mail.outbox[0].from_email)
 
 
 class SitemapTestCase(ObjectMixin, TestCase):
