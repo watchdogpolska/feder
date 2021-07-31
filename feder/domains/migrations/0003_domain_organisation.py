@@ -7,14 +7,19 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('organisations', '__first__'),
-        ('domains', '0002_initial-domain'),
+        ("organisations", "__first__"),
+        ("domains", "0002_initial-domain"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='domain',
-            name='organisation',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='organisations.Organisation', verbose_name='Organisation'),
+            model_name="domain",
+            name="organisation",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="organisations.Organisation",
+                verbose_name="Organisation",
+            ),
         ),
     ]

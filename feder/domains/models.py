@@ -9,10 +9,10 @@ class Domain(TimeStampedModel):
     name = models.CharField(verbose_name=_("Name"), max_length=50)
     active = models.BooleanField(default=True, help_text=_("Activity status"))
     organisation = models.ForeignKey(
-        to=Organisation, 
+        to=Organisation,
         verbose_name=_("Organisation"),
         on_delete=models.CASCADE,
-        null=True # TODO(ad-m): make field required after data migration
+        null=True,  # TODO(ad-m): make field required after data migration
     )
 
     class Meta:

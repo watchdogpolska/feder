@@ -70,7 +70,7 @@ LOCAL_APPS = (
     "feder.records.apps.RecordsConfig",
     "feder.parcels.apps.ParcelsConfig",
     "feder.virus_scan",
-    'feder.organisations',
+    "feder.organisations",
     "feder.es_search.apps.EsSearchConfig",
     # Your stuff: custom apps go here
 )
