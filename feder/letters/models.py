@@ -258,7 +258,7 @@ class Letter(AbstractRecord):
         html_content, txt_content = self.email_body()
         msg = EmailMultiAlternatives(
             subject=self.case.monitoring.subject,
-            from_email=self.case.email,
+            from_email=str(self.case.get_email_address()),
             reply_to=[self.case.email],
             to=[self.case.institution.email],
             body=txt_content,

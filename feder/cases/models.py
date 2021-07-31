@@ -1,4 +1,5 @@
 import uuid
+from email.headerregistry import Address
 
 from autoslug.fields import AutoSlugField
 from django.apps import apps
@@ -146,6 +147,14 @@ class Case(TimeStampedModel):
     def update_email(self):
         self.email = settings.CASE_EMAIL_TEMPLATE.format(
             pk=self.pk, domain=self.monitoring.domain.name
+        )
+
+    def get_email_address(self):
+        if not self.monitoring.domain.organisation_id:
+            return Address(addr_spec=self.email)
+        return Address(
+            display_name=self.monitoring.domain.organisation.name,
+            addr_spec=self.email,
         )
 
     @property
