@@ -1,5 +1,12 @@
 {% extends 'monitorings/base_monitoring_detail.html' %}
 {% load i18n humanize bootstrap_pagination %}
+
+{% block side_panel %}
+    {% include 'mixins/_order_options.html' %}
+
+    {{ block.super }}
+{% endblock %}
+
 {% block content_object %}
     {% include 'monitorings/_tabs.html' with tab='general' %}
     <h3 class="sr-only">{% trans 'Institutions and cases' %}</h3>

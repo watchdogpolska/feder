@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: main 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-13 16:09+0000\n"
-"PO-Revision-Date: 2021-05-13 18:18+0200\n"
+"POT-Creation-Date: 2021-08-02 10:56+0000\n"
+"PO-Revision-Date: 2021-08-02 12:58+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -17,18 +17,18 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 2.4.1\n"
+"X-Generator: Poedit 2.4.2\n"
 
-#: mixins.py:205
+#: mixins.py:209
 msgid "Page number is not valid."
 msgstr "Numer strony jest nieprawidłowy."
 
-#: mixins.py:211
+#: mixins.py:215
 #, python-format
 msgid "Invalid page (%(page_number)s): %(message)s"
 msgstr "Nieprawidłowa strona (%(page_number)s): %(message)s"
 
-#: mixins.py:228
+#: mixins.py:232
 msgid "data"
 msgstr "dane"
 
@@ -341,7 +341,7 @@ msgid ""
 "                    verify ownership of your e-mail address. "
 msgstr ""
 "Ta część strony wymaga weryfikacji tego, kim jesteś. Dlatego wymagamy "
-"weryfikacji Twojego adresu e-mail."
+"weryfikacji Twojego adresu e-mail. "
 
 #: templates/account/verified_email_required.html:19
 msgid ""
@@ -446,6 +446,10 @@ msgstr "Województwa"
 #: templates/main/home.html:19
 msgid "Last monitorings"
 msgstr "Ostatnie monitoringi"
+
+#: templates/mixins/_order_options.html:2
+msgid "Sort by"
+msgstr "Sortuj według"
 
 #: templates/socialaccount/connections.html:5
 #: templates/socialaccount/connections.html:12

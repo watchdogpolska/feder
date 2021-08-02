@@ -36,7 +36,11 @@ from feder.cases.models import Case
 from feder.institutions.filters import InstitutionFilter
 from feder.institutions.models import Institution
 from feder.letters.models import Letter
-from feder.main.mixins import ExtraListMixin, RaisePermissionRequiredMixin
+from feder.main.mixins import (
+    ExtraListMixin,
+    RaisePermissionRequiredMixin,
+    OrderedViewMixin,
+)
 from feder.main.paginator import DefaultPagination
 from feder.cases_tags.models import Tag
 from .filters import MonitoringFilter, MonitoringCaseReportFilter
@@ -71,10 +75,18 @@ class MonitoringListView(SelectRelatedMixin, FilterView):
         return qs.with_case_count().order_by("-created")
 
 
-class MonitoringDetailView(SelectRelatedMixin, ExtraListMixin, DetailView):
+class MonitoringDetailView(
+    OrderedViewMixin, SelectRelatedMixin, ExtraListMixin, DetailView
+):
     model = Monitoring
     select_related = ["user"]
     paginate_by = 25
+    order_options = [
+        (_("last update"), "record_max"),
+        (_("institution name"), "institution__name"),
+    ]
+    order_default = ["-record_max"]
+    order_limit = None
 
     def get_queryset(self):
         qs = super().get_queryset()
@@ -94,16 +106,25 @@ class MonitoringDetailView(SelectRelatedMixin, ExtraListMixin, DetailView):
             .select_related("institution")
             .with_record_max()
             .with_letter()
-            .order_by("-record_max")
             .all()
         )
 
 
-class LetterListMonitoringView(SelectRelatedMixin, ExtraListMixin, DetailView):
+class LetterListMonitoringView(
+    OrderedViewMixin, SelectRelatedMixin, ExtraListMixin, DetailView
+):
     model = Monitoring
     template_name_suffix = "_letter_list"
     select_related = ["user"]
     paginate_by = 25
+    order_options = [
+        (_("created"), "created"),
+        (_("attachment count"), "attachment_count"),
+        (_("institution name"), "author_institution__name"),
+        (_("user"), "author_user__email"),
+    ]
+    order_default = ["-created"]
+    order_limit = 2
 
     def get_context_data(self, **kwargs):
         kwargs["url_extra_kwargs"] = {"slug": self.object.slug}
@@ -115,7 +136,6 @@ class LetterListMonitoringView(SelectRelatedMixin, ExtraListMixin, DetailView):
             .select_related("record__case")
             .with_author()
             .attachment_count()
-            .order_by("-created")
             .all()
         )
 

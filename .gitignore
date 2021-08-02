@@ -54,8 +54,12 @@ node_modules/
 
 # virtual environments
 .env
+.venv
 docs/_build
 staticfiles
 *.retry
 feder/media
 *.sqlite
+
+.local_files
+api_examples/files

@@ -4,9 +4,15 @@
         <i class="fa fa-envelope"></i>
         <a href="{{ object.get_absolute_url }}">{{ object }}</a>
         <small>
-            {% trans 'by' %}
-            <i class="fa {% if object.author_institution %}fa-home{% elif object.author_user %}fa-user{% else %}fa-envelope{% endif %}"></i>
-            <a href="{{ object.author.get_absolute_url }}">{{ object.author }}</a>
+            {% with author=object.author_institution|default:object.author_user %}
+                {% trans 'by' %}
+                <i class="fa {% if object.author_institution %}fa-home{% elif object.author_user %}fa-user{% else %}fa-envelope{% endif %}"></i>
+                {% if author %}
+                    <a href="{{ author.get_absolute_url }}">{{ author }}</a>
+                {% else %}
+                    {% trans "unknown" %}
+                {% endif %}
+            {% endwith %}
             {% if object.case %}
                 {% trans 'in case of ' %}
                 <i class="fa fa-folder-open"></i>

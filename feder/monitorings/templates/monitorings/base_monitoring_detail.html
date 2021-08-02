@@ -21,16 +21,19 @@
         {% include 'monitorings/_btn.html' with object=object %}
     {% endif %}
 {% endblock %}
+
 {% block content %}
     {%  include 'monitorings/_header.html' %}
     <div class="row">
         <div class="col-md-4">
-            {% if object.description %}
-                <div class="red">
-                    <h3>{% trans 'Description' %}</h3>
-                    {{ object.description|linebreaks }}
-                </div>
-            {% endif %}
+            <div class="red">
+                {% block side_panel %}
+                    {% if object.description %}
+                        <h3>{% trans 'Description' %}</h3>
+                        {{ object.description|linebreaks }}
+                    {% endif %}
+                {% endblock %}
+            </div>
         </div>
         <div class="col-md-8">
             {% block content_object %}
