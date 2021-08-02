@@ -82,10 +82,11 @@ class MonitoringDetailView(
     select_related = ["user"]
     paginate_by = 25
     order_options = [
-        (_("updated"), "record_max"),
-        (_("name"), "institution__name"),
+        (_("last update"), "record_max"),
+        (_("institution name"), "institution__name"),
     ]
     order_default = ["-record_max"]
+    order_limit = None
 
     def get_queryset(self):
         qs = super().get_queryset()
@@ -109,11 +110,21 @@ class MonitoringDetailView(
         )
 
 
-class LetterListMonitoringView(SelectRelatedMixin, ExtraListMixin, DetailView):
+class LetterListMonitoringView(
+    OrderedViewMixin, SelectRelatedMixin, ExtraListMixin, DetailView
+):
     model = Monitoring
     template_name_suffix = "_letter_list"
     select_related = ["user"]
     paginate_by = 25
+    order_options = [
+        (_("created"), "created"),
+        (_("attachment count"), "attachment_count"),
+        (_("institution name"), "author_institution__name"),
+        (_("user"), "author_user__email"),
+    ]
+    order_default = ["-created"]
+    order_limit = 2
 
     def get_context_data(self, **kwargs):
         kwargs["url_extra_kwargs"] = {"slug": self.object.slug}
@@ -125,7 +136,6 @@ class LetterListMonitoringView(SelectRelatedMixin, ExtraListMixin, DetailView):
             .select_related("record__case")
             .with_author()
             .attachment_count()
-            .order_by("-created")
             .all()
         )
 

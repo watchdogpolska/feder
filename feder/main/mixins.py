@@ -248,10 +248,25 @@ class CsvRendererViewMixin:
 
 
 class OrderedViewMixin:
+    """
+    Allows to set generic ordering options.
+    Class members to be set in derived class:
+        apply_order_to (str): name of class method returning queryset
+            for which ordering should be applied
+        order_param_name (str): name of the ordering GET parameter
+        order_options (list(2 elem tuple)): list of available ordering options
+            in form of (displayed name, queryset field name)
+        default_ordering (list(str)): default arguments for order_by clause
+            if order is not explicitly given
+        order_limit (int|None): maximum number of ordering options to be applied
+            simultaneously, None means no limit
+    """
+
     apply_order_to = "get_object_list"
     order_param_name = "order_by"
     order_options = []
     order_default = []
+    order_limit = None
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -270,8 +285,13 @@ class OrderedViewMixin:
 
     def _set_order_current(self):
         order_by = self.request.GET.get(self.order_param_name, None)
+        avail_fields = [o[1] for o in self.order_options]
         self.order_current = (
-            [i.strip() for i in order_by.split(",")]
+            [
+                f
+                for f in [i.strip() for i in order_by.split(",")]
+                if f.strip("-") in avail_fields
+            ]
             if order_by
             else self.order_default.copy()
         )
@@ -281,13 +301,22 @@ class OrderedViewMixin:
         get_params.pop(self.order_param_name, None)
 
         order_list = self.order_current.copy()
+
         if order_field in order_list:
             order_list[order_list.index(order_field)] = f"-{order_field}"
         elif f"-{order_field}" in order_list:
-            # TODO: When this is the last, we want to switch ordering to opposite
-            order_list.remove(f"-{order_field}")
+            if len(order_list) > 1:
+                order_list.remove(f"-{order_field}")
+            else:
+                # If this is the only selected option, just reverse ordering
+                # instead of deleting the option from the order_list.
+                order_list[order_list.index(f"-{order_field}")] = order_field
         else:
             order_list.append(order_field)
+
+        if self.order_limit is not None:
+            while len(order_list) > self.order_limit:
+                del order_list[0]
 
         return "{}?{}".format(
             self.request.path,

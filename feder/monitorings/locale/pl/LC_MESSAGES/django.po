@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-monitorings 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-28 12:59+0000\n"
-"PO-Revision-Date: 2021-05-13 12:43+0200\n"
+"POT-Creation-Date: 2021-08-02 10:55+0000\n"
+"PO-Revision-Date: 2021-08-02 12:55+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 2.4.1\n"
+"X-Generator: Poedit 2.4.2\n"
 
 #: filters.py:14 templates/monitorings/_monitoring_small.html:12
 msgid "Creation date"
@@ -91,7 +91,7 @@ msgstr "Powiadom o nowych alertach osoby, które mogą je widzieć"
 msgid "Slug"
 msgstr "Identyfikator redakcyjny"
 
-#: models.py:51 templates/monitorings/base_monitoring_detail.html:30
+#: models.py:51 templates/monitorings/base_monitoring_detail.html:32
 msgid "Description"
 msgstr "Opis"
 
@@ -259,11 +259,15 @@ msgstr "Zobacz tagi"
 msgid "View report"
 msgstr "Zobacz raport"
 
-#: templates/monitorings/_header.html:7 templates/monitorings/_letter.html:7
+#: templates/monitorings/_header.html:7 templates/monitorings/_letter.html:8
 msgid "by"
 msgstr "przez"
 
-#: templates/monitorings/_letter.html:11
+#: templates/monitorings/_letter.html:13
+msgid "unknown"
+msgstr "nieznany"
+
+#: templates/monitorings/_letter.html:17
 msgid "in case of "
 msgstr "w sprawie "
 
@@ -323,19 +327,19 @@ msgid "no"
 msgstr "nie"
 
 #: templates/monitorings/_report_content.html:91
-#: templates/monitorings/monitoring_detail.html:37
+#: templates/monitorings/monitoring_detail.html:44
 #: templates/monitorings/monitoring_draft_list.html:17
-#: templates/monitorings/monitoring_letter_list.html:17
+#: templates/monitorings/monitoring_letter_list.html:24
 msgid "No rows."
 msgstr "Brak wierszy."
 
 #: templates/monitorings/_tabs.html:8
-#: templates/monitorings/monitoring_detail.html:5
+#: templates/monitorings/monitoring_detail.html:12
 msgid "Institutions and cases"
 msgstr "Instytucje i sprawy"
 
 #: templates/monitorings/_tabs.html:13
-#: templates/monitorings/monitoring_letter_list.html:5
+#: templates/monitorings/monitoring_letter_list.html:12
 msgid "Letters"
 msgstr "Listy"
 
@@ -380,7 +384,7 @@ msgstr "Wyślij wiadomość masową dla "
 msgid "Confirm delete"
 msgstr "Potwierdz usuwanie"
 
-#: templates/monitorings/monitoring_detail.html:17
+#: templates/monitorings/monitoring_detail.html:24
 msgid "Contents"
 msgstr "Zawartość"
 
@@ -521,26 +525,46 @@ msgstr "^(?P<slug>[\\w-]+)/~wiadomosc-masowa$"
 msgid "Using field {{EMAIL}} is mandatory."
 msgstr "Użycie pola {{EMAIL}} jest obowiązkowe."
 
-#: views.py:215
+#: views.py:85
+msgid "last update"
+msgstr "ostatnia zmiana"
+
+#: views.py:86 views.py:123
+msgid "institution name"
+msgstr "nazwa instytucji"
+
+#: views.py:121
+msgid "created"
+msgstr "utworzono"
+
+#: views.py:122
+msgid "attachment count"
+msgstr "liczba załączników"
+
+#: views.py:124
+msgid "user"
+msgstr "użytkownik"
+
+#: views.py:223
 #, python-brace-format
 msgid "{0} created!"
 msgstr "{0} utworzony!"
 
-#: views.py:285
+#: views.py:293
 #, python-brace-format
 msgid "Permissions to {monitoring} updated!"
 msgstr "Uprawnienia dla {monitoring} zaktualizowane!"
 
-#: views.py:341
+#: views.py:349
 #, python-brace-format
 msgid "Permissions to {monitoring} of {user} updated!"
 msgstr "Uprawnienia do {monitoring} dla {user} zaktualizowane!"
 
-#: views.py:389
+#: views.py:397
 msgid "You can not send letters without using filtering."
 msgstr "Nie możesz wysyłać listów bez używania filtrowania."
 
-#: views.py:405
+#: views.py:413
 #, python-format
 msgid ""
 "You can not send %(count)d letters at once. The maximum is %(limit)d. Use "
@@ -549,7 +573,7 @@ msgstr ""
 "Nie możesz wysłać %(count)d listów na raz. Maksimum to %(limit)d. Użyj "
 "filtrowania."
 
-#: views.py:426
+#: views.py:434
 #, python-format
 msgid ""
 "%(count)d institutions was assigned to %(monitoring)s.  The requests "
@@ -558,25 +582,19 @@ msgstr ""
 "%(count)d instytucji zostało przypisanych do %(monitoring)s. Wysyłka "
 "wniosków została zaplanowana."
 
-#: views.py:478
+#: views.py:486
 #, python-brace-format
 msgid ""
 "Message \"{letter}\" has been scheduled for sending to {count} recipients!"
 msgstr "Wiadomość \"{letter}\" zaplanowana do wysyłki do {count} odbiorców!"
 
-#: views.py:485
+#: views.py:493
 #, python-brace-format
 msgid "Message {message} saved to review!"
 msgstr "Wiadomość {message} zapisana do przejrzenia!"
 
-#~ msgid "Institution name"
-#~ msgstr "Nazwa instytucji"
-
 #~ msgid "Tags"
 #~ msgstr "Tagi"
-
-#~ msgid "unknown"
-#~ msgstr "nieznany"
 
 #~ msgid "Can select answer"
 #~ msgstr "Może  wybierać odpowiedź"
@@ -611,9 +629,6 @@ msgstr "Wiadomość {message} zapisana do przejrzenia!"
 #~ "Page %(no)s of\n"
 #~ "                    %(total)s"
 #~ msgstr "Strona %(no)s z %(total)s"
-
-#~ msgid "Update"
-#~ msgstr "Aktualizuj"
 
 #~ msgid "Preview your submission"
 #~ msgstr "Pogląd:"
