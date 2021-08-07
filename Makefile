@@ -41,8 +41,8 @@ migrate:
 lint: # lint currently staged files
 	pre-commit run
 
-lint-all: # lint all files in repository
-	pre-commit run --all-files
+lint-all: # lint all files in repository 
+	pre-commit run --all-files 
 
 check: wait_mysql
 	docker-compose run web python manage.py makemigrations --check
