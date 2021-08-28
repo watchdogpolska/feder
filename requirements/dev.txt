@@ -2,11 +2,11 @@
 -r base.txt
 Sphinx==4.1.2
 Werkzeug==2.0.1
-django-debug-toolbar==3.2
-ipdb==0.13.4
+django-debug-toolbar==3.2.2
+ipdb==0.13.9
 factory-boy==3.2.0
 django-coverage-plugin==2.0.0
 vcrpy==4.1.1
-sphinxcontrib-programoutput==0.16
-pre-commit==2.10.1
-coveralls==3.0.1
+sphinxcontrib-programoutput==0.17
+pre-commit==2.14.1
+coveralls==3.2.0
