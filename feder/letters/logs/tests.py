@@ -92,8 +92,8 @@ class LogRecordQuerySet(TestCase):
 
     def test_parse_rows_counters(self):
         skipped, saved = LogRecord.objects.parse_rows(self.rows)
-        self.assertEquals(saved, 1)
-        self.assertEquals(skipped, 2)
+        self.assertEqual(saved, 1)
+        self.assertEqual(skipped, 2)
 
     def test_parse_rows_create_email_log(self):
         LogRecord.objects.parse_rows(self.rows)
