@@ -689,3 +689,32 @@ class MassMessageViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
         self.assertIn(self.case1_tag, recipients_tags)
         self.assertIn(self.case2_tag, recipients_tags)
         self.assertIn(self.global_tag, recipients_tags)
+
+
+class MonitoringFeedTestCaseMixin:
+    def test_simple_render(self):
+        resp = self.client.get(self.get_url())
+        self.assertEqual(resp.status_code, 200)
+        self.assertContains(resp, self.monitoring.name)
+
+
+class MonitoringRssFeedTestCase(
+    MonitoringFeedTestCaseMixin, ObjectMixin, PermissionStatusMixin, TestCase
+):
+    status_anonymous = 200
+    status_no_permission = 200
+    permission = []
+
+    def get_url(self):
+        return reverse("monitorings:rss")
+
+
+class MonitoringAtomFeedTestCase(
+    MonitoringFeedTestCaseMixin, ObjectMixin, PermissionStatusMixin, TestCase
+):
+    status_anonymous = 200
+    status_no_permission = 200
+    permission = []
+
+    def get_url(self):
+        return reverse("monitorings:atom")

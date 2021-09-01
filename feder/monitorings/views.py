@@ -11,6 +11,7 @@ from cached_property import cached_property
 from dal import autocomplete
 from django.contrib import messages
 from django.contrib.auth import get_user_model
+from guardian.utils import get_anonymous_user
 from django.core.exceptions import PermissionDenied
 from django.urls import reverse, reverse_lazy
 from django.db.models import Count, Q
@@ -25,13 +26,15 @@ from django.views.generic import (
     FormView,
     UpdateView,
 )
+from django.contrib.syndication.views import Feed
+from django.utils.encoding import force_text
+from django.utils.feedgenerator import Atom1Feed
 from django_filters.views import FilterView
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from formtools.wizard.views import SessionWizardView
 from guardian.shortcuts import assign_perm
-
 from feder.cases.models import Case
 from feder.institutions.filters import InstitutionFilter
 from feder.institutions.models import Institution
@@ -522,3 +525,39 @@ class MultiCaseTagManagement(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class MonitoringRssFeed(Feed):
+    title = _("Latest monitorings")
+    link = reverse_lazy("monitorings:list")
+    description = _("Updates on new monitorings on site")
+    feed_url = reverse_lazy("monitorings:rss")
+
+    def items(self):
+        return Monitoring.objects.for_user(get_anonymous_user()).with_feed_item().order_by("-created")[
+            :30
+        ]
+
+    def item_title(self, item):
+        return item.name
+
+    def item_description(self, item):
+        return item.description
+
+    def item_author_name(self, item):
+        return force_text(item.user)
+
+    def item_author_link(self, item):
+        return item.user.get_absolute_url()
+
+    def item_pubdate(self, item):
+        return item.created
+
+    def item_updateddate(self, item):
+        return item.modified
+
+
+class MonitoringAtomFeed(MonitoringRssFeed):
+    feed_type = Atom1Feed
+    subtitle = MonitoringRssFeed.description
+    feed_url = reverse_lazy("monitorings:atom")

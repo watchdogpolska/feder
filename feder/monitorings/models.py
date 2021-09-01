@@ -31,6 +31,9 @@ class MonitoringQuerySet(models.QuerySet):
             case__institution__jst__lft__range=(jst.lft, jst.rght),
         )
 
+    def with_feed_item(self):
+        return self.select_related('user')
+
     def for_user(self, user):
         return self
 
