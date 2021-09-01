@@ -6,6 +6,8 @@ from . import views
 urlpatterns = [
     url(_(r"^$"), views.MonitoringListView.as_view(), name="list"),
     url(_(r"^~create$"), views.MonitoringCreateView.as_view(), name="create"),
+    url(_(r"^feed$"), views.MonitoringRssFeed(), name="rss"),
+    url(_(r"^feed/atom$"), views.MonitoringAtomFeed(), name="atom"),
     url(
         _(r"^~autocomplete$"),
         views.MonitoringAutocomplete.as_view(),
