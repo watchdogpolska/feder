@@ -534,9 +534,11 @@ class MonitoringRssFeed(Feed):
     feed_url = reverse_lazy("monitorings:rss")
 
     def items(self):
-        return Monitoring.objects.for_user(get_anonymous_user()).with_feed_item().order_by("-created")[
-            :30
-        ]
+        return (
+            Monitoring.objects.for_user(get_anonymous_user())
+            .with_feed_item()
+            .order_by("-created")[:30]
+        )
 
     def item_title(self, item):
         return item.name
