@@ -32,7 +32,7 @@ class MonitoringQuerySet(models.QuerySet):
         )
 
     def with_feed_item(self):
-        return self.select_related('user')
+        return self.select_related("user")
 
     def for_user(self, user):
         return self
