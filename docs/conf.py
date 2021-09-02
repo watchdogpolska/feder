@@ -48,12 +48,12 @@ extensions = [
 ]
 
 intersphinx_mapping = {
-    "python": ("https://python.readthedocs.io/en/v2.7.2/", None),
+    "python": ("https://docs.python.org/3/", None),
     "django": (
         "https://docs.djangoproject.com/en/dev/",
         "http://docs.djangoproject.com/en/dev/_objects/",
     ),
-    "sphinx": ("https://sphinx.readthedocs.io/en/latest/", None),
+    "sphinx": ("https://sphinx.readthedocs.io/en/master/", None),
     "grappelli": ("https://django-grappelli.readthedocs.io/en/latest/", None),
 }
 
