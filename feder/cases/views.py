@@ -37,7 +37,7 @@ class CaseListView(
     paginate_by = 25
 
     def get_queryset(self):
-        return super().get_queryset()
+        return super().get_queryset().for_user(self.request.user)
 
 
 class CaseDetailView(SelectRelatedMixin, PrefetchRelatedMixin, DetailView):
@@ -46,7 +46,7 @@ class CaseDetailView(SelectRelatedMixin, PrefetchRelatedMixin, DetailView):
     prefetch_related = ["record_set"]
 
     def get_queryset(self):
-        return super().get_queryset().with_milestone()
+        return super().get_queryset().with_milestone().for_user(self.request.user)
 
 
 class CaseCreateView(
@@ -85,6 +85,9 @@ class CaseUpdateView(
     form_class = CaseForm
     permission_required = "monitorings.change_case"
 
+    def get_queryset(self):
+        return super().get_queryset().for_user(self.request.user)
+
     def get_permission_object(self):
         return super().get_permission_object().monitoring
 
@@ -97,10 +100,13 @@ class CaseDeleteView(RaisePermissionRequiredMixin, DeleteMessageMixin, DeleteVie
     def get_permission_object(self):
         return super().get_permission_object().monitoring
 
+    def get_queryset(self):
+        return super().get_queryset().for_user(self.request.user)
+
 
 class CaseAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
-        qs = Case.objects.all().order_by()
+        qs = Case.objects.all().order_by().for_user(self.request.user)
 
         if self.q:
             qs = qs.filter(name__istartswith=self.q)
@@ -110,7 +116,7 @@ class CaseAutocomplete(autocomplete.Select2QuerySetView):
 
 class CaseFindAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
-        qs = Case.objects.all().order_by()
+        qs = Case.objects.all().order_by().for_user(self.request.user)
 
         if self.q:
             qs = qs.filter(

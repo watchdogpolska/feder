@@ -80,6 +80,7 @@ class Monitoring(TimeStampedModel):
             ("add_case", _("Can add case")),
             ("change_case", _("Can change case")),
             ("delete_case", _("Can delete case")),
+            ("view_quarantined_case", _("Can view quarantine cases")),
             ("add_letter", _("Can add letter")),
             ("reply", _("Can reply")),
             ("add_draft", _("Add reply draft")),
