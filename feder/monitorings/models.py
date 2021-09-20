@@ -35,10 +35,9 @@ class MonitoringQuerySet(models.QuerySet):
         return self.select_related("user")
 
     def for_user(self, user):
-        return self
-
-    def only_public(self):
-        return self.filter(is_public=True)
+        if not user.is_staff:
+            return self.filter(is_public=True)
+        return self.request.user
 
 
 @reversion.register()
