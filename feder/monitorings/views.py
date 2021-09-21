@@ -66,12 +66,13 @@ class MonitoringListView(SelectRelatedMixin, FilterView):
     paginate_by = 25
 
     def get_queryset(self):
-        qs = super().get_queryset()
-
-        if not self.request.user.is_staff:
-            qs = qs.only_public()
-
-        return qs.with_case_count().order_by("-created")
+        return (
+            super()
+            .get_queryset()
+            .for_user(self.request.user)
+            .with_case_count()
+            .order_by("-created")
+        )
 
 
 class MonitoringDetailView(SelectRelatedMixin, ExtraListMixin, DetailView):
@@ -81,10 +82,7 @@ class MonitoringDetailView(SelectRelatedMixin, ExtraListMixin, DetailView):
 
     def get_queryset(self):
         qs = super().get_queryset()
-
-        if not self.request.user.is_staff:
-            qs = qs.only_public()
-
+        qs = qs.for_user(self.request.user)
         return qs
 
     def get_context_data(self, **kwargs):
@@ -485,10 +483,7 @@ class MonitoringAutocomplete(autocomplete.Select2QuerySetView):
         qs = Monitoring.objects
         if self.q:
             qs = qs.filter(name__icontains=self.q)
-
-        if not self.request.user.is_staff:
-            qs = qs.only_public()
-
+        qs = qs.for_user(self.request.user)
         return qs.all()
 
 
