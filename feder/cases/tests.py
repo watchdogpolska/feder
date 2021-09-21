@@ -41,6 +41,20 @@ class CaseListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     def get_url(self):
         return reverse("cases:list")
 
+    def test_filter_out_quarantined(self):
+        quarantined = CaseFactory(is_quarantined=True)
+        response = self.client.get(self.get_url())
+        self.assertContains(response, self.case.name)
+        self.assertNotContains(response, quarantined.name)
+
+    def test_show_quaranited_for_authorized(self):
+        quarantined = CaseFactory(is_quarantined=True, monitoring=self.case.monitoring)
+        self.grant_permission("monitorings.view_quarantined_case")
+        self.login_permitted_user()
+        response = self.client.get(self.get_url())
+        self.assertContains(response, self.case.name)
+        self.assertContains(response, quarantined.name)
+
     def test_for_filter_cases_by_community(self):
         common_county = CountyJSTFactory()
         valid = CaseFactory(institution__jst=CommunityJSTFactory(parent=common_county))
@@ -114,6 +128,8 @@ class CaseDeleteViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
 
 
 class CaseAutocompleteTestCase(TestCase):
+    # TODO: Why `self.Client` is not in use?
+
     def setUp(self):
         self.factory = RequestFactory()
 
@@ -121,6 +137,7 @@ class CaseAutocompleteTestCase(TestCase):
         CaseFactory(name="123")
         CaseFactory(name="456")
         request = self.factory.get("/customer/details", data={"q": "123"})
+        request.user = UserFactory()
         response = CaseAutocomplete.as_view()(request)
         self.assertContains(response, "123")
         self.assertNotContains(response, "456")

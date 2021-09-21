@@ -94,6 +94,22 @@ class CaseQuerySet(models.QuerySet):
     def with_record_max(self):
         return self.annotate(record_max=Max("record__created"))
 
+    def for_user(self, user):
+        if user.is_anonymous:
+            return self.filter(is_quarantined=False)
+        if user.has_perm("monitorings.view_quarantined_case"):
+            return self
+        non_quarantined = models.Q(is_quarantined=False)
+        mop = "monitoringuserobjectpermission"
+        monitoring_permission = models.Q(
+            is_quarantined=True,
+            **{
+                f"monitoring__{mop}__user": user,
+                f"monitoring__{mop}__permission__codename": "view_quarantined_case",
+            },
+        )
+        return self.filter(non_quarantined | monitoring_permission)
+
     def get_mass_assign_uid(self):
         """Returns random UUID identifier ensuring it's unique."""
         while True:
@@ -129,6 +145,9 @@ class Case(TimeStampedModel):
     )
     response_received = models.BooleanField(
         verbose_name=_("Response received"), default=False
+    )
+    is_quarantined = models.BooleanField(
+        verbose_name=_("Quarantined"), default=False, db_index=True
     )
     objects = CaseQuerySet.as_manager()
 
