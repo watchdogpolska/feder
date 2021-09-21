@@ -99,7 +99,7 @@ class CaseQuerySet(models.QuerySet):
             return self.filter(is_quarantined=False)
         if user.has_perm("monitorings.view_quarantined_case"):
             return self
-        non_quarantied = models.Q(is_quarantined=False)
+        non_quarantined = models.Q(is_quarantined=False)
         mop = "monitoringuserobjectpermission"
         monitoring_permission = models.Q(
             is_quarantined=True,
@@ -108,7 +108,7 @@ class CaseQuerySet(models.QuerySet):
                 f"monitoring__{mop}__permission__codename": "view_quarantined_case",
             },
         )
-        return self.filter(non_quarantied | monitoring_permission)
+        return self.filter(non_quarantined | monitoring_permission)
 
     def get_mass_assign_uid(self):
         """Returns random UUID identifier ensuring it's unique."""
@@ -147,7 +147,7 @@ class Case(TimeStampedModel):
         verbose_name=_("Response received"), default=False
     )
     is_quarantined = models.BooleanField(
-        verbose_name=_("Quarantied"), default=False, db_index=True
+        verbose_name=_("Quarantined"), default=False, db_index=True
     )
     objects = CaseQuerySet.as_manager()
 

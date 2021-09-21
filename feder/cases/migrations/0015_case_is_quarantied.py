@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
             model_name="case",
             name="is_quarantined",
             field=models.BooleanField(
-                db_index=True, default=False, verbose_name="Quarantied"
+                db_index=True, default=False, verbose_name="Quarantined"
             ),
         ),
     ]
