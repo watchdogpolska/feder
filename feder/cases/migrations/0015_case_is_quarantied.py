@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AddField(
             model_name="case",
-            name="is_quarantied",
+            name="is_quarantined",
             field=models.BooleanField(
                 db_index=True, default=False, verbose_name="Quarantied"
             ),

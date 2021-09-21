@@ -42,13 +42,13 @@ class CaseListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
         return reverse("cases:list")
 
     def test_filter_out_quarantied(self):
-        quarantied = CaseFactory(is_quarantied=True)
+        quarantied = CaseFactory(is_quarantined=True)
         response = self.client.get(self.get_url())
         self.assertContains(response, self.case.name)
         self.assertNotContains(response, quarantied.name)
 
     def test_show_quaranited_for_authorized(self):
-        quarantied = CaseFactory(is_quarantied=True, monitoring=self.case.monitoring)
+        quarantied = CaseFactory(is_quarantined=True, monitoring=self.case.monitoring)
         self.grant_permission("monitorings.view_quarantined_case")
         self.login_permitted_user()
         response = self.client.get(self.get_url())

@@ -96,13 +96,13 @@ class CaseQuerySet(models.QuerySet):
 
     def for_user(self, user):
         if user.is_anonymous:
-            return self.filter(is_quarantied=False)
+            return self.filter(is_quarantined=False)
         if user.has_perm("monitorings.view_quarantined_case"):
             return self
-        non_quarantied = models.Q(is_quarantied=False)
+        non_quarantied = models.Q(is_quarantined=False)
         mop = "monitoringuserobjectpermission"
         monitoring_permission = models.Q(
-            is_quarantied=True,
+            is_quarantined=True,
             **{
                 f"monitoring__{mop}__user": user,
                 f"monitoring__{mop}__permission__codename": "view_quarantined_case",
@@ -146,7 +146,7 @@ class Case(TimeStampedModel):
     response_received = models.BooleanField(
         verbose_name=_("Response received"), default=False
     )
-    is_quarantied = models.BooleanField(
+    is_quarantined = models.BooleanField(
         verbose_name=_("Quarantied"), default=False, db_index=True
     )
     objects = CaseQuerySet.as_manager()
