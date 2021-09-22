@@ -24,6 +24,7 @@ from .utils import email_wrapper, normalize_msg_id, get_body_with_footer
 from ..virus_scan.models import Request as ScanRequest
 from django.utils import timezone
 from ..es_search.queries import more_like_this, find_document
+from feder.cases.models import enforce_quarantined_queryset
 
 logger = logging.getLogger(__name__)
 
@@ -75,6 +76,9 @@ class LetterQuerySet(models.QuerySet):
 
     def exclude_automatic(self):
         return self.exclude(message_type__in=[i[0] for i in Letter.MESSAGE_TYPES_AUTO])
+
+    def for_user(self, user):
+        return enforce_quarantined_queryset(self, user, "record__case")
 
 
 class LetterManager(BaseManager.from_queryset(LetterQuerySet)):
@@ -362,11 +366,14 @@ class MassMessageDraft(TimeStampedModel):
 
 
 class AttachmentQuerySet(models.QuerySet):
+    def _enforce_quarantine(self, user):
+        return enforce_quarantined_queryset(self, user, "letter__record__case")
+
     def for_user(self, user):
         if not user.is_superuser:
             return self.filter(
                 letter__is_spam__in=[Letter.SPAM.unknown, Letter.SPAM.non_spam]
-            )
+            )._enforce_quarantine(user)
         return self
 
     def with_scan_result(self):

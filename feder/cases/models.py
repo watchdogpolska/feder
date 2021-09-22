@@ -16,6 +16,24 @@ from django.utils.timezone import datetime
 from datetime import timedelta
 
 
+def enforce_quarantined_queryset(queryset, user, path_case=None):
+    prefix = f"{path_case}__" if path_case else ""
+    if user.is_anonymous:
+        return queryset.filter(**{f"{prefix}is_quarantined": False})
+    if user.has_perm("monitorings.view_quarantined_case"):
+        return queryset
+    non_quarantined = models.Q(**{f"{prefix}is_quarantined": False})
+    mop = "monitoring__monitoringuserobjectpermission"
+    monitoring_permission = models.Q(
+        **{
+            f"{prefix}is_quarantined": True,
+            f"{prefix}{mop}__user": user,
+            f"{prefix}{mop}__permission__codename": "view_quarantined_case",
+        }
+    )
+    return queryset.filter(non_quarantined | monitoring_permission)
+
+
 class CaseQuerySet(models.QuerySet):
     def with_record_count(self):
         return self.annotate(record_count=models.Count("record"))
@@ -95,20 +113,7 @@ class CaseQuerySet(models.QuerySet):
         return self.annotate(record_max=Max("record__created"))
 
     def for_user(self, user):
-        if user.is_anonymous:
-            return self.filter(is_quarantined=False)
-        if user.has_perm("monitorings.view_quarantined_case"):
-            return self
-        non_quarantined = models.Q(is_quarantined=False)
-        mop = "monitoringuserobjectpermission"
-        monitoring_permission = models.Q(
-            is_quarantined=True,
-            **{
-                f"monitoring__{mop}__user": user,
-                f"monitoring__{mop}__permission__codename": "view_quarantined_case",
-            },
-        )
-        return self.filter(non_quarantined | monitoring_permission)
+        return enforce_quarantined_queryset(self, user)
 
     def get_mass_assign_uid(self):
         """Returns random UUID identifier ensuring it's unique."""

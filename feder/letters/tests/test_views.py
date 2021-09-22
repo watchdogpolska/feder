@@ -52,6 +52,20 @@ class LetterListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     def get_url(self):
         return reverse("letters:list")
 
+    def test_filter_out_quarantined(self):
+        quarantined = LetterFactory(record__case__is_quarantined=True)
+        response = self.client.get(self.get_url())
+        self.assertNotContains(response, quarantined.title)
+
+    def test_show_quaranited_for_authorized(self):
+        quarantined = LetterFactory(
+            record__case__is_quarantined=True,
+        )
+        self.grant_permission("monitorings.view_quarantined_case")
+        self.login_permitted_user()
+        response = self.client.get(self.get_url())
+        self.assertContains(response, quarantined.title)
+
     def test_content(self):
         response = self.client.get(self.get_url())
         self.assertTemplateUsed(response, "letters/letter_filter.html")

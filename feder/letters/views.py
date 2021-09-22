@@ -16,6 +16,8 @@ from braces.views import (
     PrefetchRelatedMixin,
     UserFormKwargsMixin,
 )
+from guardian.shortcuts import get_anonymous_user
+
 from cached_property import cached_property
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.syndication.views import Feed
@@ -121,7 +123,7 @@ class LetterListView(
 
     def get_queryset(self):
         qs = super().get_queryset()
-        return qs.attachment_count()
+        return qs.attachment_count().for_user(self.request.user)
 
 
 class LetterDetailView(SelectRelatedMixin, LetterCommonMixin, DetailView):
@@ -135,11 +137,19 @@ class LetterDetailView(SelectRelatedMixin, LetterCommonMixin, DetailView):
         context["show_similar"] = settings.ELASTICSEARCH_SHOW_SIMILAR
         return context
 
+    def get_queryset(self):
+        qs = super().get_queryset()
+        return qs.for_user(self.request.user)
+
 
 class LetterMessageXSendFileView(MixinGzipXSendFile, BaseXSendFileView):
     model = Letter
     file_field = "eml"
     send_as_attachment = True
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        return qs.for_user(self.request.user)
 
 
 class LetterCreateView(
@@ -155,9 +165,8 @@ class LetterCreateView(
 
     @cached_property
     def case(self):
-        return get_object_or_404(
-            Case.objects.select_related("monitoring"), pk=self.kwargs["case_pk"]
-        )
+        qs = Case.objects.select_related("monitoring").for_user(self.request.user)
+        return get_object_or_404(qs, pk=self.kwargs["case_pk"])
 
     def get_permission_object(self):
         return self.case.monitoring
@@ -184,7 +193,9 @@ class LetterReplyView(
     @cached_property
     def letter(self):
         return get_object_or_404(
-            self.get_queryset().select_related("record__case__monitoring"),
+            self.get_queryset()
+            .select_related("record__case__monitoring")
+            .for_user(self.request.user),
             pk=self.kwargs["pk"],
         )
 
@@ -251,6 +262,10 @@ class LetterSendView(
             obj = self.object
         return obj.get_absolute_url()
 
+    def get_queryset(self):
+        qs = super().get_queryset()
+        return qs.for_user(self.request.user)
+
 
 class LetterUpdateView(
     LetterCommonMixin,
@@ -266,8 +281,7 @@ class LetterUpdateView(
     permission_required = "monitorings.change_letter"
 
     def get_queryset(self):
-        qs = super().get_queryset()
-        return qs.with_attachment()
+        return super().get_queryset().for_user(self.request.user).with_attachment()
 
 
 class LetterDeleteView(
@@ -275,6 +289,10 @@ class LetterDeleteView(
 ):
     model = Letter
     permission_required = "monitorings.delete_letter"
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        return qs.for_user(self.request.user)
 
     def get_success_url(self):
         if self.object.is_mass_draft():
@@ -299,6 +317,7 @@ class LetterRssFeed(Feed):
             Letter.objects.with_feed_items()
             .exclude(record__case=None)
             .recent()
+            .for_user(get_anonymous_user())
             .order_by("-created")[:30]
         )
 
@@ -379,7 +398,12 @@ class LetterReportSpamView(ActionMessageMixin, CaseRequiredMixin, ActionView):
     model = Letter
 
     def get_queryset(self):
-        return super().get_queryset().filter(is_spam=Letter.SPAM.unknown)
+        return (
+            super()
+            .get_queryset()
+            .filter(is_spam=Letter.SPAM.unknown)
+            .for_user(self.request.user)
+        )
 
     def action(self):
         author = None if self.request.user.is_anonymous else self.request.user
@@ -416,7 +440,12 @@ class LetterMarkSpamView(
         return self.get_object().case.monitoring
 
     def get_queryset(self):
-        return super().get_queryset().filter(is_spam=Letter.SPAM.unknown)
+        return (
+            super()
+            .get_queryset()
+            .filter(is_spam=Letter.SPAM.unknown)
+            .for_user(self.request.user)
+        )
 
     def action(self):
         if "valid" in self.request.POST:
