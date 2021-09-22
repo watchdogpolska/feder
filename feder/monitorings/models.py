@@ -35,9 +35,11 @@ class MonitoringQuerySet(models.QuerySet):
         return self.select_related("user")
 
     def for_user(self, user):
-        if not user.is_staff:
+        if user.is_anonymous:
             return self.filter(is_public=True)
-        return self.request.user
+        any_permission = models.Q(monitoringuserobjectpermission__user=user)
+        public_only = models.Q(is_public=True)
+        return self.filter(any_permission | public_only).distinct()
 
 
 @reversion.register()
