@@ -25,6 +25,7 @@ from .forms import MonitoringForm, MassMessageForm
 from .models import Monitoring
 from .serializers import MultiCaseTagSerializer
 from .tasks import send_letter_for_mass_assign, handle_mass_assign
+from feder.domains.factories import DomainFactory
 
 EXAMPLE_DATA = {
     "name": "foo-bar-monitoring",
@@ -33,7 +34,6 @@ EXAMPLE_DATA = {
     "subject": "example subject",
     "template": "xyz {{EMAIL}}",
     "email_footer": "X",
-    "domain": 1,
 }
 
 
@@ -42,14 +42,17 @@ class MonitoringFormTestCase(TestCase):
         self.user = UserFactory(username="john")
 
     def test_form_save_user(self):
-        form = MonitoringForm(EXAMPLE_DATA.copy(), user=self.user)
+        data = {
+            **EXAMPLE_DATA.copy(),
+            "domain": DomainFactory().pk,
+        }
+        form = MonitoringForm(data, user=self.user)
         self.assertTrue(form.is_valid(), msg=form.errors)
         obj = form.save()
         self.assertEqual(obj.user, self.user)
 
     def test_form_template_validator(self):
-        data = EXAMPLE_DATA.copy()
-        data["template"] = "xyzyyz"
+        data = {**EXAMPLE_DATA.copy(), "template": "xyzyyz"}
         form = MonitoringForm(data, user=self.user)
         self.assertFalse(form.is_valid())
         self.assertIn("template", form.errors)
@@ -94,7 +97,10 @@ class MonitoringCreateViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
     def test_assign_perm_for_creator(self):
         assign_perm("monitorings.add_monitoring", self.user)
         self.login_permitted_user()
-        data = EXAMPLE_DATA.copy()
+        data = {
+            **EXAMPLE_DATA.copy(),
+            "domain": DomainFactory().pk,
+        }
         response = self.client.post(self.get_url(), data=data)
         self.assertEqual(response.status_code, 302)
         monitoring = Monitoring.objects.get(name="foo-bar-monitoring")
@@ -114,10 +120,24 @@ class MonitoringListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, self.monitoring)
 
+    def test_list_hide_unpublic_for_public(self):
+        Monitoring.objects.filter(pk=self.monitoring.pk).update(is_public=False)
+        response = self.client.get(self.get_url())
+
+        self.assertNotContains(response, self.monitoring)
+
+    def test_list_display_unpublic_for_member(self):
+        Monitoring.objects.filter(pk=self.monitoring.pk).update(is_public=False)
+        self.grant_permission("monitorings.view_quarantined_case")
+        self.login_permitted_user()
+
+        response = self.client.get(self.get_url())
+
+        self.assertContains(response, self.monitoring)
+
     def test_filter_by_voivodship(self):
-        self.case = (
-            CaseFactory()
-        )  # creates a new monitoring (and institution, JST, too)
+        # creates a new monitoring (and institution, JST, too)
+        self.case = CaseFactory()
 
         response = self.client.get(
             reverse("monitorings:list")
