@@ -35,7 +35,7 @@ lxml==4.6.3
 
 
 # Your custom requirements go here
-cryptography==3.4.8
+cryptography==2.9.2
 django-filter==2.4.0
 django-autocomplete-light==3.8.2
 django-atom==0.16.3
