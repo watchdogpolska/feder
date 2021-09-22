@@ -1,4 +1,5 @@
 from .models import Letter
+from guardian.shortcuts import get_anonymous_user
 
 
 class LetterObjectFeedMixin:
@@ -25,5 +26,6 @@ class LetterObjectFeedMixin:
         return (
             Letter.objects.with_feed_items()
             .filter(**{self.filter_field: obj})
+            .for_user(get_anonymous_user())
             .order_by("-created")[:30]
         )
