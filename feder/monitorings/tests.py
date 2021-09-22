@@ -474,7 +474,17 @@ class MonitoringAssignViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
         self.client.post(self.get_url() + "?name=Office", data={"all": "yes"})
         self.send_all_pending()
         self.assertEqual(len(mail.outbox), 2)
-        self.assertTrue(mail.outbox[0].from_email.endswith("custom-domain.com"))
+
+    def test_assign_using_organisation(self):
+        self.monitoring.domain = DomainFactory(organisation__name="angel-corp")
+        self.monitoring.save()
+        self.login_permitted_user()
+        InstitutionFactory(name="Office 1")
+        self.client.post(self.get_url() + "?name=Office", data={"all": "yes"})
+        self.send_all_pending()
+        self.assertEqual(len(mail.outbox), 1)
+        # reply to email should have organisation name
+        self.assertTrue("angel-corp" in mail.outbox[0].from_email)
 
 
 class SitemapTestCase(ObjectMixin, TestCase):
@@ -679,3 +689,32 @@ class MassMessageViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
         self.assertIn(self.case1_tag, recipients_tags)
         self.assertIn(self.case2_tag, recipients_tags)
         self.assertIn(self.global_tag, recipients_tags)
+
+
+class MonitoringFeedTestCaseMixin:
+    def test_simple_render(self):
+        resp = self.client.get(self.get_url())
+        self.assertEqual(resp.status_code, 200)
+        self.assertContains(resp, self.monitoring.name)
+
+
+class MonitoringRssFeedTestCase(
+    MonitoringFeedTestCaseMixin, ObjectMixin, PermissionStatusMixin, TestCase
+):
+    status_anonymous = 200
+    status_no_permission = 200
+    permission = []
+
+    def get_url(self):
+        return reverse("monitorings:rss")
+
+
+class MonitoringAtomFeedTestCase(
+    MonitoringFeedTestCaseMixin, ObjectMixin, PermissionStatusMixin, TestCase
+):
+    status_anonymous = 200
+    status_no_permission = 200
+    permission = []
+
+    def get_url(self):
+        return reverse("monitorings:atom")

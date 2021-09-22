@@ -20,7 +20,7 @@ class CaseForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
 
     class Meta:
         model = Case
-        fields = ["name", "institution", "tags"]
+        fields = ["name", "institution", "tags", "is_quarantined"]
         widgets = {
             "institution": autocomplete.ModelSelect2(url="institutions:autocomplete"),
             "tags": forms.CheckboxSelectMultiple,

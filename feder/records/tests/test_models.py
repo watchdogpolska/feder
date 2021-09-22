@@ -34,8 +34,8 @@ class RecordQuerySetTestCase(TestCase):
         ipp = IncomingParcelPostFactory()
         with self.assertNumQueries(num=1):
             objects = list(Record.objects.with_select_related_content().all())
-            self.assertEquals(objects[0].content_object, ilf)
-            self.assertEquals(objects[1].content_object, ipp)
+            self.assertEqual(objects[0].content_object, ilf)
+            self.assertEqual(objects[1].content_object, ipp)
 
     def test_with_prefetch_related_content(self):
         ilf = IncomingLetterFactory()
@@ -45,10 +45,10 @@ class RecordQuerySetTestCase(TestCase):
 
         with self.assertNumQueries(num=4):
             objects = list(Record.objects.with_prefetch_related_content().all())
-            self.assertEquals(objects[0].content_object, ilf)
-            self.assertEquals(objects[1].content_object, ipp)
-            self.assertEquals(objects[2].content_object, ipp2)
-            self.assertEquals(objects[3].content_object, ipp3)
+            self.assertEqual(objects[0].content_object, ilf)
+            self.assertEqual(objects[1].content_object, ipp)
+            self.assertEqual(objects[2].content_object, ipp2)
+            self.assertEqual(objects[3].content_object, ipp3)
 
 
 class RecordTestCase(TestCase):

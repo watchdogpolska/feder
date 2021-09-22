@@ -31,11 +31,13 @@ class MonitoringQuerySet(models.QuerySet):
             case__institution__jst__lft__range=(jst.lft, jst.rght),
         )
 
-    def for_user(self, user):
-        return self
+    def with_feed_item(self):
+        return self.select_related("user")
 
-    def only_public(self):
-        return self.filter(is_public=True)
+    def for_user(self, user):
+        if not user.is_staff:
+            return self.filter(is_public=True)
+        return self.request.user
 
 
 @reversion.register()
@@ -77,6 +79,7 @@ class Monitoring(TimeStampedModel):
             ("add_case", _("Can add case")),
             ("change_case", _("Can change case")),
             ("delete_case", _("Can delete case")),
+            ("view_quarantined_case", _("Can view quarantine cases")),
             ("add_letter", _("Can add letter")),
             ("reply", _("Can reply")),
             ("add_draft", _("Add reply draft")),

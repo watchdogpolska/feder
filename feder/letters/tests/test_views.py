@@ -262,9 +262,22 @@ class LetterSendViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
         response = self.client.post(self.get_url())
         self.assertEqual(response.status_code, 302)
         self.assertEqual(len(mail.outbox), 1)
+        # reply to email should have organisation name
+        self.assertTrue(
+            self.monitoring.domain.organisation.name in mail.outbox[0].from_email
+        )
 
 
-class LetterRssFeedTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
+class LetterFeedTestCaseMixin:
+    def test_simple_render(self):
+        resp = self.client.get(self.get_url())
+        self.assertEqual(resp.status_code, 200)
+        self.assertContains(resp, self.letter.title)
+
+
+class LetterRssFeedTestCase(
+    LetterFeedTestCaseMixin, ObjectMixin, PermissionStatusMixin, TestCase
+):
     status_anonymous = 200
     status_no_permission = 200
     permission = []
@@ -273,7 +286,9 @@ class LetterRssFeedTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
         return reverse("letters:rss")
 
 
-class LetterAtomFeedTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
+class LetterAtomFeedTestCase(
+    LetterFeedTestCaseMixin, ObjectMixin, PermissionStatusMixin, TestCase
+):
     status_anonymous = 200
     status_no_permission = 200
     permission = []
