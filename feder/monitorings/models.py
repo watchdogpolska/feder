@@ -37,6 +37,8 @@ class MonitoringQuerySet(models.QuerySet):
     def for_user(self, user):
         if user.is_anonymous:
             return self.filter(is_public=True)
+        if user.is_superuser:
+            return self
         any_permission = models.Q(monitoringuserobjectpermission__user=user)
         public_only = models.Q(is_public=True)
         return self.filter(any_permission | public_only).distinct()
