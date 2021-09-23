@@ -36,7 +36,7 @@ class LetterForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
 
     class Meta:
         model = Letter
-        fields = ["title", "body", "case", "note"]
+        fields = ["title", "body", "case", "note", "eml"]
 
     def save(self, *args, **kwargs):
         if not self.instance.is_mass_draft():
