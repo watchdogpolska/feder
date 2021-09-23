@@ -42,18 +42,16 @@ class CaseListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
         return reverse("cases:list")
 
     def test_filter_out_quarantined(self):
-        quarantined = CaseFactory(is_quarantined=True)
+        Case.objects.filter(pk=self.case.pk).update(is_quarantined=True)
         response = self.client.get(self.get_url())
-        self.assertContains(response, self.case.name)
-        self.assertNotContains(response, quarantined.name)
+        self.assertNotContains(response, self.case.name)
 
     def test_show_quaranited_for_authorized(self):
-        quarantined = CaseFactory(is_quarantined=True, monitoring=self.case.monitoring)
+        Case.objects.filter(pk=self.case.pk).update(is_quarantined=True)
         self.grant_permission("monitorings.view_quarantined_case")
         self.login_permitted_user()
         response = self.client.get(self.get_url())
-        self.assertContains(response, self.case.name)
-        self.assertContains(response, quarantined.name)
+        self.assertContains(response, self.case)
 
     def test_for_filter_cases_by_community(self):
         common_county = CountyJSTFactory()
