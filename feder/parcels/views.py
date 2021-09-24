@@ -19,6 +19,9 @@ from feder.parcels.models import IncomingParcelPost, OutgoingParcelPost
 class ParcelPostDetailView(SelectRelatedMixin, DetailView):
     select_related = ["record__case__monitoring"]
 
+    def get_queryset(self):
+        return super().get_queryset().for_user(self.request.user)
+
 
 class CaseMixin:
     case = None
@@ -40,8 +43,9 @@ class ParcelPostCreateView(
 
     @cached_property
     def case(self):
+        qs = Case.objects.select_related("monitoring").for_user(self.request.user)
         return get_object_or_404(
-            Case.objects.select_related("monitoring"), pk=self.kwargs["case_pk"]
+            qs, pk=self.kwargs["case_pk"]
         )
 
     def get_object(self, *args, **kwargs):
@@ -74,6 +78,9 @@ class ParcelPostUpdateView(
             self._object = super().get_object(*args, **kwargs)
         return self._object
 
+    def get_queryset(self):
+        return super().get_queryset().for_user(self.request.user)
+
     @property
     def case(self):
         return self.get_object().case
@@ -94,6 +101,9 @@ class ParcelPostDeleteView(
         if not hasattr(self, "_object"):
             self._object = super().get_object(*args, **kwargs)
         return self._object
+
+    def get_queryset(self):
+        return super().get_queryset().for_user(self.request.user)
 
     def get_permission_object(self):
         return self.get_object().case.monitoring

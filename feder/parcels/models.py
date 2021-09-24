@@ -9,11 +9,12 @@ from django.utils.translation import ugettext_lazy as _
 
 from feder.institutions.models import Institution
 from feder.records.models import AbstractRecord
+from feder.cases.models import enforce_quarantined_queryset
 
 
 class ParcelPostQuerySet(models.QuerySet):
     def for_user(self, user):
-        return self
+        return enforce_quarantined_queryset(self, user, "record__case")
 
 
 class AbstractParcelPost(AbstractRecord):

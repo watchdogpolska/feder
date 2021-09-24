@@ -3,7 +3,7 @@ import datetime
 from django.test import TestCase
 from django.urls import reverse
 from django.core.files.uploadedfile import SimpleUploadedFile
-
+from feder.cases.models import Case
 from feder.cases.factories import CaseFactory
 from feder.main.tests import PermissionStatusMixin
 from feder.parcels.factories import IncomingParcelPostFactory, OutgoingParcelPostFactory
@@ -64,6 +64,18 @@ class IncomingParcelPostDetailViewTestCase(
 
     def get_url(self):
         return reverse("parcels:incoming-details", kwargs={"pk": self.object.pk})
+
+    def test_hide_letter_from_quarantined_case(self):
+        Case.objects.filter(pk=self.case.pk).update(is_quarantined=True)
+        response = self.client.get(self.get_url())
+        self.assertNotContains(response, self.object, status_code=404)
+
+    def test_show_quarantined_letter_for_authorized(self):
+        Case.objects.filter(pk=self.case.pk).update(is_quarantined=True)
+        self.grant_permission("monitorings.view_quarantined_case")
+        self.login_permitted_user()
+        response = self.client.get(self.get_url())
+        self.assertContains(response, self.object)
 
 
 class IncomingAttachmentParcelPostXSendFileViewTestCase(
