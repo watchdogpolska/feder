@@ -10,6 +10,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.db import models
 from feder.cases.models import Case
 from feder.records.registry import record_type_registry
+from feder.cases.models import enforce_quarantined_queryset
 
 
 class RecordQuerySet(models.QuerySet):
@@ -62,6 +63,9 @@ class RecordQuerySet(models.QuerySet):
         return qs.prefetch_related(
             Prefetch(lookup="letters_letter_related", queryset=letter_queryset)
         ).all()
+
+    def for_user(self, user):
+        return enforce_quarantined_queryset(self, user, "case")
 
 
 class Record(TimeStampedModel):
