@@ -21,6 +21,7 @@ class RecordViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = RecordSerializer
     filter_backends = (filters.DjangoFilterBackend,)
     filter_class = RecordFilter
+    queryset = Record.objects.for_api().select_related().all()
 
     def get_queryset(self):
-        return Record.objects.for_api().select_related().for_user(self.request.user)
+        return super().get_queryset().for_user(self.request.user)
