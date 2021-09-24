@@ -26,6 +26,9 @@ class CaseViewSet(viewsets.ReadOnlyModelViewSet):
     filter_backends = (filters.DjangoFilterBackend,)
     filter_class = CaseFilter
 
+    def get_queryset(self):
+        return super().get_queryset().for_user(self.request.user)
+
 
 class CaseCSVRenderer(PaginatedCSVStreamingRenderer):
     header = CaseReportSerializer.Meta.fields
@@ -60,6 +63,7 @@ class CaseReportViewSet(CsvRendererViewMixin, viewsets.ReadOnlyModelViewSet):
             Case.objects.with_institution()
             .with_application_letter_date()
             .with_application_letter_status()
+            .for_user(self.request.user)
             .order_by(
                 "institution__jst__parent__parent__name",
                 "institution__jst__parent__name",
