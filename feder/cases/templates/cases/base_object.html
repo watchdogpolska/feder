@@ -26,6 +26,9 @@
         </div>
     {% endif %}
     <div class="row">
+        {% if object %}
+            {% include 'cases/_case_quarantined.html' with object=object %}
+        {% endif %}
         <div class="gray">
             {% block content_object %}{% endblock %}
         </div>
