@@ -44,9 +44,7 @@ class ParcelPostCreateView(
     @cached_property
     def case(self):
         qs = Case.objects.select_related("monitoring").for_user(self.request.user)
-        return get_object_or_404(
-            qs, pk=self.kwargs["case_pk"]
-        )
+        return get_object_or_404(qs, pk=self.kwargs["case_pk"])
 
     def get_object(self, *args, **kwargs):
         return self.case

@@ -15,6 +15,7 @@ class JSTListViewTestCase(TestCase):
         response = self.client.get(reverse("teryt:list"))
         self.assertEqual(response.status_code, 200)
 
+
 class JSTDetailViewTestCase(TestCase):
     def setUp(self):
         self.jst = JSTFactory()
@@ -23,6 +24,7 @@ class JSTDetailViewTestCase(TestCase):
     def test_plain_display(self):
         response = self.client.get(reverse("teryt:detail", slug=self.jst.slug))
         self.assertEqual(response.status_code, 200)
+
 
 class JSTDetailViewTestCase(TestCase):
     def setUp(self):
