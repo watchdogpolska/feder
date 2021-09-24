@@ -48,8 +48,8 @@
                     <i class="fa fa-home"></i>
                     {% trans 'Institutions' %}
                 </h3>
-                {% if object.institution_qs.all %}
-                    {% include '_select_list.html' with object_list=object.institution_qs.all %}
+                {% if institution_qs %}
+                    {% include '_select_list.html' with object_list=institution_qs %}
                 {% else %}
                     <p>{% trans 'No rows.' %}</p>
                 {% endif %}
@@ -61,7 +61,11 @@
                     <i class="fa fa-search"></i>
                     {% trans 'Cases' %}
                 </h3>
-                {% include '_select_list.html' with object_list=object.case_qs.all %}
+                {% if case_qs %}
+                    {% include '_select_list.html' with object_list=case_qs %}
+                {% else %}
+                    <p>{% trans 'No rows.' %}</p>
+                {% endif %}
             </div>
         </div>
     </div>
