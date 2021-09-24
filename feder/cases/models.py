@@ -20,17 +20,19 @@ def enforce_quarantined_queryset(queryset, user, path_case=None):
     if user.has_perm("monitorings.view_quarantined_case"):
         return queryset
     if path_case:
-        return queryset.filter(**{f"{path_case}__in": Case.objects.for_user(user).all()})
+        return queryset.filter(
+            **{f"{path_case}__in": Case.objects.for_user(user).all()}
+        )
     if user.is_anonymous:
-        return queryset.filter(**{f"is_quarantined": False})
-    non_quarantined = models.Q(**{f"is_quarantined": False})
+        return queryset.filter(is_quarantined=False)
+    non_quarantined = models.Q(is_quarantined=False)
     mop = "monitoring__monitoringuserobjectpermission"
     monitoring_permission = models.Q(
+        is_quarantined=True,
         **{
-            f"is_quarantined": True,
             f"{mop}__user": user,
             f"{mop}__permission__codename": "view_quarantined_case",
-        }
+        },
     )
     return queryset.filter(non_quarantined | monitoring_permission)
 
