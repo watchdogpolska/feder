@@ -3,6 +3,7 @@
     <i class="fa fa-folder-open"></i>
     <a href="{{ object.get_absolute_url }}">{{ object }}</a>
 </h2>
+{% include 'cases/_case_quarantined.html' with object=object %}
 <p>
     {% trans 'Creation date' %}
     <time datetime="{{ object.created }}" title="{{ object.created | naturaltime }}">{{ object.created }}</time>

@@ -1,0 +1,9 @@
+{% load i18n %}
+{% if object.is_quarantined %}
+<div class="alert alert-warning">
+    {% blocktrans %}
+    The case "{{object}}" is in quarantine. It is not available to users who do not have permission
+    'view_quarantined_case' to monitoring. Remove legal restrictions and edit the case to disclose it.
+    {% endblocktrans %}
+</div>
+{% endif %}

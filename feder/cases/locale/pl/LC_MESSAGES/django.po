@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cases 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-28 12:59+0000\n"
-"PO-Revision-Date: 2021-07-28 15:01+0200\n"
+"POT-Creation-Date: 2021-09-23 23:55+0000\n"
+"PO-Revision-Date: 2021-09-24 01:57+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -17,13 +17,13 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 2.4.2\n"
+"X-Generator: Poedit 1.8.7.1\n"
 
-#: filters.py:20 templates/cases/_case_small.html:7
+#: filters.py:20 templates/cases/_case_small.html:8
 msgid "Creation date"
 msgstr "Data utworzenia"
 
-#: filters.py:28 models.py:105 viewsets.py:34
+#: filters.py:28 models.py:127 viewsets.py:34
 msgid "Name"
 msgstr "Nazwa"
 
@@ -31,7 +31,7 @@ msgstr "Nazwa"
 msgid "Institution name"
 msgstr "Nazwa instyticji"
 
-#: filters.py:69 models.py:123 viewsets.py:40
+#: filters.py:69 models.py:145 viewsets.py:40
 msgid "Tags"
 msgstr "Tagi"
 
@@ -39,33 +39,37 @@ msgstr "Tagi"
 msgid "Application letter sending date"
 msgstr "Data wysyłki wniosku"
 
-#: filters.py:76
+#: filters.py:75
 msgid "Application letter status"
 msgstr "Status wniosku"
 
-#: models.py:107
+#: models.py:129
 msgid "Slug"
 msgstr "Identyfikator redakcyjny"
 
-#: models.py:111 templates/cases/_case_small.html:11
+#: models.py:133 templates/cases/_case_small.html:12
 #: templates/cases/_desc.html:10
 msgid "Monitoring"
 msgstr "Monitoring"
 
-#: models.py:114 templates/cases/_case_small.html:10
+#: models.py:136 templates/cases/_case_small.html:11
 #: templates/cases/_desc.html:4
 msgid "Institution"
 msgstr "Instytucja"
 
-#: models.py:127 viewsets.py:43
+#: models.py:149 viewsets.py:43
 msgid "Confirmation received"
 msgstr "Otrzymano potwierdzenie"
 
-#: models.py:130 viewsets.py:44
+#: models.py:152 viewsets.py:44
 msgid "Response received"
 msgstr "Otrzymano odpowiedź"
 
-#: models.py:135 models.py:136 models.py:186
+#: models.py:155
+msgid "Quarantined"
+msgstr "Poddany kwarantannie"
+
+#: models.py:160 models.py:161 models.py:219
 msgid "Case"
 msgstr "Sprawa"
 
@@ -108,6 +112,22 @@ msgstr "Przychodzącą przesyłkę"
 #: templates/cases/_btn.html:38
 msgid "Outgoing parcel"
 msgstr "Wychodzącą przesyłkę"
+
+#: templates/cases/_case_quarantined.html:3
+#, python-format
+msgid ""
+"\n"
+"    The case \"%(object)s\" is in quarantine. It is not available to users "
+"who do not have permission\n"
+"    'view_quarantined_case' to monitoring. Remove legal restrictions and "
+"edit the case to disclose it.\n"
+"    "
+msgstr ""
+"\n"
+"    Sprawa \"%(object)s\" jest poddana kwarantannie. Jest ona niedostępna "
+"dla użytkowników, którzy nie mają uprawnienia 'view_quarantined_case' w "
+"monitoringu. Usuń ograniczenia prawne i edytuj sprawę, aby ją ujawnić.\n"
+"    "
 
 #: templates/cases/base.html:4 templates/cases/case_detail.html:3
 msgid "Cases"
