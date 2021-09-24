@@ -17,18 +17,19 @@ from datetime import timedelta
 
 
 def enforce_quarantined_queryset(queryset, user, path_case=None):
-    prefix = f"{path_case}__" if path_case else ""
-    if user.is_anonymous:
-        return queryset.filter(**{f"{prefix}is_quarantined": False})
     if user.has_perm("monitorings.view_quarantined_case"):
         return queryset
-    non_quarantined = models.Q(**{f"{prefix}is_quarantined": False})
+    if path_case:
+        return queryset.filter(**{f"{path_case}__in": Case.objects.for_user(user).all()})
+    if user.is_anonymous:
+        return queryset.filter(**{f"is_quarantined": False})
+    non_quarantined = models.Q(**{f"is_quarantined": False})
     mop = "monitoring__monitoringuserobjectpermission"
     monitoring_permission = models.Q(
         **{
-            f"{prefix}is_quarantined": True,
-            f"{prefix}{mop}__user": user,
-            f"{prefix}{mop}__permission__codename": "view_quarantined_case",
+            f"is_quarantined": True,
+            f"{mop}__user": user,
+            f"{mop}__permission__codename": "view_quarantined_case",
         }
     )
     return queryset.filter(non_quarantined | monitoring_permission)
