@@ -22,6 +22,9 @@ class AlertQuerySet(models.QuerySet):
         obj_type = ContentType.objects.get_for_model(obj)
         return self.filter(content_type__pk=obj_type.id, object_id=obj.id)
 
+    def for_user(self, user):
+        return self
+
 
 class Alert(TimeStampedModel):
     monitoring = models.ForeignKey(
