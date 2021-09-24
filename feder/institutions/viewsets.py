@@ -77,6 +77,9 @@ class InstitutionViewSet(CsvRendererViewMixin, viewsets.ModelViewSet):
     default_serializer = InstitutionSerializer
     csv_file_name = _("institutions")
 
+    def get_queryset(self):
+        return super().get_queryset().for_user(self.request.user)
+
 
 class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.all()
