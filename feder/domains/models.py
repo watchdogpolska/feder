@@ -4,6 +4,9 @@ from django.db import models
 from model_utils.models import TimeStampedModel
 from django.utils.translation import ugettext_lazy as _
 
+class DomainQuerySet(models.QuerySet):
+    def for_user(self, user):
+        return self
 
 class Domain(TimeStampedModel):
     name = models.CharField(verbose_name=_("Name"), max_length=50)
@@ -14,6 +17,7 @@ class Domain(TimeStampedModel):
         on_delete=models.CASCADE,
         null=True,  # TODO(ad-m): make field required after data migration
     )
+    objects = DomainQuerySet.as_manager()
 
     class Meta:
         verbose_name = _("Domain")
