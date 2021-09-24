@@ -95,6 +95,7 @@ class MonitoringDetailView(SelectRelatedMixin, ExtraListMixin, DetailView):
             .select_related("institution")
             .with_record_max()
             .with_letter()
+            .for_user(self.request.user)
             .order_by("-record_max")
             .all()
         )

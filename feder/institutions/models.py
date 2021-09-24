@@ -24,6 +24,9 @@ class InstitutionQuerySet(models.QuerySet):
             jst__tree_id=jst.tree_id, jst__lft__range=(jst.lft, jst.rght)
         )
 
+    def for_user(self, user):  # dummy (at that moment)
+        return self
+
 
 @reversion.register()
 class Institution(TimeStampedModel):

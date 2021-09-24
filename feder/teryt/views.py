@@ -7,6 +7,16 @@ from feder.teryt.models import JST
 class JSTDetailView(DetailView):
     model = JST
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["case_qs"] = (
+            context["object"].case_qs().for_user(self.request.user).all()
+        )
+        context["institution_qs"] = (
+            context["object"].institution_qs().for_user(self.request.user).all()
+        )
+        return context
+
 
 class JSTListView(ListView):
     model = JST
