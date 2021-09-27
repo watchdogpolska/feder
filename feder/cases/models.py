@@ -16,25 +16,16 @@ from django.utils.timezone import datetime
 from datetime import timedelta
 
 
-def enforce_quarantined_queryset(queryset, user, path_case=None):
+def enforce_quarantined_queryset(queryset, user, path_case):
     if user.has_perm("monitorings.view_quarantined_case"):
         return queryset
-    if path_case:
-        return queryset.filter(
-            **{f"{path_case}__in": Case.objects.for_user(user).all()}
-        )
     if user.is_anonymous:
-        return queryset.filter(is_quarantined=False)
-    non_quarantined = models.Q(is_quarantined=False)
-    mop = "monitoring__monitoringuserobjectpermission"
-    monitoring_permission = models.Q(
-        is_quarantined=True,
-        **{
-            f"{mop}__user": user,
-            f"{mop}__permission__codename": "view_quarantined_case",
-        },
+        return queryset.filter(
+            **{f"{path_case}__is_quarantined": False}
+        )
+    return queryset.filter(
+        **{f"{path_case}__in": Case.objects.for_user(user).all()}
     )
-    return queryset.filter(non_quarantined | monitoring_permission)
 
 
 class CaseQuerySet(models.QuerySet):
@@ -116,7 +107,20 @@ class CaseQuerySet(models.QuerySet):
         return self.annotate(record_max=Max("record__created"))
 
     def for_user(self, user):
-        return enforce_quarantined_queryset(self, user)
+        if user.is_anonymous:
+            return self.filter(is_quarantined=False)
+        if user.has_perm("monitorings.view_quarantined_case"):
+            return self
+        non_quarantined = models.Q(is_quarantined=False)
+        mop = "monitoring__monitoringuserobjectpermission"
+        monitoring_permission = models.Q(
+            is_quarantined=True,
+            **{
+                f"{mop}__user": user,
+                f"{mop}__permission__codename": "view_quarantined_case",
+            },
+        )
+        return self.filter(non_quarantined | monitoring_permission)
 
     def get_mass_assign_uid(self):
         """Returns random UUID identifier ensuring it's unique."""

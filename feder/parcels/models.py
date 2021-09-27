@@ -8,14 +8,11 @@ from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
 from feder.institutions.models import Institution
-from feder.records.models import AbstractRecord
-from feder.cases.models import enforce_quarantined_queryset
+from feder.records.models import AbstractRecord, AbstractRecordQuerySet
 
 
-class ParcelPostQuerySet(models.QuerySet):
-    def for_user(self, user):
-        return enforce_quarantined_queryset(self, user, "record__case")
-
+class ParcelPostQuerySet(AbstractRecordQuerySet):
+    pass
 
 class AbstractParcelPost(AbstractRecord):
     title = models.CharField(verbose_name=_("Title"), max_length=200)

@@ -12,7 +12,6 @@ from feder.cases.models import Case
 from feder.records.registry import record_type_registry
 from feder.cases.models import enforce_quarantined_queryset
 
-
 class RecordQuerySet(models.QuerySet):
     def with_select_related_content(self):
         """
@@ -108,6 +107,10 @@ class Record(TimeStampedModel):
         verbose_name_plural = _("Records")
         ordering = ["created"]
 
+
+class AbstractRecordQuerySet(models.QuerySet):
+    def for_user(self, user):
+        return enforce_quarantined_queryset(self, user, "record__case")
 
 class AbstractRecord(TimeStampedModel):
     record = models.OneToOneField(
