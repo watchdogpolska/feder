@@ -28,17 +28,14 @@ Następnie przystępujemy do usuwania skutków zaistniałej sytuacji. Procedura 
 
 * odnotować ścieżki do plików, które zawierają kwestionowane dane,
 * pobrać pliki i dokonać ich modyfikacji,
-* dokonać modyfikacji wiadomości poprzez panel administracyjny systemu, poprzez:
+* dokonać edycji listu jako uprawniony użytkownik monitoringu, w zakresie:
 
-    * podmienienie załączników,
-    * wycofanie publikacji oryginalnej wiadomości,
+    * podmienienie załączników z wykorzystaniem opcji "Zmień" lub usunięcia ich
+    * usunięciu publikacji oryginalnej wiadomości,
     * uzupełnienie adnotacji o dokonanej anonimizacji.
 
 * dokonać weryfikacji czy pierwotne adresy do plików nie wskazują już więcej na pliki bez anonimizacji,
 * zgłosić adres do usunięcia w Google przy użyciu "`Narzędzie do usuwania adresów URL <https://support.google.com/webmasters/answer/1663419?hl=pl>`_".
-
-.. hint::
-   Panel administracyjny strony dostępny jest pod adresem ``/admin``. Jest to mechanizm odrębny od podstawowego mechanizmu zarządzania monitoringiem.
 
 Po zakończeniu ww. czynności należy przesłać do podmiotu wnoszącego zgłoszenie stanowisko:
 
