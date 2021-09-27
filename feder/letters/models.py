@@ -17,7 +17,7 @@ from django.utils.translation import ugettext_lazy as _
 from django_extensions.db.models import TimeStampedModel
 from model_utils import Choices
 from feder.institutions.models import Institution
-from feder.records.models import AbstractRecord, Record
+from feder.records.models import AbstractRecord, AbstractRecordQuerySet, Record
 from feder.main.exceptions import FederValueError
 from feder.cases.models import Case
 from .utils import email_wrapper, normalize_msg_id, get_body_with_footer
@@ -29,7 +29,7 @@ from feder.cases.models import enforce_quarantined_queryset
 logger = logging.getLogger(__name__)
 
 
-class LetterQuerySet(models.QuerySet):
+class LetterQuerySet(AbstractRecordQuerySet):
     def attachment_count(self):
         return self.annotate(attachment_count=models.Count("attachment"))
 
@@ -76,9 +76,6 @@ class LetterQuerySet(models.QuerySet):
 
     def exclude_automatic(self):
         return self.exclude(message_type__in=[i[0] for i in Letter.MESSAGE_TYPES_AUTO])
-
-    def for_user(self, user):
-        return enforce_quarantined_queryset(self, user, "record__case")
 
 
 class LetterManager(BaseManager.from_queryset(LetterQuerySet)):
