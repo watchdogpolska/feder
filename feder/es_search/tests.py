@@ -10,7 +10,6 @@ from elasticsearch_dsl.connections import get_connection, connections
 from elasticsearch.exceptions import ElasticsearchException
 from .documents import LetterDocument
 from django.core.management import call_command
-import time
 from collections.abc import Iterable
 from elasticsearch.exceptions import ConflictError
 from .queries import more_like_this, search_keywords, find_document, delete_document
