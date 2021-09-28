@@ -20,12 +20,8 @@ def enforce_quarantined_queryset(queryset, user, path_case):
     if user.has_perm("monitorings.view_quarantined_case"):
         return queryset
     if user.is_anonymous:
-        return queryset.filter(
-            **{f"{path_case}__is_quarantined": False}
-        )
-    return queryset.filter(
-        **{f"{path_case}__in": Case.objects.for_user(user).all()}
-    )
+        return queryset.filter(**{f"{path_case}__is_quarantined": False})
+    return queryset.filter(**{f"{path_case}__in": Case.objects.for_user(user).all()})
 
 
 class CaseQuerySet(models.QuerySet):

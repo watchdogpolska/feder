@@ -14,6 +14,7 @@ from feder.records.models import AbstractRecord, AbstractRecordQuerySet
 class ParcelPostQuerySet(AbstractRecordQuerySet):
     pass
 
+
 class AbstractParcelPost(AbstractRecord):
     title = models.CharField(verbose_name=_("Title"), max_length=200)
     content = models.FileField(verbose_name=_("Content"))
