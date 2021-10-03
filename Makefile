@@ -6,7 +6,6 @@ clean:
 	docker-compose down
 
 regenerate_frontend:
-	docker-compose run web python manage.py collectstatic -c --noinput
 	docker-compose up gulp
 
 build:
@@ -15,28 +14,17 @@ build:
 test:
 	docker-compose run web coverage run manage.py test --keepdb --verbosity=2 ${TEST}
 
+test-es:
+	docker-compose -f docker-compose.yml -f docker-compose.es.yml run python manage.py test --keepdb --verbosity=2 ${TEST}
+
 coverage_html:
 	docker-compose run web coverage html
 
 coverage_send:
 	docker-compose run -e GITHUB_ACTIONS -e GITHUB_REF -e GITHUB_SHA -e GITHUB_HEAD_REF -e GITHUB_REPOSITORY -e GITHUB_RUN_ID -e GITHUB_TOKEN -e COVERALLS_REPO_TOKEN web coveralls
 
-wait_web: wait_mysql wait_elasticsearch wait_tika
-
-wait_mysql:
-	docker-compose up -d db
-	docker-compose run web bash -c 'wait-for-it -t 30 db:3306' || (docker-compose logs db; exit -1)
-
-wait_elasticsearch:
-	docker-compose up -d elasticsearch
-	docker-compose run web bash -c 'wait-for-it -t 30 elasticsearch:9200' || (docker-compose logs elasticsearch; exit -1)
-
-wait_tika:
-	docker-compose up -d tika
-	docker-compose run web bash -c 'wait-for-it -t 60 tika:9998' || (docker-compose logs tika; exit -1)
-
 migrate:
-	docker-compose run web python manage.py migrate
+	docker-compose up migration
 
 lint: # lint currently staged files
 	pre-commit run

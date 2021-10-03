@@ -1,5 +1,11 @@
-version: '2.1'
+version: '3.1'
 # This is application’s services configuration for development purposes only.
+
+x-node: &node
+  image: node:15
+  working_dir: /app
+  volumes:
+    - .:/app
 
 services:
   db:
@@ -12,20 +18,32 @@ services:
       MYSQL_DATABASE: feder
     volumes:
       - mysql-data:/var/lib/mysql
-
+    healthcheck:
+        test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+        timeout: 20s
+        retries: 10
+  # Services to regenerate frontend
+  # Regenerated front-end is stored in project directory on host
+  npm:
+    <<: *node
+    command: sh -c 'id && npm install --unsafe-perm && npm rebuild --unsafe-perm node-sass'
   gulp:
-    build:
-      context: .
-      dockerfile: .contrib/docker/Dockerfile.gulp
+    <<: *node
+    command: npx gulp build
     ports:
       - "35729:35729"
-    volumes:
-      - .:/app
+    depends_on:
+      npm:
+        condition: service_completed_successfully
+      collectstatic:
+        condition: service_completed_successfully
 
+  # Services for Django application
   web:
     build: &webBuild
       context: .
       dockerfile: .contrib/docker/Dockerfile.web
+      target: development
       args:
         # Match to production environment
         PYTHON_VERSION: '${PYTHON_VERSION:-3.6.9}'
@@ -34,12 +52,17 @@ services:
       - .:/code
     environment: &webEnvironment
       DATABASE_URL: mysql://root:password@db/feder
-      ELASTICSEARCH_URL: http://elasticsearch:9200/
-      APACHE_TIKA_URL: 'http://tika:9998/'
       VIRUSTOTAL_API_KEY:
       ATTACHMENTSCANNER_API_KEY:
       ATTACHMENTSCANNER_API_URL:
       METADEFENDER_API_KEY:
+    depends_on:
+      migration:
+        condition: service_completed_successfully
+      collectstatic:
+        condition: service_completed_successfully
+      db:
+        condition: service_healthy
     ports:
       - "8000:8000"
     # Following allows to execute `docker attach feder_web_1`
@@ -52,17 +75,18 @@ services:
     build: *webBuild
     volumes: *webVolumes
     environment: *webEnvironment
-
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.6.2
-    environment:
-      discovery.type: single-node
-      cluster.routing.allocation.disk.threshold_enabled: 'false'
-    ports:
-      - "9200:9200"
-
-  tika:
-    image: quay.io/watchdogpolska/apache-tika
-
+  collectstatic:
+    command: python manage.py collectstatic --no-input
+    build: *webBuild
+    volumes: *webVolumes
+    environment: *webEnvironment
+  migration:
+    command: python manage.py migrate
+    build: *webBuild
+    volumes: *webVolumes
+    environment: *webEnvironment
+    depends_on:
+      db:
+        condition: service_healthy
 volumes:
   mysql-data:
