@@ -43,7 +43,7 @@ class FileTextField(FileField):
     DEFAULT_FILENAME = "content.txt"
 
     def _make_data(self, params):
-        return params.get("text", get_text())
+        return params.get("text", get_text().encode("utf-8"))
 
 
 class LetterFactory(factory.django.DjangoModelFactory):

@@ -41,12 +41,10 @@ services:
   # Services for Django application
   web:
     build: &webBuild
-      context: .
-      dockerfile: .contrib/docker/Dockerfile.web
       target: development
       args:
         # Match to production environment
-        PYTHON_VERSION: '${PYTHON_VERSION:-3.6.9}'
+        PYTHON_VERSION: '${PYTHON_VERSION:-3.7}'
         DJANGO_VERSION: '${DJANGO_VERSION:-==2.2.*}'
     volumes: &webVolumes
       - .:/code
@@ -56,12 +54,18 @@ services:
       ATTACHMENTSCANNER_API_KEY:
       ATTACHMENTSCANNER_API_URL:
       METADEFENDER_API_KEY:
+      AWS_S3_ACCESS_KEY_ID: &s3-access access-key
+      AWS_S3_SECRET_ACCESS_KEY: &s3-secret secret-key
+      AWS_S3_ENDPOINT_URL: http://minio:9000/
+      AWS_STORAGE_BUCKET_NAME: 'feder'
     depends_on:
       migration:
         condition: service_completed_successfully
       collectstatic:
         condition: service_completed_successfully
       db:
+        condition: service_healthy
+      minio:
         condition: service_healthy
     ports:
       - "8000:8000"
@@ -88,5 +92,22 @@ services:
     depends_on:
       db:
         condition: service_healthy
+  minio:
+    image: "minio/minio"
+    entrypoint: sh
+    # hack to precreate bucket, see https://github.com/minio/minio/issues/4769
+    command: -c 'mkdir -p /data/feder && minio server /data'
+    restart: always
+    environment:
+      MINIO_ACCESS_KEY: *s3-access
+      MINIO_SECRET_KEY: *s3-secret
+    volumes:
+      - "minio-data:/data"
+    healthcheck:
+        test: ["CMD", "curl" ,"localhost:9000"]
+        timeout: 20s
+        retries: 10
+
 volumes:
   mysql-data:
+  minio-data:

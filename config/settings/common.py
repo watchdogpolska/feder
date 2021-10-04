@@ -317,8 +317,6 @@ EMAILLABS_SECRET_KEY = env("EMAILLABS_SECRET_KEY", default="Dummy")
 
 INSTALLED_APPS += ("github_revision",)
 GITHUB_REVISION_REPO_URL = "https://github.com/watchdogpolska/feder"
-SENDFILE_BACKEND = "django_sendfile.backends.development"
-SENDFILE_ROOT = MEDIA_ROOT
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = 200000000  # 200MB
 
@@ -359,3 +357,8 @@ ELASTICSEARCH_URL = env("ELASTICSEARCH_URL", default=None)
 APACHE_TIKA_URL = env("APACHE_TIKA_URL", default="http://localhost:9998/tika")
 
 ELASTICSEARCH_SHOW_SIMILAR = env("ELASTICSEARCH_SHOW_SIMILAR", default=False)
+DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+AWS_ACCESS_KEY_ID = env("AWS_S3_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = env("AWS_S3_SECRET_ACCESS_KEY")
+AWS_STORAGE_BUCKET_NAME = env("AWS_STORAGE_BUCKET_NAME")
+AWS_S3_ENDPOINT_URL = env("AWS_S3_ENDPOINT_URL", default=None)

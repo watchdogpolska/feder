@@ -32,10 +32,10 @@ lint: # lint currently staged files
 lint-all: # lint all files in repository
 	pre-commit run --all-files
 
-check: wait_mysql
+check:
 	docker-compose run web python manage.py makemigrations --check
 
-migrations: wait_mysql
+migrations:
 	docker-compose run web python manage.py makemigrations
 
 settings:

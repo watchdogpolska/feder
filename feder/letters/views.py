@@ -1,6 +1,5 @@
 import json
 import uuid
-from os import path
 from atom.ext.django_filters.views import UserKwargFilterSetMixin
 from atom.views import (
     CreateMessageMixin,
@@ -45,7 +44,6 @@ from feder.letters.settings import LETTER_RECEIVE_SECRET
 from feder.main.mixins import (
     AttrPermissionRequiredMixin,
     RaisePermissionRequiredMixin,
-    BaseXSendFileView,
 )
 from feder.monitorings.models import Monitoring
 from feder.records.models import Record
@@ -55,18 +53,9 @@ from .mixins import LetterObjectFeedMixin
 from .models import Letter, Attachment
 from feder.monitorings.tasks import send_mass_draft
 from feder.virus_scan.models import Request as ScanRequest
+from feder.main.mixins import BaseDetailFileRedirect
 
 _("Letters index")
-
-
-class MixinGzipXSendFile:
-    def get_sendfile_kwargs(self, context):
-        kwargs = super().get_sendfile_kwargs(context)
-        if kwargs["filename"] and kwargs["filename"].endswith(".gz"):
-            kwargs["encoding"] = "gzip"
-            filename = path.basename(kwargs["filename"][: -len(".gz")])
-            kwargs["attachment_filename"] = filename
-        return kwargs
 
 
 class CaseRequiredMixin:
@@ -142,14 +131,10 @@ class LetterDetailView(SelectRelatedMixin, LetterCommonMixin, DetailView):
         return qs.for_user(self.request.user)
 
 
-class LetterMessageXSendFileView(MixinGzipXSendFile, BaseXSendFileView):
+class LetterMessageXSendFileView(BaseDetailFileRedirect):
+    # todo: rename class to modern
     model = Letter
     file_field = "eml"
-    send_as_attachment = True
-
-    def get_queryset(self):
-        qs = super().get_queryset()
-        return qs.for_user(self.request.user)
 
 
 class LetterCreateView(
@@ -540,32 +525,22 @@ class AssignLetterFormView(
         return super().form_valid(form)
 
 
-class AttachmentXSendFileView(MixinGzipXSendFile, BaseXSendFileView):
+class AttachmentXSendFileView(BaseDetailFileRedirect):
     model = Attachment
     file_field = "attachment"
-    send_as_attachment = True
 
-    def get_queryset(self):
-        return super().get_queryset().for_user(self.request.user)
-
-    def get_sendfile_kwargs(self, context):
-        kwargs = super().get_sendfile_kwargs(context)
-        if kwargs["filename"].endswith(".gz"):
-            kwargs["encoding"] = "gzip"
-        return kwargs
-
-    def render_to_response(self, context):
-        if context["object"].is_infected():
+    def get(self, *args, **kwargs):
+        response = super().get(*args, **kwargs)
+        if self.object.is_infected():
             raise PermissionDenied(
                 "You do not have permission to view that file. "
                 "The file was considered dangerous."
             )
-        return super().render_to_response(context)
+        return response
 
 
 class AttachmentRequestCreateView(ActionMessageMixin, ActionView):
     template_name_suffix = "_request_scan"
-    model = Attachment
 
     def get_object(self, *args, **kwargs):
         if not hasattr(self, "object"):

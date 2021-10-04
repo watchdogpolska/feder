@@ -3,20 +3,18 @@ from io import StringIO
 from django.test import TestCase
 from ..letters.factories import IncomingLetterFactory, AttachmentFactory
 from .tasks import index_letter
-from time import sleep
-from elasticsearch_dsl import Search, Index
-from elasticsearch_dsl.query import MultiMatch, Match, Q, MoreLikeThis
-from elasticsearch_dsl.connections import get_connection, connections
-from elasticsearch.exceptions import ElasticsearchException
+from elasticsearch_dsl.connections import get_connection
 from .documents import LetterDocument
 from django.core.management import call_command
-import time
 from collections.abc import Iterable
-from elasticsearch.exceptions import ConflictError
 from .queries import more_like_this, search_keywords, find_document, delete_document
-import time
+from unittest import skipIf
+from .settings import ELASTICSEARCH_URL
 
 
+@skipIf(
+    not ELASTICSEARCH_URL, "Elasticsearch disabled. Set ELASTICSEARCH_URL to enable"
+)
 class ESMixin:
     connection_alias = "default"
     _index_suffix = "_test"
