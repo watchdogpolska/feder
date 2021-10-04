@@ -42,6 +42,7 @@ services:
   web:
     build: &webBuild
       target: development
+      context: .
       args:
         # Match to production environment
         PYTHON_VERSION: '${PYTHON_VERSION:-3.7}'
