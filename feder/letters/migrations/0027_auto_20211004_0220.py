@@ -7,13 +7,18 @@ import feder.letters.models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('letters', '0026_auto_20210505_1327'),
+        ("letters", "0026_auto_20210505_1327"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='letter',
-            name='eml',
-            field=models.FileField(blank=True, null=True, upload_to=feder.letters.models.messages_eml, verbose_name='File'),
+            model_name="letter",
+            name="eml",
+            field=models.FileField(
+                blank=True,
+                null=True,
+                upload_to=feder.letters.models.messages_eml,
+                verbose_name="File",
+            ),
         ),
     ]

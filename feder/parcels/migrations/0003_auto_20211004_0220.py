@@ -7,18 +7,22 @@ import feder.parcels.models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('parcels', '0002_auto_20181021_0220'),
+        ("parcels", "0002_auto_20181021_0220"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='incomingparcelpost',
-            name='content',
-            field=models.FileField(upload_to=feder.parcels.models.parcel_upload_to, verbose_name='Content'),
+            model_name="incomingparcelpost",
+            name="content",
+            field=models.FileField(
+                upload_to=feder.parcels.models.parcel_upload_to, verbose_name="Content"
+            ),
         ),
         migrations.AlterField(
-            model_name='outgoingparcelpost',
-            name='content',
-            field=models.FileField(upload_to=feder.parcels.models.parcel_upload_to, verbose_name='Content'),
+            model_name="outgoingparcelpost",
+            name="content",
+            field=models.FileField(
+                upload_to=feder.parcels.models.parcel_upload_to, verbose_name="Content"
+            ),
         ),
     ]

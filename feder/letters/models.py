@@ -93,6 +93,8 @@ class LetterManager(BaseManager.from_queryset(LetterQuerySet)):
 
 def messages_eml():
     return date_random_path("messages")()
+
+
 class Letter(AbstractRecord):
     SPAM = Choices(
         (0, "unknown", _("Unknown")),
