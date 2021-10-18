@@ -32,8 +32,15 @@
                     {% trans 'Reply' %}
                 </a>
             {% endif %}
-
         {% endif %}
+
+        {% if 'reply' in monitoring_perms and not object.author_institution_id %}
+            <a class="btn btn-primary" href="{% url 'letters:resend' pk=object.pk %}">
+                <i class="fa fa-reply"></i>
+                {% trans 'Resend' %}
+            </a>
+        {% endif %}
+
         {% if not object.is_spam_validated %}
             <a class="btn btn-primary" href="{% url 'letters:spam' pk=object.pk %}">
                 <i class="fa fa-bullhorn"></i>

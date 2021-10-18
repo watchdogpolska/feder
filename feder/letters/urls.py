@@ -59,6 +59,9 @@ urlpatterns = [
         _(r"^(?P<pk>[\d-]+)/~delete$"), views.LetterDeleteView.as_view(), name="delete"
     ),
     url(_(r"^(?P<pk>[\d-]+)/~reply$"), views.LetterReplyView.as_view(), name="reply"),
+    url(
+        _(r"^(?P<pk>[\d-]+)/~resend$"), views.LetterResendView.as_view(), name="resend"
+    ),
     url(_(r"^(?P<pk>[\d-]+)/~spam"), views.LetterReportSpamView.as_view(), name="spam"),
     url(
         _(r"^(?P<pk>[\d-]+)/~mark-spam"),

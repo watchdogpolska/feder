@@ -423,6 +423,42 @@ class LetterReportSpamView(ActionMessageMixin, CaseRequiredMixin, ActionView):
         return self.object.case.get_absolute_url()
 
 
+class LetterResendView(
+    ActionMessageMixin, AttrPermissionRequiredMixin, CaseRequiredMixin, ActionView
+):
+    template_name_suffix = "_resend"
+    model = Letter
+    permission_required = "monitorings.reply"
+
+    def get_queryset(self):
+        return (
+            super()
+            .get_queryset()
+            .select_related("record__case__monitoring")
+            .is_outgoing()
+            .for_user(self.request.user)
+        )
+
+    def get_permission_object(self):
+        return self.get_object().case.monitoring
+
+    def action(self):
+        case = self.object.case
+        self.resend = Letter(
+            author_user=self.request.user,
+            record=Record.objects.create(case=case),
+            title=self.object.title,
+            body=self.object.body,
+        )
+        self.resend.send(commit=True, only_email=False)
+
+    def get_success_message(self):
+        return _("The message was resend.")
+
+    def get_success_url(self):
+        return self.object.case.get_absolute_url()
+
+
 class LetterMarkSpamView(
     RaisePermissionRequiredMixin, CaseRequiredMixin, ActionMessageMixin, ActionView
 ):
