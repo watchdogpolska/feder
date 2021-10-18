@@ -664,3 +664,36 @@ class ReceiveEmailTestCase(TestCase):
             body["text"]["html_quote"] = ""
 
         return body
+
+
+class LetterResendViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
+    permission = ["monitorings.reply"]
+
+    def get_url(self):
+        return reverse("letters:resend", kwargs={"pk": self.from_user.pk})
+
+    def test_forbid_resend_from_instituion(self):
+        self.login_permitted_user()
+        response = self.client.get(
+            reverse("letters:resend", kwargs={"pk": self.from_institution.pk})
+        )
+        self.assertEqual(response.status_code, 404)
+
+    def test_resend_create_new_letter(self):
+        self.login_permitted_user()
+        self.assertEqual(self.case.record_set.count(), 2)
+        response = self.client.post(self.get_url(), data={})
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(self.case.record_set.count(), 3)
+
+        # verify content of letter
+        letter = self.case.record_set.latest("pk").content_object
+        self.assertNotEqual(letter.pk, self.from_user.pk)
+        self.assertEqual(letter.title, self.from_user.title)
+        self.assertEqual(letter.body, self.from_user.body)
+        # verify content of mail
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertTrue(
+            self.monitoring.domain.organisation.name in mail.outbox[0].from_email
+        )
+        self.assertTrue(self.case.institution.email in mail.outbox[0].to)
