@@ -48,6 +48,7 @@ class CaseQuerySet(models.QuerySet):
 
         record_queryset = (
             Record.objects.with_author()
+            .with_parcel_prefetched()
             .exclude(letters_letters__is_spam=Letter.SPAM.spam)
             .all()
         )

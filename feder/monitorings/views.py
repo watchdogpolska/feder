@@ -94,7 +94,7 @@ class MonitoringDetailView(SelectRelatedMixin, ExtraListMixin, DetailView):
             Case.objects.filter(monitoring=obj)
             .select_related("institution")
             .with_record_max()
-            .with_letter()
+            .with_milestone()
             .for_user(self.request.user)
             .order_by("-record_max")
             .all()
@@ -115,7 +115,7 @@ class LetterListMonitoringView(SelectRelatedMixin, ExtraListMixin, DetailView):
         return (
             Letter.objects.filter(record__case__monitoring=obj)
             .select_related("record__case")
-            .with_author()
+            .with_letter()
             .attachment_count()
             .for_user(self.request.user)
             .order_by("-created")
