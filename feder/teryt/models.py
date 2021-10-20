@@ -23,7 +23,7 @@ class JST(JednostkaAdministracyjna):
         return name
 
     def __str__(self):
-        return self.get_full_name()
+        return self.name
 
     class Meta:
         proxy = True
