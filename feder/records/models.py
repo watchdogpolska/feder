@@ -41,7 +41,7 @@ class RecordQuerySet(models.QuerySet):
     def with_letter_prefetched(self, queryset=None):
         from feder.letters.models import Letter
 
-        if not queryset:
+        if queryset is None:
             queryset = Letter.objects.all()
         return self.prefetch_related(
             Prefetch(lookup="letters_letter_related", queryset=queryset)
