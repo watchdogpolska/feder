@@ -1,4 +1,5 @@
 import uuid
+from functools import lru_cache
 from email.headerregistry import Address
 
 from autoslug.fields import AutoSlugField
@@ -9,9 +10,10 @@ from django.db.models import Max, Prefetch, Q, Subquery, OuterRef
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from model_utils.models import TimeStampedModel
-
+from django.contrib.auth.models import Permission
+from django.contrib.contenttypes.models import ContentType
 from feder.institutions.models import Institution
-from feder.monitorings.models import Monitoring
+from feder.monitorings.models import Monitoring, MonitoringUserObjectPermission
 from django.utils.timezone import datetime
 from datetime import timedelta
 
@@ -22,6 +24,12 @@ def enforce_quarantined_queryset(queryset, user, path_case):
     if user.is_anonymous:
         return queryset.filter(**{f"{path_case}__is_quarantined": False})
     return queryset.filter(**{f"{path_case}__in": Case.objects.for_user(user).all()})
+
+
+@lru_cache(maxsize=1)  # TODO: use @functools.cache on python>=3.9
+def get_quarantined_perm():
+    ctype = ContentType.objects.get_for_model(Monitoring)
+    return Permission.objects.get(content_type=ctype, codename="view_quarantined_case")
 
 
 class CaseQuerySet(models.QuerySet):
@@ -108,13 +116,11 @@ class CaseQuerySet(models.QuerySet):
         if user.has_perm("monitorings.view_quarantined_case"):
             return self
         non_quarantined = models.Q(is_quarantined=False)
-        mop = "monitoring__monitoringuserobjectpermission"
+        perm = get_quarantined_perm()
         monitoring_permission = models.Q(
-            is_quarantined=True,
-            **{
-                f"{mop}__user": user,
-                f"{mop}__permission__codename": "view_quarantined_case",
-            },
+            monitoring__in=MonitoringUserObjectPermission.objects.filter(
+                user=user, permission=perm
+            ).values("content_object")
         )
         return self.filter(non_quarantined | monitoring_permission)
 
