@@ -38,31 +38,46 @@ class RecordQuerySet(models.QuerySet):
         ]
         return self.prefetch_related(*fields)
 
+    def with_letter_prefetched(self, queryset=None):
+        from feder.letters.models import Letter
+
+        if not queryset:
+            queryset = Letter.objects.all()
+        return self.prefetch_related(
+            Prefetch(lookup="letters_letter_related", queryset=queryset)
+        )
+
+    def with_parcel_prefetched(self):
+        return self.prefetch_related(
+            "parcels_outgoingparcelpost_related", "parcels_incomingparcelpost_related"
+        )
+
     def with_author(self):
         from feder.letters.models import Letter
 
-        letter_queryset = Letter.objects.with_author().with_attachment().all()
-        return self.prefetch_related(
-            Prefetch(lookup="letters_letter_related", queryset=letter_queryset)
+        return self.with_letter_prefetched(
+            Letter.objects.with_author().with_attachment().all()
         ).all()
 
     def for_milestone(self):
         from feder.letters.models import Letter
 
-        letter_queryset = Letter.objects.for_milestone().all()
-        qs = self.exclude(letters_letters__is_spam=Letter.SPAM.spam)
-        return qs.prefetch_related(
-            Prefetch(lookup="letters_letter_related", queryset=letter_queryset)
-        ).all()
+        return (
+            self.exclude(letters_letters__is_spam=Letter.SPAM.spam)
+            .with_letter_prefetched(queryset=Letter.objects.for_milestone().all())
+            .with_parcel_prefetched()
+            .all()
+        )
 
     def for_api(self):
         from feder.letters.models import Letter
 
-        letter_queryset = Letter.objects.for_api().all()
-        qs = self.exclude(letters_letters__is_spam=Letter.SPAM.spam)
-        return qs.prefetch_related(
-            Prefetch(lookup="letters_letter_related", queryset=letter_queryset)
-        ).all()
+        return (
+            self.exclude(letters_letters__is_spam=Letter.SPAM.spam)
+            .with_letter_prefetched(queryset=Letter.objects.for_api().all())
+            .with_parcel_prefetched()
+            .all()
+        )
 
     def for_user(self, user):
         return enforce_quarantined_queryset(self, user, "case")
