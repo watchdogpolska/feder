@@ -1,7 +1,7 @@
-from sentry_sdk import last_event_id
 from django.views.generic import TemplateView
 from django.template.response import TemplateResponse
 from feder.monitorings.models import Monitoring
+
 
 class HomeView(TemplateView):
     template_name = "main/home.html"
@@ -17,9 +17,12 @@ class HomeView(TemplateView):
 
 
 def handler500(request):
-    context = {
-        'request': request,
-        'sentry_event_id': last_event_id()
-    }
-    template_name = '500.html'
+    context = {"request": request}
+    try:
+        from sentry_sdk import last_event_id
+
+        context["sentry_event_id"] = last_event_id()
+    except ImportError:
+        pass
+    template_name = "500.html"
     return TemplateResponse(request, template_name, context, status=500)

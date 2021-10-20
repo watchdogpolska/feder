@@ -3,8 +3,6 @@ from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.sitemaps.views import index, sitemap
-from django.http import HttpResponseServerError
-from django.template import loader
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import TemplateView
 from rest_framework import routers
@@ -23,7 +21,7 @@ from feder.teryt.sitemaps import JSTSitemap
 from feder.monitorings.views import MultiCaseTagManagement
 from . import views
 
-handler500 = views.handler500 # required to have exception id
+handler500 = views.handler500  # required to have exception id
 
 router = routers.DefaultRouter()
 router.register(r"institutions", InstitutionViewSet, basename="institution")
