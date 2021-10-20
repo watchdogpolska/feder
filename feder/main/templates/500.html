@@ -10,9 +10,9 @@
     <p>We track these errors automatically, but if the problem persists feel free to contact us. In the meantime, try
         refreshing.</p>
     <p>You've encountered an error, oh noes!</p>
-    {% if request.sentry.id %}
+    {% if sentry_event_id %}
         <p>If you need assistance, you may reference this error as
-            <strong>{{ request.sentry.id }}</strong>.</p>
+            <strong>{{ sentry_event_id }}</strong>.</p>
     {% endif %}
 
 {% endblock content %}

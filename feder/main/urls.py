@@ -23,6 +23,7 @@ from feder.teryt.sitemaps import JSTSitemap
 from feder.monitorings.views import MultiCaseTagManagement
 from . import views
 
+handler500 = views.handler500 # required to have exception id
 
 router = routers.DefaultRouter()
 router.register(r"institutions", InstitutionViewSet, basename="institution")
@@ -99,14 +100,3 @@ if settings.DEBUG:
     import debug_toolbar
 
     urlpatterns = [url(r"^__debug__/", include(debug_toolbar.urls))] + urlpatterns
-
-
-def handler500(request):
-    """500 error handler which includes ``request`` in the context.
-
-    Templates: `500.html`
-    Context: None
-    """
-
-    t = loader.get_template("500.html")
-    return HttpResponseServerError(t.render({"request": request}))
