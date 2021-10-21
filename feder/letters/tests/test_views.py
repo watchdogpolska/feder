@@ -70,6 +70,13 @@ class LetterListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
         self.assertContains(response, "Odpowiedz")
         self.assertContains(response, "Wniosek")
 
+    def test_show_previous_year_default(self):
+        letter = LetterFactory()
+        letter.created = letter.created.replace(year=2020)  # non-current year
+        letter.save()
+        response = self.client.get(self.get_url())
+        self.assertNotContains(response, letter)
+
 
 class LetterDetailViewTestCase(ESMixin, ObjectMixin, PermissionStatusMixin, TestCase):
     status_anonymous = 200

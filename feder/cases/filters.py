@@ -14,15 +14,18 @@ from feder.teryt.filters import (
 from feder.cases_tags.models import Tag
 from feder.monitorings.models import Monitoring
 from feder.letters.logs.models import STATUS as EMAIL_LOG_STATUS
+from django.utils.timezone import now
+from feder.main.filters import InitialFilterSet, MinYearRangeFilter
 
 
-class CaseFilter(DisabledWhenFilterSetMixin, django_filters.FilterSet):
-    created = django_filters.DateRangeFilter(label=_("Creation date"))
+class CaseFilter(DisabledWhenFilterSetMixin, InitialFilterSet):
+    created = MinYearRangeFilter(label=_("Creation date"))
     voivodeship = DisabledWhenVoivodeshipFilter()
     county = DisabledWhenCountyFilter()
     community = DisabledWhenCommunityFilter()
 
     def __init__(self, *args, **kwargs):
+        kwargs["initial"] = {"created": now().year}
         super().__init__(*args, **kwargs)
         self.filters["name"].lookup_expr = "icontains"
         self.filters["name"].label = _("Name")
