@@ -122,6 +122,9 @@ class Record(TimeStampedModel):
         verbose_name = _("Record")
         verbose_name_plural = _("Records")
         ordering = ["created"]
+        indexes = [
+            models.Index(fields=["created"]),
+        ]
 
 
 class AbstractRecordQuerySet(models.QuerySet):
@@ -148,3 +151,6 @@ class AbstractRecord(TimeStampedModel):
     class Meta:
         abstract = True
         ordering = ["created"]
+        indexes = [
+            models.Index(fields=["created"]),
+        ]
