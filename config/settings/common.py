@@ -252,6 +252,7 @@ SOCIALACCOUNT_EMAIL_VERIFICATION = "optional"
 AUTH_USER_MODEL = "users.User"
 LOGIN_REDIRECT_URL = "users:redirect"
 LOGIN_URL = "account_login"
+MIN_FILTER_YEAR = 2016
 
 # SLUGLIFIER
 AUTOSLUG_SLUGIFY_FUNCTION = "feder.main.slugifier.ascii_slugify"
