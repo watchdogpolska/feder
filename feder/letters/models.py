@@ -170,6 +170,7 @@ class Letter(AbstractRecord):
         verbose_name = _("Letter")
         verbose_name_plural = _("Letters")
         ordering = ["created"]
+        indexes = AbstractRecord.Meta.indexes
         permissions = (
             ("can_filter_eml", _("Can filter eml")),
             ("recognize_letter", _("Can recognize letter")),

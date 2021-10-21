@@ -171,6 +171,9 @@ class Case(TimeStampedModel):
         verbose_name_plural = _("Case")
         ordering = ["created"]
         get_latest_by = "created"
+        indexes = [
+            models.Index(fields=["created"]),
+        ]
 
     def __str__(self):
         return self.name
