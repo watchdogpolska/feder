@@ -35,5 +35,7 @@ RUN DJANGO_SECRET_KEY=x \
    EMAILLABS_APP_KEY=x \
    EMAILLABS_SECRET_KEY=x \
    LETTER_RECEIVE_SECRET=x \
+   AWS_S3_ACCESS_KEY_ID=x \
+   AWS_S3_SECRET_ACCESS_KEY=x \
    python manage.py collectstatic --no-input
 CMD ["gunicorn", "--worker-tmp-dir", "/dev/shm", "config.wsgi"]
