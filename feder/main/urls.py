@@ -96,10 +96,11 @@ urlpatterns += [
 ]
 
 if settings.DEBUG:
-    import debug_toolbar
-
-    urlpatterns = [url(r"^__debug__/", include(debug_toolbar.urls))] + urlpatterns
-
+    try:
+        import debug_toolbar
+        urlpatterns = [url(r"^__debug__/", include(debug_toolbar.urls))] + urlpatterns
+    except ImportError:
+        pass
 
 def handler500(request):
     """500 error handler which includes ``request`` in the context.
