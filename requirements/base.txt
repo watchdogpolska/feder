@@ -17,7 +17,7 @@ Pillow==8.4.0
 
 # For user registration, either via email or social
 # Well-built with regular release cycles!
-django-allauth==0.45.0
+django-allauth==0.46.0
 
 # Unicode slugification
 unicode-slugify==0.1.3
