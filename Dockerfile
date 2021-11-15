@@ -29,7 +29,7 @@ FROM build as production
 ENV DJANGO_SETTINGS_MODULE="config.settings.production"
 RUN pip install --no-cache-dir mysqlclient==2.0.3 -r requirements/production.txt
 COPY ./ /code/
-RUN DJANGO_SECRET_KEY=x \
+RUN mkdir -p /code/feder/static && DJANGO_SECRET_KEY=x \
    DJANGO_SERVER_EMAIL=x \
    DATABASE_URL=sqlite:// \
    EMAILLABS_APP_KEY=x \
