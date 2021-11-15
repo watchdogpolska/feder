@@ -20,7 +20,7 @@ FROM build as development
 # TODO: Move to /requirements/base.txt after fixing following bug:
 #       https://github.com/readthedocs/readthedocs-docker-images/issues/158
 RUN pip install mysqlclient==2.0.3
-RUN bash -c "if [[ "${DJANGO_VERSION}" == 'master' ]]; then \
+RUN bash -c "if [[ \"${DJANGO_VERSION}\" == 'master' ]]; then \
 pip install --no-cache-dir -r requirements/dev.txt https://github.com/django/django/archive/master.tar.gz; else \
 pip install --no-cache-dir -r requirements/dev.txt \"django${DJANGO_VERSION}\"; fi"
 COPY ./ /code/
