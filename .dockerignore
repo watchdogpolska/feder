@@ -5,8 +5,10 @@ node_modules
 **/*.pyc
 docs
 **/*.rst
+**/__pycache__
 **/*.md
 media
 feder/media
-feder/staticfiles
+feder/static
+staticfiles
 htmlcov

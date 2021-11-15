@@ -82,8 +82,9 @@ class IncomingAttachmentParcelPostXSendFileViewTestCase(
     IncomingParcelPostMixin, PermissionStatusMixin, TestCase
 ):
     permission = []
-    status_anonymous = 200
-    status_no_permission = 200
+    status_anonymous = 302
+    status_no_permission = 302
+    status_has_permission = 302
 
     def get_url(self):
         return reverse("parcels:incoming-download", kwargs={"pk": self.object.pk})
@@ -93,8 +94,9 @@ class OutgoingAttachmentParcelPostXSendFileViewTestCase(
     OutgoingParcelPostMixin, PermissionStatusMixin, TestCase
 ):
     permission = []
-    status_anonymous = 200
-    status_no_permission = 200
+    status_anonymous = 302
+    status_no_permission = 302
+    status_has_permission = 302
 
     def get_url(self):
         return reverse("parcels:outgoing-download", kwargs={"pk": self.object.pk})

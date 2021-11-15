@@ -6,7 +6,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
-
+from feder.main.utils import date_random_path
 from feder.institutions.models import Institution
 from feder.records.models import AbstractRecord, AbstractRecordQuerySet
 
@@ -15,9 +15,13 @@ class ParcelPostQuerySet(AbstractRecordQuerySet):
     pass
 
 
+def parcel_upload_to():
+    return date_random_path("parcel")()
+
+
 class AbstractParcelPost(AbstractRecord):
     title = models.CharField(verbose_name=_("Title"), max_length=200)
-    content = models.FileField(verbose_name=_("Content"))
+    content = models.FileField(upload_to=parcel_upload_to, verbose_name=_("Content"))
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, help_text=_("Created by")
     )

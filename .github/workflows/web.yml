@@ -9,6 +9,10 @@ on:
 jobs:
   django:
     runs-on: ubuntu-latest
+    env:
+      PYTHON_VERSION: ${{ matrix.python }}
+      DJANGO_VERSION: ${{ matrix.django }}
+      METADEFENDER_API_KEY: ${{ secrets.METADEFENDER_API_KEY }}
     strategy:
       matrix:
         python: 
@@ -23,18 +27,12 @@ jobs:
         lfs: true
     - name: Build application
       run: docker-compose build web
-      env:
-        PYTHON_VERSION: ${{ matrix.python }}
-        DJANGO_VERSION: ${{ matrix.django }}
-        METADEFENDER_API_KEY: ${{ secrets.METADEFENDER_API_KEY }}
-    - name: Run side services
-      run: make wait_mysql wait_elasticsearch wait_tika
     - name: Migration check
       run: make check
     - name: Show settings
       run: make settings
-    - name: Build test
-      run: make test
+    - name: Run test
+      run: make test-es
 #     - name: Send coverage report
 #       run: make coverage_send
 #       env:

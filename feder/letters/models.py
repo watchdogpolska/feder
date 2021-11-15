@@ -25,6 +25,7 @@ from ..virus_scan.models import Request as ScanRequest
 from django.utils import timezone
 from ..es_search.queries import more_like_this, find_document
 from feder.cases.models import enforce_quarantined_queryset
+from feder.main.utils import date_random_path
 
 logger = logging.getLogger(__name__)
 
@@ -85,6 +86,10 @@ class LetterManager(BaseManager.from_queryset(LetterQuerySet)):
             .get_queryset()
             .filter(is_spam__in=[Letter.SPAM.unknown, Letter.SPAM.non_spam])
         )
+
+
+def messages_eml():
+    return date_random_path("messages")()
 
 
 class Letter(AbstractRecord):
@@ -155,7 +160,10 @@ class Letter(AbstractRecord):
         max_length=500,
     )
     eml = models.FileField(
-        upload_to="messages/%Y/%m/%d", verbose_name=_("File"), null=True, blank=True
+        upload_to=messages_eml,
+        verbose_name=_("File"),
+        null=True,
+        blank=True,
     )
     objects = LetterManager()
     objects_with_spam = LetterQuerySet.as_manager()

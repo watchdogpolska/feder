@@ -10,6 +10,10 @@
      :target: https://david-dm.org/watchdogpolska/feder#info=devDependencies
      :alt: devDependency Status
 
+ .. image:: https://www.deploytodo.com/do-btn-blue.svg
+     :target: https://cloud.digitalocean.com/apps/new?repo=https://github.com/watchdogpolska/feder/tree/do
+     :alt: Deploy to DO
+
 Feder
 =====
 

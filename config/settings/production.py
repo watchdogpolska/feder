@@ -40,10 +40,7 @@ INSTALLED_APPS += ("gunicorn",)
 # Uploaded Media Files
 # ------------------------
 # See: http://django-storages.readthedocs.org/en/latest/index.html
-SENDFILE_BACKEND = "django_sendfile.backends.nginx"
 MEDIA_URL = "/media_internal/"
-SENDFILE_ROOT = MEDIA_ROOT
-SENDFILE_URL = MEDIA_URL
 
 # EMAIL
 # ------------------------------------------------------------------------------

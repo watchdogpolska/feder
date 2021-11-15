@@ -4,12 +4,11 @@ from base64 import b64encode
 from braces.views import LoginRequiredMixin
 from django.core.exceptions import ImproperlyConfigured
 from django.core.paginator import EmptyPage, Paginator
-from django.views.generic.detail import BaseDetailView
 from guardian.mixins import PermissionRequiredMixin
-from django_sendfile import sendfile
 from django.core.paginator import InvalidPage
 from rest_framework_csv.renderers import CSVRenderer
-
+from django.views.generic import RedirectView
+from django.shortcuts import get_object_or_404
 from .paginator import ModernPerformantPaginator
 from django.http import Http404
 from django.utils.translation import ugettext as _
@@ -152,25 +151,17 @@ class DisabledWhenFilterMixin:
         return not any(form_data[field] for field in self.disabled_when)
 
 
-class BaseXSendFileView(BaseDetailView):
-    file_field = None
-    send_as_attachment = None
+class BaseDetailFileRedirect(RedirectView):
+    model = None
+    file_field = "attachment"
 
-    def get_file_field(self):
-        return self.file_field
+    def get_queryset(self):
+        return self.model.objects.for_user(self.request.user)
 
-    def get_file_path(self, object):
-        return getattr(object, self.get_file_field()).path
-
-    def get_sendfile_kwargs(self, context):
-        return dict(
-            request=self.request,
-            filename=self.get_file_path(context["object"]),
-            attachment=self.send_as_attachment,
-        )
-
-    def render_to_response(self, context):
-        return sendfile(**self.get_sendfile_kwargs(context))
+    def get_redirect_url(self, *args, **kwargs):
+        self.object = get_object_or_404(self.get_queryset(), pk=self.kwargs["pk"])
+        fileobj = getattr(self.object, self.file_field)
+        return fileobj.url
 
 
 class DisableOrderingListViewMixin:
