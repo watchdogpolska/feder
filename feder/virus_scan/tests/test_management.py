@@ -16,7 +16,7 @@ EICAR_TEST = r"X5O!P%@AP[4\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H
 
 
 def random_binary():
-    return struct.pack("=I", random.randint(0, ((2 ** 32) - 1)))
+    return struct.pack("=I", random.randint(0, ((2**32) - 1)))
 
 
 def skipIfNoEngine(x):
