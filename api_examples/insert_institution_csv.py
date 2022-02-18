@@ -61,7 +61,10 @@ class Command:
             sandbox=self.args.gusregon_sandbox,
         )
         self.s = requests.Session()
-        self.s.auth = (self.args.user.encode("utf-8"), self.args.password.encode("utf-8"))
+        self.s.auth = (
+            self.args.user.encode("utf-8"),
+            self.args.password.encode("utf-8"),
+        )
         self.done_count = 0
         self.total_count = None
         self.tags = self._get_tags()
