@@ -250,7 +250,7 @@ class LetterReplyViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
         self.assertEqual(len(mail.outbox), 1)
         new_letter = Letter.objects.filter(title="Lorem").get()
         new_attachment = new_letter.attachment_set.get()
-        self.assertIn(new_attachment.get_full_url(), mail.outbox[0].body)
+        self.assertEqual(mail.outbox[0].attachments[0][0], new_attachment.filename)
         self.assertEqual(Record.objects.count(), 3)
 
     def test_no_send_drafts(self):
