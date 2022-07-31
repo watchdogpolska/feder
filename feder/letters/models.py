@@ -238,7 +238,6 @@ class Letter(AbstractRecord):
             "body": body,
             "footer": self.case.monitoring.email_footer,
             "quote": email_wrapper(self.quote),
-            "attachments": self.attachment_set.all(),
         }
 
     def body_with_footer(self):
@@ -265,6 +264,10 @@ class Letter(AbstractRecord):
             to=[self.case.institution.email],
             body=txt_content,
             headers=headers,
+            attachments=[
+                (att.filename, att.attachment.file.read(), "application/octet-stream")
+                for att in self.attachment_set.all()
+            ],
         )
         msg.attach_alternative(html_content, "text/html")
         return msg
