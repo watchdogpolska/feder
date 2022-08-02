@@ -29,7 +29,7 @@ msgstr "Nazwa"
 
 #: filters.py:51
 msgid "Institution name"
-msgstr "Nazwa instyticji"
+msgstr "Nazwa instytucji"
 
 #: filters.py:69 models.py:145 viewsets.py:40
 msgid "Tags"

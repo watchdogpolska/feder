@@ -9,6 +9,7 @@ from feder.letters.models import Letter
 def handle_mass_assign(mass_assign):
     for case in Case.objects.filter(mass_assign=mass_assign).all():
         case.update_email()
+        case.update_is_quarantined()
         case.save()
     send_letter_for_mass_assign(mass_assign)
 
