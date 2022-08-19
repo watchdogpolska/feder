@@ -410,6 +410,7 @@ class MonitoringAssignView(RaisePermissionRequiredMixin, FilterView):
                     monitoring=self.monitoring,
                     institution=institution,
                     mass_assign=mass_assign,
+                    is_quarantined=self.monitoring.hide_new_cases,
                 )
             )
         Case.objects.bulk_create(cases)

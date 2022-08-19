@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
             model_name="monitoring",
             name="hide_new_cases",
             field=models.BooleanField(
-                default=False, verbose_name="Are new cases public visible?"
+                default=False, verbose_name="Hide new cases when assigning?"
             ),
         ),
     ]

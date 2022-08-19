@@ -469,6 +469,24 @@ class MonitoringAssignViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
         for x in (0, 1, 2):
             self.assertEqual(mail.outbox[x].subject, "Wniosek")
 
+    def test_hide_new_cases_propagation(self):
+        self.login_permitted_user()
+        institution_1 = InstitutionFactory(name="Office 1")
+        self.client.post(
+            self.get_url() + "?name=Office", data={"to_assign": [institution_1.pk]}
+        )
+        self.send_all_pending()
+        self.assertFalse(institution_1.case_set.all()[0].is_quarantined)
+        
+        self.monitoring.hide_new_cases=True
+        self.monitoring.save()
+        institution_2 = InstitutionFactory(name="Office 2")
+        self.client.post(
+            self.get_url() + "?name=Office", data={"to_assign": [institution_2.pk]}
+        )
+        self.send_all_pending()
+        self.assertTrue(institution_2.case_set.all()[0].is_quarantined)             
+
     @patch(
         "feder.monitorings.views.MonitoringAssignView.get_limit_simultaneously",
         Mock(return_value=10),

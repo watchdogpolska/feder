@@ -186,10 +186,6 @@ class Case(TimeStampedModel):
             pk=self.pk, domain=self.monitoring.domain.name
         )
 
-    def update_is_quarantined(self):
-        self.is_quarantined = self.monitoring.hide_new_cases
-        self.save()
-
     def get_email_address(self):
         if not self.monitoring.domain.organisation_id:
             return Address(addr_spec=self.email)
