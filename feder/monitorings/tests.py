@@ -477,15 +477,15 @@ class MonitoringAssignViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
         )
         self.send_all_pending()
         self.assertFalse(institution_1.case_set.all()[0].is_quarantined)
-        
-        self.monitoring.hide_new_cases=True
+
+        self.monitoring.hide_new_cases = True
         self.monitoring.save()
         institution_2 = InstitutionFactory(name="Office 2")
         self.client.post(
             self.get_url() + "?name=Office", data={"to_assign": [institution_2.pk]}
         )
         self.send_all_pending()
-        self.assertTrue(institution_2.case_set.all()[0].is_quarantined)             
+        self.assertTrue(institution_2.case_set.all()[0].is_quarantined)
 
     @patch(
         "feder.monitorings.views.MonitoringAssignView.get_limit_simultaneously",
