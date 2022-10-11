@@ -36,7 +36,7 @@ django-filter==21.1
 django-autocomplete-light==3.8.2
 django-atom==0.16.3
 django-formtools==2.3
-django-mptt==0.13.3
+django-mptt==0.14.0
 jsonfield==3.1.0
 django-guardian==2.4.0
 django-teryt-tree==0.17.0
