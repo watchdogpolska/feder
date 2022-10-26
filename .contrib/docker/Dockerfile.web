@@ -1,7 +1,7 @@
 # This is Dockerfile for development purposes only.
 ARG PYTHON_VERSION='3'
 FROM python:${PYTHON_VERSION}-slim
-RUN pip install 'pip<20'
+# RUN pip install 'pip<20'
 RUN mkdir /code /code/production
 WORKDIR /code
 
