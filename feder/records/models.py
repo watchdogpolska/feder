@@ -5,7 +5,7 @@ from cached_property import cached_property
 # Create your models here.
 from django.db.models import Prefetch
 from django_extensions.db.models import TimeStampedModel
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from django.db import models
 from feder.cases.models import Case

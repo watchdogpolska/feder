@@ -1,4 +1,4 @@
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django_filters import rest_framework as filters
 from rest_framework import viewsets
 from rest_framework.settings import api_settings

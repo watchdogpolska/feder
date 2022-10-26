@@ -12,6 +12,9 @@ regenerate_frontend:
 build:
 	docker-compose build web
 
+start: wait_mysql wait_elasticsearch wait_tika
+	docker-compose up
+
 test:
 	docker-compose run web coverage run manage.py test --keepdb --verbosity=2 ${TEST}
 

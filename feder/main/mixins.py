@@ -12,7 +12,7 @@ from rest_framework_csv.renderers import CSVRenderer
 
 from .paginator import ModernPerformantPaginator
 from django.http import Http404
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 
 
 class ExtraListMixin:
