@@ -24,7 +24,9 @@ class MonitoringForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm
             del self.fields["notify_alert"]
         self.instance.user = self.user
         self.helper.layout = Layout(
-            Fieldset(_("Monitoring"), "name", "description", "notify_alert"),
+            Fieldset(
+                _("Monitoring"), "name", "description", "notify_alert", "hide_new_cases"
+            ),
             Fieldset(_("Template"), "subject", "template", "email_footer", "domain"),
         )
         self.fields["template"].initial = BODY_REPLY_TPL
@@ -35,6 +37,7 @@ class MonitoringForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm
             "name",
             "description",
             "notify_alert",
+            "hide_new_cases",
             "subject",
             "template",
             "email_footer",

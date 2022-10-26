@@ -99,6 +99,10 @@ msgstr "Opis"
 msgid "Subject"
 msgstr "Tytuł"
 
+#: models.py:58
+msgid "Hide new cases when assigning?"
+msgstr "Czy ukrywać nowe sprawy przy przypisywaniu?"
+
 #: models.py:59
 msgid "Use {{EMAIL}} for insert reply address"
 msgstr "Użyj {{EMAIL}} aby umieścić adres odpowiedzi"
