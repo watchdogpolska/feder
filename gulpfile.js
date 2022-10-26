@@ -7,7 +7,7 @@ var gulp = require('gulp'),
     livereload = require('gulp-livereload'),
     postcss = require('gulp-postcss'),
     rename = require('gulp-rename'),
-    sass = require('gulp-sass'),
+    sass = require('gulp-sass')(require('sass')),
     uglify = require('gulp-uglify');
 
 var autoprefixer = require('autoprefixer')
