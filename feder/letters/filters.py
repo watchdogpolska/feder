@@ -1,7 +1,7 @@
 from atom.ext.django_filters.filters import UserKwargFilterSetMixin
 from dal import autocomplete
 from django.db.models import Q
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django_filters import BooleanFilter
 from feder.main.filters import MinYearRangeFilter, InitialFilterSet
 from .models import Letter

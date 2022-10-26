@@ -5,7 +5,7 @@ from braces.forms import UserKwargModelFormMixin
 from crispy_forms.layout import Layout, Fieldset, Submit
 from dal import autocomplete
 from django import forms
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from django.conf import settings
 
 from feder.users.models import User
