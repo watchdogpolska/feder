@@ -56,6 +56,9 @@ class Monitoring(TimeStampedModel):
     )
     description = models.TextField(verbose_name=_("Description"), blank=True)
     subject = models.CharField(verbose_name=_("Subject"), max_length=80)
+    hide_new_cases = models.BooleanField(
+        default=False, verbose_name=_("Hide new cases when assigning?")
+    )
     template = models.TextField(
         verbose_name=_("Template"),
         help_text=_("Use {{EMAIL}} for insert reply address"),
