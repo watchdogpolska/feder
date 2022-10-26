@@ -9,6 +9,13 @@ Local settings
 
 from .common import *  # noqa
 
+# SITE CONFIGURATION
+# ------------------------------------------------------------------------------
+# Hosts/domain names that are valid for this site
+# See https://docs.djangoproject.com/en/2.2/ref/settings/#allowed-hosts
+ALLOWED_HOSTS = ["*"]
+# END SITE CONFIGURATION
+
 # DEBUG
 # ------------------------------------------------------------------------------
 DEBUG = env.bool("DJANGO_DEBUG", default=True)
