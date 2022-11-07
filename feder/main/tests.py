@@ -127,7 +127,7 @@ class HomeViewTestCase(TestCase):
 
 class FederBaseTests(TestCase):
 
-    def has_attrs(self):
+    def test_has_version_attrs(self):
         self.assertTrue(hasattr(feder, '__version__'))
 
     def test_version(self):
