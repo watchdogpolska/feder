@@ -4,6 +4,7 @@ from django.urls import reverse
 from guardian.shortcuts import assign_perm
 
 from feder.users.factories import UserFactory
+import feder
 
 
 class PermissionStatusMixin:
@@ -39,7 +40,7 @@ class PermissionStatusMixin:
         Raises:
             ImproperlyConfigured: Missing a url to test
         """
-        if self.url is None:
+        if self.url is None: # pragma: no cover
             raise ImproperlyConfigured(
                 "{0} is missing a url to test. Define {0}.url "
                 "or override {0}.get_url().".format(self.__class__.__name__)
@@ -55,7 +56,7 @@ class PermissionStatusMixin:
         Raises:
             ImproperlyConfigured: Missing a permission to assign
         """
-        if self.permission is None:
+        if self.permission is None: # pragma: no cover
             raise ImproperlyConfigured(
                 "{0} is missing a permissions to assign. Define {0}.permission "
                 "or override {0}.get_permission().".format(self.__class__.__name__)
@@ -117,6 +118,24 @@ class HomeViewTestCase(TestCase):
     def test_status_code(self):
         response = self.client.get(reverse("home"))
         self.assertEqual(response.status_code, 200)
+
+    def test_app_version(self):
+        response = self.client.get(reverse("home"))
+        app_version = feder.get_version()
+        self.assertContains(response, app_version)
+
+
+class FederBaseTests(TestCase):
+
+    def has_attrs(self):
+        self.assertTrue(hasattr(feder, '__version__'))
+
+    def test_version(self):
+        for x in feder.VERSION:
+            self.assertTrue(isinstance(x, (int, str)))
+    
+    def test_get_version(self):
+        self.assertTrue(isinstance(feder.get_version(), str))
 
 
 class SitemapTestCase(TestCase):
