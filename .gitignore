@@ -40,6 +40,9 @@ htmlcov/
 # Pycharm
 .idea
 
+# VScode
+.vscode
+
 # Vim
 
 *~
