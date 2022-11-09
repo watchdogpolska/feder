@@ -40,7 +40,7 @@ class PermissionStatusMixin:
         Raises:
             ImproperlyConfigured: Missing a url to test
         """
-        if self.url is None: # pragma: no cover
+        if self.url is None:  # pragma: no cover
             raise ImproperlyConfigured(
                 "{0} is missing a url to test. Define {0}.url "
                 "or override {0}.get_url().".format(self.__class__.__name__)
@@ -56,7 +56,7 @@ class PermissionStatusMixin:
         Raises:
             ImproperlyConfigured: Missing a permission to assign
         """
-        if self.permission is None: # pragma: no cover
+        if self.permission is None:  # pragma: no cover
             raise ImproperlyConfigured(
                 "{0} is missing a permissions to assign. Define {0}.permission "
                 "or override {0}.get_permission().".format(self.__class__.__name__)
@@ -126,14 +126,13 @@ class HomeViewTestCase(TestCase):
 
 
 class FederBaseTests(TestCase):
-
     def test_has_version_attrs(self):
-        self.assertTrue(hasattr(feder, '__version__'))
+        self.assertTrue(hasattr(feder, "__version__"))
 
     def test_version(self):
         for x in feder.VERSION:
             self.assertTrue(isinstance(x, (int, str)))
-    
+
     def test_get_version(self):
         self.assertTrue(isinstance(feder.get_version(), str))
 
