@@ -25,4 +25,6 @@ RUN pip install mysqlclient==2.0.3
 RUN bash -c "if [[ "${DJANGO_VERSION}" == 'master' ]]; then \
 pip install --no-cache-dir -r requirements/dev.txt https://github.com/django/django/archive/master.tar.gz; else \
 pip install --no-cache-dir -r requirements/dev.txt \"django${DJANGO_VERSION}\"; fi"
-CMD ["bash", "-c", "python manage.py collectstatic --no-input && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
+# CMD ["bash", "-c", "python manage.py collectstatic --no-input && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
+# to allow VScode run and debug django app:
+CMD ["bash", "-c", "python manage.py collectstatic --no-input && python manage.py migrate && sleep infinity"]
