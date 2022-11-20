@@ -1,5 +1,5 @@
-# Bleeding edge Django
-# django==1.8.3
+# Production and staging Django
+django==3.1.5
 
 # Configuration
 django-environ==0.7.0
