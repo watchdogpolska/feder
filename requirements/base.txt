@@ -1,4 +1,6 @@
-# Production and staging Django - covered with environment variables
+# Production and staging Django - 
+# covered with environment variables and production requirements 
+# separetelly until migrating production to docker
 #django==3.1.5
 
 # Configuration
