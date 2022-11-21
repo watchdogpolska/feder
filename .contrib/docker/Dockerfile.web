@@ -2,6 +2,7 @@
 ARG PYTHON_VERSION='3'
 FROM python:${PYTHON_VERSION}-slim
 RUN python --version
+RUN pip install --upgrade pip
 RUN pip --version
 RUN mkdir /code /code/production
 WORKDIR /code
@@ -18,7 +19,7 @@ RUN apt-get update \
    gettext libgettextpo-dev wait-for-it \
 && rm -rf /var/lib/apt/lists/*
 COPY requirements/*.txt ./requirements/
-ARG DJANGO_VERSION='==2.22.*'
+ARG DJANGO_VERSION='==2.2.*'
 # TODO: Move to /requirements/base.txt after fixing following bug:
 #       https://github.com/readthedocs/readthedocs-docker-images/issues/158
 RUN pip install mysqlclient==2.0.3
