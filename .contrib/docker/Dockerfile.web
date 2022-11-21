@@ -29,5 +29,5 @@ pip install --no-cache-dir -r requirements/dev.txt \"django${DJANGO_VERSION}\"; 
 # CMD ["bash", "-c", "python manage.py collectstatic --no-input && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
 # to allow VScode run and debug django app:
 CMD ["bash", "-c", "python manage.py collectstatic --no-input && python manage.py migrate && sleep infinity"]
-# to debug container start:
+# to debug container starting errors:
 # CMD ["bash", "-c", "python manage.py collectstatic --no-input ; python manage.py migrate ; sleep infinity"]
