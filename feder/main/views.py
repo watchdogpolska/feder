@@ -1,7 +1,6 @@
 from django.views.generic import TemplateView
 from django.template.response import TemplateResponse
 from feder.monitorings.models import Monitoring
-from feder import get_version
 
 
 class HomeView(TemplateView):
@@ -14,7 +13,6 @@ class HomeView(TemplateView):
             .order_by("-created")
             .all()[:16]
         )
-        context["version"] = get_version()
         return context
 
 
