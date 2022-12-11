@@ -1,4 +1,4 @@
-{% load static i18n github_revision_tags %}
+{% load static i18n github_revision_tags feder_tags %}
 <!DOCTYPE html>
 <html lang="en" ng-app>
 <head>
@@ -144,7 +144,7 @@
         </div>
         <div class="footer-left">
             silnik: <a href="http://jawne.info.pl">jawne.info.pl</a> |
-            v{{ version }} |
+            v{% feder_version %} |
             <a href="https://github.com/watchdogpolska/feder"><i class="fa fa-github" aria-hidden="true"></i> GitHub</a> – {% github_link %} |
             <a href="{% url 'api-root' %}"><i class="fa fa-cloud-download" aria-hidden="true"></i> API</a>
         </div>
