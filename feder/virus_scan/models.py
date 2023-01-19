@@ -61,6 +61,7 @@ class Request(TimeStampedModel):
         current_engine = get_engine()
 
         f = self.get_file()
+        #TODO catch file is missing or has 0 length - causing API bad request with 400 response code
         result = current_engine.send_scan(f.file, f.name)
         self.engine_name = current_engine.name
         for key in result:

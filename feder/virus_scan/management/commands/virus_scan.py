@@ -34,6 +34,7 @@ class Command(BaseCommand):
             request.save()
 
     def handle(self, *args, **options):
+        #TODO handle properly when nothing to scan
         if not options["skip_send"]:
             self.stdout.write("Sending requests to scan")
             self.send_scan()
