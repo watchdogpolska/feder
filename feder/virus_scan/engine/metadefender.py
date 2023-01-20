@@ -15,7 +15,6 @@ class MetaDefenderEngine(BaseEngine):
 
     def map_status(self, resp):
         #TODO review metadefender response and and status mapping
-        #TODO add full response registration in Request
         if resp.get("status", None) == "inqueue":
             return Request.STATUS.queued
         if (
