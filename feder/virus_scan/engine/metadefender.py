@@ -14,15 +14,24 @@ class MetaDefenderEngine(BaseEngine):
         super().__init__()
 
     def map_status(self, resp):
+        #TODO review metadefender response and and status mapping
+        #TODO add full response registration in Request
         if resp.get("status", None) == "inqueue":
             return Request.STATUS.queued
-        if resp["scan_results"]["progress_percentage"] != 100:
+        if (
+            resp["process_info"].get("progress_percentage", None) is not None
+            and resp["process_info"].get("progress_percentage", None) != 100
+        ):
             return Request.STATUS.queued
-        if resp["scan_results"]["total_avs"] < 10:
+        if resp["scan_results"]["scan_all_result_a"] == "No threat detected":
+            return Request.STATUS.not_detected
+        if resp["scan_results"]["scan_all_result_a"] == "Aborted":
             return Request.STATUS.failed
-        if resp["scan_results"]["total_detected_avs"] > 0:
+        # if resp["scan_results"]["total_avs"] < 10:
+        #     return Request.STATUS.failed
+        if resp["scan_results"]["scan_all_result_i"] > 0:
             return Request.STATUS.infected
-        return Request.STATUS.not_detected
+        return Request.STATUS.failed
 
     def send_scan(self, this_file, filename):
         resp = self.session.post(
