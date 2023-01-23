@@ -123,10 +123,9 @@ EMAIL_BACKEND = env(
 # MANAGER CONFIGURATION
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#admins
-ADMINS = (
-    ("""Karol Breguła""", "karol.bregula@siecobywatelska.pl"),
-    ("""Jakub Stanclik""", "jakub.stanclik@siecobywatelska.pl"),
-)
+
+from ast import literal_eval as make_tuple
+ADMINS = make_tuple(env("DJANGO_ADMINS", default="()"))
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#managers
 MANAGERS = ADMINS
