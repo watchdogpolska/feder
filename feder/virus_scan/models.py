@@ -56,13 +56,20 @@ class Request(TimeStampedModel):
             setattr(self, key, result[key])
 
     def send_scan(self):
-        from feder.virus_scan.engine import get_engine
-
-        current_engine = get_engine()
-
         f = self.get_file()
-        result = current_engine.send_scan(f.file, f.name)
-        self.engine_name = current_engine.name
+        if bool(f.name) and f.storage.exists(f.name) and f.size > 0:
+            from feder.virus_scan.engine import get_engine
+
+            current_engine = get_engine()
+            result = current_engine.send_scan(f.file, f.name)
+            self.engine_name = current_engine.name
+        else:
+            result = {
+                "status": self.STATUS.failed,
+                "engine_report": {
+                    "error": "Attachement file to scan is missing or 0 length"
+                },
+            }
         for key in result:
             setattr(self, key, result[key])
 
