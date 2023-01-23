@@ -14,8 +14,13 @@ class MetaDefenderEngine(BaseEngine):
         super().__init__()
 
     def map_status(self, resp):
-        #TODO review metadefender response and and status mapping
+        # TODO review metadefender response and and status mapping
         if resp.get("status", None) == "inqueue":
+            return Request.STATUS.queued
+        if (
+            resp.get("scan_results", None) is not None
+            and resp["scan_results"].get("scan_all_result_a", None) == "In queue"
+        ):
             return Request.STATUS.queued
         if (
             resp["process_info"].get("progress_percentage", None) is not None
