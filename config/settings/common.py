@@ -125,6 +125,7 @@ EMAIL_BACKEND = env(
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#admins
 
 from ast import literal_eval as make_tuple
+
 ADMINS = make_tuple(env("DJANGO_ADMINS", default="()"))
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#managers
@@ -266,7 +267,7 @@ AUTOSLUG_SLUGIFY_FUNCTION = "feder.main.slugifier.ascii_slugify"
 # more details on how to customize your logging configuration.
 #
 # TODO add proper file logging configuration when loggers added to code
-#   as for now all stdout and stderr captured by gunicorn logs 
+#   as for now all stdout and stderr captured by gunicorn logs
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
