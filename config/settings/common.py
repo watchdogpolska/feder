@@ -264,6 +264,9 @@ AUTOSLUG_SLUGIFY_FUNCTION = "feder.main.slugifier.ascii_slugify"
 # the site admins on every HTTP 500 error when DEBUG=False.
 # See http://docs.djangoproject.com/en/dev/topics/logging for
 # more details on how to customize your logging configuration.
+#
+# TODO add proper file logging configuration when loggers added to code
+#   as fo now all stdout and stderr captured by gunicorn logs 
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
