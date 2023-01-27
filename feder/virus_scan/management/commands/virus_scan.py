@@ -18,6 +18,9 @@ class Command(BaseCommand):
         )
 
     def send_scan(self):
+        if Request.objects.filter(status=Request.STATUS.created).all().count == 0:
+            self.stdout.write("No requests to send for scanning.")
+            return
         for request in Request.objects.filter(status=Request.STATUS.created).all():
             self.stdout.write("Send to scan: {}".format(request))
             request.send_scan()
