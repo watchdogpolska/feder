@@ -191,6 +191,7 @@ class InstitutionDeleteViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase
 
 
 class InstitutionViewSetTestCase(ObjectMixin, TestCase):
+    # TODO add test_filter_by_name
     def test_csv_renderer(self):
         response = self.client.get("{}?format=csv".format(reverse("institution-list")))
         self.assertEqual(response.status_code, 200)
