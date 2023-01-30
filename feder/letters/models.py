@@ -12,7 +12,7 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.db import models
 from django.db.models.manager import BaseManager
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from django.utils.translation import gettext_lazy as _
 from django_extensions.db.models import TimeStampedModel
 from model_utils import Choices
@@ -190,7 +190,7 @@ class Letter(AbstractRecord):
         return _("(no subject)")
 
     def __str__(self):
-        return force_text(self.get_title())
+        return force_str(self.get_title())
 
     def get_absolute_url(self):
         if self.case or self.is_mass_draft():

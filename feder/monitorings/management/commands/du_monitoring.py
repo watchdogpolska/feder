@@ -5,7 +5,7 @@ from django.core.management.base import BaseCommand
 
 from django.conf import settings
 from django.template.defaultfilters import filesizeformat
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 
 from feder.monitorings.models import Monitoring
 

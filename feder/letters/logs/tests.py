@@ -5,7 +5,7 @@ import os
 
 from django.test import TestCase
 from django.urls import reverse
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from vcr import VCR
 
 from feder.cases.factories import CaseFactory
@@ -32,7 +32,7 @@ def scrub_text(x, seed):
     :param seed: value modification parameter
     :return: anonymized text
     """
-    return hashlib.sha1(force_text(x).encode("utf-8") + seed).hexdigest()
+    return hashlib.sha1(force_str(x).encode("utf-8") + seed).hexdigest()
 
 
 def generator(f):

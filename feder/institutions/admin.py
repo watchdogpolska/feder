@@ -21,11 +21,13 @@ class InstitutionAdmin(VersionAdmin):
 class TagAdmin(admin.ModelAdmin):
     list_display = ("name", "get_institution_count")
 
+    @admin.display(
+        description=_("Institution count"),
+        ordering="institution_count",
+    )
     def get_institution_count(self, obj):
         return obj.institution_count
 
-    get_institution_count.admin_order_field = "institution_count"
-    get_institution_count.short_description = _("Institution count")
 
     def get_queryset(self, *args, **kwargs):
         qs = super().get_queryset(*args, **kwargs)

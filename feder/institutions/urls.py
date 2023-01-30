@@ -1,37 +1,37 @@
-from django.conf.urls import url
+from django.urls import re_path
 from django.utils.translation import gettext_lazy as _
 
 from . import views
 
 urlpatterns = [
-    url(_(r"^$"), views.InstitutionListView.as_view(), name="list"),
-    url(_(r"^~create$"), views.InstitutionCreateView.as_view(), name="create"),
-    url(
+    re_path(_(r"^$"), views.InstitutionListView.as_view(), name="list"),
+    re_path(_(r"^~create$"), views.InstitutionCreateView.as_view(), name="create"),
+    re_path(
         _(r"^(?P<slug>[\w-]+)$"),
         view=views.InstitutionDetailView.as_view(),
         name="details",
     ),
-    url(
+    re_path(
         _(r"^(?P<slug>[\w-]+)/(?P<page>[\d]+)$"),
         views.InstitutionDetailView.as_view(),
         name="details",
     ),
-    url(
+    re_path(
         _(r"^(?P<slug>[\w-]+)/~update$"),
         views.InstitutionUpdateView.as_view(),
         name="update",
     ),
-    url(
+    re_path(
         _(r"^(?P<slug>[\w-]+)/~delete$"),
         views.InstitutionDeleteView.as_view(),
         name="delete",
     ),
-    url(
+    re_path(
         _(r"^~autocomplete$"),
         views.InstitutionAutocomplete.as_view(),
         name="autocomplete",
     ),
-    url(
+    re_path(
         _(r"^~autocomplete-tag$"),
         views.TagAutocomplete.as_view(),
         name="tag_autocomplete",
