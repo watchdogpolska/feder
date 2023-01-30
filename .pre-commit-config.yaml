@@ -23,4 +23,4 @@ repos:
     hooks:
     - id: pyupgrade
       args:
-      - --py3-only
+      - --py310-plus
