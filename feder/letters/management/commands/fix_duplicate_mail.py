@@ -35,9 +35,7 @@ class Command(BaseCommand):
                 msg = email.message_from_binary_file(fp)
                 msg_id = msg.get("Message-ID")
                 if not msg_id:
-                    self.stdout.write(
-                        f"Skipping {letter.pk} due missing 'Message-ID'."
-                    )
+                    self.stdout.write(f"Skipping {letter.pk} due missing 'Message-ID'.")
                     continue
                 if msg_id not in ids:
                     self.stdout.write(

@@ -17,7 +17,9 @@ urlpatterns = [
     re_path(
         _(r"^(?P<slug>[\w-]+)/~delete$"), views.CaseDeleteView.as_view(), name="delete"
     ),
-    re_path(_(r"^~autocomplete$"), views.CaseAutocomplete.as_view(), name="autocomplete"),
+    re_path(
+        _(r"^~autocomplete$"), views.CaseAutocomplete.as_view(), name="autocomplete"
+    ),
     re_path(
         _(r"^~autocomplete/~find$"),
         views.CaseFindAutocomplete.as_view(),

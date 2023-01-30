@@ -335,11 +335,7 @@ def process_django_view(app, what, name, obj, options, lines):
             if hasattr(pattern, "url_patterns"):
                 walker(flat_patterns, pattern.url_patterns, pattern.namespace)
             else:
-                urlname = (
-                    f"{namespace}:{pattern.name}"
-                    if namespace
-                    else pattern.name
-                )
+                urlname = f"{namespace}:{pattern.name}" if namespace else pattern.name
                 flat_patterns.append([urlname, pattern.callback])
 
     walker(flat_patterns, res.url_patterns)

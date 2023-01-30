@@ -18,7 +18,9 @@ urlpatterns = [
         views.LetterMonitoringAtomFeed(),
         name="atom",
     ),
-    re_path(_(r"^feed/case-(?P<case_pk>[\d-]+)/$"), views.LetterCaseRssFeed(), name="rss"),
+    re_path(
+        _(r"^feed/case-(?P<case_pk>[\d-]+)/$"), views.LetterCaseRssFeed(), name="rss"
+    ),
     re_path(
         _(r"^feed/case-(?P<case_pk>[\d-]+)/atom$"),
         views.LetterCaseAtomFeed(),
@@ -58,11 +60,15 @@ urlpatterns = [
     re_path(
         _(r"^(?P<pk>[\d-]+)/~delete$"), views.LetterDeleteView.as_view(), name="delete"
     ),
-    re_path(_(r"^(?P<pk>[\d-]+)/~reply$"), views.LetterReplyView.as_view(), name="reply"),
+    re_path(
+        _(r"^(?P<pk>[\d-]+)/~reply$"), views.LetterReplyView.as_view(), name="reply"
+    ),
     re_path(
         _(r"^(?P<pk>[\d-]+)/~resend$"), views.LetterResendView.as_view(), name="resend"
     ),
-    re_path(_(r"^(?P<pk>[\d-]+)/~spam"), views.LetterReportSpamView.as_view(), name="spam"),
+    re_path(
+        _(r"^(?P<pk>[\d-]+)/~spam"), views.LetterReportSpamView.as_view(), name="spam"
+    ),
     re_path(
         _(r"^(?P<pk>[\d-]+)/~mark-spam"),
         views.LetterMarkSpamView.as_view(),

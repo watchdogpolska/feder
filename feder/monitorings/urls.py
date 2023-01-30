@@ -18,7 +18,9 @@ urlpatterns = [
         views.UserMonitoringAutocomplete.as_view(),
         name="autocomplete_user",
     ),
-    re_path(_(r"^(?P<slug>[\w-]+)$"), views.MonitoringDetailView.as_view(), name="details"),
+    re_path(
+        _(r"^(?P<slug>[\w-]+)$"), views.MonitoringDetailView.as_view(), name="details"
+    ),
     re_path(
         _(r"^(?P<slug>[\w-]+)/page-(?P<page>[\d]+)$"),
         view=views.MonitoringDetailView.as_view(),

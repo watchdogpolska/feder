@@ -54,13 +54,17 @@ urlpatterns += [
         _(r"^monitorings/"), include("feder.monitorings.urls", namespace="monitorings")
     ),
     re_path(_(r"^cases/"), include("feder.cases.urls", namespace="cases")),
-    re_path(_(r"^cases/tags/"), include("feder.cases_tags.urls", namespace="cases_tags")),
+    re_path(
+        _(r"^cases/tags/"), include("feder.cases_tags.urls", namespace="cases_tags")
+    ),
     re_path(_(r"^alerts/"), include("feder.alerts.urls", namespace="alerts")),
     re_path(_(r"^letters/"), include("feder.letters.urls", namespace="letters")),
     re_path(_(r"^teryt/"), include("feder.teryt.urls", namespace="teryt")),
     re_path(_(r"^letters/logs/"), include("feder.letters.logs.urls", namespace="logs")),
     re_path(_(r"^parcels/"), include("feder.parcels.urls", namespace="parcels")),
-    re_path(_(r"^virus_scan/"), include("feder.virus_scan.urls", namespace="virus_scan")),
+    re_path(
+        _(r"^virus_scan/"), include("feder.virus_scan.urls", namespace="virus_scan")
+    ),
     path(
         "api/monitorings/<int:monitoring_pk>/case-tags/update/",
         MultiCaseTagManagement.as_view(),

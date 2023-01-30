@@ -36,6 +36,4 @@ class Command(BaseCommand):
                 .exclude(**{field: ""})
                 .iterator()
             )
-            self.stdout.write(
-                f"{force_text(monitoring)} => {filesizeformat(size)}"
-            )
+            self.stdout.write(f"{force_text(monitoring)} => {filesizeformat(size)}")

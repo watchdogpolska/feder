@@ -23,5 +23,3 @@ class EmailLogAdmin(admin.ModelAdmin):
     list_filter = ("status", "case__monitoring")
     inlines = [LogRecordInline]
     readonly_fields = ["created", "modified"]
-
-
