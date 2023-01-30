@@ -5,6 +5,17 @@ default_language_version:
   python: python3
 minimum_pre_commit_version: "1.20.0"
 repos:
+  - repo: https://github.com/adamchainz/django-upgrade
+    rev: 1.12.0
+    hooks:
+    - id: django-upgrade
+      args: [--target-version, "3.2"]
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v3.3.1
+    hooks:
+    - id: pyupgrade
+      args:
+      - --py310-plus
   - repo: https://github.com/psf/black
     rev: 22.12.0
     hooks:
@@ -18,14 +29,3 @@ repos:
     - id: flake8
       args:
       - --config=./setup.cfg
-  - repo: https://github.com/asottile/pyupgrade
-    rev: v3.3.1
-    hooks:
-    - id: pyupgrade
-      args:
-      - --py310-plus
-  - repo: https://github.com/adamchainz/django-upgrade
-    rev: 1.12.0
-    hooks:
-    - id: django-upgrade
-      args: [--target-version, "3.2"]
