@@ -141,7 +141,7 @@ class MonitoringListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
 
         response = self.client.get(
             reverse("monitorings:list")
-            + "?voivodeship={}".format(self.case.institution.jst.id)
+            + f"?voivodeship={self.case.institution.jst.id}"
         )
         self.assertContains(response, self.case.monitoring)
         self.assertNotContains(response, self.monitoring)

@@ -41,10 +41,10 @@ class Command(BaseCommand):
         for path in unnecessary:
             self.stdout.write(path)
         self.stdout.write(
-            "Found {} unnecessary files.".format(len(unnecessary)).encode("utf-8")
+            f"Found {len(unnecessary)} unnecessary files.".encode("utf-8")
         )
         self.stdout.write(
-            "Found {} missing files.".format(len(missing)).encode("utf-8")
+            f"Found {len(missing)} missing files.".encode("utf-8")
         )
 
         if not size:

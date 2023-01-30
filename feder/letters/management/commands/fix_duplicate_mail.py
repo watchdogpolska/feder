@@ -24,9 +24,9 @@ class Command(BaseCommand):
             for letter in (
                 Letter.objects.filter(record__case=case.pk).is_incoming().all()
             ):
-                self.stdout.write("Processing letter: {}".format(letter.pk))
+                self.stdout.write(f"Processing letter: {letter.pk}")
                 if not letter.eml:
-                    self.stdout.write("Skipping {} due missing eml.".format(letter.pk))
+                    self.stdout.write(f"Skipping {letter.pk} due missing eml.")
                     continue
                 content = letter.eml.file.read()
                 fp = BytesIO(content)
@@ -36,7 +36,7 @@ class Command(BaseCommand):
                 msg_id = msg.get("Message-ID")
                 if not msg_id:
                     self.stdout.write(
-                        "Skipping {} due missing 'Message-ID'.".format(letter.pk)
+                        f"Skipping {letter.pk} due missing 'Message-ID'."
                     )
                     continue
                 if msg_id not in ids:

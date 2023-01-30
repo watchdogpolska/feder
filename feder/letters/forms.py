@@ -59,7 +59,7 @@ class ReplyForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
         self.add_form_buttons()
 
     def set_dynamic_field_initial(self):
-        self.fields["title"].initial = "Re: {title}".format(title=self.letter.title)
+        self.fields["title"].initial = f"Re: {self.letter.title}"
         self.fields["body"].initial = get_body_with_footer(
             "", self.letter.case.monitoring.email_footer
         )

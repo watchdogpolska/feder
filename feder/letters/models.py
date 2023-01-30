@@ -358,7 +358,7 @@ class MassMessageDraft(TimeStampedModel):
         verbose_name_plural = _("Mass message drafts")
 
     def __str__(self):
-        return "Mass draft for {}".format(self.letter)
+        return f"Mass draft for {self.letter}"
 
     def determine_cases(self):
         return Case.objects.filter(
@@ -402,7 +402,7 @@ class Attachment(AttachmentBase):
 
     def __str__(self):
         if self.attachment:
-            return "{}".format(self.filename)
+            return f"{self.filename}"
         return "None"
 
     def get_absolute_url(self):

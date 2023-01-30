@@ -10,8 +10,8 @@ from feder.letters.logs.models import STATUS
 def get_status(data):
     status_list = OrderedDict(STATUS).keys()
     for status in status_list:
-        time_name = "{}_time".format(status)
-        desc_name = "{}_desc".format(status)
+        time_name = f"{status}_time"
+        desc_name = f"{status}_desc"
         if data.get(time_name, False) or data.get(desc_name, False):
             return status
     return STATUS.unknown

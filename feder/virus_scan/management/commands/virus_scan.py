@@ -22,7 +22,7 @@ class Command(BaseCommand):
             self.stdout.write("No requests to send for scanning.")
             return
         for request in Request.objects.filter(status=Request.STATUS.created).all():
-            self.stdout.write("Send to scan: {}".format(request))
+            self.stdout.write(f"Send to scan: {request}")
             request.send_scan()
             request.save()
 
@@ -32,7 +32,7 @@ class Command(BaseCommand):
             .filter(engine_name=current_engine.name)
             .all()
         ):
-            self.stdout.write("Receive result: {}".format(request))
+            self.stdout.write(f"Receive result: {request}")
             request.receive_result()
             request.save()
 

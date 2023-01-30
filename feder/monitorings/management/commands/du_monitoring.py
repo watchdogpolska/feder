@@ -37,5 +37,5 @@ class Command(BaseCommand):
                 .iterator()
             )
             self.stdout.write(
-                "{} => {}".format(force_text(monitoring), filesizeformat(size))
+                f"{force_text(monitoring)} => {filesizeformat(size)}"
             )

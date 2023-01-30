@@ -74,7 +74,7 @@ class EmailLogMonitoringCsvView(ListMonitoringMixin, ListView):
             current_time.strftime("%Y_%m_%d-%H_%M_%S"),
             current_time.tzname(),
         )
-        csv_response["Content-Disposition"] = "attachment;filename={}".format(filename)
+        csv_response["Content-Disposition"] = f"attachment;filename={filename}"
         return csv_response
 
     def _write_rows(self, response, queryset):

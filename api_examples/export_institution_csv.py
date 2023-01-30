@@ -80,7 +80,7 @@ class Command:
             "--jmes",
             type=jmespath.compile,
             required=False,
-            help='JMESPath to convert values (default: "{}")'.format(JMES_DEFAULT),
+            help=f'JMESPath to convert values (default: "{JMES_DEFAULT}")',
             default=jmespath.compile(JMES_DEFAULT),
         )
         parser.add_argument("--cache", action="store_true", help="Enable cache")

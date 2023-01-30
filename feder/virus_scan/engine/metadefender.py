@@ -39,7 +39,7 @@ class MetaDefenderEngine(BaseEngine):
 
     def send_scan(self, this_file, filename):
         resp = self.session.post(
-            "{}/v4/file".format(self.url),
+            f"{self.url}/v4/file",
             files={"": (filename, this_file, "application/octet-stream")},
             headers={
                 "apikey": self.key,
@@ -57,7 +57,7 @@ class MetaDefenderEngine(BaseEngine):
 
     def receive_result(self, engine_id):
         resp = self.session.get(
-            "{}/v4/file/{}".format(self.url, engine_id),
+            f"{self.url}/v4/file/{engine_id}",
             headers={"apikey": self.key},
         )
         resp.raise_for_status()

@@ -698,6 +698,6 @@ class ReceiveEmail(View):
 
     def get_eml_file(self, eml_manifest, eml_data):
         eml_extensions = "eml.gz" if eml_manifest["compressed"] else "eml"
-        eml_filename = "{}.{}".format(uuid.uuid4().hex, eml_extensions)
+        eml_filename = f"{uuid.uuid4().hex}.{eml_extensions}"
         eml_content = eml_data.read()
         return ContentFile(eml_content, eml_filename)

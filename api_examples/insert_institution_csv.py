@@ -193,10 +193,10 @@ class Command:
         return None
 
     def _print_gus_data(self, name, gus_data):
-        print('GUS data for institution "{}":'.format(name))
+        print(f'GUS data for institution "{name}":')
         for key, val in gus_data.items():
             if val:
-                print(" - {}: {}".format(key, val))
+                print(f" - {key}: {val}")
         print()
 
     def _get_row_val(self, data, f_name):
@@ -222,7 +222,7 @@ class Command:
             if tag:
                 mapped["tags"].append(tag["name"])
             else:
-                print('Warning! Found nonexistent tag named "{}".'.format(tag_name))
+                print(f'Warning! Found nonexistent tag named "{tag_name}".')
                 if not self.args.create_tags:
                     raise ScriptError(
                         'Missing tag named "{}" with --create-tags flag turned off. '
@@ -375,7 +375,7 @@ class Command:
             data.update({"id": pk})
             if not self.args.simulate:
                 response = self.s.patch(
-                    url=urljoin(self.args.host, "/api/institutions/{}/".format(pk)),
+                    url=urljoin(self.args.host, f"/api/institutions/{pk}/"),
                     json=data,
                 )
             else:
@@ -394,7 +394,7 @@ class Command:
                 data["name"], response.status_code
             )
             print(error_msg, file=sys.stderr)
-            print("\n{}\n".format(response.text), file=sys.stderr)
+            print(f"\n{response.text}\n", file=sys.stderr)
             if self.args.explicit:
                 self._print_gus_data(data["name"], regon_data)
             raise ScriptError(error_msg)
@@ -426,7 +426,7 @@ class Command:
             matched_parent = self._match_record(host, regon=regon_parent)
             if matched_parent is None:
                 raise ScriptError(
-                    "Parent institution with REGON {} not found".format(regon_parent)
+                    f"Parent institution with REGON {regon_parent} not found"
                 )
             data["parents_ids"] = [matched_parent["pk"]]
 
@@ -448,7 +448,7 @@ class Command:
                 alt_name = ""
                 for key, val in self.FIELDS_MAP.items():
                     if val == req_field:
-                        alt_name += ' or "{}"'.format(key)
+                        alt_name += f' or "{key}"'
                 print(
                     "There is missing column in the input file. "
                     'Required field\'s name is "{}"{}'.format(req_field, alt_name),
