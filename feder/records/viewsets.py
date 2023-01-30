@@ -17,10 +17,13 @@ class RecordFilter(filters.FilterSet):
         fields = ["case"]
 
 
+# TODO tests are missing !!!!!!!!
+
+
 class RecordViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = RecordSerializer
     filter_backends = (filters.DjangoFilterBackend,)
-    filter_class = RecordFilter
+    filterset_class = RecordFilter
     queryset = Record.objects.for_api().select_related().all()
 
     def get_queryset(self):
