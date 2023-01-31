@@ -13,6 +13,7 @@ class LogRecordInline(admin.StackedInline):
     readonly_fields = ["data", "created", "modified"]
 
 
+@admin.register(EmailLog)
 class EmailLogAdmin(admin.ModelAdmin):
     """
     Admin View for EmailLog
@@ -22,6 +23,3 @@ class EmailLogAdmin(admin.ModelAdmin):
     list_filter = ("status", "case__monitoring")
     inlines = [LogRecordInline]
     readonly_fields = ["created", "modified"]
-
-
-admin.site.register(EmailLog, EmailLogAdmin)

@@ -23,10 +23,10 @@ class AttachmentScannerEngine(BaseEngine):
 
     def send_scan(self, this_file, filename):
         resp = self.session.post(
-            "{}/v0.1/scans".format(self.url),
+            f"{self.url}/v0.1/scans",
             files={"file": (filename, this_file, "application/octet-stream")},
             data={"callback": self.get_webhook_url()},
-            headers={"authorization": "bearer {}".format(self.key)},
+            headers={"authorization": f"bearer {self.key}"},
         )
         resp.raise_for_status()
         result = resp.json()
@@ -38,8 +38,8 @@ class AttachmentScannerEngine(BaseEngine):
 
     def receive_result(self, engine_id):
         resp = self.session.get(
-            "{}/v0.1/scans/{}".format(self.url, engine_id),
-            headers={"authorization": "bearer {}".format(self.key)},
+            f"{self.url}/v0.1/scans/{engine_id}",
+            headers={"authorization": f"bearer {self.key}"},
         )
         resp.raise_for_status()
         result = resp.json()

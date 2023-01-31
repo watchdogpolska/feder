@@ -67,7 +67,7 @@ class InstitutionViewSet(CsvRendererViewMixin, viewsets.ModelViewSet):
         .all()
     )
     filter_backends = (filters.DjangoFilterBackend,)
-    filter_class = InstitutionFilter
+    filterset_class = InstitutionFilter
     renderer_classes = tuple(api_settings.DEFAULT_RENDERER_CLASSES) + (
         InstitutionCSVRenderer,
     )

@@ -15,11 +15,11 @@ class JST(JednostkaAdministracyjna):
         return reverse("teryt:details", kwargs={"slug": self.slug})
 
     def get_full_name(self):
-        name = "{} ({}, {})".format(self.name, self.id, self.category)
+        name = f"{self.name} ({self.id}, {self.category})"
         if self.parent:
-            name = "{} / {}".format(self.parent, name)
+            name = f"{self.parent} / {name}"
             if self.parent.parent:
-                name = "{} / {}".format(self.parent.parent, name)
+                name = f"{self.parent.parent} / {name}"
         return name
 
     def __str__(self):

@@ -24,7 +24,7 @@ def is_spam_check(email_object):
 
 
 def get_body_with_footer(body, footer):
-    full_body = "{}{}".format(body, BODY_REPLY_TPL)
+    full_body = f"{body}{BODY_REPLY_TPL}"
     if footer.strip():
-        full_body = "{}{}{}".format(full_body, BODY_FOOTER_SEPERATOR, footer)
+        full_body = f"{full_body}{BODY_FOOTER_SEPERATOR}{footer}"
     return full_body

@@ -110,7 +110,7 @@ class AlertStatusView(AttrPermissionRequiredMixin, ActionMessageMixin, ActionVie
         self.object.save()
 
     def get_success_message(self):
-        return "{object} status updated!".format(object=self.object)
+        return f"{self.object} status updated!"
 
     def get_success_url(self):
         return self.object.get_absolute_url()
