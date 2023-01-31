@@ -12,7 +12,7 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.db import models
 from django.db.models.manager import BaseManager
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from django.utils.translation import gettext_lazy as _
 from django_extensions.db.models import TimeStampedModel
 from model_utils import Choices
@@ -190,7 +190,7 @@ class Letter(AbstractRecord):
         return _("(no subject)")
 
     def __str__(self):
-        return force_text(self.get_title())
+        return force_str(self.get_title())
 
     def get_absolute_url(self):
         if self.case or self.is_mass_draft():
@@ -358,7 +358,7 @@ class MassMessageDraft(TimeStampedModel):
         verbose_name_plural = _("Mass message drafts")
 
     def __str__(self):
-        return "Mass draft for {}".format(self.letter)
+        return f"Mass draft for {self.letter}"
 
     def determine_cases(self):
         return Case.objects.filter(
@@ -402,7 +402,7 @@ class Attachment(AttachmentBase):
 
     def __str__(self):
         if self.attachment:
-            return "{}".format(self.filename)
+            return f"{self.filename}"
         return "None"
 
     def get_absolute_url(self):

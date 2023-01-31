@@ -18,4 +18,4 @@ class Command(BaseCommand):
                 index_letter.now(ids)
             else:
                 index_letter(ids)
-            self.stdout.write("Add letter of #{}\n".format(letter_id))
+            self.stdout.write(f"Add letter of #{letter_id}\n")

@@ -159,8 +159,8 @@ class Command:
         result = True
         for field_name in set(self.REQUIRED_FIELDS) - set(fields):
             print(
-                "There is missing {} field. ".format(field_name)
-                + "Required fields name is {}".format(self.REQUIRED_FIELDS)
+                f"There is missing {field_name} field. "
+                + f"Required fields name is {self.REQUIRED_FIELDS}"
             )
             result = False
         return result

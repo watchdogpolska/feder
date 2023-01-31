@@ -100,7 +100,7 @@ class Command:
     def insert_row(self, host, name, email, regon, **extra):
         data = self.gus.search(regon=regon)
         if not data:
-            print("Unable find REGON {} for {}".format(regon, name), file=sys.stderr)
+            print(f"Unable find REGON {regon} for {name}", file=sys.stderr)
             return
 
         tags = []
@@ -132,7 +132,7 @@ class Command:
         if response.status_code == 400 and json.keys() == ["regon"]:
             court = self._get_court(host, name)
             parent_court = self._get_court(host, extra["parent__name"])
-            url = urljoin(host, "/api/institutions/{}/".format(court))
+            url = urljoin(host, f"/api/institutions/{court}/")
             data["parents_ids"] = [parent_court]
             self.s.patch(url, json=data)
             if response.status_code == 500:
@@ -162,17 +162,17 @@ class Command:
         court = self._get_court(host, name)
         parent_court = self._get_court(host, parent__name)
         if not parent_court:
-            print("Unable to find parent court for {}".format(name))
+            print(f"Unable to find parent court for {name}")
             return
-        urljoin(host, "/api/institutions/{}/".format(court))
+        urljoin(host, f"/api/institutions/{court}/")
         {"parents_ids": [parent_court]}
 
     def fields_validation(self, fields):
         result = True
         for field_name in set(self.REQUIRED_FIELDS) - set(fields):
             print(
-                "There is missing {} field. ".format(field_name)
-                + "Required fields name is {}".format(self.REQUIRED_FIELDS)
+                f"There is missing {field_name} field. "
+                + f"Required fields name is {self.REQUIRED_FIELDS}"
             )
             result = False
         return result

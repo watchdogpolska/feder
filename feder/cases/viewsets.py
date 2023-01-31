@@ -21,10 +21,11 @@ class CaseFilter(filters.FilterSet):
 
 
 class CaseViewSet(viewsets.ReadOnlyModelViewSet):
+    # TODO missing in tests
     queryset = Case.objects.all()
     serializer_class = CaseSerializer
     filter_backends = (filters.DjangoFilterBackend,)
-    filter_class = CaseFilter
+    filterset_class = CaseFilter
 
     def get_queryset(self):
         return super().get_queryset().for_user(self.request.user)
@@ -52,7 +53,7 @@ class CaseCSVRenderer(PaginatedCSVStreamingRenderer):
 class CaseReportViewSet(CsvRendererViewMixin, viewsets.ReadOnlyModelViewSet):
     serializer_class = CaseReportSerializer
     filter_backends = (filters.DjangoFilterBackend,)
-    filter_class = CaseReportFilter
+    filterset_class = CaseReportFilter
     renderer_classes = tuple(api_settings.DEFAULT_RENDERER_CLASSES) + (CaseCSVRenderer,)
 
     # custom attributes:

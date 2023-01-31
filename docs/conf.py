@@ -16,7 +16,7 @@ import sys
 
 import django
 from django.urls import get_resolver
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from django.utils.html import strip_tags
 
 sys.path.append(os.path.abspath(".."))
@@ -292,20 +292,20 @@ def process_django_model(app, what, name, obj, options, lines):
 
         for field in fields:
             # Decode and strip any html out of the field's help text
-            help_text = strip_tags(force_text(field.help_text))
+            help_text = strip_tags(force_str(field.help_text))
 
             # Decode and capitalize the verbose name, for use if there isn't
             # any help text
-            verbose_name = force_text(field.verbose_name).capitalize()
+            verbose_name = force_str(field.verbose_name).capitalize()
 
             if help_text:
                 # Add the model field to the end of the docstring as a param
                 # using the help text as the description
-                lines.append(":param {}: {}".format(field.attname, help_text))
+                lines.append(f":param {field.attname}: {help_text}")
             else:
                 # Add the model field to the end of the docstring as a param
                 # using the verbose name as the description
-                lines.append(":param {}: {}".format(field.attname, verbose_name))
+                lines.append(f":param {field.attname}: {verbose_name}")
 
             # Add the field's type to the docstring
             if isinstance(
@@ -321,7 +321,7 @@ def process_django_model(app, what, name, obj, options, lines):
                     )
                 )
             else:
-                lines.append(":type {}: {}".format(field.attname, type(field).__name__))
+                lines.append(f":type {field.attname}: {type(field).__name__}")
     # Return the extended docstring
     return lines
 
@@ -335,11 +335,7 @@ def process_django_view(app, what, name, obj, options, lines):
             if hasattr(pattern, "url_patterns"):
                 walker(flat_patterns, pattern.url_patterns, pattern.namespace)
             else:
-                urlname = (
-                    "{}:{}".format(namespace, pattern.name)
-                    if namespace
-                    else pattern.name
-                )
+                urlname = f"{namespace}:{pattern.name}" if namespace else pattern.name
                 flat_patterns.append([urlname, pattern.callback])
 
     walker(flat_patterns, res.url_patterns)
@@ -356,7 +352,7 @@ def process_django_form(app, what, name, obj, options, lines):
 
     if inspect.isclass(obj) and issubclass(obj, (forms.Form, forms.ModelForm)):
         for fieldname, field in obj.base_fields.items():
-            lines.append(":param {}: {}".format(fieldname, field.label))
+            lines.append(f":param {fieldname}: {field.label}")
 
 
 def setup(app):

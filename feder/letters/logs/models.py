@@ -40,7 +40,7 @@ class EmailLog(TimeStampedModel):
     objects = EmailQuerySet.as_manager()
 
     def __str__(self):
-        return "Email #{} ({})".format(self.pk, self.email_id)
+        return f"Email #{self.pk} ({self.email_id})"
 
     def get_absolute_url(self):
         return reverse("logs:detail", kwargs={"pk": self.pk})
@@ -95,8 +95,8 @@ class LogRecord(TimeStampedModel):
     def get_status(self):
         status_list = OrderedDict(STATUS).keys()
         for status in status_list:
-            time_name = "{}_time".format(status)
-            desc_name = "{}_desc".format(status)
+            time_name = f"{status}_time"
+            desc_name = f"{status}_desc"
             if self.data.get(time_name, False) or self.data.get(desc_name, False):
                 return status
         return STATUS.unknown
@@ -110,4 +110,4 @@ class LogRecord(TimeStampedModel):
         ordering = ["created"]
 
     def __str__(self):
-        return "Log #{} for email #{}".format(self.pk, self.email_id)
+        return f"Log #{self.pk} for email #{self.email_id}"

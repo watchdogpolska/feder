@@ -1,7 +1,7 @@
 import json
 from django.urls import reverse
 from django.test import RequestFactory, TestCase
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from guardian.shortcuts import assign_perm
 
 from feder.main.tests import PermissionStatusMixin
@@ -36,7 +36,7 @@ class InstitutionTestCase(TestCase):
         self.assertEqual(self.obj.get_absolute_url(), "/instytucje/example-institution")
 
     def test_get_str(self):
-        self.assertEqual(force_text(self.obj), "Example institution")
+        self.assertEqual(force_str(self.obj), "Example institution")
 
     def test_get_voivodeship(self):
         # Third level JST
@@ -113,7 +113,7 @@ class InstitutionSerializerTestCase(TestCase):
         self.assertTrue(serializer.is_valid(), serializer.errors)
         obj = serializer.save()
         self.assertQuerysetEqual(
-            qs=obj.tags.all(), values=["blabla", "X", "Z"], transform=force_text
+            qs=obj.tags.all(), values=["blabla", "X", "Z"], transform=force_str
         )
 
     def test_update_institution_with_tags(self):
@@ -125,7 +125,7 @@ class InstitutionSerializerTestCase(TestCase):
         self.assertTrue(serializer.is_valid(), serializer.errors)
         obj = serializer.save()
         self.assertQuerysetEqual(
-            qs=obj.tags.all(), values=["blabla", "X", "Z"], transform=force_text
+            qs=obj.tags.all(), values=["blabla", "X", "Z"], transform=force_str
         )
         self.assertEqual(Institution.objects.count(), 1)  # updated
 
@@ -191,6 +191,7 @@ class InstitutionDeleteViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase
 
 
 class InstitutionViewSetTestCase(ObjectMixin, TestCase):
+    # TODO add test_filter_by_name
     def test_csv_renderer(self):
         response = self.client.get("{}?format=csv".format(reverse("institution-list")))
         self.assertEqual(response.status_code, 200)

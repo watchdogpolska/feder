@@ -82,7 +82,7 @@ def notify_users(sender, instance, created, **kwargs):
         ]
         send_mail(
             subject="New alert",
-            message="in monitoring {monitoring}".format(monitoring=instance.monitoring),
+            message=f"in monitoring {instance.monitoring}",
             from_email=settings.EMAIL_NOTIFICATION,
             recipient_list=recipient_list,
         )

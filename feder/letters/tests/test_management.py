@@ -21,7 +21,7 @@ class FixDuplicateMailTestCase(TestCase):
         stdout = StringIO()
         call_command(
             "fix_duplicate_mail",
-            "--monitoring-pk={}".format(case.monitoring.pk),
+            f"--monitoring-pk={case.monitoring.pk}",
             "--delete",
             stdout=stdout,
         )
@@ -40,13 +40,13 @@ class FixDuplicateMailTestCase(TestCase):
         stdout = StringIO()
         call_command(
             "fix_duplicate_mail",
-            "--monitoring-pk={}".format(case.monitoring.pk),
+            f"--monitoring-pk={case.monitoring.pk}",
             stdout=stdout,
         )
         self.assertTrue(Letter.objects.filter(pk=in_dupe_id.id).exists())
         call_command(
             "fix_duplicate_mail",
-            "--monitoring-pk={}".format(case.monitoring.pk),
+            f"--monitoring-pk={case.monitoring.pk}",
             "--delete",
             stdout=stdout,
         )

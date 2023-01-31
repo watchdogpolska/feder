@@ -28,7 +28,7 @@ from django.http import HttpResponseBadRequest, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.utils.datetime_safe import datetime
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from django.utils.feedgenerator import Atom1Feed
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
@@ -325,7 +325,7 @@ class LetterRssFeed(Feed):
         return item.title
 
     def item_author_name(self, item):
-        return force_text(item.author)
+        return force_str(item.author)
 
     def item_author_link(self, item):
         if item.author:
@@ -361,12 +361,12 @@ class LetterMonitoringRssFeed(LetterObjectFeedMixin, LetterRssFeed):
     kwargs_name = "monitoring_pk"
 
     def title(self, obj):
-        return _("Letter for monitoring %s") % force_text(obj)
+        return _("Letter for monitoring %s") % force_str(obj)
 
     def description(self, obj):
         return _(
             "Archive of letter for cases which involved in monitoring %s"
-        ) % force_text(obj)
+        ) % force_str(obj)
 
 
 class LetterMonitoringAtomFeed(LetterMonitoringRssFeed):
@@ -381,10 +381,10 @@ class LetterCaseRssFeed(LetterObjectFeedMixin, LetterRssFeed):
     kwargs_name = "case_pk"
 
     def title(self, obj):
-        return _("Letter for case %s") % force_text(obj)
+        return _("Letter for case %s") % force_str(obj)
 
     def description(self, obj):
-        return _("Archive of letter for case %s") % force_text(obj)
+        return _("Archive of letter for case %s") % force_str(obj)
 
 
 class LetterCaseAtomFeed(LetterCaseRssFeed):
@@ -698,6 +698,6 @@ class ReceiveEmail(View):
 
     def get_eml_file(self, eml_manifest, eml_data):
         eml_extensions = "eml.gz" if eml_manifest["compressed"] else "eml"
-        eml_filename = "{}.{}".format(uuid.uuid4().hex, eml_extensions)
+        eml_filename = f"{uuid.uuid4().hex}.{eml_extensions}"
         eml_content = eml_data.read()
         return ContentFile(eml_content, eml_filename)
