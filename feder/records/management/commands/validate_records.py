@@ -17,12 +17,10 @@ class Command(BaseCommand):
         for record in my_iter(Record.objects.all()):
             if record.content_object:
                 continue
-            self.stdout.write(
-                self.style.ERROR("Invalid record (pk={})".format(record.pk))
-            )
+            self.stdout.write(self.style.ERROR(f"Invalid record (pk={record.pk})"))
             if options["fix"]:
                 self.stderr.write(
-                    self.style.SUCCESS("Removed record (pk={})".format(record.pk))
+                    self.style.SUCCESS(f"Removed record (pk={record.pk})")
                 )
             if options["fix"] and not options["dry_run"]:
                 record.delete()

@@ -137,10 +137,10 @@ class Command:
         return data["results"][0]["pk"]
 
     def _print_gus_data(self, name, gus_data):
-        print('GUS data for institution "{}":'.format(name))
+        print(f'GUS data for institution "{name}":')
         for key, val in gus_data.items():
             if val:
-                print(" - {}: {}".format(key, val))
+                print(f" - {key}: {val}")
         print()
 
     def insert_row(  # noqa: C901
@@ -242,21 +242,21 @@ class Command:
                         json=data,
                     )
                 else:
-                    print("Simulated PATCH for {}\n".format(name))
+                    print(f"Simulated PATCH for {name}\n")
             else:
                 if not self.args.simulate:
                     response = self.s.post(
                         url=urljoin(host, "/api/institutions/"), json=data
                     )
                 else:
-                    print("Simulated POST for {}\n".format(name))
+                    print(f"Simulated POST for {name}\n")
         else:
             if not self.args.simulate:
                 response = self.s.post(
                     url=urljoin(host, "/api/institutions/"), json=data
                 )
             else:
-                print("Simulated POST for {}\n".format(name))
+                print(f"Simulated POST for {name}\n")
 
         if response and response.status_code >= 300:
             print(
@@ -292,8 +292,8 @@ class Command:
         result = True
         for field_name in set(self.REQUIRED_FIELDS) - set(fields):
             print(
-                "There is missing {} field. ".format(field_name)
-                + "Required fields name is {}".format(self.REQUIRED_FIELDS)
+                f"There is missing {field_name} field. "
+                + f"Required fields name is {self.REQUIRED_FIELDS}"
             )
             result = False
         return result

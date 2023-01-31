@@ -73,7 +73,7 @@ class SaveTranslatedUserObjectPermissionsForm(
 
 
 def recipients_tags_label_from_instance(obj):
-    return "{} ({})".format(obj.name, obj.cases_count)
+    return f"{obj.name} ({obj.cases_count})"
 
 
 class MassMessageForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):

@@ -1,12 +1,12 @@
 # Local development dependencies go here
 -r base.txt
-Sphinx==4.2.0
-Werkzeug==2.0.1
-django-debug-toolbar==3.2.2
-ipdb==0.13.9
-factory-boy==3.2.0
-django-coverage-plugin==2.0.0
-vcrpy==4.1.1
+Sphinx==4.5.0
+Werkzeug==2.2.2
+django-debug-toolbar==3.8.1
+ipdb==0.13.11
+factory-boy==3.2.1
+django-coverage-plugin==2.0.4
+vcrpy==4.2.1
 sphinxcontrib-programoutput==0.17
-pre-commit==2.15.0
-coveralls==3.2.0
+pre-commit==2.21.0
+coveralls==3.3.1

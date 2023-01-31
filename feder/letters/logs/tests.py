@@ -5,7 +5,7 @@ import os
 
 from django.test import TestCase
 from django.urls import reverse
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from vcr import VCR
 
 from feder.cases.factories import CaseFactory
@@ -32,11 +32,11 @@ def scrub_text(x, seed):
     :param seed: value modification parameter
     :return: anonymized text
     """
-    return hashlib.sha1(force_text(x).encode("utf-8") + seed).hexdigest()
+    return hashlib.sha1(force_str(x).encode("utf-8") + seed).hexdigest()
 
 
 def generator(f):
-    filename = "{}.PY3.{}".format(f.__self__.__class__.__name__, f.__name__)
+    filename = f"{f.__self__.__class__.__name__}.PY3.{f.__name__}"
     return os.path.join(os.path.dirname(inspect.getfile(f)), "cassettes", filename)
 
 
@@ -75,7 +75,7 @@ class EmailLabsClientTestCase(TestCase):
     def test_get_emails_iter(self):
         client = get_emaillabs_client(per_page=20)
         data = list(client.get_emails_iter())
-        self.assertTrue(len(data) > 20, msg="Found {} messages.".format(len(data)))
+        self.assertTrue(len(data) > 20, msg=f"Found {len(data)} messages.")
 
 
 class LogRecordQuerySet(TestCase):

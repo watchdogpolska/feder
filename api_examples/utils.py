@@ -7,7 +7,7 @@ def environ(key, bool=False, required=True):
     if key not in os.environ:
         if required:
             sys.stderr.write(
-                "Set the environment variable {} correctly. It's required!".format(key)
+                f"Set the environment variable {key} correctly. It's required!"
             )
             sys.exit(2)
         else:

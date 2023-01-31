@@ -27,7 +27,7 @@ from django.views.generic import (
     UpdateView,
 )
 from django.contrib.syndication.views import Feed
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from django.utils.feedgenerator import Atom1Feed
 from django_filters.views import FilterView
 from rest_framework import status
@@ -546,7 +546,7 @@ class MonitoringRssFeed(Feed):
         return item.description
 
     def item_author_name(self, item):
-        return force_text(item.user)
+        return force_str(item.user)
 
     def item_author_link(self, item):
         return item.user.get_absolute_url()

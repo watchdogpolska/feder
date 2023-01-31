@@ -38,7 +38,7 @@ def normalize_jst(code):
 
 def insert_row(s, host, name, email, code, tags):
     response = s.post(
-        url="{}/api/institutions/".format(host),
+        url=f"{host}/api/institutions/",
         json={"name": name, "tags": tags, "jst": code, "email": email},
     )
     if response.status_code == 500:
@@ -70,7 +70,7 @@ def fields_validation(fields):
     result = True
     for field_name in {"Organ", "E-mail", "TERC"} - set(fields):
         print(
-            "There is missing {} field. ".format(field_name)
+            f"There is missing {field_name} field. "
             + "Required fields name is Organ, E-mail, TERC"
         )
         result = False

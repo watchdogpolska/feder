@@ -30,7 +30,7 @@ def forwards(apps, schema_editor):
         case.save()
         count += 1
 
-    print("\nUpdated status of {} cases.".format(count))
+    print(f"\nUpdated status of {count} cases.")
 
 
 def backwards(apps, schema_editor):
@@ -43,7 +43,7 @@ def backwards(apps, schema_editor):
         case.save()
         count += 1
 
-    print("\nRestored initial status of {} cases.".format(count))
+    print(f"\nRestored initial status of {count} cases.")
 
 
 class Migration(migrations.Migration):
