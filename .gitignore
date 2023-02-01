@@ -60,5 +60,5 @@ node_modules/
 docs/_build
 staticfiles
 *.retry
-feder/media
+feder/media*
 *.sqlite
