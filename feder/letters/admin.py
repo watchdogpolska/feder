@@ -19,6 +19,7 @@ class LetterAdmin(admin.ModelAdmin):
 
     list_display = (
         "title",
+        "case",
         "author",
         "created",
         "modified",
