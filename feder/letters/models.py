@@ -90,8 +90,9 @@ class LetterManager(BaseManager.from_queryset(LetterQuerySet)):
 class Letter(AbstractRecord):
     SPAM = Choices(
         (0, "unknown", _("Unknown")),
-        (1, "spam", _("Spam")),
-        (2, "non_spam", _("Non-spam")),
+        (1, "non_spam", _("Non-spam")),
+        (2, "spam", _("Spam")),
+        (3, "probable_spam", _("Probable spam")),
     )
     MESSAGE_TYPES = Choices(
         (0, "unknown", _("Unknown")),
@@ -124,6 +125,12 @@ class Letter(AbstractRecord):
     quote = models.TextField(verbose_name=_("Quote"), blank=True)
     html_quote = models.TextField(verbose_name=_("Quote in HTML"), blank=True)
     email = models.EmailField(verbose_name=_("E-mail"), max_length=100, blank=True)
+    email_from = models.EmailField(
+        verbose_name=_("From email address"), max_length=100, blank=True, null=True
+    )
+    email_to = models.EmailField(
+        verbose_name=_("To email address"), max_length=100, blank=True, null=True
+    )
     note = models.TextField(verbose_name=_("Comments from editor"), blank=True)
     is_spam = models.IntegerField(
         verbose_name=_("Is SPAM?"), choices=SPAM, default=SPAM.unknown, db_index=True
