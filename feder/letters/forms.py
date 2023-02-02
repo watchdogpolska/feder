@@ -125,14 +125,16 @@ class AssignLetterForm(SingleButtonMixin, forms.Form):
         self.letter = kwargs.pop("letter")
         super().__init__(*args, **kwargs)
         # Field creation moved to init as multiple autocomplete widgets
-        # on the same page need different ids to be identified properly 
+        # on the same page need different ids to be identified properly
         # by autocomplete js functions
-        self.fields['case'] = forms.ModelChoiceField(
+        self.fields["case"] = forms.ModelChoiceField(
             queryset=Case.objects.all(),
             label=_("Case number"),
             widget=autocomplete.ModelSelect2(
                 url="cases:autocomplete-find",
-                attrs={'id':f'id_case_{self.letter.pk}',},
+                attrs={
+                    "id": f"id_case_{self.letter.pk}",
+                },
             ),
         )
 
