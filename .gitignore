@@ -62,3 +62,4 @@ staticfiles
 *.retry
 feder/media*
 *.sqlite
+tmp
