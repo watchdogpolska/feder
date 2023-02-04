@@ -341,6 +341,37 @@ class Letter(AbstractRecord):
         return Letter._default_manager.filter(pk__in=ids).all()
 
 
+class LetterEmailDomain(TimeStampedModel):
+    domain_name = models.CharField(
+        verbose_name=_("Email address domain"), max_length=100, blank=True, null=True
+    )
+    is_monitoring_email_to_domain = models.BooleanField(
+        verbose_name=_("Is monitoring Email To domain?"), default=False
+    )
+    is_spammer_domain = models.BooleanField(
+        verbose_name=_("Is spammer domain?"), default=False
+    )
+    email_to_count = models.IntegerField(
+        verbose_name=_("Email To addres counter"), default=0
+    )
+    email_from_count = models.IntegerField(
+        verbose_name=_("Email From addres counter"), default=0
+    )
+
+    def save(self, *args, **kwargs):
+        if self.is_monitoring_email_to_domain:
+            self.is_spammer_domain = False
+        super(LetterEmailDomain, self).save(*args, **kwargs)
+
+    def add_email_to_letter(self):
+        self.email_to_count += 1
+        self.save()
+    
+    def add_email_from_letter(self):
+        self.email_from_count += 1
+        self.save()
+
+
 class MassMessageDraft(TimeStampedModel):
     letter = models.OneToOneField(
         to=Letter,
