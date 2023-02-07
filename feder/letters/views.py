@@ -1,5 +1,6 @@
 import json
 import uuid
+import logging
 from os import path
 from atom.ext.django_filters.views import UserKwargFilterSetMixin
 from atom.views import (
@@ -57,6 +58,8 @@ from feder.monitorings.tasks import send_mass_draft
 from feder.virus_scan.models import Request as ScanRequest
 
 _("Letters index")
+
+logger = logging.getLogger(__file__)
 
 
 class MixinGzipXSendFile:
@@ -629,9 +632,12 @@ class ReceiveEmail(View):
     required_version = "v2"
 
     def post(self, request):
+        logger.info(f"POST request received: {request}")
         if request.GET.get("secret") != LETTER_RECEIVE_SECRET:
+            logger.error(f"POST request permission denied")
             raise PermissionDenied
         if request.content_type != self.required_content_type:
+            logger.error(f"The request has an invalid Content-Type. ")
             return HttpResponseBadRequest(
                 "The request has an invalid Content-Type. "
                 'The acceptable Content-Type is "{}".'.format(
@@ -642,6 +648,7 @@ class ReceiveEmail(View):
         manifest = json.load(request.FILES["manifest"])
 
         if manifest.get("version") != self.required_version:
+            logger.error(f"The request has an invalid format version. ")
             return HttpResponseBadRequest(
                 "The request has an invalid format version. "
                 'The acceptable format version is "{}".'.format(self.required_version)
