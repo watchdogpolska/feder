@@ -8,6 +8,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/dev/ref/settings/
 """
 import sys
+import os
 import environ
 
 ROOT_DIR = environ.Path(__file__) - 3  # (/a/b/myfile.py - 3 = /)
@@ -268,16 +269,44 @@ AUTOSLUG_SLUGIFY_FUNCTION = "feder.main.slugifier.ascii_slugify"
 #
 # TODO add proper file logging configuration when loggers added to code
 #   as for now all stdout and stderr captured by gunicorn logs
+LOG_FILE_ENV = env("LOG_FILE_ENV", default="logs/feder.log")
+LOG_FILE = str(ROOT_DIR(LOG_FILE_ENV))
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
-    "filters": {"require_debug_false": {"()": "django.utils.log.RequireDebugFalse"}},
-    "handlers": {"console": {"class": "logging.StreamHandler"}},
+    # "filters": {"require_debug_false": {"()": "django.utils.log.RequireDebugFalse"}},
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "app",
+        },
+        "file": {
+            # "level": "INFO",
+            "class": "logging.FileHandler",
+            "filename": LOG_FILE,
+            "formatter": "app",
+        },
+    },
     "loggers": {
-        "django.request": {"handlers": [], "level": "ERROR", "propagate": True},
+        # "django.request": {"handlers": [], "level": "ERROR", "propagate": True},
+        "": {
+            "handlers": ["file", "console"],
+            "level": "INFO",
+            "propagate": True
+        },
         "feder.letters.models": {
             "handlers": ["console"] if "test" not in environ.sys.argv else [],
             "level": "INFO",
+        },
+    },
+    "formatters": {
+        "app": {
+            "format": (
+                u"%(asctime)s [%(levelname)-7s] "
+                # "(%(module)s.%(funcName)s) %(message)s"
+                "(%(pathname)s:%(lineno)s) %(message)s"
+            ),
+            "datefmt": "%Y-%m-%d %H:%M:%S",
         },
     },
 }
