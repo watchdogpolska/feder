@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [("monitorings", "0008_monitoring_email_footer")]
 
     operations = [

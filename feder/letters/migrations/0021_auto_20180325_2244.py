@@ -6,7 +6,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [("letters", "0020_remove_letter_way")]
 
     operations = [

@@ -4,7 +4,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [("alerts", "0003_alert_solver")]
 
     operations = [

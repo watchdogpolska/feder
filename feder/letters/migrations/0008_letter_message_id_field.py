@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [("letters", "0007_letter_is_spam")]
 
     operations = [

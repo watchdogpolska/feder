@@ -5,7 +5,6 @@ import jsonfield.fields
 
 
 class Migration(migrations.Migration):
-
     dependencies = [("institutions", "0009_auto_20170708_2222")]
 
     operations = [
