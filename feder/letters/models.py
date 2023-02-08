@@ -83,7 +83,8 @@ class LetterManager(BaseManager.from_queryset(LetterQuerySet)):
         return (
             super()
             .get_queryset()
-            .filter(is_spam__in=[Letter.SPAM.unknown, Letter.SPAM.non_spam])
+            # TODO use this filter in particular views only
+            # .filter(is_spam__in=[Letter.SPAM.unknown, Letter.SPAM.non_spam])
         )
 
 
@@ -345,6 +346,9 @@ class LetterEmailDomain(TimeStampedModel):
     domain_name = models.CharField(
         verbose_name=_("Email address domain"), max_length=100, blank=True, null=True
     )
+    is_trusted_domain = models.BooleanField(
+        verbose_name=_("Is trusted (own or partner) domain?"), default=False
+    )
     is_monitoring_email_to_domain = models.BooleanField(
         verbose_name=_("Is monitoring Email To domain?"), default=False
     )
@@ -359,7 +363,7 @@ class LetterEmailDomain(TimeStampedModel):
     )
 
     def save(self, *args, **kwargs):
-        if self.is_monitoring_email_to_domain:
+        if self.is_monitoring_email_to_domain or self.is_trusted_domain:
             self.is_spammer_domain = False
         super(LetterEmailDomain, self).save(*args, **kwargs)
 
