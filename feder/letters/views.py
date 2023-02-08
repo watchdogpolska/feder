@@ -632,7 +632,7 @@ class ReceiveEmail(View):
     required_version = "v2"
 
     def post(self, request):
-        logger.info(f"POST request received: {request}")
+        logger.info(f"Add letter POST request received: {request}")
         if request.GET.get("secret") != LETTER_RECEIVE_SECRET:
             logger.error(f"POST request permission denied")
             raise PermissionDenied
@@ -655,13 +655,15 @@ class ReceiveEmail(View):
             )
 
         eml_data = request.FILES["eml"]
-
+        logger.info(f'Letter to add: {manifest["headers"]}')
         letter = self.get_letter(
             headers=manifest["headers"],
             eml_manifest=manifest["eml"],
             text=manifest["text"],
             eml_data=eml_data,
         )
+        # TODO 
+        # letter.spam_check()
         Attachment.objects.bulk_create(
             self.get_attachment(attachment, letter)
             for attachment in request.FILES.getlist("attachment")
@@ -681,10 +683,28 @@ class ReceiveEmail(View):
             )
         else:
             message_type = Letter.MESSAGE_TYPES.regular
+        
+        if Letter.objects.filter(
+            email_from=headers["from"][0] if headers["from"][0] else None,
+            email_to=headers["to"][0] if headers["from"][0] else None,
+            message_id_header=headers["message_id"],
+            title=headers["subject"],
+        ).exists():
+            letter_to_add = Letter.objects.filter(
+                email_from=headers["from"][0] if headers["from"][0] else None,
+                email_to=headers["to"][0] if headers["from"][0] else None,
+                message_id_header=headers["message_id"],
+                title=headers["subject"],
+            ).first()
+            logger.info(f"Request skipped, letter exists: {letter_to_add.pk}")
+            return letter_to_add
 
-        return Letter.objects.create(
+        letter_to_add = Letter.objects.create(
             author_institution=case.institution if case else None,
             email=from_email,
+            email_from=headers["from"][0] if headers["from"][0] else None,
+            email_to=headers["to"][0] if headers["from"][0] else None,
+            message_id_header=headers["message_id"],
             record=Record.objects.create(case=case),
             message_type=message_type,
             title=headers["subject"],
@@ -695,6 +715,8 @@ class ReceiveEmail(View):
             eml=eml_file,
             is_draft=False,
         )
+        logger.info(f"Request processed, letter added: {letter_to_add.pk}")
+        return letter_to_add
 
     def get_case(self, to_plus):
         return Case.objects.select_related("institution").by_addresses(to_plus).first()
