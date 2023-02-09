@@ -53,7 +53,7 @@ from feder.records.models import Record
 from .filters import LetterFilter
 from .forms import LetterForm, ReplyForm, AssignLetterForm
 from .mixins import LetterObjectFeedMixin
-from .models import Letter, Attachment
+from .models import Letter, Attachment, LetterEmailDomain
 from feder.monitorings.tasks import send_mass_draft
 from feder.virus_scan.models import Request as ScanRequest
 
@@ -662,6 +662,7 @@ class ReceiveEmail(View):
             text=manifest["text"],
             eml_data=eml_data,
         )
+        LetterEmailDomain.register_letter_email_domains(letter=letter)
         # TODO 
         # letter.spam_check()
         Attachment.objects.bulk_create(
