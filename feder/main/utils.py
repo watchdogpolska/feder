@@ -24,6 +24,11 @@ def get_clean_email(email: str) -> str:
         email = email.split('>')[0]
     return email
 
+def get_email_domain(email: str) -> str:
+    if '@' in email:
+        return email.split('@')[1]
+    return ''
+
 class PaginatedCSVStreamingRenderer(CSVStreamingRenderer):
     def render(self, data, *args, **kwargs):
         """Copied form PaginatedCSVRenderer to support paginated results."""

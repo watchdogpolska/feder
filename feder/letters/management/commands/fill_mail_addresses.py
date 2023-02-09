@@ -5,7 +5,7 @@ from feder.letters.models import Letter, LetterEmailDomain
 from io import BytesIO
 import email
 import gzip
-from feder.main.utils import get_clean_email
+from feder.main.utils import get_clean_email, get_email_domain
 
 
 class Command(BaseCommand):
@@ -43,15 +43,15 @@ class Command(BaseCommand):
             letter.email_to = get_clean_email(msg['To'])
             letter.message_id_header = msg["Message-ID"] or ''
             letter.save()
-            if '@' in letter.email_from:
-                from_domain = letter.email_from.split('@')[1]
+            if get_email_domain(letter.email_from) != '':
+                from_domain = get_email_domain(letter.email_from)
                 if LetterEmailDomain.objects.filter(domain_name=from_domain).exists():
                     LetterEmailDomain.objects.get(domain_name=from_domain).add_email_from_letter()
                 else:
                     letter_from_domain = LetterEmailDomain.objects.create(domain_name=from_domain)
                     letter_from_domain.add_email_from_letter()
-            if '@' in letter.email_to:
-                to_domain = letter.email_to.split('@')[1]
+            if get_email_domain(letter.email_to) != '':
+                to_domain = get_email_domain(letter.email_to)
                 if LetterEmailDomain.objects.filter(domain_name=to_domain).exists():
                     ledder_to_domain = LetterEmailDomain.objects.get(domain_name=to_domain)
                     letter_to_domain.add_email_to_letter()
