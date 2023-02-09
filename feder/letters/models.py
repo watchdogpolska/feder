@@ -83,8 +83,7 @@ class LetterQuerySet(AbstractRecordQuerySet):
 class LetterManager(BaseManager.from_queryset(LetterQuerySet)):
     def get_queryset(self):
         return (
-            super()
-            .get_queryset()
+            super().get_queryset()
             # TODO use this filter in particular views only
             # .filter(is_spam__in=[Letter.SPAM.unknown, Letter.SPAM.non_spam])
         )
@@ -367,20 +366,22 @@ class LetterEmailDomain(TimeStampedModel):
     def save(self, *args, **kwargs):
         if self.is_monitoring_email_to_domain or self.is_trusted_domain:
             self.is_spammer_domain = False
-        super(LetterEmailDomain, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     def add_email_to_letter(self):
         self.email_to_count += 1
         self.save()
-    
+
     def add_email_from_letter(self):
         self.email_from_count += 1
         self.save()
 
     @classmethod
     def register_letter_email_domains(cls, letter: Letter):
-        trusted_domains = Domain.objects.all().values_list('name', flat=True)
-        is_outgoing = letter.is_outgoing or 'fedrowanie.siecobywatelska.pl' in letter.email_from
+        trusted_domains = Domain.objects.all().values_list("name", flat=True)
+        is_outgoing = (
+            letter.is_outgoing or "fedrowanie.siecobywatelska.pl" in letter.email_from
+        )
         from_domain_name = get_email_domain(letter.email_from)
         from_domain, _ = cls.objects.get_or_create(domain_name=from_domain_name)
         from_domain.is_trusted_domain = from_domain.domain_name in trusted_domains

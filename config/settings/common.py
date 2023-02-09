@@ -289,11 +289,7 @@ LOGGING = {
     },
     "loggers": {
         # "django.request": {"handlers": [], "level": "ERROR", "propagate": True},
-        "": {
-            "handlers": ["file", "console"],
-            "level": "INFO",
-            "propagate": True
-        },
+        "": {"handlers": ["file", "console"], "level": "INFO", "propagate": True},
         "feder.letters.models": {
             "handlers": ["console"] if "test" not in environ.sys.argv else [],
             "level": "INFO",
@@ -302,7 +298,7 @@ LOGGING = {
     "formatters": {
         "app": {
             "format": (
-                u"%(asctime)s [%(levelname)-7s] "
+                "%(asctime)s [%(levelname)-7s] "
                 # "(%(module)s.%(funcName)s) %(message)s"
                 "(%(pathname)s:%(lineno)s) %(message)s"
             ),

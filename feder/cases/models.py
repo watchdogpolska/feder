@@ -113,7 +113,7 @@ class CaseQuerySet(models.QuerySet):
 
     def for_user(self, user):
         if user.is_anonymous:
-            # TODO extend with monitoring 
+            # TODO extend with monitoring
             return self.filter(is_quarantined=False)
         if user.has_perm("monitorings.view_quarantined_case"):
             return self

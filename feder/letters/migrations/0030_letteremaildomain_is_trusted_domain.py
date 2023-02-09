@@ -6,13 +6,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('letters', '0029_letteremaildomain'),
+        ("letters", "0029_letteremaildomain"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='letteremaildomain',
-            name='is_trusted_domain',
-            field=models.BooleanField(default=False, verbose_name='Is trusted (own or partner) domain?'),
+            model_name="letteremaildomain",
+            name="is_trusted_domain",
+            field=models.BooleanField(
+                default=False, verbose_name="Is trusted (own or partner) domain?"
+            ),
         ),
     ]

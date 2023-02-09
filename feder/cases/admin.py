@@ -42,4 +42,3 @@ class AliasAdmin(VersionAdmin, GuardedModelAdmin):
         "email",
     )
     search_fields = ["case"]
-

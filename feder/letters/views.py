@@ -634,10 +634,10 @@ class ReceiveEmail(View):
     def post(self, request):
         logger.info(f"Add letter POST request received: {request}")
         if request.GET.get("secret") != LETTER_RECEIVE_SECRET:
-            logger.error(f"POST request permission denied")
+            logger.error("POST request permission denied")
             raise PermissionDenied
         if request.content_type != self.required_content_type:
-            logger.error(f"The request has an invalid Content-Type. ")
+            logger.error("The request has an invalid Content-Type. ")
             return HttpResponseBadRequest(
                 "The request has an invalid Content-Type. "
                 'The acceptable Content-Type is "{}".'.format(
@@ -648,7 +648,7 @@ class ReceiveEmail(View):
         manifest = json.load(request.FILES["manifest"])
 
         if manifest.get("version") != self.required_version:
-            logger.error(f"The request has an invalid format version. ")
+            logger.error("The request has an invalid format version. ")
             return HttpResponseBadRequest(
                 "The request has an invalid format version. "
                 'The acceptable format version is "{}".'.format(self.required_version)
@@ -663,7 +663,7 @@ class ReceiveEmail(View):
             eml_data=eml_data,
         )
         LetterEmailDomain.register_letter_email_domains(letter=letter)
-        # TODO 
+        # TODO
         # letter.spam_check()
         Attachment.objects.bulk_create(
             self.get_attachment(attachment, letter)
@@ -684,7 +684,7 @@ class ReceiveEmail(View):
             )
         else:
             message_type = Letter.MESSAGE_TYPES.regular
-        
+
         if Letter.objects.filter(
             email_from=headers["from"][0] if headers["from"][0] else None,
             email_to=headers["to"][0] if headers["from"][0] else None,

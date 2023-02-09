@@ -28,6 +28,7 @@ GZ_MIME = "application/gzip"
 EML_MIME = "message/rfc822"
 BINARY_MIME = "application/octet-stream"
 
+
 def get_text(mail):
     raw_content, html_content, plain_content, html_quote, plain_quote = (
         "",
@@ -48,7 +49,8 @@ def get_text(mail):
         plain_content = talon.quotations.extract_from_plain(raw_content)
         plain_quote = raw_content.replace(plain_content, "")
 
-    # 'content' item holds plain_content and 'quote' item holds plain_quote (with HTML stripped off).
+    # 'content' item holds plain_content and
+    # 'quote' item holds plain_quote (with HTML stripped off).
     # These names are used for backward compatibility.
     return {
         "html_content": html_content,
@@ -157,7 +159,7 @@ def serialize_mail(raw_mail, compress_eml=False):
     )
     # Build eml
     eml_ext = "eml.gz" if compress_eml else "eml"
-    eml_name = "{}.{}".format(uuid.uuid4().hex, eml_ext)
+    eml_name = f"{uuid.uuid4().hex}.{eml_ext}"
     eml_mime = GZ_MIME if compress_eml else EML_MIME
 
     files.append(
@@ -168,21 +170,22 @@ def serialize_mail(raw_mail, compress_eml=False):
         files.append(("attachment", att))
     return files
 
+
 def get_message(eml_file):
     if os.path.exists(eml_file) and os.path.isfile(eml_file):
-        with open(sys.argv[1], 'rb') as fp:
+        with open(sys.argv[1], "rb") as fp:
             eml_content = fp.read()
     if b"Subject:" not in eml_content:
         try:
             content = gzip.decompress(eml_content)
-        except:
-            print(f"Skipping {sys.argv[1]} due to eml decompression error.")
+        except Exception:
+            print(f"Skipping {sys.argv[1]} due to eml decompression error. {Exception}")
     else:
         content = eml_content
     return content
 
+
 if __name__ == "__main__":
-    import sys
     content = get_message(sys.argv[1])
     mail = mailparser.parse_from_bytes(content)
     body = get_manifest(mail, False)

@@ -76,8 +76,6 @@ class LetterEmailDomainAdmin(admin.ModelAdmin):
         "is_monitoring_email_to_domain",
         "is_spammer_domain",
     )
-    search_fields = (
-        "domain_name",
-    )
-    ordering = ('-email_from_count', )
+    search_fields = ("domain_name",)
+    ordering = ("-email_from_count",)
     list_editable = ("is_spammer_domain",)
