@@ -8,14 +8,16 @@ from glob import glob
 class Command(BaseCommand):
     help = "Find orphaned eml files - not linked to any letter"
 
-    # def add_arguments(self, parser):
+    def add_arguments(self, parser):
     #     parser.add_argument(
     #         "--monitoring-pk", help="PK of monitoring which receive mail",
     #         required=True
     #     )
-    #     parser.add_argument(
-    #         "--delete", help="Confirm deletion of email", action="store_true"
-    #     )
+        parser.add_argument(
+            "--delete",
+            help="Confirm deletion of orphaned eml",
+            action="store_true"
+        )
 
     def handle(self, *args, **options):
         orphans = []
@@ -44,4 +46,8 @@ class Command(BaseCommand):
             )
         )
         for eml in orphans:
-            print(eml)
+            if options["delete"]:
+                os.remove(eml)
+                print(f"Deleted {eml}")
+            else:
+                print(eml) 
