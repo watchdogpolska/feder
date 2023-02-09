@@ -5,13 +5,8 @@ from feder.letters.models import Letter, LetterEmailDomain
 from io import BytesIO
 import email
 import gzip
+from feder.main.utils import get_clean_email
 
-def get_clean_email(email):
-    if '<' in email:
-        email = email.split('<')[1]
-    if '>' in email:
-        email = email.split('>')[0]
-    return email
 
 class Command(BaseCommand):
     help = "Fill mail_from and mail_to addresses from eml and add mail domains."
@@ -42,13 +37,10 @@ class Command(BaseCommand):
                 content = eml_content
             msg = email.message_from_bytes(content)
             # print(msg)
-            letter.email_from = get_clean_email(str(msg['From']))[-99:]
-            is_outgoing = letter.is_outgoing or 'fedrowanie.siecobywatelska.pl' in letter.email_from
             print(f'email_from: {msg["From"]}, email_to: {msg["To"]}, msg Id: {msg["Message-ID"]}, is_outgoing: {is_outgoing}')
-            if ',' in str(msg['To']):
-                letter.email_to = get_clean_email(str(msg['To']).split(',')[0])
-            else:
-                letter.email_to = get_clean_email(str(msg['To']))[-99:]
+            letter.email_from = get_clean_email(msg['From'])
+            is_outgoing = letter.is_outgoing or 'fedrowanie.siecobywatelska.pl' in letter.email_from
+            letter.email_to = get_clean_email(msg['To'])
             letter.message_id_header = msg["Message-ID"] or ''
             letter.save()
             if '@' in letter.email_from:

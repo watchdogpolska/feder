@@ -13,6 +13,16 @@ def get_full_url_for_context(path, context):
         [scheme, get_current_site(context.get("request", None)).domain, path]
     )
 
+def get_clean_email(email):
+    email = str(email)
+    if ',' in email:
+        email = email.split(',')[0]
+    email = email[-99:]
+    if '<' in email:
+        email = email.split('<')[1]
+    if '>' in email:
+        email = email.split('>')[0]
+    return email
 
 class PaginatedCSVStreamingRenderer(CSVStreamingRenderer):
     def render(self, data, *args, **kwargs):
