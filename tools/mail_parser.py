@@ -173,7 +173,7 @@ def serialize_mail(raw_mail, compress_eml=False):
 
 def get_message(eml_file):
     if os.path.exists(eml_file) and os.path.isfile(eml_file):
-        with open(sys.argv[1], "rb") as fp:
+        with open(eml_file, "rb") as fp:
             eml_content = fp.read()
     if b"Subject:" not in eml_content:
         try:
