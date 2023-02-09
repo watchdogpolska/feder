@@ -13,7 +13,7 @@ def get_full_url_for_context(path, context):
         [scheme, get_current_site(context.get("request", None)).domain, path]
     )
 
-def get_clean_email(email):
+def get_clean_email(email: str) -> str:
     email = str(email)
     if ',' in email:
         email = email.split(',')[0]
