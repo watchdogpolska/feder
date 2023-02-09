@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 from glob import glob
 from django.core.management.base import BaseCommand
 from feder.letters.models import Attachment
@@ -26,7 +27,10 @@ class Command(BaseCommand):
         att_files = glob(att_path, recursive=True)
         att_files.sort()
         tot_atts = len(att_files)
-        print(f"total attachement files to check: {tot_atts}")
+        start_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        print(f"Total attachement files to check: {tot_atts}")
+        print(f'Options: {options}')
+        print(f"Started: {start_time}")
         for count, file in enumerate(att_files):
             if os.path.isdir(file):
                 print(f"{count} of {tot_atts}: {file} is directory - skipping")
@@ -51,3 +55,5 @@ class Command(BaseCommand):
                 print(f"Deleted {att}")
             else:
                 print(att) 
+        end_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        print(f"Completed: {end_time}")
