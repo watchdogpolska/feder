@@ -1,16 +1,8 @@
+import os
+from glob import glob
 from django.core.management.base import BaseCommand
 from feder.letters.models import Attachment
 from django.conf import settings
-from glob import glob
-import os
-
-
-def get_clean_email(email):
-    if "<" in email:
-        email = email.split("<")[1]
-    if ">" in email:
-        email = email.split(">")[0]
-    return email
 
 
 class Command(BaseCommand):
