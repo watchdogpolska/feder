@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 from django.core.management.base import BaseCommand
 from feder.letters.models import Letter
 from django.conf import settings
@@ -26,7 +27,10 @@ class Command(BaseCommand):
         msg_files = glob(msg_path, recursive=True)
         msg_files.sort()
         tot_emls = len(msg_files)
+        start_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         print(f"total message files to check: {tot_emls}")
+        print(f'Options: {options}')
+        print(f"Started: {start_time}")
         for count, file in enumerate(msg_files):
             if os.path.isdir(file):
                 print(f"{count} of {tot_emls}: {file} is directory - skipping")
@@ -51,3 +55,5 @@ class Command(BaseCommand):
                 print(f"Deleted {eml}")
             else:
                 print(eml) 
+        end_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        print(f"Completed: {end_time}")
