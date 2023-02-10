@@ -7,7 +7,7 @@ from .serializers import letter_serialize
 def index_letter(letter_pks):
     from ..letters.models import Letter
 
-    for letter in Letter.objects.filter(pk__in=letter_pks).all():
+    for letter in Letter.objects.filter(pk__in=letter_pks).exclude_spam().all():
         delete_document(letter.pk)
         doc = letter_serialize(letter)
         assert doc.save() == "created"
