@@ -7,7 +7,8 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         # parser.add_argument(
-        #     "--monitoring-pk", help="PK of monitoring which receive mail", required=True
+        #     "--monitoring-pk", help="PK of monitoring which receive mail",
+        #      required=True
         # )
         parser.add_argument(
             "--mark-spam", help="Mark duplicates as spam", action="store_true"
@@ -16,10 +17,8 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         ids = set()
         print(options)
-        for letter in (
-            Letter.objects.all()
-        ):
-            print(f"Processing letter: {letter.pk}, ", end = "")
+        for letter in Letter.objects.all():
+            print(f"Processing letter: {letter.pk}, ", end="")
             if letter.message_id_header is None or letter.message_id_header == "":
                 print("skipping due to missing 'Message-ID'.")
                 continue
@@ -30,8 +29,9 @@ class Command(BaseCommand):
                 ids.add(letter.message_id_header)
                 continue
             print(
-                f"to be marked as spam due to duplicated 'Message-ID': {letter.message_id_header}"
-                )
+                f"to be marked as spam due to duplicated "
+                f"'Message-ID': {letter.message_id_header}"
+            )
             if options["mark_spam"]:
                 letter.is_spam = Letter.SPAM.spam
                 letter.save()
