@@ -78,6 +78,15 @@ class LetterQuerySet(AbstractRecordQuerySet):
 
     def exclude_automatic(self):
         return self.exclude(message_type__in=[i[0] for i in Letter.MESSAGE_TYPES_AUTO])
+    
+    def for_user(self, user):
+        if user.is_anonymous:
+            return self.filter(
+                record__case__is_quarantined=False,
+                record__case__monitoring__is_public=True
+            )
+        if user.is_superuser:
+            return self
 
 
 class LetterManager(BaseManager.from_queryset(LetterQuerySet)):
