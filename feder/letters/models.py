@@ -360,8 +360,8 @@ class Letter(AbstractRecord):
             from_domain = None
         if (
             # (self.email_to not in self.body) or
-            (self.email_from is None or self.email_from == "") or
-            (from_domain is not None and from_domain.is_spammer_domain)
+            (self.email_from is None or self.email_from == "")
+            or (from_domain is not None and from_domain.is_spammer_domain)
         ):
             self.is_spam = Letter.SPAM.probable_spam
             self.save()
