@@ -9,7 +9,7 @@ import argparse
 tools_dir = os.path.dirname(__file__)
 sys.path.insert(0, tools_dir)
 
-from mail_parser import serialize_mail, get_message, get_manifest
+from mail_parser import serialize_mail, get_message, get_manifest  # noqa: E402
 
 # print(tools_dir)
 
@@ -17,11 +17,13 @@ description = """
 Send email from eml file to feder webhook for registration or webhook test.
 """
 url_help = """
-webhook url example: http://localhost:8000/listy/webhook?secret=my-strong-secret 
+webhook url example: http://localhost:8000/listy/webhook?secret=my-strong-secret
 """
 file_help = """
-file example: /code/feder/media_prod/messages/2022/04/03/c6ceae935fed401bae7d12da3be6c775.eml.gz
+file example:
+/code/feder/media_prod/messages/2022/04/03/c6ceae935fed401bae7d12da3be6c775.eml.gz
 """
+
 
 def main():
     parser = argparse.ArgumentParser(description=description, add_help=True)

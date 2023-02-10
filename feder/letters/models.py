@@ -78,12 +78,12 @@ class LetterQuerySet(AbstractRecordQuerySet):
 
     def exclude_automatic(self):
         return self.exclude(message_type__in=[i[0] for i in Letter.MESSAGE_TYPES_AUTO])
-    
+
     def for_user(self, user):
         if user.is_anonymous:
             return self.filter(
                 record__case__is_quarantined=False,
-                record__case__monitoring__is_public=True
+                record__case__monitoring__is_public=True,
             )
         if user.is_superuser:
             return self
@@ -350,6 +350,19 @@ class Letter(AbstractRecord):
         result = more_like_this(doc)
         ids = [x.letter_id for x in result]
         return Letter._default_manager.filter(pk__in=ids).all()
+
+    def spam_check(self):
+        from_domain = LetterEmailDomain.objects.filter(
+            domain_name=get_email_domain(self.email_from)
+        ).first()
+        if (
+            (self.email_to not in self.body)
+            or (self.email_from is None or self.email_from == "")
+            or (from_domain is not None and from_domain.is_spammer_domain)
+        ):
+            self.is_spam = Letter.SPAM.probable_spam
+            self.save()
+            return
 
 
 class LetterEmailDomain(TimeStampedModel):

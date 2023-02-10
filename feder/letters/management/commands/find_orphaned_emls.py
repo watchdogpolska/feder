@@ -10,14 +10,12 @@ class Command(BaseCommand):
     help = "Find orphaned eml files - not linked to any letter"
 
     def add_arguments(self, parser):
-    #     parser.add_argument(
-    #         "--monitoring-pk", help="PK of monitoring which receive mail",
-    #         required=True
-    #     )
+        #     parser.add_argument(
+        #         "--monitoring-pk", help="PK of monitoring which receive mail",
+        #         required=True
+        #     )
         parser.add_argument(
-            "--delete",
-            help="Confirm deletion of orphaned eml",
-            action="store_true"
+            "--delete", help="Confirm deletion of orphaned eml", action="store_true"
         )
 
     def handle(self, *args, **options):
@@ -29,7 +27,7 @@ class Command(BaseCommand):
         tot_emls = len(msg_files)
         start_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         print(f"total message files to check: {tot_emls}")
-        print(f'Options: {options}')
+        print(f"Options: {options}")
         print(f"Started: {start_time}")
         for count, file in enumerate(msg_files):
             if os.path.isdir(file):
@@ -54,6 +52,6 @@ class Command(BaseCommand):
                 os.remove(eml)
                 print(f"Deleted {eml}")
             else:
-                print(eml) 
+                print(eml)
         end_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         print(f"Completed: {end_time}")

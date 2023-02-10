@@ -10,14 +10,14 @@ class Command(BaseCommand):
     help = "Find orphaned attachement files - not linked to any letter"
 
     def add_arguments(self, parser):
-    #     parser.add_argument(
-    #         "--monitoring-pk", help="PK of monitoring which receive mail",
-    #         required=True
-    #     )
+        #     parser.add_argument(
+        #         "--monitoring-pk", help="PK of monitoring which receive mail",
+        #         required=True
+        #     )
         parser.add_argument(
             "--delete",
             help="Confirm deletion of orphaned attachement",
-            action="store_true"
+            action="store_true",
         )
 
     def handle(self, *args, **options):
@@ -29,7 +29,7 @@ class Command(BaseCommand):
         tot_atts = len(att_files)
         start_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         print(f"Total attachement files to check: {tot_atts}")
-        print(f'Options: {options}')
+        print(f"Options: {options}")
         print(f"Started: {start_time}")
         for count, file in enumerate(att_files):
             if os.path.isdir(file):
@@ -54,6 +54,6 @@ class Command(BaseCommand):
                 os.remove(att)
                 print(f"Deleted {att}")
             else:
-                print(att) 
+                print(att)
         end_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         print(f"Completed: {end_time}")
