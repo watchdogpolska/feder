@@ -125,7 +125,7 @@ class LetterListView(
     paginate_by = 25
 
     def get_queryset(self):
-        qs = super().get_queryset()
+        qs = super().get_queryset().exclude_spam()
         return qs.attachment_count().for_user(self.request.user)
 
 
@@ -141,7 +141,7 @@ class LetterDetailView(SelectRelatedMixin, LetterCommonMixin, DetailView):
         return context
 
     def get_queryset(self):
-        qs = super().get_queryset()
+        qs = super().get_queryset().exclude_spam()
         return qs.for_user(self.request.user)
 
 
@@ -319,6 +319,7 @@ class LetterRssFeed(Feed):
         return (
             Letter.objects.with_feed_items()
             .exclude(record__case=None)
+            .exclude_spam()
             .recent()
             .for_user(get_anonymous_user())
             .order_by("-created")[:30]
@@ -404,7 +405,7 @@ class LetterReportSpamView(ActionMessageMixin, CaseRequiredMixin, ActionView):
         return (
             super()
             .get_queryset()
-            .filter(is_spam=Letter.SPAM.unknown)
+            .filter(is_spam__in=[Letter.SPAM.unknown, Letter.SPAM.probable_spam])
             .for_user(self.request.user)
         )
 
@@ -482,7 +483,7 @@ class LetterMarkSpamView(
         return (
             super()
             .get_queryset()
-            .filter(is_spam=Letter.SPAM.unknown)
+            .filter(is_spam__in=[Letter.SPAM.unknown, Letter.SPAM.probable_spam])
             .for_user(self.request.user)
         )
 
