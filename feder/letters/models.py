@@ -352,13 +352,16 @@ class Letter(AbstractRecord):
         return Letter._default_manager.filter(pk__in=ids).all()
 
     def spam_check(self):
-        from_domain = LetterEmailDomain.objects.filter(
-            domain_name=get_email_domain(self.email_from)
-        ).first()
+        if self.email_from is not None and "@" in self.email_from:
+            from_domain = LetterEmailDomain.objects.filter(
+                domain_name=get_email_domain(self.email_from)
+            ).first()
+        else:
+            from_domain = None
         if (
-            (self.email_to not in self.body)
-            or (self.email_from is None or self.email_from == "")
-            or (from_domain is not None and from_domain.is_spammer_domain)
+            # (self.email_to not in self.body) or
+            (self.email_from is None or self.email_from == "") or
+            (from_domain is not None and from_domain.is_spammer_domain)
         ):
             self.is_spam = Letter.SPAM.probable_spam
             self.save()
