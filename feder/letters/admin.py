@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.translation import gettext_lazy as _
 
 from .models import Letter, Attachment, LetterEmailDomain
 
@@ -19,7 +20,7 @@ class LetterAdmin(admin.ModelAdmin):
 
     list_display = (
         "title",
-        "case",
+        "get_case",
         "author",
         "created",
         # "modified",
@@ -34,6 +35,7 @@ class LetterAdmin(admin.ModelAdmin):
     )
     list_filter = (
         "created",
+        "record__case__monitoring",
         # "modified",
         "is_spam",
         # "is_outgoing",
@@ -51,6 +53,12 @@ class LetterAdmin(admin.ModelAdmin):
     )
     raw_id_fields = ("author_user", "author_institution", "record")
     list_editable = ("is_spam",)
+
+    def get_case(self, obj):
+        return obj.record.case
+
+    get_case.admin_order_field  = 'record__case'  #Allows column order sorting
+    get_case.short_description = _('Case name')  #Renames column head
 
     # def get_queryset(self, *args, **kwargs):
     #     qs = super().get_queryset(*args, **kwargs)
