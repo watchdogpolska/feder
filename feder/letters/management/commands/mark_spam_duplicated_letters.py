@@ -13,6 +13,9 @@ class Command(BaseCommand):
         parser.add_argument(
             "--mark-spam", help="Mark duplicates as spam", action="store_true"
         )
+        parser.add_argument(
+            "--delete", help="Mark duplicates as spam", action="store_true"
+        )
 
     def handle(self, *args, **options):
         ids = set()
@@ -28,10 +31,16 @@ class Command(BaseCommand):
                 )
                 ids.add(letter.message_id_header)
                 continue
-            print(
-                f"to be marked as spam due to duplicated "
-                f"'Message-ID': {letter.message_id_header}"
-            )
             if options["mark_spam"]:
                 letter.is_spam = Letter.SPAM.spam
                 letter.save()
+                print(
+                    f"marked as spam due to duplication "
+                    f"'Message-ID': {letter.message_id_header}"
+                )
+            elif options["delete"]:
+                letter.delete()
+                print(
+                    f"deleted due to duplication "
+                    f"'Message-ID': {letter.message_id_header}"
+                )
