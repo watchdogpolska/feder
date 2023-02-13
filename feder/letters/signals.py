@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 @receiver(post_save, sender=Letter)
 def index_letter_signal(sender, instance, **kwargs):
-    if ELASTICSEARCH_URL:
+    if ELASTICSEARCH_URL is None:
         logger.info("Skipping indexing due Elasticsearch integration disabled")
         return
     index_letter([instance.pk])

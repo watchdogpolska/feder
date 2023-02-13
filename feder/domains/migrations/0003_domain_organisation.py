@@ -5,7 +5,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("organisations", "__first__"),
         ("domains", "0002_initial-domain"),

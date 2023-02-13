@@ -18,7 +18,6 @@ def reverse_func(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [("institutions", "0011_auto_20170808_0308")]
 
     operations = [

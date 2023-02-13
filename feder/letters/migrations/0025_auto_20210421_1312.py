@@ -6,7 +6,6 @@ import django_extensions.db.fields
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("cases_tags", "0003_casetag"),
         ("monitorings", "0021_auto_20210203_1950"),

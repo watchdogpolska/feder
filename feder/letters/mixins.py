@@ -26,6 +26,7 @@ class LetterObjectFeedMixin:
         return (
             Letter.objects.with_feed_items()
             .filter(**{self.filter_field: obj})
+            .exclude_spam()
             .for_user(get_anonymous_user())
             .order_by("-created")[:30]
         )

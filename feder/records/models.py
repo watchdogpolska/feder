@@ -42,7 +42,7 @@ class RecordQuerySet(models.QuerySet):
         from feder.letters.models import Letter
 
         if queryset is None:
-            queryset = Letter.objects.all()
+            queryset = Letter.objects.exclude_spam().all()
         return self.prefetch_related(
             Prefetch(lookup="letters_letter_related", queryset=queryset)
         )
@@ -56,7 +56,7 @@ class RecordQuerySet(models.QuerySet):
         from feder.letters.models import Letter
 
         return self.with_letter_prefetched(
-            Letter.objects.with_author().with_attachment().all()
+            Letter.objects.with_author().exclude_spam().with_attachment().all()
         ).all()
 
     def for_milestone(self):
@@ -64,7 +64,9 @@ class RecordQuerySet(models.QuerySet):
 
         return (
             self.exclude(letters_letters__is_spam=Letter.SPAM.spam)
-            .with_letter_prefetched(queryset=Letter.objects.for_milestone().all())
+            .with_letter_prefetched(
+                queryset=Letter.objects.exclude_spam().for_milestone().all()
+            )
             .with_parcel_prefetched()
             .all()
         )

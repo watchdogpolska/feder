@@ -2,6 +2,7 @@ import codecs
 import json
 import os
 
+from datetime import datetime
 from django.core import mail
 from django.core.files.base import ContentFile
 from django.core.files.uploadedfile import SimpleUploadedFile
@@ -162,6 +163,7 @@ class LetterMessageXSendFileView(PermissionStatusMixin, TestCase):
     def get_url(self):
         return reverse("letters:download", kwargs={"pk": self.object.pk})
 
+    # TODO hiding spam to be done by hiding download button in Letter view
     def test_deny_access_for_spam(self):
         spam_obj = IncomingLetterFactory(is_spam=Letter.SPAM.spam)
         url = reverse("letters:download", kwargs={"pk": spam_obj.pk})
@@ -634,13 +636,14 @@ class ReceiveEmailTestCase(TestCase):
         return files
 
     def _get_body(self, case=None, html_body=False, auto_reply_type="vacation-reply"):
+        id_timer = str(datetime.now().time()).split(".")[1]
         body = {
             "headers": {
                 "auto_reply_type": auto_reply_type,
                 "cc": [],
                 "date": "2018-07-30T11:33:22",
                 "from": ["user-a@siecobywatelska.pl"],
-                "message_id": "<E1fk6QU-00CPTw-Ey@s50.hekko.net.pl>",
+                "message_id": f"<E1fk6QU-00CPTw-Ey-{id_timer}@s50.hekko.net.pl>",
                 "subject": 'Odpowied\u017a automatyczna: "Re: Problem z dostarczeniem odp. na fedrowanie"',
                 "to": [case.email if case else "user-b@example.com"],
                 "to+": [

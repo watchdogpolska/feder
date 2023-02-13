@@ -87,7 +87,6 @@ class Command:
         return parser.parse_args(argv)
 
     def run(self):
-
         client = Client(start=self.args.start, s=self.s)
         data = client.get_page_iter()
         first = next(data)

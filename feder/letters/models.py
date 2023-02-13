@@ -25,6 +25,8 @@ from ..virus_scan.models import Request as ScanRequest
 from django.utils import timezone
 from ..es_search.queries import more_like_this, find_document
 from feder.cases.models import enforce_quarantined_queryset
+from feder.main.utils import get_email_domain
+from feder.domains.models import Domain
 
 logger = logging.getLogger(__name__)
 
@@ -77,21 +79,31 @@ class LetterQuerySet(AbstractRecordQuerySet):
     def exclude_automatic(self):
         return self.exclude(message_type__in=[i[0] for i in Letter.MESSAGE_TYPES_AUTO])
 
+    def for_user(self, user):
+        if user.is_anonymous:
+            return self.filter(
+                record__case__is_quarantined=False,
+                record__case__monitoring__is_public=True,
+            )
+        if user.is_superuser or user.is_authenticated:
+            return self
+
 
 class LetterManager(BaseManager.from_queryset(LetterQuerySet)):
     def get_queryset(self):
         return (
-            super()
-            .get_queryset()
-            .filter(is_spam__in=[Letter.SPAM.unknown, Letter.SPAM.non_spam])
+            super().get_queryset()
+            # TODO use this filter in particular views only
+            # .filter(is_spam__in=[Letter.SPAM.unknown, Letter.SPAM.non_spam])
         )
 
 
 class Letter(AbstractRecord):
     SPAM = Choices(
         (0, "unknown", _("Unknown")),
-        (1, "spam", _("Spam")),
-        (2, "non_spam", _("Non-spam")),
+        (1, "non_spam", _("Non-spam")),
+        (2, "spam", _("Spam")),
+        (3, "probable_spam", _("Probable spam")),
     )
     MESSAGE_TYPES = Choices(
         (0, "unknown", _("Unknown")),
@@ -124,6 +136,12 @@ class Letter(AbstractRecord):
     quote = models.TextField(verbose_name=_("Quote"), blank=True)
     html_quote = models.TextField(verbose_name=_("Quote in HTML"), blank=True)
     email = models.EmailField(verbose_name=_("E-mail"), max_length=100, blank=True)
+    email_from = models.EmailField(
+        verbose_name=_("From email address"), max_length=100, blank=True, null=True
+    )
+    email_to = models.EmailField(
+        verbose_name=_("To email address"), max_length=100, blank=True, null=True
+    )
     note = models.TextField(verbose_name=_("Comments from editor"), blank=True)
     is_spam = models.IntegerField(
         verbose_name=_("Is SPAM?"), choices=SPAM, default=SPAM.unknown, db_index=True
@@ -332,6 +350,74 @@ class Letter(AbstractRecord):
         result = more_like_this(doc)
         ids = [x.letter_id for x in result]
         return Letter._default_manager.filter(pk__in=ids).all()
+
+    def spam_check(self):
+        if self.email_from is not None and "@" in self.email_from:
+            from_domain = LetterEmailDomain.objects.filter(
+                domain_name=get_email_domain(self.email_from)
+            ).first()
+        else:
+            from_domain = None
+        if (
+            # (self.email_to not in self.body) or
+            (self.email_from is None or self.email_from == "")
+            or (from_domain is not None and from_domain.is_spammer_domain)
+        ):
+            self.is_spam = Letter.SPAM.probable_spam
+            self.save()
+            return
+
+
+class LetterEmailDomain(TimeStampedModel):
+    domain_name = models.CharField(
+        verbose_name=_("Email address domain"), max_length=100, blank=True, null=True
+    )
+    is_trusted_domain = models.BooleanField(
+        verbose_name=_("Is trusted (own or partner) domain?"), default=False
+    )
+    is_monitoring_email_to_domain = models.BooleanField(
+        verbose_name=_("Is monitoring Email To domain?"), default=False
+    )
+    is_spammer_domain = models.BooleanField(
+        verbose_name=_("Is spammer domain?"), default=False
+    )
+    email_to_count = models.IntegerField(
+        verbose_name=_("Email To addres counter"), default=0
+    )
+    email_from_count = models.IntegerField(
+        verbose_name=_("Email From addres counter"), default=0
+    )
+
+    def save(self, *args, **kwargs):
+        if self.is_monitoring_email_to_domain or self.is_trusted_domain:
+            self.is_spammer_domain = False
+        super().save(*args, **kwargs)
+
+    def add_email_to_letter(self):
+        self.email_to_count += 1
+        self.save()
+
+    def add_email_from_letter(self):
+        self.email_from_count += 1
+        self.save()
+
+    @classmethod
+    def register_letter_email_domains(cls, letter: Letter):
+        trusted_domains = Domain.objects.all().values_list("name", flat=True)
+        is_outgoing = (
+            letter.is_outgoing or "fedrowanie.siecobywatelska.pl" in letter.email_from
+        )
+        from_domain_name = get_email_domain(letter.email_from)
+        from_domain, _ = cls.objects.get_or_create(domain_name=from_domain_name)
+        from_domain.is_trusted_domain = from_domain.domain_name in trusted_domains
+        from_domain.save()
+        from_domain.add_email_from_letter()
+        to_domain_name = get_email_domain(letter.email_to)
+        to_domain, _ = cls.objects.get_or_create(domain_name=to_domain_name)
+        to_domain.is_trusted_domain = to_domain.domain_name in trusted_domains
+        to_domain.is_monitoring_email_to_domain = is_outgoing
+        to_domain.save()
+        to_domain.add_email_to_letter()
 
 
 class MassMessageDraft(TimeStampedModel):
