@@ -10,7 +10,6 @@ def update_domain_forward(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [("domains", "0001_initial")]
 
     operations = [migrations.RunPython(update_domain_forward)]

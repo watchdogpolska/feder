@@ -63,4 +63,4 @@ staticfiles
 feder/media*
 *.sqlite
 tmp
-logs/*.log
+logs/*

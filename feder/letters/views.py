@@ -1,5 +1,6 @@
 import json
 import uuid
+import logging
 from os import path
 from atom.ext.django_filters.views import UserKwargFilterSetMixin
 from atom.views import (
@@ -52,11 +53,13 @@ from feder.records.models import Record
 from .filters import LetterFilter
 from .forms import LetterForm, ReplyForm, AssignLetterForm
 from .mixins import LetterObjectFeedMixin
-from .models import Letter, Attachment
+from .models import Letter, Attachment, LetterEmailDomain
 from feder.monitorings.tasks import send_mass_draft
 from feder.virus_scan.models import Request as ScanRequest
 
 _("Letters index")
+
+logger = logging.getLogger(__file__)
 
 
 class MixinGzipXSendFile:
@@ -122,7 +125,7 @@ class LetterListView(
     paginate_by = 25
 
     def get_queryset(self):
-        qs = super().get_queryset()
+        qs = super().get_queryset().exclude_spam()
         return qs.attachment_count().for_user(self.request.user)
 
 
@@ -138,7 +141,7 @@ class LetterDetailView(SelectRelatedMixin, LetterCommonMixin, DetailView):
         return context
 
     def get_queryset(self):
-        qs = super().get_queryset()
+        qs = super().get_queryset().exclude_spam()
         return qs.for_user(self.request.user)
 
 
@@ -149,7 +152,7 @@ class LetterMessageXSendFileView(MixinGzipXSendFile, BaseXSendFileView):
 
     def get_queryset(self):
         qs = super().get_queryset()
-        return qs.for_user(self.request.user)
+        return qs.for_user(self.request.user).exclude_spam()
 
 
 class LetterCreateView(
@@ -316,6 +319,7 @@ class LetterRssFeed(Feed):
         return (
             Letter.objects.with_feed_items()
             .exclude(record__case=None)
+            .exclude_spam()
             .recent()
             .for_user(get_anonymous_user())
             .order_by("-created")[:30]
@@ -401,7 +405,7 @@ class LetterReportSpamView(ActionMessageMixin, CaseRequiredMixin, ActionView):
         return (
             super()
             .get_queryset()
-            .filter(is_spam=Letter.SPAM.unknown)
+            .filter(is_spam__in=[Letter.SPAM.unknown, Letter.SPAM.probable_spam])
             .for_user(self.request.user)
         )
 
@@ -479,7 +483,7 @@ class LetterMarkSpamView(
         return (
             super()
             .get_queryset()
-            .filter(is_spam=Letter.SPAM.unknown)
+            .filter(is_spam__in=[Letter.SPAM.unknown, Letter.SPAM.probable_spam])
             .for_user(self.request.user)
         )
 
@@ -629,9 +633,12 @@ class ReceiveEmail(View):
     required_version = "v2"
 
     def post(self, request):
+        logger.info(f"Add letter POST request received: {request}")
         if request.GET.get("secret") != LETTER_RECEIVE_SECRET:
+            logger.error("POST request permission denied")
             raise PermissionDenied
         if request.content_type != self.required_content_type:
+            logger.error("The request has an invalid Content-Type. ")
             return HttpResponseBadRequest(
                 "The request has an invalid Content-Type. "
                 'The acceptable Content-Type is "{}".'.format(
@@ -642,19 +649,23 @@ class ReceiveEmail(View):
         manifest = json.load(request.FILES["manifest"])
 
         if manifest.get("version") != self.required_version:
+            logger.error("The request has an invalid format version. ")
             return HttpResponseBadRequest(
                 "The request has an invalid format version. "
                 'The acceptable format version is "{}".'.format(self.required_version)
             )
 
         eml_data = request.FILES["eml"]
-
+        logger.info(f'Letter to add: {manifest["headers"]}')
         letter = self.get_letter(
             headers=manifest["headers"],
             eml_manifest=manifest["eml"],
             text=manifest["text"],
             eml_data=eml_data,
         )
+        LetterEmailDomain.register_letter_email_domains(letter=letter)
+        # TODO
+        # letter.spam_check()
         Attachment.objects.bulk_create(
             self.get_attachment(attachment, letter)
             for attachment in request.FILES.getlist("attachment")
@@ -675,9 +686,27 @@ class ReceiveEmail(View):
         else:
             message_type = Letter.MESSAGE_TYPES.regular
 
-        return Letter.objects.create(
+        if Letter.objects.filter(
+            email_from=headers["from"][0] if headers["from"][0] else None,
+            email_to=headers["to"][0] if headers["from"][0] else None,
+            message_id_header=headers["message_id"],
+            title=headers["subject"],
+        ).exists():
+            letter_to_add = Letter.objects.filter(
+                email_from=headers["from"][0] if headers["from"][0] else None,
+                email_to=headers["to"][0] if headers["from"][0] else None,
+                message_id_header=headers["message_id"],
+                title=headers["subject"],
+            ).first()
+            logger.info(f"Request skipped, letter exists: {letter_to_add.pk}")
+            return letter_to_add
+
+        letter_to_add = Letter.objects.create(
             author_institution=case.institution if case else None,
             email=from_email,
+            email_from=headers["from"][0] if headers["from"][0] else None,
+            email_to=headers["to"][0] if headers["from"][0] else None,
+            message_id_header=headers["message_id"],
             record=Record.objects.create(case=case),
             message_type=message_type,
             title=headers["subject"],
@@ -688,6 +717,8 @@ class ReceiveEmail(View):
             eml=eml_file,
             is_draft=False,
         )
+        logger.info(f"Request processed, letter added: {letter_to_add.pk}")
+        return letter_to_add
 
     def get_case(self, to_plus):
         return Case.objects.select_related("institution").by_addresses(to_plus).first()

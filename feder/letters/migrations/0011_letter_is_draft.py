@@ -12,7 +12,6 @@ def update_draft_status(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [("letters", "0010_auto_20180112_1721")]
 
     operations = [
