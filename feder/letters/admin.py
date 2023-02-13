@@ -21,11 +21,12 @@ class LetterAdmin(admin.ModelAdmin):
     list_display = (
         "title",
         "get_case",
+        "get_monitoring",
         "author",
         "created",
         # "modified",
         "is_draft",
-        "is_incoming",
+        # "is_incoming",
         "is_outgoing",
         "is_spam",
         "email_from",
@@ -45,7 +46,6 @@ class LetterAdmin(admin.ModelAdmin):
         "title",
         # "body",
         "record__case__name",
-        "record__case__pk",
         "eml",
         "message_id_header",
         "email_from",
@@ -59,6 +59,14 @@ class LetterAdmin(admin.ModelAdmin):
 
     get_case.admin_order_field  = 'record__case'  #Allows column order sorting
     get_case.short_description = _('Case name')  #Renames column head
+
+    def get_monitoring(self, obj):
+        if obj.record.case is not None:
+            return obj.record.case.monitoring
+        return None
+
+    get_monitoring.admin_order_field  = 'record__case__monitoring' 
+    get_monitoring.short_description = _('Monitoring name')  #Renames column head
 
     # def get_queryset(self, *args, **kwargs):
     #     qs = super().get_queryset(*args, **kwargs)
