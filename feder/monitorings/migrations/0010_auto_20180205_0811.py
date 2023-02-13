@@ -4,7 +4,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [("monitorings", "0009_monitoring_is_public")]
 
     operations = [
