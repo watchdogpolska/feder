@@ -4,7 +4,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [("monitorings", "0006_monitoring_subject")]
 
     operations = [

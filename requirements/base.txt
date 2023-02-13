@@ -67,3 +67,6 @@ django-background-tasks==1.2.5
 django-cors-headers==3.13.0
 elasticsearch-dsl==7.4.0
 tika==1.25
+mail-parser==3.15.0
+talon-v2==1.0.0
+html2text==2020.1.16

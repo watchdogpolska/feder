@@ -68,9 +68,13 @@ class CaseQuerySet(models.QuerySet):
     def _get_application_letter_subquery():
         from feder.letters.models import Letter
 
-        return Letter.objects.filter(
-            record__case=OuterRef("pk"), author_user_id__isnull=False
-        ).order_by("created")
+        return (
+            Letter.objects.filter(
+                record__case=OuterRef("pk"), author_user_id__isnull=False
+            )
+            .exclude_spam()
+            .order_by("created")
+        )
 
     def with_application_letter_date(self):
         return self.annotate(
@@ -113,7 +117,7 @@ class CaseQuerySet(models.QuerySet):
 
     def for_user(self, user):
         if user.is_anonymous:
-            return self.filter(is_quarantined=False)
+            return self.filter(is_quarantined=False, monitoring__is_public=True)
         if user.has_perm("monitorings.view_quarantined_case"):
             return self
         non_quarantined = models.Q(is_quarantined=False)

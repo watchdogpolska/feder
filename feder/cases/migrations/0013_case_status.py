@@ -47,7 +47,6 @@ def backwards(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("cases", "0012_auto_20210218_1043"),
         ("letters", "0024_letter_message_type"),
