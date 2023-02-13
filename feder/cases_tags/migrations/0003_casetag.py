@@ -7,7 +7,6 @@ import model_utils.fields
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("cases_tags", "0002_auto_20210129_0052"),
         ("cases", "0013_case_status"),
