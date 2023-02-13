@@ -85,7 +85,7 @@ class LetterQuerySet(AbstractRecordQuerySet):
                 record__case__is_quarantined=False,
                 record__case__monitoring__is_public=True,
             )
-        if user.is_superuser:
+        if user.is_superuser or user.is_authenticated:
             return self
 
 
