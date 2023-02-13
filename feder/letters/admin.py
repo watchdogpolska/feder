@@ -54,19 +54,21 @@ class LetterAdmin(admin.ModelAdmin):
     raw_id_fields = ("author_user", "author_institution", "record")
     list_editable = ("is_spam",)
 
+    @admin.display(
+        description=_("Case name"),
+        ordering="record__case",
+    )
     def get_case(self, obj):
         return obj.record.case
 
-    get_case.admin_order_field  = 'record__case'  #Allows column order sorting
-    get_case.short_description = _('Case name')  #Renames column head
-
+    @admin.display(
+        description=_("Monitoring name"),
+        ordering="record__case__monitoring",
+    )
     def get_monitoring(self, obj):
         if obj.record.case is not None:
             return obj.record.case.monitoring
         return None
-
-    get_monitoring.admin_order_field  = 'record__case__monitoring' 
-    get_monitoring.short_description = _('Monitoring name')  #Renames column head
 
     # def get_queryset(self, *args, **kwargs):
     #     qs = super().get_queryset(*args, **kwargs)
