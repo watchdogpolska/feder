@@ -5,7 +5,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [("logs", "0003_auto_20170824_1545")]
 
     operations = [

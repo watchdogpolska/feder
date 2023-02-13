@@ -26,7 +26,6 @@ class Command(BaseCommand):
         )
 
     def handle(self, input, username, monitoring_pk, *args, **options):
-
         monitoring = Monitoring.objects.get(pk=monitoring_pk)
         user = User.objects.get(username=username)
         num = 0

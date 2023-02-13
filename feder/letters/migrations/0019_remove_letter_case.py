@@ -4,7 +4,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [("letters", "0018_auto_20180227_1926")]
 
     operations = [migrations.RemoveField(model_name="letter", name="case")]
