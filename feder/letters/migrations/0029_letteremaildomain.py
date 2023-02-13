@@ -5,7 +5,6 @@ import django_extensions.db.fields
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("letters", "0028_auto_20230202_2022"),
     ]

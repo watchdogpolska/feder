@@ -4,7 +4,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [("letters", "0021_auto_20180325_2244")]
 
     operations = [migrations.RemoveField(model_name="letter", name="message")]
