@@ -16,7 +16,6 @@ def update_record_field(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [("records", "0001_initial"), ("letters", "0016_auto_20180227_1907")]
 
     operations = [

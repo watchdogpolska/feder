@@ -11,7 +11,6 @@ class Command(BaseCommand):
         parser.add_argument("--no-progress", dest="progress", action="store_false")
 
     def handle(self, *args, **options):
-
         my_iter = tqdm if options["progress"] else lambda x, *args, **kwargs: x
 
         for record in my_iter(Record.objects.all()):

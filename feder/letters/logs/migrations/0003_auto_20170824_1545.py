@@ -27,7 +27,6 @@ def forwards_func(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [("logs", "0002_auto_20170820_1447")]
 
     operations = [migrations.RunPython(forwards_func)]
