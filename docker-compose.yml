@@ -35,8 +35,8 @@ services:
     environment: &webEnvironment
       DATABASE_URL: mysql://root:password@db/feder_copy
       ELASTICSEARCH_URL: http://elasticsearch:9200/
-      #APACHE_TIKA_URL: 'http://tika:9998/'
-      APACHE_TIKA_URL: 'http://192.168.100.120:9998/'
+      APACHE_TIKA_URL: 'http://tika:9998/'
+      # APACHE_TIKA_URL: 'http://192.168.100.120:9998/'
       MEDIA_ROOT_ENV: 'media_prod'
       VIRUSTOTAL_API_KEY:
       ATTACHMENTSCANNER_API_KEY:
