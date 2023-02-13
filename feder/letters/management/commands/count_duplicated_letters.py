@@ -1,6 +1,5 @@
 from django.core.management.base import BaseCommand
 from feder.letters.models import Letter
-from feder.monitorings.models import Monitoring
 from collections import Counter
 
 
@@ -41,27 +40,3 @@ class Command(BaseCommand):
                     "monitoring": m,
                 }
                 print(k, letter_id_headers_counter_info[k])
-
-        # ids = set()
-        # print(options)
-        # for letter in Letter.objects.all():
-        #     print(f"Processing letter: {letter.pk}, ", end="")
-        #     if letter.message_id_header is None or letter.message_id_header == "":
-        #         print("skipping due to missing 'Message-ID'.")
-        #         continue
-        #     if letter.message_id_header not in ids:
-        #         print(
-        #             f"skipping due to unique 'Message-ID': {letter.message_id_header}"
-        #         )
-        #         ids.add(letter.message_id_header)
-        #         continue
-        #     print(
-        #         f"to be marked as spam due to duplicated "
-        #         f"'Message-ID': {letter.message_id_header}"
-        #     )
-        #     if options["mark_spam"]:
-        #         letter.is_spam = Letter.SPAM.spam
-        #         letter.save()
-        #     elif options["delete"]:
-        #         letter.delete()
-        #     else:
