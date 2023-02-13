@@ -152,7 +152,7 @@ class LetterMessageXSendFileView(MixinGzipXSendFile, BaseXSendFileView):
 
     def get_queryset(self):
         qs = super().get_queryset()
-        return qs.for_user(self.request.user)
+        return qs.for_user(self.request.user).exclude_spam()
 
 
 class LetterCreateView(
