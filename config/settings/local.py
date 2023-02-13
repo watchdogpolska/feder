@@ -75,3 +75,4 @@ LETTER_RECEIVE_SECRET = env("LETTER_RECEIVE_SECRET", default="my-strong-secret")
 # Media folder defined in env to allow debugging with different data sets
 MEDIA_ROOT_ENV = env("MEDIA_ROOT_ENV", default="media_dev")
 MEDIA_ROOT = str(APPS_DIR(MEDIA_ROOT_ENV))
+SENDFILE_ROOT = MEDIA_ROOT
