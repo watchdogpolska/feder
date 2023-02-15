@@ -53,6 +53,7 @@ class LetterAdmin(admin.ModelAdmin):
     )
     raw_id_fields = ("author_user", "author_institution", "record")
     list_editable = ("is_spam",)
+    actions = ["delete_selected", "mark_spam",]
 
     @admin.display(
         description=_("Case name"),
@@ -69,6 +70,10 @@ class LetterAdmin(admin.ModelAdmin):
         if obj.record.case is not None:
             return obj.record.case.monitoring
         return None
+    
+    @admin.action(description='Mark selected letters as Spam')
+    def mark_spam(modeladmin, request, queryset):
+        queryset.update(is_spam=Letter.SPAM.spam)
 
     # def get_queryset(self, *args, **kwargs):
     #     qs = super().get_queryset(*args, **kwargs)

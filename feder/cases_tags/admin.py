@@ -10,3 +10,4 @@ class TagAdmin(admin.ModelAdmin):
         "name",
         "monitoring",
     ]
+    actions = None

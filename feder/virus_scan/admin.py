@@ -15,6 +15,7 @@ class LetterAdmin(admin.ModelAdmin):
         "modified",
     )
     list_filter = ("engine_name", "status", "created", "modified")
+    actions = None
 
     def get_queryset(self, *args, **kwargs):
         qs = super().get_queryset(*args, **kwargs)
