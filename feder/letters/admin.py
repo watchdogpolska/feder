@@ -95,7 +95,7 @@ class LetterAdmin(admin.ModelAdmin):
     @admin.action(description="Mark selected letters as Probable Spam")
     def mark_probable_spam(modeladmin, request, queryset):
         queryset.update(is_spam=Letter.SPAM.probable_spam)
-    
+
     # def get_queryset(self, *args, **kwargs):
     #     qs = super().get_queryset(*args, **kwargs)
     #     return qs.with_author()
