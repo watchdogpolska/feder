@@ -29,13 +29,12 @@ class Command(BaseCommand):
         print(f"total message files to check: {tot_emls}")
         print(f"Options: {options}")
         print(f"Started: {start_time}")
+        letter_emls = Letter.objects.values_list("eml", flat=True)
         for count, file in enumerate(msg_files):
             if os.path.isdir(file):
                 print(f"{count} of {tot_emls}: {file} is directory - skipping")
                 continue
-            if Letter.objects.filter(
-                eml=file.replace(settings.MEDIA_ROOT + "/", "")
-            ).exists():
+            if file.replace(settings.MEDIA_ROOT + "/", "") in letter_emls:
                 print(f"{count} of {tot_emls}: letter exists for {file}")
             else:
                 file_stats = os.stat(file)
