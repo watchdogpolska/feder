@@ -15,11 +15,13 @@ class InstitutionAdmin(VersionAdmin):
     list_display = ("name", "jst", "email")
     search_fields = ["name", "tags__name"]
     raw_id_fields = ("jst",)
+    actions = None
 
 
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
     list_display = ("name", "get_institution_count")
+    actions = None
 
     @admin.display(
         description=_("Institution count"),

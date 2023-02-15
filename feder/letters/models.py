@@ -381,6 +381,9 @@ class LetterEmailDomain(TimeStampedModel):
     is_spammer_domain = models.BooleanField(
         verbose_name=_("Is spammer domain?"), default=False
     )
+    is_non_spammer_domain = models.BooleanField(
+        verbose_name=_("Is non spammer domain?"), default=False
+    )
     email_to_count = models.IntegerField(
         verbose_name=_("Email To addres counter"), default=0
     )
@@ -389,7 +392,11 @@ class LetterEmailDomain(TimeStampedModel):
     )
 
     def save(self, *args, **kwargs):
-        if self.is_monitoring_email_to_domain or self.is_trusted_domain:
+        if (
+            self.is_monitoring_email_to_domain
+            or self.is_trusted_domain
+            or self.is_non_spammer_domain
+        ):
             self.is_spammer_domain = False
         super().save(*args, **kwargs)
 
