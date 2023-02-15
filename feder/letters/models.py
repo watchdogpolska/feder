@@ -392,7 +392,11 @@ class LetterEmailDomain(TimeStampedModel):
     )
 
     def save(self, *args, **kwargs):
-        if self.is_monitoring_email_to_domain or self.is_trusted_domain or self.is_non_spammer_domain:
+        if (
+            self.is_monitoring_email_to_domain
+            or self.is_trusted_domain
+            or self.is_non_spammer_domain
+        ):
             self.is_spammer_domain = False
         super().save(*args, **kwargs)
 
