@@ -9,6 +9,7 @@ class JednostkaAdministracyjnaAdmin(MPTTModelAdmin):
     list_display_links = ["id", "name"]
     list_filter = ["category", "updated_on", "active"]
     search_fields = ["id", "name", "slug"]
+    actions = None
 
 
 admin.site.unregister(JednostkaAdministracyjna)  # unregister original

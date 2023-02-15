@@ -29,6 +29,7 @@ class CaseAdmin(VersionAdmin, GuardedModelAdmin):
         "email",
         "tags",
     ]
+    actions = None
 
 
 @admin.register(Alias)
@@ -42,3 +43,4 @@ class AliasAdmin(VersionAdmin, GuardedModelAdmin):
         "email",
     )
     search_fields = ["case"]
+    actions = None

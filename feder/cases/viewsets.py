@@ -38,6 +38,7 @@ class CaseCSVRenderer(PaginatedCSVStreamingRenderer):
         "institution_name": _("Name"),
         "institution_email": _("Email of institution"),
         "institution_regon": _("REGON"),
+        "teryt": _("Unit of administrative division"),
         "community": _("Community"),
         "county": _("County"),
         "voivodeship": _("Voivodeship"),
