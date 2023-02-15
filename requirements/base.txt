@@ -16,7 +16,7 @@ django-floppyforms==1.9.0
 django-model-utils==4.3.1
 
 # Images
-Pillow==8.4.0
+Pillow==9.4.0
 
 # For user registration, either via email or social
 # Well-built with regular release cycles!
@@ -34,7 +34,7 @@ lxml==4.9.2
 
 
 # Your custom requirements go here
-cryptography==3.4.8
+cryptography==39.0.1
 django-filter==22.1
 django-autocomplete-light==3.9.4
 django-atom==0.16.3
@@ -45,11 +45,11 @@ django-guardian==2.4.0
 django-teryt-tree==0.17.0
 cached-property==1.5.2
 django-bootstrap-pagination==1.7.1
-django-reversion==3.0.9
+django-reversion==5.0.4
 djangorestframework==3.14.0
 djangorestframework-csv==2.1.1
 unicodecsv==0.14.1
-tqdm==4.62.3
+tqdm==4.64.1
 django-github-revision==0.0.3
 django-extensions==3.2.1
 django-cleanup==6.0.0
@@ -57,7 +57,7 @@ django-cleanup==6.0.0
 # Ping commit due missing cached object in <=4.7.1
 django-extra-views==0.13.0 
 # django-extra-views==0.14.0 -> py3.10 or dj3.2: cannot import name 'InlineFormSet' from 'extra_views'
-django-sendfile2==0.6.0
+django-sendfile2==0.7.0
 virustotal-api==1.1.11
 
 https://github.com/ross/performant-pagination/archive/5b537da95728d622792031071ecc4cb5154ec86f.zip
