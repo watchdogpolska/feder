@@ -26,6 +26,7 @@ class CaseReportSerializer(serializers.HyperlinkedModelSerializer):
     institution_name = serializers.SerializerMethodField()
     institution_email = serializers.SerializerMethodField()
     institution_regon = serializers.SerializerMethodField()
+    teryt = serializers.CharField(source="institution.jst.id")
     community = serializers.CharField(source="institution.community")
     county = serializers.CharField(source="institution.county")
     voivodeship = serializers.CharField(source="institution.voivodeship")
@@ -45,6 +46,7 @@ class CaseReportSerializer(serializers.HyperlinkedModelSerializer):
             "voivodeship",
             "county",
             "community",
+            "teryt",
             "tags",
             "request_date",
             "request_status",
