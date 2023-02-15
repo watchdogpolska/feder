@@ -92,8 +92,9 @@ class LetterEmailDomainAdmin(admin.ModelAdmin):
     list_filter = (
         "is_trusted_domain",
         "is_monitoring_email_to_domain",
+        "is_non_spammer_domain",
         "is_spammer_domain",
     )
     search_fields = ("domain_name",)
     ordering = ("-email_from_count",)
-    list_editable = ("is_spammer_domain",)
+    list_editable = ("is_spammer_domain", "is_non_spammer_domain")
