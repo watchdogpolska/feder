@@ -53,6 +53,7 @@ class LetterAdmin(admin.ModelAdmin):
     )
     raw_id_fields = ("author_user", "author_institution", "record")
     list_editable = ("is_spam",)
+    ordering = ("-created",)
     actions = [
         "delete_selected",
         "mark_spam",
@@ -93,6 +94,7 @@ class LetterEmailDomainAdmin(admin.ModelAdmin):
         "domain_name",
         "is_trusted_domain",
         "is_monitoring_email_to_domain",
+        "is_non_spammer_domain",
         "is_spammer_domain",
         "email_to_count",
         "email_from_count",
