@@ -18,7 +18,9 @@ class LetterAdmin(admin.ModelAdmin):
     Admin View for Letter
     """
 
+    date_hierarchy = "created"
     list_display = (
+        "pk",
         "title",
         "get_case",
         "get_monitoring",
@@ -35,10 +37,10 @@ class LetterAdmin(admin.ModelAdmin):
         "message_id_header",
     )
     list_filter = (
-        "created",
+        "is_spam",
+        # "created",
         "record__case__monitoring",
         # "modified",
-        "is_spam",
         # "is_outgoing",
     )
     inlines = [AttachmentInline]
@@ -52,7 +54,15 @@ class LetterAdmin(admin.ModelAdmin):
         "email_to",
     )
     raw_id_fields = ("author_user", "author_institution", "record")
-    list_editable = ("is_spam",)
+    # list_editable = ("is_spam",)
+    ordering = ("-created",)
+    actions = [
+        "delete_selected",
+        "mark_spam",
+        "mark_probable_spam",
+        "mark_spam_unknown",
+        "mark_non_spam",
+    ]
 
     @admin.display(
         description=_("Case name"),
@@ -70,6 +80,22 @@ class LetterAdmin(admin.ModelAdmin):
             return obj.record.case.monitoring
         return None
 
+    @admin.action(description="Mark selected letters as Spam")
+    def mark_spam(modeladmin, request, queryset):
+        queryset.update(is_spam=Letter.SPAM.spam)
+
+    @admin.action(description="Mark selected letters as Non Spam")
+    def mark_non_spam(modeladmin, request, queryset):
+        queryset.update(is_spam=Letter.SPAM.non_spam)
+
+    @admin.action(description="Mark selected letters as Spam Unknown")
+    def mark_spam_unknown(modeladmin, request, queryset):
+        queryset.update(is_spam=Letter.SPAM.unknown)
+
+    @admin.action(description="Mark selected letters as Probable Spam")
+    def mark_probable_spam(modeladmin, request, queryset):
+        queryset.update(is_spam=Letter.SPAM.probable_spam)
+
     # def get_queryset(self, *args, **kwargs):
     #     qs = super().get_queryset(*args, **kwargs)
     #     return qs.with_author()
@@ -85,6 +111,7 @@ class LetterEmailDomainAdmin(admin.ModelAdmin):
         "domain_name",
         "is_trusted_domain",
         "is_monitoring_email_to_domain",
+        "is_non_spammer_domain",
         "is_spammer_domain",
         "email_to_count",
         "email_from_count",
@@ -92,8 +119,9 @@ class LetterEmailDomainAdmin(admin.ModelAdmin):
     list_filter = (
         "is_trusted_domain",
         "is_monitoring_email_to_domain",
+        "is_non_spammer_domain",
         "is_spammer_domain",
     )
     search_fields = ("domain_name",)
     ordering = ("-email_from_count",)
-    list_editable = ("is_spammer_domain",)
+    list_editable = ("is_spammer_domain", "is_non_spammer_domain")

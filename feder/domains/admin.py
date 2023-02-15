@@ -7,3 +7,4 @@ from .models import Domain
 class DomainAdmin(admin.ModelAdmin):
     list_display = ("name", "created", "modified")
     search_fields = ["name"]
+    actions = None

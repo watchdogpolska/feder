@@ -11,5 +11,13 @@ class MonitoringAdmin(VersionAdmin, GuardedModelAdmin):
     Admin View for Monitoring
     """
 
-    list_display = ("name", "user")
+    list_display = (
+        "name",
+        "user",
+        "is_public",
+        "hide_new_cases",
+        "notify_alert",
+        "domain",
+    )
     search_fields = ["name"]
+    actions = None
