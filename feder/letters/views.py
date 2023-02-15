@@ -698,6 +698,7 @@ class ReceiveEmail(View):
                 message_id_header=headers["message_id"],
                 title=headers["subject"],
             ).first()
+            letter_to_add.spam_check()
             logger.info(f"Request skipped, letter exists: {letter_to_add.pk}")
             return letter_to_add
 
@@ -717,6 +718,7 @@ class ReceiveEmail(View):
             eml=eml_file,
             is_draft=False,
         )
+        letter_to_add.spam_check()
         logger.info(f"Request processed, letter added: {letter_to_add.pk}")
         return letter_to_add
 
