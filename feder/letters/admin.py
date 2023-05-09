@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from .models import Letter, Attachment, LetterEmailDomain
@@ -45,6 +46,7 @@ class LetterAdmin(admin.ModelAdmin):
     )
     inlines = [AttachmentInline]
     search_fields = (
+        "id",
         "title",
         # "body",
         "record__case__name",
@@ -82,7 +84,11 @@ class LetterAdmin(admin.ModelAdmin):
 
     @admin.action(description="Mark selected letters as Spam")
     def mark_spam(modeladmin, request, queryset):
-        queryset.update(is_spam=Letter.SPAM.spam)
+        queryset.update(
+            is_spam=Letter.SPAM.spam,
+            mark_spam_by=request.user,
+            mark_spam_at=timezone.now(),
+        )
 
     @admin.action(description="Mark selected letters as Non Spam")
     def mark_non_spam(modeladmin, request, queryset):

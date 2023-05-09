@@ -38,88 +38,9 @@
 
 <body>
 
-<div class="navbar navbar-default" role="navigation">
-    <div class="container">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                    data-target="#bs-navbar-collapse-1" aria-expanded="false">
-                <span class="sr-only">{% trans 'Toggle navigation' %}</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="{% url 'home' %}">
-                <img alt="Fedrowanie" src="{% static 'images/logo-short.svg' %}" height="25px">
-            </a>
-            <h1 class="sr-only">{% trans 'Civil data mining' %}</h1>
-        </div>
+    {% include '_navbar.html' %}
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li>
-                    <a href="{% url 'home' %}">
-                        <i class="fa fa-home" aria-hidden="true"></i>
-                        {% trans 'Homepage' %}
-                    </a>
-                </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false">
-                        <i class="fa fa-search" aria-hidden="true"></i>
-                        {% trans 'Search' %}
-                        <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="{% url 'cases:list' %}">
-                                <i class="fa fa-folder-open"></i>
-                                {% trans 'Cases' %}
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{% url 'monitorings:list' %}">
-                                <i class="fa fa-search" aria-hidden="true"></i>
-                                {% trans 'Monitorings' %}
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{% url 'letters:list' %}">
-                                <i class="fa fa-envelope" aria-hidden="true"></i>
-                                {% trans 'Letters' %}
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{% url 'institutions:list' %}">
-                                <i class="fa fa-home" aria-hidden="true"></i>
-                                {% trans 'Institutions' %}</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="{% url 'about' %}">
-                        <i class="fa fa-question" title="{% trans 'Information about the site you are currently visiting'%}" aria-hidden="true"></i>
-                        {% trans 'About page' %}
-                    </a>
-                </li>
-            </ul>
-
-            <ul class="nav navbar-nav navbar-right">
-                {% if request.user.is_authenticated %}
-                    <li><a href="{% url 'users:detail' request.user.username %}">{% trans "My Profile" %}</a></li>
-                    <li><a href="{% url 'account_logout' %}">{% trans "Logout" %}</a></li>
-                {% else %}
-                    <li><a href="{% url 'account_signup' %}">{% trans "Sign Up" %}</a></li>
-                    <li><a href="{% url 'account_login' %}?next={{ request.get_full_path }}">{% trans "Log In" %}</a>
-                    </li>
-                {% endif %}
-            </ul>
-        </div>
-    </div>
-</div>
-
-<div class="container">
+<div class="main" style="background-color: #60e20040;">
 
     {% if messages %}
         {% for message in messages %}
@@ -131,27 +52,46 @@
         <h1 style="background-color: #0a6f0a; color: #fff; text-align: center;">DEBUG ENVIRONMENT</h1>
     {% endif %}
 
-    {% block breadcrumbs %}{% endblock %}
-    {% block buttons %}{% endblock %}
-    {% block content %}
-        <p>Use this document as a way to quick start any new project.</p>
-    {% endblock content %}
-
-    <div class="footer">
-        <div class="footer-right">Sieć Obywatelska - Watchdog Polska<br>
-            ul. Ursynowska 22/2<br>
-            02-605 Warszawa
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <a href="{% url 'home' %}">
+                <div class="logo">
+                    <img alt="Fedrowanie" src="{% static 'images/logo-short.svg' %}" height="160px">
+                </div>
+                <p>Fedrowanie</p>
+            </a>
+            <p><a href="http://siecobywatelska.pl">Sieci Watchdog</a></p>
         </div>
-        <div class="footer-left">
-            silnik: <a href="http://jawne.info.pl">jawne.info.pl</a> |
-            v{% feder_version %} |
-            <a href="https://github.com/watchdogpolska/feder"><i class="fa fa-github" aria-hidden="true"></i> GitHub</a> – {% github_link %} |
-            <a href="{% url 'api-root' %}"><i class="fa fa-cloud-download" aria-hidden="true"></i> API</a>
-        </div>
-        <div class="footer-center">{% trans 'This site uses cookies.' %}</div>
-
+        {% include '_sidebar.html' %}
     </div>
-</div> <!-- /container -->
+    <div class="main-side" style="margin-right: 15px;">
+        <div class="content" style="margin-left: 15px;">
+            {% block breadcrumbs %}{% endblock %}
+            {% block buttons %}{% endblock %}
+            {% block content %}
+                <p>Use this document as a way to quick start any new project.</p>
+            {% endblock content %}
+
+            <div class="footer">
+                <div class="footer-right">Sieć Obywatelska - Watchdog Polska<br>
+                    ul. Ursynowska 22/2<br>
+                    02-605 Warszawa
+                </div>
+                <div class="footer-left">
+                    silnik: <a href="http://jawne.info.pl">jawne.info.pl</a> |
+                    v{% feder_version %} |
+                    <a href="https://github.com/watchdogpolska/feder"><i class="fa fa-github" aria-hidden="true"></i> GitHub</a> – {% github_link %} |
+                    <a href="{% url 'api-root' %}"><i class="fa fa-cloud-download" aria-hidden="true"></i> API</a>
+                </div>
+                <div class="footer-center">{% trans 'This site uses cookies.' %}</div>
+
+            </div>
+
+        </div>
+    </div>
+        
+
+</div>
 
 
 {% block modal %}{% endblock modal %}
