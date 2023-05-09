@@ -1,28 +1,33 @@
 {% extends 'base.html' %}
 {% load i18n static %}
 {% block content %}
-    <div class="jumbotron gray">
-        <h1>{% trans "Let's civil data mining!" %}</h1>
-        <p>{% trans 'Move debates to new age together!' %}</p>
-        <p><a class="btn btn-primary btn-lg" href="{% url 'about' %}" role="button">{% trans 'Learn more' %}</a></p>
-    </div>
-
     <div class="row">
-        <div class="col-md-7">
-            <div class="red">
-                <h2 class="title"><i class="fa fa-globe"></i> {% trans 'Voivodeships' %}</h2>
-                    {% include 'teryt/_voivodeship_map.svg.html' %}
+        <div class="col-lg-8 col-md-10 col-sm-12 col-xs-12 col-lg-offset-2 col-md-offset-1">
+            <div class="gray" style="padding: 10px; padding-left: 40px; text-align: center;" >
+                    <h1>{% trans "Let's civil data mining!" %}</h1>
+                    <h4>{% trans 'Move debates to new age together!' %}</h4>
+                    <p><a class="btn btn-primary " 
+                        href="{% url 'about' %}" role="button">{% trans 'Learn more' %}</a>
+                    </p>
             </div>
-        </div>
-        <div class="col-md-5">
-            <div class="gray">
-                <h2 class="title"><i class="fa fa-search"></i> {% trans 'Last monitorings' %}</h2>
-                    {% if monitoring_list %}
-                        {% include '_select_list.html' with object_list=monitoring_list %}
-                    {% else %}
-                        <p>{% trans 'No rows.' %}</p>
-                    {% endif %}
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="red">
+                        <h2 class="title"><i class="fa fa-globe"></i> {% trans 'Voivodeships' %}</h2>
+                            {% include 'teryt/_voivodeship_map.svg.html' %}
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <div class="gray">
+                        <h2 class="title"><i class="fa fa-search"></i> {% trans 'Last monitorings' %}</h2>
+                            {% if monitoring_list %}
+                                {% include '_select_list.html' with object_list=monitoring_list %}
+                            {% else %}
+                                <p>{% trans 'No rows.' %}</p>
+                            {% endif %}
+                    </div>
+                </div>
             </div>
-        </div>
+        </div>        
     </div>
 {% endblock %}
