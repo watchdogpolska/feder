@@ -11,7 +11,7 @@
     },
     {
       "managers": ["pip_requirements"],
-      "packageNames": ["gevent", "coveralls", "django-allauth", "django-floppyforms", "django-guardian", "django-crispy-forms", "elasticsearch-dsl", "Sphinx", "lxml", "mysqlclient", "Pillow", "pytz"],
+      "packageNames": ["gevent", "coveralls", "django-allauth", "django-guardian", "django-crispy-forms", "elasticsearch-dsl", "Sphinx", "lxml", "mysqlclient", "Pillow", "pytz"],
       "automerge": true
     }
   ],
