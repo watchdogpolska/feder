@@ -1,9 +1,17 @@
 @import 'variables';
 @import 'bootstrap';
+@import "layout";
+@import "sidebar";
 @import 'milestones';
 @import 'font-awesome';
 $red: #D72626;
 $gray: #F0F0F0;
+
+.logo{
+	display: inline-block;
+	width: 160px;
+	height: 160px;
+}
 
 .block {
   padding: 40px;
@@ -117,8 +125,7 @@ $gray: #F0F0F0;
 .gray {
   @extend .block;
   background-color: $gray;
-  text-color: $red;
-  .select-list {
+    .select-list {
     li:after {
       background-color: $red;
     }

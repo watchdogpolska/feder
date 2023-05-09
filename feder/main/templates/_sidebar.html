@@ -1,0 +1,75 @@
+{% load static i18n feder_tags %}
+
+    <div class="block-list">
+        <ul class="block-list-list">
+            <li class="block-list-item">
+                <p>&nbsp;</p>
+            </li>
+            <li class="block-list-item">
+                <a href="{% url 'home' %}">
+                    <i class="fa fa-home" aria-hidden="true"></i>
+                    {% trans 'Homepage' %}
+                </a>
+            </li>
+            <li class="block-list-item">
+                <a href="{% url 'about' %}">
+                    <i class="fa fa-question" title="{% trans 'Information about the site you are currently visiting'%}" aria-hidden="true"></i>
+                    {% trans 'About page' %}
+                </a>
+            </li>
+            <li class="block-list-item">
+                <p>&nbsp;</p>
+            </li>
+            <div class="block-list-header">
+                <i class="fa fa-search" aria-hidden="true"></i>
+                {% trans 'Search' %}
+            </div>
+            <li class="block-list-item">
+                <a href="{% url 'cases:list' %}">
+                    <i class="fa fa-folder-open"></i>
+                    {% trans 'Cases' %}
+                </a>
+            </li>
+            <li class="block-list-item">
+                <a href="{% url 'monitorings:list' %}">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                    {% trans 'Monitorings' %}
+                </a>
+            </li>
+            <li class="block-list-item">
+                <a href="{% url 'letters:list' %}">
+                    <i class="fa fa-envelope" aria-hidden="true"></i>
+                    {% trans 'Letters' %}
+                </a>
+            </li>
+            <li class="block-list-item">
+                <a href="{% url 'institutions:list' %}">
+                    <i class="fa fa-home" aria-hidden="true"></i>
+                    {% trans 'Institutions' %}</a>
+            </li>
+            <li class="block-list-item">
+                <p>&nbsp;</p>
+            </li>
+        </ul>
+    </div>
+    <div class="block-list">
+        <div class="block-list-header">{% trans 'User' %}</div>
+        {% if request.user.is_authenticated %}
+            <li class="block-list-item">
+                <a href="{% url 'users:detail' request.user.username %}">
+                    {% trans "My Profile" %}</a>
+            </li>
+            <li class="block-list-item">
+                <a href="{% url 'account_logout' %}">{% trans "Logout" %}</a>
+            </li>
+        {% else %}
+            <li class="block-list-item">
+                <a href="{% url 'account_signup' %}">{% trans "Sign Up" %}</a>
+            </li>
+            <li class="block-list-item">
+                <a href="{% url 'account_login' %}?next={{ request.get_full_path }}">
+                {% trans "Log In" %}</a>
+            </li>
+        {% endif %}
+    </div>
+
