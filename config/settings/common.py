@@ -117,9 +117,21 @@ FIXTURE_DIRS = (str(APPS_DIR.path("fixtures")),)
 
 # EMAIL CONFIGURATION
 # ------------------------------------------------------------------------------
-EMAIL_BACKEND = env(
+EMAIL_BACKEND = env.str(
     "DJANGO_EMAIL_BACKEND", default="django.core.mail.backends.smtp.EmailBackend"
 )
+DEFAULT_FROM_EMAIL = env.str(
+    "DJANGO_DEFAULT_FROM_EMAIL", default="feder <noreply@dane.siecobywatelska.pl>"
+)
+EMAIL_HOST = env.str("DJANGO_EMAIL_HOST", default="localhost")
+EMAIL_PORT = env.str("DJANGO_EMAIL_PORT", default=25)
+EMAIL_USE_TLS = env.bool("DJANGO_EMAIL_USE_TLS", True)
+EMAIL_SUBJECT_PREFIX = env.str("DJANGO_EMAIL_SUBJECT_PREFIX", default="[feder] ")
+EMAIL_HOST_USER = env.str("DJANGO_EMAIL_HOST_USER", "")
+SERVER_EMAIL = EMAIL_HOST_USER
+# EMAIL production
+# ------------------------------------------------------------------------------
+SERVER_EMAIL = env("DJANGO_SERVER_EMAIL")
 
 # MANAGER CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -337,7 +349,7 @@ SOCIALACCOUNT_PROVIDERS = {
     "github": {"SCOPE": ["user"]},
     "gilab": {"SCOPE": ["read_user", "openid"]},
 }
-EMAIL_NOTIFICATION = env("EMAIL_NOTIFICATION", default="no-reply@siecobywatelska.pl")
+EMAIL_NOTIFICATION = env("DJANGO_EMAIL_NOTIFICATION", default="no-reply@siecobywatelska.pl")
 
 EMAILLABS_APP_KEY = env("EMAILLABS_APP_KEY", default="Dummy")
 

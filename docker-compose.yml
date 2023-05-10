@@ -38,10 +38,21 @@ services:
       APACHE_TIKA_URL: 'http://tika:9998/'
       # APACHE_TIKA_URL: 'http://192.168.100.120:9998/'
       MEDIA_ROOT_ENV: 'media_prod'
-      VIRUSTOTAL_API_KEY:
-      ATTACHMENTSCANNER_API_KEY:
-      ATTACHMENTSCANNER_API_URL:
-      METADEFENDER_API_KEY:
+      DJANGO_EMAIL_BACKEND: "django.core.mail.backends.smtp.EmailBackend"
+      DJANGO_EMAIL_HOST: "maildump"
+      DJANGO_EMAIL_PORT: "1025"
+      DJANGO_EMAIL_USE_TLS: "False"
+      DJANGO_EMAIL_HOST_PASSWORD: ""
+      DJANGO_EMAIL_HOST_USER: "feder_dev@dev.fedrowanie.siecobywatelska.pl"
+      DJANGO_EMAIL_SUBJECT_PREFIX: "[feder_dev] "
+      DJANGO_EMAIL_NOTIFICATION: "no-reply@siecobywatelska.pl"
+      DJANGO_DEFAULT_FROM_EMAIL: "feder_dev <noreply@dev.fedrowanie.siecobywatelska.pl>"
+      LETTER_RECEIVE_SECRET: "dev_letter_receive_very_secret"
+      APP_MODE: "DEV"
+      ROSETTA_AZURE_CLIENT_SECRET: ${ROSETTA_AZURE_CLIENT_SECRET}
+      MY_INTERNAL_IP: ${MY_INTERNAL_IP}
+    env_file:
+      - secrets_web.env
     ports:
       - "8000:8000"
     # Following allows to execute `docker attach feder_web_1`
@@ -89,7 +100,7 @@ services:
   #     SENTRY_ENVIRONMENT: "feder-dev"
   #     COMPRESS_EML: "True"
   #   env_file:
-  #     - imap-to-webhook-url.env  
+  #     - secrets_imap-to-webhook-url.env  
 
 volumes:
   mysql-data:
