@@ -68,3 +68,5 @@ tika==2.6.0
 mail-parser==3.15.0
 talon-v2==1.0.0
 html2text==2020.1.16
+
+django-rosetta==0.9.9

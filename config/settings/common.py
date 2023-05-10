@@ -11,6 +11,8 @@ import sys
 import os
 import environ
 
+from django.utils.translation import gettext_lazy as _
+
 ROOT_DIR = environ.Path(__file__) - 3  # (/a/b/myfile.py - 3 = /)
 APPS_DIR = ROOT_DIR.path("feder")
 
@@ -50,6 +52,7 @@ THIRD_PARTY_APPS = (
     "django_filters",
     "background_task",
     "corsheaders",
+    "rosetta",
 )
 
 # Local apps which should be put before any other apps
@@ -165,6 +168,7 @@ TIME_ZONE = "UTC"
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#language-code
 LANGUAGE_CODE = "pl"
+LANGUAGES = (("pl", _("Polish")), ("en", _("English")))
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#site-id
 SITE_ID = 1
@@ -410,3 +414,31 @@ DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 # APP_MODE used to differentiate dev, demo and production environments
 # use DEV, DEMO and PROD values in env variable APP_MODE
 APP_MODE = env.str("APP_MODE", "DEMO")
+
+ROSETTA_SHOW_AT_ADMIN_PANEL = True
+
+# Rosetta translation settings
+ROSETTA_ENABLE_TRANSLATION_SUGGESTIONS = True
+ROSETTA_EXCLUDED_APPLICATIONS = (
+    "django.contrib.admin",  # for some reason does not exclue admin app
+    "django.contrib.auth",
+    "crispy_forms",  # Form layouts
+    "allauth",  # registration
+    "allauth.account",  # registration
+    "allauth.socialaccount",  # registration
+    "dal",
+    "dal_select2",
+    "formtools",
+    "mptt",
+    "atom",
+    "guardian",
+    "teryt_tree",
+    "bootstrap_pagination",
+    "rest_framework",
+    "reversion",
+    "django_filters",
+    "background_task",
+    "corsheaders",
+    "rosetta",
+)
+AZURE_CLIENT_SECRET = env.str("ROSETTA_AZURE_CLIENT_SECRET", "")

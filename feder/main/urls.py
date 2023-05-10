@@ -73,6 +73,9 @@ urlpatterns += [
     path("api/", include(router.urls)),
 ]
 
+if "rosetta" in settings.INSTALLED_APPS:
+    urlpatterns += [path("rosetta/", include("rosetta.urls"))]
+
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 sitemaps = {
