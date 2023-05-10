@@ -131,7 +131,9 @@ EMAIL_HOST_USER = env.str("DJANGO_EMAIL_HOST_USER", "")
 SERVER_EMAIL = EMAIL_HOST_USER
 # EMAIL production
 # ------------------------------------------------------------------------------
-SERVER_EMAIL = env("DJANGO_SERVER_EMAIL")
+SERVER_EMAIL = env.str(
+    "DJANGO_SERVER_EMAIL", default="feder <<noreply@dane.siecobywatelska.pl>"
+)
 
 # MANAGER CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -402,3 +404,7 @@ ELASTICSEARCH_SHOW_SIMILAR = env("ELASTICSEARCH_SHOW_SIMILAR", default=False)
 
 # To avoid unwanted migrations when upgrading to Django 3.2
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
+
+# APP_MODE used to differentiate dev, demo and production environments
+# use DEV, DEMO and PROD values in env variable APP_MODE
+APP_MODE = env.str("APP_MODE", "DEMO")
