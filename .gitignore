@@ -64,3 +64,6 @@ feder/media*
 *.sqlite
 tmp
 logs/*
+
+# docker development secrets
+*.env
