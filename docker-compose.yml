@@ -104,3 +104,4 @@ services:
 
 volumes:
   mysql-data:
+  maildump_data:
