@@ -10,6 +10,7 @@ register = template.Library()
 def feder_version():
     return get_version()
 
+
 @register.simple_tag
 def app_mode():
     """

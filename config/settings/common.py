@@ -351,7 +351,9 @@ SOCIALACCOUNT_PROVIDERS = {
     "github": {"SCOPE": ["user"]},
     "gilab": {"SCOPE": ["read_user", "openid"]},
 }
-EMAIL_NOTIFICATION = env("DJANGO_EMAIL_NOTIFICATION", default="no-reply@siecobywatelska.pl")
+EMAIL_NOTIFICATION = env(
+    "DJANGO_EMAIL_NOTIFICATION", default="no-reply@siecobywatelska.pl"
+)
 
 EMAILLABS_APP_KEY = env("EMAILLABS_APP_KEY", default="Dummy")
 
