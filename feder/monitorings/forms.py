@@ -2,11 +2,12 @@ from textwrap import wrap
 from atom.ext.crispy_forms.forms import SingleButtonMixin, HelperMixin
 from atom.ext.guardian.forms import TranslatedUserObjectPermissionsForm
 from braces.forms import UserKwargModelFormMixin
-from crispy_forms.layout import Layout, Fieldset, Submit
+from crispy_forms.layout import Layout, Fieldset, Submit, Row, Column
 from dal import autocomplete
 from django import forms
 from django.utils.translation import gettext as _
 from django.conf import settings
+from tinymce.widgets import TinyMCE
 
 from feder.users.models import User
 from feder.letters.models import Letter, MassMessageDraft
@@ -23,13 +24,29 @@ class MonitoringForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm
         if not self.instance.pk:  # disable fields for create
             del self.fields["notify_alert"]
         self.instance.user = self.user
-        self.helper.layout = Layout(
-            Fieldset(
-                _("Monitoring"), "name", "description", "notify_alert", "hide_new_cases"
-            ),
-            Fieldset(_("Template"), "subject", "template", "email_footer", "domain"),
-        )
         self.fields["template"].initial = BODY_REPLY_TPL
+        self.fields["template"].widget = TinyMCE(attrs={"cols": 80, "rows": 20})
+        self.fields["email_footer"].widget = TinyMCE(attrs={"cols": 80, "rows": 5})
+        self.helper.layout = Layout(
+            Row(
+                Column(
+                    Fieldset(
+                        _("Monitoring"),
+                        "name",
+                        "description",
+                        "notify_alert",
+                        "hide_new_cases",
+                    ),
+                    css_class="form-group col-md-5 mb-0",
+                ),
+                Column(
+                    Fieldset(
+                        _("Template"), "subject", "template", "email_footer", "domain"
+                    ),
+                    css_class="form-group col-md-7 mb-0",
+                ),
+            ),
+        )
 
     class Meta:
         model = Monitoring

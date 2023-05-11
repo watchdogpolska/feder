@@ -41,6 +41,7 @@ THIRD_PARTY_APPS = (
     "allauth.socialaccount",  # registration
     "dal",
     "dal_select2",
+    "tinymce",
     "formtools",
     "mptt",
     "atom",
@@ -428,6 +429,7 @@ ROSETTA_EXCLUDED_APPLICATIONS = (
     "allauth.socialaccount",  # registration
     "dal",
     "dal_select2",
+    "tinymce",
     "formtools",
     "mptt",
     "atom",
@@ -442,3 +444,17 @@ ROSETTA_EXCLUDED_APPLICATIONS = (
     "rosetta",
 )
 AZURE_CLIENT_SECRET = env.str("ROSETTA_AZURE_CLIENT_SECRET", "")
+
+TINYMCE_DEFAULT_CONFIG = {
+    "theme": "silver",
+    # "height": 500,
+    "menubar": True,
+    "lineheight": 1,
+    "plugins": "advlist,autolink,lists,link,image,charmap,print,preview,anchor,"
+    "searchreplace,visualblocks,code,fullscreen,insertdatetime,media,table,paste,"
+    "code,help,wordcount",
+    "toolbar": "undo redo | formatselect | lineheight | fontsizeselect |"
+    "bold italic backcolor | alignleft aligncenter "
+    "alignright alignjustify | bullist numlist outdent indent | "
+    "charmap | removeformat | help",
+}

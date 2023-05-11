@@ -1,14 +1,33 @@
 from textwrap import TextWrapper
+from html.parser import HTMLParser
 
 BODY_REPLY_TPL = "\n\nProsimy o odpowiedź na adres {{EMAIL}}"
 BODY_FOOTER_SEPERATOR = "\n\n--\n"
 
 
-def email_wrapper(text):
+class HTMLFilter(HTMLParser):
+    text = ""
+
+    def handle_data(self, data):
+        self.text += data
+
+
+def html_to_text(html):
+    parser = HTMLFilter()
+    parser.feed(html)
+    return parser.text
+
+
+def text_email_wrapper(text):
     wrapper = TextWrapper()
     wrapper.subsequent_indent = "> "
     wrapper.initial_indent = "> "
     return "\n".join(wrapper.wrap(text))
+
+
+def html_email_wrapper(html_quote):
+    html = f"<blockquote>{html_quote}</blockquote>"
+    return html
 
 
 def normalize_msg_id(msg_id):
