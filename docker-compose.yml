@@ -51,10 +51,10 @@ services:
       APP_MODE: "DEV"
       ROSETTA_AZURE_CLIENT_SECRET: ${ROSETTA_AZURE_CLIENT_SECRET}
       MY_INTERNAL_IP: ${MY_INTERNAL_IP}
-    env_file:
-      - secrets_web.env
-      - /dev/null
-    if: "test -f /code/secrets_web.env"
+      VIRUSTOTAL_API_KEY: ""
+      ATTACHMENTSCANNER_API_KEY: ""
+      ATTACHMENTSCANNER_API_URL: ""
+      METADEFENDER_API_KEY: ${METADEFENDER_API_KEY}
     ports:
       - "8000:8000"
     # Following allows to execute `docker attach feder_web_1`
