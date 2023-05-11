@@ -40,20 +40,15 @@
 
     {% include '_navbar.html' %}
 
-<div class="main" style="background-color: #60e20040;">
+<!-- app_main_style tag used to differentiate dev, demo and production environments -->
+{% app_main_style %}
+{# <div class="main" style="background-color: #60e20040;"> #}
 
-    {% if messages %}
-        {% for message in messages %}
-            <div class="alert {% if message.tags %}alert-{{ message.tags }}"{% endif %}>{{ message }}</div>
-        {% endfor %}
-    {% endif %}
 
-    {% if debug %}
-        <h1 style="background-color: #0a6f0a; color: #fff; text-align: center;">DEBUG ENVIRONMENT</h1>
-    {% endif %}
 
     <div class="sidebar">
         <div class="sidebar-header">
+            {% app_mode %}
             <a href="{% url 'home' %}">
                 <div class="logo">
                     <img alt="Fedrowanie" src="{% static 'images/logo-short.svg' %}" height="160px">
@@ -66,6 +61,17 @@
     </div>
     <div class="main-side" style="margin-right: 15px;">
         <div class="content" style="margin-left: 15px;">
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert {% if message.tags %}alert-{{ message.tags }}"{% endif %}>{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+
+            {% if debug %}
+                <h1 style="background-color: #0a6f0a; color: #fff; text-align: center;">DEBUG ENVIRONMENT</h1>
+            {% endif %}
+
             {% block breadcrumbs %}{% endblock %}
             {% block buttons %}{% endblock %}
             {% block content %}

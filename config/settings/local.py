@@ -27,15 +27,6 @@ TEMPLATES[0]["OPTIONS"]["debug"] = DEBUG
 # Note: This key only used for development and testing.
 SECRET_KEY = env("DJANGO_SECRET_KEY", default="CHANGEME!!!")
 
-# Mail settings
-# ------------------------------------------------------------------------------
-EMAIL_HOST = "localhost"
-EMAIL_PORT = 1025
-EMAIL_BACKEND = env(
-    "DJANGO_EMAIL_BACKEND", default="django.core.mail.backends.console.EmailBackend"
-)
-EMAIL_NOTIFICATION = "biuro@siecobywatelska.pl"
-
 # CACHING
 # ------------------------------------------------------------------------------
 CACHES = {
@@ -49,7 +40,8 @@ CACHES = {
 # ------------------------------------------------------------------------------
 MIDDLEWARE += ("debug_toolbar.middleware.DebugToolbarMiddleware",)
 INSTALLED_APPS += ("debug_toolbar",)
-INTERNAL_IPS = ("127.0.0.1", "10.0.2.2")
+MY_INTERNAL_IP = env("MY_INTERNAL_IP", default="")
+INTERNAL_IPS = ("127.0.0.1", "10.0.2.2", MY_INTERNAL_IP)
 
 DEBUG_TOOLBAR_CONFIG = {
     "DISABLE_PANELS": ["debug_toolbar.panels.redirects.RedirectsPanel"],
