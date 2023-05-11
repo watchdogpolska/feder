@@ -53,6 +53,7 @@ services:
       MY_INTERNAL_IP: ${MY_INTERNAL_IP}
     env_file:
       - secrets_web.env
+      - /dev/null
     if: "test -f /code/secrets_web.env"
     ports:
       - "8000:8000"
