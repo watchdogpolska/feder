@@ -4,8 +4,8 @@
   "dependencies": {
     "bootstrap-sass": "3.4.3",
     "font-awesome": "4.7.0",
-    "jquery": "3.6.3",
-    "postcss": "8.4.21"
+    "jquery": "3.6.4",
+    "postcss": "8.4.23"
   },
   "devDependencies": {
     "autoprefixer": "10.4.14",
@@ -17,7 +17,7 @@
     "gulp-postcss": "9.0.1",
     "gulp-rename": "2.0.0",
     "gulp-sass": "5.1.0",
-    "sass": "^1.49.9",
+    "sass": "^1.62.1",
     "gulp-uglify": "3.0.2",
     "gulp-util": "3.0.8"
   },
