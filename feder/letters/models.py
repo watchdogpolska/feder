@@ -24,7 +24,6 @@ from .utils import (
     text_email_wrapper,
     html_email_wrapper,
     normalize_msg_id,
-    get_body_with_footer,
     html_to_text,
 )
 from ..virus_scan.models import Request as ScanRequest
@@ -270,8 +269,12 @@ class Letter(AbstractRecord):
             "html_quote": mark_safe(html_email_wrapper(self.html_quote)),
         }
 
-    def body_with_footer(self):
-        return get_body_with_footer(self.body, self.case.monitoring.email_footer)
+    def html_body_with_footer(self):
+        context = {
+            "html_body": mark_safe(self.html_body),
+            "html_footer": mark_safe(self.case.monitoring.email_footer),
+        }
+        return render_to_string("letters/_letter_reply_body.html", context)
 
     def email_body(self):
         context = self._email_context()
