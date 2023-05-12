@@ -6,10 +6,42 @@ BODY_FOOTER_SEPERATOR = "\n\n--\n"
 
 
 class HTMLFilter(HTMLParser):
-    text = ""
+    def __init__(self):
+        super().__init__()
+        self.text = ""
+        self.list_counter = 0
+        self.list_type = ""
 
     def handle_data(self, data):
         self.text += data
+
+    def handle_starttag(self, tag, attrs):
+        if tag == "ul":
+            self.list_type = "ul"
+        elif tag == "ol":
+            self.list_type = "ol"
+        elif tag == "li":
+            self.list_counter += 1
+            self.text += self.get_list_prefix()
+
+    def handle_endtag(self, tag):
+        if tag == "ul" or tag == "ol":
+            self.list_counter = 0
+            self.list_type = ""
+
+    def get_list_prefix(self):
+        if self.list_type == "ul":
+            return "  - "
+        elif self.list_type == "ol":
+            return f"  {self.list_counter}. "
+
+    def handle_entityref(self, name):
+        if name == "nbsp":
+            self.text += " "
+
+    def handle_charref(self, name):
+        if name == "160":
+            self.text += " "
 
 
 def html_to_text(html):
