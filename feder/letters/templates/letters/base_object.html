@@ -10,18 +10,33 @@
             itemprop="itemListElement"
             itemscope
             itemtype="http://schema.org/ListItem">
-            <a itemprop="item" href="{{ object.case.monitoring.get_absolute_url }}">
-                {{ object.case.monitoring }}
-            </a>
+            {% if object.case is not None %}
+                <a itemprop="item" href="{{ object.case.monitoring.get_absolute_url }}">
+                    {{ object.case.monitoring }}
+                </a>
+            {% elif object.mass_draft is not None %}
+                <a itemprop="item" href="{{ object.mass_draft.monitoring.get_absolute_url }}">
+                    {{ object.mass_draft.monitoring }}
+                </a>
+            {% endif %}
         </li>
-        <li
-            itemprop="itemListElement"
-            itemscope
-            itemtype="http://schema.org/ListItem">
-            <a itemprop="item" href="{{ object.case.get_absolute_url }}">
-                <span itemprop="name">{{ object.case }}</span>
-            </a>
-        </li>
+        {% if object.case is not None %}
+            <li
+                itemprop="itemListElement"
+                itemscope
+                itemtype="http://schema.org/ListItem">
+                <a itemprop="item" href="{{ object.case.get_absolute_url }}">
+                    <span itemprop="name">{{ object.case }}</span>
+                </a>
+            </li>
+        {% else %}
+            <li
+                itemprop="itemListElement"
+                itemscope
+                itemtype="http://schema.org/ListItem">
+                <span itemprop="name">{% trans 'Draft' %}</span>
+            </li>
+        {% endif %}
         <li
             itemprop="itemListElement"
             itemscope
