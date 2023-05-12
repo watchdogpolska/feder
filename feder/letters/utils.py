@@ -23,6 +23,8 @@ class HTMLFilter(HTMLParser):
         elif tag == "li":
             self.list_counter += 1
             self.text += self.get_list_prefix()
+        elif tag == "br" or tag == "p":
+            self.text += "\n"
 
     def handle_endtag(self, tag):
         if tag == "ul" or tag == "ol":
