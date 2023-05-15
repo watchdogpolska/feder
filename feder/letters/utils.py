@@ -1,5 +1,6 @@
 from textwrap import TextWrapper
 from html.parser import HTMLParser
+from django.forms.widgets import TextInput
 
 BODY_REPLY_TPL = "\n\nProsimy o odpowiedź na adres {{EMAIL}}"
 BODY_FOOTER_SEPERATOR = "\n\n--\n"
@@ -81,3 +82,14 @@ def get_body_with_footer(body, footer):
     if footer.strip():
         full_body = f"{full_body}{BODY_FOOTER_SEPERATOR}{footer}"
     return full_body
+
+
+class HtmlIframeWidget(TextInput):
+    template_name = "letters/letter_html_iframe_widget.html"
+
+    def get_context(self, name, value, attrs=None):
+        context = super().get_context(name, value, attrs)
+        context["widget"][
+            "iframe_src"
+        ] = value  # Assuming the widget value contains the iframe source URL
+        return context

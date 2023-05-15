@@ -7,11 +7,13 @@ from dal import autocomplete
 from django import forms
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
+from tinymce.widgets import TinyMCE
 
 from feder.cases.models import Case
 from feder.letters.utils import get_body_with_footer
 from feder.records.models import Record
 from .models import Letter
+from .utils import html_to_text, HtmlIframeWidget
 
 
 QUOTE_TPL = "W nawiązaniu do pisma z dnia {created} z adresu {email}:\n{quoted}"
@@ -33,12 +35,29 @@ class LetterForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
         else:
             self.initial["case"] = case or letter.case
         self.helper.form_tag = False
+        if letter.is_draft:
+            self.fields["html_body"].widget = TinyMCE(
+                attrs={
+                    "cols": 80,
+                    "rows": 20,
+                },
+            )
+        else:
+            self.fields["html_body"].widget = HtmlIframeWidget(
+                attrs={
+                    "cols": 80,
+                    "rows": 20,
+                },
+            )
+            self.fields["title"].widget.attrs["readonly"] = True
+            self.fields["eml"].widget = forms.TextInput(attrs={"readonly": True})
 
     class Meta:
         model = Letter
-        fields = ["title", "body", "case", "note", "eml"]
+        fields = ["title", "html_body", "case", "note", "eml"]
 
     def save(self, *args, **kwargs):
+        self.instance.body = html_to_text(self.cleaned_data["html_body"])
         if not self.instance.is_mass_draft():
             self.instance.record.case = self.cleaned_data["case"]
             self.instance.record.save()
