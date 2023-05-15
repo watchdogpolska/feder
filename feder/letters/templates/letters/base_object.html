@@ -58,13 +58,15 @@
 {% endblock %}
 
 {% block buttons %}
-<div class="row">
-    <div class="col-lg-8 col-md-10 col-sm-12 col-xs-12 col-lg-offset-2 col-md-offset-1">
-        {% if object %}
-            {% include 'letters/_btn.html' with object=object %}
-        {% endif %}
-    </div>
-</div>
+    {% if not reply %}
+        <div class="row">
+            <div class="col-lg-8 col-md-10 col-sm-12 col-xs-12 col-lg-offset-2 col-md-offset-1">
+                {% if object %}
+                    {% include 'letters/_btn.html' with object=object %}
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}
 
 {% block content %}
