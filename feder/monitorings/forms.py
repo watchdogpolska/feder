@@ -16,7 +16,7 @@ from feder.letters.forms import QUOTE_TPL
 from feder.cases_tags.models import Tag
 from feder.letters.models import Record
 from .models import Monitoring
-from feder.letters.utils import html_to_text
+from feder.letters.utils import html_to_text, text_to_html, is_formatted_html
 from django.utils.safestring import mark_safe
 from django.template.loader import render_to_string
 
@@ -26,6 +26,8 @@ class MonitoringForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm
         super().__init__(*args, **kwargs)
         if not self.instance.pk:  # disable fields for create
             del self.fields["notify_alert"]
+        if self.instance.template and not is_formatted_html(self.instance.template):
+            self.initial["template"] = mark_safe(text_to_html(self.instance.template))
         self.instance.user = self.user
         self.fields["template"].initial = BODY_REPLY_TPL
         self.fields["template"].widget = TinyMCE(attrs={"cols": 80, "rows": 20})
