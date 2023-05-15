@@ -1,3 +1,4 @@
+import re
 from textwrap import TextWrapper
 from html.parser import HTMLParser
 from django.forms.widgets import TextInput
@@ -93,3 +94,20 @@ class HtmlIframeWidget(TextInput):
             "iframe_src"
         ] = value  # Assuming the widget value contains the iframe source URL
         return context
+
+
+def is_formatted_html(text):
+    is_html = bool(re.search(r"<[^<]+?>", text))
+    return is_html
+
+
+def text_to_html(text):
+    text = text.replace("&", "&amp;")
+    text = text.replace("<", "&lt;")
+    text = text.replace(">", "&gt;")
+    text = text.replace('"', "&quot;")
+    text = text.replace("'", "&#39;")
+    text = re.sub(r"  +|\t", lambda match: "&nbsp;" * len(match.group()), text)
+    text = re.sub(r"(https?://\S+)", r'<a href="\1">\1</a>', text)
+    text = text.replace("\n", "\n<br>")
+    return "<p>" + text + "\n</p>"
