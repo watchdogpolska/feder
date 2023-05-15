@@ -2,7 +2,7 @@ from textwrap import wrap
 
 from atom.ext.crispy_forms.forms import HelperMixin, SingleButtonMixin
 from braces.forms import UserKwargModelFormMixin
-from crispy_forms.layout import Submit
+from crispy_forms.layout import Layout, Fieldset, Submit, Row, Column
 from dal import autocomplete
 from django import forms
 from django.utils.translation import gettext_lazy as _
@@ -10,10 +10,12 @@ from django.conf import settings
 from tinymce.widgets import TinyMCE
 
 from feder.cases.models import Case
-from feder.letters.utils import get_body_with_footer
 from feder.records.models import Record
 from .models import Letter
 from .utils import html_to_text, HtmlIframeWidget
+from feder.letters.utils import BODY_REPLY_TPL
+from django.utils.safestring import mark_safe
+from django.template.loader import render_to_string
 
 
 QUOTE_TPL = "W nawiązaniu do pisma z dnia {created} z adresu {email}:\n{quoted}"
@@ -79,16 +81,38 @@ class ReplyForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
         self.user_can_save = self.user.has_perm(
             "add_draft", self.letter.case.monitoring
         )
-
+        self.fields["html_body"].widget = TinyMCE(attrs={"cols": 80, "rows": 25})
+        self.fields["html_quote"].widget = HtmlIframeWidget(
+            attrs={"cols": 80, "rows": 10}
+        )
+        self.fields["note"].widget.attrs["rows"] = 6
+        self.helper.layout = Layout(
+            Row(
+                Column(
+                    Fieldset(_("Message"), "title", "html_body"),
+                    css_class="form-group col-md-6 mb-0",
+                ),
+                Column(
+                    Fieldset(_("Message continued"), "html_quote", "note"),
+                    css_class="form-group col-md-6 mb-0",
+                ),
+            )
+        )
         self.set_dynamic_field_initial()
         self.add_form_buttons()
 
+    def get_html_body_with_footer(self):
+        reply_info = BODY_REPLY_TPL.replace("\n", "")
+        context = {
+            "html_body": mark_safe(f"<p></p><p>{reply_info}</p>"),
+            "html_footer": mark_safe(self.letter.case.monitoring.email_footer),
+        }
+        return render_to_string("letters/_letter_reply_body.html", context)
+
     def set_dynamic_field_initial(self):
         self.fields["title"].initial = f"Re: {self.letter.title}"
-        self.fields["body"].initial = get_body_with_footer(
-            "", self.letter.case.monitoring.email_footer
-        )
-        self.fields["quote"].initial = self.get_quote()
+        self.fields["html_body"].initial = self.get_html_body_with_footer()
+        self.fields["html_quote"].initial = self.get_html_quote()
 
     def add_form_buttons(self):
         if self.user_can_reply and self.user_can_save:
@@ -108,6 +132,7 @@ class ReplyForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
             )
 
     def clean(self):
+        self.cleaned_data["html_quote"] = self.get_html_quote()
         if not (self.user_can_reply or self.user_can_save):
             raise forms.ValidationError(
                 _(
@@ -131,8 +156,18 @@ class ReplyForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
             quoted=quoted,
         )
 
+    def get_html_quote(self):
+        quoted = "<blockquote>" + self.letter.html_body + "</blockquote>"
+        return QUOTE_TPL.format(
+            created=self.letter.created.strftime(settings.STRFTIME_FORMAT),
+            email=self.letter.email,
+            quoted=quoted,
+        )
+
     def save(self, *args, **kwargs):
         self.instance.author_user = self.user
+        self.instance.body = html_to_text(self.cleaned_data["html_body"])
+        self.instance.quote = html_to_text(self.cleaned_data["html_quote"])
         if not hasattr(self.instance, "record"):
             self.instance.record = Record.objects.create(case=self.letter.case)
         obj = super().save(*args, **kwargs)
@@ -140,7 +175,7 @@ class ReplyForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
 
     class Meta:
         model = Letter
-        fields = ["title", "body", "quote"]
+        fields = ["title", "html_body", "html_quote", "note"]
 
 
 class AssignLetterForm(SingleButtonMixin, forms.Form):
