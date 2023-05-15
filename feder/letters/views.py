@@ -1,4 +1,5 @@
 import json
+from typing import Any
 import uuid
 import logging
 from os import path
@@ -178,6 +179,13 @@ class LetterCreateView(
         kw = super().get_form_kwargs()
         kw["case"] = self.case
         return kw
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context["case"] = self.case
+        context["monitoring"] = self.case.monitoring
+        context["user"] = self.request.user
+        return context
 
 
 class LetterReplyView(

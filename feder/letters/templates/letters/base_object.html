@@ -71,17 +71,30 @@
 <div class="row">
     <div class="col-lg-8 col-md-10 col-sm-12 col-xs-12 col-lg-offset-2 col-md-offset-1">
         <div class="page-header">
-            <h2>
-                <i class="fa fa-envelope"></i>
-                <a href="{{ object.get_absolute_url }}">{{ object }}</a>
-                <small>{% trans 'by' %} <a href="{{ object.author.get_absolute_url }}"> {{ object.author }}</a>
-                    <time datetime="{{ created }}" title="{{ object.created|naturaltime }}">{{ object.created }}</time>
-                    {% if object.case %}
-                        {% trans 'in case of' %} <a href="{{ object.case.get_absolute_url }}">{{ object.case }}</a>
-                        {% trans 'with' %} <a href="{{ object.case.institution.get_absolute_url }}">{{ object.case.institution }}</a>
-                    {% endif %}
-                </small>
-            </h2>
+            {% if object %}
+                <h2>
+                    <i class="fa fa-envelope"></i>
+                    <a href="{{ object.get_absolute_url }}">{{ object }}</a>
+                    <small>{% trans 'by' %} <a href="{{ object.author.get_absolute_url }}"> {{ object.author }}</a>
+                        <time datetime="{{ created }}" title="{{ object.created|naturaltime }}">{{ object.created }}</time>
+                        {% if object.case %}
+                            {% trans 'in case of' %} <a href="{{ object.case.get_absolute_url }}">{{ object.case }}</a>
+                            {% trans 'with' %} <a href="{{ object.case.institution.get_absolute_url }}">{{ object.case.institution }}</a>
+                        {% endif %}
+                    </small>
+                </h2>
+            {% else %}
+                <h2>
+                    <i class="fa fa-envelope"></i>
+                    <span>{% trans "New letter" %}</span>
+                    <small>{% trans 'by' %} <a href="{{ user }}"> {{ user }}</a>
+                        {% if case %}
+                            {% trans 'in case of' %} <a href="{{ case.get_absolute_url }}">{{ case }}</a>
+                            {% trans 'with' %} <a href="{{ case.institution.get_absolute_url }}">{{ case.institution }}</a>
+                        {% endif %}
+                    </small>
+                </h2>
+            {% endif %}
         </div>
         <div class="gray">
             {% if object.case %}

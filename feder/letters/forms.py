@@ -35,7 +35,7 @@ class LetterForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
         else:
             self.initial["case"] = case or letter.case
         self.helper.form_tag = False
-        if letter.is_draft:
+        if not letter or letter.is_mass_draft() or letter.is_draft:
             self.fields["html_body"].widget = TinyMCE(
                 attrs={
                     "cols": 80,
@@ -58,8 +58,14 @@ class LetterForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
 
     def save(self, *args, **kwargs):
         self.instance.body = html_to_text(self.cleaned_data["html_body"])
+        self.instance.author_user = self.user
         if not self.instance.is_mass_draft():
-            self.instance.record.case = self.cleaned_data["case"]
+            if hasattr(self.instance, "record"):
+                self.instance.record.case = self.cleaned_data["case"]
+            else:
+                self.instance.record = Record.objects.create(
+                    case=self.cleaned_data["case"]
+                )
             self.instance.record.save()
         return super().save(*args, **kwargs)
 
