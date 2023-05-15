@@ -25,6 +25,8 @@ from .utils import (
     html_email_wrapper,
     normalize_msg_id,
     html_to_text,
+    is_formatted_html,
+    text_to_html,
 )
 from ..virus_scan.models import Request as ScanRequest
 from django.utils import timezone
@@ -251,8 +253,16 @@ class Letter(AbstractRecord):
             author_user=case.user,
             record=Record.objects.create(case=case),
             title=case.monitoring.subject,
-            html_body=case.monitoring.template,
-            body=html_to_text(case.monitoring.template),
+            html_body=(
+                case.monitoring.template
+                if is_formatted_html(case.monitoring.template)
+                else text_to_html(case.monitoring.template)
+            ),
+            body=(
+                html_to_text(case.monitoring.template)
+                if is_formatted_html(case.monitoring.template)
+                else case.monitoring.template
+            ),
         )
         letter.send(commit=True, only_email=False)
         return letter
