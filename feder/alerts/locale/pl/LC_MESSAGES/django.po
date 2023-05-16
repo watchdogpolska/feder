@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: alerts 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-11 21:53+0000\n"
+"POT-Creation-Date: 2023-05-16 12:56+0000\n"
 "PO-Revision-Date: 2016-09-18 01:57+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: pl_PL <naczelnik@jawnosc.tk>\n"
@@ -19,119 +19,121 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.8.7.1\n"
 
-#: models.py:14 templates/alerts/base_alert.html:21
+#: feder/alerts/models.py:14 feder/alerts/templates/alerts/base_alert.html:21
 msgid "Alerts index"
 msgstr "Wykaz alertów"
 
-#: models.py:28
+#: feder/alerts/models.py:31
 msgid "Monitoring"
 msgstr "Monitoring"
 
-#: models.py:30
+#: feder/alerts/models.py:33
 msgid "Reason"
 msgstr "Przyczyna"
 
-#: models.py:34 templates/alerts/_alert_small.html:13
-#: templates/alerts/alert_detail.html:14
+#: feder/alerts/models.py:37 feder/alerts/templates/alerts/_alert_small.html:13
+#: feder/alerts/templates/alerts/alert_detail.html:14
 msgid "Author"
 msgstr "Autor"
 
-#: models.py:41
+#: feder/alerts/models.py:44
 msgid "Solver"
 msgstr "Rozwiązywacz/-ka"
 
-#: models.py:45 templates/alerts/_alert_small.html:17
-#: templates/alerts/alert_detail.html:18
+#: feder/alerts/models.py:48 feder/alerts/templates/alerts/_alert_small.html:17
+#: feder/alerts/templates/alerts/alert_detail.html:18
 msgid "Status"
 msgstr "Status"
 
-#: models.py:52
+#: feder/alerts/models.py:55
 msgid "Alert"
 msgstr "Alert"
 
-#: models.py:53
+#: feder/alerts/models.py:56
 msgid "Alerts"
 msgstr "Alerty"
 
-#: models.py:57
+#: feder/alerts/models.py:60
 msgid "Closed"
 msgstr "Zamknięte"
 
-#: models.py:57
+#: feder/alerts/models.py:60
 msgid "Open"
 msgstr "Otwarte"
 
-#: templates/alerts/_alert_small.html:9 templates/alerts/alert_detail.html:6
+#: feder/alerts/templates/alerts/_alert_small.html:9
+#: feder/alerts/templates/alerts/alert_detail.html:6
 msgid "Creation date"
 msgstr "Data utworzenia"
 
-#: templates/alerts/_alert_small.html:22 templates/alerts/alert_detail.html:23
+#: feder/alerts/templates/alerts/_alert_small.html:22
+#: feder/alerts/templates/alerts/alert_detail.html:23
 msgid "Object"
 msgstr "Obiekt"
 
-#: templates/alerts/_btn.html:9
+#: feder/alerts/templates/alerts/_btn.html:9
 msgid "Edit"
 msgstr "Edytuj"
 
-#: templates/alerts/_btn.html:12
+#: feder/alerts/templates/alerts/_btn.html:12
 msgid "Switch status"
 msgstr "Przestaw status"
 
-#: templates/alerts/_btn.html:17
+#: feder/alerts/templates/alerts/_btn.html:17
 msgid "Delete"
 msgstr "Usuń"
 
-#: templates/alerts/alert_confirm_delete.html:9
+#: feder/alerts/templates/alerts/alert_confirm_delete.html:9
 msgid "Confirm delete"
 msgstr "Potwierdź usunięcie"
 
-#: templates/alerts/alert_detail.html:10
+#: feder/alerts/templates/alerts/alert_detail.html:10
 msgid "Modification date"
 msgstr "Data modyfikacji"
 
-#: templates/alerts/alert_form.html:24
+#: feder/alerts/templates/alerts/alert_form.html:24
 msgid "Add alert"
 msgstr "Dodaj alert"
 
-#: templates/alerts/alert_switch.html:9
+#: feder/alerts/templates/alerts/alert_switch.html:9
 msgid "Switch"
 msgstr "Przestaw"
 
-#: urls.py:8
+#: feder/alerts/urls.py:8
 msgid "^monitoring-(?P<monitoring>[\\d]+)$"
 msgstr "^monitoring-(?P<monitoring>[\\d]+)$"
 
-#: urls.py:13
+#: feder/alerts/urls.py:13
 msgid "^monitoring-(?P<monitoring>[\\d]+)/~create$"
 msgstr "^monitoring-(?P<monitoring>[\\d]+)/~utworz$"
 
-#: urls.py:17
+#: feder/alerts/urls.py:17
 msgid "^(?P<pk>[\\d]+)$"
 msgstr "^(?P<pk>[\\d]+)$"
 
-#: urls.py:18
+#: feder/alerts/urls.py:19
 msgid "^(?P<pk>[\\d]+)/~update$"
 msgstr "^(?P<pk>[\\d]+)/~aktualizuj$"
 
-#: urls.py:19
+#: feder/alerts/urls.py:22
 msgid "^(?P<pk>[\\d]+)/~delete$"
 msgstr "^(?P<pk>[\\d]+)/~usun$"
 
-#: urls.py:20
+#: feder/alerts/urls.py:25
 msgid "^(?P<pk>[\\d]+)/~status$"
 msgstr "^(?P<pk>[\\d]+)/~status$"
 
-#: views.py:71
+#: feder/alerts/views.py:71
 #, python-brace-format
 msgid "{object} created!"
 msgstr "{object} utworzony!"
 
-#: views.py:83
+#: feder/alerts/views.py:83
 #, python-brace-format
 msgid "{object} updated!"
 msgstr "{object} zaktualizowany!"
 
-#: views.py:92
+#: feder/alerts/views.py:92
 #, python-brace-format
 msgid "{object} deleted!"
 msgstr "{object} usunięty!"
