@@ -372,14 +372,19 @@ class MonitoringAssignView(RaisePermissionRequiredMixin, FilterView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["monitoring"] = self.monitoring
+        context["is_filtered"] = self.is_filtered()
         return context
+
+    def is_filtered(self):
+        count = sum(1 for value in self.request.GET.values() if value)
+        return bool(self.request.GET and count > 0)
 
     def get_filterset_kwargs(self, filterset_class):
         kw = super().get_filterset_kwargs(filterset_class)
         return kw
 
     def post(self, request, *args, **kwargs):
-        if not request.GET:
+        if not self.is_filtered():
             msg = _("You can not send letters without using filtering.")
             messages.error(self.request, msg)
             return HttpResponseRedirect(self.request.path)

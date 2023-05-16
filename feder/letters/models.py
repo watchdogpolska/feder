@@ -20,13 +20,21 @@ from feder.institutions.models import Institution
 from feder.records.models import AbstractRecord, AbstractRecordQuerySet, Record
 from feder.main.exceptions import FederValueError
 from feder.cases.models import Case
-from .utils import email_wrapper, normalize_msg_id, get_body_with_footer
+from .utils import (
+    text_email_wrapper,
+    html_email_wrapper,
+    normalize_msg_id,
+    html_to_text,
+    is_formatted_html,
+    text_to_html,
+)
 from ..virus_scan.models import Request as ScanRequest
 from django.utils import timezone
 from ..es_search.queries import more_like_this, find_document
 from feder.cases.models import enforce_quarantined_queryset
 from feder.main.utils import get_email_domain
 from feder.domains.models import Domain
+from django.utils.safestring import mark_safe
 
 logger = logging.getLogger(__name__)
 
@@ -245,21 +253,38 @@ class Letter(AbstractRecord):
             author_user=case.user,
             record=Record.objects.create(case=case),
             title=case.monitoring.subject,
-            body=case.monitoring.template,
+            html_body=(
+                case.monitoring.template
+                if is_formatted_html(case.monitoring.template)
+                else text_to_html(case.monitoring.template)
+            ),
+            body=(
+                html_to_text(case.monitoring.template)
+                if is_formatted_html(case.monitoring.template)
+                else case.monitoring.template
+            ),
         )
         letter.send(commit=True, only_email=False)
         return letter
 
     def _email_context(self):
         body = self.body.replace("{{EMAIL}}", self.case.email)
+        html_body = self.html_body.replace("{{EMAIL}}", self.case.email)
         return {
-            "body": body,
-            "footer": self.case.monitoring.email_footer,
-            "quote": email_wrapper(self.quote),
+            "html_body": mark_safe(html_body),
+            "text_body": mark_safe(body),
+            "html_footer": mark_safe(self.case.monitoring.email_footer),
+            "text_footer": mark_safe(html_to_text(self.case.monitoring.email_footer)),
+            "text_quote": mark_safe(text_email_wrapper(self.quote)),
+            "html_quote": mark_safe(html_email_wrapper(self.html_quote)),
         }
 
-    def body_with_footer(self):
-        return get_body_with_footer(self.body, self.case.monitoring.email_footer)
+    def html_body_with_footer(self):
+        context = {
+            "html_body": mark_safe(self.html_body),
+            "html_footer": mark_safe(self.case.monitoring.email_footer),
+        }
+        return render_to_string("letters/_letter_reply_body.html", context)
 
     def email_body(self):
         context = self._email_context()
