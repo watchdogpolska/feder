@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: main 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-16 12:56+0000\n"
-"PO-Revision-Date: 2023-05-16 13:06+0000\n"
+"POT-Creation-Date: 2023-05-16 17:32+0000\n"
+"PO-Revision-Date: 2023-05-16 17:33+0000\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -551,6 +551,24 @@ msgstr "Organizacja"
 #: feder/organisations/models.py:20
 msgid "Organisations"
 msgstr "Organizacje"
+
+#: feder/records/admin.py:43
+#| msgid "Letters"
+msgid "Letter id"
+msgstr "Id Listu"
+
+#: feder/records/admin.py:52
+#| msgid "Cases"
+msgid "Case id"
+msgstr "Id Sprawy"
+
+#: feder/records/admin.py:61
+msgid "Incoming parcel id"
+msgstr "Id paczki przychodzącej"
+
+#: feder/records/admin.py:70
+msgid "Outgoing parcel id"
+msgstr "Id paczki wychodzącej"
 
 #: feder/records/models.py:124
 msgid "Record"
