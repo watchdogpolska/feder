@@ -62,11 +62,14 @@ services:
     stdin_open: true
     tty: true
 
-  worker:
-    command: python manage.py process_tasks
-    build: *webBuild
-    volumes: *webVolumes
-    environment: *webEnvironment
+#*
+#* for debugging purposes it is better to run worker in VScode launch on web container
+#*
+#  worker:
+#    command: python manage.py process_tasks
+#    build: *webBuild
+#    volumes: *webVolumes
+#    environment: *webEnvironment
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.6.2
