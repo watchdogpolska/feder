@@ -1,5 +1,4 @@
 import json
-from typing import Any
 import uuid
 import logging
 from os import path
@@ -180,7 +179,7 @@ class LetterCreateView(
         kw["case"] = self.case
         return kw
 
-    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["case"] = self.case
         context["monitoring"] = self.case.monitoring
