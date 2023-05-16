@@ -170,6 +170,7 @@ TIME_ZONE = "UTC"
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#language-code
 LANGUAGE_CODE = "pl"
 LANGUAGES = (("pl", _("Polish")), ("en", _("English")))
+LOCALE_PATHS = (str(APPS_DIR.path("main/locale")),)
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#site-id
 SITE_ID = 1
