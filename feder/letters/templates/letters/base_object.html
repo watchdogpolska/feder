@@ -10,18 +10,33 @@
             itemprop="itemListElement"
             itemscope
             itemtype="http://schema.org/ListItem">
-            <a itemprop="item" href="{{ object.case.monitoring.get_absolute_url }}">
-                {{ object.case.monitoring }}
-            </a>
+            {% if object.case is not None %}
+                <a itemprop="item" href="{{ object.case.monitoring.get_absolute_url }}">
+                    {{ object.case.monitoring }}
+                </a>
+            {% elif object.mass_draft is not None %}
+                <a itemprop="item" href="{{ object.mass_draft.monitoring.get_absolute_url }}">
+                    {{ object.mass_draft.monitoring }}
+                </a>
+            {% endif %}
         </li>
-        <li
-            itemprop="itemListElement"
-            itemscope
-            itemtype="http://schema.org/ListItem">
-            <a itemprop="item" href="{{ object.case.get_absolute_url }}">
-                <span itemprop="name">{{ object.case }}</span>
-            </a>
-        </li>
+        {% if object.case is not None %}
+            <li
+                itemprop="itemListElement"
+                itemscope
+                itemtype="http://schema.org/ListItem">
+                <a itemprop="item" href="{{ object.case.get_absolute_url }}">
+                    <span itemprop="name">{{ object.case }}</span>
+                </a>
+            </li>
+        {% else %}
+            <li
+                itemprop="itemListElement"
+                itemscope
+                itemtype="http://schema.org/ListItem">
+                <span itemprop="name">{% trans 'Draft' %}</span>
+            </li>
+        {% endif %}
         <li
             itemprop="itemListElement"
             itemscope
@@ -43,30 +58,52 @@
 {% endblock %}
 
 {% block buttons %}
-    {% if object %}
-        {% include 'letters/_btn.html' with object=object %}
+    {% if not reply %}
+        <div class="row">
+            <div class="col-lg-8 col-md-10 col-sm-12 col-xs-12 col-lg-offset-2 col-md-offset-1">
+                {% if object %}
+                    {% include 'letters/_btn.html' with object=object %}
+                {% endif %}
+            </div>
+        </div>
     {% endif %}
 {% endblock %}
 
 {% block content %}
-    <div class="page-header">
-        <h2>
-            <i class="fa fa-envelope"></i>
-            <a href="{{ object.get_absolute_url }}">{{ object }}</a>
-            <small>{% trans 'by' %} <a href="{{ object.author.get_absolute_url }}"> {{ object.author }}</a>
-                <time datetime="{{ created }}" title="{{ object.created|naturaltime }}">{{ object.created }}</time>
-                {% if object.case %}
-                    {% trans 'in case of' %} <a href="{{ object.case.get_absolute_url }}">{{ object.case }}</a>
-                    {% trans 'with' %} <a href="{{ object.case.institution.get_absolute_url }}">{{ object.case.institution }}</a>
-                {% endif %}
-            </small>
-        </h2>
+<div class="row">
+    <div class="col-lg-8 col-md-10 col-sm-12 col-xs-12 col-lg-offset-2 col-md-offset-1">
+        <div class="page-header">
+            {% if object %}
+                <h2>
+                    <i class="fa fa-envelope"></i>
+                    <a href="{{ object.get_absolute_url }}">{{ object }}</a>
+                    <small>{% trans 'by' %} <a href="{{ object.author.get_absolute_url }}"> {{ object.author }}</a>
+                        <time datetime="{{ created }}" title="{{ object.created|naturaltime }}">{{ object.created }}</time>
+                        {% if object.case %}
+                            {% trans 'in case of' %} <a href="{{ object.case.get_absolute_url }}">{{ object.case }}</a>
+                            {% trans 'with' %} <a href="{{ object.case.institution.get_absolute_url }}">{{ object.case.institution }}</a>
+                        {% endif %}
+                    </small>
+                </h2>
+            {% else %}
+                <h2>
+                    <i class="fa fa-envelope"></i>
+                    <span>{% trans "New letter" %}</span>
+                    <small>{% trans 'by' %} <a href="{{ user }}"> {{ user }}</a>
+                        {% if case %}
+                            {% trans 'in case of' %} <a href="{{ case.get_absolute_url }}">{{ case }}</a>
+                            {% trans 'with' %} <a href="{{ case.institution.get_absolute_url }}">{{ case.institution }}</a>
+                        {% endif %}
+                    </small>
+                </h2>
+            {% endif %}
+        </div>
+        <div class="gray">
+            {% if object.case %}
+                {% include 'cases/_case_quarantined.html' with object=object.case %}
+            {% endif %}
+            {% block content_object %}{% endblock %}
+        </div>
     </div>
-    <div class="gray">
-        {% if object.case %}
-            {% include 'cases/_case_quarantined.html' with object=object.case %}
-        {% endif %}
-        {% block content_object %}{% endblock %}
-    </div>
-
+</div>
 {% endblock %}

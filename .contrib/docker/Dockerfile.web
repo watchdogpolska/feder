@@ -16,6 +16,8 @@ RUN apt-get update \
    build-essential \
    git \
    curl \
+   nano \
+   htop \
    gettext libgettextpo-dev wait-for-it \
 && rm -rf /var/lib/apt/lists/*
 COPY requirements/*.txt ./requirements/

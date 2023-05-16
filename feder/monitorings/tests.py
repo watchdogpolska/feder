@@ -422,7 +422,9 @@ class MonitoringAssignViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
         institution_2 = InstitutionFactory(name="Office 2")
         InstitutionFactory()
         to_send_ids = [institution_1.pk, institution_2.pk]
-        self.client.post(self.get_url() + "?name=", data={"to_assign": to_send_ids})
+        self.client.post(
+            self.get_url() + "?name=Office", data={"to_assign": to_send_ids}
+        )
         self.send_all_pending()
         self.assertEqual(len(mail.outbox), 2)
         self.assertEqual(mail.outbox[0].to[0], institution_1.email)
@@ -434,7 +436,9 @@ class MonitoringAssignViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
         self.login_permitted_user()
         institution = InstitutionFactory(name="Office 1")
         to_send_ids = [institution.pk]
-        self.client.post(self.get_url() + "?name=", data={"to_assign": to_send_ids})
+        self.client.post(
+            self.get_url() + "?name=Office", data={"to_assign": to_send_ids}
+        )
         self.send_all_pending()
         case = Case.objects.filter(
             monitoring=self.monitoring, institution=institution
@@ -641,7 +645,13 @@ class MassMessageViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     def get_form_data(self, **kwargs):
         data = {}
         form = MassMessageForm(self.monitoring, user=self.user)
-        for field_name in ["recipients_tags", "title", "body", "quote", "note"]:
+        for field_name in [
+            "recipients_tags",
+            "title",
+            "html_body",
+            "html_quote",
+            "note",
+        ]:
             data[field_name] = kwargs.get(field_name) or form.fields[field_name]
         if "send" in kwargs.keys():
             data["send"] = "send"
