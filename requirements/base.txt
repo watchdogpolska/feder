@@ -35,6 +35,11 @@ lxml==4.9.2
 cryptography==40.0.2
 django-filter==23.2
 django-autocomplete-light==3.9.7
+# django-ajax-datatable to be installed from github fork until
+# https://github.com/morlandi/django-ajax-datatable/pull/111 is merged
+# django-ajax-datatable==4.4.5
+git+https://github.com/PiotrIw/django-ajax-datatable.git@05afe42
+
 django-tinymce==3.6.1
 django-atom==0.16.3
 django-formtools==2.4.1
