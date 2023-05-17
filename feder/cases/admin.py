@@ -25,11 +25,11 @@ class CaseAdmin(VersionAdmin, GuardedModelAdmin):
     search_fields = [
         "id",
         "name",
-        "user",
-        "monitoring",
-        "institution",
+        "user__username",
+        "monitoring__name",
+        "institution__name",
         "email",
-        "tags",
+        "tags__name",
     ]
     list_filter = [
         "confirmation_received",
