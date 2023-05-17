@@ -5,9 +5,9 @@ TEST?=feder
 clean:
 	docker-compose down
 
-regenerate_frontend:
-	docker-compose run web python manage.py collectstatic -c --noinput
+gulp: # regenerate_frontend
 	docker-compose up gulp
+	docker-compose run web python manage.py collectstatic --noinput
 
 build:
 	docker-compose build web
