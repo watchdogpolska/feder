@@ -11,6 +11,7 @@ from guardian.models import GroupObjectPermissionBase, UserObjectPermissionBase
 from model_utils.models import TimeStampedModel
 
 from feder.domains.models import Domain
+from feder.main.utils import FormattedDatetimeMixin
 from .validators import validate_template_syntax
 
 _("Monitorings index")
@@ -21,9 +22,12 @@ _("Can delete Monitoring")
 NOTIFY_HELP = _("Notify about new alerts person who can view alerts")
 
 
-class MonitoringQuerySet(models.QuerySet):
+class MonitoringQuerySet(FormattedDatetimeMixin, models.QuerySet):
     def with_case_count(self):
         return self.annotate(case_count=models.Count("case"))
+
+    # def with_letter_count(self):
+    #     return self.annotate(letter_count=models.Count("letter"))
 
     def area(self, jst):
         return self.filter(

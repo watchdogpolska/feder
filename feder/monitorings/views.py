@@ -1,3 +1,4 @@
+from ajax_datatable import AjaxDatatableView
 from atom.views import DeleteMessageMixin, UpdateMessageMixin
 from braces.views import (
     MessageMixin,
@@ -17,6 +18,7 @@ from django.urls import reverse, reverse_lazy
 from django.db.models import Count, Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 from django.utils.http import urlencode
 from django.views.generic import (
@@ -25,8 +27,10 @@ from django.views.generic import (
     DetailView,
     FormView,
     UpdateView,
+    TemplateView,
 )
 from django.contrib.syndication.views import Feed
+from django.utils import timezone
 from django.utils.encoding import force_str
 from django.utils.feedgenerator import Atom1Feed
 from django_filters.views import FilterView
@@ -72,6 +76,68 @@ class MonitoringListView(SelectRelatedMixin, FilterView):
             .for_user(self.request.user)
             .with_case_count()
             .order_by("-created")
+        )
+
+
+class MonitoringsTableView(TemplateView):
+    """
+    View for displaying template with Monitorings table.
+    """
+
+    template_name = "monitorings/monitorings_table.html"
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["header_label"] = mark_safe(_("Monitorings search table"))
+        context["ajax_datatable_url"] = reverse(
+            "monitorings:monitorings_table_ajax_data"
+        )
+        return context
+
+
+class MonitoringsAjaxDatatableView(AjaxDatatableView):
+    """
+    View to provide table list of all Monitorings with ajax data.
+    """
+
+    model = Monitoring
+    title = _("Monitorings")
+    initial_order = [
+        ["id", "desc"],
+    ]
+    length_menu = [[200, 20, 50, 100], [200, 20, 50, 100]]
+    search_values_separator = "|"
+    column_defs = [
+        AjaxDatatableView.render_row_tools_column_def(),
+        {"name": "id", "visible": True, "title": "Id"},
+        {
+            "name": "created_str",
+            "visible": True,
+            "title": _("Created"),
+        },
+        {
+            "name": "name",
+            "visible": True,
+            "title": _("Name"),
+        },
+        {
+            "name": "user",
+            "visible": True,
+            "title": _("User"),
+        },
+        {
+            "name": "case_count",
+            "visible": True,
+            "title": _("Case count"),
+        },
+    ]
+
+    def get_initial_queryset(self, request=None):
+        qs = super().get_initial_queryset(request).prefetch_related()
+        return (
+            qs.for_user(user=self.request.user)
+            .with_formatted_datetime("created", timezone.get_default_timezone())
+            .with_case_count()
         )
 
 
