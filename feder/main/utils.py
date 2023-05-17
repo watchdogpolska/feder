@@ -1,5 +1,6 @@
 from rest_framework_csv.renderers import CSVStreamingRenderer
 from django.contrib.sites.shortcuts import get_current_site
+from django.db.models.expressions import RawSQL
 
 
 def get_full_url_for_context(path, context):
@@ -38,3 +39,17 @@ class PaginatedCSVStreamingRenderer(CSVStreamingRenderer):
         if not isinstance(data, list):
             data = data.get(self.results_field, [])
         return super().render(data, *args, **kwargs)
+
+
+class FormattedDatetimeMixin:
+    def with_formatted_datetime(self, field_name, timezone="UTC"):
+        model = self.model
+        table_name = model._meta.db_table
+        expr = (
+            f"CONVERT_TZ({table_name}.{field_name}, @@session.time_zone, '{timezone}')"
+        )
+        formatted_field_name = f"{field_name}_str"
+        formatted_field_expr = RawSQL(
+            f"DATE_FORMAT({expr}, '%%Y-%%m-%%d %%H:%%i:%%s')", []
+        )
+        return self.annotate(**{formatted_field_name: formatted_field_expr})
