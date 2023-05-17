@@ -28,6 +28,7 @@ class InstitutionAdmin(VersionAdmin):
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
     list_display = ("name", "get_institution_count")
+    search_fields = ["name"]
     actions = None
 
     @admin.display(
