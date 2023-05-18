@@ -181,7 +181,7 @@ class MonitoringsAjaxDatatableView(AjaxDatatableView):
                     )
                 elif isinstance(value, datetime):
                     value = timezone.localtime(value).strftime("%Y-%m-%d %H:%M:%S")
-                elif isinstance(value,bool):
+                elif field in ["hide_new_cases", "is_public", "notify_alert"]:
                     value = _("Yes") if value else _("No")
                 verbose_n = obj._meta.get_field(field).verbose_name
             except AttributeError:
