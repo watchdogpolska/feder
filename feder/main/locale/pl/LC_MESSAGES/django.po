@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: main 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-16 17:32+0000\n"
-"PO-Revision-Date: 2023-05-16 17:33+0000\n"
+"POT-Creation-Date: 2023-05-18 09:43+0000\n"
+"PO-Revision-Date: 2023-05-18 09:46+0000\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -19,11 +19,11 @@ msgstr ""
 "X-Generator: Poedit 2.4.1\n"
 "X-Translated-Using: django-rosetta 0.9.9\n"
 
-#: config/settings/common.py:172
+#: config/settings/common.py:173
 msgid "Polish"
 msgstr "Polski"
 
-#: config/settings/common.py:172
+#: config/settings/common.py:173
 msgid "English"
 msgstr "Angielski"
 
@@ -89,37 +89,42 @@ msgstr "Sprawy"
 msgid "Monitorings"
 msgstr "Monitoringi"
 
-#: feder/main/templates/_sidebar.html:42
+#: feder/main/templates/_sidebar.html:41
+#| msgid "Monitorings"
+msgid "Monitorings table"
+msgstr "Tabela monitoringów"
+
+#: feder/main/templates/_sidebar.html:46
 msgid "Letters"
 msgstr "Listy"
 
-#: feder/main/templates/_sidebar.html:48
+#: feder/main/templates/_sidebar.html:52
 msgid "Institutions"
 msgstr "Instytucje"
 
-#: feder/main/templates/_sidebar.html:56
+#: feder/main/templates/_sidebar.html:60
 msgid "User"
 msgstr "Użytkownik / użytkowniczka"
 
-#: feder/main/templates/_sidebar.html:60
+#: feder/main/templates/_sidebar.html:64
 msgid "My Profile"
 msgstr "Mój profil"
 
-#: feder/main/templates/_sidebar.html:63
+#: feder/main/templates/_sidebar.html:67
 msgid "App admin"
 msgstr "Panel administracyjny"
 
-#: feder/main/templates/_sidebar.html:66
+#: feder/main/templates/_sidebar.html:70
 msgid "Logout"
 msgstr "Wyloguj"
 
-#: feder/main/templates/_sidebar.html:71
+#: feder/main/templates/_sidebar.html:75
 #: feder/main/templates/account/signup.html:10
 #: feder/main/templates/account/signup.html:22
 msgid "Sign Up"
 msgstr "Zarejestuj się"
 
-#: feder/main/templates/_sidebar.html:75
+#: feder/main/templates/_sidebar.html:79
 msgid "Log In"
 msgstr "Zaloguj"
 
@@ -553,12 +558,10 @@ msgid "Organisations"
 msgstr "Organizacje"
 
 #: feder/records/admin.py:43
-#| msgid "Letters"
 msgid "Letter id"
 msgstr "Id Listu"
 
 #: feder/records/admin.py:52
-#| msgid "Cases"
 msgid "Case id"
 msgstr "Id Sprawy"
 
