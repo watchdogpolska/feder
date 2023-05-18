@@ -1,3 +1,4 @@
+from datetime import datetime
 from ajax_datatable import AjaxDatatableView
 from atom.views import DeleteMessageMixin, UpdateMessageMixin
 from braces.views import (
@@ -17,6 +18,7 @@ from django.core.exceptions import PermissionDenied
 from django.urls import reverse, reverse_lazy
 from django.db.models import Count, Q
 from django.http import HttpResponseRedirect
+from django.template.defaultfilters import linebreaksbr
 from django.shortcuts import get_object_or_404
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
@@ -43,6 +45,7 @@ from feder.cases.models import Case
 from feder.institutions.filters import InstitutionFilter
 from feder.institutions.models import Institution
 from feder.letters.models import Letter
+from feder.letters.utils import is_formatted_html
 from feder.main.mixins import ExtraListMixin, RaisePermissionRequiredMixin
 from feder.main.paginator import DefaultPagination
 from feder.cases_tags.models import Tag
@@ -157,6 +160,35 @@ class MonitoringsAjaxDatatableView(AjaxDatatableView):
             .with_case_confirmation_received_count()
             .with_case_response_received_count()
         )
+
+    def render_row_details(self, pk, request=None):
+        obj = self.model.objects.filter(id=pk).first()
+        fields_to_skip = ["slug", ]
+        fields = [
+            f.name
+            for f in obj._meta.get_fields()
+            if f.concrete and f.name not in fields_to_skip
+        ]
+        html = '<table class="table table-bordered compact" style="max-width: 70%;">'
+        for field in fields:
+            try:
+                value = getattr(obj, field) or ""
+                if field in ["template", "email_footer", "description"]:
+                    value = (
+                        mark_safe(value) 
+                        if is_formatted_html(value) 
+                        else mark_safe(linebreaksbr(value.replace("\r", "")))
+                    )
+                elif isinstance(value, datetime):
+                    value = timezone.localtime(value).strftime("%Y-%m-%d %H:%M:%S")
+                elif isinstance(value,bool):
+                    value = _("Yes") if value else _("No")
+                verbose_n = obj._meta.get_field(field).verbose_name
+            except AttributeError:
+                continue
+            html += f'<tr><td style="width: 20%;">{verbose_n}</td><td>{value}</td></tr>'
+        html += "</table>"
+        return mark_safe(html)
 
 
 class MonitoringDetailView(SelectRelatedMixin, ExtraListMixin, DetailView):
