@@ -164,7 +164,9 @@ class MonitoringsAjaxDatatableView(AjaxDatatableView):
 
     def render_row_details(self, pk, request=None):
         obj = self.model.objects.filter(id=pk).first()
-        fields_to_skip = ["slug", ]
+        fields_to_skip = [
+            "slug",
+        ]
         fields = [
             f.name
             for f in obj._meta.get_fields()
@@ -176,8 +178,8 @@ class MonitoringsAjaxDatatableView(AjaxDatatableView):
                 value = getattr(obj, field) or ""
                 if field in ["template", "email_footer", "description"]:
                     value = (
-                        mark_safe(value) 
-                        if is_formatted_html(value) 
+                        mark_safe(value)
+                        if is_formatted_html(value)
                         else mark_safe(linebreaksbr(value.replace("\r", "")))
                     )
                 elif isinstance(value, datetime):
