@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: django-monitorings 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-05-18 09:43+0000\n"
-"PO-Revision-Date: 2023-05-18 09:47+0000\n"
+"PO-Revision-Date: 2023-05-18 13:44+0000\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -561,7 +561,7 @@ msgstr "Użycie pola {{EMAIL}} jest obowiązkowe."
 #: feder/monitorings/views.py:91
 #| msgid "Monitorings index"
 msgid "Monitorings search table"
-msgstr "Tabela monitorów"
+msgstr "Tabela monitoringów"
 
 #: feder/monitorings/views.py:117
 #| msgid "{0} created!"
