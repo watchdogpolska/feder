@@ -49,6 +49,7 @@ from feder.letters.utils import is_formatted_html
 from feder.main.mixins import ExtraListMixin, RaisePermissionRequiredMixin
 from feder.main.paginator import DefaultPagination
 from feder.cases_tags.models import Tag
+from feder.teryt.models import JST
 from .filters import MonitoringFilter, MonitoringCaseReportFilter
 from .forms import (
     MonitoringForm,
@@ -203,7 +204,9 @@ class MonitoringDetailView(SelectRelatedMixin, ExtraListMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         kwargs["url_extra_kwargs"] = {"slug": self.object.slug}
-        return super().get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
+        context["voivodeship_table"] = self.generate_voivodeship_table(self.object)
+        return context
 
     def get_object_list(self, obj):
         return (
@@ -215,6 +218,33 @@ class MonitoringDetailView(SelectRelatedMixin, ExtraListMixin, DetailView):
             .order_by("-record_max")
             .all()
         )
+
+    def generate_voivodeship_table(self, monitoring):
+        """
+        Generate html table with monitoring voivodeships and their
+        institutions and cases counts
+        """
+        voivodeship_list = JST.objects.filter(category__level=1).all().order_by("name")
+        table = """
+            <table class="table table-bordered compact" style="width: 100%">
+            """
+        table += """
+            <tr>
+                <th>Województwo</th>
+                <th>Liczba spraw</th>
+            </tr>"""
+        for voivodeship in voivodeship_list:
+            table += (
+                "<tr><td>"
+                + voivodeship.name
+                + "</td><td>"
+                + str(
+                    Case.objects.filter(monitoring=monitoring).area(voivodeship).count()
+                )
+                + "</td></tr>"
+            )
+        table += "</table>"
+        return table
 
 
 class LetterListMonitoringView(SelectRelatedMixin, ExtraListMixin, DetailView):
