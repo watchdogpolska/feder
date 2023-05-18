@@ -33,7 +33,7 @@ class InstitutionListView(SelectRelatedMixin, FilterView):
 
     def get_queryset(self):
         qs = super().get_queryset()
-        return qs.with_case_count()
+        return qs.with_case_count().order_by("name")
 
     def get_context_data(self, *args, **kwargs):
         params = [["format", "csv"], ["page_size", DefaultPagination.max_page_size]]
