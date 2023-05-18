@@ -12,9 +12,11 @@ class JSTDetailView(DetailView):
         context["case_qs"] = (
             context["object"].case_qs().for_user(self.request.user).all()
         )
+        context["case_qs_count"] = context["case_qs"].count()
         context["institution_qs"] = (
             context["object"].institution_qs().for_user(self.request.user).all()
         )
+        context["institution_qs_count"] = context["institution_qs"].count()
         return context
 
 
