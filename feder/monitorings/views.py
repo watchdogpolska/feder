@@ -113,11 +113,14 @@ class MonitoringsAjaxDatatableView(AjaxDatatableView):
         {
             "name": "created_str",
             "visible": True,
+            "width": 130,
+            # "max_length": 16,
             "title": _("Created"),
         },
         {
             "name": "name",
             "visible": True,
+            "width": 600,
             "title": _("Name"),
         },
         {
@@ -128,7 +131,20 @@ class MonitoringsAjaxDatatableView(AjaxDatatableView):
         {
             "name": "case_count",
             "visible": True,
+            "searchable": False,
             "title": _("Case count"),
+        },
+        {
+            "name": "case_confirmation_received_count",
+            "visible": True,
+            "searchable": False,
+            "title": _("Confirmation received count"),
+        },
+        {
+            "name": "case_response_received_count",
+            "visible": True,
+            "searchable": False,
+            "title": _("Response received count"),
         },
     ]
 
@@ -138,6 +154,8 @@ class MonitoringsAjaxDatatableView(AjaxDatatableView):
             qs.for_user(user=self.request.user)
             .with_formatted_datetime("created", timezone.get_default_timezone())
             .with_case_count()
+            .with_case_confirmation_received_count()
+            .with_case_response_received_count()
         )
 
 

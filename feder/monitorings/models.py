@@ -26,8 +26,27 @@ class MonitoringQuerySet(FormattedDatetimeMixin, models.QuerySet):
     def with_case_count(self):
         return self.annotate(case_count=models.Count("case"))
 
-    # def with_letter_count(self):
-    #     return self.annotate(letter_count=models.Count("letter"))
+    def with_case_confirmation_received_count(self):
+        """
+        function to annotate with case count
+        when case.confirmation_received field is True
+        """
+        return self.annotate(
+            case_confirmation_received_count=models.Count(
+                "case", filter=models.Q(case__confirmation_received=True)
+            )
+        )
+
+    def with_case_response_received_count(self):
+        """
+        function to annotate with case count
+        when case.response_received field is True
+        """
+        return self.annotate(
+            case_response_received_count=models.Count(
+                "case", filter=models.Q(case__response_received=True)
+            )
+        )
 
     def area(self, jst):
         return self.filter(
