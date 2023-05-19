@@ -31,6 +31,11 @@
                     {{ object.description|linebreaks }}
                 </div>
             {% endif %}
+            {% if voivodeship_table %}
+                <div class="gray">
+                    {{ voivodeship_table|safe }}
+                </div>
+            {% endif %}
         </div>
         <div class="col-md-8">
             {% block content_object %}

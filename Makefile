@@ -6,8 +6,10 @@ clean:
 	docker-compose down
 
 regenerate_frontend:
-	docker-compose run web python manage.py collectstatic -c --noinput
 	docker-compose up gulp
+	docker-compose run web python manage.py collectstatic --noinput
+
+gulp: regenerate_frontend
 
 build:
 	docker-compose build web

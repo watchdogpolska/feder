@@ -1,9 +1,15 @@
-from django.urls import re_path
+from django.urls import re_path, path
 from django.utils.translation import gettext_lazy as _
 
 from . import views
 
 urlpatterns = [
+    path("table/", views.MonitoringsTableView.as_view(), name="table"),
+    path(
+        "monitorings_table_ajax_data/",
+        views.MonitoringsAjaxDatatableView.as_view(),
+        name="monitorings_table_ajax_data",
+    ),
     re_path(_(r"^$"), views.MonitoringListView.as_view(), name="list"),
     re_path(_(r"^~create$"), views.MonitoringCreateView.as_view(), name="create"),
     re_path(_(r"^feed$"), views.MonitoringRssFeed(), name="rss"),

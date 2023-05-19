@@ -51,8 +51,7 @@ urlpatterns = [
     re_path(
         r"^attachment/(?P<pk>[\d-]+)/(?P<letter_pk>[\d-]+)$",
         views.AttachmentXSendFileView.as_view(),
-    ),
-    # no translation for back-ward compatibility
+    ),  # no translation for back-ward compatibility
     re_path(
         _(r"^(?P<pk>[\d-]+)/~update$"), views.LetterUpdateView.as_view(), name="update"
     ),
@@ -64,8 +63,8 @@ urlpatterns = [
         _(r"^(?P<pk>[\d-]+)/~reply$"), views.LetterReplyView.as_view(), name="reply"
     ),
     re_path(
-        _(r"^(?P<pk>[\d-]+)/~resend$"), views.LetterResendView.as_view(), name="resend"
-    ),
+        r"^(?P<pk>[\d-]+)/~resend$", views.LetterResendView.as_view(), name="resend"
+    ),  # no translation for test compatibility
     re_path(
         _(r"^(?P<pk>[\d-]+)/~spam"), views.LetterReportSpamView.as_view(), name="spam"
     ),

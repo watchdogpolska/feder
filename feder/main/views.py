@@ -1,6 +1,9 @@
 from django.views.generic import TemplateView
 from django.template.response import TemplateResponse
 from feder.monitorings.models import Monitoring
+from feder.teryt.models import JST
+from feder.cases.models import Case
+from feder.institutions.models import Institution
 
 
 class HomeView(TemplateView):
@@ -13,7 +16,36 @@ class HomeView(TemplateView):
             .order_by("-created")
             .all()[:16]
         )
+        context["voivodeship_table"] = self.generate_voivodeship_table()
         return context
+
+    def generate_voivodeship_table(self):
+        """
+        Generate html table with voivodeships and their
+        institutions and cases counts
+        """
+        voivodeship_list = JST.objects.filter(category__level=1).all().order_by("name")
+        table = """
+            <table class="table table-bordered compact" style="width: 100%">
+            """
+        table += """
+            <tr>
+                <th>Województwo</th>
+                <th>Liczba instytucji</th>
+                <th>Liczba spraw</th>
+            </tr>"""
+        for voivodeship in voivodeship_list:
+            table += (
+                "<tr><td>"
+                + voivodeship.name
+                + "</td><td>"
+                + str(Case.objects.area(voivodeship).count())
+                + "</td><td>"
+                + str(Institution.objects.area(voivodeship).count())
+                + "</td></tr>"
+            )
+        table += "</table>"
+        return table
 
 
 def handler500(request):

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-13 10:41+0000\n"
+"POT-Creation-Date: 2023-05-18 17:46+0000\n"
 "PO-Revision-Date: 2021-05-10 15:21+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: \n"
@@ -19,107 +19,109 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 2.4.1\n"
 
-#: logs/apps.py:7
+#: feder/letters/logs/apps.py:7
 msgid "Logs of letter"
 msgstr "Dziennik listów"
 
-#: logs/models.py:16
+#: feder/letters/logs/models.py:16
 msgid "Open"
 msgstr "Otwarty"
 
-#: logs/models.py:17
+#: feder/letters/logs/models.py:17
 msgid "Delivered"
 msgstr "Dostarczony"
 
-#: logs/models.py:18
+#: feder/letters/logs/models.py:18
 msgid "Spam-bounce"
 msgstr "Odrzucony z powodu spamu"
 
-#: logs/models.py:19
+#: feder/letters/logs/models.py:19
 msgid "Soft-bounce"
 msgstr "Miękko odrzucony"
 
-#: logs/models.py:20
+#: feder/letters/logs/models.py:20
 msgid "Hard-bounce"
 msgstr "Twardo odrzucony"
 
-#: logs/models.py:21
+#: feder/letters/logs/models.py:21
 msgid "Dropped"
 msgstr "Porzucone"
 
-#: logs/models.py:22
+#: feder/letters/logs/models.py:22
 msgid "Deferred"
 msgstr "Odroczone"
 
-#: logs/models.py:23
+#: feder/letters/logs/models.py:23
 msgid "Unknown"
 msgstr "Nieznane"
 
-#: logs/models.py:34 logs/templates/logs/_list.html:7
+#: feder/letters/logs/models.py:34
+#: feder/letters/logs/templates/logs/_list.html:7
 msgid "Case"
 msgstr "Sprawa"
 
-#: logs/models.py:36 logs/templates/logs/_list.html:9
+#: feder/letters/logs/models.py:36
+#: feder/letters/logs/templates/logs/_list.html:9
 msgid "Letter"
 msgstr "List"
 
-#: logs/models.py:38
+#: feder/letters/logs/models.py:38
 msgid "Message-ID"
 msgstr "Message-ID"
 
-#: logs/models.py:39
+#: feder/letters/logs/models.py:39
 msgid "To"
 msgstr "Do"
 
-#: logs/models.py:49 logs/models.py:90
+#: feder/letters/logs/models.py:49 feder/letters/logs/models.py:90
 msgid "Email"
 msgstr "E-mail"
 
-#: logs/models.py:50
+#: feder/letters/logs/models.py:50
 msgid "Emails"
 msgstr "E-maile"
 
-#: logs/models.py:108
+#: feder/letters/logs/models.py:108
 msgid "Log record"
 msgstr "Rekord dziennika"
 
-#: logs/models.py:109
+#: feder/letters/logs/models.py:109
 msgid "Log records"
 msgstr "Rekordy dziennika"
 
-#: logs/templates/logs/_list.html:6
+#: feder/letters/logs/templates/logs/_list.html:6
 msgid "ID"
 msgstr "ID"
 
-#: logs/templates/logs/_list.html:8
+#: feder/letters/logs/templates/logs/_list.html:8
 msgid "Status"
 msgstr "Status"
 
-#: logs/templates/logs/_list.html:10
+#: feder/letters/logs/templates/logs/_list.html:10
 msgid "Records count"
 msgstr "Liczba wpisów"
 
-#: logs/templates/logs/emaillog_list_for_case.html:29
-#: logs/templates/logs/emaillog_list_for_monitoring.html:21
+#: feder/letters/logs/templates/logs/emaillog_list_for_case.html:29
+#: feder/letters/logs/templates/logs/emaillog_list_for_monitoring.html:21
 msgid "Logs"
 msgstr "Dziennik"
 
-#: logs/templates/logs/emaillog_list_for_monitoring.html:36
+#: feder/letters/logs/templates/logs/emaillog_list_for_monitoring.html:36
 msgid "Download .csv"
 msgstr "Pobierz .csv"
 
-#: logs/urls.py:8
+#: feder/letters/logs/urls.py:8
 msgid "^case-(?P<case_pk>[\\d-]+)$"
 msgstr "^spraw-(?P<case_pk>[\\d-]+)$"
 
-#: logs/urls.py:13
+#: feder/letters/logs/urls.py:13
 msgid "^monitoring-(?P<monitoring_pk>[\\d-]+)$"
 msgstr "^monitoring-(?P<monitoring_pk>[\\d-]+)$"
 
-#: logs/urls.py:18
+#: feder/letters/logs/urls.py:18
 msgid "^monitoring-(?P<monitoring_pk>[\\d-]+)/export$"
 msgstr "^monitoring-(?P<monitoring_pk>[\\d-]+)/eksport$"
 
-#: logs/urls.py:22
+#: feder/letters/logs/urls.py:23
 msgid "^log-(?P<pk>[\\d-]+)$"
 msgstr "^wpis-(?P<pk>[\\d-]+)$"
