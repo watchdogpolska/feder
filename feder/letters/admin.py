@@ -21,7 +21,8 @@ class LetterAdmin(admin.ModelAdmin):
 
     date_hierarchy = "created"
     list_display = (
-        "pk",
+        "id",
+        "get_record_id",
         "title",
         "get_case",
         "get_monitoring",
@@ -57,7 +58,7 @@ class LetterAdmin(admin.ModelAdmin):
     )
     raw_id_fields = ("author_user", "author_institution", "record")
     # list_editable = ("is_spam",)
-    ordering = ("-created",)
+    ordering = ("-id",)
     actions = [
         "delete_selected",
         "mark_spam",
@@ -65,6 +66,15 @@ class LetterAdmin(admin.ModelAdmin):
         "mark_spam_unknown",
         "mark_non_spam",
     ]
+
+    @admin.display(
+        description=_("Record id"),
+        ordering="record__id",
+    )
+    def get_record_id(self, obj):
+        if obj.record is None:
+            return None
+        return obj.record.id
 
     @admin.display(
         description=_("Case name"),

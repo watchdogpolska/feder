@@ -12,6 +12,7 @@ class CaseAdmin(VersionAdmin, GuardedModelAdmin):
     """
 
     list_display = (
+        "id",
         "name",
         "user",
         "monitoring",
@@ -22,12 +23,18 @@ class CaseAdmin(VersionAdmin, GuardedModelAdmin):
         "is_quarantined",
     )
     search_fields = [
+        "id",
         "name",
-        "user",
-        "monitoring",
-        "institution",
+        "user__username",
+        "monitoring__name",
+        "institution__name",
         "email",
-        "tags",
+        "tags__name",
+    ]
+    list_filter = [
+        "confirmation_received",
+        "response_received",
+        "is_quarantined",
     ]
     actions = None
 

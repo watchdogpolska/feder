@@ -202,6 +202,10 @@ class Letter(AbstractRecord):
             ("recognize_letter", _("Can recognize letter")),
         )
 
+    def delete(self, *args, **kwargs):
+        self.record.delete()  # Delete the associated Record instance
+        super().delete(*args, **kwargs)
+
     @property
     def is_incoming(self):
         return not bool(self.author_user_id)

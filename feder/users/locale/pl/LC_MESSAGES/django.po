@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-11 21:52+0000\n"
+"POT-Creation-Date: 2023-05-18 17:46+0000\n"
 "PO-Revision-Date: 2020-07-11 23:52+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: \n"
@@ -19,74 +19,71 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.8.7.1\n"
 
-#: templates/users/_social.html:7
-msgid "Connect a Facebook account"
-msgstr "Połącz konto Facebook"
-
-#: templates/users/_social.html:14
-msgid "Connect a Twitter account"
-msgstr "Połącz konto Twitterze"
-
-#: templates/users/_social.html:21
-msgid "Connect a GitLab account"
-msgstr "Połącz konto GitLab"
-
-#: templates/users/_social.html:28
+#: feder/users/templates/users/_social.html:7
 msgid "Connect a Google account"
 msgstr "Połącz konto Google"
 
-#: templates/users/_social.html:35
-msgid "Connect a GitHub account"
-msgstr "Połącz konto GitHub"
-
-#: templates/users/user_detail.html:4 templates/users/user_form.html:5
-#: templates/users/user_form.html:12
+#: feder/users/templates/users/user_detail.html:4
+#: feder/users/templates/users/user_form.html:5
+#: feder/users/templates/users/user_form.html:12
 msgid "User"
 msgstr "Użytkownik / użytkowniczka"
 
-#: templates/users/user_detail.html:20
+#: feder/users/templates/users/user_detail.html:20
 msgid "My Info"
 msgstr "O mnie"
 
-#: templates/users/user_detail.html:21
+#: feder/users/templates/users/user_detail.html:21
 msgid "E-Mail"
 msgstr "E-mail"
 
-#: templates/users/user_detail.html:22
+#: feder/users/templates/users/user_detail.html:22
 msgid "Password change"
 msgstr "Zmień hasło"
 
-#: templates/users/user_form.html:18
+#: feder/users/templates/users/user_form.html:18
 msgid "Update"
 msgstr "Aktualizuj"
 
-#: templates/users/user_list.html:3
+#: feder/users/templates/users/user_list.html:3
 msgid "Members"
 msgstr "Członkowie"
 
-#: templates/users/user_list.html:11
+#: feder/users/templates/users/user_list.html:11
 msgid "Users"
 msgstr "Użytkownicy / użytkowniczki"
 
-#: urls.py:8
+#: feder/users/urls.py:8
 msgid "^$"
 msgstr "^$"
 
-#: urls.py:11
+#: feder/users/urls.py:11
 msgid "^~redirect/$"
 msgstr "^~przekieruj/$"
 
-#: urls.py:15
+#: feder/users/urls.py:15
 msgid "^(?P<username>[\\w.@+-]+)/$"
 msgstr "^(?P<username>[\\w.@+-]+)/$"
 
-#: urls.py:20
+#: feder/users/urls.py:20
 msgid "^~update/$"
 msgstr "^~aktualizuj/$"
 
-#: urls.py:23
+#: feder/users/urls.py:23
 msgid "^~autocomplete$"
 msgstr "^~autocomplete$"
+
+#~ msgid "Connect a Facebook account"
+#~ msgstr "Połącz konto Facebook"
+
+#~ msgid "Connect a Twitter account"
+#~ msgstr "Połącz konto Twitterze"
+
+#~ msgid "Connect a GitLab account"
+#~ msgstr "Połącz konto GitLab"
+
+#~ msgid "Connect a GitHub account"
+#~ msgstr "Połącz konto GitHub"
 
 #~ msgid "Creation date"
 #~ msgstr "Data utworzenia"

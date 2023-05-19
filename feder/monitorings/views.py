@@ -1,3 +1,5 @@
+from datetime import datetime
+from ajax_datatable import AjaxDatatableView
 from atom.views import DeleteMessageMixin, UpdateMessageMixin
 from braces.views import (
     MessageMixin,
@@ -16,7 +18,9 @@ from django.core.exceptions import PermissionDenied
 from django.urls import reverse, reverse_lazy
 from django.db.models import Count, Q
 from django.http import HttpResponseRedirect
+from django.template.defaultfilters import linebreaksbr
 from django.shortcuts import get_object_or_404
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 from django.utils.http import urlencode
 from django.views.generic import (
@@ -25,8 +29,10 @@ from django.views.generic import (
     DetailView,
     FormView,
     UpdateView,
+    TemplateView,
 )
 from django.contrib.syndication.views import Feed
+from django.utils import timezone
 from django.utils.encoding import force_str
 from django.utils.feedgenerator import Atom1Feed
 from django_filters.views import FilterView
@@ -39,9 +45,11 @@ from feder.cases.models import Case
 from feder.institutions.filters import InstitutionFilter
 from feder.institutions.models import Institution
 from feder.letters.models import Letter
+from feder.letters.utils import is_formatted_html
 from feder.main.mixins import ExtraListMixin, RaisePermissionRequiredMixin
 from feder.main.paginator import DefaultPagination
 from feder.cases_tags.models import Tag
+from feder.teryt.models import JST
 from .filters import MonitoringFilter, MonitoringCaseReportFilter
 from .forms import (
     MonitoringForm,
@@ -75,6 +83,117 @@ class MonitoringListView(SelectRelatedMixin, FilterView):
         )
 
 
+class MonitoringsTableView(TemplateView):
+    """
+    View for displaying template with Monitorings table.
+    """
+
+    template_name = "monitorings/monitorings_table.html"
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["header_label"] = mark_safe(_("Monitorings search table"))
+        context["ajax_datatable_url"] = reverse(
+            "monitorings:monitorings_table_ajax_data"
+        )
+        return context
+
+
+class MonitoringsAjaxDatatableView(AjaxDatatableView):
+    """
+    View to provide table list of all Monitorings with ajax data.
+    """
+
+    model = Monitoring
+    title = _("Monitorings")
+    initial_order = [
+        ["id", "desc"],
+    ]
+    length_menu = [[200, 20, 50, 100], [200, 20, 50, 100]]
+    search_values_separator = "|"
+    column_defs = [
+        AjaxDatatableView.render_row_tools_column_def(),
+        {"name": "id", "visible": True, "title": "Id"},
+        {
+            "name": "created_str",
+            "visible": True,
+            "width": 130,
+            # "max_length": 16,
+            "title": _("Created"),
+        },
+        {
+            "name": "name",
+            "visible": True,
+            "width": 600,
+            "title": _("Name"),
+        },
+        {
+            "name": "user",
+            "visible": True,
+            "title": _("User"),
+        },
+        {
+            "name": "case_count",
+            "visible": True,
+            "searchable": False,
+            "title": _("Case count"),
+        },
+        {
+            "name": "case_confirmation_received_count",
+            "visible": True,
+            "searchable": False,
+            "title": _("Confirmation received count"),
+        },
+        {
+            "name": "case_response_received_count",
+            "visible": True,
+            "searchable": False,
+            "title": _("Response received count"),
+        },
+    ]
+
+    def get_initial_queryset(self, request=None):
+        qs = super().get_initial_queryset(request).prefetch_related()
+        return (
+            qs.for_user(user=self.request.user)
+            .with_formatted_datetime("created", timezone.get_default_timezone())
+            .with_case_count()
+            .with_case_confirmation_received_count()
+            .with_case_response_received_count()
+        )
+
+    def render_row_details(self, pk, request=None):
+        obj = self.model.objects.filter(id=pk).first()
+        fields_to_skip = [
+            "slug",
+        ]
+        fields = [
+            f.name
+            for f in obj._meta.get_fields()
+            if f.concrete and f.name not in fields_to_skip
+        ]
+        html = '<table class="table table-bordered compact" style="max-width: 70%;">'
+        for field in fields:
+            try:
+                value = getattr(obj, field) or ""
+                if field in ["template", "email_footer", "description"]:
+                    value = (
+                        mark_safe(value)
+                        if is_formatted_html(value)
+                        else mark_safe(linebreaksbr(value.replace("\r", "")))
+                    )
+                elif isinstance(value, datetime):
+                    value = timezone.localtime(value).strftime("%Y-%m-%d %H:%M:%S")
+                elif field in ["hide_new_cases", "is_public", "notify_alert"]:
+                    value = _("Yes") if value else _("No")
+                verbose_n = obj._meta.get_field(field).verbose_name
+            except AttributeError:
+                continue
+            html += f'<tr><td style="width: 20%;">{verbose_n}</td><td>{value}</td></tr>'
+        html += "</table>"
+        return mark_safe(html)
+
+
 class MonitoringDetailView(SelectRelatedMixin, ExtraListMixin, DetailView):
     model = Monitoring
     select_related = ["user"]
@@ -87,7 +206,9 @@ class MonitoringDetailView(SelectRelatedMixin, ExtraListMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         kwargs["url_extra_kwargs"] = {"slug": self.object.slug}
-        return super().get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
+        context["voivodeship_table"] = self.generate_voivodeship_table(self.object)
+        return context
 
     def get_object_list(self, obj):
         return (
@@ -99,6 +220,33 @@ class MonitoringDetailView(SelectRelatedMixin, ExtraListMixin, DetailView):
             .order_by("-record_max")
             .all()
         )
+
+    def generate_voivodeship_table(self, monitoring):
+        """
+        Generate html table with monitoring voivodeships and their
+        institutions and cases counts
+        """
+        voivodeship_list = JST.objects.filter(category__level=1).all().order_by("name")
+        table = """
+            <table class="table table-bordered compact" style="width: 100%">
+            """
+        table += """
+            <tr>
+                <th>Województwo</th>
+                <th>Liczba spraw</th>
+            </tr>"""
+        for voivodeship in voivodeship_list:
+            table += (
+                "<tr><td>"
+                + voivodeship.name
+                + "</td><td>"
+                + str(
+                    Case.objects.filter(monitoring=monitoring).area(voivodeship).count()
+                )
+                + "</td></tr>"
+            )
+        table += "</table>"
+        return table
 
 
 class LetterListMonitoringView(SelectRelatedMixin, ExtraListMixin, DetailView):

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-institutions 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-19 13:55+0000\n"
+"POT-Creation-Date: 2023-05-18 17:46+0000\n"
 "PO-Revision-Date: 2020-10-19 15:44+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -19,177 +19,180 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 2.0.6\n"
 
-#: admin.py:28
+#: feder/institutions/admin.py:35
 msgid "Institution count"
 msgstr "Liczba instytucji"
 
-#: filters.py:27 models.py:30 models.py:85 viewsets.py:43
+#: feder/institutions/filters.py:27 feder/institutions/models.py:33
+#: feder/institutions/models.py:106 feder/institutions/viewsets.py:42
 msgid "Name"
 msgstr "Nazwa"
 
-#: models.py:12
+#: feder/institutions/models.py:12
 msgid "Institution index"
 msgstr "Wykaz instytucji"
 
-#: models.py:31 models.py:87
+#: feder/institutions/models.py:34 feder/institutions/models.py:108
 msgid "Slug"
 msgstr "Identyfikator redakcyjny"
 
-#: models.py:32 models.py:97
+#: feder/institutions/models.py:35 feder/institutions/models.py:118
 msgid "Tag"
 msgstr "Tag"
 
-#: models.py:36 templates/institutions/_institution_small.html:9
+#: feder/institutions/models.py:39
+#: feder/institutions/templates/institutions/_institution_small.html:9
 msgid "Unit of administrative division"
 msgstr "Jednostka podziału terytorialnego"
 
-#: models.py:41 viewsets.py:45
+#: feder/institutions/models.py:44 feder/institutions/viewsets.py:44
 msgid "REGON number"
 msgstr "Kod REGON"
 
-#: models.py:47
+#: feder/institutions/models.py:50
 msgid "Parent institutions"
 msgstr "Instytucja nadrzędna"
 
-#: models.py:50 viewsets.py:44
+#: feder/institutions/models.py:53 feder/institutions/viewsets.py:43
 msgid "Email of institution"
 msgstr "Adres e-mail instytucji"
 
-#: models.py:54 models.py:55
+#: feder/institutions/models.py:57 feder/institutions/models.py:58
 msgid "Institution"
 msgstr "Instytucja"
 
-#: models.py:98 templates/institutions/institution_detail.html:53
+#: feder/institutions/models.py:119
+#: feder/institutions/templates/institutions/institution_detail.html:53
 msgid "Tags"
 msgstr "Tagi"
 
-#: templates/institutions/_btn.html:8
-#: templates/institutions/base_object.html:43
+#: feder/institutions/templates/institutions/_btn.html:8
+#: feder/institutions/templates/institutions/base_object.html:28
 msgid "Edit"
 msgstr "Edycja"
 
-#: templates/institutions/_btn.html:13
+#: feder/institutions/templates/institutions/_btn.html:13
 msgid "Delete"
 msgstr "Usuń"
 
-#: templates/institutions/_filter_form.html:8
+#: feder/institutions/templates/institutions/_filter_form.html:9
 msgid "Download as CSV"
 msgstr "Pobierz jako CSV"
 
-#: templates/institutions/_institution_small.html:13
+#: feder/institutions/templates/institutions/_institution_small.html:13
 msgid "Case count"
 msgstr "Liczba spraw"
 
-#: templates/institutions/base.html:5
-#: templates/institutions/institution_detail.html:3
+#: feder/institutions/templates/institutions/base.html:5
+#: feder/institutions/templates/institutions/institution_detail.html:3
 msgid "Institutions"
 msgstr "Instytucje"
 
-#: templates/institutions/base_object.html:44
-#: templates/institutions/institution_filter.html:9
+#: feder/institutions/templates/institutions/base_object.html:29
+#: feder/institutions/templates/institutions/institution_filter.html:9
 msgid "Add institution"
 msgstr "Dodaj instytucje"
 
-#: templates/institutions/institution_confirm_delete.html:9
+#: feder/institutions/templates/institutions/institution_confirm_delete.html:9
 msgid "Confirm delete"
 msgstr "Potwierdź usuwanie"
 
-#: templates/institutions/institution_detail.html:51
+#: feder/institutions/templates/institutions/institution_detail.html:51
 msgid "E-mail"
 msgstr "E-mail"
 
-#: templates/institutions/institution_detail.html:60
+#: feder/institutions/templates/institutions/institution_detail.html:60
 msgid "Cases"
 msgstr "Sprawy"
 
-#: templates/institutions/institution_detail.html:74
+#: feder/institutions/templates/institutions/institution_detail.html:74
 msgid "No rows."
 msgstr "Brak wierszy"
 
-#: templates/institutions/institution_detail.html:82
+#: feder/institutions/templates/institutions/institution_detail.html:82
 msgid "previous"
 msgstr "poprzednia"
 
-#: templates/institutions/institution_detail.html:86
+#: feder/institutions/templates/institutions/institution_detail.html:86
 #, python-format
 msgid ""
 "Page %(no)s of\n"
 "                        %(total)s"
 msgstr "Strona %(no)s z %(total)s"
 
-#: templates/institutions/institution_detail.html:91
+#: feder/institutions/templates/institutions/institution_detail.html:91
 msgid "next"
 msgstr "następna"
 
-#: urls.py:7
+#: feder/institutions/urls.py:7
 msgid "^$"
 msgstr "^$"
 
-#: urls.py:8
+#: feder/institutions/urls.py:8
 msgid "^~create$"
 msgstr "^~utworz$"
 
-#: urls.py:10
+#: feder/institutions/urls.py:10
 msgid "^(?P<slug>[\\w-]+)$"
 msgstr "^(?P<slug>[\\w-]+)$"
 
-#: urls.py:15
+#: feder/institutions/urls.py:15
 msgid "^(?P<slug>[\\w-]+)/(?P<page>[\\d]+)$"
 msgstr "^(?P<slug>[\\w-]+)/(?P<page>[\\d]+)$"
 
-#: urls.py:20
+#: feder/institutions/urls.py:20
 msgid "^(?P<slug>[\\w-]+)/~update$"
 msgstr "^(?P<slug>[\\w-]+)/~edytuj$"
 
-#: urls.py:25
+#: feder/institutions/urls.py:25
 msgid "^(?P<slug>[\\w-]+)/~delete$"
 msgstr "^(?P<slug>[\\w-]+)/~usun$"
 
-#: urls.py:30
+#: feder/institutions/urls.py:30
 msgid "^~autocomplete$"
 msgstr "^~autocomplete$"
 
-#: urls.py:35
+#: feder/institutions/urls.py:35
 msgid "^~autocomplete-tag$"
 msgstr "^~autocomplete-tag$"
 
-#: views.py:24
+#: feder/institutions/views.py:25
 msgid "Institutions index"
 msgstr "Wykaz instytucji"
 
-#: viewsets.py:42
+#: feder/institutions/viewsets.py:41
 msgid "Id"
 msgstr "Id"
 
-#: viewsets.py:46
+#: feder/institutions/viewsets.py:45
 msgid "JST id"
 msgstr "JST id"
 
-#: viewsets.py:47
+#: feder/institutions/viewsets.py:46
 msgid "JST category"
 msgstr "JST kategoria"
 
-#: viewsets.py:48
+#: feder/institutions/viewsets.py:47
 msgid "JST name"
 msgstr "JST nazwa"
 
-#: viewsets.py:49
+#: feder/institutions/viewsets.py:48
 msgid "JST voivodeship"
 msgstr "JST Województwo"
 
-#: viewsets.py:50
+#: feder/institutions/viewsets.py:49
 msgid "Created"
 msgstr "Dodany"
 
-#: viewsets.py:51
+#: feder/institutions/viewsets.py:50
 msgid "Modified"
 msgstr "Zmieniony"
 
-#: viewsets.py:52
+#: feder/institutions/viewsets.py:51
 msgid "Tag names"
 msgstr "Nazwy tagów"
 
-#: viewsets.py:86
+#: feder/institutions/viewsets.py:78
 msgid "institutions"
 msgstr "instytucje"
 
