@@ -194,6 +194,124 @@ class MonitoringsAjaxDatatableView(AjaxDatatableView):
         html += "</table>"
         return mark_safe(html)
 
+    def customize_row(self, row, obj):
+        row["name"] = obj.render_monitoring_cases_table_link()
+
+
+class MonitoringCasesTableView(TemplateView):
+    """
+    View for displaying template with table of Monitoring Cases.
+    """
+
+    template_name = "monitorings/monitoring_cases_table.html"
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        monitoring = Monitoring.objects.get(slug=self.kwargs.get("slug"))
+        context["header_label"] = mark_safe(
+            _("Monitoring Cases search table - ") + monitoring.name
+        )
+        context["ajax_datatable_url"] = reverse(
+            "monitorings:monitoring_cases_table_ajax_data",
+            kwargs={"slug": self.kwargs.get("slug")},
+        )
+        context["datatable_id"] = "monitoring_cases_table"
+        return context
+
+
+class MonitoringCasesAjaxDatatableView(AjaxDatatableView):
+    """
+    View to provide table list of all Monitoring Cases with ajax data.
+    """
+
+    model = Case
+    title = _("Monitoring Cases")
+    initial_order = [
+        ["id", "desc"],
+    ]
+    length_menu = [[20, 50, 100], [20, 50, 100]]
+    search_values_separator = "|"
+    column_defs = [
+        AjaxDatatableView.render_row_tools_column_def(),
+        {"name": "id", "visible": True, "title": "Id"},
+        {
+            "name": "created_str",
+            "visible": True,
+            "width": 130,
+            # "max_length": 16,
+            "title": _("Created"),
+        },
+        {
+            "name": "name",
+            "visible": True,
+            # "width": 600,
+            "title": _("Name"),
+        },
+        {
+            "name": "institution",
+            "visible": True,
+            "title": _("Institution"),
+        },
+        {
+            "name": "record_max_str",
+            "visible": True,
+            "title": _("Last letter"),
+        },
+        {
+            "name": "record_count",
+            "visible": True,
+            "title": _("Letters count"),
+        },
+        {
+            "name": "tags",
+            "visible": True,
+            "title": _("Tags"),
+            "choices": True,
+            "autofilter": True,
+            "m2m_foreign_field": "tags__name",
+        },
+        {
+            "name": "confirmation_received",
+            "visible": True,
+            "title": _("Confirmation received"),
+            "searchable": False,
+        },
+        {
+            "name": "response_received",
+            "visible": True,
+            "title": _("Response received"),
+            "searchable": False,
+        },
+        {
+            "name": "is_quarantined",
+            "visible": True,
+            "title": _("Quarantined"),
+            "searchable": False,
+        },
+    ]
+
+    def get_initial_queryset(self, request=None):
+        slug = self.kwargs.get("slug")
+        monitoring = Monitoring.objects.get(slug=slug)
+        qs = (
+            super()
+            .get_initial_queryset(request)
+            .filter(monitoring=monitoring)
+            .prefetch_related()
+        )
+        return (
+            qs.for_user(user=self.request.user)
+            .with_formatted_datetime("created", timezone.get_default_timezone())
+            .with_record_max_str()
+            .with_record_count()
+        )
+
+    def customize_row(self, row, obj):
+        row["confirmation_received"] = obj.render_boolean_field("confirmation_received")
+        row["response_received"] = obj.render_boolean_field("response_received")
+        row["is_quarantined"] = obj.render_boolean_field("is_quarantined")
+        row["name"] = obj.render_case_link()
+
 
 class MonitoringDetailView(SelectRelatedMixin, ExtraListMixin, DetailView):
     model = Monitoring

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load static %}
+{# {% load bootstrap4 %} #}
+{% load i18n %}
+
+
+{% block content %}
+<style>
+    /* overriding element style to hide */
+    /* .dataTables_filter {
+        text-align: right;
+        min-width: 400px;
+        visibility: hidden;
+        visibility: collapse;
+        height: 0px;
+    } */
+    input[type=search] {
+        width: 500px; /* set the desired min-width value */
+    }
+    input[type=text] {
+        width: 60px; /* set the desired min-width value */
+    }
+    /* Set the maximum width of the select element */
+    select {
+        width: 60px;
+        height: 26px; /* adjust height value to input[type=search]*/
+    }
+    /* Allow the select element to wrap its options */
+        select option {
+        white-space: normal;
+    }
+</style>
+
+<script>
+    var AjaxDataURL = "{{ ajax_datatable_url }}";
+    var DataTablesTableId = "{{ datatable_id }}";
+</script>
+
+<h3>{{ header_label }}:</h3>
+
+<div id="modal-popup" class="modal fade" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="width:1000px;" ></div>
+    </div>
+</div>
+
+<div id="tableWrapper">
+    <!-- TODO add colvis button and functionality -->
+    <div class="table-responsive">
+        <table id="{{ datatable_id }}" width="100%" class="table table-bordered compact">
+            <!-- table-striped  nowrap-->
+        </table>
+    </div>
+</div>
+
+{% endblock %}
