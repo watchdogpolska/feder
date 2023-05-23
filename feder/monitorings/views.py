@@ -131,6 +131,7 @@ class MonitoringsAjaxDatatableView(AjaxDatatableView):
             "name": "user",
             "visible": True,
             "title": _("User"),
+            "foreign_field": "user__username",
         },
         {
             "name": "case_count",
