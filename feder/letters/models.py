@@ -332,7 +332,15 @@ class Letter(AbstractRecord):
 
         # preparing letter content
         letter_data = {}
-        for name in ["author_user", "title", "body", "quote", "note"]:
+        for name in [
+            "author_user",
+            "title",
+            "html_body",
+            "html_quote",
+            "body",
+            "quote",
+            "note",
+        ]:
             letter_data[name] = getattr(self, name)
         letter_data["is_draft"] = False
         letter_data["message_type"] = self.MESSAGE_TYPES.regular
