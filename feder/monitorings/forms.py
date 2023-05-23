@@ -1,4 +1,3 @@
-from textwrap import wrap
 from atom.ext.crispy_forms.forms import SingleButtonMixin, HelperMixin
 from atom.ext.guardian.forms import TranslatedUserObjectPermissionsForm
 from braces.forms import UserKwargModelFormMixin
@@ -16,7 +15,12 @@ from feder.letters.forms import QUOTE_TPL
 from feder.cases_tags.models import Tag
 from feder.letters.models import Record
 from .models import Monitoring
-from feder.letters.utils import html_to_text, text_to_html, is_formatted_html
+from feder.letters.utils import (
+    html_to_text,
+    text_to_html,
+    is_formatted_html,
+    text_email_wrapper,
+)
 from django.utils.safestring import mark_safe
 from django.template.loader import render_to_string
 
@@ -146,11 +150,12 @@ class MassMessageForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
 
     def get_application_letter(self):
         case = self.monitoring.case_set.order_by("created").first()
-        return (
-            Letter.objects.filter(record__case=case, author_user_id__isnull=False)
+        application_letter = (
+            Letter.objects.filter(record__case=case, author_user__isnull=False)
             .order_by("created")
             .first()
         )
+        return application_letter
 
     def set_dynamic_field_initial(self):
         self.fields["html_body"].initial = self.get_html_body_with_footer()
@@ -179,18 +184,34 @@ class MassMessageForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
         return render_to_string("letters/_letter_reply_body.html", context)
 
     def get_html_quote(self):
-        quoted = "<blockquote>" + self.application_letter.html_body + "</blockquote>"
-        return QUOTE_TPL.format(
-            created=self.application_letter.created.strftime(settings.STRFTIME_FORMAT),
-            email=self.application_letter.email,
-            quoted=quoted,
+        html_body = (
+            self.application_letter.html_body
+            if is_formatted_html(self.application_letter.html_body)
+            else text_to_html(self.application_letter.body)
         )
+        quoted = "<blockquote>" + html_body + "</blockquote>"
+        quote_info = QUOTE_TPL.format(
+            created=self.application_letter.created.strftime(
+                settings.STRFTIME_DATE_FORMAT
+            ),
+            email="{{EMAIL}}",
+            quoted="",
+        )
+        html_quote = f"""
+            <p>
+                <br>
+                {quote_info}<br>
+                {quoted}
+            </p>"""
+        return mark_safe(html_quote)
 
     def get_text_quote(self):
-        quoted = "> " + "\n> ".join(wrap(self.application_letter.body, width=80))
+        quoted = text_email_wrapper(self.application_letter.body)
         return QUOTE_TPL.format(
-            created=self.application_letter.created.strftime(settings.STRFTIME_FORMAT),
-            email=self.application_letter.email,
+            created=self.application_letter.created.strftime(
+                settings.STRFTIME_DATE_FORMAT
+            ),
+            email="{{EMAIL}}",
             quoted=quoted,
         )
 
