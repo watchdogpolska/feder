@@ -55,10 +55,16 @@ def html_to_text(html):
 
 
 def text_email_wrapper(text):
-    wrapper = TextWrapper()
+    wrapper = TextWrapper(width=80, break_long_words=False)
     wrapper.subsequent_indent = "> "
     wrapper.initial_indent = "> "
-    return "\n".join(wrapper.wrap(text))
+    lines = text.split("\n")
+    wrapped_text = ""
+    for line in lines:
+        wrapped_line = "\n".join(wrapper.wrap(line.strip()))
+        if wrapped_line:
+            wrapped_text += wrapped_line + "\n"
+    return wrapped_text
 
 
 def html_email_wrapper(html_quote):
