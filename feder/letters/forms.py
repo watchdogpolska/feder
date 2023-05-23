@@ -102,7 +102,9 @@ class ReplyForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
         self.add_form_buttons()
 
     def get_html_body_with_footer(self):
-        reply_info = BODY_REPLY_TPL.replace("\n", "")
+        reply_info = BODY_REPLY_TPL.replace("\n", "").replace(
+            "{{EMAIL}}", str(self.letter.case.get_email_address())
+        )
         context = {
             "html_body": mark_safe(f"<p></p><p>{reply_info}</p>"),
             "html_footer": mark_safe(self.letter.case.monitoring.email_footer),

@@ -187,6 +187,7 @@ USE_TZ = True
 
 # Default format for datetime.strftime.method
 STRFTIME_FORMAT = "%Y-%m-%d %H:%M:%S"
+STRFTIME_DATE_FORMAT = "%Y-%m-%d"
 
 # TEMPLATE CONFIGURATION
 # ------------------------------------------------------------------------------
