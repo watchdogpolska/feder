@@ -503,7 +503,7 @@ class MonitoringAssignView(RaisePermissionRequiredMixin, FilterView):
         return self.LIMIT
 
     def get_queryset(self):
-        qs = super().get_queryset()
+        qs = super().get_queryset().order_by("name")
         return (
             qs.exclude(case__monitoring=self.monitoring.pk)
             .with_case_count()
