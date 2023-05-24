@@ -50,7 +50,11 @@ from feder.main.mixins import ExtraListMixin, RaisePermissionRequiredMixin
 from feder.main.paginator import DefaultPagination
 from feder.cases_tags.models import Tag
 from feder.teryt.models import JST
-from .filters import MonitoringFilter, MonitoringCaseReportFilter
+from .filters import (
+    MonitoringFilter,
+    MonitoringCaseReportFilter,
+    MonitoringCaseAreaFilter,
+)
 from .forms import (
     MonitoringForm,
     SaveTranslatedUserObjectPermissionsForm,
@@ -198,11 +202,13 @@ class MonitoringsAjaxDatatableView(AjaxDatatableView):
         row["name"] = obj.render_monitoring_cases_table_link()
 
 
-class MonitoringCasesTableView(TemplateView):
+class MonitoringCasesTableView(FilterView):
     """
     View for displaying template with table of Monitoring Cases.
     """
 
+    model = Monitoring
+    filterset_class = MonitoringCaseAreaFilter
     template_name = "monitorings/monitoring_cases_table.html"
 
     def get_context_data(self, *args, **kwargs):
@@ -216,6 +222,7 @@ class MonitoringCasesTableView(TemplateView):
             kwargs={"slug": self.kwargs.get("slug")},
         )
         context["datatable_id"] = "monitoring_cases_table"
+        context["area_filter_form"] = MonitoringCaseAreaFilter().form
         return context
 
 
