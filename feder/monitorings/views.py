@@ -234,13 +234,13 @@ class MonitoringCasesAjaxDatatableView(AjaxDatatableView):
     column_defs = [
         AjaxDatatableView.render_row_tools_column_def(),
         {"name": "id", "visible": True, "title": "Id"},
-        {
-            "name": "created_str",
-            "visible": True,
-            "width": 130,
-            # "max_length": 16,
-            "title": _("Created"),
-        },
+        # {
+        #     "name": "created_str",
+        #     "visible": True,
+        #     "width": 130,
+        #     # "max_length": 16,
+        #     "title": _("Created"),
+        # },
         {
             "name": "name",
             "visible": True,
@@ -253,14 +253,26 @@ class MonitoringCasesAjaxDatatableView(AjaxDatatableView):
             "title": _("Institution"),
         },
         {
+            "name": "institution_jst",
+            "visible": True,
+            "title": _("JST"),
+            "foreign_field": "institution__jst",
+            "searchable": False,
+        },
+        {
             "name": "record_max_str",
             "visible": True,
             "title": _("Last letter"),
         },
         {
+            "name": "record_max",
+            "visible": False,
+        },
+        {
             "name": "record_count",
             "visible": True,
             "title": _("Letters count"),
+            "searchable": False,
         },
         {
             "name": "tags",
@@ -273,19 +285,19 @@ class MonitoringCasesAjaxDatatableView(AjaxDatatableView):
         {
             "name": "confirmation_received",
             "visible": True,
-            "title": _("Confirmation received"),
+            "title": _("Conf."),
             "searchable": False,
         },
         {
             "name": "response_received",
             "visible": True,
-            "title": _("Response received"),
+            "title": _("Resp."),
             "searchable": False,
         },
         {
             "name": "is_quarantined",
             "visible": True,
-            "title": _("Quarantined"),
+            "title": _("Quar."),
             "searchable": False,
         },
     ]
@@ -297,11 +309,16 @@ class MonitoringCasesAjaxDatatableView(AjaxDatatableView):
             super()
             .get_initial_queryset(request)
             .filter(monitoring=monitoring)
+            .select_related(
+                "institution",
+                "institution__jst",
+            )
             .prefetch_related()
         )
         return (
             qs.for_user(user=self.request.user)
-            .with_formatted_datetime("created", timezone.get_default_timezone())
+            # .with_formatted_datetime("created", timezone.get_default_timezone())
+            .with_record_max()
             .with_record_max_str()
             .with_record_count()
         )
@@ -311,6 +328,10 @@ class MonitoringCasesAjaxDatatableView(AjaxDatatableView):
         row["response_received"] = obj.render_boolean_field("response_received")
         row["is_quarantined"] = obj.render_boolean_field("is_quarantined")
         row["name"] = obj.render_case_link()
+        row["institution_jst"] = obj.institution.jst.tree_name
+
+    def get_latest_by(self, request):
+        return "record_max"
 
 
 class MonitoringDetailView(SelectRelatedMixin, ExtraListMixin, DetailView):
