@@ -1,17 +1,18 @@
+---
 labelPRBasedOnFilePath:
   deps-frontend:
     - '**/package.json'
     - '**/package-lock.json'
   deps-backend:
     - 'requirements/**'
-  frontend: 
+  frontend:
     - '**/*.css'
     - '**/*.scss'
     - '**/*.js'
     - '**/*.html'
-  backend: 
+  backend:
     - '**/*.py'
-  ci: 
+  ci:
     - '.github/**'
     - Makefile
     - docker-compose.yml

@@ -1,10 +1,12 @@
+---
 version: '2.1'
 # This is application’s services configuration for development purposes only.
 
 services:
   db:
     image: mysql:5.7
-    command: '--character-set-server=utf8 --collation-server=utf8_polish_ci --max_allowed_packet=1024M'
+    # command: '--character-set-server=utf8 --collation-server=utf8_polish_ci
+    # --max_allowed_packet=1024M'
     ports:
       - "3306:3306"
     environment:
@@ -26,10 +28,10 @@ services:
     build: &webBuild
       context: .
       dockerfile: .contrib/docker/Dockerfile.web
-      #args:
-        #PYTHON_VERSION: '${PYTHON_VERSION:-3.6.9}' # Match to production environment
+      # args:
+        # PYTHON_VERSION: '${PYTHON_VERSION:-3.6.9}' # Match to production environment
         # PYTHON_VERSION: '${PYTHON_VERSION:-3.10.6}' # Match to staging environment
-        #DJANGO_VERSION: '${DJANGO_VERSION:-==3.1.5}'
+        # DJANGO_VERSION: '${DJANGO_VERSION:-==3.1.5}'
     volumes: &webVolumes
       - .:/code
     environment: &webEnvironment
@@ -62,9 +64,9 @@ services:
     stdin_open: true
     tty: true
 
-#*
-#* for debugging purposes it is better to run worker in VScode launch on web container
-#*
+# *
+# * for debugging purposes it is better to run worker in VScode launch on web container
+# *
 #  worker:
 #    command: python manage.py process_tasks
 #    build: *webBuild
@@ -94,18 +96,19 @@ services:
       - "1025:1025"
 
   #
-  # To use email reception uncomment below section and fill in your dev IMAP 
+  # To use email reception uncomment below section and fill in your dev IMAP
   # mailbox secrets in imap-to-webhook-url.env
-  #  
+  #
   # imap-to-webhook-feder:
   #   image: quay.io/watchdogpolska/imap-to-webhook:latest
   #   environment:
-  #     WEBHOOK_URL: "http://web:8000/listy/webhook?secret=dev_letter_receive_very_secret"
+  #     WEBHOOK_URL: >
+  #       "http://web:8000/listy/webhook?secret=dev_letter_receive_very_secret"
   #     SENTRY_DSN: ""
   #     SENTRY_ENVIRONMENT: "feder-dev"
   #     COMPRESS_EML: "True"
   #   env_file:
-  #     - secrets_imap-to-webhook-url.env  
+  #     - secrets_imap-to-webhook-url.env
 
 volumes:
   mysql-data:
