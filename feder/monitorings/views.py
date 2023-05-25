@@ -50,7 +50,11 @@ from feder.main.mixins import ExtraListMixin, RaisePermissionRequiredMixin
 from feder.main.paginator import DefaultPagination
 from feder.cases_tags.models import Tag
 from feder.teryt.models import JST
-from .filters import MonitoringFilter, MonitoringCaseReportFilter
+from .filters import (
+    MonitoringFilter,
+    MonitoringCaseReportFilter,
+    MonitoringCaseAreaFilter,
+)
 from .forms import (
     MonitoringForm,
     SaveTranslatedUserObjectPermissionsForm,
@@ -131,6 +135,7 @@ class MonitoringsAjaxDatatableView(AjaxDatatableView):
             "name": "user",
             "visible": True,
             "title": _("User"),
+            "foreign_field": "user__username",
         },
         {
             "name": "case_count",
@@ -192,6 +197,152 @@ class MonitoringsAjaxDatatableView(AjaxDatatableView):
             html += f'<tr><td style="width: 20%;">{verbose_n}</td><td>{value}</td></tr>'
         html += "</table>"
         return mark_safe(html)
+
+    def customize_row(self, row, obj):
+        row["name"] = obj.render_monitoring_cases_table_link()
+
+
+class MonitoringCasesTableView(FilterView):
+    """
+    View for displaying template with table of Monitoring Cases.
+    """
+
+    model = Monitoring
+    filterset_class = MonitoringCaseAreaFilter
+    template_name = "monitorings/monitoring_cases_table.html"
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        monitoring = Monitoring.objects.get(slug=self.kwargs.get("slug"))
+        context["header_label"] = mark_safe(
+            _("Monitoring Cases table - ") + monitoring.name
+        )
+        context["ajax_datatable_url"] = reverse(
+            "monitorings:monitoring_cases_table_ajax_data",
+            kwargs={"slug": self.kwargs.get("slug")},
+        )
+        context["datatable_id"] = "monitoring_cases_table"
+        context["area_filter_form"] = MonitoringCaseAreaFilter().form
+        return context
+
+
+class MonitoringCasesAjaxDatatableView(AjaxDatatableView):
+    """
+    View to provide table list of all Monitoring Cases with ajax data.
+    """
+
+    model = Case
+    title = _("Monitoring Cases")
+    initial_order = [
+        ["id", "desc"],
+    ]
+    length_menu = [[20, 50, 100], [20, 50, 100]]
+    search_values_separator = "|"
+    column_defs = [
+        AjaxDatatableView.render_row_tools_column_def(),
+        {"name": "id", "visible": True, "title": "Id"},
+        # {
+        #     "name": "created_str",
+        #     "visible": True,
+        #     "width": 130,
+        #     # "max_length": 16,
+        #     "title": _("Created"),
+        # },
+        {
+            "name": "name",
+            "visible": True,
+            # "width": 600,
+            "title": _("Name"),
+        },
+        {
+            "name": "institution",
+            "visible": True,
+            "title": _("Institution"),
+        },
+        {
+            "name": "institution_jst",
+            "visible": True,
+            "title": _("JST"),
+            "foreign_field": "institution__jst",
+            "searchable": False,
+        },
+        {
+            "name": "record_max_str",
+            "visible": True,
+            "title": _("Last letter"),
+        },
+        {
+            "name": "record_max",
+            "visible": False,
+        },
+        {
+            "name": "record_count",
+            "visible": True,
+            "title": _("Letters count"),
+            "searchable": False,
+        },
+        {
+            "name": "tags",
+            "visible": True,
+            "title": _("Tags"),
+            "choices": True,
+            "autofilter": True,
+            "m2m_foreign_field": "tags__name",
+        },
+        {
+            "name": "confirmation_received",
+            "visible": True,
+            "title": _("Conf."),
+            "searchable": False,
+        },
+        {
+            "name": "response_received",
+            "visible": True,
+            "title": _("Resp."),
+            "searchable": False,
+        },
+        {
+            "name": "is_quarantined",
+            "visible": True,
+            "title": _("Quar."),
+            "searchable": False,
+        },
+    ]
+
+    def get_initial_queryset(self, request=None):
+        slug = self.kwargs.get("slug")
+        monitoring = Monitoring.objects.get(slug=slug)
+        qs = (
+            super()
+            .get_initial_queryset(request)
+            .filter(monitoring=monitoring)
+            .select_related(
+                "institution",
+                "institution__jst",
+            )
+            .prefetch_related()
+        )
+        qs = qs.ajax_boolean_filter(self.request, "conf_", "confirmation_received")
+        qs = qs.ajax_boolean_filter(self.request, "resp_", "response_received")
+        qs = qs.ajax_boolean_filter(self.request, "quar_", "is_quarantined")
+        qs = qs.ajax_area_filter(self.request)
+        return (
+            qs.for_user(user=self.request.user)
+            # .with_formatted_datetime("created", timezone.get_default_timezone())
+            .with_record_max()
+            .with_record_max_str()
+            .with_record_count()
+        )
+
+    def customize_row(self, row, obj):
+        row["confirmation_received"] = obj.render_boolean_field("confirmation_received")
+        row["response_received"] = obj.render_boolean_field("response_received")
+        row["is_quarantined"] = obj.render_boolean_field("is_quarantined")
+        row["name"] = obj.render_case_link()
+        row["institution_jst"] = obj.institution.jst.tree_name
+
+    def get_latest_by(self, request):
+        return "record_max"
 
 
 class MonitoringDetailView(SelectRelatedMixin, ExtraListMixin, DetailView):
@@ -503,7 +654,7 @@ class MonitoringAssignView(RaisePermissionRequiredMixin, FilterView):
         return self.LIMIT
 
     def get_queryset(self):
-        qs = super().get_queryset()
+        qs = super().get_queryset().order_by("name")
         return (
             qs.exclude(case__monitoring=self.monitoring.pk)
             .with_case_count()

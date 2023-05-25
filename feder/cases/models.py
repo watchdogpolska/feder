@@ -7,6 +7,7 @@ from django.apps import apps
 from django.conf import settings
 from django.db import models
 from django.db.models import Max, Prefetch, Q, Subquery, OuterRef
+from django.db.models.functions import Cast, Trunc
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from model_utils.models import TimeStampedModel
@@ -16,6 +17,8 @@ from feder.institutions.models import Institution
 from feder.monitorings.models import Monitoring, MonitoringUserObjectPermission
 from django.utils.timezone import datetime
 from datetime import timedelta
+from feder.main.utils import FormattedDatetimeMixin, get_numeric_param, get_param
+from feder.teryt.models import JST
 
 
 def enforce_quarantined_queryset(queryset, user, path_case):
@@ -32,7 +35,7 @@ def get_quarantined_perm():
     return Permission.objects.get(content_type=ctype, codename="view_quarantined_case")
 
 
-class CaseQuerySet(models.QuerySet):
+class CaseQuerySet(FormattedDatetimeMixin, models.QuerySet):
     def with_record_count(self):
         return self.annotate(record_count=models.Count("record"))
 
@@ -115,6 +118,13 @@ class CaseQuerySet(models.QuerySet):
     def with_record_max(self):
         return self.annotate(record_max=Max("record__created"))
 
+    def with_record_max_str(self):
+        return self.annotate(
+            record_max_str=Cast(
+                Trunc(Max("record__created"), "second"), output_field=models.CharField()
+            )
+        )
+
     def for_user(self, user):
         if user.is_anonymous:
             return self.filter(is_quarantined=False, monitoring__is_public=True)
@@ -135,6 +145,32 @@ class CaseQuerySet(models.QuerySet):
             uid = uuid.uuid4()
             if not self.filter(mass_assign=uid).exists():
                 return uid
+
+    def ajax_boolean_filter(self, request, prefix, field):
+        filter_values = []
+        for choice in [("yes", True), ("no", False)]:
+            filter_name = prefix + choice[0]
+            if get_numeric_param(request, filter_name):
+                filter_values.append(choice[1])
+        if filter_values:
+            return self.filter(**{field + "__in": filter_values})
+        else:
+            return self.filter(**{field + "__isnull": True})
+
+    def ajax_area_filter(self, request):
+        voivodeship_id = get_param(request, "voivodeship_filter")
+        county_id = get_param(request, "county_filter")
+        community_id = get_param(request, "community_filter")
+        area_filter = None
+        if community_id:
+            area_filter = JST.objects.filter(pk=community_id).first()
+        elif county_id:
+            area_filter = JST.objects.filter(pk=county_id).first()
+        elif voivodeship_id:
+            area_filter = JST.objects.filter(pk=voivodeship_id).first()
+        if area_filter:
+            return self.area(jst=area_filter)
+        return self
 
 
 class Case(TimeStampedModel):
@@ -185,6 +221,13 @@ class Case(TimeStampedModel):
     def get_absolute_url(self):
         return reverse("cases:details", kwargs={"slug": self.slug})
 
+    def render_case_link(self):
+        url = self.get_absolute_url()
+        label = self.name
+        bold_start = "" if self.is_quarantined else "<b>"
+        bold_end = "" if self.is_quarantined else "</b>"
+        return f'{bold_start}<a href="{url}">{label}</a>{bold_end}'
+
     def update_email(self):
         self.email = settings.CASE_EMAIL_TEMPLATE.format(
             pk=self.pk, domain=self.monitoring.domain.name
@@ -226,6 +269,14 @@ class Case(TimeStampedModel):
             .objects.filter(record__case=self)
             .exists()
         )
+
+    def render_boolean_field(self, field):
+        field_value = getattr(self, field)
+        if field_value is None:
+            return '<span class="fa fa-question"></span>'
+        elif field_value:
+            return '<span class="fa fa-check" style="color: green;"></span>'
+        return '<span class="fa fa-times" style="color: red;"></span>'
 
     @property
     def tags_str(self):

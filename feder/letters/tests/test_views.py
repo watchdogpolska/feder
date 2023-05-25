@@ -238,6 +238,7 @@ class LetterReplyViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
         response = self.client.post(
             self.get_url(),
             {
+                "html_body": "Lorem",
                 "body": "Lorem",
                 "title": "Lorem",
                 "send": "yes",

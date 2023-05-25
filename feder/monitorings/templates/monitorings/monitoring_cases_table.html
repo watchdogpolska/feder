@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% load static %}
+{# {% load bootstrap4 %} #}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+<style>
+    /* overriding element style to hide */
+    /* .dataTables_filter {
+        text-align: right;
+        min-width: 400px;
+        visibility: hidden;
+        visibility: collapse;
+        height: 0px;
+    } */
+    input[type=search] {
+        width: 500px; /* set the desired min-width value */
+    }
+    input[type=text] {
+        width: 60px; /* set the desired min-width value */
+    }
+    /* Set the maximum width of the select element */
+    select {
+        width: 60px;
+        height: 26px; /* adjust height value to input[type=search]*/
+    }
+    /* Allow the select element to wrap its options */
+    select option {
+        white-space: normal;
+    }
+    .tab-container {
+      display: flex;
+    }
+
+    .left-column {
+      width: 290px;
+    }
+
+    .right-column {
+      flex: 1;
+      margin-left: 3px;
+      overflow-x: auto;
+      /* or use "flex-grow: 1" for older browser support */
+    }
+</style>
+
+<script>
+    var AjaxDataURL = "{{ ajax_datatable_url }}";
+    var DataTablesTableId = "{{ datatable_id }}";
+    var TableHeightMargin = 150; /* px */
+</script>
+
+<h3>{{ header_label }}:</h3>
+
+<div id="modal-popup" class="modal fade" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="width:1000px;" ></div>
+    </div>
+</div>
+
+
+<div class="tab-container">
+    <div class="left-column filters" >
+        <h4>{% trans 'Filters' %}:</h4><br>
+        <div>
+            <label>{% trans 'Confirmation received? (col. C?)' %}:</label><br>
+            <input type="checkbox" id="conf_yes" name="check_conf_yes" checked>
+            <label for="conf_yes" class="small">{% trans 'Yes' %} &nbsp;
+                <span class="fa fa-check" style="color: green;"></span>
+            </label><br>
+            <input type="checkbox" id="conf_no" name="check_conf_no" checked>
+            <label for="conf_no" class="small">{% trans 'No' %} &nbsp;
+                <span class="fa fa-times" style="color: red;"></span>
+            </label><br>
+            <br><br>
+        </div>
+        <div>
+            <label>{% trans 'Response received? (col. R?)' %}:</label><br>
+            <input type="checkbox" id="resp_yes" name="check_resp_yes" checked>
+            <label for="resp_yes" class="small">{% trans 'Yes' %} &nbsp;
+                <span class="fa fa-check" style="color: green;"></span>
+            </label><br>
+            <input type="checkbox" id="resp_no" name="check_resp_no" checked>
+            <label for="resp_no" class="small">{% trans 'No' %} &nbsp;
+                <span class="fa fa-times" style="color: red;"></span>
+            </label><br>
+            <br><br>
+        </div>
+        <div>
+            <label>{% trans 'Quarantined? (col. Q?)' %}:</label><br>
+            <input type="checkbox" id="quar_yes" name="check_quar_yes" checked>
+            <label for="quar_yes" class="small">{% trans 'Yes' %} &nbsp;
+                <span class="fa fa-check" style="color: green;"></span>
+            </label><br>
+            <input type="checkbox" id="quar_no" name="check_quar_no" checked>
+            <label for="quar_no" class="small">{% trans 'No' %} &nbsp;
+                <span class="fa fa-times" style="color: red;"></span>
+            </label><br>
+            <br><br>
+        </div>
+        <div>
+            {% crispy area_filter_form %}
+            <button type="submit" class="btn btn-primary btn-block">
+                <i class="fa fa-search" aria-hidden="true"></i>
+                {% trans 'Filter area' %}
+            </button>
+        </div>
+    </div>
+    <div class="right-column">
+        <div id="tableWrapper">
+        <!-- TODO add colvis button and functionality -->
+            <div class="table-responsive">
+                <table id="{{ datatable_id }}" width="100%" class="table table-bordered compact">
+                    <!-- table-striped  nowrap-->
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,5 +1,3 @@
-from textwrap import wrap
-
 from atom.ext.crispy_forms.forms import HelperMixin, SingleButtonMixin
 from braces.forms import UserKwargModelFormMixin
 from crispy_forms.layout import Layout, Fieldset, Submit, Row, Column
@@ -12,7 +10,13 @@ from tinymce.widgets import TinyMCE
 from feder.cases.models import Case
 from feder.records.models import Record
 from .models import Letter
-from .utils import html_to_text, HtmlIframeWidget
+from .utils import (
+    html_to_text,
+    HtmlIframeWidget,
+    text_to_html,
+    is_formatted_html,
+    text_email_wrapper,
+)
 from feder.letters.utils import BODY_REPLY_TPL
 from django.utils.safestring import mark_safe
 from django.template.loader import render_to_string
@@ -102,7 +106,9 @@ class ReplyForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
         self.add_form_buttons()
 
     def get_html_body_with_footer(self):
-        reply_info = BODY_REPLY_TPL.replace("\n", "")
+        reply_info = BODY_REPLY_TPL.replace("\n", "").replace(
+            "{{EMAIL}}", str(self.letter.case.get_email_address())
+        )
         context = {
             "html_body": mark_safe(f"<p></p><p>{reply_info}</p>"),
             "html_footer": mark_safe(self.letter.case.monitoring.email_footer),
@@ -149,20 +155,32 @@ class ReplyForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
         return super().clean()
 
     def get_quote(self):
-        quoted = "> " + "\n> ".join(wrap(self.letter.body, width=80))
+        quoted = text_email_wrapper(self.letter.body)
         return QUOTE_TPL.format(
             created=self.letter.created.strftime(settings.STRFTIME_FORMAT),
-            email=self.letter.email,
+            email=self.letter.email_from,
             quoted=quoted,
         )
 
     def get_html_quote(self):
-        quoted = "<blockquote>" + self.letter.html_body + "</blockquote>"
-        return QUOTE_TPL.format(
-            created=self.letter.created.strftime(settings.STRFTIME_FORMAT),
-            email=self.letter.email,
-            quoted=quoted,
+        html_body = (
+            self.letter.html_body
+            if is_formatted_html(self.letter.html_body)
+            else text_to_html(self.letter.body)
         )
+        quoted = "<blockquote>" + html_body + "</blockquote>"
+        quote_info = QUOTE_TPL.format(
+            created=self.letter.created.strftime(settings.STRFTIME_DATE_FORMAT),
+            email=self.letter.email_from,
+            quoted="",
+        )
+        html_quote = f"""
+            <p>
+                <br>
+                {quote_info}<br>
+                {quoted}
+            </p>"""
+        return mark_safe(html_quote)
 
     def save(self, *args, **kwargs):
         self.instance.author_user = self.user
