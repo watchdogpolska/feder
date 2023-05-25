@@ -1,0 +1,7 @@
+ignore: |
+  **/cassettes/*.yaml
+extends: default
+rules:
+  line-length:
+    max: 88
+
