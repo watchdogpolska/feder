@@ -26,6 +26,13 @@ class MonitoringFilter(django_filters.FilterSet):
         fields = ["name", "created"]
 
 
+class MonitoringCaseAreaFilter(MonitoringFilter):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        del self.form.fields["name"]
+        del self.form.fields["created"]
+
+
 class MonitoringCaseReportFilter(CaseReportFilter):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

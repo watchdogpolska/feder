@@ -10,6 +10,7 @@ class CaseFactory(factory.django.DjangoModelFactory):
     name = factory.Sequence("case-{}".format)
     user = factory.SubFactory(UserFactory)
     institution = factory.SubFactory(InstitutionFactory)
+    email = factory.Sequence("case-email-{}@example.com".format)
 
     @factory.lazy_attribute
     def monitoring(self):

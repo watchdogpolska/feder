@@ -71,6 +71,7 @@ var config = (function () {
                 path.npm + '/datatables.net-buttons/js/dataTables.buttons.js',
                 path.staticfiles + '/ajax_datatable/js/utils.js',
                 path.app + '/monitorings/static/monitorings/monitorings_datatables.js',
+                path.app + '/monitorings/static/monitorings/monitoring_cases_datatables.js',
             ],
             output: {
                 dir: path.static + "/js",

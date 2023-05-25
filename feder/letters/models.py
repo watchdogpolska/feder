@@ -253,20 +253,35 @@ class Letter(AbstractRecord):
 
     @classmethod
     def send_new_case(cls, case):
-        letter = cls(
-            author_user=case.user,
-            record=Record.objects.create(case=case),
-            title=case.monitoring.subject,
-            html_body=(
+        context = {
+            "html_body": mark_safe(
                 case.monitoring.template
                 if is_formatted_html(case.monitoring.template)
                 else text_to_html(case.monitoring.template)
             ),
-            body=(
+            "text_body": mark_safe(
                 html_to_text(case.monitoring.template)
                 if is_formatted_html(case.monitoring.template)
                 else case.monitoring.template
             ),
+            "html_footer": mark_safe(
+                case.monitoring.email_footer
+                if is_formatted_html(case.monitoring.email_footer)
+                else text_to_html(case.monitoring.email_footer)
+            ),
+            "text_footer": mark_safe(
+                html_to_text(case.monitoring.email_footer)
+                if is_formatted_html(case.monitoring.email_footer)
+                else case.monitoring.email_footer
+            ),
+        }
+        letter = cls(
+            author_user=case.user,
+            email_from=str(case.get_email_address()),
+            record=Record.objects.create(case=case),
+            title=case.monitoring.subject,
+            html_body=render_to_string("letters/_letter_reply_body.html", context),
+            body=render_to_string("letters/_letter_reply_body.txt", context),
         )
         letter.send(commit=True, only_email=False)
         return letter
@@ -274,14 +289,17 @@ class Letter(AbstractRecord):
     def _email_context(self):
         body = self.body.replace("{{EMAIL}}", self.case.email)
         html_body = self.html_body.replace("{{EMAIL}}", self.case.email)
-        return {
+        quote = self.quote.replace("{{EMAIL}}", self.case.email)
+        html_quote = self.html_quote.replace("{{EMAIL}}", self.case.email)
+        context = {
             "html_body": mark_safe(html_body),
             "text_body": mark_safe(body),
-            "html_footer": mark_safe(self.case.monitoring.email_footer),
-            "text_footer": mark_safe(html_to_text(self.case.monitoring.email_footer)),
-            "text_quote": mark_safe(text_email_wrapper(self.quote)),
-            "html_quote": mark_safe(html_email_wrapper(self.html_quote)),
+            # "html_footer": mark_safe(self.case.monitoring.email_footer),
+            # "text_footer": mark_safe(html_to_text(self.case.monitoring.email_footer)),
+            "text_quote": mark_safe(text_email_wrapper(quote)),
+            "html_quote": mark_safe(html_email_wrapper(html_quote)),
         }
+        return context
 
     def html_body_with_footer(self):
         context = {
@@ -332,7 +350,15 @@ class Letter(AbstractRecord):
 
         # preparing letter content
         letter_data = {}
-        for name in ["author_user", "title", "body", "quote", "note"]:
+        for name in [
+            "author_user",
+            "title",
+            "html_body",
+            "html_quote",
+            "body",
+            "quote",
+            "note",
+        ]:
             letter_data[name] = getattr(self, name)
         letter_data["is_draft"] = False
         letter_data["message_type"] = self.MESSAGE_TYPES.regular
