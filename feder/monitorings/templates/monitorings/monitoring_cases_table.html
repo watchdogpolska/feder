@@ -49,6 +49,7 @@
 <script>
     var AjaxDataURL = "{{ ajax_datatable_url }}";
     var DataTablesTableId = "{{ datatable_id }}";
+    var TableHeightMargin = 150; /* px */
 </script>
 
 <h3>{{ header_label }}:</h3>
@@ -61,7 +62,7 @@
 
 
 <div class="tab-container">
-    <div class="left-column" >
+    <div class="left-column filters" >
         <h4>{% trans 'Filters' %}:</h4><br>
         <div>
             <label>{% trans 'Confirmation received? (col. C?)' %}:</label><br>
@@ -101,6 +102,10 @@
         </div>
         <div>
             {% crispy area_filter_form %}
+            <button type="submit" class="btn btn-primary btn-block">
+                <i class="fa fa-search" aria-hidden="true"></i>
+                {% trans 'Filter area' %}
+            </button>
         </div>
     </div>
     <div class="right-column">

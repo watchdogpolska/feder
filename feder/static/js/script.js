@@ -31200,7 +31200,7 @@ window.AjaxDatatableViewUtils = (function() {
                     full_row_select: false,
                     scrollX: true,
                     // searching: false,
-                    scrollY: maxHeight - 250,
+                    scrollY: maxHeight - TableHeightMargin,
                     // TODO make fixedColumns working !!!
                     // fixedColumns: {
                     //     left: 1,
@@ -31230,12 +31230,21 @@ window.AjaxDatatableViewUtils = (function() {
                     },
                 }, {
                     // extra_data
+                    conf_yes: function() { return $("input[name='check_conf_yes']").is(":checked") ? 1 : 0; },
+                    conf_no: function() { return $("input[name='check_conf_no']").is(":checked") ? 1 : 0; },
+                    resp_yes: function() { return $("input[name='check_resp_yes']").is(":checked") ? 1 : 0; },
+                    resp_no: function() { return $("input[name='check_resp_no']").is(":checked") ? 1 : 0; },
+                    quar_yes: function() { return $("input[name='check_quar_yes']").is(":checked") ? 1 : 0; },
+                    quar_no: function() { return $("input[name='check_quar_no']").is(":checked") ? 1 : 0; },
+                    voivodeship_filter: function() { return $("select[name='voivodeship']").val(); },
+                    county_filter: function() { return $("select[name='county']").val(); },
+                    community_filter: function() { return $("select[name='community']").val(); },
                 },
             );
-            // $('.filters input').on('change paste keyup', function() {
-            //     // redraw the table
-            //     $('#datatable_letters').DataTable().ajax.reload(null, false);
-            // });
+            $('.filters input, .filters button').on('change paste keyup click', function() {
+                // redraw the table
+                $('#' + DataTablesTableId).DataTable().ajax.reload(null, false);
+            });
         }
     });
 })(jQuery);

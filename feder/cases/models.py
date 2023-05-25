@@ -17,7 +17,8 @@ from feder.institutions.models import Institution
 from feder.monitorings.models import Monitoring, MonitoringUserObjectPermission
 from django.utils.timezone import datetime
 from datetime import timedelta
-from feder.main.utils import FormattedDatetimeMixin
+from feder.main.utils import FormattedDatetimeMixin, get_numeric_param, get_param
+from feder.teryt.models import JST
 
 
 def enforce_quarantined_queryset(queryset, user, path_case):
@@ -144,6 +145,32 @@ class CaseQuerySet(FormattedDatetimeMixin, models.QuerySet):
             uid = uuid.uuid4()
             if not self.filter(mass_assign=uid).exists():
                 return uid
+
+    def ajax_boolean_filter(self, request, prefix, field):
+        filter_values = []
+        for choice in [("yes", True), ("no", False)]:
+            filter_name = prefix + choice[0]
+            if get_numeric_param(request, filter_name):
+                filter_values.append(choice[1])
+        if filter_values:
+            return self.filter(**{field + "__in": filter_values})
+        else:
+            return self.filter(**{field + "__isnull": True})
+
+    def ajax_area_filter(self, request):
+        voivodeship_id = get_param(request, "voivodeship_filter")
+        county_id = get_param(request, "county_filter")
+        community_id = get_param(request, "community_filter")
+        area_filter = None
+        if community_id:
+            area_filter = JST.objects.filter(pk=community_id).first()
+        elif county_id:
+            area_filter = JST.objects.filter(pk=county_id).first()
+        elif voivodeship_id:
+            area_filter = JST.objects.filter(pk=voivodeship_id).first()
+        if area_filter:
+            return self.area(jst=area_filter)
+        return self
 
 
 class Case(TimeStampedModel):

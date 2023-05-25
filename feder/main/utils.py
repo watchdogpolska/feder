@@ -3,6 +3,26 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.db.models.expressions import RawSQL
 
 
+def get_numeric_param(request, key):
+    """Get numeric param from request"""
+    value = None
+    try:
+        value = int(request.POST.get(key))
+    except (TypeError, ValueError):
+        pass
+    return value
+
+
+def get_param(request, key):
+    """Get numeric param from request"""
+    value = None
+    try:
+        value = request.POST.get(key)
+    except (TypeError, ValueError):
+        pass
+    return value
+
+
 def get_full_url_for_context(path, context):
     scheme = (
         "{}://".format(context["request"].scheme)

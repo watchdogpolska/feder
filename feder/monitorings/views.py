@@ -215,7 +215,7 @@ class MonitoringCasesTableView(FilterView):
         context = super().get_context_data(**kwargs)
         monitoring = Monitoring.objects.get(slug=self.kwargs.get("slug"))
         context["header_label"] = mark_safe(
-            _("Monitoring Cases search table - ") + monitoring.name
+            _("Monitoring Cases table - ") + monitoring.name
         )
         context["ajax_datatable_url"] = reverse(
             "monitorings:monitoring_cases_table_ajax_data",
@@ -322,6 +322,10 @@ class MonitoringCasesAjaxDatatableView(AjaxDatatableView):
             )
             .prefetch_related()
         )
+        qs = qs.ajax_boolean_filter(self.request, "conf_", "confirmation_received")
+        qs = qs.ajax_boolean_filter(self.request, "resp_", "response_received")
+        qs = qs.ajax_boolean_filter(self.request, "quar_", "is_quarantined")
+        qs = qs.ajax_area_filter(self.request)
         return (
             qs.for_user(user=self.request.user)
             # .with_formatted_datetime("created", timezone.get_default_timezone())
