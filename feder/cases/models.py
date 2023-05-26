@@ -276,6 +276,10 @@ class Case(RenderBooleanFieldMixin, TimeStampedModel):
         )
 
     @property
+    def letter_count(self):
+        return self.record_set.all().count()
+
+    @property
     def tags_str(self):
         return " | ".join([t.name for t in self.tags.all().order_by("name")])
 

@@ -1,13 +1,49 @@
 {% load i18n %}
-<p>
-    <i class="fa fa-home"></i>
-    {% trans 'Institution' %}:
-    <a href="{{ object.institution.get_absolute_url }}">{{ object.institution }}</a>
-</p>
-
-<p>
-    <i class="fa fa-search"></i>
-    {% trans 'Monitoring' %}:
-    <a href="{{ object.monitoring.get_absolute_url }}">{{ object.monitoring }}</a>
-</p>
-
+<table>
+    <tr>
+        <td><p><i class="fa fa-home"></i>{% trans 'Institution' %}:</p></td>
+        <td><p><a href="{{ object.institution.get_absolute_url }}">{{ object.institution }}</a></p></td>
+    </tr>
+    <tr>
+        <td><p><i class="fa fa-search"></i>{% trans 'Monitoring' %}:</p></td>
+        <td><p><a href="{{ object.monitoring.get_absolute_url }}">{{ object.monitoring }}</p></a></td>
+    </tr>
+    <tr>
+        <td><p>{% trans 'Case email:' %}</p></td>
+        <td><p>{{ object.email }}</p></td>
+    </tr>
+    <tr>
+        <td><p>{% trans 'Letter count:' %}</p></td>
+        <td><p>{{ object.letter_count }}</p></td>
+    </tr>
+    <tr>
+        <td><p>{% trans 'Confirmation received:' %} &nbsp</p></td>
+        <td><p>
+            {% if object.confirmation_received %}
+                <span class="fa fa-check" style="color: green;"></span>
+            {% else %}
+                <span class="fa fa-times" style="color: red;"></span>
+            {% endif %}</p>
+        </td>
+    </tr>
+    <tr>
+        <td><p>{% trans 'Response received:' %}</p></td>
+        <td><p>
+            {% if object.response_received %}
+                <span class="fa fa-check" style="color: green;"></span>
+            {% else %}
+                <span class="fa fa-times" style="color: red;"></span>
+            {% endif %}</p>
+        </td>
+    </tr>
+    <tr>
+        <td><p>{% trans 'Quarantined:' %}</p></td>
+        <td><p>
+            {% if object.is_quarantined %}
+                <span class="fa fa-check" style="color: green;"></span>
+            {% else %}
+                <span class="fa fa-times" style="color: red;"></span>
+            {% endif %}</p>
+        </td>
+    </tr>
+</table>
