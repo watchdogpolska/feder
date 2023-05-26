@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cases 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-25 19:04+0000\n"
+"POT-Creation-Date: 2023-05-26 13:52+0000\n"
 "PO-Revision-Date: 2023-05-16 13:01+0000\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -24,7 +24,7 @@ msgstr ""
 msgid "Creation date"
 msgstr "Data utworzenia"
 
-#: feder/cases/filters.py:31 feder/cases/models.py:177
+#: feder/cases/filters.py:31 feder/cases/models.py:182
 #: feder/cases/viewsets.py:38
 msgid "Name"
 msgstr "Nazwa"
@@ -33,7 +33,7 @@ msgstr "Nazwa"
 msgid "Institution name"
 msgstr "Nazwa instytucji"
 
-#: feder/cases/filters.py:72 feder/cases/models.py:195
+#: feder/cases/filters.py:72 feder/cases/models.py:200
 #: feder/cases/viewsets.py:45
 msgid "Tags"
 msgstr "Tagi"
@@ -46,34 +46,34 @@ msgstr "Data wysyłki wniosku"
 msgid "Application letter status"
 msgstr "Status wniosku"
 
-#: feder/cases/models.py:179
+#: feder/cases/models.py:184
 msgid "Slug"
 msgstr "Identyfikator redakcyjny"
 
-#: feder/cases/models.py:183 feder/cases/templates/cases/_case_small.html:12
+#: feder/cases/models.py:188 feder/cases/templates/cases/_case_small.html:12
 #: feder/cases/templates/cases/_desc.html:10
 msgid "Monitoring"
 msgstr "Monitoring"
 
-#: feder/cases/models.py:186 feder/cases/templates/cases/_case_small.html:11
+#: feder/cases/models.py:191 feder/cases/templates/cases/_case_small.html:11
 #: feder/cases/templates/cases/_desc.html:4
 msgid "Institution"
 msgstr "Instytucja"
 
-#: feder/cases/models.py:199 feder/cases/viewsets.py:48
+#: feder/cases/models.py:204 feder/cases/viewsets.py:48
 msgid "Confirmation received"
 msgstr "Otrzymano potwierdzenie"
 
-#: feder/cases/models.py:202 feder/cases/viewsets.py:49
+#: feder/cases/models.py:207 feder/cases/viewsets.py:49
 msgid "Response received"
 msgstr "Otrzymano odpowiedź"
 
-#: feder/cases/models.py:205
+#: feder/cases/models.py:210
 msgid "Quarantined"
 msgstr "Poddany kwarantannie"
 
-#: feder/cases/models.py:210 feder/cases/models.py:211
-#: feder/cases/models.py:287
+#: feder/cases/models.py:215 feder/cases/models.py:216
+#: feder/cases/models.py:284
 msgid "Case"
 msgstr "Sprawa"
 
