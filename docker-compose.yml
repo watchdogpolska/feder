@@ -5,8 +5,7 @@ version: '2.1'
 services:
   db:
     image: mysql:5.7
-    # command: '--character-set-server=utf8 --collation-server=utf8_polish_ci
-    # --max_allowed_packet=1024M'
+    command: '--character-set-server=utf8 --collation-server=utf8_polish_ci --max_allowed_packet=1024M' # yamllint disable-line
     ports:
       - "3306:3306"
     environment:
