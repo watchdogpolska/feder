@@ -128,8 +128,14 @@ class MonitoringsAjaxDatatableView(AjaxDatatableView):
         {
             "name": "name",
             "visible": True,
-            "width": 600,
+            "width": 300,
             "title": _("Name"),
+        },
+        {
+            "name": "description",
+            "visible": True,
+            "width": 300,
+            "title": _("Description"),
         },
         {
             "name": "user",
@@ -144,6 +150,12 @@ class MonitoringsAjaxDatatableView(AjaxDatatableView):
             "title": _("Case count"),
         },
         {
+            "name": "case_quarantined_count",
+            "visible": True,
+            "searchable": False,
+            "title": _("Case quarantined count"),
+        },
+        {
             "name": "case_confirmation_received_count",
             "visible": True,
             "searchable": False,
@@ -155,6 +167,24 @@ class MonitoringsAjaxDatatableView(AjaxDatatableView):
             "searchable": False,
             "title": _("Response received count"),
         },
+        {
+            "name": "hide_new_cases",
+            "visible": True,
+            "title": _("Hide new cases when assigning?"),
+            "searchable": False,
+        },
+        {
+            "name": "is_public",
+            "visible": True,
+            "title": _("Is public visible?"),
+            "searchable": False,
+        },
+        {
+            "name": "notify_alert",
+            "visible": True,
+            "title": _("Notify about alerts"),
+            "searchable": False,
+        },
     ]
 
     def get_initial_queryset(self, request=None):
@@ -165,6 +195,7 @@ class MonitoringsAjaxDatatableView(AjaxDatatableView):
             .with_case_count()
             .with_case_confirmation_received_count()
             .with_case_response_received_count()
+            .with_case_quarantined_count()
         )
 
     def render_row_details(self, pk, request=None):
@@ -200,6 +231,9 @@ class MonitoringsAjaxDatatableView(AjaxDatatableView):
 
     def customize_row(self, row, obj):
         row["name"] = obj.render_monitoring_cases_table_link()
+        row["hide_new_cases"] = obj.render_boolean_field("hide_new_cases")
+        row["is_public"] = obj.render_boolean_field("is_public")
+        row["notify_alert"] = obj.render_boolean_field("notify_alert")
 
 
 class MonitoringCasesTableView(FilterView):
@@ -385,6 +419,7 @@ class MonitoringDetailView(SelectRelatedMixin, ExtraListMixin, DetailView):
             <tr>
                 <th>Województwo</th>
                 <th>Liczba spraw</th>
+                <th>Liczba spraw w kwarantannie</th>
             </tr>"""
         for voivodeship in voivodeship_list:
             table += (
@@ -393,6 +428,12 @@ class MonitoringDetailView(SelectRelatedMixin, ExtraListMixin, DetailView):
                 + "</td><td>"
                 + str(
                     Case.objects.filter(monitoring=monitoring).area(voivodeship).count()
+                )
+                + "</td><td>"
+                + str(
+                    Case.objects.filter(monitoring=monitoring, is_quarantined=True)
+                    .area(voivodeship)
+                    .count()
                 )
                 + "</td></tr>"
             )

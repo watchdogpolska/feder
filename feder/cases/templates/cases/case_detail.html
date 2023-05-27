@@ -28,6 +28,9 @@
     {% include 'cases/_header.html' %}
     <div class="row">
         <div class="col-sm-5">
+            {% if object %}
+                {% include 'cases/_case_quarantined.html' with object=object %}
+            {% endif %}
             <div class="gray">
                 {% include 'cases/_desc.html' with object=object %}
             </div>

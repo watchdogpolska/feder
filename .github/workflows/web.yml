@@ -1,6 +1,6 @@
 name: Python package
 
-on: 
+on:
   push:
     branches:
       - master
@@ -12,44 +12,44 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python: 
+        python:
 #          - 3.6
           - "3.10"
         django:
 #          - "==2.2.*"
           - "==3.2"
     steps:
-    - uses: actions/checkout@v3
-      with:
-        lfs: true
-    - name: Build application
-      run: docker-compose build web
-      env:
-        PYTHON_VERSION: ${{ matrix.python }}
-        DJANGO_VERSION: ${{ matrix.django }}
-        METADEFENDER_API_KEY: ${{ secrets.METADEFENDER_API_KEY }}
-    - name: Run side services
-      run: make wait_mysql wait_elasticsearch wait_tika
-    - name: Migration check
-      run: make check
-    - name: Show settings
-      run: make settings
-    - name: Build test
-      run: make test
+      - uses: actions/checkout@v3
+        with:
+          lfs: true
+      - name: Build application
+        run: docker-compose build web
+        env:
+          PYTHON_VERSION: ${{ matrix.python }}
+          DJANGO_VERSION: ${{ matrix.django }}
+          METADEFENDER_API_KEY: ${{ secrets.METADEFENDER_API_KEY }}
+      - name: Run side services
+        run: make wait_mysql wait_elasticsearch wait_tika
+      - name: Migration check
+        run: make check
+      - name: Show settings
+        run: make settings
+      - name: Build test
+        run: make test
 #     - name: Send coverage report
 #       run: make coverage_send
 #       env:
 #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 #         COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
-    - name: Show MySQL logs
-      run: docker-compose logs db
-      if: failure()
-    - name: Show Elasticsearch logs
-      run: docker-compose logs elasticsearch
-      if: failure()
-    - name: Show Tika logs
-      run: docker-compose logs tika
-      if: failure()
-    - name: Show docker process
-      run: docker ps
-      if: always()
+      - name: Show MySQL logs
+        run: docker-compose logs db
+        if: failure()
+      - name: Show Elasticsearch logs
+        run: docker-compose logs elasticsearch
+        if: failure()
+      - name: Show Tika logs
+        run: docker-compose logs tika
+        if: failure()
+      - name: Show docker process
+        run: docker ps
+        if: always()

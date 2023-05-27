@@ -33,9 +33,8 @@
         </div>
     {% else %}
         <div class="gray">
-            <p>
-                {% trans 'No rows.' %}
-            </p>
+            <p>{% trans 'No cases available to user: ' %} {{ user }}</p>
+            <p>{% trans 'Contact application admin to get relevant permission.' %}</p>
         </div>
     {% endif %}
 

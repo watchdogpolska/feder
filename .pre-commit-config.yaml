@@ -8,24 +8,35 @@ repos:
   - repo: https://github.com/adamchainz/django-upgrade
     rev: 1.13.0
     hooks:
-    - id: django-upgrade
-      args: [--target-version, "3.2"]
+      - id: django-upgrade
+        args: [--target-version, "3.2"]
   - repo: https://github.com/asottile/pyupgrade
     rev: v3.4.0
     hooks:
-    - id: pyupgrade
-      args:
-      - --py310-plus
+      - id: pyupgrade
+        args:
+          - --py310-plus
+  - repo: https://github.com/sirosen/check-jsonschema
+    rev: 0.22.0
+    hooks:
+      - id: check-github-workflows
+      - id: check-readthedocs
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.31.0
+    hooks:
+      - id: yamllint
+        args: [-c, .yamllint.yml]
+        exclude: feder/letters/logs/cassettes/*
   - repo: https://github.com/psf/black
     rev: 23.3.0
     hooks:
-    - id: black
-      args:
-        - --config
-        - ./pyproject.toml
+      - id: black
+        args:
+          - --config
+          - ./pyproject.toml
   - repo: https://github.com/PyCQA/flake8
     rev: 6.0.0
     hooks:
-    - id: flake8
-      args:
-      - --config=./setup.cfg
+      - id: flake8
+        args:
+          - --config=./setup.cfg
