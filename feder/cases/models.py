@@ -17,7 +17,12 @@ from feder.institutions.models import Institution
 from feder.monitorings.models import Monitoring, MonitoringUserObjectPermission
 from django.utils.timezone import datetime
 from datetime import timedelta
-from feder.main.utils import FormattedDatetimeMixin, get_numeric_param, get_param
+from feder.main.utils import (
+    FormattedDatetimeMixin,
+    get_numeric_param,
+    get_param,
+    RenderBooleanFieldMixin,
+)
 from feder.teryt.models import JST
 
 
@@ -173,7 +178,7 @@ class CaseQuerySet(FormattedDatetimeMixin, models.QuerySet):
         return self
 
 
-class Case(TimeStampedModel):
+class Case(RenderBooleanFieldMixin, TimeStampedModel):
     name = models.CharField(verbose_name=_("Name"), max_length=100)
     slug = AutoSlugField(
         populate_from="name", verbose_name=_("Slug"), max_length=110, unique=True
@@ -270,13 +275,9 @@ class Case(TimeStampedModel):
             .exists()
         )
 
-    def render_boolean_field(self, field):
-        field_value = getattr(self, field)
-        if field_value is None:
-            return '<span class="fa fa-question"></span>'
-        elif field_value:
-            return '<span class="fa fa-check" style="color: green;"></span>'
-        return '<span class="fa fa-times" style="color: red;"></span>'
+    @property
+    def letter_count(self):
+        return self.record_set.all().count()
 
     @property
     def tags_str(self):

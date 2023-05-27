@@ -11,12 +11,12 @@ urlpatterns = [
         name="monitorings_table_ajax_data",
     ),
     re_path(
-        _(r"^(?P<slug>[\w-]+)/monitoring_cases_table$"),
+        r"^(?P<slug>[\w-]+)/monitoring_cases_table$",
         views.MonitoringCasesTableView.as_view(),
         name="monitoring_cases_table",
     ),
     re_path(
-        _(r"^(?P<slug>[\w-]+)/monitoring_cases_table_ajax_data$"),
+        r"^(?P<slug>[\w-]+)/monitoring_cases_table_ajax_data$",
         views.MonitoringCasesAjaxDatatableView.as_view(),
         name="monitoring_cases_table_ajax_data",
     ),

@@ -73,3 +73,13 @@ class FormattedDatetimeMixin:
             f"DATE_FORMAT({expr}, '%%Y-%%m-%%d %%H:%%i:%%s')", []
         )
         return self.annotate(**{formatted_field_name: formatted_field_expr})
+
+
+class RenderBooleanFieldMixin:
+    def render_boolean_field(self, field):
+        field_value = getattr(self, field)
+        if field_value is None:
+            return '<span class="fa fa-question"></span>'
+        elif field_value:
+            return '<span class="fa fa-check" style="color: green;"></span>'
+        return '<span class="fa fa-times" style="color: red;"></span>'

@@ -1,10 +1,11 @@
+---
 languages:
   JavaScript: true
   Python: true
 
 exclude_paths:
-- feder/*/migrations/*
-- feder/contrib/sites/migrations/*
-- feder/static/*
-- feder/*/tests.py
-- feder/*/tests/*
+  - feder/*/migrations/*
+  - feder/contrib/sites/migrations/*
+  - feder/static/*
+  - feder/*/tests.py
+  - feder/*/tests/*

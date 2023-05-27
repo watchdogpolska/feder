@@ -11,7 +11,7 @@ from guardian.models import GroupObjectPermissionBase, UserObjectPermissionBase
 from model_utils.models import TimeStampedModel
 
 from feder.domains.models import Domain
-from feder.main.utils import FormattedDatetimeMixin
+from feder.main.utils import FormattedDatetimeMixin, RenderBooleanFieldMixin
 from .validators import validate_template_syntax
 
 _("Monitorings index")
@@ -48,6 +48,17 @@ class MonitoringQuerySet(FormattedDatetimeMixin, models.QuerySet):
             )
         )
 
+    def with_case_quarantined_count(self):
+        """
+        function to annotate with case count
+        when case.is_quarantined field is True
+        """
+        return self.annotate(
+            case_quarantined_count=models.Count(
+                "case", filter=models.Q(case__is_quarantined=True)
+            )
+        )
+
     def area(self, jst):
         return self.filter(
             case__institution__jst__tree_id=jst.tree_id,
@@ -68,7 +79,7 @@ class MonitoringQuerySet(FormattedDatetimeMixin, models.QuerySet):
 
 
 @reversion.register()
-class Monitoring(TimeStampedModel):
+class Monitoring(RenderBooleanFieldMixin, TimeStampedModel):
     perm_model = "monitoringuserobjectpermission"
     name = models.CharField(verbose_name=_("Name"), max_length=100)
     slug = AutoSlugField(
