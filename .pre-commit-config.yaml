@@ -45,6 +45,8 @@ repos:
         args:
           - --config
           - ./pyproject.toml
+          - --exclude
+          - 'feder/*/migrations/*.py'
   - repo: https://github.com/PyCQA/flake8
     rev: 6.0.0
     hooks:
