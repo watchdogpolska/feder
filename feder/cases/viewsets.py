@@ -3,11 +3,12 @@ from django_filters import rest_framework as filters
 from rest_framework import viewsets
 from rest_framework.settings import api_settings
 
+from feder.main.mixins import CsvRendererViewMixin
+from feder.main.utils import PaginatedCSVStreamingRenderer
+
 from .filters import CaseReportFilter
 from .models import Case
-from .serializers import CaseSerializer, CaseReportSerializer
-from feder.main.utils import PaginatedCSVStreamingRenderer
-from feder.main.mixins import CsvRendererViewMixin
+from .serializers import CaseReportSerializer, CaseSerializer
 
 
 class CaseFilter(filters.FilterSet):

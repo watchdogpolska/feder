@@ -1,7 +1,8 @@
 from django import template
-from feder import get_version
 from django.conf import settings
 from django.utils.safestring import mark_safe
+
+from feder import get_version
 
 register = template.Library()
 

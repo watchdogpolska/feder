@@ -1,8 +1,9 @@
 from django.test import TestCase
 from django.urls import reverse
-from ..serializers import RecordSerializer
-from ..factories import RecordFactory
+
 from ...letters.factories import IncomingLetterFactory
+from ..factories import RecordFactory
+from ..serializers import RecordSerializer
 
 
 class ReadOnlyViewSetMixin:

@@ -2,8 +2,10 @@ from atom.ext.crispy_forms.forms import SingleButtonMixin
 from braces.forms import UserKwargModelFormMixin
 from dal import autocomplete
 from django import forms
-from .models import Case
+
 from feder.cases_tags.models import Tag
+
+from .models import Case
 
 
 class CaseForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):

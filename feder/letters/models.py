@@ -4,37 +4,38 @@ import uuid
 from atom.models import AttachmentBase
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.files.base import ContentFile
-from django.core.mail.message import make_msgid, EmailMultiAlternatives
-from django.contrib.contenttypes.fields import GenericRelation
-from django.template.loader import render_to_string
-from django.urls import reverse
+from django.core.mail.message import EmailMultiAlternatives, make_msgid
 from django.db import models
 from django.db.models.manager import BaseManager
+from django.template.loader import render_to_string
+from django.urls import reverse
+from django.utils import timezone
 from django.utils.encoding import force_str
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 from django_extensions.db.models import TimeStampedModel
 from model_utils import Choices
+
+from feder.cases.models import Case, enforce_quarantined_queryset
+from feder.domains.models import Domain
 from feder.institutions.models import Institution
-from feder.records.models import AbstractRecord, AbstractRecordQuerySet, Record
 from feder.main.exceptions import FederValueError
-from feder.cases.models import Case
+from feder.main.utils import get_email_domain
+from feder.records.models import AbstractRecord, AbstractRecordQuerySet, Record
+
+from ..es_search.queries import find_document, more_like_this
+from ..virus_scan.models import Request as ScanRequest
 from .utils import (
-    text_email_wrapper,
     html_email_wrapper,
-    normalize_msg_id,
     html_to_text,
     is_formatted_html,
+    normalize_msg_id,
+    text_email_wrapper,
     text_to_html,
 )
-from ..virus_scan.models import Request as ScanRequest
-from django.utils import timezone
-from ..es_search.queries import more_like_this, find_document
-from feder.cases.models import enforce_quarantined_queryset
-from feder.main.utils import get_email_domain
-from feder.domains.models import Domain
-from django.utils.safestring import mark_safe
 
 logger = logging.getLogger(__name__)
 

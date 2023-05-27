@@ -2,6 +2,7 @@ import factory
 
 from feder.monitorings.factories import MonitoringFactory
 from feder.users.factories import UserFactory
+
 from .models import Alert
 
 

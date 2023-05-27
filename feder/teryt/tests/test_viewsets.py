@@ -1,7 +1,7 @@
 from django.test import RequestFactory, TestCase
+from teryt_tree.rest_framework_ext.viewsets import JednostkaAdministracyjnaViewSet
 
 from feder.teryt.factories import JSTFactory
-from teryt_tree.rest_framework_ext.viewsets import JednostkaAdministracyjnaViewSet
 
 
 class TerytViewSetTestCase(TestCase):

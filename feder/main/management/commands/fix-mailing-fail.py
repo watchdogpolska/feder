@@ -1,9 +1,10 @@
 import argparse
 import csv
 from datetime import datetime
+
 from django.core.management.base import BaseCommand
 
-from feder.cases.models import Case, Alias
+from feder.cases.models import Alias, Case
 from feder.institutions.models import Institution
 from feder.letters.models import Letter
 from feder.monitorings.models import Monitoring

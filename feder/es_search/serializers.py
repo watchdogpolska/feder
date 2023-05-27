@@ -1,5 +1,6 @@
-from .documents import LetterDocument
 from tika import parser
+
+from .documents import LetterDocument
 from .settings import APACHE_TIKA_URL
 
 

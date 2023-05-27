@@ -1,30 +1,20 @@
 from atom.views import CreateMessageMixin, DeleteMessageMixin, UpdateMessageMixin
-from braces.views import (
-    FormValidMessageMixin,
-    SelectRelatedMixin,
-    UserFormKwargsMixin,
-)
-
+from braces.views import FormValidMessageMixin, SelectRelatedMixin, UserFormKwargsMixin
 from cached_property import cached_property
 from dal import autocomplete
-from django.urls import reverse
+from django.db.models import Count
 from django.shortcuts import get_object_or_404
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
-from django.views.generic import (
-    CreateView,
-    DeleteView,
-    DetailView,
-    UpdateView,
-)
+from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
+from django_filters.views import FilterView
 
 from feder.main.mixins import RaisePermissionRequiredMixin
 from feder.monitorings.models import Monitoring
-from django_filters.views import FilterView
 
-from django.db.models import Count
-from .models import Tag
-from .forms import TagForm
 from .filters import TagFilter
+from .forms import TagForm
+from .models import Tag
 
 _("Tag index")
 

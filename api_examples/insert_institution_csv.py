@@ -15,16 +15,14 @@ $ python insert_institution_generic.py -h
 """
 
 import argparse
+import csv
 import sys
+from urllib.parse import urljoin
 
 import requests
-import csv
 from gusregon import GUS
-
-from utils import environ
 from insert_institution import normalize_jst
-
-from urllib.parse import urljoin
+from utils import environ
 
 
 class ScriptError(Exception):

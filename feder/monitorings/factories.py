@@ -2,6 +2,7 @@ import factory
 
 from feder.domains.factories import DomainFactory
 from feder.users.factories import UserFactory
+
 from .models import Monitoring
 
 

@@ -1,6 +1,7 @@
 import factory
 
 from feder.teryt.factories import JSTFactory
+
 from .models import Institution, Tag
 
 

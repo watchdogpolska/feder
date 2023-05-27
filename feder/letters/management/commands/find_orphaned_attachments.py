@@ -1,9 +1,11 @@
 import os
 from datetime import datetime
 from glob import glob
-from django.core.management.base import BaseCommand
-from feder.letters.models import Attachment
+
 from django.conf import settings
+from django.core.management.base import BaseCommand
+
+from feder.letters.models import Attachment
 
 
 class Command(BaseCommand):

@@ -3,12 +3,13 @@ import email
 from django.core import mail
 from django.test import TestCase
 
+from feder.cases.factories import CaseFactory
 from feder.cases.models import Case
 from feder.institutions.factories import InstitutionFactory
-from feder.cases.factories import CaseFactory
 from feder.letters.utils import normalize_msg_id
 from feder.monitorings.factories import MonitoringFactory
 from feder.users.factories import UserFactory
+
 from ..factories import (
     IncomingLetterFactory,
     LetterFactory,

@@ -1,6 +1,6 @@
-from django_filters import DateRangeFilter, FilterSet
 from django.conf import settings
 from django.utils.timezone import now
+from django_filters import DateRangeFilter, FilterSet
 
 
 class InitialFilterSet(FilterSet):

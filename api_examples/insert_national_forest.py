@@ -15,17 +15,14 @@ $ python insert_court.py -h
 """
 
 import argparse
-import sys
-
-import requests
 import csv
-from gusregon import GUS
-
-from utils import environ
-from insert_institution import normalize_jst
-
+import sys
 from urllib.parse import urljoin
 
+import requests
+from gusregon import GUS
+from insert_institution import normalize_jst
+from utils import environ
 
 if not bool(environ("GUSREGON_SANDBOX")):
     sys.stderr.write(

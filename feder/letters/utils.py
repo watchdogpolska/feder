@@ -1,6 +1,7 @@
 import re
-from textwrap import TextWrapper
 from html.parser import HTMLParser
+from textwrap import TextWrapper
+
 from django.forms.widgets import TextInput
 
 BODY_REPLY_TPL = "\n\nProsimy o odpowiedź na adres {{EMAIL}}"

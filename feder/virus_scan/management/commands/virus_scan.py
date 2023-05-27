@@ -1,8 +1,9 @@
 from time import sleep
+
 from django.core.management.base import BaseCommand
-from feder.virus_scan.models import Request
 
 from feder.virus_scan.engine import get_engine
+from feder.virus_scan.models import Request
 
 current_engine = get_engine()
 

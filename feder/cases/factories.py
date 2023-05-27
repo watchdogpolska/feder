@@ -3,7 +3,8 @@ import factory
 from feder.institutions.factories import InstitutionFactory
 from feder.monitorings.factories import MonitoringFactory
 from feder.users.factories import UserFactory
-from .models import Case, Alias
+
+from .models import Alias, Case
 
 
 class CaseFactory(factory.django.DjangoModelFactory):

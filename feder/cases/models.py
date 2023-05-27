@@ -1,28 +1,29 @@
 import uuid
-from functools import lru_cache
+from datetime import timedelta
 from email.headerregistry import Address
+from functools import lru_cache
 
 from autoslug.fields import AutoSlugField
 from django.apps import apps
 from django.conf import settings
-from django.db import models
-from django.db.models import Max, Prefetch, Q, Subquery, OuterRef
-from django.db.models.functions import Cast, Trunc
-from django.urls import reverse
-from django.utils.translation import gettext_lazy as _
-from model_utils.models import TimeStampedModel
 from django.contrib.auth.models import Permission
 from django.contrib.contenttypes.models import ContentType
-from feder.institutions.models import Institution
-from feder.monitorings.models import Monitoring, MonitoringUserObjectPermission
+from django.db import models
+from django.db.models import Max, OuterRef, Prefetch, Q, Subquery
+from django.db.models.functions import Cast, Trunc
+from django.urls import reverse
 from django.utils.timezone import datetime
-from datetime import timedelta
+from django.utils.translation import gettext_lazy as _
+from model_utils.models import TimeStampedModel
+
+from feder.institutions.models import Institution
 from feder.main.utils import (
     FormattedDatetimeMixin,
+    RenderBooleanFieldMixin,
     get_numeric_param,
     get_param,
-    RenderBooleanFieldMixin,
 )
+from feder.monitorings.models import Monitoring, MonitoringUserObjectPermission
 from feder.teryt.models import JST
 
 
@@ -59,8 +60,8 @@ class CaseQuerySet(FormattedDatetimeMixin, models.QuerySet):
         )
 
     def with_letter(self):
-        from feder.records.models import Record
         from feder.letters.models import Letter
+        from feder.records.models import Record
 
         record_queryset = (
             Record.objects.with_author()

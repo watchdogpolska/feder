@@ -1,26 +1,26 @@
 from atom.ext.crispy_forms.forms import HelperMixin, SingleButtonMixin
 from braces.forms import UserKwargModelFormMixin
-from crispy_forms.layout import Layout, Fieldset, Submit, Row, Column
+from crispy_forms.layout import Column, Fieldset, Layout, Row, Submit
 from dal import autocomplete
 from django import forms
-from django.utils.translation import gettext_lazy as _
 from django.conf import settings
+from django.template.loader import render_to_string
+from django.utils.safestring import mark_safe
+from django.utils.translation import gettext_lazy as _
 from tinymce.widgets import TinyMCE
 
 from feder.cases.models import Case
+from feder.letters.utils import BODY_REPLY_TPL
 from feder.records.models import Record
+
 from .models import Letter
 from .utils import (
-    html_to_text,
     HtmlIframeWidget,
-    text_to_html,
+    html_to_text,
     is_formatted_html,
     text_email_wrapper,
+    text_to_html,
 )
-from feder.letters.utils import BODY_REPLY_TPL
-from django.utils.safestring import mark_safe
-from django.template.loader import render_to_string
-
 
 QUOTE_TPL = "W nawiązaniu do pisma z dnia {created} z adresu {email}:\n{quoted}"
 

@@ -1,10 +1,11 @@
+import json
 import time
 
-from django.core.management.base import BaseCommand
 import requests
-import json
+from django.core.management.base import BaseCommand
 
 from feder.virus_scan.engine import get_engine
+
 from ...models import Request
 
 current_engine = get_engine()

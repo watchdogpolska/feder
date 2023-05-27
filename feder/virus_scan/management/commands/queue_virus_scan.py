@@ -1,7 +1,8 @@
 from django.core.management.base import BaseCommand
-from ...models import Request as ScanRequest
-from ....letters.models import Attachment
 from django.db.models import Count
+
+from ....letters.models import Attachment
+from ...models import Request as ScanRequest
 
 
 class Command(BaseCommand):

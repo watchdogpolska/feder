@@ -1,16 +1,15 @@
 import warnings
 
 from cached_property import cached_property
+from django.db import models
 
 # Create your models here.
 from django.db.models import Prefetch
-from django_extensions.db.models import TimeStampedModel
 from django.utils.translation import gettext_lazy as _
+from django_extensions.db.models import TimeStampedModel
 
-from django.db import models
-from feder.cases.models import Case
+from feder.cases.models import Case, enforce_quarantined_queryset
 from feder.records.registry import record_type_registry
-from feder.cases.models import enforce_quarantined_queryset
 
 
 class RecordQuerySet(models.QuerySet):

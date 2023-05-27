@@ -12,6 +12,7 @@ from model_utils.models import TimeStampedModel
 
 from feder.domains.models import Domain
 from feder.main.utils import FormattedDatetimeMixin, RenderBooleanFieldMixin
+
 from .validators import validate_template_syntax
 
 _("Monitorings index")

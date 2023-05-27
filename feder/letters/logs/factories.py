@@ -1,7 +1,7 @@
 from collections import OrderedDict
 
-import factory.fuzzy
 import factory
+import factory.fuzzy
 
 from feder.letters.logs.models import STATUS
 

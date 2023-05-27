@@ -1,10 +1,11 @@
 from datetime import datetime
+
 from ajax_datatable import AjaxDatatableView
 from atom.views import DeleteMessageMixin, UpdateMessageMixin
 from braces.views import (
-    MessageMixin,
     FormValidMessageMixin,
     LoginRequiredMixin,
+    MessageMixin,
     PermissionRequiredMixin,
     SelectRelatedMixin,
     UserFormKwargsMixin,
@@ -13,62 +14,64 @@ from cached_property import cached_property
 from dal import autocomplete
 from django.contrib import messages
 from django.contrib.auth import get_user_model
-from guardian.utils import get_anonymous_user
+from django.contrib.syndication.views import Feed
 from django.core.exceptions import PermissionDenied
-from django.urls import reverse, reverse_lazy
 from django.db.models import Count, Q
 from django.http import HttpResponseRedirect
-from django.template.defaultfilters import linebreaksbr
 from django.shortcuts import get_object_or_404
+from django.template.defaultfilters import linebreaksbr
+from django.urls import reverse, reverse_lazy
+from django.utils import timezone
+from django.utils.encoding import force_str
+from django.utils.feedgenerator import Atom1Feed
+from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
-from django.utils.http import urlencode
 from django.views.generic import (
     CreateView,
     DeleteView,
     DetailView,
     FormView,
-    UpdateView,
     TemplateView,
+    UpdateView,
 )
-from django.contrib.syndication.views import Feed
-from django.utils import timezone
-from django.utils.encoding import force_str
-from django.utils.feedgenerator import Atom1Feed
 from django_filters.views import FilterView
+from extra_views import CreateWithInlinesView
+from formtools.wizard.views import SessionWizardView
+from guardian.shortcuts import assign_perm
+from guardian.utils import get_anonymous_user
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from formtools.wizard.views import SessionWizardView
-from guardian.shortcuts import assign_perm
+
 from feder.cases.models import Case
+from feder.cases_tags.models import Tag
 from feder.institutions.filters import InstitutionFilter
 from feder.institutions.models import Institution
+from feder.letters.formsets import AttachmentInline
 from feder.letters.models import Letter
 from feder.letters.utils import is_formatted_html
+from feder.letters.views import LetterCommonMixin
 from feder.main.mixins import ExtraListMixin, RaisePermissionRequiredMixin
 from feder.main.paginator import DefaultPagination
-from feder.cases_tags.models import Tag
 from feder.teryt.models import JST
+
 from .filters import (
-    MonitoringFilter,
-    MonitoringCaseReportFilter,
     MonitoringCaseAreaFilter,
+    MonitoringCaseReportFilter,
+    MonitoringFilter,
 )
 from .forms import (
+    CheckboxTranslatedUserObjectPermissionsForm,
+    MassMessageForm,
     MonitoringForm,
     SaveTranslatedUserObjectPermissionsForm,
     SelectUserForm,
-    CheckboxTranslatedUserObjectPermissionsForm,
-    MassMessageForm,
 )
 from .models import Monitoring
 from .permissions import MultiCaseTagManagementPerm
 from .serializers import MultiCaseTagSerializer
 from .tasks import handle_mass_assign, send_mass_draft
-from feder.letters.formsets import AttachmentInline
-from feder.letters.views import LetterCommonMixin
-from extra_views import CreateWithInlinesView
 
 
 class MonitoringListView(SelectRelatedMixin, FilterView):

@@ -1,28 +1,28 @@
-from atom.ext.crispy_forms.forms import SingleButtonMixin, HelperMixin
+from atom.ext.crispy_forms.forms import HelperMixin, SingleButtonMixin
 from atom.ext.guardian.forms import TranslatedUserObjectPermissionsForm
 from braces.forms import UserKwargModelFormMixin
-from crispy_forms.layout import Layout, Fieldset, Submit, Row, Column
+from crispy_forms.layout import Column, Fieldset, Layout, Row, Submit
 from dal import autocomplete
 from django import forms
-from django.utils.translation import gettext as _
 from django.conf import settings
+from django.template.loader import render_to_string
+from django.utils.safestring import mark_safe
+from django.utils.translation import gettext as _
 from tinymce.widgets import TinyMCE
 
-from feder.users.models import User
-from feder.letters.models import Letter, MassMessageDraft
-from feder.letters.utils import BODY_REPLY_TPL
-from feder.letters.forms import QUOTE_TPL
 from feder.cases_tags.models import Tag
-from feder.letters.models import Record
-from .models import Monitoring
+from feder.letters.forms import QUOTE_TPL
+from feder.letters.models import Letter, MassMessageDraft, Record
 from feder.letters.utils import (
+    BODY_REPLY_TPL,
     html_to_text,
-    text_to_html,
     is_formatted_html,
     text_email_wrapper,
+    text_to_html,
 )
-from django.utils.safestring import mark_safe
-from django.template.loader import render_to_string
+from feder.users.models import User
+
+from .models import Monitoring
 
 
 class MonitoringForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):

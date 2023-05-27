@@ -2,30 +2,34 @@ from unittest import skip
 from unittest.mock import Mock, patch
 
 from django.core import mail
-from django.urls import reverse
-from django.test import TestCase
-from guardian.shortcuts import assign_perm, get_user_perms
 from django.db.models import Count
+from django.test import TestCase
+from django.urls import reverse
+from guardian.shortcuts import assign_perm, get_user_perms
+
 from feder.cases.factories import CaseFactory
 from feder.cases.models import Case
+from feder.cases_tags.factories import TagFactory
 from feder.domains.factories import DomainFactory
 from feder.institutions.factories import InstitutionFactory
-from feder.letters.factories import IncomingLetterFactory, DraftLetterFactory
-from feder.letters.factories import OutgoingLetterFactory
+from feder.letters.factories import (
+    DraftLetterFactory,
+    IncomingLetterFactory,
+    OutgoingLetterFactory,
+)
+from feder.letters.models import Letter, MassMessageDraft
 from feder.main.tests import PermissionStatusMixin
 from feder.monitorings.filters import MonitoringFilter
 from feder.parcels.factories import IncomingParcelPostFactory, OutgoingParcelPostFactory
-from feder.teryt.factories import JSTFactory
 from feder.records.factories import RecordFactory
+from feder.teryt.factories import JSTFactory
 from feder.users.factories import UserFactory
-from feder.cases_tags.factories import TagFactory
-from feder.letters.models import Letter, MassMessageDraft
+
 from .factories import MonitoringFactory
-from .forms import MonitoringForm, MassMessageForm
+from .forms import MassMessageForm, MonitoringForm
 from .models import Monitoring
 from .serializers import MultiCaseTagSerializer
-from .tasks import send_letter_for_mass_assign, handle_mass_assign
-from feder.domains.factories import DomainFactory
+from .tasks import handle_mass_assign, send_letter_for_mass_assign
 
 EXAMPLE_DATA = {
     "name": "foo-bar-monitoring",

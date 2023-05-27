@@ -13,6 +13,7 @@ from django_filters.views import FilterView
 
 from feder.main.mixins import AttrPermissionRequiredMixin, RaisePermissionRequiredMixin
 from feder.monitorings.models import Monitoring
+
 from .filters import AlertFilter
 from .forms import AlertForm
 from .models import Alert

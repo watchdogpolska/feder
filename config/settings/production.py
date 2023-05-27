@@ -1,8 +1,7 @@
-from .common import *  # noqa
-
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
+from .common import *  # noqa
 
 # SECRET CONFIGURATION
 # ------------------------------------------------------------------------------

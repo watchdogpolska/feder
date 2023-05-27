@@ -1,17 +1,16 @@
-from django.utils import timezone
 import unicodecsv as csv
-
-from braces.views import SelectRelatedMixin, PrefetchRelatedMixin
+from braces.views import PrefetchRelatedMixin, SelectRelatedMixin
 from cached_property import cached_property
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
+from django.utils import timezone
 from django.views.generic import DetailView
+from django.views.generic.list import ListView
 
 from feder.cases.models import Case
 from feder.letters.logs.models import EmailLog
 from feder.main.mixins import AttrPermissionRequiredMixin
 from feder.monitorings.models import Monitoring
-from django.views.generic.list import ListView
 
 
 class ListMonitoringMixin(AttrPermissionRequiredMixin, SelectRelatedMixin):
