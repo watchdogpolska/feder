@@ -20,7 +20,13 @@ repos:
     rev: 5.12.0
     hooks:
       - id: isort
-        args: ["--profile", "black", "--filter-files"]
+        args:
+          - --profile
+          - black
+          - --line-length=88
+          - --filter-files
+          - --skip-glob
+          - "**/migrations/*.py"
   - repo: https://github.com/sirosen/check-jsonschema
     rev: 0.22.0
     hooks:
