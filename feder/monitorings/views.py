@@ -419,6 +419,7 @@ class MonitoringDetailView(SelectRelatedMixin, ExtraListMixin, DetailView):
             <tr>
                 <th>Województwo</th>
                 <th>Liczba spraw</th>
+                <th>Liczba spraw w kwarantannie</th>
             </tr>"""
         for voivodeship in voivodeship_list:
             table += (
@@ -427,6 +428,12 @@ class MonitoringDetailView(SelectRelatedMixin, ExtraListMixin, DetailView):
                 + "</td><td>"
                 + str(
                     Case.objects.filter(monitoring=monitoring).area(voivodeship).count()
+                )
+                + "</td><td>"
+                + str(
+                    Case.objects.filter(monitoring=monitoring, is_quarantined=True)
+                    .area(voivodeship)
+                    .count()
                 )
                 + "</td></tr>"
             )
