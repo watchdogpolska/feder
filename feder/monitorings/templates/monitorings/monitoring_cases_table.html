@@ -104,9 +104,13 @@
             {% crispy area_filter_form %}
             <button type="submit" class="btn btn-primary btn-block">
                 <i class="fa fa-search" aria-hidden="true"></i>
-                {% trans 'Filter area' %}
+                {% trans 'Filter area and tags' %}
             </button>
         </div>
+        <form>
+            {% crispy area_filter_form %}
+            {% crispy tag_filter_form %}            
+        </form>
     </div>
     <div class="right-column">
         <div id="tableWrapper">

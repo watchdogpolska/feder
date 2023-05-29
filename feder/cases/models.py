@@ -179,6 +179,16 @@ class CaseQuerySet(FormattedDatetimeMixin, models.QuerySet):
             qs = qs.area(jst=voivodeship_filter)
         return qs
 
+    def ajax_tags_filter(self, request):
+        tags = get_param(request, "tags_filter")
+        if tags:
+            tag_ids = tags.split(",")
+            qs = self
+            for tag_id in tag_ids:
+                qs = qs.filter(tags__id=tag_id)
+            return qs
+        return self
+
 
 class Case(RenderBooleanFieldMixin, TimeStampedModel):
     name = models.CharField(verbose_name=_("Name"), max_length=100)

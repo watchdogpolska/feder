@@ -74,6 +74,7 @@
                     voivodeship_filter: function() { return $("select[name='voivodeship']").val(); },
                     county_filter: function() { return $("select[name='county']").val(); },
                     community_filter: function() { return $("select[name='community']").val(); },
+                    tags_filter: function() { return $("select[name='tags']").val(); },
                 },
             );
             $('.filters input, .filters button').on('change paste keyup click', function() {

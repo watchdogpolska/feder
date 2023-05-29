@@ -322,8 +322,9 @@ class MonitoringCasesAjaxDatatableView(AjaxDatatableView):
             "name": "tags",
             "visible": True,
             "title": _("Tags"),
-            "choices": True,
-            "autofilter": True,
+            "choices": False,
+            "autofilter": False,
+            "searchable": True,
             "m2m_foreign_field": "tags__name",
         },
         {
@@ -363,6 +364,7 @@ class MonitoringCasesAjaxDatatableView(AjaxDatatableView):
         qs = qs.ajax_boolean_filter(self.request, "resp_", "response_received")
         qs = qs.ajax_boolean_filter(self.request, "quar_", "is_quarantined")
         qs = qs.ajax_area_filter(self.request)
+        qs = qs.ajax_tags_filter(self.request)
         return (
             qs.for_user(user=self.request.user)
             # .with_formatted_datetime("created", timezone.get_default_timezone())
