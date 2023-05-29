@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-institutions 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-27 13:12+0000\n"
+"POT-Creation-Date: 2023-05-29 20:55+0000\n"
 "PO-Revision-Date: 2020-10-19 15:44+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -24,7 +24,7 @@ msgid "Institution count"
 msgstr "Liczba instytucji"
 
 #: feder/institutions/filters.py:27 feder/institutions/models.py:33
-#: feder/institutions/models.py:106 feder/institutions/viewsets.py:42
+#: feder/institutions/models.py:106 feder/institutions/viewsets.py:43
 msgid "Name"
 msgstr "Nazwa"
 
@@ -45,7 +45,7 @@ msgstr "Tag"
 msgid "Unit of administrative division"
 msgstr "Jednostka podziału terytorialnego"
 
-#: feder/institutions/models.py:44 feder/institutions/viewsets.py:44
+#: feder/institutions/models.py:44 feder/institutions/viewsets.py:45
 msgid "REGON number"
 msgstr "Kod REGON"
 
@@ -53,7 +53,7 @@ msgstr "Kod REGON"
 msgid "Parent institutions"
 msgstr "Instytucja nadrzędna"
 
-#: feder/institutions/models.py:53 feder/institutions/viewsets.py:43
+#: feder/institutions/models.py:53 feder/institutions/viewsets.py:44
 msgid "Email of institution"
 msgstr "Adres e-mail instytucji"
 
@@ -156,43 +156,43 @@ msgstr "^~autocomplete$"
 msgid "^~autocomplete-tag$"
 msgstr "^~autocomplete-tag$"
 
-#: feder/institutions/views.py:25
+#: feder/institutions/views.py:26
 msgid "Institutions index"
 msgstr "Wykaz instytucji"
 
-#: feder/institutions/viewsets.py:41
+#: feder/institutions/viewsets.py:42
 msgid "Id"
 msgstr "Id"
 
-#: feder/institutions/viewsets.py:45
+#: feder/institutions/viewsets.py:46
 msgid "JST id"
 msgstr "JST id"
 
-#: feder/institutions/viewsets.py:46
+#: feder/institutions/viewsets.py:47
 msgid "JST category"
 msgstr "JST kategoria"
 
-#: feder/institutions/viewsets.py:47
+#: feder/institutions/viewsets.py:48
 msgid "JST name"
 msgstr "JST nazwa"
 
-#: feder/institutions/viewsets.py:48
+#: feder/institutions/viewsets.py:49
 msgid "JST voivodeship"
 msgstr "JST Województwo"
 
-#: feder/institutions/viewsets.py:49
+#: feder/institutions/viewsets.py:50
 msgid "Created"
 msgstr "Dodany"
 
-#: feder/institutions/viewsets.py:50
+#: feder/institutions/viewsets.py:51
 msgid "Modified"
 msgstr "Zmieniony"
 
-#: feder/institutions/viewsets.py:51
+#: feder/institutions/viewsets.py:52
 msgid "Tag names"
 msgstr "Nazwy tagów"
 
-#: feder/institutions/viewsets.py:78
+#: feder/institutions/viewsets.py:79
 msgid "institutions"
 msgstr "instytucje"
 

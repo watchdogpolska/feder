@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-27 13:12+0000\n"
+"POT-Creation-Date: 2023-05-29 20:55+0000\n"
 "PO-Revision-Date: 2021-01-29 01:44+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -89,11 +89,11 @@ msgstr "^monitoring-(?P<monitoring>[\\d]+)/(?P<pk>[\\d]+)/~update$"
 msgid "^monitoring-(?P<monitoring>[\\d]+)/(?P<pk>[\\d]+)/~delete$"
 msgstr "^monitoring-(?P<monitoring>[\\d]+)/(?P<pk>[\\d]+)/~delete$"
 
-#: feder/cases_tags/views.py:29
+#: feder/cases_tags/views.py:19
 msgid "Tag index"
 msgstr "Wykaz tagów"
 
-#: feder/cases_tags/views.py:102
+#: feder/cases_tags/views.py:92
 #, python-brace-format
 msgid "{object} deleted!"
 msgstr "{object} usunięty!"

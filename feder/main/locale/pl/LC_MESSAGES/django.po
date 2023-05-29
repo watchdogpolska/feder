@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: main 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-27 13:12+0000\n"
+"POT-Creation-Date: 2023-05-29 20:55+0000\n"
 "PO-Revision-Date: 2023-05-18 09:46+0000\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -500,55 +500,55 @@ msgstr ""
 msgid "Add a 3rd Party Account"
 msgstr "Dodaj konto zewnętrzne"
 
-#: feder/main/urls.py:35
+#: feder/main/urls.py:36
 msgid "^$"
 msgstr "^$"
 
-#: feder/main/urls.py:39
+#: feder/main/urls.py:40
 msgid "^about/$"
 msgstr "^o-stronie/"
 
-#: feder/main/urls.py:46
+#: feder/main/urls.py:47
 msgid "^users/"
 msgstr "^uzytkownik/"
 
-#: feder/main/urls.py:50
+#: feder/main/urls.py:51
 msgid "^institutions/"
 msgstr "^instytucje/"
 
-#: feder/main/urls.py:54
+#: feder/main/urls.py:55
 msgid "^monitorings/"
 msgstr "^monitoringi/"
 
-#: feder/main/urls.py:56
+#: feder/main/urls.py:57
 msgid "^cases/"
 msgstr "^sprawy/"
 
-#: feder/main/urls.py:58
+#: feder/main/urls.py:59
 msgid "^cases/tags/"
 msgstr "^sprawy/tagi/"
 
-#: feder/main/urls.py:60
+#: feder/main/urls.py:61
 msgid "^alerts/"
 msgstr "^alerty/"
 
-#: feder/main/urls.py:61
+#: feder/main/urls.py:62
 msgid "^letters/"
 msgstr "^listy/"
 
-#: feder/main/urls.py:62
+#: feder/main/urls.py:63
 msgid "^teryt/"
 msgstr "^jst/"
 
-#: feder/main/urls.py:63
+#: feder/main/urls.py:64
 msgid "^letters/logs/"
 msgstr "^listy/logi/"
 
-#: feder/main/urls.py:64
+#: feder/main/urls.py:65
 msgid "^parcels/"
 msgstr "^przesylki/"
 
-#: feder/main/urls.py:66
+#: feder/main/urls.py:67
 msgid "^virus_scan/"
 msgstr "^virus_scan/"
 
@@ -568,29 +568,202 @@ msgstr "Organizacja"
 msgid "Organisations"
 msgstr "Organizacje"
 
-#: feder/records/admin.py:43
+#: feder/records/admin.py:44
 msgid "Letter id"
 msgstr "Id Listu"
 
-#: feder/records/admin.py:52
+#: feder/records/admin.py:53
 msgid "Case id"
 msgstr "Id Sprawy"
 
-#: feder/records/admin.py:61
+#: feder/records/admin.py:62
 msgid "Incoming parcel id"
 msgstr "Id paczki przychodzącej"
 
-#: feder/records/admin.py:70
+#: feder/records/admin.py:71
 msgid "Outgoing parcel id"
 msgstr "Id paczki wychodzącej"
 
-#: feder/records/models.py:124
+#: feder/records/models.py:123
 msgid "Record"
 msgstr "Wpis"
 
-#: feder/records/models.py:125
+#: feder/records/models.py:124
 msgid "Records"
 msgstr "Wpisy"
+
+#, fuzzy
+#~| msgid "created"
+#~ msgid "Create"
+#~ msgstr "utworzono"
+
+#, fuzzy
+#~| msgid "Confirm"
+#~ msgid "Confirm delete"
+#~ msgstr "Potwierdź"
+
+#, fuzzy
+#~| msgid "Add E-mail"
+#~ msgid "Add alert"
+#~ msgstr "Dodaj e-mail"
+
+#, fuzzy
+#~| msgid "Toggle navigation"
+#~ msgid "Toggle metadata"
+#~ msgstr "Przełącz nawigacje"
+
+#, fuzzy
+#~| msgid "E-mail address"
+#~ msgid "E-mail of case"
+#~ msgstr "Adres e-mail"
+
+#, fuzzy
+#~| msgid "^letters/"
+#~ msgid "New letter"
+#~ msgstr "^listy/"
+
+#, fuzzy, python-format
+#~| msgid "Are you sure you want to remove \"%(object)s\"?"
+#~ msgid "Are you sure you want to mark \"%(object)s\"?"
+#~ msgstr "Czy na pewno chcesz usunąć \"%(object)s\"?"
+
+#, fuzzy, python-format
+#~| msgid "Are you sure you want to remove \"%(object)s\"?"
+#~ msgid "Are you sure you want to resend letter \"%(object)s\"?"
+#~ msgstr "Czy na pewno chcesz usunąć \"%(object)s\"?"
+
+#, fuzzy, python-format
+#~| msgid "Are you sure you want to remove \"%(object)s\"?"
+#~ msgid "Are you sure you want to send \"%(object)s\"?"
+#~ msgstr "Czy na pewno chcesz usunąć \"%(object)s\"?"
+
+#, fuzzy, python-format
+#~| msgid "Are you sure you want to remove \"%(object)s\"?"
+#~ msgid "Are you sure you want to report as spam \"%(object)s\"?"
+#~ msgstr "Czy na pewno chcesz usunąć \"%(object)s\"?"
+
+#, fuzzy
+#~| msgid "^accounts/"
+#~ msgid "Case count"
+#~ msgstr "^konto/"
+
+#, fuzzy
+#~| msgid "^institutions/"
+#~ msgid "Add institution"
+#~ msgstr "^instytucje/"
+
+#~ msgid "E-mail"
+#~ msgstr "E-mail"
+
+#, fuzzy
+#~| msgid "Voivodeships"
+#~ msgid "Voivodeship"
+#~ msgstr "Województwa"
+
+#, fuzzy
+#~| msgid "Voivodeships"
+#~ msgid "Select voivodeship."
+#~ msgstr "Województwa"
+
+#, fuzzy
+#~| msgid "Incoming parcel id"
+#~ msgid "Incoming parcel"
+#~ msgstr "Id paczki przychodzącej"
+
+#, fuzzy
+#~| msgid "Outgoing parcel id"
+#~ msgid "Outgoing parcel"
+#~ msgstr "Id paczki wychodzącej"
+
+#, fuzzy
+#~| msgid "^letters/"
+#~ msgid "Add letter"
+#~ msgstr "^listy/"
+
+#, fuzzy
+#~| msgid "Institutions"
+#~ msgid "Institution"
+#~ msgstr "Instytucje"
+
+#, fuzzy
+#~| msgid "Monitorings"
+#~ msgid "Monitoring"
+#~ msgstr "Monitoringi"
+
+#, fuzzy
+#~| msgid "Case id"
+#~ msgid "Case email:"
+#~ msgstr "Id Sprawy"
+
+#, fuzzy
+#~| msgid "Letter id"
+#~ msgid "Letter count:"
+#~ msgstr "Id Listu"
+
+#, fuzzy
+#~| msgid "Update"
+#~ msgid "Update case"
+#~ msgstr "Aktualizuj"
+
+#, fuzzy
+#~| msgid "^parcels/"
+#~ msgid "Parcel post"
+#~ msgstr "^przesylki/"
+
+#, fuzzy
+#~| msgid "^institutions/"
+#~ msgid "institution"
+#~ msgstr "^instytucje/"
+
+#, fuzzy
+#~| msgid "^cases/"
+#~ msgid "case"
+#~ msgstr "^sprawy/"
+
+#, fuzzy
+#~| msgid "Institutions"
+#~ msgid "Institutions and cases"
+#~ msgstr "Instytucje"
+
+#, fuzzy
+#~| msgid "^institutions/"
+#~ msgid "Assign institutions"
+#~ msgstr "^instytucje/"
+
+#, fuzzy
+#~| msgid "Filter"
+#~ msgid "Filtr"
+#~ msgstr "Filtruj"
+
+#, fuzzy
+#~| msgid "^monitorings/"
+#~ msgid "Add monitoring"
+#~ msgstr "^monitoringi/"
+
+#, fuzzy
+#~| msgid "Last monitorings"
+#~ msgid "Update monitoring"
+#~ msgstr "Ostatnie monitoringi"
+
+#, fuzzy
+#~| msgid "Filter"
+#~ msgid "Filters"
+#~ msgstr "Filtruj"
+
+#, fuzzy
+#~| msgid "Cases"
+#~ msgid "Case"
+#~ msgstr "Sprawy"
+
+#, fuzzy
+#~| msgid "Letters"
+#~ msgid "Letter"
+#~ msgstr "Listy"
+
+#, fuzzy
+#~| msgid "Records"
+#~ msgid "Records count"
+#~ msgstr "Wpisy"
 
 #~ msgid "Facebook"
 #~ msgstr "Facebook"
@@ -625,17 +798,11 @@ msgstr "Wpisy"
 #~ msgid "or"
 #~ msgstr "lub"
 
-#~ msgid "^accounts/"
-#~ msgstr "^konto/"
-
 #~ msgid "My Info"
 #~ msgstr "O mnie"
 
 #~ msgid "E-Mail"
 #~ msgstr "E-mail"
-
-#~ msgid "Update"
-#~ msgstr "Aktualizuj"
 
 #~ msgid "Members"
 #~ msgstr "Członkowie"
@@ -673,12 +840,6 @@ msgstr "Wpisy"
 
 #~ msgid "The login and/or password you specified are not correct."
 #~ msgstr "Login i/lub hasło, które podałeś, są niepoprawne."
-
-#~ msgid "E-mail address"
-#~ msgstr "Adres e-mail"
-
-#~ msgid "E-mail"
-#~ msgstr "E-mail"
 
 #~ msgid "Username or e-mail"
 #~ msgstr "Nazwa użytkownika lub e-mail"
@@ -736,9 +897,6 @@ msgstr "Wpisy"
 
 #~ msgid "email addresses"
 #~ msgstr "adresy e-mail"
-
-#~ msgid "created"
-#~ msgstr "utworzono"
 
 #~ msgid "sent"
 #~ msgstr "wysłano"

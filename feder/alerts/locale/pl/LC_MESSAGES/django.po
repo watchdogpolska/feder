@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: alerts 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-27 13:12+0000\n"
+"POT-Creation-Date: 2023-05-29 20:55+0000\n"
 "PO-Revision-Date: 2016-09-18 01:57+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: pl_PL <naczelnik@jawnosc.tk>\n"
@@ -123,17 +123,17 @@ msgstr "^(?P<pk>[\\d]+)/~usun$"
 msgid "^(?P<pk>[\\d]+)/~status$"
 msgstr "^(?P<pk>[\\d]+)/~status$"
 
-#: feder/alerts/views.py:71
+#: feder/alerts/views.py:72
 #, python-brace-format
 msgid "{object} created!"
 msgstr "{object} utworzony!"
 
-#: feder/alerts/views.py:83
+#: feder/alerts/views.py:84
 #, python-brace-format
 msgid "{object} updated!"
 msgstr "{object} zaktualizowany!"
 
-#: feder/alerts/views.py:92
+#: feder/alerts/views.py:93
 #, python-brace-format
 msgid "{object} deleted!"
 msgstr "{object} usunięty!"
