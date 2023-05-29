@@ -44,6 +44,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from feder.cases.forms import CaseTagFilterForm
 from feder.cases.models import Case
 from feder.cases_tags.models import Tag
 from feder.institutions.filters import InstitutionFilter
@@ -260,6 +261,7 @@ class MonitoringCasesTableView(FilterView):
         )
         context["datatable_id"] = "monitoring_cases_table"
         context["area_filter_form"] = MonitoringCaseAreaFilter().form
+        context["tag_filter_form"] = CaseTagFilterForm(monitoring=monitoring)
         return context
 
 
