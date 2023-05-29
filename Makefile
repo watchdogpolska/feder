@@ -9,6 +9,9 @@ regenerate_frontend:
 	docker-compose up gulp
 	docker-compose run web python manage.py collectstatic --noinput
 
+makemessages:
+	docker-compose run web python manage.py  makemessages --ignore=htmlcov --all
+
 gulp: regenerate_frontend
 
 build:
