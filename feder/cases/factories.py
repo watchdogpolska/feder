@@ -19,7 +19,6 @@ class CaseFactory(factory.django.DjangoModelFactory):
 
     @factory.post_generation
     def tags(self, create, extracted, **kwargs):
-
         if extracted:
             # A list of tags were passed in, use them
             for tag in extracted:
