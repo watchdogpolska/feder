@@ -167,16 +167,17 @@ class CaseQuerySet(FormattedDatetimeMixin, models.QuerySet):
         voivodeship_id = get_param(request, "voivodeship_filter")
         county_id = get_param(request, "county_filter")
         community_id = get_param(request, "community_filter")
-        area_filter = None
+        qs = self
         if community_id:
-            area_filter = JST.objects.filter(pk=community_id).first()
-        elif county_id:
-            area_filter = JST.objects.filter(pk=county_id).first()
-        elif voivodeship_id:
-            area_filter = JST.objects.filter(pk=voivodeship_id).first()
-        if area_filter:
-            return self.area(jst=area_filter)
-        return self
+            community_filter = JST.objects.filter(pk=community_id).first()
+            qs = qs.area(jst=community_filter)
+        if county_id:
+            county_filter = JST.objects.filter(pk=county_id).first()
+            qs = qs.area(jst=county_filter)
+        if voivodeship_id:
+            voivodeship_filter = JST.objects.filter(pk=voivodeship_id).first()
+            qs = qs.area(jst=voivodeship_filter)
+        return qs
 
 
 class Case(RenderBooleanFieldMixin, TimeStampedModel):
