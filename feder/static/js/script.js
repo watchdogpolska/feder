@@ -31163,6 +31163,42 @@ window.AjaxDatatableViewUtils = (function() {
     });
 })(jQuery);
 
+AjaxDatatableViewUtils.init({
+    search_icon_html: '<i class="fa fa-search"></i>',
+    language: {
+        "datepicker": {
+            "daysOfWeek": ["N", "Pn", "Wt", "Śr", "Cz", "Pt", "So"],
+            "months": ["Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec", "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"],
+            "today": "Dzisiaj",
+            "clear": "Wyczyść",
+            "format": "mm/dd/yyyy",
+            "weekStart": 1,
+            "monthsTitle": "Miesiące",
+            "clearTitle": "Wyczyść",
+            "todayTitle": "Dzisiaj"
+        },
+    },
+    fn_daterange_widget_initialize: function(table, data) {
+        var wrapper = table.closest('.dataTables_wrapper');
+        var toolbar = wrapper.find(".toolbar");
+        toolbar.html(
+            '<div class="daterange" style="float: left; margin-right: 6px;">' +
+                '<span class="from"><label>Ostatni list od</label>: ' +
+                    '<input type="date" class="date_from datepicker"></span>' +
+                '<span class="to"><label>&nbsp do</label>: ' +
+                    '<input type="date" class="date_to datepicker"></span>' +
+            '</div>'
+        );
+        toolbar.find('.date_from, .date_to').on('change', function(event) {
+            // Annotate table with values retrieved from date widgets
+            table.data('date_from', wrapper.find('.date_from').val());
+            table.data('date_to', wrapper.find('.date_to').val());
+            // Redraw table
+            table.api().draw();
+        });
+    }
+});
+
 ;(function($) {
     $(function() {
         const table1 = document.getElementById(DataTablesTableId);
@@ -31239,6 +31275,7 @@ window.AjaxDatatableViewUtils = (function() {
                     voivodeship_filter: function() { return $("select[name='voivodeship']").val(); },
                     county_filter: function() { return $("select[name='county']").val(); },
                     community_filter: function() { return $("select[name='community']").val(); },
+                    tags_filter: function() { return $("select[name='tags']").val(); },
                 },
             );
             $('.filters input, .filters button').on('change paste keyup click', function() {
