@@ -297,6 +297,7 @@ class MonitoringCasesAjaxDatatableView(AjaxDatatableView):
             "name": "institution",
             "visible": True,
             "title": _("Institution"),
+            "foreign_field": "institution__name",
         },
         {
             "name": "institution_jst",
@@ -305,14 +306,18 @@ class MonitoringCasesAjaxDatatableView(AjaxDatatableView):
             "foreign_field": "institution__jst",
             "searchable": False,
         },
-        {
-            "name": "record_max_str",
-            "visible": True,
-            "title": _("Last letter"),
-        },
+        # {
+        #     "name": "record_max_str",
+        #     "visible": True,
+        #     "title": _("Last letter"),
+        #     "searchable": False,
+        # },
         {
             "name": "record_max",
-            "visible": False,
+            "visible": True,
+            "title": _("Last letter"),
+            "searchable": False,
+            "width": 130,
         },
         {
             "name": "record_count",
@@ -371,7 +376,7 @@ class MonitoringCasesAjaxDatatableView(AjaxDatatableView):
             qs.for_user(user=self.request.user)
             # .with_formatted_datetime("created", timezone.get_default_timezone())
             .with_record_max()
-            .with_record_max_str()
+            # .with_record_max_str()
             .with_record_count()
         )
 
@@ -380,6 +385,7 @@ class MonitoringCasesAjaxDatatableView(AjaxDatatableView):
         row["response_received"] = obj.render_boolean_field("response_received")
         row["is_quarantined"] = obj.render_boolean_field("is_quarantined")
         row["name"] = obj.render_case_link()
+        row["record_max"] = obj.record_max.strftime("%Y-%m-%d %H:%M:%S")
         row["institution_jst"] = obj.institution.jst.tree_name
 
     def get_latest_by(self, request):
