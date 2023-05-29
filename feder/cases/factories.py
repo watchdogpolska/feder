@@ -19,9 +19,6 @@ class CaseFactory(factory.django.DjangoModelFactory):
 
     @factory.post_generation
     def tags(self, create, extracted, **kwargs):
-        if not create:
-            # Simple build, do nothing.
-            return
 
         if extracted:
             # A list of tags were passed in, use them
