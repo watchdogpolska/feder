@@ -106,9 +106,7 @@ class ReplyForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
         self.add_form_buttons()
 
     def get_html_body_with_footer(self):
-        reply_info = BODY_REPLY_TPL.replace("\n", "").replace(
-            "{{EMAIL}}", str(self.letter.case.get_email_address())
-        )
+        reply_info = BODY_REPLY_TPL.replace("\n", "")
         context = {
             "html_body": mark_safe(f"<p></p><p>{reply_info}</p>"),
             "html_footer": mark_safe(self.letter.case.monitoring.email_footer),
@@ -119,6 +117,7 @@ class ReplyForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
         self.fields["title"].initial = f"Re: {self.letter.title}"
         self.fields["html_body"].initial = self.get_html_body_with_footer()
         self.fields["html_quote"].initial = self.get_html_quote()
+        print("form initialised")
 
     def add_form_buttons(self):
         if self.user_can_reply and self.user_can_save:
