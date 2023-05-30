@@ -1,49 +1,35 @@
-{% load i18n %}
+{% load i18n feder_tags %}
 <table>
     <tr>
-        <td><p><i class="fa fa-home"></i>{% trans 'Institution' %}:</p></td>
+        <td><p><i class="fa fa-home"></i>&nbsp;{% trans 'Institution' %}:&nbsp;</p></td>
         <td><p><a href="{{ object.institution.get_absolute_url }}">{{ object.institution }}</a></p></td>
     </tr>
     <tr>
-        <td><p><i class="fa fa-search"></i>{% trans 'Monitoring' %}:</p></td>
+        <td><p><i class="fa fa-envelope"></i>&nbsp;{% trans 'Institution email' %}:&nbsp;</p></td>
+        <td><p>{{ object.institution.email }}</p></td>
+    </tr>
+    <tr>
+        <td><p><i class="fa fa-search"></i>&nbsp;{% trans 'Monitoring' %}:&nbsp;</p></td>
         <td><p><a href="{{ object.monitoring.get_absolute_url }}">{{ object.monitoring }}</p></a></td>
     </tr>
     <tr>
-        <td><p>{% trans 'Case email:' %}</p></td>
+        <td><p><i class="fa fa-envelope"></i>&nbsp;{% trans 'Case email' %}:&nbsp;</p></td>
         <td><p>{{ object.email }}</p></td>
     </tr>
     <tr>
-        <td><p>{% trans 'Letter count:' %}</p></td>
+        <td><p><i class="fa fa-cubes"></i>&nbsp;{% trans 'Letter count' %}:&nbsp;</p></td>
         <td><p>{{ object.letter_count }}</p></td>
     </tr>
     <tr>
-        <td><p>{% trans 'Confirmation received:' %} &nbsp</p></td>
-        <td><p>
-            {% if object.confirmation_received %}
-                <span class="fa fa-check" style="color: green;"></span>
-            {% else %}
-                <span class="fa fa-times" style="color: red;"></span>
-            {% endif %}</p>
-        </td>
+        <td><p><i class="fa fa-check-circle"></i>&nbsp;{% trans 'Confirmation received' %}:&nbsp;</p></td>
+        <td><p>{{ object.confirmation_received|boolean_icon }}</p></td>
     </tr>
     <tr>
-        <td><p>{% trans 'Response received:' %}</p></td>
-        <td><p>
-            {% if object.response_received %}
-                <span class="fa fa-check" style="color: green;"></span>
-            {% else %}
-                <span class="fa fa-times" style="color: red;"></span>
-            {% endif %}</p>
-        </td>
+        <td><p><i class="fa fa-reply"></i>&nbsp;{% trans 'Response received' %}:&nbsp;</p></td>
+        <td><p>{{ object.response_received|boolean_icon }}</p></td>
     </tr>
     <tr>
-        <td><p>{% trans 'Quarantined:' %}</p></td>
-        <td><p>
-            {% if object.is_quarantined %}
-                <span class="fa fa-check" style="color: green;"></span>
-            {% else %}
-                <span class="fa fa-times" style="color: red;"></span>
-            {% endif %}</p>
-        </td>
+        <td><p><i class="fa fa-exclamation-triangle"></i>&nbsp;{% trans 'Quarantined' %}:&nbsp;</p></td>
+        <td><p>{{ object.is_quarantined|boolean_icon }}</p></td>
     </tr>
 </table>
