@@ -31166,17 +31166,6 @@ window.AjaxDatatableViewUtils = (function() {
 AjaxDatatableViewUtils.init({
     search_icon_html: '<i class="fa fa-search"></i>',
     language: {
-        "datepicker": {
-            "daysOfWeek": ["N", "Pn", "Wt", "Śr", "Cz", "Pt", "So"],
-            "months": ["Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec", "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"],
-            "today": "Dzisiaj",
-            "clear": "Wyczyść",
-            "format": "mm/dd/yyyy",
-            "weekStart": 1,
-            "monthsTitle": "Miesiące",
-            "clearTitle": "Wyczyść",
-            "todayTitle": "Dzisiaj"
-        },
     },
     fn_daterange_widget_initialize: function(table, data) {
         var wrapper = table.closest('.dataTables_wrapper');
