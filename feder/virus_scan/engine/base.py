@@ -2,6 +2,7 @@ import urllib.parse
 
 from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
+
 from ..signer import TokenSigner
 
 

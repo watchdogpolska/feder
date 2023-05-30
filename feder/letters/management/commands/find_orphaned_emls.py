@@ -1,9 +1,11 @@
 import os
 from datetime import datetime
-from django.core.management.base import BaseCommand
-from feder.letters.models import Letter
-from django.conf import settings
 from glob import glob
+
+from django.conf import settings
+from django.core.management.base import BaseCommand
+
+from feder.letters.models import Letter
 
 
 class Command(BaseCommand):

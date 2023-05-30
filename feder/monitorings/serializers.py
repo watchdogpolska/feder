@@ -5,7 +5,7 @@ from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
 from feder.cases.models import Case
-from feder.cases_tags.models import Tag, CaseTag
+from feder.cases_tags.models import CaseTag, Tag
 from feder.domains.models import Domain
 from feder.monitorings.models import Monitoring
 

@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
-from .models import Letter, Attachment, LetterEmailDomain
+from .models import Attachment, Letter, LetterEmailDomain
 
 
 class AttachmentInline(admin.StackedInline):

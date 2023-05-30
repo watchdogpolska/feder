@@ -1,4 +1,5 @@
 import factory
+
 from ..organisations.factories import OrganisationFactory
 from .models import Domain
 

@@ -8,8 +8,8 @@ from braces.views import (
     UserFormKwargsMixin,
 )
 from dal import autocomplete
-from django.urls import reverse_lazy
 from django.db.models import Count
+from django.urls import reverse_lazy
 from django.utils.http import urlencode
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
@@ -18,6 +18,7 @@ from django_filters.views import FilterView
 from feder.cases.models import Case
 from feder.main.mixins import ExtraListMixin
 from feder.main.paginator import DefaultPagination
+
 from .filters import InstitutionFilter
 from .forms import InstitutionForm
 from .models import Institution, Tag

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cases 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-27 13:12+0000\n"
-"PO-Revision-Date: 2023-05-16 13:01+0000\n"
+"POT-Creation-Date: 2023-05-30 09:52+0000\n"
+"PO-Revision-Date: 2023-05-30 09:02+0000\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -20,64 +20,66 @@ msgstr ""
 "X-Generator: Poedit 1.8.7.1\n"
 "X-Translated-Using: django-rosetta 0.9.9\n"
 
-#: feder/cases/filters.py:22 feder/cases/templates/cases/_case_small.html:8
+#: feder/cases/filters.py:23 feder/cases/templates/cases/_case_small.html:8
 msgid "Creation date"
 msgstr "Data utworzenia"
 
-#: feder/cases/filters.py:31 feder/cases/models.py:182
-#: feder/cases/viewsets.py:38
+#: feder/cases/filters.py:32 feder/cases/models.py:194
+#: feder/cases/viewsets.py:39
 msgid "Name"
 msgstr "Nazwa"
 
-#: feder/cases/filters.py:54
+#: feder/cases/filters.py:55
 msgid "Institution name"
 msgstr "Nazwa instytucji"
 
-#: feder/cases/filters.py:72 feder/cases/models.py:200
-#: feder/cases/viewsets.py:45
+#: feder/cases/filters.py:73 feder/cases/forms.py:45 feder/cases/models.py:212
+#: feder/cases/viewsets.py:46
 msgid "Tags"
 msgstr "Tagi"
 
-#: feder/cases/filters.py:75
+#: feder/cases/filters.py:76
 msgid "Application letter sending date"
 msgstr "Data wysyłki wniosku"
 
-#: feder/cases/filters.py:78
+#: feder/cases/filters.py:79
 msgid "Application letter status"
 msgstr "Status wniosku"
 
-#: feder/cases/models.py:184
+#: feder/cases/models.py:196
 msgid "Slug"
 msgstr "Identyfikator redakcyjny"
 
-#: feder/cases/models.py:188 feder/cases/templates/cases/_case_small.html:12
-#: feder/cases/templates/cases/_desc.html:8
+#: feder/cases/models.py:200 feder/cases/templates/cases/_case_small.html:12
+#: feder/cases/templates/cases/_desc.html:12
 msgid "Monitoring"
 msgstr "Monitoring"
 
-#: feder/cases/models.py:191 feder/cases/templates/cases/_case_small.html:11
+#: feder/cases/models.py:203 feder/cases/templates/cases/_case_small.html:11
 #: feder/cases/templates/cases/_desc.html:4
 msgid "Institution"
 msgstr "Instytucja"
 
-#: feder/cases/models.py:204 feder/cases/viewsets.py:48
+#: feder/cases/models.py:216 feder/cases/templates/cases/_desc.html:24
+#: feder/cases/viewsets.py:49
 msgid "Confirmation received"
 msgstr "Otrzymano potwierdzenie"
 
-#: feder/cases/models.py:207 feder/cases/viewsets.py:49
+#: feder/cases/models.py:219 feder/cases/templates/cases/_desc.html:28
+#: feder/cases/viewsets.py:50
 msgid "Response received"
 msgstr "Otrzymano odpowiedź"
 
-#: feder/cases/models.py:210
+#: feder/cases/models.py:222 feder/cases/templates/cases/_desc.html:32
 msgid "Quarantined"
 msgstr "Poddany kwarantannie"
 
-#: feder/cases/models.py:215 feder/cases/models.py:216
-#: feder/cases/models.py:288
+#: feder/cases/models.py:227 feder/cases/models.py:228
+#: feder/cases/models.py:300
 msgid "Case"
 msgstr "Sprawa"
 
-#: feder/cases/serializers.py:35 feder/cases/viewsets.py:47
+#: feder/cases/serializers.py:35 feder/cases/viewsets.py:48
 msgid "Request status"
 msgstr "Status wniosku"
 
@@ -137,33 +139,17 @@ msgstr ""
 "monitoringu. Usuń ograniczenia prawne i edytuj sprawę, aby ją ujawnić.\n"
 "    "
 
-#: feder/cases/templates/cases/_desc.html:12
-msgid "Case email:"
-msgstr ""
+#: feder/cases/templates/cases/_desc.html:8
+msgid "Institution email"
+msgstr "Email instytucji"
 
 #: feder/cases/templates/cases/_desc.html:16
-#, fuzzy
-#| msgid "Letter count"
-msgid "Letter count:"
-msgstr "Liczba listów"
+msgid "Case email"
+msgstr "Email sprawy"
 
 #: feder/cases/templates/cases/_desc.html:20
-#, fuzzy
-#| msgid "Confirmation received"
-msgid "Confirmation received:"
-msgstr "Otrzymano potwierdzenie"
-
-#: feder/cases/templates/cases/_desc.html:30
-#, fuzzy
-#| msgid "Response received"
-msgid "Response received:"
-msgstr "Otrzymano odpowiedź"
-
-#: feder/cases/templates/cases/_desc.html:40
-#, fuzzy
-#| msgid "Quarantined"
-msgid "Quarantined:"
-msgstr "Poddany kwarantannie"
+msgid "Letter count"
+msgstr "Liczba listów"
 
 #: feder/cases/templates/cases/base.html:4
 #: feder/cases/templates/cases/case_detail.html:3
@@ -218,45 +204,54 @@ msgstr "^~autocomplete$"
 msgid "^~autocomplete/~find$"
 msgstr "^~autocomplete-szukaj$"
 
-#: feder/cases/views.py:25
+#: feder/cases/views.py:28
 msgid "Case index"
 msgstr "Wykaz spraw"
 
-#: feder/cases/viewsets.py:37
+#: feder/cases/viewsets.py:38
 msgid "Id"
 msgstr "Id"
 
-#: feder/cases/viewsets.py:39
+#: feder/cases/viewsets.py:40
 msgid "Email of institution"
 msgstr "E-mail instytucji"
 
-#: feder/cases/viewsets.py:40
+#: feder/cases/viewsets.py:41
 msgid "REGON"
 msgstr "REGON"
 
-#: feder/cases/viewsets.py:41
+#: feder/cases/viewsets.py:42
 msgid "Unit of administrative division"
 msgstr "Jednostka podziału administracyjnego"
 
-#: feder/cases/viewsets.py:42
+#: feder/cases/viewsets.py:43
 msgid "Community"
 msgstr "Gmina"
 
-#: feder/cases/viewsets.py:43
+#: feder/cases/viewsets.py:44
 msgid "County"
 msgstr "Powiat"
 
-#: feder/cases/viewsets.py:44
+#: feder/cases/viewsets.py:45
 msgid "Voivodeship"
 msgstr "Województwo"
 
-#: feder/cases/viewsets.py:46
+#: feder/cases/viewsets.py:47
 msgid "Request date"
 msgstr "Data wniosku"
 
-#: feder/cases/viewsets.py:61
+#: feder/cases/viewsets.py:62
 msgid "case_report"
 msgstr "raport_spraw"
+
+#~ msgid "Confirmation received:"
+#~ msgstr "Otrzymano potwierdzenie:"
+
+#~ msgid "Response received:"
+#~ msgstr "Otrzymano odpowiedź:"
+
+#~ msgid "Quarantined:"
+#~ msgstr "Poddany kwarantannie:"
 
 #, fuzzy
 #~ msgid "Confirmation confirmed"

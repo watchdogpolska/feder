@@ -2,6 +2,7 @@ from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
 from feder.teryt.models import JST
+
 from .models import Institution, Tag
 
 

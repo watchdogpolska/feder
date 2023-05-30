@@ -15,16 +15,15 @@ $ python insert_institution_csv.py -h
 """
 
 import argparse
-import sys
-
 import itertools
-from Queue import Queue
+import sys
 
 import jmespath
 import requests
+import requests_cache
 import tqdm
 import unicodecsv as csv
-import requests_cache
+from Queue import Queue
 
 
 class Client:

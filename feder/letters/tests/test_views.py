@@ -1,16 +1,17 @@
 import codecs
 import json
 import os
-
 from datetime import datetime
+
 from django.core import mail
 from django.core.files.base import ContentFile
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.urls import reverse
 from django.test import TestCase, TransactionTestCase
+from django.urls import reverse
 from django.utils.datastructures import MultiValueDict
+from django.utils.translation import gettext_lazy as _
 from guardian.shortcuts import assign_perm
-from feder.virus_scan.factories import AttachmentRequestFactory
+
 from feder.alerts.models import Alert
 from feder.cases.factories import CaseFactory
 from feder.cases.models import Case
@@ -19,17 +20,17 @@ from feder.letters.settings import LETTER_RECEIVE_SECRET
 from feder.main.tests import PermissionStatusMixin
 from feder.monitorings.factories import MonitoringFactory
 from feder.records.models import Record
-from ...virus_scan.models import Request as ScanRequest
-
 from feder.users.factories import UserFactory
-from ..factories import (
-    IncomingLetterFactory,
-    OutgoingLetterFactory,
-    AttachmentFactory,
-    LetterFactory,
-)
-from django.utils.translation import gettext_lazy as _
+from feder.virus_scan.factories import AttachmentRequestFactory
+
 from ...es_search.tests import ESMixin
+from ...virus_scan.models import Request as ScanRequest
+from ..factories import (
+    AttachmentFactory,
+    IncomingLetterFactory,
+    LetterFactory,
+    OutgoingLetterFactory,
+)
 
 
 class ObjectMixin:

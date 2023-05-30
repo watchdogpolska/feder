@@ -1,25 +1,25 @@
 import json
-import uuid
 import logging
+import uuid
 from os import path
+
 from atom.ext.django_filters.views import UserKwargFilterSetMixin
 from atom.views import (
+    ActionMessageMixin,
+    ActionView,
     CreateMessageMixin,
     DeleteMessageMixin,
     UpdateMessageMixin,
-    ActionView,
-    ActionMessageMixin,
 )
 from braces.views import (
-    MessageMixin,
     FormValidMessageMixin,
-    SelectRelatedMixin,
+    MessageMixin,
     PrefetchRelatedMixin,
+    SelectRelatedMixin,
     UserFormKwargsMixin,
 )
-from guardian.shortcuts import get_anonymous_user
-
 from cached_property import cached_property
+from django.conf import settings
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.syndication.views import Feed
 from django.core.exceptions import PermissionDenied
@@ -31,31 +31,33 @@ from django.urls import reverse_lazy
 from django.utils.datetime_safe import datetime
 from django.utils.encoding import force_str
 from django.utils.feedgenerator import Atom1Feed
-from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 from django.views import View
 from django.views.generic import CreateView, DeleteView, DetailView, FormView
 from django_filters.views import FilterView
-from extra_views import UpdateWithInlinesView, CreateWithInlinesView
+from extra_views import CreateWithInlinesView, UpdateWithInlinesView
+from guardian.shortcuts import get_anonymous_user
 
 from feder.alerts.models import Alert
 from feder.cases.models import Case
-from feder.main.mixins import DisableOrderingListViewMixin, PerformantPagintorMixin
 from feder.letters.formsets import AttachmentInline
 from feder.letters.settings import LETTER_RECEIVE_SECRET
 from feder.main.mixins import (
     AttrPermissionRequiredMixin,
-    RaisePermissionRequiredMixin,
     BaseXSendFileView,
+    DisableOrderingListViewMixin,
+    PerformantPagintorMixin,
+    RaisePermissionRequiredMixin,
 )
 from feder.monitorings.models import Monitoring
-from feder.records.models import Record
-from .filters import LetterFilter
-from .forms import LetterForm, ReplyForm, AssignLetterForm
-from .mixins import LetterObjectFeedMixin
-from .models import Letter, Attachment, LetterEmailDomain
 from feder.monitorings.tasks import send_mass_draft
+from feder.records.models import Record
 from feder.virus_scan.models import Request as ScanRequest
+
+from .filters import LetterFilter
+from .forms import AssignLetterForm, LetterForm, ReplyForm
+from .mixins import LetterObjectFeedMixin
+from .models import Attachment, Letter, LetterEmailDomain
 
 _("Letters index")
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-27 13:12+0000\n"
+"POT-Creation-Date: 2023-05-30 09:52+0000\n"
 "PO-Revision-Date: 2023-05-16 13:02+0000\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: \n"
@@ -122,26 +122,26 @@ msgstr "Województwa"
 msgid "Select voivodeship."
 msgstr "Wybierz województwo"
 
-#: feder/teryt/urls.py:12
+#: feder/teryt/urls.py:8
 msgid "^(?P<slug>[\\w-]+)$"
 msgstr "^(?P<slug>[\\w-]+)$"
 
-#: feder/teryt/urls.py:13 feder/teryt/urls.py:14
+#: feder/teryt/urls.py:9 feder/teryt/urls.py:10
 msgid "^$"
 msgstr "^$"
 
-#: feder/teryt/urls.py:16
+#: feder/teryt/urls.py:12
 msgid "^voivodeship-autocomplete/$"
 msgstr "^wojewodztwo-autouzupelnianie/$"
 
-#: feder/teryt/urls.py:21
+#: feder/teryt/urls.py:17
 msgid "^county-autocomplete/$"
 msgstr "^powiat-autouzupelnianie/$"
 
-#: feder/teryt/urls.py:26
+#: feder/teryt/urls.py:22
 msgid "^community-autocomplete/$"
 msgstr "^gminy-autouzupelnianie/$"
 
-#: feder/teryt/urls.py:31
+#: feder/teryt/urls.py:27
 msgid "^jst-autocomplete/$"
 msgstr "^powiat-autouzupelnianie/$"

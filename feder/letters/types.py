@@ -1,7 +1,8 @@
+from django.utils.translation import gettext_lazy as _
+
 from feder.letters.models import Letter
 from feder.records.registry import record_type_registry
 from feder.records.types import BaseRecordType
-from django.utils.translation import gettext_lazy as _
 
 
 class LetterRecordType(BaseRecordType):

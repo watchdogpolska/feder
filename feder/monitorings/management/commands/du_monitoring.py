@@ -1,9 +1,8 @@
 import os
 
 from django.apps import apps
-from django.core.management.base import BaseCommand
-
 from django.conf import settings
+from django.core.management.base import BaseCommand
 from django.template.defaultfilters import filesizeformat
 from django.utils.encoding import force_str
 

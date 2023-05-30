@@ -1,5 +1,4 @@
 from django.contrib import admin
-
 from teryt_tree.models import JednostkaAdministracyjna
 
 

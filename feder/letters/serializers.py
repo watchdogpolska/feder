@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from feder.letters.models import Letter, Attachment
+from feder.letters.models import Attachment, Letter
 from feder.main.utils import get_full_url_for_context
 
 

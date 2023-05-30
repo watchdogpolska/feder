@@ -1,7 +1,7 @@
 from django.contrib.sitemaps import Sitemap
+from guardian.shortcuts import get_anonymous_user
 
 from .models import Case
-from guardian.shortcuts import get_anonymous_user
 
 
 class CaseSitemap(Sitemap):

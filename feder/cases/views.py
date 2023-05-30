@@ -5,22 +5,28 @@ from braces.views import (
     SelectRelatedMixin,
     UserFormKwargsMixin,
 )
-
 from cached_property import cached_property
 from dal import autocomplete
-from django.urls import reverse_lazy
+from django.contrib.admin.models import CHANGE, LogEntry
+from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
+from django.urls import reverse_lazy
+from django.utils.encoding import force_str
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
 from django_filters.views import FilterView
 
-from feder.main.mixins import RaisePermissionRequiredMixin
+from feder.main.mixins import (
+    DisableOrderingListViewMixin,
+    PerformantPagintorMixin,
+    RaisePermissionRequiredMixin,
+)
 from feder.monitorings.models import Monitoring
+
 from .filters import CaseFilter
 from .forms import CaseForm
 from .models import Case
-from feder.main.mixins import DisableOrderingListViewMixin, PerformantPagintorMixin
 
 _("Case index")
 
@@ -90,6 +96,24 @@ class CaseUpdateView(
 
     def get_permission_object(self):
         return super().get_permission_object().monitoring
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        if form.has_changed():
+            content_type = ContentType.objects.get_for_model(self.object)
+            change_dict = {
+                "changed": form.changed_data,
+                "cleaned_data": form.cleaned_data,
+            }
+            LogEntry.objects.log_action(
+                user_id=self.request.user.id,
+                content_type_id=content_type.id,
+                object_id=self.object.id,
+                object_repr=force_str(self.object),
+                action_flag=CHANGE,
+                change_message=f"{change_dict}",
+            )
+        return response
 
 
 class CaseDeleteView(RaisePermissionRequiredMixin, DeleteMessageMixin, DeleteView):

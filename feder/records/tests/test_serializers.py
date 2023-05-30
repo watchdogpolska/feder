@@ -1,6 +1,6 @@
-from django.test import TestCase, RequestFactory
+from django.test import RequestFactory, TestCase
 
-from feder.letters.factories import IncomingLetterFactory, AttachmentFactory
+from feder.letters.factories import AttachmentFactory, IncomingLetterFactory
 from feder.parcels.factories import IncomingParcelPostFactory, OutgoingParcelPostFactory
 from feder.records.serializers import RecordSerializer
 

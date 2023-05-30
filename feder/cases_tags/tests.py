@@ -1,16 +1,13 @@
 from django.test import RequestFactory, TestCase
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
-from .factories import TagFactory, GlobalTagFactory
-from ..monitorings.factories import MonitoringFactory
+
 from feder.cases.factories import CaseFactory
-
-from django.urls import reverse
-from django.test import TestCase
-
 from feder.main.tests import PermissionStatusMixin
 from feder.users.factories import UserFactory
-from .factories import TagFactory
+
+from ..monitorings.factories import MonitoringFactory
+from .factories import GlobalTagFactory, TagFactory
 
 
 class ObjectMixin:

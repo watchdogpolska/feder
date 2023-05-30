@@ -1,13 +1,14 @@
 import django_filters
 from django.utils.translation import gettext_lazy as _
 
-from .models import Monitoring
-from feder.teryt.filters import (
-    DisabledWhenVoivodeshipFilter,
-    DisabledWhenCountyFilter,
-    DisabledWhenCommunityFilter,
-)
 from feder.cases.filters import CaseReportFilter
+from feder.teryt.filters import (
+    DisabledWhenCommunityFilter,
+    DisabledWhenCountyFilter,
+    DisabledWhenVoivodeshipFilter,
+)
+
+from .models import Monitoring
 
 
 class MonitoringFilter(django_filters.FilterSet):

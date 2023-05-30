@@ -2,7 +2,7 @@ from django.contrib import admin
 from guardian.admin import GuardedModelAdmin
 from reversion.admin import VersionAdmin
 
-from .models import Case, Alias
+from .models import Alias, Case
 
 
 @admin.register(Case)

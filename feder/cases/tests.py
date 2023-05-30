@@ -1,5 +1,5 @@
-from django.urls import reverse
 from django.test import RequestFactory, TestCase
+from django.urls import reverse
 from django.utils.http import urlencode
 
 from feder.cases.models import Case
@@ -8,11 +8,12 @@ from feder.letters.factories import IncomingLetterFactory
 from feder.letters.models import Letter
 from feder.main.tests import PermissionStatusMixin
 from feder.parcels.factories import IncomingParcelPostFactory
+from feder.teryt.factories import CommunityJSTFactory, CountyJSTFactory
 from feder.users.factories import UserFactory
-from .factories import CaseFactory, AliasFactory
+
+from .factories import AliasFactory, CaseFactory
 from .forms import CaseForm
 from .views import CaseAutocomplete
-from feder.teryt.factories import CommunityJSTFactory, CountyJSTFactory
 
 
 class ObjectMixin:

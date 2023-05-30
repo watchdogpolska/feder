@@ -1,7 +1,7 @@
 from collections import OrderedDict
+from urllib.parse import urljoin
 
 import requests
-from urllib.parse import urljoin
 
 
 class EmailLabsClient:
