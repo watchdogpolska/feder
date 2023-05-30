@@ -48,6 +48,7 @@ class LetterForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
                     "rows": 20,
                 },
             )
+            self.fields["html_body"].initial = self.get_html_body_with_footer(case=case)
         else:
             self.fields["html_body"].widget = HtmlIframeWidget(
                 attrs={
@@ -61,6 +62,16 @@ class LetterForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
     class Meta:
         model = Letter
         fields = ["title", "html_body", "case", "note", "eml"]
+
+    def get_html_body_with_footer(self, case=None):
+        reply_info = BODY_REPLY_TPL.replace("\n", "")
+        context = {
+            "html_body": mark_safe(f"<p></p><p>{reply_info}</p>"),
+            "html_footer": mark_safe(""),
+        }
+        if case:
+            context["html_footer"] = mark_safe(case.monitoring.email_footer)
+        return render_to_string("letters/_letter_reply_body.html", context)
 
     def save(self, *args, **kwargs):
         self.instance.body = html_to_text(self.cleaned_data["html_body"])
