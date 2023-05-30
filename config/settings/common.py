@@ -464,3 +464,39 @@ TINYMCE_DEFAULT_CONFIG = {
     "alignright alignjustify | bullist numlist outdent indent | "
     "charmap | removeformat | help",
 }
+
+BLEACH_ALLOWED_TAGS = {
+    "a",
+    "abbr",
+    "acronym",
+    "b",
+    "blockquote",
+    "code",
+    "em",
+    "h1",
+    "h2",
+    "h3",
+    "h4",
+    "h5",
+    "h6",
+    "strong",
+    "em",
+    "p",
+    "ul",
+    "ol",
+    "i",
+    "li",
+    "br",
+    "sub",
+    "sup",
+    "hr",
+    "pre",
+    "img",
+}
+
+BLEACH_ALLOWED_ATTRIBUTES = ALLOWED_ATTRIBUTES = {
+    "a": ["href", "title"],
+    "abbr": ["title"],
+    "acronym": ["title"],
+    "img": ["alt", "src", "title"],
+}
