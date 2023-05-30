@@ -1,6 +1,6 @@
-from rest_framework_csv.renderers import CSVStreamingRenderer
 from django.contrib.sites.shortcuts import get_current_site
 from django.db.models.expressions import RawSQL
+from rest_framework_csv.renderers import CSVStreamingRenderer
 
 
 def get_numeric_param(request, key):

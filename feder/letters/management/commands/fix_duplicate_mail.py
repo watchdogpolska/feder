@@ -1,9 +1,11 @@
-from django.core.management.base import BaseCommand
-from feder.monitorings.models import Monitoring
-from feder.letters.models import Letter
-from io import BytesIO
 import email
 import gzip
+from io import BytesIO
+
+from django.core.management.base import BaseCommand
+
+from feder.letters.models import Letter
+from feder.monitorings.models import Monitoring
 
 
 class Command(BaseCommand):

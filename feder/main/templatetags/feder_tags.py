@@ -1,7 +1,8 @@
 from django import template
-from feder import get_version
 from django.conf import settings
 from django.utils.safestring import mark_safe
+
+from feder import get_version
 
 register = template.Library()
 
@@ -33,3 +34,12 @@ def app_main_style():
     elif settings.APP_MODE == "DEV":
         return mark_safe('<div class="main" style="background-color: #d3e20040;">)')
     return mark_safe('<div class="main" style="background-color: #60e20040;">)')
+
+
+@register.filter
+def boolean_icon(value):
+    if value is None:
+        return mark_safe('<span class="fa fa-question" style="color: gray;"></span>')
+    elif value:
+        return mark_safe('<span class="fa fa-check" style="color: green;"></span>')
+    return mark_safe('<span class="fa fa-times" style="color: red;"></span>')

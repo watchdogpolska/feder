@@ -1,17 +1,19 @@
 import json
-from django.urls import reverse
+
 from django.test import RequestFactory, TestCase
+from django.urls import reverse
 from django.utils.encoding import force_str
 from guardian.shortcuts import assign_perm
 
 from feder.main.tests import PermissionStatusMixin
 from feder.teryt.factories import (
-    JSTFactory,
-    CountyJSTFactory,
     CommunityJSTFactory,
+    CountyJSTFactory,
+    JSTFactory,
     VoivodeshipJSTFactory,
 )
 from feder.users.factories import UserFactory
+
 from .factories import InstitutionFactory, TagFactory
 from .models import Institution
 from .serializers import InstitutionSerializer

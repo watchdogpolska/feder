@@ -25,7 +25,6 @@ import sys
 import requests
 import unicodecsv as csv
 
-
 # TODO: Load community and voivodeship
 
 

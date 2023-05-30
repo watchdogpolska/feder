@@ -1,10 +1,11 @@
 from datetime import datetime
+
 from ajax_datatable import AjaxDatatableView
 from atom.views import DeleteMessageMixin, UpdateMessageMixin
 from braces.views import (
-    MessageMixin,
     FormValidMessageMixin,
     LoginRequiredMixin,
+    MessageMixin,
     PermissionRequiredMixin,
     SelectRelatedMixin,
     UserFormKwargsMixin,
@@ -13,62 +14,65 @@ from cached_property import cached_property
 from dal import autocomplete
 from django.contrib import messages
 from django.contrib.auth import get_user_model
-from guardian.utils import get_anonymous_user
+from django.contrib.syndication.views import Feed
 from django.core.exceptions import PermissionDenied
-from django.urls import reverse, reverse_lazy
 from django.db.models import Count, Q
 from django.http import HttpResponseRedirect
-from django.template.defaultfilters import linebreaksbr
 from django.shortcuts import get_object_or_404
+from django.template.defaultfilters import linebreaksbr
+from django.urls import reverse, reverse_lazy
+from django.utils import timezone
+from django.utils.encoding import force_str
+from django.utils.feedgenerator import Atom1Feed
+from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
-from django.utils.http import urlencode
 from django.views.generic import (
     CreateView,
     DeleteView,
     DetailView,
     FormView,
-    UpdateView,
     TemplateView,
+    UpdateView,
 )
-from django.contrib.syndication.views import Feed
-from django.utils import timezone
-from django.utils.encoding import force_str
-from django.utils.feedgenerator import Atom1Feed
 from django_filters.views import FilterView
+from extra_views import CreateWithInlinesView
+from formtools.wizard.views import SessionWizardView
+from guardian.shortcuts import assign_perm
+from guardian.utils import get_anonymous_user
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from formtools.wizard.views import SessionWizardView
-from guardian.shortcuts import assign_perm
+
+from feder.cases.forms import CaseTagFilterForm
 from feder.cases.models import Case
+from feder.cases_tags.models import Tag
 from feder.institutions.filters import InstitutionFilter
 from feder.institutions.models import Institution
+from feder.letters.formsets import AttachmentInline
 from feder.letters.models import Letter
 from feder.letters.utils import is_formatted_html
+from feder.letters.views import LetterCommonMixin
 from feder.main.mixins import ExtraListMixin, RaisePermissionRequiredMixin
 from feder.main.paginator import DefaultPagination
-from feder.cases_tags.models import Tag
 from feder.teryt.models import JST
+
 from .filters import (
-    MonitoringFilter,
-    MonitoringCaseReportFilter,
     MonitoringCaseAreaFilter,
+    MonitoringCaseReportFilter,
+    MonitoringFilter,
 )
 from .forms import (
+    CheckboxTranslatedUserObjectPermissionsForm,
+    MassMessageForm,
     MonitoringForm,
     SaveTranslatedUserObjectPermissionsForm,
     SelectUserForm,
-    CheckboxTranslatedUserObjectPermissionsForm,
-    MassMessageForm,
 )
 from .models import Monitoring
 from .permissions import MultiCaseTagManagementPerm
 from .serializers import MultiCaseTagSerializer
 from .tasks import handle_mass_assign, send_mass_draft
-from feder.letters.formsets import AttachmentInline
-from feder.letters.views import LetterCommonMixin
-from extra_views import CreateWithInlinesView
 
 
 class MonitoringListView(SelectRelatedMixin, FilterView):
@@ -257,6 +261,7 @@ class MonitoringCasesTableView(FilterView):
         )
         context["datatable_id"] = "monitoring_cases_table"
         context["area_filter_form"] = MonitoringCaseAreaFilter().form
+        context["tag_filter_form"] = CaseTagFilterForm(monitoring=monitoring)
         return context
 
 
@@ -292,6 +297,7 @@ class MonitoringCasesAjaxDatatableView(AjaxDatatableView):
             "name": "institution",
             "visible": True,
             "title": _("Institution"),
+            "foreign_field": "institution__name",
         },
         {
             "name": "institution_jst",
@@ -300,14 +306,18 @@ class MonitoringCasesAjaxDatatableView(AjaxDatatableView):
             "foreign_field": "institution__jst",
             "searchable": False,
         },
-        {
-            "name": "record_max_str",
-            "visible": True,
-            "title": _("Last letter"),
-        },
+        # {
+        #     "name": "record_max_str",
+        #     "visible": True,
+        #     "title": _("Last letter"),
+        #     "searchable": False,
+        # },
         {
             "name": "record_max",
-            "visible": False,
+            "visible": True,
+            "title": _("Last letter"),
+            "searchable": False,
+            "width": 130,
         },
         {
             "name": "record_count",
@@ -319,8 +329,9 @@ class MonitoringCasesAjaxDatatableView(AjaxDatatableView):
             "name": "tags",
             "visible": True,
             "title": _("Tags"),
-            "choices": True,
-            "autofilter": True,
+            "choices": False,
+            "autofilter": False,
+            "searchable": True,
             "m2m_foreign_field": "tags__name",
         },
         {
@@ -360,11 +371,12 @@ class MonitoringCasesAjaxDatatableView(AjaxDatatableView):
         qs = qs.ajax_boolean_filter(self.request, "resp_", "response_received")
         qs = qs.ajax_boolean_filter(self.request, "quar_", "is_quarantined")
         qs = qs.ajax_area_filter(self.request)
+        qs = qs.ajax_tags_filter(self.request)
         return (
             qs.for_user(user=self.request.user)
             # .with_formatted_datetime("created", timezone.get_default_timezone())
             .with_record_max()
-            .with_record_max_str()
+            # .with_record_max_str()
             .with_record_count()
         )
 
@@ -373,6 +385,7 @@ class MonitoringCasesAjaxDatatableView(AjaxDatatableView):
         row["response_received"] = obj.render_boolean_field("response_received")
         row["is_quarantined"] = obj.render_boolean_field("is_quarantined")
         row["name"] = obj.render_case_link()
+        row["record_max"] = obj.record_max.strftime("%Y-%m-%d %H:%M:%S")
         row["institution_jst"] = obj.institution.jst.tree_name
 
     def get_latest_by(self, request):

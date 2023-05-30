@@ -7,10 +7,10 @@ https://docs.djangoproject.com/en/dev/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/dev/ref/settings/
 """
-import sys
 import os
-import environ
+import sys
 
+import environ
 from django.utils.translation import gettext_lazy as _
 
 ROOT_DIR = environ.Path(__file__) - 3  # (/a/b/myfile.py - 3 = /)
@@ -463,4 +463,40 @@ TINYMCE_DEFAULT_CONFIG = {
     "bold italic backcolor | alignleft aligncenter "
     "alignright alignjustify | bullist numlist outdent indent | "
     "charmap | removeformat | help",
+}
+
+BLEACH_ALLOWED_TAGS = {
+    "a",
+    "abbr",
+    "acronym",
+    "b",
+    "blockquote",
+    "code",
+    "em",
+    "h1",
+    "h2",
+    "h3",
+    "h4",
+    "h5",
+    "h6",
+    "strong",
+    "em",
+    "p",
+    "ul",
+    "ol",
+    "i",
+    "li",
+    "br",
+    "sub",
+    "sup",
+    "hr",
+    "pre",
+    "img",
+}
+
+BLEACH_ALLOWED_ATTRIBUTES = ALLOWED_ATTRIBUTES = {
+    "a": ["href", "title"],
+    "abbr": ["title"],
+    "acronym": ["title"],
+    "img": ["alt", "src", "title"],
 }

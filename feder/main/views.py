@@ -1,9 +1,10 @@
-from django.views.generic import TemplateView
 from django.template.response import TemplateResponse
-from feder.monitorings.models import Monitoring
-from feder.teryt.models import JST
+from django.views.generic import TemplateView
+
 from feder.cases.models import Case
 from feder.institutions.models import Institution
+from feder.monitorings.models import Monitoring
+from feder.teryt.models import JST
 
 
 class HomeView(TemplateView):

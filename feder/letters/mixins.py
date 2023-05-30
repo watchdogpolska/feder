@@ -1,5 +1,6 @@
-from .models import Letter
 from guardian.shortcuts import get_anonymous_user
+
+from .models import Letter
 
 
 class LetterObjectFeedMixin:

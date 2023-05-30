@@ -1,8 +1,8 @@
-from base64 import b64decode, b64encode
-from django.core.paginator import InvalidPage
-from performant_pagination.pagination import PerformantPaginator, PerformantPage
 import binascii
+from base64 import b64decode, b64encode
 
+from django.core.paginator import InvalidPage
+from performant_pagination.pagination import PerformantPage, PerformantPaginator
 from rest_framework.pagination import PageNumberPagination
 
 

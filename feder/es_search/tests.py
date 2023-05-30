@@ -1,19 +1,19 @@
-from io import StringIO
-
-from django.test import TestCase
-from ..letters.factories import IncomingLetterFactory, AttachmentFactory
-from .tasks import index_letter
-from time import sleep
-from elasticsearch_dsl import Search, Index
-from elasticsearch_dsl.query import MultiMatch, Match, Q, MoreLikeThis
-from elasticsearch_dsl.connections import get_connection, connections
-from elasticsearch.exceptions import ElasticsearchException
-from .documents import LetterDocument
-from django.core.management import call_command
-from collections.abc import Iterable
-from elasticsearch.exceptions import ConflictError
-from .queries import more_like_this, search_keywords, find_document, delete_document
 import time
+from collections.abc import Iterable
+from io import StringIO
+from time import sleep
+
+from django.core.management import call_command
+from django.test import TestCase
+from elasticsearch.exceptions import ConflictError, ElasticsearchException
+from elasticsearch_dsl import Index, Search
+from elasticsearch_dsl.connections import connections, get_connection
+from elasticsearch_dsl.query import Match, MoreLikeThis, MultiMatch, Q
+
+from ..letters.factories import AttachmentFactory, IncomingLetterFactory
+from .documents import LetterDocument
+from .queries import delete_document, find_document, more_like_this, search_keywords
+from .tasks import index_letter
 
 
 class ESMixin:

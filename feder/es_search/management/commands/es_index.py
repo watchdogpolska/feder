@@ -1,6 +1,7 @@
 from django.core.management.base import BaseCommand
-from ...tasks import index_letter
+
 from ....letters.models import Letter
+from ...tasks import index_letter
 
 
 class Command(BaseCommand):

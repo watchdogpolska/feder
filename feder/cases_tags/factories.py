@@ -1,6 +1,7 @@
 import factory
 
 from feder.monitorings.factories import MonitoringFactory
+
 from .models import Tag
 
 

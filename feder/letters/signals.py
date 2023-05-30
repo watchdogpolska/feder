@@ -2,9 +2,10 @@ import logging
 
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from feder.letters.models import Letter
-from feder.es_search.tasks import index_letter
+
 from feder.es_search.settings import ELASTICSEARCH_URL
+from feder.es_search.tasks import index_letter
+from feder.letters.models import Letter
 
 logger = logging.getLogger(__name__)
 

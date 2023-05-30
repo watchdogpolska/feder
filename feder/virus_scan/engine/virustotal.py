@@ -1,8 +1,11 @@
-from .base import BaseEngine
+from time import sleep
+
 from django.conf import settings
 from virus_total_apis import PublicApi
+
 from feder.virus_scan.models import Request
-from time import sleep
+
+from .base import BaseEngine
 
 
 class VirusTotalEngine(BaseEngine):

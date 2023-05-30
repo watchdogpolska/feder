@@ -3,8 +3,8 @@ from django.test import TestCase
 from django.urls import reverse
 from guardian.shortcuts import assign_perm
 
-from feder.users.factories import UserFactory
 import feder
+from feder.users.factories import UserFactory
 
 
 class PermissionStatusMixin:

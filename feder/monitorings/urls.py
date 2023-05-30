@@ -1,4 +1,4 @@
-from django.urls import re_path, path
+from django.urls import path, re_path
 from django.utils.translation import gettext_lazy as _
 
 from . import views

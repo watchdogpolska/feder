@@ -17,16 +17,14 @@ $ python insert_court.py -h
 import argparse
 import os
 import sys
+from urllib.parse import urljoin
 
 import requests
 import requests_cache
 import unicodecsv as csv
 from gusregon import GUS
-from tqdm import trange
-
 from insert_institution import normalize_jst
-
-from urllib.parse import urljoin
+from tqdm import trange
 
 requests_cache.configure()
 

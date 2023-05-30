@@ -1,26 +1,26 @@
 from atom.ext.crispy_forms.forms import HelperMixin, SingleButtonMixin
 from braces.forms import UserKwargModelFormMixin
-from crispy_forms.layout import Layout, Fieldset, Submit, Row, Column
+from crispy_forms.layout import Column, Fieldset, Layout, Row, Submit
 from dal import autocomplete
 from django import forms
-from django.utils.translation import gettext_lazy as _
 from django.conf import settings
+from django.template.loader import render_to_string
+from django.utils.safestring import mark_safe
+from django.utils.translation import gettext_lazy as _
 from tinymce.widgets import TinyMCE
 
 from feder.cases.models import Case
+from feder.letters.utils import BODY_REPLY_TPL
 from feder.records.models import Record
+
 from .models import Letter
 from .utils import (
-    html_to_text,
     HtmlIframeWidget,
-    text_to_html,
+    html_to_text,
     is_formatted_html,
     text_email_wrapper,
+    text_to_html,
 )
-from feder.letters.utils import BODY_REPLY_TPL
-from django.utils.safestring import mark_safe
-from django.template.loader import render_to_string
-
 
 QUOTE_TPL = "W nawiązaniu do pisma z dnia {created} z adresu {email}:\n{quoted}"
 
@@ -48,6 +48,7 @@ class LetterForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
                     "rows": 20,
                 },
             )
+            self.fields["html_body"].initial = self.get_html_body_with_footer(case=case)
         else:
             self.fields["html_body"].widget = HtmlIframeWidget(
                 attrs={
@@ -61,6 +62,16 @@ class LetterForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
     class Meta:
         model = Letter
         fields = ["title", "html_body", "case", "note", "eml"]
+
+    def get_html_body_with_footer(self, case=None):
+        reply_info = BODY_REPLY_TPL.replace("\n", "")
+        context = {
+            "html_body": mark_safe(f"<p></p><p>{reply_info}</p>"),
+            "html_footer": mark_safe(""),
+        }
+        if case:
+            context["html_footer"] = mark_safe(case.monitoring.email_footer)
+        return render_to_string("letters/_letter_reply_body.html", context)
 
     def save(self, *args, **kwargs):
         self.instance.body = html_to_text(self.cleaned_data["html_body"])
@@ -106,9 +117,7 @@ class ReplyForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
         self.add_form_buttons()
 
     def get_html_body_with_footer(self):
-        reply_info = BODY_REPLY_TPL.replace("\n", "").replace(
-            "{{EMAIL}}", str(self.letter.case.get_email_address())
-        )
+        reply_info = BODY_REPLY_TPL.replace("\n", "")
         context = {
             "html_body": mark_safe(f"<p></p><p>{reply_info}</p>"),
             "html_footer": mark_safe(self.letter.case.monitoring.email_footer),
@@ -119,6 +128,7 @@ class ReplyForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
         self.fields["title"].initial = f"Re: {self.letter.title}"
         self.fields["html_body"].initial = self.get_html_body_with_footer()
         self.fields["html_quote"].initial = self.get_html_quote()
+        print("form initialised")
 
     def add_form_buttons(self):
         if self.user_can_reply and self.user_can_save:

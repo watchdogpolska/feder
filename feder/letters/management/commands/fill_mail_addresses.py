@@ -1,9 +1,11 @@
-from django.core.management.base import BaseCommand
-from django.core.files.storage import default_storage
-from feder.letters.models import Letter, LetterEmailDomain
 import email
 import gzip
 from datetime import datetime
+
+from django.core.files.storage import default_storage
+from django.core.management.base import BaseCommand
+
+from feder.letters.models import Letter, LetterEmailDomain
 from feder.main.utils import get_clean_email
 
 

@@ -1,10 +1,20 @@
 import re
-from textwrap import TextWrapper
 from html.parser import HTMLParser
+from textwrap import TextWrapper
+
+from bleach.sanitizer import Cleaner
+from django.conf import settings
 from django.forms.widgets import TextInput
 
 BODY_REPLY_TPL = "\n\nProsimy o odpowiedź na adres {{EMAIL}}"
 BODY_FOOTER_SEPERATOR = "\n\n--\n"
+
+
+cleaner = Cleaner(
+    tags=settings.BLEACH_ALLOWED_TAGS,
+    attributes=settings.BLEACH_ALLOWED_ATTRIBUTES,
+    strip=True,
+)
 
 
 class HTMLFilter(HTMLParser):
@@ -50,7 +60,7 @@ class HTMLFilter(HTMLParser):
 
 def html_to_text(html):
     parser = HTMLFilter()
-    parser.feed(html)
+    parser.feed(cleaner.clean(html))
     return parser.text
 
 
@@ -96,9 +106,7 @@ class HtmlIframeWidget(TextInput):
 
     def get_context(self, name, value, attrs=None):
         context = super().get_context(name, value, attrs)
-        context["widget"][
-            "iframe_src"
-        ] = value  # Assuming the widget value contains the iframe source URL
+        context["widget"]["iframe_src"] = cleaner.clean(value)
         return context
 
 

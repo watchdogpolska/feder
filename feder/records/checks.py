@@ -1,6 +1,6 @@
 from django.core.checks import Error, register
 
-from feder.records.models import Record, AbstractRecord
+from feder.records.models import AbstractRecord, Record
 from feder.records.registry import record_type_registry
 
 

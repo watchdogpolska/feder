@@ -1,4 +1,5 @@
 import os
+
 from django.conf import settings
 
 ELASTICSEARCH_URL = settings.ELASTICSEARCH_URL
