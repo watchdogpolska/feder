@@ -139,7 +139,7 @@ class Letter(AbstractRecord):
         null=True,
         blank=True,
     )
-    title = models.CharField(verbose_name=_("Title"), max_length=200)
+    title = models.CharField(verbose_name=_("Subject"), max_length=200)
     body = models.TextField(verbose_name=_("Text"))
     html_body = models.TextField(verbose_name=_("Text in HTML"), blank=True)
     quote = models.TextField(verbose_name=_("Quote"), blank=True)
@@ -324,7 +324,9 @@ class Letter(AbstractRecord):
             headers["Message-ID"] = msg_id
         html_content, txt_content = self.email_body()
         msg = EmailMultiAlternatives(
-            subject=self.case.monitoring.subject,
+            subject=(
+                self.case.monitoring.subject if self.is_mass_draft() else self.title
+            ),
             from_email=str(self.case.get_email_address()),
             reply_to=[self.case.email],
             to=[self.case.institution.email],
