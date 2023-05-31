@@ -254,7 +254,7 @@ class MonitoringCasesTableView(FilterView):
         context = super().get_context_data(**kwargs)
         monitoring = Monitoring.objects.get(slug=self.kwargs.get("slug"))
         context["header_label"] = mark_safe(
-            _("Monitoring Cases table - ") + monitoring.name
+            _("Monitoring Cases table - ") + monitoring.render_monitoring_link()
         )
         context["ajax_datatable_url"] = reverse(
             "monitorings:monitoring_cases_table_ajax_data",
