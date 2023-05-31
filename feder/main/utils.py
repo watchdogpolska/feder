@@ -1,4 +1,4 @@
-from django.contrib.admin.models import ADDITION, CHANGE, DELETION, LogEntry
+from django.contrib.admin.models import ADDITION, CHANGE, LogEntry
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.sites.shortcuts import get_current_site
 from django.db.models.expressions import RawSQL
