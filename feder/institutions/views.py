@@ -8,7 +8,9 @@ from braces.views import (
     UserFormKwargsMixin,
 )
 from dal import autocomplete
+from django.contrib.admin.models import DELETION
 from django.db.models import Count
+from django.forms.models import model_to_dict
 from django.urls import reverse_lazy
 from django.utils.http import urlencode
 from django.utils.translation import gettext_lazy as _
@@ -18,6 +20,7 @@ from django_filters.views import FilterView
 from feder.cases.models import Case
 from feder.main.mixins import ExtraListMixin
 from feder.main.paginator import DefaultPagination
+from feder.main.utils import FormValidLogEntryMixin, LogEntryMixin
 
 from .filters import InstitutionFilter
 from .forms import InstitutionForm
@@ -74,6 +77,7 @@ class InstitutionCreateView(
     PermissionRequiredMixin,
     CreateMessageMixin,
     UserFormKwargsMixin,
+    FormValidLogEntryMixin,
     CreateView,
 ):
     model = Institution
@@ -89,6 +93,7 @@ class InstitutionUpdateView(
     UserFormKwargsMixin,
     UpdateMessageMixin,
     FormValidMessageMixin,
+    FormValidLogEntryMixin,
     UpdateView,
 ):
     model = Institution
@@ -103,6 +108,7 @@ class InstitutionDeleteView(
     PermissionRequiredMixin,
     DeleteMessageMixin,
     UpdateMessageMixin,
+    LogEntryMixin,
     DeleteView,
 ):
     model = Institution
@@ -110,6 +116,18 @@ class InstitutionDeleteView(
     permission_required = "institutions.delete_institution"
     raise_exception = True
     redirect_unauthenticated_users = True
+
+    def post(self, request, *args, **kwargs):
+        change_dict = {
+            "deleted_data": model_to_dict(self.get_object()),
+        }
+        self.create_log_entry(
+            user=self.request.user,
+            obj=self.get_object(),
+            action_flag=DELETION,
+            message=f"{change_dict}",
+        )
+        return super().post(request, *args, **kwargs)
 
 
 class InstitutionAutocomplete(autocomplete.Select2QuerySetView):
