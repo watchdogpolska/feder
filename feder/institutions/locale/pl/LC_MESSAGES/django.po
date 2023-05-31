@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-institutions 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-30 09:52+0000\n"
+"POT-Creation-Date: 2023-05-31 13:17+0000\n"
 "PO-Revision-Date: 2020-10-19 15:44+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -62,7 +62,7 @@ msgid "Institution"
 msgstr "Instytucja"
 
 #: feder/institutions/models.py:119
-#: feder/institutions/templates/institutions/institution_detail.html:53
+#: feder/institutions/templates/institutions/institution_detail.html:55
 msgid "Tags"
 msgstr "Tagi"
 
@@ -97,30 +97,30 @@ msgstr "Dodaj instytucje"
 msgid "Confirm delete"
 msgstr "Potwierdź usuwanie"
 
-#: feder/institutions/templates/institutions/institution_detail.html:51
+#: feder/institutions/templates/institutions/institution_detail.html:52
 msgid "E-mail"
 msgstr "E-mail"
 
-#: feder/institutions/templates/institutions/institution_detail.html:60
+#: feder/institutions/templates/institutions/institution_detail.html:62
 msgid "Cases"
 msgstr "Sprawy"
 
-#: feder/institutions/templates/institutions/institution_detail.html:74
+#: feder/institutions/templates/institutions/institution_detail.html:76
 msgid "No rows."
 msgstr "Brak wierszy"
 
-#: feder/institutions/templates/institutions/institution_detail.html:82
+#: feder/institutions/templates/institutions/institution_detail.html:84
 msgid "previous"
 msgstr "poprzednia"
 
-#: feder/institutions/templates/institutions/institution_detail.html:86
+#: feder/institutions/templates/institutions/institution_detail.html:88
 #, python-format
 msgid ""
 "Page %(no)s of\n"
 "                        %(total)s"
 msgstr "Strona %(no)s z %(total)s"
 
-#: feder/institutions/templates/institutions/institution_detail.html:91
+#: feder/institutions/templates/institutions/institution_detail.html:93
 msgid "next"
 msgstr "następna"
 
@@ -156,7 +156,7 @@ msgstr "^~autocomplete$"
 msgid "^~autocomplete-tag$"
 msgstr "^~autocomplete-tag$"
 
-#: feder/institutions/views.py:26
+#: feder/institutions/views.py:27
 msgid "Institutions index"
 msgstr "Wykaz instytucji"
 

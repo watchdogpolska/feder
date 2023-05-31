@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cases 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-30 09:52+0000\n"
+"POT-Creation-Date: 2023-05-31 13:17+0000\n"
 "PO-Revision-Date: 2023-05-30 09:02+0000\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -51,7 +51,7 @@ msgid "Slug"
 msgstr "Identyfikator redakcyjny"
 
 #: feder/cases/models.py:200 feder/cases/templates/cases/_case_small.html:12
-#: feder/cases/templates/cases/_desc.html:12
+#: feder/cases/templates/cases/_desc.html:14
 msgid "Monitoring"
 msgstr "Monitoring"
 
@@ -60,17 +60,17 @@ msgstr "Monitoring"
 msgid "Institution"
 msgstr "Instytucja"
 
-#: feder/cases/models.py:216 feder/cases/templates/cases/_desc.html:24
+#: feder/cases/models.py:216 feder/cases/templates/cases/_desc.html:28
 #: feder/cases/viewsets.py:49
 msgid "Confirmation received"
 msgstr "Otrzymano potwierdzenie"
 
-#: feder/cases/models.py:219 feder/cases/templates/cases/_desc.html:28
+#: feder/cases/models.py:219 feder/cases/templates/cases/_desc.html:32
 #: feder/cases/viewsets.py:50
 msgid "Response received"
 msgstr "Otrzymano odpowiedź"
 
-#: feder/cases/models.py:222 feder/cases/templates/cases/_desc.html:32
+#: feder/cases/models.py:222 feder/cases/templates/cases/_desc.html:36
 msgid "Quarantined"
 msgstr "Poddany kwarantannie"
 
@@ -139,15 +139,15 @@ msgstr ""
 "monitoringu. Usuń ograniczenia prawne i edytuj sprawę, aby ją ujawnić.\n"
 "    "
 
-#: feder/cases/templates/cases/_desc.html:8
+#: feder/cases/templates/cases/_desc.html:9
 msgid "Institution email"
 msgstr "Email instytucji"
 
-#: feder/cases/templates/cases/_desc.html:16
+#: feder/cases/templates/cases/_desc.html:19
 msgid "Case email"
 msgstr "Email sprawy"
 
-#: feder/cases/templates/cases/_desc.html:20
+#: feder/cases/templates/cases/_desc.html:24
 msgid "Letter count"
 msgstr "Liczba listów"
 
@@ -204,7 +204,7 @@ msgstr "^~autocomplete$"
 msgid "^~autocomplete/~find$"
 msgstr "^~autocomplete-szukaj$"
 
-#: feder/cases/views.py:28
+#: feder/cases/views.py:29
 msgid "Case index"
 msgstr "Wykaz spraw"
 
