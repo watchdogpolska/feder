@@ -1,7 +1,8 @@
-from django.contrib.admin.models import ADDITION, CHANGE, LogEntry
+from django.contrib.admin.models import ADDITION, CHANGE, DELETION, LogEntry
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.sites.shortcuts import get_current_site
 from django.db.models.expressions import RawSQL
+from django.forms.models import model_to_dict
 from django.utils.encoding import force_str
 from rest_framework_csv.renderers import CSVStreamingRenderer
 
@@ -122,3 +123,17 @@ class LogEntryMixin:
             action_flag=action_flag,
             change_message=message,
         )
+
+
+class DeleteViewLogEntryMixin(LogEntryMixin):
+    def post(self, request, *args, **kwargs):
+        change_dict = {
+            "deleted_data": model_to_dict(self.get_object()),
+        }
+        self.create_log_entry(
+            user=self.request.user,
+            obj=self.get_object(),
+            action_flag=DELETION,
+            message=f"{change_dict}",
+        )
+        return super().post(request, *args, **kwargs)
