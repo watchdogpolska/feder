@@ -73,6 +73,11 @@ urlpatterns = [
         name="drafts",
     ),
     re_path(
+        r"^(?P<slug>[\w-]+)/template",
+        views.MonitoringTemplateView.as_view(),
+        name="template",
+    ),
+    re_path(
         _(r"^(?P<slug>[\w-]+)/~update$"),
         views.MonitoringUpdateView.as_view(),
         name="update",
