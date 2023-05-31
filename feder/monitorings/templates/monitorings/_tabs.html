@@ -18,4 +18,9 @@
             {% endif %}
         >{% trans 'Drafts' %}</a></li>
         {% endif %}
+        <li{% if tab == 'template' %} class="active"{% endif %}><a
+            {% if tab != 'template' %}
+                href="{% url 'monitorings:template' slug=object.slug %}"
+            {% endif %}
+        >{% trans 'Template' %}</a></li>
     </ul>

@@ -1,0 +1,30 @@
+{% extends 'monitorings/base_monitoring_detail.html' %}
+{% load i18n humanize bootstrap_pagination%}
+{% block content_object %}
+    {% include 'monitorings/_tabs.html' with tab='template' %}
+    <style>
+        .content-frame {
+            border: 1px solid darkgray; /* Black border */
+            background-color: white; /* White background */
+            padding: 10px; /* Optional: Add padding for content inside the div */
+        }
+    </style>
+    <h3 class="sr-only">{% trans "Template" %}</h3>
+    <div class="gray">
+        <h5><b>{% trans "Email subject"  %}</b></h5>
+        <div class="content-frame">
+                {{object.subject}}
+        </div>
+        <br>
+        <h5><b>{% trans "Template"  %}</b></h5>
+        <div class="content-frame">
+            {{template}}
+        </div>
+        <br>
+        <h5><b>{% trans "Email footer"  %}</b></h5>
+        <div class="content-frame">
+            {{email_footer}}
+        </div>
+    </div>
+
+{% endblock %}

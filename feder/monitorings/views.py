@@ -51,7 +51,7 @@ from feder.institutions.filters import InstitutionFilter
 from feder.institutions.models import Institution
 from feder.letters.formsets import AttachmentInline
 from feder.letters.models import Letter
-from feder.letters.utils import is_formatted_html
+from feder.letters.utils import is_formatted_html, text_to_html
 from feder.letters.views import LetterCommonMixin
 from feder.main.mixins import ExtraListMixin, RaisePermissionRequiredMixin
 from feder.main.paginator import DefaultPagination
@@ -523,6 +523,28 @@ class DraftListMonitoringView(SelectRelatedMixin, ExtraListMixin, DetailView):
             .order_by("-created")
             .all()
         )
+
+
+class MonitoringTemplateView(DetailView):
+    model = Monitoring
+    template_name_suffix = "_template"
+    select_related = ["user"]
+
+    def get_context_data(self, **kwargs):
+        kwargs["url_extra_kwargs"] = {"slug": self.object.slug}
+        context = super().get_context_data(**kwargs)
+        context["voivodeship_table"] = mark_safe(
+            self.object.generate_voivodeship_table()
+        )
+        if is_formatted_html(self.object.template):
+            context["template"] = mark_safe(self.object.template)
+        else:
+            context["template"] = mark_safe(text_to_html(self.object.template))
+        if is_formatted_html(self.object.email_footer):
+            context["email_footer"] = mark_safe(self.object.email_footer)
+        else:
+            context["email_footer"] = mark_safe(text_to_html(self.object.email_footer))
+        return context
 
 
 class MonitoringCreateView(
