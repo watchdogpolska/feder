@@ -18,6 +18,7 @@ from django_filters.views import FilterView
 from feder.cases.models import Case
 from feder.main.mixins import ExtraListMixin
 from feder.main.paginator import DefaultPagination
+from feder.main.utils import DeleteViewLogEntryMixin, FormValidLogEntryMixin
 
 from .filters import InstitutionFilter
 from .forms import InstitutionForm
@@ -74,6 +75,7 @@ class InstitutionCreateView(
     PermissionRequiredMixin,
     CreateMessageMixin,
     UserFormKwargsMixin,
+    FormValidLogEntryMixin,
     CreateView,
 ):
     model = Institution
@@ -89,6 +91,7 @@ class InstitutionUpdateView(
     UserFormKwargsMixin,
     UpdateMessageMixin,
     FormValidMessageMixin,
+    FormValidLogEntryMixin,
     UpdateView,
 ):
     model = Institution
@@ -103,6 +106,7 @@ class InstitutionDeleteView(
     PermissionRequiredMixin,
     DeleteMessageMixin,
     UpdateMessageMixin,
+    DeleteViewLogEntryMixin,
     DeleteView,
 ):
     model = Institution

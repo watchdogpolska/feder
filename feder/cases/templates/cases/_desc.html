@@ -4,18 +4,22 @@
         <td><p><i class="fa fa-home"></i>&nbsp;{% trans 'Institution' %}:&nbsp;</p></td>
         <td><p><a href="{{ object.institution.get_absolute_url }}">{{ object.institution }}</a></p></td>
     </tr>
-    <tr>
-        <td><p><i class="fa fa-envelope"></i>&nbsp;{% trans 'Institution email' %}:&nbsp;</p></td>
-        <td><p>{{ object.institution.email }}</p></td>
-    </tr>
+    {% if request.user.is_authenticated %}
+        <tr>
+            <td><p><i class="fa fa-envelope"></i>&nbsp;{% trans 'Institution email' %}:&nbsp;</p></td>
+            <td><p>{{ object.institution.email }}</p></td>
+        </tr>
+    {% endif %}
     <tr>
         <td><p><i class="fa fa-search"></i>&nbsp;{% trans 'Monitoring' %}:&nbsp;</p></td>
         <td><p><a href="{{ object.monitoring.get_absolute_url }}">{{ object.monitoring }}</p></a></td>
     </tr>
-    <tr>
-        <td><p><i class="fa fa-envelope"></i>&nbsp;{% trans 'Case email' %}:&nbsp;</p></td>
-        <td><p>{{ object.email }}</p></td>
-    </tr>
+    {% if request.user.is_authenticated %}
+        <tr>
+            <td><p><i class="fa fa-envelope"></i>&nbsp;{% trans 'Case email' %}:&nbsp;</p></td>
+            <td><p>{{ object.email }}</p></td>
+        </tr>
+    {% endif %}
     <tr>
         <td><p><i class="fa fa-cubes"></i>&nbsp;{% trans 'Letter count' %}:&nbsp;</p></td>
         <td><p>{{ object.letter_count }}</p></td>

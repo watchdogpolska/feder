@@ -12,6 +12,7 @@ from model_utils.models import TimeStampedModel
 
 from feder.domains.models import Domain
 from feder.main.utils import FormattedDatetimeMixin, RenderBooleanFieldMixin
+from feder.teryt.models import JST
 
 from .validators import validate_template_syntax
 
@@ -157,6 +158,13 @@ class Monitoring(RenderBooleanFieldMixin, TimeStampedModel):
     def get_absolute_url(self):
         return reverse("monitorings:details", kwargs={"slug": self.slug})
 
+    def render_monitoring_link(self):
+        url = self.get_absolute_url()
+        label = self.name
+        bold_start = "" if not self.is_public else "<b>"
+        bold_end = "" if not self.is_public else "</b>"
+        return f'{bold_start}<a href="{url}">{label}</a>{bold_end}'
+
     def get_monitoring_cases_table_url(self):
         return reverse(
             "monitorings:monitoring_cases_table",
@@ -169,6 +177,36 @@ class Monitoring(RenderBooleanFieldMixin, TimeStampedModel):
         bold_start = "" if not self.is_public else "<b>"
         bold_end = "" if not self.is_public else "</b>"
         return f'{bold_start}<a href="{url}">{label}</a>{bold_end}'
+
+    def generate_voivodeship_table(self):
+        """
+        Generate html table with monitoring voivodeships and their
+        institutions and cases counts
+        """
+        voivodeship_list = JST.objects.filter(category__level=1).all().order_by("name")
+        table = """
+            <table class="table table-bordered compact" style="width: 100%">
+            """
+        table += """
+            <tr>
+                <th>Województwo</th>
+                <th>Liczba spraw</th>
+                <th>Liczba spraw w kwarantannie</th>
+            </tr>"""
+        for voivodeship in voivodeship_list:
+            table += (
+                "<tr><td>"
+                + voivodeship.name
+                + "</td><td>"
+                + str(self.case_set.area(voivodeship).count())
+                + "</td><td>"
+                + str(
+                    self.case_set.filter(is_quarantined=True).area(voivodeship).count()
+                )
+                + "</td></tr>"
+            )
+        table += "</table>"
+        return table
 
     def permission_map(self):
         dataset = (

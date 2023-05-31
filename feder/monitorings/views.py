@@ -51,11 +51,11 @@ from feder.institutions.filters import InstitutionFilter
 from feder.institutions.models import Institution
 from feder.letters.formsets import AttachmentInline
 from feder.letters.models import Letter
-from feder.letters.utils import is_formatted_html
+from feder.letters.utils import is_formatted_html, text_to_html
 from feder.letters.views import LetterCommonMixin
 from feder.main.mixins import ExtraListMixin, RaisePermissionRequiredMixin
 from feder.main.paginator import DefaultPagination
-from feder.teryt.models import JST
+from feder.main.utils import DeleteViewLogEntryMixin, FormValidLogEntryMixin
 
 from .filters import (
     MonitoringCaseAreaFilter,
@@ -253,7 +253,7 @@ class MonitoringCasesTableView(FilterView):
         context = super().get_context_data(**kwargs)
         monitoring = Monitoring.objects.get(slug=self.kwargs.get("slug"))
         context["header_label"] = mark_safe(
-            _("Monitoring Cases table - ") + monitoring.name
+            _("Monitoring Cases table - ") + monitoring.render_monitoring_link()
         )
         context["ajax_datatable_url"] = reverse(
             "monitorings:monitoring_cases_table_ajax_data",
@@ -405,7 +405,10 @@ class MonitoringDetailView(SelectRelatedMixin, ExtraListMixin, DetailView):
     def get_context_data(self, **kwargs):
         kwargs["url_extra_kwargs"] = {"slug": self.object.slug}
         context = super().get_context_data(**kwargs)
-        context["voivodeship_table"] = self.generate_voivodeship_table(self.object)
+        # context["voivodeship_table"] = self.generate_voivodeship_table(self.object)
+        context["voivodeship_table"] = mark_safe(
+            self.object.generate_voivodeship_table()
+        )
         return context
 
     def get_object_list(self, obj):
@@ -419,40 +422,6 @@ class MonitoringDetailView(SelectRelatedMixin, ExtraListMixin, DetailView):
             .all()
         )
 
-    def generate_voivodeship_table(self, monitoring):
-        """
-        Generate html table with monitoring voivodeships and their
-        institutions and cases counts
-        """
-        voivodeship_list = JST.objects.filter(category__level=1).all().order_by("name")
-        table = """
-            <table class="table table-bordered compact" style="width: 100%">
-            """
-        table += """
-            <tr>
-                <th>Województwo</th>
-                <th>Liczba spraw</th>
-                <th>Liczba spraw w kwarantannie</th>
-            </tr>"""
-        for voivodeship in voivodeship_list:
-            table += (
-                "<tr><td>"
-                + voivodeship.name
-                + "</td><td>"
-                + str(
-                    Case.objects.filter(monitoring=monitoring).area(voivodeship).count()
-                )
-                + "</td><td>"
-                + str(
-                    Case.objects.filter(monitoring=monitoring, is_quarantined=True)
-                    .area(voivodeship)
-                    .count()
-                )
-                + "</td></tr>"
-            )
-        table += "</table>"
-        return table
-
 
 class LetterListMonitoringView(SelectRelatedMixin, ExtraListMixin, DetailView):
     model = Monitoring
@@ -462,7 +431,11 @@ class LetterListMonitoringView(SelectRelatedMixin, ExtraListMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         kwargs["url_extra_kwargs"] = {"slug": self.object.slug}
-        return super().get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
+        context["voivodeship_table"] = mark_safe(
+            self.object.generate_voivodeship_table()
+        )
+        return context
 
     def get_object_list(self, obj):
         return (
@@ -530,7 +503,11 @@ class DraftListMonitoringView(SelectRelatedMixin, ExtraListMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         kwargs["url_extra_kwargs"] = {"slug": self.object.slug}
-        return super().get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
+        context["voivodeship_table"] = mark_safe(
+            self.object.generate_voivodeship_table()
+        )
+        return context
 
     def get_object_list(self, obj):
         return (
@@ -548,8 +525,34 @@ class DraftListMonitoringView(SelectRelatedMixin, ExtraListMixin, DetailView):
         )
 
 
+class MonitoringTemplateView(DetailView):
+    model = Monitoring
+    template_name_suffix = "_template"
+    select_related = ["user"]
+
+    def get_context_data(self, **kwargs):
+        kwargs["url_extra_kwargs"] = {"slug": self.object.slug}
+        context = super().get_context_data(**kwargs)
+        context["voivodeship_table"] = mark_safe(
+            self.object.generate_voivodeship_table()
+        )
+        if is_formatted_html(self.object.template):
+            context["template"] = mark_safe(self.object.template)
+        else:
+            context["template"] = mark_safe(text_to_html(self.object.template))
+        if is_formatted_html(self.object.email_footer):
+            context["email_footer"] = mark_safe(self.object.email_footer)
+        else:
+            context["email_footer"] = mark_safe(text_to_html(self.object.email_footer))
+        return context
+
+
 class MonitoringCreateView(
-    LoginRequiredMixin, PermissionRequiredMixin, UserFormKwargsMixin, CreateView
+    LoginRequiredMixin,
+    PermissionRequiredMixin,
+    UserFormKwargsMixin,
+    FormValidLogEntryMixin,
+    CreateView,
 ):
     model = Monitoring
     template_name = "monitorings/monitoring_form.html"
@@ -586,6 +589,7 @@ class MonitoringUpdateView(
     UserFormKwargsMixin,
     UpdateMessageMixin,
     FormValidMessageMixin,
+    FormValidLogEntryMixin,
     UpdateView,
 ):
     model = Monitoring
@@ -594,7 +598,10 @@ class MonitoringUpdateView(
 
 
 class MonitoringDeleteView(
-    RaisePermissionRequiredMixin, DeleteMessageMixin, DeleteView
+    RaisePermissionRequiredMixin,
+    DeleteMessageMixin,
+    DeleteViewLogEntryMixin,
+    DeleteView,
 ):
     model = Monitoring
     success_url = reverse_lazy("monitorings:list")
