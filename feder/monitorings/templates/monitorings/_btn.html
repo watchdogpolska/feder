@@ -54,6 +54,10 @@
                     <i class="fa fa-file" aria-hidden="true"></i>
                     {% trans 'View report' %}
                 </a>
+                <a class="btn btn-default" href="{{ object.get_monitoring_cases_table_url }}">
+                    <i class="fa fa-table" aria-hidden="true"></i>
+                    {% trans 'View cases table' %}
+                </a>
             {% endif %}
         </div>
     </div>
