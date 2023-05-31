@@ -55,6 +55,7 @@ from feder.letters.utils import is_formatted_html
 from feder.letters.views import LetterCommonMixin
 from feder.main.mixins import ExtraListMixin, RaisePermissionRequiredMixin
 from feder.main.paginator import DefaultPagination
+from feder.main.utils import DeleteViewLogEntryMixin, FormValidLogEntryMixin
 from feder.teryt.models import JST
 
 from .filters import (
@@ -549,7 +550,11 @@ class DraftListMonitoringView(SelectRelatedMixin, ExtraListMixin, DetailView):
 
 
 class MonitoringCreateView(
-    LoginRequiredMixin, PermissionRequiredMixin, UserFormKwargsMixin, CreateView
+    LoginRequiredMixin,
+    PermissionRequiredMixin,
+    UserFormKwargsMixin,
+    FormValidLogEntryMixin,
+    CreateView,
 ):
     model = Monitoring
     template_name = "monitorings/monitoring_form.html"
@@ -586,6 +591,7 @@ class MonitoringUpdateView(
     UserFormKwargsMixin,
     UpdateMessageMixin,
     FormValidMessageMixin,
+    FormValidLogEntryMixin,
     UpdateView,
 ):
     model = Monitoring
@@ -594,7 +600,10 @@ class MonitoringUpdateView(
 
 
 class MonitoringDeleteView(
-    RaisePermissionRequiredMixin, DeleteMessageMixin, DeleteView
+    RaisePermissionRequiredMixin,
+    DeleteMessageMixin,
+    DeleteViewLogEntryMixin,
+    DeleteView,
 ):
     model = Monitoring
     success_url = reverse_lazy("monitorings:list")
