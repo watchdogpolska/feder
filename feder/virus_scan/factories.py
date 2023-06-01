@@ -1,4 +1,5 @@
 import factory.fuzzy
+
 from feder.letters.factories import AttachmentFactory
 from feder.virus_scan.models import Request
 

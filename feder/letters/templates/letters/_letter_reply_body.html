@@ -1,8 +1,8 @@
 {% load i18n %}
-{{ body | linebreaks }}
-{% if footer %}
+{{ html_body }}
+{% if html_footer %}
     --<br>
-    {{ footer | linebreaks }}
+    {{ html_footer }}
 {% endif %}
 
-{{quote}}
+{{html_quote}}

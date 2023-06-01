@@ -1,22 +1,32 @@
-name: Front-end
+---
+name: Frontend
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - master
+      - develop
+
+  pull_request:
+    branches:
+      - master
+      - develop
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: Build frontend
-      run: make wait_web regenerate_frontend
-    - name: Show git status
-      run: git status
-    - name: Require rebuild content
-      run: >
-        git diff-index --quiet HEAD -- feder/static/ package*.json || (
-          echo "Pending changes in the front-end have been detected.";
-          echo "Use 'make regenerate_frontend' to regenerate front-end and commit changes.";
-          echo "Following changes pending:";
-          git diff;
-          exit 1;
-        )
+      - uses: actions/checkout@v3
+      - name: Build frontend
+        run: make wait_web regenerate_frontend
+      - name: Show git status
+        run: git status
+      - name: Require rebuild content
+        run: >
+          git diff-index --quiet HEAD -- feder/static/ package*.json || (
+            echo "Pending changes in the front-end have been detected.";
+            echo "Use 'make regenerate_frontend' to regenerate front-end ";
+            echo "and commit changes. Following changes pending:";
+            git diff;
+            exit 1;
+          )

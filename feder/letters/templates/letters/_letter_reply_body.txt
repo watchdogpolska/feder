@@ -1,11 +1,11 @@
 {% load i18n %}
-{{ body }}
+{{ text_body }}
 
 {% if attachments %}{% trans 'Attachments' %}:
 {% for attachment in attachments %}- {{ attachment.get_full_url }}</li>
 {% endfor %}{% endif %}
-{% if footer %}--
-{{ footer }}
+{% if text_footer %}--
+{{ text_footer }}
 {% endif %}
 
-{{quote}}
+{{text_quote}}

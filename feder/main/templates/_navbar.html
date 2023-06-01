@@ -1,0 +1,26 @@
+{% load static i18n %}
+<div class="navbar navbar-default" role="navigation">
+    <div >
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">{% trans 'Toggle navigation' %}</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <img alt="Fedrowanie" src="{% static 'images/logo-short.svg' %}" height="25px">
+            </a>
+            <h1 class="sr-only">{% trans 'Civil data mining' %}</h1>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                {% include '_sidebar.html' %}
+            </ul>
+        </div>
+    </div>
+</div>

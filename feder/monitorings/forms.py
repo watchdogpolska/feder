@@ -1,19 +1,27 @@
-from textwrap import wrap
-from atom.ext.crispy_forms.forms import SingleButtonMixin, HelperMixin
+from atom.ext.crispy_forms.forms import HelperMixin, SingleButtonMixin
 from atom.ext.guardian.forms import TranslatedUserObjectPermissionsForm
 from braces.forms import UserKwargModelFormMixin
-from crispy_forms.layout import Layout, Fieldset, Submit
+from crispy_forms.layout import Column, Fieldset, Layout, Row, Submit
 from dal import autocomplete
 from django import forms
-from django.utils.translation import gettext as _
 from django.conf import settings
+from django.template.loader import render_to_string
+from django.utils.safestring import mark_safe
+from django.utils.translation import gettext as _
+from tinymce.widgets import TinyMCE
 
-from feder.users.models import User
-from feder.letters.models import Letter, MassMessageDraft
-from feder.letters.utils import get_body_with_footer, BODY_REPLY_TPL
-from feder.letters.forms import QUOTE_TPL
 from feder.cases_tags.models import Tag
-from feder.letters.models import Record
+from feder.letters.forms import QUOTE_TPL
+from feder.letters.models import Letter, MassMessageDraft, Record
+from feder.letters.utils import (
+    BODY_REPLY_TPL,
+    html_to_text,
+    is_formatted_html,
+    text_email_wrapper,
+    text_to_html,
+)
+from feder.users.models import User
+
 from .models import Monitoring
 
 
@@ -22,14 +30,32 @@ class MonitoringForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm
         super().__init__(*args, **kwargs)
         if not self.instance.pk:  # disable fields for create
             del self.fields["notify_alert"]
+        if self.instance.template and not is_formatted_html(self.instance.template):
+            self.initial["template"] = mark_safe(text_to_html(self.instance.template))
         self.instance.user = self.user
-        self.helper.layout = Layout(
-            Fieldset(
-                _("Monitoring"), "name", "description", "notify_alert", "hide_new_cases"
-            ),
-            Fieldset(_("Template"), "subject", "template", "email_footer", "domain"),
-        )
         self.fields["template"].initial = BODY_REPLY_TPL
+        self.fields["template"].widget = TinyMCE(attrs={"cols": 80, "rows": 20})
+        self.fields["email_footer"].widget = TinyMCE(attrs={"cols": 80, "rows": 5})
+        self.helper.layout = Layout(
+            Row(
+                Column(
+                    Fieldset(
+                        _("Monitoring"),
+                        "name",
+                        "description",
+                        "notify_alert",
+                        "hide_new_cases",
+                    ),
+                    css_class="form-group col-md-5 mb-0",
+                ),
+                Column(
+                    Fieldset(
+                        _("Template"), "subject", "template", "email_footer", "domain"
+                    ),
+                    css_class="form-group col-md-7 mb-0",
+                ),
+            ),
+        )
 
     class Meta:
         model = Monitoring
@@ -86,7 +112,7 @@ class MassMessageForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
 
     class Meta:
         model = Letter
-        fields = ["recipients_tags", "title", "body", "quote", "note"]
+        fields = ["recipients_tags", "title", "html_body", "html_quote", "note"]
 
     def __init__(self, monitoring, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -102,32 +128,42 @@ class MassMessageForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
         self.fields[
             "recipients_tags"
         ].label_from_instance = recipients_tags_label_from_instance
-        self.fields["body"].help_text = _("Use {{EMAIL}} to insert reply address.")
+        self.fields["html_body"].help_text = _("Use {{EMAIL}} to insert reply address.")
 
         self.helper.form_tag = False
+        self.fields["html_body"].widget = TinyMCE(attrs={"cols": 80, "rows": 20})
+        self.fields["html_quote"].widget = TinyMCE(attrs={"cols": 80, "rows": 20})
         self.helper.layout = Layout(
-            Fieldset(_("Message"), "recipients_tags", "title", "body", "quote", "note"),
+            Row(
+                Column(
+                    Fieldset(_("Message"), "recipients_tags", "title", "html_body"),
+                    css_class="form-group col-md-6 mb-0",
+                ),
+                Column(
+                    Fieldset(_("Message continued"), "html_quote", "note"),
+                    css_class="form-group col-md-6 mb-0",
+                ),
+            )
         )
         self.set_dynamic_field_initial()
         self.add_form_buttons()
 
     def get_application_letter(self):
         case = self.monitoring.case_set.order_by("created").first()
-        return (
-            Letter.objects.filter(record__case=case, author_user_id__isnull=False)
+        application_letter = (
+            Letter.objects.filter(record__case=case, author_user__isnull=False)
             .order_by("created")
             .first()
         )
+        return application_letter
 
     def set_dynamic_field_initial(self):
+        self.fields["html_body"].initial = self.get_html_body_with_footer()
         if self.application_letter:
             self.fields["title"].initial = "Re: {title}".format(
                 title=self.application_letter.title
             )
-            self.fields["body"].initial = get_body_with_footer(
-                "", self.monitoring.email_footer
-            )
-            self.fields["quote"].initial = self.get_quote()
+            self.fields["html_quote"].initial = self.get_html_quote()
 
     def add_form_buttons(self):
         if self.user_can_save:
@@ -139,11 +175,43 @@ class MassMessageForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
                 Submit("send", _("Send message"), css_class="btn-primary")
             )
 
-    def get_quote(self):
-        quoted = "> " + "\n> ".join(wrap(self.application_letter.body, width=80))
+    def get_html_body_with_footer(self):
+        reply_info = BODY_REPLY_TPL.replace("\n", "<br>\n")
+        context = {
+            "html_body": mark_safe(f"<p>{reply_info}</p>"),
+            "html_footer": mark_safe(self.monitoring.email_footer),
+        }
+        return render_to_string("letters/_letter_reply_body.html", context)
+
+    def get_html_quote(self):
+        html_body = (
+            self.application_letter.html_body
+            if is_formatted_html(self.application_letter.html_body)
+            else text_to_html(self.application_letter.body)
+        )
+        quoted = "<blockquote>" + html_body + "</blockquote>"
+        quote_info = QUOTE_TPL.format(
+            created=self.application_letter.created.strftime(
+                settings.STRFTIME_DATE_FORMAT
+            ),
+            email="{{EMAIL}}",
+            quoted="",
+        )
+        html_quote = f"""
+            <p>
+                <br>
+                {quote_info}<br>
+                {quoted}
+            </p>"""
+        return mark_safe(html_quote)
+
+    def get_text_quote(self):
+        quoted = text_email_wrapper(self.application_letter.body)
         return QUOTE_TPL.format(
-            created=self.application_letter.created.strftime(settings.STRFTIME_FORMAT),
-            email=self.application_letter.email,
+            created=self.application_letter.created.strftime(
+                settings.STRFTIME_DATE_FORMAT
+            ),
+            email="{{EMAIL}}",
             quoted=quoted,
         )
 
@@ -160,6 +228,8 @@ class MassMessageForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
         self.instance.message_type = Letter.MESSAGE_TYPES.mass_draft
         self.instance.is_draft = True
         self.instance.author_user = self.user
+        self.instance.body = html_to_text(self.instance.html_body)
+        self.instance.quote = html_to_text(self.instance.html_quote)
         self.instance.record = Record.objects.create()
         letter = super().save(commit=commit)
         return letter

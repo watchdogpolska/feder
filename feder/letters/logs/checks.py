@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.core import checks
-from django.core.checks import register, Tags
+from django.core.checks import Tags, register
 
 API_URL = "https://panel.emaillabs.net.pl/pl/site/api"
 

@@ -1,9 +1,9 @@
-from django.urls import reverse
-from django.urls import reverse_lazy
 from django.test import RequestFactory, TestCase
-from feder.users.factories import UserFactory
+from django.urls import reverse, reverse_lazy
+
 from feder.teryt import views
 from feder.teryt.factories import JSTFactory
+from feder.users.factories import UserFactory
 
 
 class JSTListViewTestCase(TestCase):

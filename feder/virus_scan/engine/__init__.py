@@ -1,7 +1,8 @@
 from django.conf import settings
-from .virustotal import VirusTotalEngine
+
 from .attachmentscanner import AttachmentScannerEngine
 from .metadefender import MetaDefenderEngine
+from .virustotal import VirusTotalEngine
 
 
 class NotFoundEngineException(Exception):

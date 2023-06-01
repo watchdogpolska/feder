@@ -1,8 +1,9 @@
-from django.urls import reverse
 from django.test import TestCase
+from django.urls import reverse
 
 from feder.main.tests import PermissionStatusMixin
 from feder.users.factories import UserFactory
+
 from .factories import AlertFactory
 
 

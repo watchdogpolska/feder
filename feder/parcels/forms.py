@@ -37,7 +37,7 @@ class OutgoingParcelPostForm(ParcelPostForm):
 
     class Meta:
         model = OutgoingParcelPost
-        fields = ["title", "content", "recipient"]
+        fields = ["title", "content", "recipient", "post_date"]
         widgets = {
             "recipient": autocomplete.ModelSelect2(url="institutions:autocomplete")
         }

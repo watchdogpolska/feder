@@ -40,52 +40,59 @@
 {% block content %}
     {% get_obj_perms request.user for monitoring as "monitoring_perms" %}
     {% include 'monitorings/_header.html' with object=monitoring %}
-    <div class="block block_gray">
-        <h2 class="block__title">{% trans "Filters" %}</h2>
-        <form method="GET">
-            {{ filter.form | crispy }}
-            {% block form_buttons %}
-                <button type="submit" class="btn btn-primary">
-                    <i class="fa fa-search" aria-hidden="true"></i>
-                    {% trans 'Filter' %}
-                </button>
-                <a class="btn btn-primary" href="{{ csv_url }}">
-                    <i class="fa fa-download" aria-hidden></i> {% trans 'Download .csv' %}
-                </a>
-            {% endblock %}
-        </form>
-    </div>
-
-    <div class="block block_gray">
-        <h2 class="block__title">{% trans "Tag assignment" %}</h2>
-
-        <p class="pb-1">{% trans "Select tags to add or remove, select cases from the list below and then confirm by clicking selected action button." %}</p>
-
-        <div id="multi-case-tags" class="form-group">
-            <div class="controls">
-                {% for tag in tags %}
-                    <div class="checkbox">
-                        <label for="multi-case-tag-{{ tag.id }}">
-                            <input type="checkbox"
-                                   id="multi-case-tag-{{ tag.id }}"
-                                   name="multi-case-tag-{{ tag.id }}"
-                                   value="{{ tag.id }}">
-                            {{ tag.name }} ({{ tag.cases_count }})
-                        </label>
-                    </div>
-                {% endfor %}
+    <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+            <div class="block block_gray">
+                <h2 class="block__title">{% trans "Filters" %}</h2>
+                <form method="GET">
+                    {{ filter.form | crispy }}
+                    {% block form_buttons %}
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                            {% trans 'Filter' %}
+                        </button>
+                        <a class="btn btn-primary" href="{{ csv_url }}">
+                            <i class="fa fa-download" aria-hidden></i> {% trans 'Download .csv' %}
+                        </a>
+                    {% endblock %}
+                </form>
             </div>
-        </div>
 
-        <button type="button" id="multi-case-tag-assign-btn" class="btn btn-primary">
-            <i class="fa fa-tag"></i> {% trans "Add" %}
-        </button>
-        <button type="button" id="multi-case-tag-remove-btn" class="btn btn-primary">
-            <i class="fa fa-eraser"></i> {% trans "Remove" %}
-        </button>
+            <div class="block block_gray">
+                <h2 class="block__title">{% trans "Tag assignment" %}</h2>
+
+                <p class="pb-1">{% trans "Select tags to add or remove, select cases from the list below and then confirm by clicking selected action button." %}</p>
+
+                <div id="multi-case-tags" class="form-group">
+                    <div class="controls">
+                        {% for tag in tags %}
+                            <div class="checkbox">
+                                <label for="multi-case-tag-{{ tag.id }}">
+                                    <input type="checkbox"
+                                        id="multi-case-tag-{{ tag.id }}"
+                                        name="multi-case-tag-{{ tag.id }}"
+                                        value="{{ tag.id }}">
+                                    {{ tag.name }} ({{ tag.cases_count }})
+                                </label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <button type="button" id="multi-case-tag-assign-btn" class="btn btn-primary">
+                    <i class="fa fa-tag"></i> {% trans "Add" %}
+                </button>
+                <button type="button" id="multi-case-tag-remove-btn" class="btn btn-primary">
+                    <i class="fa fa-eraser"></i> {% trans "Remove" %}
+                </button>
+            </div>
+
+        </div>
+        <div class="col-lg-8 col-md-6 col-sm-12 col-xs-12">
+            {% include 'monitorings/_report_content.html' %}
+        </div>
     </div>
 
-    {% include 'monitorings/_report_content.html' %}
 {% endblock %}
 
 

@@ -11,11 +11,11 @@ from vcr import VCR
 from feder.cases.factories import CaseFactory
 from feder.letters.factories import (
     LetterFactory,
-    SendOutgoingLetterFactory,
     OutgoingLetterFactory,
+    SendOutgoingLetterFactory,
 )
-from feder.letters.logs.factories import get_emaillabs_row, LogRecordFactory
-from feder.letters.logs.models import LogRecord, EmailLog, STATUS
+from feder.letters.logs.factories import LogRecordFactory, get_emaillabs_row
+from feder.letters.logs.models import STATUS, EmailLog, LogRecord
 from feder.letters.logs.utils import get_emaillabs_client
 from feder.main.tests import PermissionStatusMixin
 from feder.users.factories import UserFactory

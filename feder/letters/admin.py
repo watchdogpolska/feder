@@ -1,7 +1,8 @@
 from django.contrib import admin
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
-from .models import Letter, Attachment, LetterEmailDomain
+from .models import Attachment, Letter, LetterEmailDomain
 
 
 class AttachmentInline(admin.StackedInline):
@@ -20,7 +21,8 @@ class LetterAdmin(admin.ModelAdmin):
 
     date_hierarchy = "created"
     list_display = (
-        "pk",
+        "id",
+        "get_record_id",
         "title",
         "get_case",
         "get_monitoring",
@@ -45,6 +47,7 @@ class LetterAdmin(admin.ModelAdmin):
     )
     inlines = [AttachmentInline]
     search_fields = (
+        "id",
         "title",
         # "body",
         "record__case__name",
@@ -55,7 +58,7 @@ class LetterAdmin(admin.ModelAdmin):
     )
     raw_id_fields = ("author_user", "author_institution", "record")
     # list_editable = ("is_spam",)
-    ordering = ("-created",)
+    ordering = ("-id",)
     actions = [
         "delete_selected",
         "mark_spam",
@@ -63,6 +66,15 @@ class LetterAdmin(admin.ModelAdmin):
         "mark_spam_unknown",
         "mark_non_spam",
     ]
+
+    @admin.display(
+        description=_("Record id"),
+        ordering="record__id",
+    )
+    def get_record_id(self, obj):
+        if obj.record is None:
+            return None
+        return obj.record.id
 
     @admin.display(
         description=_("Case name"),
@@ -82,7 +94,11 @@ class LetterAdmin(admin.ModelAdmin):
 
     @admin.action(description="Mark selected letters as Spam")
     def mark_spam(modeladmin, request, queryset):
-        queryset.update(is_spam=Letter.SPAM.spam)
+        queryset.update(
+            is_spam=Letter.SPAM.spam,
+            mark_spam_by=request.user,
+            mark_spam_at=timezone.now(),
+        )
 
     @admin.action(description="Mark selected letters as Non Spam")
     def mark_non_spam(modeladmin, request, queryset):

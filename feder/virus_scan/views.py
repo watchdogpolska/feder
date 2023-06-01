@@ -1,7 +1,8 @@
-from django.views.generic import View
 from django.core.exceptions import SuspiciousOperation
-from .models import Request
 from django.http import JsonResponse
+from django.views.generic import View
+
+from .models import Request
 from .signer import TokenSigner
 from .tasks import scan_request
 

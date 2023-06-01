@@ -1,10 +1,10 @@
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
-from model_utils.models import TimeStampedModel
-from model_utils import Choices
 from django.utils.translation import gettext_lazy as _
 from jsonfield import JSONField
+from model_utils import Choices
+from model_utils.models import TimeStampedModel
 
 
 class RequestQuerySet(models.QuerySet):

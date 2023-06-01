@@ -8,8 +8,8 @@ from braces.views import (
     UserFormKwargsMixin,
 )
 from dal import autocomplete
-from django.urls import reverse_lazy
 from django.db.models import Count
+from django.urls import reverse_lazy
 from django.utils.http import urlencode
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
@@ -18,6 +18,8 @@ from django_filters.views import FilterView
 from feder.cases.models import Case
 from feder.main.mixins import ExtraListMixin
 from feder.main.paginator import DefaultPagination
+from feder.main.utils import DeleteViewLogEntryMixin, FormValidLogEntryMixin
+
 from .filters import InstitutionFilter
 from .forms import InstitutionForm
 from .models import Institution, Tag
@@ -33,7 +35,7 @@ class InstitutionListView(SelectRelatedMixin, FilterView):
 
     def get_queryset(self):
         qs = super().get_queryset()
-        return qs.with_case_count()
+        return qs.with_case_count().order_by("name")
 
     def get_context_data(self, *args, **kwargs):
         params = [["format", "csv"], ["page_size", DefaultPagination.max_page_size]]
@@ -73,6 +75,7 @@ class InstitutionCreateView(
     PermissionRequiredMixin,
     CreateMessageMixin,
     UserFormKwargsMixin,
+    FormValidLogEntryMixin,
     CreateView,
 ):
     model = Institution
@@ -88,6 +91,7 @@ class InstitutionUpdateView(
     UserFormKwargsMixin,
     UpdateMessageMixin,
     FormValidMessageMixin,
+    FormValidLogEntryMixin,
     UpdateView,
 ):
     model = Institution
@@ -102,6 +106,7 @@ class InstitutionDeleteView(
     PermissionRequiredMixin,
     DeleteMessageMixin,
     UpdateMessageMixin,
+    DeleteViewLogEntryMixin,
     DeleteView,
 ):
     model = Institution

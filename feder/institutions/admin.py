@@ -12,15 +12,23 @@ class InstitutionAdmin(VersionAdmin):
     Admin View for Institution
     """
 
-    list_display = ("name", "jst", "email")
-    search_fields = ["name", "tags__name"]
+    list_display = ("id", "name", "jst", "get_teryt", "email", "regon", "get_tags")
+    search_fields = ["name", "tags__name", "jst__name", "jst__id", "email", "regon"]
+    list_filter = ("tags",)
     raw_id_fields = ("jst",)
     actions = None
+
+    def get_tags(self, obj):
+        return ", ".join(obj.tags.values_list("name", flat=True))
+
+    def get_teryt(self, obj):
+        return obj.jst.id
 
 
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
     list_display = ("name", "get_institution_count")
+    search_fields = ["name"]
     actions = None
 
     @admin.display(

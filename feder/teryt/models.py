@@ -22,6 +22,10 @@ class JST(JednostkaAdministracyjna):
                 name = f"{self.parent.parent} / {name}"
         return name
 
+    @property
+    def tree_name(self):
+        return self.get_full_name()
+
     def __str__(self):
         return self.name
 

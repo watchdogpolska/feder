@@ -1,10 +1,11 @@
 import datetime
 
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 from django.urls import reverse
-from django.core.files.uploadedfile import SimpleUploadedFile
-from feder.cases.models import Case
+
 from feder.cases.factories import CaseFactory
+from feder.cases.models import Case
 from feder.main.tests import PermissionStatusMixin
 from feder.parcels.factories import IncomingParcelPostFactory, OutgoingParcelPostFactory
 

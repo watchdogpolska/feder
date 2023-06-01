@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 from tqdm import tqdm
 
-from feder.records.models import Record, AbstractRecord
+from feder.records.models import AbstractRecord, Record
 
 
 class Command(BaseCommand):

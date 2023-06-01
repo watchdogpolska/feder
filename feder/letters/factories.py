@@ -1,6 +1,7 @@
 import random
 from email.mime.text import MIMEText
 from email.utils import make_msgid, parseaddr
+from os.path import dirname, join
 
 import factory.fuzzy
 from factory.django import FileField
@@ -8,8 +9,8 @@ from factory.django import FileField
 from feder.institutions.factories import InstitutionFactory
 from feder.records.factories import RecordFactory
 from feder.users.factories import UserFactory
-from .models import Letter, Attachment
-from os.path import join, dirname
+
+from .models import Attachment, Letter
 
 WORD_LIST_FILE = join(dirname(__file__), "fixtures/words.txt")
 

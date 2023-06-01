@@ -1,7 +1,9 @@
-from .base import BaseEngine
-from django.conf import settings
-from feder.virus_scan.models import Request
 import requests
+from django.conf import settings
+
+from feder.virus_scan.models import Request
+
+from .base import BaseEngine
 
 
 class AttachmentScannerEngine(BaseEngine):

@@ -16,10 +16,12 @@ RUN apt-get update \
    build-essential \
    git \
    curl \
+   nano \
+   htop \
    gettext libgettextpo-dev wait-for-it \
 && rm -rf /var/lib/apt/lists/*
 COPY requirements/*.txt ./requirements/
-ARG DJANGO_VERSION='==3.2.18'
+ARG DJANGO_VERSION='==3.2.19'
 # TODO: Move to /requirements/base.txt after fixing following bug:
 #       https://github.com/readthedocs/readthedocs-docker-images/issues/158
 RUN pip install mysqlclient==2.1.1

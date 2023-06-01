@@ -8,6 +8,9 @@
     {% if incomingparcelpost %}
         {% include 'parcels/_btn.html' with object=object delete_url='parcels:incoming-delete' update_url='parcels:incoming-update' %}
     {% endif %}
+    {% if outgoingparcelpost %}
+        {% include 'parcels/_btn.html' with object=object delete_url='parcels:outgoing-delete' update_url='parcels:outgoing-update' %}
+    {% endif %}
 {% endblock %}
 
 {% block breadcrumbs %}

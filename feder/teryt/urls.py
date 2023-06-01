@@ -1,12 +1,8 @@
 from django.urls import re_path
 from django.utils.translation import gettext_lazy as _
-from teryt_tree.dal_ext.views import (
-    CountyAutocomplete,
-    VoivodeshipAutocomplete,
-)
+from teryt_tree.dal_ext.views import CountyAutocomplete, VoivodeshipAutocomplete
 
 from . import views
-
 
 urlpatterns = [
     re_path(_(r"^(?P<slug>[\w-]+)$"), views.JSTDetailView.as_view(), name="details"),

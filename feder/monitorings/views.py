@@ -1,8 +1,11 @@
+from datetime import datetime
+
+from ajax_datatable import AjaxDatatableView
 from atom.views import DeleteMessageMixin, UpdateMessageMixin
 from braces.views import (
-    MessageMixin,
     FormValidMessageMixin,
     LoginRequiredMixin,
+    MessageMixin,
     PermissionRequiredMixin,
     SelectRelatedMixin,
     UserFormKwargsMixin,
@@ -11,52 +14,65 @@ from cached_property import cached_property
 from dal import autocomplete
 from django.contrib import messages
 from django.contrib.auth import get_user_model
-from guardian.utils import get_anonymous_user
+from django.contrib.syndication.views import Feed
 from django.core.exceptions import PermissionDenied
-from django.urls import reverse, reverse_lazy
 from django.db.models import Count, Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
-from django.utils.translation import gettext_lazy as _
+from django.template.defaultfilters import linebreaksbr
+from django.urls import reverse, reverse_lazy
+from django.utils import timezone
+from django.utils.encoding import force_str
+from django.utils.feedgenerator import Atom1Feed
 from django.utils.http import urlencode
+from django.utils.safestring import mark_safe
+from django.utils.translation import gettext_lazy as _
 from django.views.generic import (
     CreateView,
     DeleteView,
     DetailView,
     FormView,
+    TemplateView,
     UpdateView,
 )
-from django.contrib.syndication.views import Feed
-from django.utils.encoding import force_str
-from django.utils.feedgenerator import Atom1Feed
 from django_filters.views import FilterView
+from extra_views import CreateWithInlinesView
+from formtools.wizard.views import SessionWizardView
+from guardian.shortcuts import assign_perm
+from guardian.utils import get_anonymous_user
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from formtools.wizard.views import SessionWizardView
-from guardian.shortcuts import assign_perm
+
+from feder.cases.forms import CaseTagFilterForm
 from feder.cases.models import Case
+from feder.cases_tags.models import Tag
 from feder.institutions.filters import InstitutionFilter
 from feder.institutions.models import Institution
+from feder.letters.formsets import AttachmentInline
 from feder.letters.models import Letter
+from feder.letters.utils import is_formatted_html, text_to_html
+from feder.letters.views import LetterCommonMixin
 from feder.main.mixins import ExtraListMixin, RaisePermissionRequiredMixin
 from feder.main.paginator import DefaultPagination
-from feder.cases_tags.models import Tag
-from .filters import MonitoringFilter, MonitoringCaseReportFilter
+from feder.main.utils import DeleteViewLogEntryMixin, FormValidLogEntryMixin
+
+from .filters import (
+    MonitoringCaseAreaFilter,
+    MonitoringCaseReportFilter,
+    MonitoringFilter,
+)
 from .forms import (
+    CheckboxTranslatedUserObjectPermissionsForm,
+    MassMessageForm,
     MonitoringForm,
     SaveTranslatedUserObjectPermissionsForm,
     SelectUserForm,
-    CheckboxTranslatedUserObjectPermissionsForm,
-    MassMessageForm,
 )
 from .models import Monitoring
 from .permissions import MultiCaseTagManagementPerm
 from .serializers import MultiCaseTagSerializer
 from .tasks import handle_mass_assign, send_mass_draft
-from feder.letters.formsets import AttachmentInline
-from feder.letters.views import LetterCommonMixin
-from extra_views import CreateWithInlinesView
 
 
 class MonitoringListView(SelectRelatedMixin, FilterView):
@@ -75,6 +91,307 @@ class MonitoringListView(SelectRelatedMixin, FilterView):
         )
 
 
+class MonitoringsTableView(TemplateView):
+    """
+    View for displaying template with Monitorings table.
+    """
+
+    template_name = "monitorings/monitorings_table.html"
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["header_label"] = mark_safe(_("Monitorings search table"))
+        context["ajax_datatable_url"] = reverse(
+            "monitorings:monitorings_table_ajax_data"
+        )
+        return context
+
+
+class MonitoringsAjaxDatatableView(AjaxDatatableView):
+    """
+    View to provide table list of all Monitorings with ajax data.
+    """
+
+    model = Monitoring
+    title = _("Monitorings")
+    initial_order = [
+        ["id", "desc"],
+    ]
+    length_menu = [[200, 20, 50, 100], [200, 20, 50, 100]]
+    search_values_separator = "|"
+    column_defs = [
+        AjaxDatatableView.render_row_tools_column_def(),
+        {"name": "id", "visible": True, "title": "Id"},
+        {
+            "name": "created_str",
+            "visible": True,
+            "width": 130,
+            # "max_length": 16,
+            "title": _("Created"),
+        },
+        {
+            "name": "name",
+            "visible": True,
+            "width": 300,
+            "title": _("Name"),
+        },
+        {
+            "name": "description",
+            "visible": True,
+            "width": 300,
+            "title": _("Description"),
+        },
+        {
+            "name": "user",
+            "visible": True,
+            "title": _("User"),
+            "foreign_field": "user__username",
+        },
+        {
+            "name": "case_count",
+            "visible": True,
+            "searchable": False,
+            "title": _("Case count"),
+        },
+        {
+            "name": "case_quarantined_count",
+            "visible": True,
+            "searchable": False,
+            "title": _("Case quarantined count"),
+        },
+        {
+            "name": "case_confirmation_received_count",
+            "visible": True,
+            "searchable": False,
+            "title": _("Confirmation received count"),
+        },
+        {
+            "name": "case_response_received_count",
+            "visible": True,
+            "searchable": False,
+            "title": _("Response received count"),
+        },
+        {
+            "name": "hide_new_cases",
+            "visible": True,
+            "title": _("Hide new cases when assigning?"),
+            "searchable": False,
+        },
+        {
+            "name": "is_public",
+            "visible": True,
+            "title": _("Is public visible?"),
+            "searchable": False,
+        },
+        {
+            "name": "notify_alert",
+            "visible": True,
+            "title": _("Notify about alerts"),
+            "searchable": False,
+        },
+    ]
+
+    def get_initial_queryset(self, request=None):
+        qs = super().get_initial_queryset(request).prefetch_related()
+        return (
+            qs.for_user(user=self.request.user)
+            .with_formatted_datetime("created", timezone.get_default_timezone())
+            .with_case_count()
+            .with_case_confirmation_received_count()
+            .with_case_response_received_count()
+            .with_case_quarantined_count()
+        )
+
+    def render_row_details(self, pk, request=None):
+        obj = self.model.objects.filter(id=pk).first()
+        fields_to_skip = [
+            "slug",
+        ]
+        fields = [
+            f.name
+            for f in obj._meta.get_fields()
+            if f.concrete and f.name not in fields_to_skip
+        ]
+        html = '<table class="table table-bordered compact" style="max-width: 70%;">'
+        for field in fields:
+            try:
+                value = getattr(obj, field) or ""
+                if field in ["template", "email_footer", "description"]:
+                    value = (
+                        mark_safe(value)
+                        if is_formatted_html(value)
+                        else mark_safe(linebreaksbr(value.replace("\r", "")))
+                    )
+                elif isinstance(value, datetime):
+                    value = timezone.localtime(value).strftime("%Y-%m-%d %H:%M:%S")
+                elif field in ["hide_new_cases", "is_public", "notify_alert"]:
+                    value = _("Yes") if value else _("No")
+                verbose_n = obj._meta.get_field(field).verbose_name
+            except AttributeError:
+                continue
+            html += f'<tr><td style="width: 20%;">{verbose_n}</td><td>{value}</td></tr>'
+        html += "</table>"
+        return mark_safe(html)
+
+    def customize_row(self, row, obj):
+        row["name"] = obj.render_monitoring_cases_table_link()
+        row["hide_new_cases"] = obj.render_boolean_field("hide_new_cases")
+        row["is_public"] = obj.render_boolean_field("is_public")
+        row["notify_alert"] = obj.render_boolean_field("notify_alert")
+
+
+class MonitoringCasesTableView(FilterView):
+    """
+    View for displaying template with table of Monitoring Cases.
+    """
+
+    model = Monitoring
+    filterset_class = MonitoringCaseAreaFilter
+    template_name = "monitorings/monitoring_cases_table.html"
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        monitoring = Monitoring.objects.get(slug=self.kwargs.get("slug"))
+        context["header_label"] = mark_safe(
+            _("Monitoring Cases table - ") + monitoring.render_monitoring_link()
+        )
+        context["ajax_datatable_url"] = reverse(
+            "monitorings:monitoring_cases_table_ajax_data",
+            kwargs={"slug": self.kwargs.get("slug")},
+        )
+        context["datatable_id"] = "monitoring_cases_table"
+        context["area_filter_form"] = MonitoringCaseAreaFilter().form
+        context["tag_filter_form"] = CaseTagFilterForm(monitoring=monitoring)
+        return context
+
+
+class MonitoringCasesAjaxDatatableView(AjaxDatatableView):
+    """
+    View to provide table list of all Monitoring Cases with ajax data.
+    """
+
+    model = Case
+    title = _("Monitoring Cases")
+    initial_order = [
+        ["id", "desc"],
+    ]
+    length_menu = [[20, 50, 100], [20, 50, 100]]
+    search_values_separator = "|"
+    column_defs = [
+        AjaxDatatableView.render_row_tools_column_def(),
+        {"name": "id", "visible": True, "title": "Id"},
+        # {
+        #     "name": "created_str",
+        #     "visible": True,
+        #     "width": 130,
+        #     # "max_length": 16,
+        #     "title": _("Created"),
+        # },
+        {
+            "name": "name",
+            "visible": True,
+            # "width": 600,
+            "title": _("Name"),
+        },
+        {
+            "name": "institution",
+            "visible": True,
+            "title": _("Institution"),
+            "foreign_field": "institution__name",
+        },
+        {
+            "name": "institution_jst",
+            "visible": True,
+            "title": _("JST"),
+            "foreign_field": "institution__jst",
+            "searchable": False,
+        },
+        # {
+        #     "name": "record_max_str",
+        #     "visible": True,
+        #     "title": _("Last letter"),
+        #     "searchable": False,
+        # },
+        {
+            "name": "record_max",
+            "visible": True,
+            "title": _("Last letter"),
+            "searchable": False,
+            "width": 130,
+        },
+        {
+            "name": "record_count",
+            "visible": True,
+            "title": _("Letters count"),
+            "searchable": False,
+        },
+        {
+            "name": "tags",
+            "visible": True,
+            "title": _("Tags"),
+            "choices": False,
+            "autofilter": False,
+            "searchable": True,
+            "m2m_foreign_field": "tags__name",
+        },
+        {
+            "name": "confirmation_received",
+            "visible": True,
+            "title": _("Conf."),
+            "searchable": False,
+        },
+        {
+            "name": "response_received",
+            "visible": True,
+            "title": _("Resp."),
+            "searchable": False,
+        },
+        {
+            "name": "is_quarantined",
+            "visible": True,
+            "title": _("Quar."),
+            "searchable": False,
+        },
+    ]
+
+    def get_initial_queryset(self, request=None):
+        slug = self.kwargs.get("slug")
+        monitoring = Monitoring.objects.get(slug=slug)
+        qs = (
+            super()
+            .get_initial_queryset(request)
+            .filter(monitoring=monitoring)
+            .select_related(
+                "institution",
+                "institution__jst",
+            )
+            .prefetch_related()
+        )
+        qs = qs.ajax_boolean_filter(self.request, "conf_", "confirmation_received")
+        qs = qs.ajax_boolean_filter(self.request, "resp_", "response_received")
+        qs = qs.ajax_boolean_filter(self.request, "quar_", "is_quarantined")
+        qs = qs.ajax_area_filter(self.request)
+        qs = qs.ajax_tags_filter(self.request)
+        return (
+            qs.for_user(user=self.request.user)
+            # .with_formatted_datetime("created", timezone.get_default_timezone())
+            .with_record_max()
+            # .with_record_max_str()
+            .with_record_count()
+        )
+
+    def customize_row(self, row, obj):
+        row["confirmation_received"] = obj.render_boolean_field("confirmation_received")
+        row["response_received"] = obj.render_boolean_field("response_received")
+        row["is_quarantined"] = obj.render_boolean_field("is_quarantined")
+        row["name"] = obj.render_case_link()
+        row["record_max"] = obj.record_max.strftime("%Y-%m-%d %H:%M:%S")
+        row["institution_jst"] = obj.institution.jst.tree_name
+
+    def get_latest_by(self, request):
+        return "record_max"
+
+
 class MonitoringDetailView(SelectRelatedMixin, ExtraListMixin, DetailView):
     model = Monitoring
     select_related = ["user"]
@@ -87,7 +404,12 @@ class MonitoringDetailView(SelectRelatedMixin, ExtraListMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         kwargs["url_extra_kwargs"] = {"slug": self.object.slug}
-        return super().get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
+        # context["voivodeship_table"] = self.generate_voivodeship_table(self.object)
+        context["voivodeship_table"] = mark_safe(
+            self.object.generate_voivodeship_table()
+        )
+        return context
 
     def get_object_list(self, obj):
         return (
@@ -109,7 +431,11 @@ class LetterListMonitoringView(SelectRelatedMixin, ExtraListMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         kwargs["url_extra_kwargs"] = {"slug": self.object.slug}
-        return super().get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
+        context["voivodeship_table"] = mark_safe(
+            self.object.generate_voivodeship_table()
+        )
+        return context
 
     def get_object_list(self, obj):
         return (
@@ -177,7 +503,11 @@ class DraftListMonitoringView(SelectRelatedMixin, ExtraListMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         kwargs["url_extra_kwargs"] = {"slug": self.object.slug}
-        return super().get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
+        context["voivodeship_table"] = mark_safe(
+            self.object.generate_voivodeship_table()
+        )
+        return context
 
     def get_object_list(self, obj):
         return (
@@ -195,8 +525,34 @@ class DraftListMonitoringView(SelectRelatedMixin, ExtraListMixin, DetailView):
         )
 
 
+class MonitoringTemplateView(DetailView):
+    model = Monitoring
+    template_name_suffix = "_template"
+    select_related = ["user"]
+
+    def get_context_data(self, **kwargs):
+        kwargs["url_extra_kwargs"] = {"slug": self.object.slug}
+        context = super().get_context_data(**kwargs)
+        context["voivodeship_table"] = mark_safe(
+            self.object.generate_voivodeship_table()
+        )
+        if is_formatted_html(self.object.template):
+            context["template"] = mark_safe(self.object.template)
+        else:
+            context["template"] = mark_safe(text_to_html(self.object.template))
+        if is_formatted_html(self.object.email_footer):
+            context["email_footer"] = mark_safe(self.object.email_footer)
+        else:
+            context["email_footer"] = mark_safe(text_to_html(self.object.email_footer))
+        return context
+
+
 class MonitoringCreateView(
-    LoginRequiredMixin, PermissionRequiredMixin, UserFormKwargsMixin, CreateView
+    LoginRequiredMixin,
+    PermissionRequiredMixin,
+    UserFormKwargsMixin,
+    FormValidLogEntryMixin,
+    CreateView,
 ):
     model = Monitoring
     template_name = "monitorings/monitoring_form.html"
@@ -233,6 +589,7 @@ class MonitoringUpdateView(
     UserFormKwargsMixin,
     UpdateMessageMixin,
     FormValidMessageMixin,
+    FormValidLogEntryMixin,
     UpdateView,
 ):
     model = Monitoring
@@ -241,7 +598,10 @@ class MonitoringUpdateView(
 
 
 class MonitoringDeleteView(
-    RaisePermissionRequiredMixin, DeleteMessageMixin, DeleteView
+    RaisePermissionRequiredMixin,
+    DeleteMessageMixin,
+    DeleteViewLogEntryMixin,
+    DeleteView,
 ):
     model = Monitoring
     success_url = reverse_lazy("monitorings:list")
@@ -355,7 +715,7 @@ class MonitoringAssignView(RaisePermissionRequiredMixin, FilterView):
         return self.LIMIT
 
     def get_queryset(self):
-        qs = super().get_queryset()
+        qs = super().get_queryset().order_by("name")
         return (
             qs.exclude(case__monitoring=self.monitoring.pk)
             .with_case_count()
@@ -372,14 +732,19 @@ class MonitoringAssignView(RaisePermissionRequiredMixin, FilterView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["monitoring"] = self.monitoring
+        context["is_filtered"] = self.is_filtered()
         return context
+
+    def is_filtered(self):
+        count = sum(1 for value in self.request.GET.values() if value)
+        return bool(self.request.GET and count > 0)
 
     def get_filterset_kwargs(self, filterset_class):
         kw = super().get_filterset_kwargs(filterset_class)
         return kw
 
     def post(self, request, *args, **kwargs):
-        if not request.GET:
+        if not self.is_filtered():
             msg = _("You can not send letters without using filtering.")
             messages.error(self.request, msg)
             return HttpResponseRedirect(self.request.path)

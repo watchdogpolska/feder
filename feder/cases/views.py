@@ -5,22 +5,26 @@ from braces.views import (
     SelectRelatedMixin,
     UserFormKwargsMixin,
 )
-
 from cached_property import cached_property
 from dal import autocomplete
-from django.urls import reverse_lazy
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
+from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
 from django_filters.views import FilterView
 
-from feder.main.mixins import RaisePermissionRequiredMixin
+from feder.main.mixins import (
+    DisableOrderingListViewMixin,
+    PerformantPagintorMixin,
+    RaisePermissionRequiredMixin,
+)
+from feder.main.utils import DeleteViewLogEntryMixin, FormValidLogEntryMixin
 from feder.monitorings.models import Monitoring
+
 from .filters import CaseFilter
 from .forms import CaseForm
 from .models import Case
-from feder.main.mixins import DisableOrderingListViewMixin, PerformantPagintorMixin
 
 _("Case index")
 
@@ -50,7 +54,11 @@ class CaseDetailView(SelectRelatedMixin, PrefetchRelatedMixin, DetailView):
 
 
 class CaseCreateView(
-    RaisePermissionRequiredMixin, UserFormKwargsMixin, CreateMessageMixin, CreateView
+    RaisePermissionRequiredMixin,
+    UserFormKwargsMixin,
+    CreateMessageMixin,
+    FormValidLogEntryMixin,
+    CreateView,
 ):
     model = Case
     form_class = CaseForm
@@ -79,6 +87,7 @@ class CaseUpdateView(
     UserFormKwargsMixin,
     UpdateMessageMixin,
     FormValidMessageMixin,
+    FormValidLogEntryMixin,
     UpdateView,
 ):
     model = Case
@@ -92,7 +101,12 @@ class CaseUpdateView(
         return super().get_permission_object().monitoring
 
 
-class CaseDeleteView(RaisePermissionRequiredMixin, DeleteMessageMixin, DeleteView):
+class CaseDeleteView(
+    RaisePermissionRequiredMixin,
+    DeleteMessageMixin,
+    DeleteViewLogEntryMixin,
+    DeleteView,
+):
     model = Case
     success_url = reverse_lazy("cases:list")
     permission_required = "monitorings.delete_case"

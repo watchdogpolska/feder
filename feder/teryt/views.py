@@ -1,5 +1,15 @@
 from django.views.generic import DetailView, ListView
 from teryt_tree.dal_ext.views import CommunityAutocomplete
+from teryt_tree.models import JednostkaAdministracyjna
+from teryt_tree.rest_framework_ext.serializers import JednostkaAdministracyjnaSerializer
+from teryt_tree.rest_framework_ext.viewsets import JednostkaAdministracyjnaFilter
+
+try:
+    from django_filters import rest_framework as filters
+except ImportError:  # Back-ward compatible for django-rest-framework<3.7
+    from rest_framework import filters
+
+from rest_framework import viewsets
 
 from feder.teryt.models import JST
 
@@ -12,9 +22,11 @@ class JSTDetailView(DetailView):
         context["case_qs"] = (
             context["object"].case_qs().for_user(self.request.user).all()
         )
+        context["case_qs_count"] = context["case_qs"].count()
         context["institution_qs"] = (
             context["object"].institution_qs().for_user(self.request.user).all()
         )
+        context["institution_qs_count"] = context["institution_qs"].count()
         return context
 
 
@@ -61,3 +73,14 @@ class CustomCommunityAutocomplete(JSTAutocompleteMixin, CommunityAutocomplete):
 
 class JSTAutocomplete(JSTAutocompleteMixin, CommunityAutocomplete):
     pass
+
+
+class TerytViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = (
+        JednostkaAdministracyjna.objects.select_related("category")
+        .prefetch_related("children")
+        .all()
+    )
+    serializer_class = JednostkaAdministracyjnaSerializer
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_class = JednostkaAdministracyjnaFilter

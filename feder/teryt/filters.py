@@ -1,7 +1,7 @@
 from dal import autocomplete
 from django.utils.translation import gettext_lazy as _
+from teryt_tree.dal_ext.filters import CommunityFilter, CountyFilter, VoivodeshipFilter
 
-from teryt_tree.dal_ext.filters import VoivodeshipFilter, CountyFilter, CommunityFilter
 from feder.main.mixins import DisabledWhenFilterMixin
 
 

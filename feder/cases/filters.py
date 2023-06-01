@@ -1,21 +1,22 @@
 import django_filters
 from dal import autocomplete
 from django import forms
+from django.utils.timezone import now
 from django.utils.translation import gettext_lazy as _
-from teryt_tree.dal_ext.filters import VoivodeshipFilter, CountyFilter, CommunityFilter
+from teryt_tree.dal_ext.filters import CommunityFilter, CountyFilter, VoivodeshipFilter
+
+from feder.cases_tags.models import Tag
+from feder.letters.logs.models import STATUS as EMAIL_LOG_STATUS
+from feder.main.filters import InitialFilterSet, MinYearRangeFilter
+from feder.main.mixins import DisabledWhenFilterSetMixin
+from feder.monitorings.models import Monitoring
+from feder.teryt.filters import (
+    DisabledWhenCommunityFilter,
+    DisabledWhenCountyFilter,
+    DisabledWhenVoivodeshipFilter,
+)
 
 from .models import Case
-from feder.main.mixins import DisabledWhenFilterSetMixin
-from feder.teryt.filters import (
-    DisabledWhenVoivodeshipFilter,
-    DisabledWhenCountyFilter,
-    DisabledWhenCommunityFilter,
-)
-from feder.cases_tags.models import Tag
-from feder.monitorings.models import Monitoring
-from feder.letters.logs.models import STATUS as EMAIL_LOG_STATUS
-from django.utils.timezone import now
-from feder.main.filters import InitialFilterSet, MinYearRangeFilter
 
 
 class CaseFilter(DisabledWhenFilterSetMixin, InitialFilterSet):

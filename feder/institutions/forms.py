@@ -1,6 +1,6 @@
 from atom.ext.crispy_forms.forms import SingleButtonMixin
 from braces.forms import UserKwargModelFormMixin
-from crispy_forms.layout import Layout, Fieldset
+from crispy_forms.layout import Fieldset, Layout
 from dal import autocomplete
 from django import forms
 

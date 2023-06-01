@@ -1,21 +1,30 @@
 import uuid
-from functools import lru_cache
+from datetime import timedelta
 from email.headerregistry import Address
+from functools import lru_cache
 
 from autoslug.fields import AutoSlugField
 from django.apps import apps
 from django.conf import settings
-from django.db import models
-from django.db.models import Max, Prefetch, Q, Subquery, OuterRef
-from django.urls import reverse
-from django.utils.translation import gettext_lazy as _
-from model_utils.models import TimeStampedModel
 from django.contrib.auth.models import Permission
 from django.contrib.contenttypes.models import ContentType
-from feder.institutions.models import Institution
-from feder.monitorings.models import Monitoring, MonitoringUserObjectPermission
+from django.db import models
+from django.db.models import Max, OuterRef, Prefetch, Q, Subquery
+from django.db.models.functions import Cast, Trunc
+from django.urls import reverse
 from django.utils.timezone import datetime
-from datetime import timedelta
+from django.utils.translation import gettext_lazy as _
+from model_utils.models import TimeStampedModel
+
+from feder.institutions.models import Institution
+from feder.main.utils import (
+    FormattedDatetimeMixin,
+    RenderBooleanFieldMixin,
+    get_numeric_param,
+    get_param,
+)
+from feder.monitorings.models import Monitoring, MonitoringUserObjectPermission
+from feder.teryt.models import JST
 
 
 def enforce_quarantined_queryset(queryset, user, path_case):
@@ -32,7 +41,7 @@ def get_quarantined_perm():
     return Permission.objects.get(content_type=ctype, codename="view_quarantined_case")
 
 
-class CaseQuerySet(models.QuerySet):
+class CaseQuerySet(FormattedDatetimeMixin, models.QuerySet):
     def with_record_count(self):
         return self.annotate(record_count=models.Count("record"))
 
@@ -51,8 +60,8 @@ class CaseQuerySet(models.QuerySet):
         )
 
     def with_letter(self):
-        from feder.records.models import Record
         from feder.letters.models import Letter
+        from feder.records.models import Record
 
         record_queryset = (
             Record.objects.with_author()
@@ -115,6 +124,13 @@ class CaseQuerySet(models.QuerySet):
     def with_record_max(self):
         return self.annotate(record_max=Max("record__created"))
 
+    def with_record_max_str(self):
+        return self.annotate(
+            record_max_str=Cast(
+                Trunc(Max("record__created"), "second"), output_field=models.CharField()
+            )
+        )
+
     def for_user(self, user):
         if user.is_anonymous:
             return self.filter(is_quarantined=False, monitoring__is_public=True)
@@ -136,8 +152,45 @@ class CaseQuerySet(models.QuerySet):
             if not self.filter(mass_assign=uid).exists():
                 return uid
 
+    def ajax_boolean_filter(self, request, prefix, field):
+        filter_values = []
+        for choice in [("yes", True), ("no", False)]:
+            filter_name = prefix + choice[0]
+            if get_numeric_param(request, filter_name):
+                filter_values.append(choice[1])
+        if filter_values:
+            return self.filter(**{field + "__in": filter_values})
+        else:
+            return self.filter(**{field + "__isnull": True})
 
-class Case(TimeStampedModel):
+    def ajax_area_filter(self, request):
+        voivodeship_id = get_param(request, "voivodeship_filter")
+        county_id = get_param(request, "county_filter")
+        community_id = get_param(request, "community_filter")
+        qs = self
+        if community_id:
+            community_filter = JST.objects.filter(pk=community_id).first()
+            qs = qs.area(jst=community_filter)
+        if county_id:
+            county_filter = JST.objects.filter(pk=county_id).first()
+            qs = qs.area(jst=county_filter)
+        if voivodeship_id:
+            voivodeship_filter = JST.objects.filter(pk=voivodeship_id).first()
+            qs = qs.area(jst=voivodeship_filter)
+        return qs
+
+    def ajax_tags_filter(self, request):
+        tags = get_param(request, "tags_filter")
+        if tags:
+            tag_ids = tags.split(",")
+            qs = self
+            for tag_id in tag_ids:
+                qs = qs.filter(tags__id=tag_id)
+            return qs
+        return self
+
+
+class Case(RenderBooleanFieldMixin, TimeStampedModel):
     name = models.CharField(verbose_name=_("Name"), max_length=100)
     slug = AutoSlugField(
         populate_from="name", verbose_name=_("Slug"), max_length=110, unique=True
@@ -185,6 +238,13 @@ class Case(TimeStampedModel):
     def get_absolute_url(self):
         return reverse("cases:details", kwargs={"slug": self.slug})
 
+    def render_case_link(self):
+        url = self.get_absolute_url()
+        label = self.name
+        bold_start = "" if self.is_quarantined else "<b>"
+        bold_end = "" if self.is_quarantined else "</b>"
+        return f'{bold_start}<a href="{url}">{label}</a>{bold_end}'
+
     def update_email(self):
         self.email = settings.CASE_EMAIL_TEMPLATE.format(
             pk=self.pk, domain=self.monitoring.domain.name
@@ -226,6 +286,10 @@ class Case(TimeStampedModel):
             .objects.filter(record__case=self)
             .exists()
         )
+
+    @property
+    def letter_count(self):
+        return self.record_set.all().count()
 
     @property
     def tags_str(self):

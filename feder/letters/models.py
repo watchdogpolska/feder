@@ -4,29 +4,38 @@ import uuid
 from atom.models import AttachmentBase
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.files.base import ContentFile
-from django.core.mail.message import make_msgid, EmailMultiAlternatives
-from django.contrib.contenttypes.fields import GenericRelation
-from django.template.loader import render_to_string
-from django.urls import reverse
+from django.core.mail.message import EmailMultiAlternatives, make_msgid
 from django.db import models
 from django.db.models.manager import BaseManager
+from django.template.loader import render_to_string
+from django.urls import reverse
+from django.utils import timezone
 from django.utils.encoding import force_str
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 from django_extensions.db.models import TimeStampedModel
 from model_utils import Choices
-from feder.institutions.models import Institution
-from feder.records.models import AbstractRecord, AbstractRecordQuerySet, Record
-from feder.main.exceptions import FederValueError
-from feder.cases.models import Case
-from .utils import email_wrapper, normalize_msg_id, get_body_with_footer
-from ..virus_scan.models import Request as ScanRequest
-from django.utils import timezone
-from ..es_search.queries import more_like_this, find_document
-from feder.cases.models import enforce_quarantined_queryset
-from feder.main.utils import get_email_domain
+
+from feder.cases.models import Case, enforce_quarantined_queryset
 from feder.domains.models import Domain
+from feder.institutions.models import Institution
+from feder.main.exceptions import FederValueError
+from feder.main.utils import get_email_domain
+from feder.records.models import AbstractRecord, AbstractRecordQuerySet, Record
+
+from ..es_search.queries import find_document, more_like_this
+from ..virus_scan.models import Request as ScanRequest
+from .utils import (
+    html_email_wrapper,
+    html_to_text,
+    is_formatted_html,
+    normalize_msg_id,
+    text_email_wrapper,
+    text_to_html,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -130,7 +139,7 @@ class Letter(AbstractRecord):
         null=True,
         blank=True,
     )
-    title = models.CharField(verbose_name=_("Title"), max_length=200)
+    title = models.CharField(verbose_name=_("Subject"), max_length=200)
     body = models.TextField(verbose_name=_("Text"))
     html_body = models.TextField(verbose_name=_("Text in HTML"), blank=True)
     quote = models.TextField(verbose_name=_("Quote"), blank=True)
@@ -194,6 +203,10 @@ class Letter(AbstractRecord):
             ("recognize_letter", _("Can recognize letter")),
         )
 
+    def delete(self, *args, **kwargs):
+        self.record.delete()  # Delete the associated Record instance
+        super().delete(*args, **kwargs)
+
     @property
     def is_incoming(self):
         return not bool(self.author_user_id)
@@ -241,25 +254,60 @@ class Letter(AbstractRecord):
 
     @classmethod
     def send_new_case(cls, case):
+        context = {
+            "html_body": mark_safe(
+                case.monitoring.template
+                if is_formatted_html(case.monitoring.template)
+                else text_to_html(case.monitoring.template)
+            ),
+            "text_body": mark_safe(
+                html_to_text(case.monitoring.template)
+                if is_formatted_html(case.monitoring.template)
+                else case.monitoring.template
+            ),
+            "html_footer": mark_safe(
+                case.monitoring.email_footer
+                if is_formatted_html(case.monitoring.email_footer)
+                else text_to_html(case.monitoring.email_footer)
+            ),
+            "text_footer": mark_safe(
+                html_to_text(case.monitoring.email_footer)
+                if is_formatted_html(case.monitoring.email_footer)
+                else case.monitoring.email_footer
+            ),
+        }
         letter = cls(
             author_user=case.user,
+            email_from=str(case.get_email_address()),
             record=Record.objects.create(case=case),
             title=case.monitoring.subject,
-            body=case.monitoring.template,
+            html_body=render_to_string("letters/_letter_reply_body.html", context),
+            body=render_to_string("letters/_letter_reply_body.txt", context),
         )
         letter.send(commit=True, only_email=False)
         return letter
 
     def _email_context(self):
         body = self.body.replace("{{EMAIL}}", self.case.email)
-        return {
-            "body": body,
-            "footer": self.case.monitoring.email_footer,
-            "quote": email_wrapper(self.quote),
+        html_body = self.html_body.replace("{{EMAIL}}", self.case.email)
+        quote = self.quote.replace("{{EMAIL}}", self.case.email)
+        html_quote = self.html_quote.replace("{{EMAIL}}", self.case.email)
+        context = {
+            "html_body": mark_safe(html_body),
+            "text_body": mark_safe(body),
+            # "html_footer": mark_safe(self.case.monitoring.email_footer),
+            # "text_footer": mark_safe(html_to_text(self.case.monitoring.email_footer)),
+            "text_quote": mark_safe(text_email_wrapper(quote)),
+            "html_quote": mark_safe(html_email_wrapper(html_quote)),
         }
+        return context
 
-    def body_with_footer(self):
-        return get_body_with_footer(self.body, self.case.monitoring.email_footer)
+    def html_body_with_footer(self):
+        context = {
+            "html_body": mark_safe(self.html_body),
+            "html_footer": mark_safe(self.case.monitoring.email_footer),
+        }
+        return render_to_string("letters/_letter_reply_body.html", context)
 
     def email_body(self):
         context = self._email_context()
@@ -276,7 +324,9 @@ class Letter(AbstractRecord):
             headers["Message-ID"] = msg_id
         html_content, txt_content = self.email_body()
         msg = EmailMultiAlternatives(
-            subject=self.case.monitoring.subject,
+            subject=(
+                self.case.monitoring.subject if self.is_mass_draft() else self.title
+            ),
             from_email=str(self.case.get_email_address()),
             reply_to=[self.case.email],
             to=[self.case.institution.email],
@@ -303,7 +353,15 @@ class Letter(AbstractRecord):
 
         # preparing letter content
         letter_data = {}
-        for name in ["author_user", "title", "body", "quote", "note"]:
+        for name in [
+            "author_user",
+            "title",
+            "html_body",
+            "html_quote",
+            "body",
+            "quote",
+            "note",
+        ]:
             letter_data[name] = getattr(self, name)
         letter_data["is_draft"] = False
         letter_data["message_type"] = self.MESSAGE_TYPES.regular

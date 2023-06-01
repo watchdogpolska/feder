@@ -11,6 +11,9 @@ from guardian.models import GroupObjectPermissionBase, UserObjectPermissionBase
 from model_utils.models import TimeStampedModel
 
 from feder.domains.models import Domain
+from feder.main.utils import FormattedDatetimeMixin, RenderBooleanFieldMixin
+from feder.teryt.models import JST
+
 from .validators import validate_template_syntax
 
 _("Monitorings index")
@@ -21,9 +24,42 @@ _("Can delete Monitoring")
 NOTIFY_HELP = _("Notify about new alerts person who can view alerts")
 
 
-class MonitoringQuerySet(models.QuerySet):
+class MonitoringQuerySet(FormattedDatetimeMixin, models.QuerySet):
     def with_case_count(self):
         return self.annotate(case_count=models.Count("case"))
+
+    def with_case_confirmation_received_count(self):
+        """
+        function to annotate with case count
+        when case.confirmation_received field is True
+        """
+        return self.annotate(
+            case_confirmation_received_count=models.Count(
+                "case", filter=models.Q(case__confirmation_received=True)
+            )
+        )
+
+    def with_case_response_received_count(self):
+        """
+        function to annotate with case count
+        when case.response_received field is True
+        """
+        return self.annotate(
+            case_response_received_count=models.Count(
+                "case", filter=models.Q(case__response_received=True)
+            )
+        )
+
+    def with_case_quarantined_count(self):
+        """
+        function to annotate with case count
+        when case.is_quarantined field is True
+        """
+        return self.annotate(
+            case_quarantined_count=models.Count(
+                "case", filter=models.Q(case__is_quarantined=True)
+            )
+        )
 
     def area(self, jst):
         return self.filter(
@@ -45,7 +81,7 @@ class MonitoringQuerySet(models.QuerySet):
 
 
 @reversion.register()
-class Monitoring(TimeStampedModel):
+class Monitoring(RenderBooleanFieldMixin, TimeStampedModel):
     perm_model = "monitoringuserobjectpermission"
     name = models.CharField(verbose_name=_("Name"), max_length=100)
     slug = AutoSlugField(
@@ -121,6 +157,56 @@ class Monitoring(TimeStampedModel):
 
     def get_absolute_url(self):
         return reverse("monitorings:details", kwargs={"slug": self.slug})
+
+    def render_monitoring_link(self):
+        url = self.get_absolute_url()
+        label = self.name
+        bold_start = "" if not self.is_public else "<b>"
+        bold_end = "" if not self.is_public else "</b>"
+        return f'{bold_start}<a href="{url}">{label}</a>{bold_end}'
+
+    def get_monitoring_cases_table_url(self):
+        return reverse(
+            "monitorings:monitoring_cases_table",
+            kwargs={"slug": self.slug},
+        )
+
+    def render_monitoring_cases_table_link(self):
+        url = self.get_monitoring_cases_table_url()
+        label = self.name
+        bold_start = "" if not self.is_public else "<b>"
+        bold_end = "" if not self.is_public else "</b>"
+        return f'{bold_start}<a href="{url}">{label}</a>{bold_end}'
+
+    def generate_voivodeship_table(self):
+        """
+        Generate html table with monitoring voivodeships and their
+        institutions and cases counts
+        """
+        voivodeship_list = JST.objects.filter(category__level=1).all().order_by("name")
+        table = """
+            <table class="table table-bordered compact" style="width: 100%">
+            """
+        table += """
+            <tr>
+                <th>Województwo</th>
+                <th>Liczba spraw</th>
+                <th>Liczba spraw w kwarantannie</th>
+            </tr>"""
+        for voivodeship in voivodeship_list:
+            table += (
+                "<tr><td>"
+                + voivodeship.name
+                + "</td><td>"
+                + str(self.case_set.area(voivodeship).count())
+                + "</td><td>"
+                + str(
+                    self.case_set.filter(is_quarantined=True).area(voivodeship).count()
+                )
+                + "</td></tr>"
+            )
+        table += "</table>"
+        return table
 
     def permission_map(self):
         dataset = (

@@ -32,7 +32,7 @@
                     </div>
                 {% endif %}
                 <div class="gray">
-                    <h3 class="title">{% trans 'Subordinate units' %}</h3>
+                    <h3 class="title">{% trans 'Subordinate units' %}: {{object.children.with_category.all.count}}</h3>
                     <ul class="select-list">
                         {% for jst in object.children.with_category.all %}
                             <li><a href="{{ jst.get_absolute_url }}">{{ jst }} ({{ jst.category }})</a></li>
@@ -46,7 +46,7 @@
             <div class="red">
                 <h3 class="title">
                     <i class="fa fa-home"></i>
-                    {% trans 'Institutions' %}
+                    {% trans 'Institutions' %}: {{ institution_qs.count }}
                 </h3>
                 {% if institution_qs %}
                     {% include '_select_list.html' with object_list=institution_qs %}
@@ -59,7 +59,7 @@
             <div class="gray">
                 <h3 class="title">
                     <i class="fa fa-search"></i>
-                    {% trans 'Cases' %}
+                    {% trans 'Cases' %}: {{ case_qs.count }}
                 </h3>
                 {% if case_qs %}
                     {% include '_select_list.html' with object_list=case_qs %}

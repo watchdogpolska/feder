@@ -1,4 +1,5 @@
-from elasticsearch_dsl.query import MultiMatch, MoreLikeThis, Q
+from elasticsearch_dsl.query import MoreLikeThis, MultiMatch, Q
+
 from .documents import LetterDocument
 
 

@@ -7,9 +7,11 @@ https://docs.djangoproject.com/en/dev/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/dev/ref/settings/
 """
-import sys
 import os
+import sys
+
 import environ
+from django.utils.translation import gettext_lazy as _
 
 ROOT_DIR = environ.Path(__file__) - 3  # (/a/b/myfile.py - 3 = /)
 APPS_DIR = ROOT_DIR.path("feder")
@@ -39,6 +41,8 @@ THIRD_PARTY_APPS = (
     "allauth.socialaccount",  # registration
     "dal",
     "dal_select2",
+    "tinymce",
+    "ajax_datatable",
     "formtools",
     "mptt",
     "atom",
@@ -50,6 +54,7 @@ THIRD_PARTY_APPS = (
     "django_filters",
     "background_task",
     "corsheaders",
+    "rosetta",
 )
 
 # Local apps which should be put before any other apps
@@ -117,8 +122,22 @@ FIXTURE_DIRS = (str(APPS_DIR.path("fixtures")),)
 
 # EMAIL CONFIGURATION
 # ------------------------------------------------------------------------------
-EMAIL_BACKEND = env(
+EMAIL_BACKEND = env.str(
     "DJANGO_EMAIL_BACKEND", default="django.core.mail.backends.smtp.EmailBackend"
+)
+DEFAULT_FROM_EMAIL = env.str(
+    "DJANGO_DEFAULT_FROM_EMAIL", default="feder <noreply@dane.siecobywatelska.pl>"
+)
+EMAIL_HOST = env.str("DJANGO_EMAIL_HOST", default="localhost")
+EMAIL_PORT = env.str("DJANGO_EMAIL_PORT", default=25)
+EMAIL_USE_TLS = env.bool("DJANGO_EMAIL_USE_TLS", True)
+EMAIL_SUBJECT_PREFIX = env.str("DJANGO_EMAIL_SUBJECT_PREFIX", default="[feder] ")
+EMAIL_HOST_USER = env.str("DJANGO_EMAIL_HOST_USER", "")
+SERVER_EMAIL = EMAIL_HOST_USER
+# EMAIL production
+# ------------------------------------------------------------------------------
+SERVER_EMAIL = env.str(
+    "DJANGO_SERVER_EMAIL", default="feder <<noreply@dane.siecobywatelska.pl>"
 )
 
 # MANAGER CONFIGURATION
@@ -151,6 +170,8 @@ TIME_ZONE = "UTC"
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#language-code
 LANGUAGE_CODE = "pl"
+LANGUAGES = (("pl", _("Polish")), ("en", _("English")))
+LOCALE_PATHS = (str(APPS_DIR.path("main/locale")),)
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#site-id
 SITE_ID = 1
@@ -166,6 +187,9 @@ USE_TZ = True
 
 # Default format for datetime.strftime.method
 STRFTIME_FORMAT = "%Y-%m-%d %H:%M:%S"
+STRFTIME_DATE_FORMAT = "%Y-%m-%d"
+DATETIME_FORMAT = "Y-m-d H:i:s"
+DATE_FORMAT = "Y-m-d"
 
 # TEMPLATE CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -337,7 +361,9 @@ SOCIALACCOUNT_PROVIDERS = {
     "github": {"SCOPE": ["user"]},
     "gilab": {"SCOPE": ["read_user", "openid"]},
 }
-EMAIL_NOTIFICATION = env("EMAIL_NOTIFICATION", default="no-reply@siecobywatelska.pl")
+EMAIL_NOTIFICATION = env(
+    "DJANGO_EMAIL_NOTIFICATION", default="no-reply@siecobywatelska.pl"
+)
 
 EMAILLABS_APP_KEY = env("EMAILLABS_APP_KEY", default="Dummy")
 
@@ -390,3 +416,87 @@ ELASTICSEARCH_SHOW_SIMILAR = env("ELASTICSEARCH_SHOW_SIMILAR", default=False)
 
 # To avoid unwanted migrations when upgrading to Django 3.2
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
+
+# APP_MODE used to differentiate dev, demo and production environments
+# use DEV, DEMO and PROD values in env variable APP_MODE
+APP_MODE = env.str("APP_MODE", "DEMO")
+
+ROSETTA_SHOW_AT_ADMIN_PANEL = True
+
+# Rosetta translation settings
+ROSETTA_ENABLE_TRANSLATION_SUGGESTIONS = True
+ROSETTA_EXCLUDED_APPLICATIONS = (
+    "django.contrib.admin",  # for some reason does not exclue admin app
+    "django.contrib.auth",
+    "crispy_forms",  # Form layouts
+    "allauth",  # registration
+    "allauth.account",  # registration
+    "allauth.socialaccount",  # registration
+    "dal",
+    "dal_select2",
+    "tinymce",
+    "ajax_datatable",
+    "formtools",
+    "mptt",
+    "atom",
+    "guardian",
+    "teryt_tree",
+    "bootstrap_pagination",
+    "rest_framework",
+    "reversion",
+    "django_filters",
+    "background_task",
+    "corsheaders",
+    "rosetta",
+)
+AZURE_CLIENT_SECRET = env.str("ROSETTA_AZURE_CLIENT_SECRET", "")
+
+TINYMCE_DEFAULT_CONFIG = {
+    "theme": "silver",
+    # "height": 500,
+    "menubar": True,
+    "lineheight": 1,
+    "plugins": "advlist,autolink,lists,link,image,charmap,print,preview,anchor,"
+    "searchreplace,visualblocks,code,fullscreen,insertdatetime,media,table,paste,"
+    "code,help,wordcount",
+    "toolbar": "undo redo | formatselect | lineheight | fontsizeselect |"
+    "bold italic backcolor | alignleft aligncenter "
+    "alignright alignjustify | bullist numlist outdent indent | "
+    "charmap | removeformat | help",
+}
+
+BLEACH_ALLOWED_TAGS = {
+    "a",
+    "abbr",
+    "acronym",
+    "b",
+    "blockquote",
+    "code",
+    "em",
+    "h1",
+    "h2",
+    "h3",
+    "h4",
+    "h5",
+    "h6",
+    "strong",
+    "em",
+    "p",
+    "ul",
+    "ol",
+    "i",
+    "li",
+    "br",
+    "sub",
+    "sup",
+    "hr",
+    "pre",
+    "img",
+}
+
+BLEACH_ALLOWED_ATTRIBUTES = ALLOWED_ATTRIBUTES = {
+    "a": ["href", "title"],
+    "abbr": ["title"],
+    "acronym": ["title"],
+    "img": ["alt", "src", "title"],
+}

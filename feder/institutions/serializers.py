@@ -2,6 +2,7 @@ from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
 from feder.teryt.models import JST
+
 from .models import Institution, Tag
 
 
@@ -75,6 +76,14 @@ class InstitutionSerializer(serializers.HyperlinkedModelSerializer):
             "modified",
         )
         extra_kwargs = {"jst": {"view_name": "jednostkaadministracyjna-detail"}}
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        context = kwargs.get("context", {})
+        request = context.get("request")
+        user = request.user if request else None
+        if user and not request.user.is_authenticated:
+            self.fields.pop("email")
 
 
 class InstitutionCSVSerializer(InstitutionSerializer):

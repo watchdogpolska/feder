@@ -2,30 +2,34 @@ from unittest import skip
 from unittest.mock import Mock, patch
 
 from django.core import mail
-from django.urls import reverse
-from django.test import TestCase
-from guardian.shortcuts import assign_perm, get_user_perms
 from django.db.models import Count
+from django.test import TestCase
+from django.urls import reverse
+from guardian.shortcuts import assign_perm, get_user_perms
+
 from feder.cases.factories import CaseFactory
 from feder.cases.models import Case
+from feder.cases_tags.factories import TagFactory
 from feder.domains.factories import DomainFactory
 from feder.institutions.factories import InstitutionFactory
-from feder.letters.factories import IncomingLetterFactory, DraftLetterFactory
-from feder.letters.factories import OutgoingLetterFactory
+from feder.letters.factories import (
+    DraftLetterFactory,
+    IncomingLetterFactory,
+    OutgoingLetterFactory,
+)
+from feder.letters.models import Letter, MassMessageDraft
 from feder.main.tests import PermissionStatusMixin
 from feder.monitorings.filters import MonitoringFilter
 from feder.parcels.factories import IncomingParcelPostFactory, OutgoingParcelPostFactory
-from feder.teryt.factories import JSTFactory
 from feder.records.factories import RecordFactory
+from feder.teryt.factories import JSTFactory
 from feder.users.factories import UserFactory
-from feder.cases_tags.factories import TagFactory
-from feder.letters.models import Letter, MassMessageDraft
+
 from .factories import MonitoringFactory
-from .forms import MonitoringForm, MassMessageForm
+from .forms import MassMessageForm, MonitoringForm
 from .models import Monitoring
 from .serializers import MultiCaseTagSerializer
-from .tasks import send_letter_for_mass_assign, handle_mass_assign
-from feder.domains.factories import DomainFactory
+from .tasks import handle_mass_assign, send_letter_for_mass_assign
 
 EXAMPLE_DATA = {
     "name": "foo-bar-monitoring",
@@ -422,7 +426,9 @@ class MonitoringAssignViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
         institution_2 = InstitutionFactory(name="Office 2")
         InstitutionFactory()
         to_send_ids = [institution_1.pk, institution_2.pk]
-        self.client.post(self.get_url() + "?name=", data={"to_assign": to_send_ids})
+        self.client.post(
+            self.get_url() + "?name=Office", data={"to_assign": to_send_ids}
+        )
         self.send_all_pending()
         self.assertEqual(len(mail.outbox), 2)
         self.assertEqual(mail.outbox[0].to[0], institution_1.email)
@@ -434,7 +440,9 @@ class MonitoringAssignViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
         self.login_permitted_user()
         institution = InstitutionFactory(name="Office 1")
         to_send_ids = [institution.pk]
-        self.client.post(self.get_url() + "?name=", data={"to_assign": to_send_ids})
+        self.client.post(
+            self.get_url() + "?name=Office", data={"to_assign": to_send_ids}
+        )
         self.send_all_pending()
         case = Case.objects.filter(
             monitoring=self.monitoring, institution=institution
@@ -641,7 +649,13 @@ class MassMessageViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     def get_form_data(self, **kwargs):
         data = {}
         form = MassMessageForm(self.monitoring, user=self.user)
-        for field_name in ["recipients_tags", "title", "body", "quote", "note"]:
+        for field_name in [
+            "recipients_tags",
+            "title",
+            "html_body",
+            "html_quote",
+            "note",
+        ]:
             data[field_name] = kwargs.get(field_name) or form.fields[field_name]
         if "send" in kwargs.keys():
             data["send"] = "send"

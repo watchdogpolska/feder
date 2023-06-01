@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-01 12:35+0000\n"
+"POT-Creation-Date: 2023-05-31 15:22+0000\n"
 "PO-Revision-Date: 2021-01-29 01:44+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -20,79 +20,80 @@ msgstr ""
 "%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
 "X-Generator: Poedit 1.8.7.1\n"
 
-#: models.py:25
+#: feder/cases_tags/models.py:31
 msgid "Keep blank to make global"
 msgstr "Pozostaw puste, aby uczynić globalnym"
 
-#: models.py:27
+#: feder/cases_tags/models.py:33
 msgid "Name"
 msgstr "Nazwa"
 
-#: models.py:28
+#: feder/cases_tags/models.py:34
 msgid "Slug"
 msgstr "Identyfikator redakcyjny"
 
-#: models.py:44
+#: feder/cases_tags/models.py:50
 msgid "Tag"
 msgstr "Tag"
 
-#: models.py:45
+#: feder/cases_tags/models.py:51
 msgid "Tags"
 msgstr "Tagi"
 
-#: templates/cases_tags/_btn.html:10
+#: feder/cases_tags/templates/cases_tags/_btn.html:10
 msgid "Edit"
 msgstr "Edytuj"
 
-#: templates/cases_tags/_btn.html:15
+#: feder/cases_tags/templates/cases_tags/_btn.html:15
 msgid "Delete"
 msgstr "Usuń"
 
-#: templates/cases_tags/_btn.html:20
+#: feder/cases_tags/templates/cases_tags/_btn.html:20
 msgid "Create"
 msgstr "Utwórz"
 
-#: templates/cases_tags/base_tag.html:13 templates/cases_tags/base_tag.html:24
+#: feder/cases_tags/templates/cases_tags/base_tag.html:13
+#: feder/cases_tags/templates/cases_tags/base_tag.html:24
 msgid "Tags index"
 msgstr "Wykaz tagów"
 
-#: templates/cases_tags/tag_confirm_delete.html:9
+#: feder/cases_tags/templates/cases_tags/tag_confirm_delete.html:9
 msgid "Confirm delete"
 msgstr "Potwierdzenie usunięcia"
 
-#: templates/cases_tags/tag_form.html:24
+#: feder/cases_tags/templates/cases_tags/tag_form.html:24
 msgid "Add tag"
 msgstr "Dodaj tag"
 
-#: urls.py:8
+#: feder/cases_tags/urls.py:8
 msgid "^monitoring-(?P<monitoring>[\\d]+)$"
 msgstr "^monitoring-(?P<monitoring>[\\d]+)$"
 
-#: urls.py:13
+#: feder/cases_tags/urls.py:13
 msgid "^monitoring-(?P<monitoring>[\\d]+)/~create$"
 msgstr "^monitoring-(?P<monitoring>[\\d]+)/~create$"
 
-#: urls.py:18
+#: feder/cases_tags/urls.py:18
 msgid "^monitoring-(?P<monitoring>[\\d]+)/~autocomplete$"
 msgstr "^monitoring-(?P<monitoring>[\\d]+)/~autocomplete$"
 
-#: urls.py:23
+#: feder/cases_tags/urls.py:23
 msgid "^monitoring-(?P<monitoring>[\\d]+)/(?P<pk>[\\d]+)$"
 msgstr "^monitoring-(?P<monitoring>[\\d]+)/(?P<pk>[\\d]+)$"
 
-#: urls.py:28
+#: feder/cases_tags/urls.py:28
 msgid "^monitoring-(?P<monitoring>[\\d]+)/(?P<pk>[\\d]+)/~update$"
 msgstr "^monitoring-(?P<monitoring>[\\d]+)/(?P<pk>[\\d]+)/~update$"
 
-#: urls.py:33
+#: feder/cases_tags/urls.py:33
 msgid "^monitoring-(?P<monitoring>[\\d]+)/(?P<pk>[\\d]+)/~delete$"
 msgstr "^monitoring-(?P<monitoring>[\\d]+)/(?P<pk>[\\d]+)/~delete$"
 
-#: views.py:29
+#: feder/cases_tags/views.py:19
 msgid "Tag index"
 msgstr "Wykaz tagów"
 
-#: views.py:102
+#: feder/cases_tags/views.py:92
 #, python-brace-format
 msgid "{object} deleted!"
 msgstr "{object} usunięty!"
