@@ -54,6 +54,11 @@ class CaseReportSerializer(serializers.HyperlinkedModelSerializer):
             "response_received",
         )
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if not self.context["request"].user.is_authenticated:
+            self.fields.pop("institution_email")
+
     def get_institution_name(self, obj):
         return obj.institution.name
 
