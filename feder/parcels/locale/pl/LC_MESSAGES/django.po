@@ -8,17 +8,16 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-05-31 15:22+0000\n"
-"PO-Revision-Date: 2018-02-28 03:00+0100\n"
-"Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
+"PO-Revision-Date: 2023-06-01 11:09+0000\n"
+"Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: \n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n"
-"%100<12 || n%100>=14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n"
-"%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
+"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>=14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
 "X-Generator: Poedit 1.8.7.1\n"
+"X-Translated-Using: django-rosetta 0.9.9\n"
 
 #: feder/parcels/models.py:19
 msgid "Title"
@@ -56,7 +55,7 @@ msgstr "Przychodząca przesyłka pocztowa"
 
 #: feder/parcels/models.py:50
 msgid "Incoming parcel posts"
-msgstr "Wychodzące przesyłki pocztowe"
+msgstr "Przychodzące przesyłki pocztowe"
 
 #: feder/parcels/models.py:55
 #: feder/parcels/templates/parcels/outgoingparcelpost_detail.html:7

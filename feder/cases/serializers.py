@@ -13,6 +13,7 @@ class CaseSerializer(serializers.HyperlinkedModelSerializer):
         model = Case
         fields = (
             "pk",
+            "url",
             "name",
             "user",
             "institution",
@@ -20,6 +21,7 @@ class CaseSerializer(serializers.HyperlinkedModelSerializer):
             "created",
             "modified",
         )
+        extra_kwargs = {"url": {"view_name": "cases:details", "lookup_field": "slug"}}
 
 
 class CaseReportSerializer(serializers.HyperlinkedModelSerializer):
@@ -52,7 +54,17 @@ class CaseReportSerializer(serializers.HyperlinkedModelSerializer):
             "request_status",
             "confirmation_received",
             "response_received",
+            "url",
         )
+        extra_kwargs = {"url": {"view_name": "cases:details", "lookup_field": "slug"}}
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        context = kwargs.get("context", {})
+        request = context.get("request")
+        user = request.user if request else None
+        if user and not request.user.is_authenticated:
+            self.fields.pop("institution_email")
 
     def get_institution_name(self, obj):
         return obj.institution.name

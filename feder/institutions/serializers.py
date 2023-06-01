@@ -77,6 +77,14 @@ class InstitutionSerializer(serializers.HyperlinkedModelSerializer):
         )
         extra_kwargs = {"jst": {"view_name": "jednostkaadministracyjna-detail"}}
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        context = kwargs.get("context", {})
+        request = context.get("request")
+        user = request.user if request else None
+        if user and not request.user.is_authenticated:
+            self.fields.pop("email")
+
 
 class InstitutionCSVSerializer(InstitutionSerializer):
     jst_name = serializers.CharField(source="jst.name", read_only=True)
