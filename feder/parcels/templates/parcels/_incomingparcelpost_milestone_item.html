@@ -7,8 +7,8 @@
             <a href="{{ object.get_absolute_url }}">{{ object }}</a>
             <small>
                 {% trans 'by' %} <a href="{{ object.sender.get_absolute_url }}">{{ object.created_by }}</a>
-                <time datetime="{{ object.created }}"
-                      title="{{ object.created | naturaltime }}">{{ object.created }}</time>
+                <time datetime="{{ object.receive_date }}"
+                      title="{{ object.receive_date }}">{% trans 'received' %} {{ object.receive_date }}</time>
             </small>
         </h3>
         <p>{% trans 'Sender' %}: <i class="fa fa-home" aria-hidden="false"></i>
