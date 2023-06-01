@@ -13,6 +13,7 @@ class CaseSerializer(serializers.HyperlinkedModelSerializer):
         model = Case
         fields = (
             "pk",
+            "url",
             "name",
             "user",
             "institution",
@@ -20,6 +21,7 @@ class CaseSerializer(serializers.HyperlinkedModelSerializer):
             "created",
             "modified",
         )
+        extra_kwargs = {"url": {"view_name": "cases:details", "lookup_field": "slug"}}
 
 
 class CaseReportSerializer(serializers.HyperlinkedModelSerializer):
@@ -52,7 +54,9 @@ class CaseReportSerializer(serializers.HyperlinkedModelSerializer):
             "request_status",
             "confirmation_received",
             "response_received",
+            "url",
         )
+        extra_kwargs = {"url": {"view_name": "cases:details", "lookup_field": "slug"}}
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
