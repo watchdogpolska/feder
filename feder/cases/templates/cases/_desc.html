@@ -25,6 +25,10 @@
         <td><p>{{ object.letter_count }}</p></td>
     </tr>
     <tr>
+        <td><p><i class="fa fa-cubes"></i>&nbsp;{% trans 'Spam count' %}:&nbsp;</p></td>
+        <td><p>{{ object.spam_count }}</p></td>
+    </tr>
+    <tr>
         <td><p><i class="fa fa-check-circle"></i>&nbsp;{% trans 'Confirmation received' %}:&nbsp;</p></td>
         <td><p>{{ object.confirmation_received|boolean_icon }}</p></td>
     </tr>

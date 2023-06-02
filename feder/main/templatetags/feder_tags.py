@@ -1,8 +1,19 @@
+from bleach.sanitizer import Cleaner
 from django import template
 from django.conf import settings
 from django.utils.safestring import mark_safe
 
 from feder import get_version
+
+BODY_REPLY_TPL = "\n\nProsimy o odpowiedź na adres {{EMAIL}}"
+BODY_FOOTER_SEPERATOR = "\n\n--\n"
+
+
+cleaner = Cleaner(
+    tags=settings.BLEACH_ALLOWED_TAGS,
+    attributes=settings.BLEACH_ALLOWED_ATTRIBUTES,
+    strip=True,
+)
 
 register = template.Library()
 
@@ -43,3 +54,8 @@ def boolean_icon(value):
     elif value:
         return mark_safe('<span class="fa fa-check" style="color: green;"></span>')
     return mark_safe('<span class="fa fa-times" style="color: red;"></span>')
+
+
+@register.filter
+def sanitize_html(value):
+    return mark_safe(cleaner.clean(value))
