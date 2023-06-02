@@ -43,7 +43,15 @@ def get_quarantined_perm():
 
 class CaseQuerySet(FormattedDatetimeMixin, models.QuerySet):
     def with_record_count(self):
-        return self.annotate(record_count=models.Count("record"))
+        # return self.annotate(record_count=models.Count("record"))
+        return self.annotate(
+            record_count=models.Count(
+                models.Case(
+                    models.When(record__letters_letters__is_spam=2, then=None),
+                    default="record",
+                )
+            )
+        )
 
     def area(self, jst):
         return self.filter(
@@ -289,7 +297,11 @@ class Case(RenderBooleanFieldMixin, TimeStampedModel):
 
     @property
     def letter_count(self):
-        return self.record_set.all().count()
+        return self.record_set.exclude(letters_letters__is_spam=2).count()
+
+    @property
+    def spam_count(self):
+        return self.record_set.filter(letters_letters__is_spam=2).count()
 
     @property
     def tags_str(self):

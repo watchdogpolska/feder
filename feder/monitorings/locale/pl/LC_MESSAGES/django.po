@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-monitorings 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-31 15:22+0000\n"
-"PO-Revision-Date: 2023-05-31 15:23+0000\n"
+"POT-Creation-Date: 2023-06-02 14:23+0000\n"
+"PO-Revision-Date: 2023-06-02 14:26+0000\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -501,7 +501,6 @@ msgstr ""
 " a następnie potwierdź klikając w przycisk wybranej akcji."
 
 #: feder/monitorings/templates/monitorings/monitoring_template.html:14
-#| msgid "Subject"
 msgid "Email subject"
 msgstr "Temat e-mail"
 
@@ -648,13 +647,17 @@ msgstr "Instytucja"
 msgid "JST"
 msgstr "JST"
 
+#: feder/monitorings/views.py:313
+msgid "Application letter status"
+msgstr "Status wniosku"
+
 #: feder/monitorings/views.py:319
 msgid "Last letter"
 msgstr "Ostatni List"
 
 #: feder/monitorings/views.py:326
 msgid "Letters count"
-msgstr "Liczba Listów"
+msgstr "Liczba listów"
 
 #: feder/monitorings/views.py:332
 msgid "Tags"
@@ -672,26 +675,26 @@ msgstr "Odp.?"
 msgid "Quar."
 msgstr "Kwar.?"
 
-#: feder/monitorings/views.py:566
+#: feder/monitorings/views.py:577
 #, python-brace-format
 msgid "{0} created!"
 msgstr "{0} utworzony!"
 
-#: feder/monitorings/views.py:640
+#: feder/monitorings/views.py:651
 #, python-brace-format
 msgid "Permissions to {monitoring} updated!"
 msgstr "Uprawnienia dla {monitoring} zaktualizowane!"
 
-#: feder/monitorings/views.py:696
+#: feder/monitorings/views.py:707
 #, python-brace-format
 msgid "Permissions to {monitoring} of {user} updated!"
 msgstr "Uprawnienia do {monitoring} dla {user} zaktualizowane!"
 
-#: feder/monitorings/views.py:749
+#: feder/monitorings/views.py:760
 msgid "You can not send letters without using filtering."
 msgstr "Nie możesz wysyłać listów bez używania filtrowania."
 
-#: feder/monitorings/views.py:765
+#: feder/monitorings/views.py:776
 #, python-format
 msgid ""
 "You can not send %(count)d letters at once. The maximum is %(limit)d. Use "
@@ -700,7 +703,7 @@ msgstr ""
 "Nie możesz wysłać %(count)d listów na raz. Maksimum to %(limit)d. Użyj "
 "filtrowania."
 
-#: feder/monitorings/views.py:787
+#: feder/monitorings/views.py:798
 #, python-format
 msgid ""
 "%(count)d institutions was assigned to %(monitoring)s.  The requests "
@@ -709,21 +712,21 @@ msgstr ""
 "%(count)d instytucji zostało przypisanych do %(monitoring)s. Wysyłka "
 "wniosków została zaplanowana."
 
-#: feder/monitorings/views.py:839
+#: feder/monitorings/views.py:850
 #, python-brace-format
 msgid "Message \"{letter}\" has been scheduled for sending to {count} recipients!"
 msgstr "Wiadomość \"{letter}\" zaplanowana do wysyłki do {count} odbiorców!"
 
-#: feder/monitorings/views.py:846
+#: feder/monitorings/views.py:857
 #, python-brace-format
 msgid "Message {message} saved to review!"
 msgstr "Wiadomość {message} zapisana do przejrzenia!"
 
-#: feder/monitorings/views.py:898
+#: feder/monitorings/views.py:909
 msgid "Latest monitorings"
 msgstr "Ostatnie monitoringi"
 
-#: feder/monitorings/views.py:900
+#: feder/monitorings/views.py:911
 msgid "Updates on new monitorings on site"
 msgstr "Aktualizacje o nowych monitoringach na stronie"
 

@@ -50,6 +50,7 @@ from feder.cases_tags.models import Tag
 from feder.institutions.filters import InstitutionFilter
 from feder.institutions.models import Institution
 from feder.letters.formsets import AttachmentInline
+from feder.letters.logs.models import STATUS
 from feder.letters.models import Letter
 from feder.letters.utils import is_formatted_html, text_to_html
 from feder.letters.views import LetterCommonMixin
@@ -306,12 +307,12 @@ class MonitoringCasesAjaxDatatableView(AjaxDatatableView):
             "foreign_field": "institution__jst",
             "searchable": False,
         },
-        # {
-        #     "name": "record_max_str",
-        #     "visible": True,
-        #     "title": _("Last letter"),
-        #     "searchable": False,
-        # },
+        {
+            "name": "application_letter_status",
+            "visible": True,
+            "title": _("Application letter status"),
+            "choices": STATUS._doubles,
+        },
         {
             "name": "record_max",
             "visible": True,
@@ -376,7 +377,7 @@ class MonitoringCasesAjaxDatatableView(AjaxDatatableView):
             qs.for_user(user=self.request.user)
             # .with_formatted_datetime("created", timezone.get_default_timezone())
             .with_record_max()
-            # .with_record_max_str()
+            .with_application_letter_status()
             .with_record_count()
         )
 
@@ -385,11 +386,22 @@ class MonitoringCasesAjaxDatatableView(AjaxDatatableView):
         row["response_received"] = obj.render_boolean_field("response_received")
         row["is_quarantined"] = obj.render_boolean_field("is_quarantined")
         row["name"] = obj.render_case_link()
-        row["record_max"] = obj.record_max.strftime("%Y-%m-%d %H:%M:%S")
+        if obj.record_max:
+            row["record_max"] = obj.record_max.strftime("%Y-%m-%d %H:%M:%S")
+        else:
+            row["record_max"] = ""
         row["institution_jst"] = obj.institution.jst.tree_name
+        row["application_letter_status"] = self.get_satus_description(
+            obj.application_letter_status
+        )
 
     def get_latest_by(self, request):
         return "record_max"
+
+    def get_satus_description(self, choice):
+        if choice:
+            return STATUS.__getitem__(choice)
+        return ""
 
 
 class MonitoringDetailView(SelectRelatedMixin, ExtraListMixin, DetailView):
