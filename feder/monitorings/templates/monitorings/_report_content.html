@@ -37,6 +37,7 @@
             {% for case in object_list %}
             <tr>
                 <td class="table__col_checkbox centered centered_cell">
+                    {% if not case.institution.archival %}
                     <label for="select-case-{{ case.id }}">
                         <span class="sr-only">{% trans "case" %} {{ case.slug }}</span>
                         <input type="checkbox"
@@ -45,12 +46,16 @@
                                value="{{ case.id }}"
                                class="select-case-input">
                     </label>
+                    {% endif %}
                 </td>
                 <td>
                     <a href="{% url 'cases:details' slug=case.slug %}">
-                      {{ case.institution.name }}
+                      {{ case.institution }}
                     </a><br>
-                    {{ case.institution.email }}<br>
+                    {% if not case.institution.archival %}
+                        {{ case.institution.email }}
+                    {% endif %}
+                    <br>
                     {% if case.institution.regon %}
                       REGON: {{ case.institution.regon }}
                     {% endif %}

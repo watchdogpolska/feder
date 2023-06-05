@@ -83,4 +83,4 @@ class TerytViewSet(viewsets.ReadOnlyModelViewSet):
     )
     serializer_class = JednostkaAdministracyjnaSerializer
     filter_backends = (filters.DjangoFilterBackend,)
-    filter_class = JednostkaAdministracyjnaFilter
+    filterset_class = JednostkaAdministracyjnaFilter
