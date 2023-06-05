@@ -40,7 +40,7 @@
                     </li>
                 </ul>
             {% endif %}
-            {% if 'add_letter' in monitoring_perms %}
+            {% if 'add_letter' in monitoring_perms and not object.institution.archival %}
                 <a class="btn btn-default" href="{% url 'letters:create' case_pk=object.pk %}">
                     <i class="fa fa-envelope-square" aria-hidden="true"></i>
                     {% trans 'Add letter' %}

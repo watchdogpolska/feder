@@ -21,20 +21,22 @@
         {% endif %}
 
         {% if 'reply' in monitoring_perms or 'add_draft' in monitoring_perms %}
-            {% if object.is_draft %}
-                <a class="btn btn-primary" href="{% url 'letters:send' pk=object.pk %}">
-                    <i class="fa fa-send"></i>
-                    {% trans 'Send draft' %}
-                </a>
-            {% else %}
-                <a class="btn btn-primary" href="{% url 'letters:reply' pk=object.pk %}">
-                    <i class="fa fa-reply"></i>
-                    {% trans 'Reply' %}
-                </a>
+            {% if not object.case.institution.archival %}
+                {% if object.is_draft %}
+                    <a class="btn btn-primary" href="{% url 'letters:send' pk=object.pk %}">
+                        <i class="fa fa-send"></i>
+                        {% trans 'Send draft' %}
+                    </a>
+                {% else %}
+                    <a class="btn btn-primary" href="{% url 'letters:reply' pk=object.pk %}">
+                        <i class="fa fa-reply"></i>
+                        {% trans 'Reply' %}
+                    </a>
+                {% endif %}
             {% endif %}
         {% endif %}
 
-        {% if 'reply' in monitoring_perms and not object.author_institution_id %}
+        {% if 'reply' in monitoring_perms and not object.author_institution_id and not object.case.institution.archival %}
             <a class="btn btn-primary" href="{% url 'letters:resend' pk=object.pk %}">
                 <i class="fa fa-reply"></i>
                 {% trans 'Resend' %}
