@@ -27,6 +27,9 @@ class InstitutionQuerySet(models.QuerySet):
     def for_user(self, user):  # dummy (at that moment)
         return self
 
+    def active_only(self):
+        return self.filter(archival=False)
+
 
 @reversion.register()
 class Institution(TimeStampedModel):
@@ -51,6 +54,13 @@ class Institution(TimeStampedModel):
     )
     extra = JSONField(verbose_name="Unorganized additional information", blank=True)
     email = models.EmailField(verbose_name=_("Email of institution"))
+    archival = models.BooleanField(
+        default=False,
+        verbose_name=_("Archival institution"),
+        help_text=_(
+            "Archival institution can't be assigned to monitoring or mass mailing."
+        ),
+    )
     objects = InstitutionQuerySet.as_manager()
 
     class Meta:
@@ -59,6 +69,8 @@ class Institution(TimeStampedModel):
         ordering = ["name"]
 
     def __str__(self):
+        if self.archival:
+            return self.name + _(" (archival)")
         return self.name
 
     def get_absolute_url(self):

@@ -514,7 +514,7 @@ class MassMessageDraft(TimeStampedModel):
     def determine_cases(self):
         return Case.objects.filter(
             monitoring=self.monitoring, tags__in=self.recipients_tags.all()
-        )
+        ).filter(institution__archival=False)
 
 
 class AttachmentQuerySet(models.QuerySet):
