@@ -1,7 +1,6 @@
 {% extends 'institutions/base.html' %}
-{% load i18n %}
+{% load i18n feder_tags %}
 {% block title_prefix %}{% trans 'Institutions' %} - {{ object }} - {% endblock title_prefix %}
-{% load i18n %}
 {% block breadcrumbs %}
     <ol
         class="breadcrumb"
@@ -50,6 +49,7 @@
             <div class="red">
                 {% if request.user.is_authenticated %}
                     <p>{% trans "E-mail" %}: {{ object.email }}</p>
+                    <p>{% trans "Archival" %}: {{ object.archival|boolean_icon }}</p>
                 {% endif %}
                 {% if object.tags.all %}
                     <p>{% trans "Tags" %}: {% for tag in object.tags.all %}

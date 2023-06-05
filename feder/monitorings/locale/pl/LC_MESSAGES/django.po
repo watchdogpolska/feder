@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-monitorings 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-02 14:23+0000\n"
+"POT-Creation-Date: 2023-06-05 14:50+0000\n"
 "PO-Revision-Date: 2023-06-02 14:26+0000\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -15,7 +15,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.8.7.1\n"
 "X-Translated-Using: django-rosetta 0.9.9\n"
 
@@ -340,21 +341,21 @@ msgstr "potwierdzenie dostarczenia wniosku"
 msgid "response received"
 msgstr "otrzymano odpowiedź"
 
-#: feder/monitorings/templates/monitorings/_report_content.html:41
+#: feder/monitorings/templates/monitorings/_report_content.html:42
 msgid "case"
 msgstr "sprawa"
 
-#: feder/monitorings/templates/monitorings/_report_content.html:73
-#: feder/monitorings/templates/monitorings/_report_content.html:82
+#: feder/monitorings/templates/monitorings/_report_content.html:78
+#: feder/monitorings/templates/monitorings/_report_content.html:87
 msgid "yes"
 msgstr "tak"
 
-#: feder/monitorings/templates/monitorings/_report_content.html:76
-#: feder/monitorings/templates/monitorings/_report_content.html:85
+#: feder/monitorings/templates/monitorings/_report_content.html:81
+#: feder/monitorings/templates/monitorings/_report_content.html:90
 msgid "no"
 msgstr "nie"
 
-#: feder/monitorings/templates/monitorings/_report_content.html:91
+#: feder/monitorings/templates/monitorings/_report_content.html:96
 #: feder/monitorings/templates/monitorings/monitoring_draft_list.html:17
 #: feder/monitorings/templates/monitorings/monitoring_letter_list.html:17
 msgid "No rows."
@@ -497,8 +498,8 @@ msgid ""
 "Select tags to add or remove, select cases from the list below and then "
 "confirm by clicking selected action button."
 msgstr ""
-"Wybierz tagi, które chcesz dodać lub usunąć, wybierz sprawy z listy poniżej,"
-" a następnie potwierdź klikając w przycisk wybranej akcji."
+"Wybierz tagi, które chcesz dodać lub usunąć, wybierz sprawy z listy poniżej, "
+"a następnie potwierdź klikając w przycisk wybranej akcji."
 
 #: feder/monitorings/templates/monitorings/monitoring_template.html:14
 msgid "Email subject"
@@ -714,7 +715,8 @@ msgstr ""
 
 #: feder/monitorings/views.py:850
 #, python-brace-format
-msgid "Message \"{letter}\" has been scheduled for sending to {count} recipients!"
+msgid ""
+"Message \"{letter}\" has been scheduled for sending to {count} recipients!"
 msgstr "Wiadomość \"{letter}\" zaplanowana do wysyłki do {count} odbiorców!"
 
 #: feder/monitorings/views.py:857
