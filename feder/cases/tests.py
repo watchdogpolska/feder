@@ -47,7 +47,7 @@ class CaseListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
         response = self.client.get(self.get_url())
         self.assertNotContains(response, self.case.name)
 
-    def test_show_quaranited_for_authorized(self):
+    def test_show_quarantined_for_authorized(self):
         Case.objects.filter(pk=self.case.pk).update(is_quarantined=True)
         self.grant_permission("monitorings.view_quarantined_case")
         self.login_permitted_user()
