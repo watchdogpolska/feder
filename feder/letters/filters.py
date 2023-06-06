@@ -1,7 +1,6 @@
 from atom.ext.django_filters.filters import UserKwargFilterSetMixin
 from dal import autocomplete
 from django.db.models import Q
-from django.utils.timezone import now
 from django.utils.translation import gettext_lazy as _
 from django_filters import BooleanFilter
 
@@ -22,7 +21,7 @@ class LetterFilter(UserKwargFilterSetMixin, InitialFilterSet):
     has_eml = BooleanFilter(label=_("Has eml?"), method=has_eml)
 
     def __init__(self, *args, **kwargs):
-        kwargs["initial"] = {"created": now().year}
+        kwargs["initial"] = {"created": "week"}
         super().__init__(*args, **kwargs)
         self.filters["title"].lookup_expr = "icontains"
         self.filters["title"].label = _("Title")
