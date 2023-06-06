@@ -595,6 +595,12 @@ class AssignLetterFormView(
         form.save()
         return super().form_valid(form)
 
+    def get_success_url(self):
+        query_params = self.request.GET.copy()
+        query_string = query_params.urlencode()
+        success_url = reverse_lazy("letters:unrecognized_list") + "?" + query_string
+        return success_url
+
 
 class AttachmentXSendFileView(MixinGzipXSendFile, BaseXSendFileView):
     model = Attachment
