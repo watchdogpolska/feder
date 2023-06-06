@@ -11,13 +11,15 @@ from .models import Letter
 
 
 def has_eml(qs, name, value):
-    lookup = Q(eml__isnull=True) | Q(eml="")
+    if value is None:
+        return qs
+    lookup = Q(eml__isnull=True)
     return qs.exclude(lookup) if value else qs.filter(lookup)
 
 
 class LetterFilter(UserKwargFilterSetMixin, InitialFilterSet):
     created = MinYearRangeFilter(label=_("Creation date"))
-    eml = BooleanFilter(label=_("Has eml?"), method=has_eml)
+    has_eml = BooleanFilter(label=_("Has eml?"), method=has_eml)
 
     def __init__(self, *args, **kwargs):
         kwargs["initial"] = {"created": now().year}
@@ -29,7 +31,7 @@ class LetterFilter(UserKwargFilterSetMixin, InitialFilterSet):
         ].field.widget = autocomplete.ModelSelect2(url="institutions:autocomplete")
         self.filters["record__case__institution"].label = _("Institution")
         if not self.user.has_perm("letters.can_filter_eml"):
-            del self.filters["eml"]
+            del self.filters["has_eml"]
 
     class Meta:
         model = Letter
