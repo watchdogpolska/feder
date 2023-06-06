@@ -20,9 +20,9 @@ class MinYearRangeFilter(DateRangeFilter):
         if filters is None:
             filters = dict(DateRangeFilter.filters)
             for year in years:
-                filters[str(year)] = lambda qs, name: qs.filter(
+                filters[str(year)] = lambda qs, name, y=year: qs.filter(
                     **{
-                        "%s__year" % name: now().year,
+                        "%s__year" % name: y,
                     }
                 )
         super().__init__(choices=choices, filters=filters, *args, **kwargs)
