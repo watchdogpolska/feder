@@ -54,7 +54,7 @@ from feder.virus_scan.models import Request as ScanRequest
 
 from .filters import LetterFilter
 from .forms import AssignLetterForm, LetterForm, ReplyForm
-from .mixins import LetterObjectFeedMixin
+from .mixins import LetterObjectFeedMixin, LetterSummaryTableMixin
 from .models import Attachment, Letter, LetterEmailDomain
 
 _("Letters index")
@@ -110,6 +110,7 @@ class LetterListView(
     UserKwargFilterSetMixin,
     PrefetchRelatedMixin,
     SelectRelatedMixin,
+    LetterSummaryTableMixin,
     FilterView,
 ):
     filterset_class = LetterFilter
@@ -126,6 +127,11 @@ class LetterListView(
     def get_queryset(self):
         qs = super().get_queryset().exclude_spam()
         return qs.attachment_count().for_user(self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["summary_table"] = self.render_summary_table()
+        return context
 
 
 class LetterDetailView(SelectRelatedMixin, LetterCommonMixin, DetailView):
@@ -523,6 +529,7 @@ class UnrecognizedLetterListView(
     UserKwargFilterSetMixin,
     RaisePermissionRequiredMixin,
     PrefetchRelatedMixin,
+    LetterSummaryTableMixin,
     FilterView,
 ):
     filterset_class = LetterFilter
@@ -547,6 +554,7 @@ class UnrecognizedLetterListView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["object_list"] = self.update_object_list(context["object_list"])
+        context["summary_table"] = self.render_summary_table()
         return context
 
     def update_object_list(self, object_list):
