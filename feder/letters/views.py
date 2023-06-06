@@ -45,8 +45,6 @@ from feder.letters.settings import LETTER_RECEIVE_SECRET
 from feder.main.mixins import (
     AttrPermissionRequiredMixin,
     BaseXSendFileView,
-    DisableOrderingListViewMixin,
-    PerformantPagintorMixin,
     RaisePermissionRequiredMixin,
 )
 from feder.monitorings.models import Monitoring
@@ -110,10 +108,8 @@ class LetterCommonMixin:
 class LetterListView(
     LetterCommonMixin,
     UserKwargFilterSetMixin,
-    DisableOrderingListViewMixin,
     PrefetchRelatedMixin,
     SelectRelatedMixin,
-    PerformantPagintorMixin,
     FilterView,
 ):
     filterset_class = LetterFilter
@@ -125,6 +121,7 @@ class LetterListView(
         "record__case__institution",
     ]
     paginate_by = 25
+    ordering = "-pk"
 
     def get_queryset(self):
         qs = super().get_queryset().exclude_spam()
@@ -544,6 +541,7 @@ class UnrecognizedLetterListView(
             .get_queryset()
             .filter(record__case=None)
             .exclude(message_type=Letter.MESSAGE_TYPES.mass_draft)
+            .exclude_spam()
         )
 
     def get_context_data(self, **kwargs):
