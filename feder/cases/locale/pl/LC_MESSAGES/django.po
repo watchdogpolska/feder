@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cases 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-05 14:50+0000\n"
+"POT-Creation-Date: 2023-06-07 16:05+0000\n"
 "PO-Revision-Date: 2023-06-02 14:28+0000\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -20,29 +20,29 @@ msgstr ""
 "X-Generator: Poedit 1.8.7.1\n"
 "X-Translated-Using: django-rosetta 0.9.9\n"
 
-#: feder/cases/filters.py:23 feder/cases/templates/cases/_case_small.html:8
+#: feder/cases/filters.py:22 feder/cases/templates/cases/_case_small.html:8
 msgid "Creation date"
 msgstr "Data utworzenia"
 
-#: feder/cases/filters.py:32 feder/cases/models.py:202
+#: feder/cases/filters.py:31 feder/cases/models.py:202
 #: feder/cases/viewsets.py:39
 msgid "Name"
 msgstr "Nazwa"
 
-#: feder/cases/filters.py:55
+#: feder/cases/filters.py:54
 msgid "Institution name"
 msgstr "Nazwa instytucji"
 
-#: feder/cases/filters.py:73 feder/cases/forms.py:45 feder/cases/models.py:220
+#: feder/cases/filters.py:72 feder/cases/forms.py:45 feder/cases/models.py:220
 #: feder/cases/viewsets.py:46
 msgid "Tags"
 msgstr "Tagi"
 
-#: feder/cases/filters.py:76
+#: feder/cases/filters.py:75
 msgid "Application letter sending date"
 msgstr "Data wysyłki wniosku"
 
-#: feder/cases/filters.py:79
+#: feder/cases/filters.py:78
 msgid "Application letter status"
 msgstr "Status wniosku"
 
