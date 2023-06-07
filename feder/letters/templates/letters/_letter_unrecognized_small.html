@@ -12,7 +12,10 @@
 
 {% include 'letters/_object.html' %}
 
-{% crispy object.assign_form %}
+<form method="post" action="{% url 'letters:assign' pk=object.pk %}?{{ request.GET.urlencode }}q">
+    {% csrf_token %}
+    {% crispy object.assign_form %}
+</form>
 
 {% if object.eml %}
     <a class="btn btn-default" href="{% url 'letters:download' pk=object.pk %}">
