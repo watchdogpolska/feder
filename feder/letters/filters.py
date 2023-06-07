@@ -21,7 +21,7 @@ class LetterFilter(UserKwargFilterSetMixin, InitialFilterSet):
     has_eml = BooleanFilter(label=_("Has eml?"), method=has_eml)
 
     def __init__(self, *args, **kwargs):
-        kwargs["initial"] = {"created": "week"}
+        kwargs["initial"] = {"created": "year"}
         super().__init__(*args, **kwargs)
         self.filters["title"].lookup_expr = "icontains"
         self.filters["title"].label = _("Title")
