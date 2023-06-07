@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: letters 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-05 14:50+0000\n"
-"PO-Revision-Date: 2023-06-02 14:28+0000\n"
+"POT-Creation-Date: 2023-06-07 16:05+0000\n"
+"PO-Revision-Date: 2023-06-07 15:47+0000\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -37,20 +37,20 @@ msgstr "Monitoring"
 msgid "Letter"
 msgstr "List"
 
-#: feder/letters/filters.py:19
+#: feder/letters/filters.py:20
 #: feder/letters/templates/letters/_letter_metadata.html:24
 msgid "Creation date"
 msgstr "Data utworzenia"
 
-#: feder/letters/filters.py:20
+#: feder/letters/filters.py:21
 msgid "Has eml?"
 msgstr "Ma plik .eml?"
 
-#: feder/letters/filters.py:26
+#: feder/letters/filters.py:27
 msgid "Title"
 msgstr "Tytuł"
 
-#: feder/letters/filters.py:30
+#: feder/letters/filters.py:31
 msgid "Institution"
 msgstr "Instytucja"
 
@@ -311,6 +311,7 @@ msgid "Report spam"
 msgstr "Zgłoś spam"
 
 #: feder/letters/templates/letters/_btn.html:54
+#: feder/letters/templates/letters/_letter_unrecognized_small.html:31
 msgid "Mark spam"
 msgstr "Oznacz spam"
 
@@ -371,7 +372,7 @@ msgstr ""
 "%(created)s</time>\n"
 "            </small>"
 
-#: feder/letters/templates/letters/_letter_unrecognized_small.html:20
+#: feder/letters/templates/letters/_letter_unrecognized_small.html:24
 #: feder/letters/templates/letters/letter_detail.html:49
 msgid "Download letter"
 msgstr "Pobierz list"
@@ -462,11 +463,6 @@ msgstr "Potwierdź usuwanie"
 #: feder/letters/templates/letters/letter_detail.html:55
 msgid "Similar list"
 msgstr "Podobne listy"
-
-#: feder/letters/templates/letters/letter_filter.html:9
-#: feder/letters/templates/letters/letter_unrecognized_list.html:9
-msgid "Recognize letter"
-msgstr "Rozpoznaj list"
 
 #: feder/letters/templates/letters/letter_mark_spam.html:15
 msgid "Mark (non-)spam"
@@ -653,36 +649,36 @@ msgstr "^~przypisz-(?P<pk>[\\d-]+)$"
 msgid "^webhook$"
 msgstr "^webhook$"
 
-#: feder/letters/views.py:62
+#: feder/letters/views.py:60
 msgid "Letters index"
 msgstr "Wykaz listów"
 
-#: feder/letters/views.py:236
+#: feder/letters/views.py:239
 #, python-brace-format
 msgid "Reply {reply} to {letter} saved and send!"
 msgstr "Odpowiedź {reply} na {letter} zapisana i wysłana!"
 
-#: feder/letters/views.py:239
+#: feder/letters/views.py:242
 #, python-brace-format
 msgid "Reply {reply} to {letter} saved to review!"
 msgstr "Odpowiedź {reply} do listu {letter} zapisana do przejrzenia!"
 
-#: feder/letters/views.py:257
+#: feder/letters/views.py:260
 #, python-brace-format
 msgid ""
 "Message \"{letter}\" has been scheduled for sending to {count} recipients!"
 msgstr "Wiadomość \"{letter}\" zaplanowana do wysyłki do {count} odbiorców!"
 
-#: feder/letters/views.py:265
+#: feder/letters/views.py:268
 #, python-brace-format
 msgid "Reply \"{letter}\" has been sent to {institution}!"
 msgstr "Odpowiedź \"{letter}\" została wysłana do {institution}!"
 
-#: feder/letters/views.py:319
+#: feder/letters/views.py:322
 msgid "Latest letters on whole site"
 msgstr "Ostatnie listy na całej stronie"
 
-#: feder/letters/views.py:322
+#: feder/letters/views.py:325
 msgid ""
 "Updates on new letters on site including receving and sending in all "
 "monitorings."
@@ -690,57 +686,68 @@ msgstr ""
 "Aktualizacje wszystkich listów na stronie włączając w to listy przychodzące "
 "i wychodzące w wszystkich monitoringach."
 
-#: feder/letters/views.py:378
+#: feder/letters/views.py:381
 #, python-format
 msgid "Letter for monitoring %s"
 msgstr "Listy monitoringu %s"
 
-#: feder/letters/views.py:382
+#: feder/letters/views.py:385
 #, python-format
 msgid "Archive of letter for cases which involved in monitoring %s"
 msgstr "Archiwum listów w sprawach z monitoringu %s"
 
-#: feder/letters/views.py:398
+#: feder/letters/views.py:401
 #, python-format
 msgid "Letter for case %s"
 msgstr "Listy w sprawie %s"
 
-#: feder/letters/views.py:401
+#: feder/letters/views.py:404
 #, python-format
 msgid "Archive of letter for case %s"
 msgstr "Archiwum listów w sprawie %s"
 
-#: feder/letters/views.py:426
+#: feder/letters/views.py:429
 msgid "SPAM"
 msgstr "SPAM"
 
-#: feder/letters/views.py:433
+#: feder/letters/views.py:436
 msgid "Thanks for your help. The report was forwarded to responsible persons."
 msgstr ""
 "Dziękujemy za pomoc. Zgłoszenie zostało przekazane do odpowiedzialnych osób."
 
-#: feder/letters/views.py:470
+#: feder/letters/views.py:473
 msgid "The message was resend."
 msgstr "Wiadomość została wysłana ponownie."
 
-#: feder/letters/views.py:514
+#: feder/letters/views.py:517
 #, python-brace-format
 msgid "The letter {object} has been marked as valid."
 msgstr "List {object} został oznaczony jako spam i ukryty."
 
-#: feder/letters/views.py:517
+#: feder/letters/views.py:520
 #, python-brace-format
 msgid "The message {object} has been marked as spam and hidden."
 msgstr "List {object} został oznaczony jako spam i ukryty."
 
-#: feder/letters/views.py:571
+#: feder/letters/views.py:577
 #, python-format
 msgid "Assigned letter to case '%(case)s'"
 msgstr "Przypisano list do sprawy '%(case)s'"
 
-#: feder/letters/views.py:635
+#: feder/letters/views.py:647
 msgid "The file {} has been queued for scanning"
 msgstr "Plik {} został zakolejkowany do skanowania"
+
+#~ msgid "Recognize letter"
+#~ msgstr "Rozpoznaj list"
+
+#~| msgid "Letters index"
+#~ msgid "Letters assigned to case"
+#~ msgstr "Wykaz listów przypisanych do spraw"
+
+#~| msgid "Letters index"
+#~ msgid "Letters unassigned to case"
+#~ msgstr "Wykaz listów nieprzypisanych do spraw"
 
 #~ msgid "^(?P<pk>[\\d-]+)/~resend$"
 #~ msgstr "^(?P<pk>[\\d-]+)/~wyslij"

@@ -476,9 +476,7 @@ class LetterResendView(
         return self.object.case.get_absolute_url()
 
 
-class LetterMarkSpamView(
-    RaisePermissionRequiredMixin, CaseRequiredMixin, ActionMessageMixin, ActionView
-):
+class LetterMarkSpamView(RaisePermissionRequiredMixin, ActionMessageMixin, ActionView):
     template_name_suffix = "_mark_spam"
     model = Letter
     permission_required = "monitorings.spam_mark"
@@ -490,7 +488,9 @@ class LetterMarkSpamView(
         return self.object
 
     def get_permission_object(self):
-        return self.get_object().case.monitoring
+        if self.get_object().case:
+            return self.get_object().case.monitoring
+        return None
 
     def get_queryset(self):
         return (
@@ -522,7 +522,9 @@ class LetterMarkSpamView(
         )
 
     def get_success_url(self):
-        return self.object.case.get_absolute_url()
+        if self.get_object().case:
+            return self.object.case.get_absolute_url()
+        return reverse_lazy("letters:unrecognized_list")
 
 
 class UnrecognizedLetterListView(
