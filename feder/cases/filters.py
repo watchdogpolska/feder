@@ -1,7 +1,6 @@
 import django_filters
 from dal import autocomplete
 from django import forms
-from django.utils.timezone import now
 from django.utils.translation import gettext_lazy as _
 from teryt_tree.dal_ext.filters import CommunityFilter, CountyFilter, VoivodeshipFilter
 
@@ -26,7 +25,7 @@ class CaseFilter(DisabledWhenFilterSetMixin, InitialFilterSet):
     community = DisabledWhenCommunityFilter()
 
     def __init__(self, *args, **kwargs):
-        kwargs["initial"] = {"created": now().year}
+        kwargs["initial"] = {"created": "year"}
         super().__init__(*args, **kwargs)
         self.filters["name"].lookup_expr = "icontains"
         self.filters["name"].label = _("Name")

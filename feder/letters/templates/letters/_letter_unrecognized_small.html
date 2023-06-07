@@ -11,12 +11,24 @@
 </div>
 
 {% include 'letters/_object.html' %}
+<div class="row">
+    <div class="col-sm-10 col-xs-12">
+        <form method="post" action="{% url 'letters:assign' pk=object.pk %}?{{ request.GET.urlencode }}q">
+            {% csrf_token %}
+            {% crispy object.assign_form %}
+        </form>
 
-{% crispy object.assign_form %}
-
-{% if object.eml %}
-    <a class="btn btn-default" href="{% url 'letters:download' pk=object.pk %}">
-        <i class="fa fa-download"></i>
-        {% trans 'Download letter' %}
-    </a>
-{% endif %}
+        {% if object.eml %}
+            <a class="btn btn-default" href="{% url 'letters:download' pk=object.pk %}">
+                <i class="fa fa-download"></i>
+                {% trans 'Download letter' %}
+            </a>
+        {% endif %}
+    </div>
+    <div class="col-sm-2 col-xs-2">
+            <a class="btn btn-primary" href="{% url 'letters:mark_spam' pk=object.pk %}">
+                <i class="fa fa-bullhorn"></i>
+                {% trans 'Mark spam' %}
+            </a>
+    </div>
+</div>

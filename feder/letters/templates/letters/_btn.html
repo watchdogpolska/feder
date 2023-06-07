@@ -43,7 +43,7 @@
             </a>
         {% endif %}
 
-        {% if not object.is_spam_validated %}
+        {% if not object.is_spam_validated and object.is_incoming %}
             <a class="btn btn-primary" href="{% url 'letters:spam' pk=object.pk %}">
                 <i class="fa fa-bullhorn"></i>
                 {% trans 'Report spam' %}
