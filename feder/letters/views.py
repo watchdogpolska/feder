@@ -45,8 +45,6 @@ from feder.letters.settings import LETTER_RECEIVE_SECRET
 from feder.main.mixins import (
     AttrPermissionRequiredMixin,
     BaseXSendFileView,
-    DisableOrderingListViewMixin,
-    PerformantPagintorMixin,
     RaisePermissionRequiredMixin,
 )
 from feder.monitorings.models import Monitoring
@@ -56,7 +54,7 @@ from feder.virus_scan.models import Request as ScanRequest
 
 from .filters import LetterFilter
 from .forms import AssignLetterForm, LetterForm, ReplyForm
-from .mixins import LetterObjectFeedMixin
+from .mixins import LetterObjectFeedMixin, LetterSummaryTableMixin
 from .models import Attachment, Letter, LetterEmailDomain
 
 _("Letters index")
@@ -110,10 +108,9 @@ class LetterCommonMixin:
 class LetterListView(
     LetterCommonMixin,
     UserKwargFilterSetMixin,
-    DisableOrderingListViewMixin,
     PrefetchRelatedMixin,
     SelectRelatedMixin,
-    PerformantPagintorMixin,
+    LetterSummaryTableMixin,
     FilterView,
 ):
     filterset_class = LetterFilter
@@ -125,10 +122,16 @@ class LetterListView(
         "record__case__institution",
     ]
     paginate_by = 25
+    ordering = "-pk"
 
     def get_queryset(self):
         qs = super().get_queryset().exclude_spam()
         return qs.attachment_count().for_user(self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["summary_table"] = self.render_summary_table()
+        return context
 
 
 class LetterDetailView(SelectRelatedMixin, LetterCommonMixin, DetailView):
@@ -526,6 +529,7 @@ class UnrecognizedLetterListView(
     UserKwargFilterSetMixin,
     RaisePermissionRequiredMixin,
     PrefetchRelatedMixin,
+    LetterSummaryTableMixin,
     FilterView,
 ):
     filterset_class = LetterFilter
@@ -544,11 +548,13 @@ class UnrecognizedLetterListView(
             .get_queryset()
             .filter(record__case=None)
             .exclude(message_type=Letter.MESSAGE_TYPES.mass_draft)
+            .exclude_spam()
         )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["object_list"] = self.update_object_list(context["object_list"])
+        context["summary_table"] = self.render_summary_table()
         return context
 
     def update_object_list(self, object_list):
@@ -588,6 +594,12 @@ class AssignLetterFormView(
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
+
+    def get_success_url(self):
+        query_params = self.request.GET.copy()
+        query_string = query_params.urlencode()
+        success_url = reverse_lazy("letters:unrecognized_list") + "?" + query_string
+        return success_url
 
 
 class AttachmentXSendFileView(MixinGzipXSendFile, BaseXSendFileView):

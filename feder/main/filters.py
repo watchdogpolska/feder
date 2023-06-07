@@ -14,15 +14,15 @@ class InitialFilterSet(FilterSet):
 
 class MinYearRangeFilter(DateRangeFilter):
     def __init__(self, choices=None, filters=None, *args, **kwargs):
-        years = range(now().year, settings.MIN_FILTER_YEAR - 1, -1)
+        years = range(now().year - 1, settings.MIN_FILTER_YEAR - 1, -1)
         if choices is None:
             choices = DateRangeFilter.choices + [(str(year), year) for year in years]
         if filters is None:
             filters = dict(DateRangeFilter.filters)
             for year in years:
-                filters[str(year)] = lambda qs, name: qs.filter(
+                filters[str(year)] = lambda qs, name, y=year: qs.filter(
                     **{
-                        "%s__year" % name: now().year,
+                        "%s__year" % name: y,
                     }
                 )
         super().__init__(choices=choices, filters=filters, *args, **kwargs)
