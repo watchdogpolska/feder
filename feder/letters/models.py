@@ -188,7 +188,7 @@ class Letter(AbstractRecord):
     objects_with_spam = LetterQuerySet.as_manager()
 
     def is_spam_validated(self):
-        return self.is_spam != Letter.SPAM.unknown
+        return self.is_spam in (Letter.SPAM.spam, Letter.SPAM.non_spam)
 
     def is_mass_draft(self):
         return self.is_draft and self.message_type == self.MESSAGE_TYPES.mass_draft

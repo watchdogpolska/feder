@@ -1,19 +1,6 @@
 {% extends 'letters/base.html' %}
 {% load i18n crispy_forms_tags %}
 
-{% block buttons %}
-    {% if perms.letters.recognize_letter %}
-        <div class="clearfix">
-            <div class="pull-right btn-group">
-                <a class="btn btn-default" href="{% url 'letters:unrecognized_list' %}">
-                    {% trans 'Recognize letter' %}
-                </a>
-            </div>
-        </div>
-    {% endif %}
-{% endblock %}
-
-
 {% block content %}
-    {% include '_filter.html' with pager=pager title='Letters index' form=filter.form object_list=object_list object_template='letters/_letter_unrecognized_small.html' %}
+    {% include '_filter.html' with pager=pager title='Letters unassigned to case' form=filter.form object_list=object_list object_template='letters/_letter_unrecognized_small.html' %}
 {% endblock %}
