@@ -25,7 +25,7 @@ ARG DJANGO_VERSION='==3.2.19'
 # TODO: Move to /requirements/base.txt after fixing following bug:
 #       https://github.com/readthedocs/readthedocs-docker-images/issues/158
 RUN pip install mysqlclient==2.1.1
-RUN RUN pip install --no-cache-dir -r requirements/production.txt
+RUN pip install --no-cache-dir -r requirements/production.txt
 # Start container with bash shell to allow run and debug django app
 #   or debug container starting errors:
 CMD ["bash", "-c", " sleep infinity "]
