@@ -72,6 +72,7 @@ var config = (function () {
                 path.staticfiles + '/ajax_datatable/js/utils.js',
                 path.app + '/monitorings/static/monitorings/monitorings_datatables.js',
                 path.app + '/monitorings/static/monitorings/monitoring_cases_datatables.js',
+                path.app + '/monitorings/static/monitorings/monitoring_assign_select_count.js',
             ],
             output: {
                 dir: path.static + "/js",

@@ -30,56 +30,51 @@
     </div>
     <div class="row">
         <div class="col-sm-8 col-sm-push-4">
-            {% if object_list %}
                 <form method="POST">
                     {% if is_filtered %}
                     <button type="submit" class="btn btn-primary">
                         <i class="fa fa-search-plus" aria-hidden="true"></i>
-                        {% blocktrans with monitoring=monitoring %}Assign selected institutions to {{ monitoring }} and
+                        {% blocktrans with monitoring=monitoring %}Assign selected institutions to "{{ monitoring }}" and
                             send request{% endblocktrans %}
                     </button>
+                    {{ select_all_checkbox }}
                     {% else %}
                     <button class="btn btn-primary" disabled>
                         {% trans "Apply a filter to assign and send letters to institutions." %}
                     </button>
                     {% endif %}
-                    <table class="table table-striped">
+                    <table class="table table-striped" >
                         <thead>
                         <tr>
-                            <th style="width: 20px;"><input type="checkbox" name="all" value="yes"></th>
-                            <th>{% trans 'Name' %}</th>
+                            <th></th>
+                            <th style="width: 80%;">{% trans 'Name, selected' %}: <span name="selected_count">0</span></th>
                             <th>{% trans 'Region' %}</th>
                         </tr>
                         </thead>
-                        <tbody>
-                        {% for object in object_list %}
-                            <tr class="table table-striped">
-                                <td><input type="checkbox" name="to_assign" value="{{ object.pk }}"></td>
-                                <td><a href="{{ object.get_absolute_url }}">{{ object }}</a></td>
-                                <td><a href="{{ object.jst.get_absolute_url }}"
-                                       title="TERYT: {{ object.jst.pk }}">{{ object.jst }}</a></td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
+
                     </table>
+                    <div style="height: 650px; overflow-y: auto; margin-top: -20px;">
+                        <table class="table table-striped" >
+                            <tbody>
+                            {% for object in object_list %}
+                                <tr class="table table-striped">
+                                    <td><input type="checkbox" name="to_assign" value="{{ object.pk }}"></td>
+                                    <td style="width: 80%;"><a href="{{ object.get_absolute_url }}">{{ object }}</a></td>
+                                    <td><a href="{{ object.jst.get_absolute_url }}"
+                                        title="TERYT: {{ object.jst.pk }}">{{ object.jst }}</a></td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>                        
+                        </table>
+                    </div>
 
                     <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-                    {% if is_filtered %}
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fa fa-search-plus" aria-hidden="true"></i>
-                        {% blocktrans with monitoring=monitoring %}Assign selected institutions to {{ monitoring }} and
-                            send request{% endblocktrans %}
-                    </button>
-                    {% else %}
-                    <button class="btn btn-primary" disabled>
-                        {% trans "Apply a filter to assign and send letters to institutions." %}
-                    </button>
-                    {% endif %}
+
                 </form>
 
-                {% bootstrap_paginate page_obj %}
+                <!-- paginator disabled in view -->
+                {# {% bootstrap_paginate page_obj %} #} 
 
-            {% endif %}
         </div>
 
         <div class="col-sm-4 col-sm-pull-8">
