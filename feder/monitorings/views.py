@@ -720,7 +720,7 @@ class MonitoringAssignView(RaisePermissionRequiredMixin, FilterView):
     filterset_class = InstitutionFilter
     permission_required = "monitorings.change_monitoring"
     template_name = "monitorings/institution_assign.html"
-    paginate_by = 50
+    paginate_by = None
     LIMIT = 500
 
     def get_limit_simultaneously(self):
