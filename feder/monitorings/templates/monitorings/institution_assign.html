@@ -30,7 +30,6 @@
     </div>
     <div class="row">
         <div class="col-sm-8 col-sm-push-4">
-            {% if object_list %}
                 <form method="POST">
                     {% if is_filtered %}
                     <button type="submit" class="btn btn-primary">
@@ -79,7 +78,6 @@
 
                 {% bootstrap_paginate page_obj %}
 
-            {% endif %}
         </div>
 
         <div class="col-sm-4 col-sm-pull-8">
