@@ -46,8 +46,8 @@
                     <table class="table table-striped" >
                         <thead>
                         <tr>
-                            <th style="width: 20px;"></th>
-                            <th>{% trans 'Name, selected' %}: <span name="selected_count">0</span></th>
+                            <th></th>
+                            <th style="width: 80%;">{% trans 'Name, selected' %}: <span name="selected_count">0</span></th>
                             <th>{% trans 'Region' %}</th>
                         </tr>
                         </thead>
@@ -59,7 +59,7 @@
                             {% for object in object_list %}
                                 <tr class="table table-striped">
                                     <td><input type="checkbox" name="to_assign" value="{{ object.pk }}"></td>
-                                    <td><a href="{{ object.get_absolute_url }}">{{ object }}</a></td>
+                                    <td style="width: 80%;"><a href="{{ object.get_absolute_url }}">{{ object }}</a></td>
                                     <td><a href="{{ object.jst.get_absolute_url }}"
                                         title="TERYT: {{ object.jst.pk }}">{{ object.jst }}</a></td>
                                 </tr>
