@@ -91,7 +91,7 @@ class Monitoring(RenderBooleanFieldMixin, TimeStampedModel):
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name=_("User")
     )
     description = models.TextField(verbose_name=_("Description"), blank=True)
-    subject = models.CharField(verbose_name=_("Subject"), max_length=80)
+    subject = models.CharField(verbose_name=_("Subject"), max_length=100)
     hide_new_cases = models.BooleanField(
         default=False, verbose_name=_("Hide new cases when assigning?")
     )
