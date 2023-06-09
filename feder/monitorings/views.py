@@ -720,7 +720,7 @@ class MonitoringAssignView(RaisePermissionRequiredMixin, FilterView):
     filterset_class = InstitutionFilter
     permission_required = "monitorings.change_monitoring"
     template_name = "monitorings/institution_assign.html"
-    paginate_by = 50
+    paginate_by = None
     LIMIT = 500
 
     def get_limit_simultaneously(self):
@@ -728,11 +728,13 @@ class MonitoringAssignView(RaisePermissionRequiredMixin, FilterView):
 
     def get_queryset(self):
         qs = super().get_queryset().active_only().order_by("name")
-        return (
-            qs.exclude(case__monitoring=self.monitoring.pk)
-            .with_case_count()
-            .select_related("jst")
-        )
+        if self.is_filtered():
+            return (
+                qs.exclude(case__monitoring=self.monitoring.pk)
+                .with_case_count()
+                .select_related("jst")
+            )
+        return qs.none()
 
     def get_permission_object(self):
         return self.monitoring
@@ -745,11 +747,27 @@ class MonitoringAssignView(RaisePermissionRequiredMixin, FilterView):
         context = super().get_context_data(**kwargs)
         context["monitoring"] = self.monitoring
         context["is_filtered"] = self.is_filtered()
+        context["select_all_checkbox"] = self.generate_assign_all_checkbox()
         return context
 
     def is_filtered(self):
         count = sum(1 for value in self.request.GET.values() if value)
         return bool(self.request.GET and count > 0)
+
+    def generate_assign_all_checkbox(self):
+        filtered_count = len(self.object_list)
+        if filtered_count <= self.get_limit_simultaneously():
+            label = _("Select all filtered institutions: ") + str(filtered_count)
+            return mark_safe(
+                f"""<label><input type="checkbox" name="all"
+                    value="yes" /> {label}</label>"""
+            )
+        label = _("Select manually institutions or filter less than ") + str(self.LIMIT)
+        label += _(" (filtered: ") + str(filtered_count) + ")"
+        return mark_safe(
+            f"""<label><input type="checkbox" name="all"
+                value="yes" disabled /> {label}</label>"""
+        )
 
     def get_filterset_kwargs(self, filterset_class):
         kw = super().get_filterset_kwargs(filterset_class)
