@@ -728,11 +728,13 @@ class MonitoringAssignView(RaisePermissionRequiredMixin, FilterView):
 
     def get_queryset(self):
         qs = super().get_queryset().active_only().order_by("name")
-        return (
-            qs.exclude(case__monitoring=self.monitoring.pk)
-            .with_case_count()
-            .select_related("jst")
-        )
+        if self.is_filtered():
+            return (
+                qs.exclude(case__monitoring=self.monitoring.pk)
+                .with_case_count()
+                .select_related("jst")
+            )
+        return qs.none()
 
     def get_permission_object(self):
         return self.monitoring
