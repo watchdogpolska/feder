@@ -37,6 +37,7 @@
                         {% blocktrans with monitoring=monitoring %}Assign selected institutions to {{ monitoring }} and
                             send request{% endblocktrans %}
                     </button>
+                    {{ select_all_checkbox }}
                     {% else %}
                     <button class="btn btn-primary" disabled>
                         {% trans "Apply a filter to assign and send letters to institutions." %}
