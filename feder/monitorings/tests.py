@@ -395,11 +395,19 @@ class MonitoringAssignViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
 
     def test_assign_display_institutions(self):
         self.login_permitted_user()
-        institution_1 = InstitutionFactory()
-        institution_2 = InstitutionFactory()
-        response = self.client.get(self.get_url())
+        institution_1 = InstitutionFactory(name="Office 1")
+        institution_2 = InstitutionFactory(name="Office 2")
+        response = self.client.get(self.get_url() + "?name=Office")
         self.assertContains(response, institution_1.name)
         self.assertContains(response, institution_2.name)
+
+    def test_assign_display_no_institutions_whithout_filter(self):
+        self.login_permitted_user()
+        institution_1 = InstitutionFactory(name="Office 1")
+        institution_2 = InstitutionFactory(name="Office 2")
+        response = self.client.get(self.get_url())
+        self.assertNotContains(response, institution_1.name)
+        self.assertNotContains(response, institution_2.name)
 
     def test_send_to_all(self):
         self.login_permitted_user()
