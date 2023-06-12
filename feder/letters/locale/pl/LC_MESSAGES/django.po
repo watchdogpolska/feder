@@ -7,33 +7,52 @@ msgid ""
 msgstr ""
 "Project-Id-Version: letters 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-12 10:04+0000\n"
-"PO-Revision-Date: 2023-06-07 15:47+0000\n"
+"POT-Creation-Date: 2023-06-12 12:01+0000\n"
+"PO-Revision-Date: 2023-06-12 12:14+0000\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
-"|| n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 2.4.1\n"
 "X-Translated-Using: django-rosetta 0.9.9\n"
 
-#: feder/letters/admin.py:71
+#: feder/letters/admin.py:9
+msgid "Letter Direction"
+msgstr "Kierunek listu"
+
+#: feder/letters/admin.py:15
+msgid "Outgoing"
+msgstr "Wychodzący"
+
+#: feder/letters/admin.py:16
+msgid "Incoming"
+msgstr "Przychodzący"
+
+#: feder/letters/admin.py:92
 msgid "Record id"
 msgstr "Id wpisu"
 
-#: feder/letters/admin.py:80
+#: feder/letters/admin.py:101
+msgid "Is outgoing"
+msgstr "Jest wychodzący"
+
+#: feder/letters/admin.py:108
+msgid "Delivery Status"
+msgstr "Status dostarczenia"
+
+#: feder/letters/admin.py:114
 msgid "Case name"
 msgstr "Sprawa"
 
-#: feder/letters/admin.py:87
+#: feder/letters/admin.py:121
 msgid "Monitoring name"
 msgstr "Monitoring"
 
 #: feder/letters/apps.py:7 feder/letters/models.py:197
-#: feder/letters/models.py:491
+#: feder/letters/models.py:495
 msgid "Letter"
 msgstr "List"
 
@@ -78,7 +97,8 @@ msgstr "Wyślij odpowiedź"
 msgid ""
 "Nothing to do. You do not have permission to save draft or send replies."
 msgstr ""
-"Nic do zrobienia. Nie masz uprawnień, aby zapisać szkic lub wysłać odpowiedź."
+"Nic do zrobienia. Nie masz uprawnień, aby zapisać szkic lub wysłać "
+"odpowiedź."
 
 #: feder/letters/forms.py:161
 msgid "You do not have permission to send replies."
@@ -128,7 +148,7 @@ msgstr "Potwierdzenie dostarczenia"
 msgid "Vacation reply"
 msgstr "Odpowiedź urlopowa"
 
-#: feder/letters/models.py:122 feder/letters/models.py:508
+#: feder/letters/models.py:122 feder/letters/models.py:512
 msgid "Mass message draft"
 msgstr "Szkic wiadomości masowej"
 
@@ -237,19 +257,19 @@ msgstr "Domena adresu e-mail"
 
 #: feder/letters/models.py:434
 msgid "Is trusted (own or partner) domain?"
-msgstr "Czy domena zaufana (własna lub partnerska)?"
+msgstr "Czy zaufana (własna lub partnerska)?"
 
 #: feder/letters/models.py:437
 msgid "Is monitoring Email To domain?"
-msgstr "Czy domena E-mail Do z monitoringu?"
+msgstr "Czy E-mail Do jest z monitoringu?"
 
 #: feder/letters/models.py:440
 msgid "Is spammer domain?"
-msgstr "Czy domena jest spamerem?"
+msgstr "Jest spamerem"
 
 #: feder/letters/models.py:443
 msgid "Is non spammer domain?"
-msgstr "Czy domena nie jest spamerem?"
+msgstr "Nie jest spamerem"
 
 #: feder/letters/models.py:446
 msgid "Email To addres counter"
@@ -259,23 +279,33 @@ msgstr "Liczba adresów email do"
 msgid "Email From addres counter"
 msgstr "Liczba adresów email od"
 
-#: feder/letters/models.py:497
+#: feder/letters/models.py:488
+#| msgid "Email address domain"
+msgid "Letter Email domain"
+msgstr "Domena listu e-mail"
+
+#: feder/letters/models.py:489
+#| msgid "Is monitoring Email To domain?"
+msgid "Letter Email domains"
+msgstr "Domeny listów e-mail"
+
+#: feder/letters/models.py:501
 msgid "Monitoring"
 msgstr "Monitoring"
 
-#: feder/letters/models.py:502
+#: feder/letters/models.py:506
 msgid "Recipient tags"
 msgstr "Tagi odbiorców"
 
-#: feder/letters/models.py:503
+#: feder/letters/models.py:507
 msgid "Used to determine recipients by case tags."
 msgstr "Używane do określenia odbiorców na podstawie znaczników sprawy."
 
-#: feder/letters/models.py:509
+#: feder/letters/models.py:513
 msgid "Mass message drafts"
 msgstr "Szkice wiadomości masowych"
 
-#: feder/letters/models.py:538
+#: feder/letters/models.py:542
 msgid "Virus scan request"
 msgstr "Żądanie skanowania antywirusowego"
 
@@ -361,15 +391,13 @@ msgid ""
 "\n"
 "            <a href=\"%(object_url)s\">%(object)s</a>\n"
 "            <small>\n"
-"                <time datetime=\"%(created)s\" title=\"%(created_natural)s\">"
-"%(created)s</time>\n"
+"                <time datetime=\"%(created)s\" title=\"%(created_natural)s\">%(created)s</time>\n"
 "            </small>"
 msgstr ""
 "\n"
 "            <a href=\"%(object_url)s\">%(object)s</a>\n"
 "            <small>\n"
-"                <time datetime=\"%(created)s\" title=\"%(created_natural)s\">"
-"%(created)s</time>\n"
+"                <time datetime=\"%(created)s\" title=\"%(created_natural)s\">%(created)s</time>\n"
 "            </small>"
 
 #: feder/letters/templates/letters/_letter_unrecognized_small.html:24
@@ -382,8 +410,8 @@ msgid ""
 "This is a mass message draft. The message has not been sent to any "
 "recipients yet."
 msgstr ""
-"To jest szablon wiadomości masowej. Wiadomość nie została jeszcze wysłana do "
-"żadnych odbiorców."
+"To jest szablon wiadomości masowej. Wiadomość nie została jeszcze wysłana do"
+" żadnych odbiorców."
 
 #: feder/letters/templates/letters/_object.html:34
 msgid ""
@@ -415,14 +443,12 @@ msgstr "nieznany"
 msgid ""
 "\n"
 "                    in case <a href=\"%(case_url)s\">%(case)s</a> with <a\n"
-"                            href=\"%(institution_url)s\">%(institution)s</"
-"a></small>\n"
+"                            href=\"%(institution_url)s\">%(institution)s</a></small>\n"
 "                "
 msgstr ""
 "\n"
 "                w sprawie <a href=\"%(case_url)s\">%(case)s</a> z <a\n"
-"                        href=\"%(institution_url)s\">%(institution)s</a></"
-"small>\n"
+"                        href=\"%(institution_url)s\">%(institution)s</a></small>\n"
 "            "
 
 #: feder/letters/templates/letters/attachment_request_scan.html:15
@@ -665,8 +691,7 @@ msgstr "Odpowiedź {reply} do listu {letter} zapisana do przejrzenia!"
 
 #: feder/letters/views.py:260
 #, python-brace-format
-msgid ""
-"Message \"{letter}\" has been scheduled for sending to {count} recipients!"
+msgid "Message \"{letter}\" has been scheduled for sending to {count} recipients!"
 msgstr "Wiadomość \"{letter}\" zaplanowana do wysyłki do {count} odbiorców!"
 
 #: feder/letters/views.py:268
@@ -741,11 +766,9 @@ msgstr "Plik {} został zakolejkowany do skanowania"
 #~ msgid "Recognize letter"
 #~ msgstr "Rozpoznaj list"
 
-#~| msgid "Letters index"
 #~ msgid "Letters assigned to case"
 #~ msgstr "Wykaz listów przypisanych do spraw"
 
-#~| msgid "Letters index"
 #~ msgid "Letters unassigned to case"
 #~ msgstr "Wykaz listów nieprzypisanych do spraw"
 
@@ -757,36 +780,29 @@ msgstr "Plik {} został zakolejkowany do skanowania"
 #~ "\n"
 #~ "                <a href=\"%(object_url)s\">%(object)s</a>\n"
 #~ "                <small>by <a href=\"%(author_url)s\"> %(author)s </a>\n"
-#~ "                    <time datetime=\"%(created)s\" title="
-#~ "\"%(created_natural)s\">%(created)s</time>\n"
+#~ "                    <time datetime=\"%(created)s\" title=\"%(created_natural)s\">%(created)s</time>\n"
 #~ "            "
 #~ msgstr ""
 #~ "\n"
 #~ "                <a href=\"%(object_url)s\">%(object)s</a>\n"
 #~ "                <small>by <a href=\"%(author_url)s\"> %(author)s </a>\n"
-#~ "                    <time datetime=\"%(created)s\" title="
-#~ "\"%(created_natural)s\">%(created)s</time>\n"
+#~ "                    <time datetime=\"%(created)s\" title=\"%(created_natural)s\">%(created)s</time>\n"
 #~ "            "
 
 #~ msgid ""
 #~ "\n"
 #~ "                <a href=\"%(object_url)s\">%(object)s</a>\n"
 #~ "                <small>by <a href=\"%(author_url)s\"> %(author)s </a>\n"
-#~ "                    <time datetime=\"%(created)s\" title="
-#~ "\"%(created_natural)s\">%(created)s</time>\n"
-#~ "                    in case <a href=\"%(case_url)s\">%(case)s</a> with "
-#~ "<a\n"
-#~ "                            href=\"%(institution_url)s\">%(institution)s</"
-#~ "a></small>"
+#~ "                    <time datetime=\"%(created)s\" title=\"%(created_natural)s\">%(created)s</time>\n"
+#~ "                    in case <a href=\"%(case_url)s\">%(case)s</a> with <a\n"
+#~ "                            href=\"%(institution_url)s\">%(institution)s</a></small>"
 #~ msgstr ""
 #~ "\n"
 #~ "                <a href=\"%(object_url)s\">%(object)s</a>\n"
 #~ "                <small>przez <a href=\"%(author_url)s\"> %(author)s </a>\n"
-#~ "                    <time datetime=\"%(created)s\" title="
-#~ "\"%(created_natural)s\">%(created)s</time>\n"
+#~ "                    <time datetime=\"%(created)s\" title=\"%(created_natural)s\">%(created)s</time>\n"
 #~ "                    w sprawie <a href=\"%(case_url)s\">%(case)s</a> z <a\n"
-#~ "                            href=\"%(institution_url)s\">%(institution)s</"
-#~ "a></small>"
+#~ "                            href=\"%(institution_url)s\">%(institution)s</a></small>"
 
 #~ msgid "Creation date (ascending)"
 #~ msgstr "Data utworzenia (rosnąco)"
