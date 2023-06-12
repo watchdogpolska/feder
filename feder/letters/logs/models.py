@@ -46,8 +46,8 @@ class EmailLog(TimeStampedModel):
         return reverse("logs:detail", kwargs={"pk": self.pk})
 
     class Meta:
-        verbose_name = _("Email")
-        verbose_name_plural = _("Emails")
+        verbose_name = _("Email log")
+        verbose_name_plural = _("Email logs")
         ordering = ["created"]
 
 
