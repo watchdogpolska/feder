@@ -484,6 +484,10 @@ class LetterEmailDomain(TimeStampedModel):
         to_domain.save()
         to_domain.add_email_to_letter()
 
+    class Meta:
+        verbose_name = _("Letter Email domain")
+        verbose_name_plural = _("Letter Email domains")
+
 
 class MassMessageDraft(TimeStampedModel):
     letter = models.OneToOneField(
