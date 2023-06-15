@@ -399,6 +399,12 @@ class Letter(AbstractRecord):
         self.is_draft = False
         if commit:
             self.save(update_fields=["eml", "email"] if only_email else None)
+            if self.case.first_request is None:
+                self.case.first_request = self
+                self.case.save()
+            else:
+                self.case.last_request = self
+                self.case.save()
         return message.send()
 
     def get_more_like_this(self):
@@ -483,6 +489,10 @@ class LetterEmailDomain(TimeStampedModel):
         to_domain.is_monitoring_email_to_domain = is_outgoing
         to_domain.save()
         to_domain.add_email_to_letter()
+
+    class Meta:
+        verbose_name = _("Letter Email domain")
+        verbose_name_plural = _("Letter Email domains")
 
 
 class MassMessageDraft(TimeStampedModel):

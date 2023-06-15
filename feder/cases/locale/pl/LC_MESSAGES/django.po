@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cases 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-09 10:09+0000\n"
-"PO-Revision-Date: 2023-06-02 14:28+0000\n"
+"POT-Creation-Date: 2023-06-15 15:57+0000\n"
+"PO-Revision-Date: 2023-06-15 14:07+0000\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -25,7 +25,7 @@ msgid "Creation date"
 msgstr "Data utworzenia"
 
 #: feder/cases/filters.py:31 feder/cases/models.py:202
-#: feder/cases/viewsets.py:39
+#: feder/cases/viewsets.py:42
 msgid "Name"
 msgstr "Nazwa"
 
@@ -34,17 +34,25 @@ msgid "Institution name"
 msgstr "Nazwa instytucji"
 
 #: feder/cases/filters.py:72 feder/cases/forms.py:45 feder/cases/models.py:220
-#: feder/cases/viewsets.py:46
+#: feder/cases/viewsets.py:49
 msgid "Tags"
 msgstr "Tagi"
 
-#: feder/cases/filters.py:75
-msgid "Application letter sending date"
-msgstr "Data wysyłki wniosku"
+#: feder/cases/filters.py:75 feder/cases/viewsets.py:50
+msgid "First request date"
+msgstr "Data pierwszego wniosku"
 
-#: feder/cases/filters.py:78
-msgid "Application letter status"
-msgstr "Status wniosku"
+#: feder/cases/filters.py:78 feder/cases/viewsets.py:51
+msgid "First request status"
+msgstr "Status pierwszego  wniosku"
+
+#: feder/cases/filters.py:83 feder/cases/viewsets.py:54
+msgid "Last request date"
+msgstr "Data ostatniego wniosku"
+
+#: feder/cases/filters.py:86 feder/cases/viewsets.py:55
+msgid "Last request status"
+msgstr "Status ostatniego wniosku"
 
 #: feder/cases/models.py:204
 msgid "Slug"
@@ -61,12 +69,12 @@ msgid "Institution"
 msgstr "Instytucja"
 
 #: feder/cases/models.py:224 feder/cases/templates/cases/_desc.html:32
-#: feder/cases/viewsets.py:49
+#: feder/cases/viewsets.py:52
 msgid "Confirmation received"
 msgstr "Otrzymano potwierdzenie"
 
 #: feder/cases/models.py:227 feder/cases/templates/cases/_desc.html:36
-#: feder/cases/viewsets.py:50
+#: feder/cases/viewsets.py:53
 msgid "Response received"
 msgstr "Otrzymano odpowiedź"
 
@@ -74,24 +82,36 @@ msgstr "Otrzymano odpowiedź"
 msgid "Quarantined"
 msgstr "Poddany kwarantannie"
 
-#: feder/cases/models.py:235 feder/cases/models.py:236
-#: feder/cases/models.py:312
+#: feder/cases/models.py:239
+msgid "First request"
+msgstr "Pierwszy wniosek"
+
+#: feder/cases/models.py:248
+msgid "Last request"
+msgstr "Ostatni wniosek"
+
+#: feder/cases/models.py:253 feder/cases/models.py:254
+#: feder/cases/models.py:330
 msgid "Case"
 msgstr "Sprawa"
 
-#: feder/cases/serializers.py:37 feder/cases/viewsets.py:48
-msgid "Request status"
-msgstr "Status wniosku"
+#: feder/cases/serializers.py:38
+msgid "first request status"
+msgstr "status pierwszego wniosku"
 
-#: feder/cases/serializers.py:89
+#: feder/cases/serializers.py:44
+msgid "last request status"
+msgstr "status ostatniego wniosku"
+
+#: feder/cases/serializers.py:97 feder/cases/serializers.py:110
 msgid "unknown"
 msgstr "nieznany"
 
-#: feder/cases/serializers.py:92 feder/cases/serializers.py:95
+#: feder/cases/serializers.py:113 feder/cases/serializers.py:116
 msgid "yes"
 msgstr "tak"
 
-#: feder/cases/serializers.py:92 feder/cases/serializers.py:95
+#: feder/cases/serializers.py:113 feder/cases/serializers.py:116
 msgid "no"
 msgstr "nie"
 
@@ -212,41 +232,43 @@ msgstr "^~autocomplete-szukaj$"
 msgid "Case index"
 msgstr "Wykaz spraw"
 
-#: feder/cases/viewsets.py:38
+#: feder/cases/viewsets.py:41
 msgid "Id"
 msgstr "Id"
 
-#: feder/cases/viewsets.py:40
+#: feder/cases/viewsets.py:43
 msgid "Email of institution"
 msgstr "E-mail instytucji"
 
-#: feder/cases/viewsets.py:41
+#: feder/cases/viewsets.py:44
 msgid "REGON"
 msgstr "REGON"
 
-#: feder/cases/viewsets.py:42
+#: feder/cases/viewsets.py:45
 msgid "Unit of administrative division"
 msgstr "Jednostka podziału administracyjnego"
 
-#: feder/cases/viewsets.py:43
+#: feder/cases/viewsets.py:46
 msgid "Community"
 msgstr "Gmina"
 
-#: feder/cases/viewsets.py:44
+#: feder/cases/viewsets.py:47
 msgid "County"
 msgstr "Powiat"
 
-#: feder/cases/viewsets.py:45
+#: feder/cases/viewsets.py:48
 msgid "Voivodeship"
 msgstr "Województwo"
 
-#: feder/cases/viewsets.py:47
-msgid "Request date"
-msgstr "Data wniosku"
-
-#: feder/cases/viewsets.py:62
+#: feder/cases/viewsets.py:95
 msgid "case_report"
 msgstr "raport_spraw"
+
+#~ msgid "Application letter sending date"
+#~ msgstr "Data wysyłki wniosku"
+
+#~ msgid "Application letter status"
+#~ msgstr "Status wniosku"
 
 #~ msgid "Confirmation received:"
 #~ msgstr "Otrzymano potwierdzenie:"

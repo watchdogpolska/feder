@@ -55,7 +55,6 @@ from feder.letters.models import Letter
 from feder.letters.utils import is_formatted_html, text_to_html
 from feder.letters.views import LetterCommonMixin
 from feder.main.mixins import ExtraListMixin, RaisePermissionRequiredMixin
-from feder.main.paginator import DefaultPagination
 from feder.main.utils import DeleteViewLogEntryMixin, FormValidLogEntryMixin
 
 from .filters import (
@@ -483,9 +482,12 @@ class MonitoringReportView(LoginRequiredMixin, PermissionRequiredMixin, FilterVi
         context["tags"] = Tag.objects.for_monitoring(context["monitoring"])
         get_params = {key: value for key, value in context["filter"].data.items()}
         get_params["format"] = "csv"
-        get_params["page_size"] = DefaultPagination.max_page_size
         get_params["monitoring"] = context["monitoring"].id
         context["csv_url"] = "{}?{}".format(
+            reverse_lazy("case-report-list"), urlencode(get_params)
+        )
+        get_params["format"] = "xlsx"
+        context["xlsx_url"] = "{}?{}".format(
             reverse_lazy("case-report-list"), urlencode(get_params)
         )
         return context
@@ -494,10 +496,11 @@ class MonitoringReportView(LoginRequiredMixin, PermissionRequiredMixin, FilterVi
         return (
             super()
             .get_queryset()
+            .prefetch_related("tags")
+            .select_related("first_request", "first_request__emaillog")
+            .select_related("last_request", "last_request__emaillog")
             .filter(monitoring__slug=self.kwargs["slug"])
             .with_institution()
-            .with_application_letter_date()
-            .with_application_letter_status()
             .order_by(
                 "institution__jst__parent__parent__name",
                 "institution__jst__parent__name",
@@ -757,13 +760,14 @@ class MonitoringAssignView(RaisePermissionRequiredMixin, FilterView):
     def generate_assign_all_checkbox(self):
         filtered_count = len(self.object_list)
         if filtered_count <= self.get_limit_simultaneously():
-            label = _("Select all filtered institutions: ") + str(filtered_count)
+            label = _("Assign all filtered institutions: ") + str(filtered_count)
             return mark_safe(
                 f"""<label><input type="checkbox" name="all"
                     value="yes" /> {label}</label>"""
             )
-        label = _("Select manually institutions or filter less than ") + str(self.LIMIT)
-        label += _(" (filtered: ") + str(filtered_count) + ")"
+        label = _("For bulk assignment, filter less than ") + str(self.LIMIT)
+        label += _(" (filtered: ") + str(filtered_count)
+        label += _(") or select individual institutions from the list below.")
         return mark_safe(
             f"""<label><input type="checkbox" name="all"
                 value="yes" disabled /> {label}</label>"""
@@ -812,10 +816,12 @@ class MonitoringAssignView(RaisePermissionRequiredMixin, FilterView):
             )
         Case.objects.bulk_create(cases)
         handle_mass_assign(mass_assign.hex)
-        msg = _(
-            "%(count)d institutions was assigned to %(monitoring)s. "
-            + " The requests scheduled to sent."
-        ) % {"count": to_assign_count, "monitoring": self.monitoring}
+        msg = _("%(count)d institutions was assigned to %(monitoring)s. ") % {
+            "count": to_assign_count,
+            "monitoring": self.monitoring,
+        }
+        if to_assign_count > 0:
+            msg += _(" Emails are scheduled to be sent.")
         messages.success(self.request, msg)
         url = reverse("monitorings:assign", kwargs={"slug": self.monitoring.slug})
         return HttpResponseRedirect(url)
