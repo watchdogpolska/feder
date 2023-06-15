@@ -55,7 +55,6 @@ from feder.letters.models import Letter
 from feder.letters.utils import is_formatted_html, text_to_html
 from feder.letters.views import LetterCommonMixin
 from feder.main.mixins import ExtraListMixin, RaisePermissionRequiredMixin
-from feder.main.paginator import DefaultPagination
 from feder.main.utils import DeleteViewLogEntryMixin, FormValidLogEntryMixin
 
 from .filters import (
@@ -483,9 +482,12 @@ class MonitoringReportView(LoginRequiredMixin, PermissionRequiredMixin, FilterVi
         context["tags"] = Tag.objects.for_monitoring(context["monitoring"])
         get_params = {key: value for key, value in context["filter"].data.items()}
         get_params["format"] = "csv"
-        get_params["page_size"] = DefaultPagination.max_page_size
         get_params["monitoring"] = context["monitoring"].id
         context["csv_url"] = "{}?{}".format(
+            reverse_lazy("case-report-list"), urlencode(get_params)
+        )
+        get_params["format"] = "xlsx"
+        context["xlsx_url"] = "{}?{}".format(
             reverse_lazy("case-report-list"), urlencode(get_params)
         )
         return context
