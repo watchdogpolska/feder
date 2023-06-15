@@ -25,16 +25,16 @@
                     {% trans 'first request status' %}
                 </th>
                 <th class="table__col_narrow centered centered_cell">
-                    {% trans 'first request confirmed' %}
-                </th>
-                <th class="table__col_narrow centered centered_cell">
-                    {% trans 'first response received' %}
-                </th>
-                <th class="table__col_narrow centered centered_cell">
                     {% trans 'last request sending date' %}
                 </th>
                 <th class="table__col_narrow centered centered_cell">
                     {% trans 'last request status' %}
+                <th class="table__col_narrow centered centered_cell">
+                    {% trans 'request confirmed' %}
+                </th>
+                <th class="table__col_narrow centered centered_cell">
+                    {% trans 'response received' %}
+                </th>
                 </th>
             </tr>
         </thead>
@@ -76,6 +76,8 @@
                 </td>
                 <td class="centered centered_cell">{{ case.first_request.created|date }}</td>
                 <td class="centered centered_cell">{{ case.first_request.emaillog.status_verbose }}</td>
+                <td class="centered centered_cell">{{ case.last_request.created|date }}</td>
+                <td class="centered centered_cell">{{ case.last_request.emaillog.status_verbose }}</td>
                 <td>
                     {% if case.confirmation_received %}
                         <i class="fa fa-check-circle fa-lg color-success centered"
@@ -94,8 +96,6 @@
                            title="{% trans 'no' %}"></i>
                     {% endif %}
                 </td>
-                <td class="centered centered_cell">{{ case.last_request.created|date }}</td>
-                <td class="centered centered_cell">{{ case.last_request.emaillog.status_verbose }}</td>
             </tr>
             {% empty %}
             <tr>
