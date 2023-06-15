@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cases 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-15 14:05+0000\n"
+"POT-Creation-Date: 2023-06-15 15:57+0000\n"
 "PO-Revision-Date: 2023-06-15 14:07+0000\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -15,7 +15,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.8.7.1\n"
 "X-Translated-Using: django-rosetta 0.9.9\n"
 
@@ -37,13 +38,21 @@ msgstr "Nazwa instytucji"
 msgid "Tags"
 msgstr "Tagi"
 
-#: feder/cases/filters.py:75
-msgid "Application letter sending date"
-msgstr "Data wysyłki wniosku"
+#: feder/cases/filters.py:75 feder/cases/viewsets.py:50
+msgid "First request date"
+msgstr "Data pierwszego wniosku"
 
-#: feder/cases/filters.py:78
-msgid "Application letter status"
-msgstr "Status wniosku"
+#: feder/cases/filters.py:78 feder/cases/viewsets.py:51
+msgid "First request status"
+msgstr "Status pierwszego  wniosku"
+
+#: feder/cases/filters.py:83 feder/cases/viewsets.py:54
+msgid "Last request date"
+msgstr "Data ostatniego wniosku"
+
+#: feder/cases/filters.py:86 feder/cases/viewsets.py:55
+msgid "Last request status"
+msgstr "Status ostatniego wniosku"
 
 #: feder/cases/models.py:204
 msgid "Slug"
@@ -87,12 +96,10 @@ msgid "Case"
 msgstr "Sprawa"
 
 #: feder/cases/serializers.py:38
-#| msgid "Request status"
 msgid "first request status"
 msgstr "status pierwszego wniosku"
 
 #: feder/cases/serializers.py:44
-#| msgid "Request status"
 msgid "last request status"
 msgstr "status ostatniego wniosku"
 
@@ -140,12 +147,16 @@ msgstr "Dodaj list"
 #, python-format
 msgid ""
 "\n"
-"    The case \"%(object)s\" is in quarantine. It is not available to users who do not have permission\n"
-"    'view_quarantined_case' to monitoring. Remove legal restrictions and edit the case to disclose it.\n"
+"    The case \"%(object)s\" is in quarantine. It is not available to users "
+"who do not have permission\n"
+"    'view_quarantined_case' to monitoring. Remove legal restrictions and "
+"edit the case to disclose it.\n"
 "    "
 msgstr ""
 "\n"
-"    Sprawa \"%(object)s\" jest poddana kwarantannie. Jest ona niedostępna dla użytkowników, którzy nie mają uprawnienia 'view_quarantined_case' w monitoringu. Usuń ograniczenia prawne i edytuj sprawę, aby ją ujawnić.\n"
+"    Sprawa \"%(object)s\" jest poddana kwarantannie. Jest ona niedostępna "
+"dla użytkowników, którzy nie mają uprawnienia 'view_quarantined_case' w "
+"monitoringu. Usuń ograniczenia prawne i edytuj sprawę, aby ją ujawnić.\n"
 "    "
 
 #: feder/cases/templates/cases/_desc.html:9
@@ -249,29 +260,15 @@ msgstr "Powiat"
 msgid "Voivodeship"
 msgstr "Województwo"
 
-#: feder/cases/viewsets.py:50
-#| msgid "Request date"
-msgid "First request date"
-msgstr "Data pierwszego wniosku"
-
-#: feder/cases/viewsets.py:51
-#| msgid "Request status"
-msgid "First request status"
-msgstr "Status pierwszego  wniosku"
-
-#: feder/cases/viewsets.py:54
-#| msgid "Request date"
-msgid "Last request date"
-msgstr "Data ostatniego wniosku"
-
-#: feder/cases/viewsets.py:55
-#| msgid "Request status"
-msgid "Last request status"
-msgstr "Status ostatniego wniosku"
-
 #: feder/cases/viewsets.py:95
 msgid "case_report"
 msgstr "raport_spraw"
+
+#~ msgid "Application letter sending date"
+#~ msgstr "Data wysyłki wniosku"
+
+#~ msgid "Application letter status"
+#~ msgstr "Status wniosku"
 
 #~ msgid "Confirmation received:"
 #~ msgstr "Otrzymano potwierdzenie:"

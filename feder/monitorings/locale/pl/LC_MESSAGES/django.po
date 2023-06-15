@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-monitorings 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-15 14:05+0000\n"
-"PO-Revision-Date: 2023-06-15 14:09+0000\n"
+"POT-Creation-Date: 2023-06-15 15:57+0000\n"
+"PO-Revision-Date: 2023-06-15 15:57+0000\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -324,46 +324,40 @@ msgid "tags"
 msgstr "tagi"
 
 #: feder/monitorings/templates/monitorings/_report_content.html:22
-#| msgid "request sending date"
 msgid "first request sending date"
 msgstr "data wysłania pierwszego wniosku"
 
 #: feder/monitorings/templates/monitorings/_report_content.html:25
-#| msgid "request status"
 msgid "first request status"
 msgstr "status pierwszego wniosku"
 
 #: feder/monitorings/templates/monitorings/_report_content.html:28
-#| msgid "request confirmed"
-msgid "first request confirmed"
-msgstr "potwierdzenie dostarczenia pierwszego wniosku"
-
-#: feder/monitorings/templates/monitorings/_report_content.html:31
-#| msgid "response received"
-msgid "first response received"
-msgstr "otrzymano pierwszą odpowiedź"
-
-#: feder/monitorings/templates/monitorings/_report_content.html:34
-#| msgid "request sending date"
 msgid "last request sending date"
 msgstr "data wysłania ostatniego wniosku"
 
-#: feder/monitorings/templates/monitorings/_report_content.html:37
-#| msgid "request status"
+#: feder/monitorings/templates/monitorings/_report_content.html:31
 msgid "last request status"
 msgstr "status ostatniego wniosku"
+
+#: feder/monitorings/templates/monitorings/_report_content.html:33
+msgid "request confirmed"
+msgstr "potwierdzenie dostarczenia wniosku"
+
+#: feder/monitorings/templates/monitorings/_report_content.html:36
+msgid "response received"
+msgstr "otrzymano odpowiedź"
 
 #: feder/monitorings/templates/monitorings/_report_content.html:48
 msgid "case"
 msgstr "sprawa"
 
-#: feder/monitorings/templates/monitorings/_report_content.html:82
-#: feder/monitorings/templates/monitorings/_report_content.html:91
+#: feder/monitorings/templates/monitorings/_report_content.html:84
+#: feder/monitorings/templates/monitorings/_report_content.html:93
 msgid "yes"
 msgstr "tak"
 
-#: feder/monitorings/templates/monitorings/_report_content.html:85
-#: feder/monitorings/templates/monitorings/_report_content.html:94
+#: feder/monitorings/templates/monitorings/_report_content.html:87
+#: feder/monitorings/templates/monitorings/_report_content.html:96
 msgid "no"
 msgstr "nie"
 
@@ -467,15 +461,24 @@ msgstr "Filtruj obszar i tagi"
 msgid "Confirm delete"
 msgstr "Potwierdz usuwanie"
 
-#: feder/monitorings/templates/monitorings/monitoring_detail.html:17
+#: feder/monitorings/templates/monitorings/monitoring_detail.html:13
+#| msgid "last request status"
+msgid "Last request status"
+msgstr "Status ostatniego wniosku"
+
+#: feder/monitorings/templates/monitorings/monitoring_detail.html:19
+msgid "unknown"
+msgstr "nieznany"
+
+#: feder/monitorings/templates/monitorings/monitoring_detail.html:26
 msgid "Contents"
 msgstr "Zawartość"
 
-#: feder/monitorings/templates/monitorings/monitoring_detail.html:36
+#: feder/monitorings/templates/monitorings/monitoring_detail.html:45
 msgid "No cases available to user: "
 msgstr "Brak spraw dostępnych dla użytkownika: "
 
-#: feder/monitorings/templates/monitorings/monitoring_detail.html:37
+#: feder/monitorings/templates/monitorings/monitoring_detail.html:46
 msgid "Contact application admin to get relevant permission."
 msgstr ""
 "Skontaktuj się z administratorem aplikacji, aby uzyskać odpowiednie "
@@ -504,7 +507,6 @@ msgid "Download .csv"
 msgstr "Pobierz .csv"
 
 #: feder/monitorings/templates/monitorings/monitoring_report.html:58
-#| msgid "Download .csv"
 msgid "Download .xlsx"
 msgstr "Pobierz .xlsx"
 
@@ -780,9 +782,6 @@ msgstr "Aktualizacje o nowych monitoringach na stronie"
 
 #~ msgid "Institution name"
 #~ msgstr "Nazwa instytucji"
-
-#~ msgid "unknown"
-#~ msgstr "nieznany"
 
 #~ msgid "Can select answer"
 #~ msgstr "Może  wybierać odpowiedź"
