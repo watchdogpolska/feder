@@ -29,6 +29,14 @@
         <td><p>{{ object.spam_count }}</p></td>
     </tr>
     <tr>
+        <td><p><i class="fa fa-info-circle"></i>&nbsp;{% trans 'First request status' %}:&nbsp;</p></td>
+        <td><p>{{ object.first_request.emaillog.status_verbose }}</p></td>
+    </tr>
+    <tr>
+        <td><p><i class="fa fa-info-circle"></i>&nbsp;{% trans 'Last request status' %}:&nbsp;</p></td>
+        <td><p>{{ object.last_request.emaillog.status_verbose }}</p></td>
+    </tr>
+    <tr>
         <td><p><i class="fa fa-check-circle"></i>&nbsp;{% trans 'Confirmation received' %}:&nbsp;</p></td>
         <td><p>{{ object.confirmation_received|boolean_icon }}</p></td>
     </tr>

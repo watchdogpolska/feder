@@ -9,6 +9,15 @@
                 <h4>
                     <i class="fa fa-folder-open"></i>
                     <a href="{{ case.get_absolute_url }}">{{ case.institution }}</a>
+                    &nbsp;&nbsp;&nbsp;
+                    {% trans 'Last request status' %}: 
+                    {% if case.last_request.emaillog %}
+                        {{ case.last_request.emaillog.status_verbose }}
+                    {% elif case.first_request.emaillog %}
+                        {{ case.first_request.emaillog.status_verbose }}
+                    {% else %}
+                        {% trans 'unknown' %}
+                    {% endif %}
                 </h4>
 
                 {% if case.record_set.all %}
