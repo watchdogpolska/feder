@@ -399,6 +399,12 @@ class Letter(AbstractRecord):
         self.is_draft = False
         if commit:
             self.save(update_fields=["eml", "email"] if only_email else None)
+            if self.case.first_request is None:
+                self.case.first_request = self
+                self.case.save()
+            else:
+                self.case.last_request = self
+                self.case.save()
         return message.send()
 
     def get_more_like_this(self):

@@ -44,10 +44,12 @@ class CaseCSVRenderer(PaginatedCSVStreamingRenderer):
         "county": _("County"),
         "voivodeship": _("Voivodeship"),
         "tags": _("Tags"),
-        "request_date": _("Request date"),
-        "request_status": _("Request status"),
+        "first_request_date": _("First request date"),
+        "first_request_status": _("First request status"),
         "confirmation_received": _("Confirmation received"),
         "response_received": _("Response received"),
+        "last_request_date": _("Last request date"),
+        "last_request_status": _("Last request status"),
     }
     results_field = "results"
 

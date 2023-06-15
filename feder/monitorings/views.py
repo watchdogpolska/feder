@@ -494,10 +494,11 @@ class MonitoringReportView(LoginRequiredMixin, PermissionRequiredMixin, FilterVi
         return (
             super()
             .get_queryset()
+            .prefetch_related("tags")
+            .select_related("first_request", "first_request__emaillog")
+            .select_related("last_request", "last_request__emaillog")
             .filter(monitoring__slug=self.kwargs["slug"])
             .with_institution()
-            .with_application_letter_date()
-            .with_application_letter_status()
             .order_by(
                 "institution__jst__parent__parent__name",
                 "institution__jst__parent__name",

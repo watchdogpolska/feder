@@ -33,10 +33,16 @@ class CaseReportSerializer(serializers.HyperlinkedModelSerializer):
     county = serializers.CharField(source="institution.county")
     voivodeship = serializers.CharField(source="institution.voivodeship")
     tags = serializers.CharField(source="tags_str")
-    request_date = serializers.SerializerMethodField()
-    request_status = serializers.SerializerMethodField(label=_("Request status"))
+    first_request_date = serializers.SerializerMethodField()
+    first_request_status = serializers.SerializerMethodField(
+        label=_("first request status")
+    )
     confirmation_received = serializers.SerializerMethodField()
     response_received = serializers.SerializerMethodField()
+    last_request_date = serializers.SerializerMethodField()
+    last_request_status = serializers.SerializerMethodField(
+        label=_("last request status")
+    )
 
     class Meta:
         model = Case
@@ -50,10 +56,12 @@ class CaseReportSerializer(serializers.HyperlinkedModelSerializer):
             "community",
             "teryt",
             "tags",
-            "request_date",
-            "request_status",
+            "first_request_date",
+            "first_request_status",
             "confirmation_received",
             "response_received",
+            "last_request_date",
+            "last_request_status",
             "url",
         )
         extra_kwargs = {"url": {"view_name": "cases:details", "lookup_field": "slug"}}
@@ -75,12 +83,25 @@ class CaseReportSerializer(serializers.HyperlinkedModelSerializer):
     def get_institution_regon(self, obj):
         return obj.institution.regon
 
-    def get_request_date(self, obj):
-        letter = obj.application_letter
+    def get_first_request_date(self, obj):
+        letter = obj.first_request
         return formats.date_format(letter.created, format="Y-m-d") if letter else None
 
-    def get_request_status(self, obj):
-        letter = obj.application_letter
+    def get_first_request_status(self, obj):
+        letter = obj.first_request
+        if letter:
+            try:
+                return letter.emaillog.status
+            except EmailLog.DoesNotExist:
+                pass
+        return _("unknown")
+
+    def get_last_request_date(self, obj):
+        letter = obj.last_request
+        return formats.date_format(letter.created, format="Y-m-d") if letter else None
+
+    def get_last_request_status(self, obj):
+        letter = obj.last_request
         if letter:
             try:
                 return letter.emaillog.status
