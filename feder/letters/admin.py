@@ -5,6 +5,25 @@ from django.utils.translation import gettext_lazy as _
 from .models import Attachment, Letter, LetterEmailDomain
 
 
+class LetterDirectionListFilter(admin.SimpleListFilter):
+    title = _("Letter Direction")  # Displayed in the admin sidebar
+    parameter_name = "letter_direction_filter"  # The URL parameter name
+
+    def lookups(self, request, model_admin):
+        # Return the filter options as a list of tuples
+        return (
+            ("outgoing", _("Outgoing")),
+            ("incoming", _("Incoming")),
+        )
+
+    def queryset(self, request, queryset):
+        # Apply the filter to the queryset based on the selected option
+        if self.value() == "outgoing":
+            return queryset.is_outgoing()
+        elif self.value() == "incoming":
+            return queryset.is_incoming()
+
+
 class AttachmentInline(admin.StackedInline):
     """
     Stacked Inline View for Attachment
@@ -31,7 +50,8 @@ class LetterAdmin(admin.ModelAdmin):
         # "modified",
         "is_draft",
         # "is_incoming",
-        "is_outgoing",
+        "get_outgoing",
+        "get_delivery_status",
         "is_spam",
         "email_from",
         "email_to",
@@ -40,6 +60,7 @@ class LetterAdmin(admin.ModelAdmin):
     )
     list_filter = (
         "is_spam",
+        LetterDirectionListFilter,
         # "created",
         "record__case__monitoring",
         # "modified",
@@ -75,6 +96,19 @@ class LetterAdmin(admin.ModelAdmin):
         if obj.record is None:
             return None
         return obj.record.id
+
+    @admin.display(
+        description=_("Is outgoing"),
+        boolean=True,
+    )
+    def get_outgoing(self, obj):
+        return obj.is_outgoing
+
+    @admin.display(
+        description=_("Delivery Status"),
+    )
+    def get_delivery_status(self, obj):
+        return obj.emaillog.status_verbose
 
     @admin.display(
         description=_("Case name"),

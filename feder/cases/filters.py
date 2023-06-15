@@ -71,12 +71,20 @@ class CaseReportFilter(django_filters.FilterSet):
     tags = django_filters.ModelMultipleChoiceFilter(
         label=_("Tags"), field_name="tags", widget=forms.CheckboxSelectMultiple
     )
-    application_letter_date = django_filters.DateFromToRangeFilter(
-        label=_("Application letter sending date"), field_name="application_letter_date"
+    first_request_date = django_filters.DateFromToRangeFilter(
+        label=_("First request date"), field_name="first_request__created"
     )
-    application_letter_status = django_filters.ChoiceFilter(
-        label=_("Application letter status"),
-        field_name="application_letter_status",
+    first_request_status = django_filters.ChoiceFilter(
+        label=_("First request status"),
+        field_name="first_request__emaillog__status",
+        choices=EMAIL_LOG_STATUS,
+    )
+    last_request_date = django_filters.DateFromToRangeFilter(
+        label=_("Last request date"), field_name="last_request__created"
+    )
+    last_request_status = django_filters.ChoiceFilter(
+        label=_("Last request status"),
+        field_name="last_request__emaillog__status",
         choices=EMAIL_LOG_STATUS,
     )
 
@@ -96,8 +104,10 @@ class CaseReportFilter(django_filters.FilterSet):
             "county",
             "community",
             "tags",
-            "application_letter_date",
-            "application_letter_status",
+            "first_request_date",
+            "first_request_status",
+            "last_request_date",
+            "last_request_status",
             "confirmation_received",
             "response_received",
         ]

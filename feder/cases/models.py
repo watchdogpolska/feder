@@ -229,6 +229,24 @@ class Case(RenderBooleanFieldMixin, TimeStampedModel):
     is_quarantined = models.BooleanField(
         verbose_name=_("Quarantined"), default=False, db_index=True
     )
+    first_request = models.ForeignKey(
+        "letters.Letter",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        default=None,
+        related_name="first_request",
+        verbose_name=_("First request"),
+    )
+    last_request = models.ForeignKey(
+        "letters.Letter",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        default=None,
+        related_name="last_request",
+        verbose_name=_("Last request"),
+    )
     objects = CaseQuerySet.as_manager()
 
     class Meta:

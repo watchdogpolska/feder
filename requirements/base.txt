@@ -74,3 +74,4 @@ tika==2.6.0
 
 django-rosetta==0.9.9
 bleach==6.0.0
+openpyxl==3.1.2

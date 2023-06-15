@@ -42,12 +42,16 @@ class EmailLog(TimeStampedModel):
     def __str__(self):
         return f"Email #{self.pk} ({self.email_id})"
 
+    @property
+    def status_verbose(self):
+        return dict(STATUS)[self.status]
+
     def get_absolute_url(self):
         return reverse("logs:detail", kwargs={"pk": self.pk})
 
     class Meta:
-        verbose_name = _("Email")
-        verbose_name_plural = _("Emails")
+        verbose_name = _("Email log")
+        verbose_name_plural = _("Email logs")
         ordering = ["created"]
 
 
