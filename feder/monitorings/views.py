@@ -482,6 +482,8 @@ class MonitoringReportView(LoginRequiredMixin, PermissionRequiredMixin, FilterVi
         context["tags"] = Tag.objects.for_monitoring(context["monitoring"])
         get_params = {key: value for key, value in context["filter"].data.items()}
         get_params["format"] = "csv"
+        get_params["page"] = 1
+        get_params["page_size"] = 10000
         get_params["monitoring"] = context["monitoring"].id
         context["csv_url"] = "{}?{}".format(
             reverse_lazy("case-report-list"), urlencode(get_params)
@@ -501,6 +503,7 @@ class MonitoringReportView(LoginRequiredMixin, PermissionRequiredMixin, FilterVi
             .select_related("last_request", "last_request__emaillog")
             .filter(monitoring__slug=self.kwargs["slug"])
             .with_institution()
+            .with_tags_string()
             .order_by(
                 "institution__jst__parent__parent__name",
                 "institution__jst__parent__name",

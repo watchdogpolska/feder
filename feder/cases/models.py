@@ -9,7 +9,8 @@ from django.conf import settings
 from django.contrib.auth.models import Permission
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
-from django.db.models import Max, OuterRef, Prefetch, Q, Subquery
+from django.db.models import CharField, Max, OuterRef, Prefetch, Q, Subquery
+from django.db.models.aggregates import Aggregate
 from django.db.models.functions import Cast, Trunc
 from django.urls import reverse
 from django.utils.timezone import datetime
@@ -25,6 +26,11 @@ from feder.main.utils import (
 )
 from feder.monitorings.models import Monitoring, MonitoringUserObjectPermission
 from feder.teryt.models import JST
+
+
+class GroupConcat(Aggregate):
+    function = "GROUP_CONCAT"
+    template = '%(function)s(%(distinct)s%(expressions)s SEPARATOR " | ")'
 
 
 def enforce_quarantined_queryset(queryset, user, path_case):
@@ -196,6 +202,13 @@ class CaseQuerySet(FormattedDatetimeMixin, models.QuerySet):
                 qs = qs.filter(tags__id=tag_id)
             return qs
         return self
+
+    def with_tags_string(self):
+        return self.annotate(
+            tags_string=GroupConcat(
+                "tags__name", ordering="tags__name", output_field=CharField()
+            )
+        )
 
 
 class Case(RenderBooleanFieldMixin, TimeStampedModel):
