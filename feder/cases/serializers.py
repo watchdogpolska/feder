@@ -32,7 +32,7 @@ class CaseReportSerializer(serializers.HyperlinkedModelSerializer):
     community = serializers.CharField(source="institution.community")
     county = serializers.CharField(source="institution.county")
     voivodeship = serializers.CharField(source="institution.voivodeship")
-    tags = serializers.CharField(source="tags_str")
+    tags = serializers.CharField(source="tags_string")
     first_request_date = serializers.SerializerMethodField()
     first_request_status = serializers.SerializerMethodField(
         label=_("first request status")
