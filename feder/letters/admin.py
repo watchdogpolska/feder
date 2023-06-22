@@ -126,7 +126,7 @@ class LetterAdmin(admin.ModelAdmin):
             return obj.record.case.monitoring
         return None
 
-    @admin.action(description="Mark selected letters as Spam")
+    @admin.action(description=_("Mark selected letters as Spam"))
     def mark_spam(modeladmin, request, queryset):
         queryset.update(
             is_spam=Letter.SPAM.spam,
@@ -134,15 +134,15 @@ class LetterAdmin(admin.ModelAdmin):
             mark_spam_at=timezone.now(),
         )
 
-    @admin.action(description="Mark selected letters as Non Spam")
+    @admin.action(description=_("Mark selected letters as Non Spam"))
     def mark_non_spam(modeladmin, request, queryset):
         queryset.update(is_spam=Letter.SPAM.non_spam)
 
-    @admin.action(description="Mark selected letters as Spam Unknown")
+    @admin.action(description=_("Mark selected letters as Spam Unknown"))
     def mark_spam_unknown(modeladmin, request, queryset):
         queryset.update(is_spam=Letter.SPAM.unknown)
 
-    @admin.action(description="Mark selected letters as Probable Spam")
+    @admin.action(description=_("Mark selected letters as Probable Spam"))
     def mark_probable_spam(modeladmin, request, queryset):
         queryset.update(is_spam=Letter.SPAM.probable_spam)
 
