@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cases 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-15 15:57+0000\n"
+"POT-Creation-Date: 2023-06-22 11:13+0000\n"
 "PO-Revision-Date: 2023-06-15 14:07+0000\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -24,7 +24,7 @@ msgstr ""
 msgid "Creation date"
 msgstr "Data utworzenia"
 
-#: feder/cases/filters.py:31 feder/cases/models.py:202
+#: feder/cases/filters.py:31 feder/cases/models.py:215
 #: feder/cases/viewsets.py:42
 msgid "Name"
 msgstr "Nazwa"
@@ -33,7 +33,7 @@ msgstr "Nazwa"
 msgid "Institution name"
 msgstr "Nazwa instytucji"
 
-#: feder/cases/filters.py:72 feder/cases/forms.py:45 feder/cases/models.py:220
+#: feder/cases/filters.py:72 feder/cases/forms.py:45 feder/cases/models.py:233
 #: feder/cases/viewsets.py:49
 msgid "Tags"
 msgstr "Tagi"
@@ -42,7 +42,8 @@ msgstr "Tagi"
 msgid "First request date"
 msgstr "Data pierwszego wniosku"
 
-#: feder/cases/filters.py:78 feder/cases/viewsets.py:51
+#: feder/cases/filters.py:78 feder/cases/templates/cases/_desc.html:32
+#: feder/cases/viewsets.py:51
 msgid "First request status"
 msgstr "Status pierwszego  wniosku"
 
@@ -50,48 +51,49 @@ msgstr "Status pierwszego  wniosku"
 msgid "Last request date"
 msgstr "Data ostatniego wniosku"
 
-#: feder/cases/filters.py:86 feder/cases/viewsets.py:55
+#: feder/cases/filters.py:86 feder/cases/templates/cases/_desc.html:36
+#: feder/cases/viewsets.py:55
 msgid "Last request status"
 msgstr "Status ostatniego wniosku"
 
-#: feder/cases/models.py:204
+#: feder/cases/models.py:217
 msgid "Slug"
 msgstr "Identyfikator redakcyjny"
 
-#: feder/cases/models.py:208 feder/cases/templates/cases/_case_small.html:12
+#: feder/cases/models.py:221 feder/cases/templates/cases/_case_small.html:12
 #: feder/cases/templates/cases/_desc.html:14
 msgid "Monitoring"
 msgstr "Monitoring"
 
-#: feder/cases/models.py:211 feder/cases/templates/cases/_case_small.html:11
+#: feder/cases/models.py:224 feder/cases/templates/cases/_case_small.html:11
 #: feder/cases/templates/cases/_desc.html:4
 msgid "Institution"
 msgstr "Instytucja"
 
-#: feder/cases/models.py:224 feder/cases/templates/cases/_desc.html:32
+#: feder/cases/models.py:237 feder/cases/templates/cases/_desc.html:40
 #: feder/cases/viewsets.py:52
 msgid "Confirmation received"
 msgstr "Otrzymano potwierdzenie"
 
-#: feder/cases/models.py:227 feder/cases/templates/cases/_desc.html:36
+#: feder/cases/models.py:240 feder/cases/templates/cases/_desc.html:44
 #: feder/cases/viewsets.py:53
 msgid "Response received"
 msgstr "Otrzymano odpowiedź"
 
-#: feder/cases/models.py:230 feder/cases/templates/cases/_desc.html:40
+#: feder/cases/models.py:243 feder/cases/templates/cases/_desc.html:48
 msgid "Quarantined"
 msgstr "Poddany kwarantannie"
 
-#: feder/cases/models.py:239
+#: feder/cases/models.py:252
 msgid "First request"
 msgstr "Pierwszy wniosek"
 
-#: feder/cases/models.py:248
+#: feder/cases/models.py:261
 msgid "Last request"
 msgstr "Ostatni wniosek"
 
-#: feder/cases/models.py:253 feder/cases/models.py:254
-#: feder/cases/models.py:330
+#: feder/cases/models.py:266 feder/cases/models.py:267
+#: feder/cases/models.py:343
 msgid "Case"
 msgstr "Sprawa"
 
