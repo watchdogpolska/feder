@@ -495,6 +495,20 @@ class LetterEmailDomain(TimeStampedModel):
         verbose_name_plural = _("Letter Email domains")
 
 
+class ReputableLetterEmailTLD(TimeStampedModel):
+    name = models.CharField(
+        verbose_name=_("Email address repurable TLD"),
+        max_length=100,
+        blank=False,
+        null=False,
+        unique=True,
+    )
+
+    class Meta:
+        verbose_name = _("Reputable Letter Email TLD")
+        verbose_name_plural = _("Reputable Letter Email TLDs")
+
+
 class MassMessageDraft(TimeStampedModel):
     letter = models.OneToOneField(
         to=Letter,
