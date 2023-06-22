@@ -6,6 +6,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.sites.shortcuts import get_current_site
+from django.core.exceptions import ValidationError
 from django.core.files.base import ContentFile
 from django.core.mail.message import EmailMultiAlternatives, make_msgid
 from django.db import models
@@ -495,6 +496,11 @@ class LetterEmailDomain(TimeStampedModel):
         verbose_name_plural = _("Letter Email domains")
 
 
+def validate_tld_name(value):
+    if not value.isalpha():
+        raise ValidationError(_("TLD name must be a single word"), code="invalid")
+
+
 class ReputableLetterEmailTLD(TimeStampedModel):
     name = models.CharField(
         verbose_name=_("Email address repurable TLD"),
@@ -502,6 +508,7 @@ class ReputableLetterEmailTLD(TimeStampedModel):
         blank=False,
         null=False,
         unique=True,
+        validators=[validate_tld_name],
     )
 
     class Meta:
