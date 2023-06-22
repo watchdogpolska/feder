@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
-from .models import Attachment, Letter, LetterEmailDomain
+from .models import Attachment, Letter, LetterEmailDomain, ReputableLetterEmailTLD
 
 
 class LetterDirectionListFilter(admin.SimpleListFilter):
@@ -175,3 +175,14 @@ class LetterEmailDomainAdmin(admin.ModelAdmin):
     search_fields = ("domain_name",)
     ordering = ("-email_from_count",)
     list_editable = ("is_spammer_domain", "is_non_spammer_domain")
+
+
+@admin.register(ReputableLetterEmailTLD)
+class ReputableLetterEmailTLDAdmin(admin.ModelAdmin):
+    """
+    Admin View for ReputableLetterEmailTLD
+    """
+
+    list_display = ("id", "name")
+    search_fields = ("name",)
+    ordering = ("name",)
