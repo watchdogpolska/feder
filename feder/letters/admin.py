@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.db.models import Q
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
@@ -151,6 +152,27 @@ class LetterAdmin(admin.ModelAdmin):
     #     return qs.with_author()
 
 
+class ReputableTLDListFilter(admin.SimpleListFilter):
+    title = "TLD"
+    parameter_name = "tld"
+
+    def lookups(self, request, model_admin):
+        return [
+            ("reputable", _("Reputable TLDs")),
+            ("non_reputable", _("Non-reputable TLDs")),
+        ]
+
+    def queryset(self, request, queryset):
+        tlds = ReputableLetterEmailTLD.objects.values_list("name", flat=True)
+        q_object = Q()
+        for tld in tlds:
+            q_object |= Q(domain_name__iendswith=tld)
+        if self.value() == "reputable":
+            return queryset.filter(q_object)
+        elif self.value() == "non_reputable":
+            return queryset.exclude(q_object)
+
+
 @admin.register(LetterEmailDomain)
 class LetterEmailDomainAdmin(admin.ModelAdmin):
     """
@@ -171,6 +193,7 @@ class LetterEmailDomainAdmin(admin.ModelAdmin):
         "is_monitoring_email_to_domain",
         "is_non_spammer_domain",
         "is_spammer_domain",
+        ReputableTLDListFilter,
     )
     search_fields = ("domain_name",)
     ordering = ("-email_from_count",)
