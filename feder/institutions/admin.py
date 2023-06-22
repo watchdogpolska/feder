@@ -12,17 +12,44 @@ class InstitutionAdmin(VersionAdmin):
     Admin View for Institution
     """
 
-    list_display = ("id", "name", "jst", "get_teryt", "email", "regon", "get_tags")
+    list_display = (
+        "id",
+        "name",
+        "archival",
+        "jst",
+        "get_teryt",
+        "email",
+        "regon",
+        "get_tags",
+    )
     search_fields = ["name", "tags__name", "jst__name", "jst__id", "email", "regon"]
-    list_filter = ("tags",)
+    list_filter = ("tags", "archival")
     raw_id_fields = ("jst",)
-    actions = None
+    actions = ["mark_archival", "mark_non_archival"]
 
     def get_tags(self, obj):
         return ", ".join(obj.tags.values_list("name", flat=True))
 
     def get_teryt(self, obj):
         return obj.jst.id
+
+    @admin.action(description=_("Mark selected institution as archival"))
+    def mark_archival(modeladmin, request, queryset):
+        queryset.update(
+            archival=True,
+        )
+
+    @admin.action(description=_("Mark selected institution as NON archival"))
+    def mark_non_archival(modeladmin, request, queryset):
+        queryset.update(
+            archival=False,
+        )
+
+    def get_actions(self, request):
+        actions = super().get_actions(request)
+        if "delete_selected" in actions:
+            del actions["delete_selected"]
+        return actions
 
 
 @admin.register(Tag)
