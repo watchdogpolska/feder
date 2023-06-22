@@ -1,8 +1,9 @@
 from django.contrib import admin
+from django.db.models import Q
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
-from .models import Attachment, Letter, LetterEmailDomain
+from .models import Attachment, Letter, LetterEmailDomain, ReputableLetterEmailTLD
 
 
 class LetterDirectionListFilter(admin.SimpleListFilter):
@@ -126,7 +127,7 @@ class LetterAdmin(admin.ModelAdmin):
             return obj.record.case.monitoring
         return None
 
-    @admin.action(description="Mark selected letters as Spam")
+    @admin.action(description=_("Mark selected letters as Spam"))
     def mark_spam(modeladmin, request, queryset):
         queryset.update(
             is_spam=Letter.SPAM.spam,
@@ -134,21 +135,42 @@ class LetterAdmin(admin.ModelAdmin):
             mark_spam_at=timezone.now(),
         )
 
-    @admin.action(description="Mark selected letters as Non Spam")
+    @admin.action(description=_("Mark selected letters as Non Spam"))
     def mark_non_spam(modeladmin, request, queryset):
         queryset.update(is_spam=Letter.SPAM.non_spam)
 
-    @admin.action(description="Mark selected letters as Spam Unknown")
+    @admin.action(description=_("Mark selected letters as Spam Unknown"))
     def mark_spam_unknown(modeladmin, request, queryset):
         queryset.update(is_spam=Letter.SPAM.unknown)
 
-    @admin.action(description="Mark selected letters as Probable Spam")
+    @admin.action(description=_("Mark selected letters as Probable Spam"))
     def mark_probable_spam(modeladmin, request, queryset):
         queryset.update(is_spam=Letter.SPAM.probable_spam)
 
     # def get_queryset(self, *args, **kwargs):
     #     qs = super().get_queryset(*args, **kwargs)
     #     return qs.with_author()
+
+
+class ReputableTLDListFilter(admin.SimpleListFilter):
+    title = "TLD"
+    parameter_name = "tld"
+
+    def lookups(self, request, model_admin):
+        return [
+            ("reputable", _("Reputable TLDs")),
+            ("non_reputable", _("Non-reputable TLDs")),
+        ]
+
+    def queryset(self, request, queryset):
+        tlds = ReputableLetterEmailTLD.objects.values_list("name", flat=True)
+        q_object = Q()
+        for tld in tlds:
+            q_object |= Q(domain_name__iendswith=tld)
+        if self.value() == "reputable":
+            return queryset.filter(q_object)
+        elif self.value() == "non_reputable":
+            return queryset.exclude(q_object)
 
 
 @admin.register(LetterEmailDomain)
@@ -171,7 +193,19 @@ class LetterEmailDomainAdmin(admin.ModelAdmin):
         "is_monitoring_email_to_domain",
         "is_non_spammer_domain",
         "is_spammer_domain",
+        ReputableTLDListFilter,
     )
     search_fields = ("domain_name",)
     ordering = ("-email_from_count",)
     list_editable = ("is_spammer_domain", "is_non_spammer_domain")
+
+
+@admin.register(ReputableLetterEmailTLD)
+class ReputableLetterEmailTLDAdmin(admin.ModelAdmin):
+    """
+    Admin View for ReputableLetterEmailTLD
+    """
+
+    list_display = ("id", "name")
+    search_fields = ("name",)
+    ordering = ("name",)
