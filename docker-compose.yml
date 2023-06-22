@@ -10,7 +10,7 @@ services:
       - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: "password"
-      MYSQL_DATABASE: feder
+      MYSQL_DATABASE: feder3_copy
     volumes:
       - mariadb-data:/var/lib/mysql
 
