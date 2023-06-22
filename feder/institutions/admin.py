@@ -27,9 +27,11 @@ class InstitutionAdmin(VersionAdmin):
     raw_id_fields = ("jst",)
     actions = ["mark_archival", "mark_non_archival"]
 
+    @admin.display(description=_("Institution tags"))
     def get_tags(self, obj):
         return ", ".join(obj.tags.values_list("name", flat=True))
 
+    @admin.display(description=_("Teryt code"))
     def get_teryt(self, obj):
         return obj.jst.id
 
