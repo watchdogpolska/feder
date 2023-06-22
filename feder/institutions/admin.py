@@ -36,16 +36,22 @@ class InstitutionAdmin(VersionAdmin):
         return obj.jst.id
 
     @admin.action(description=_("Mark selected institution as archival"))
-    def mark_archival(modeladmin, request, queryset):
+    def mark_archival(self, request, queryset):
         queryset.update(
             archival=True,
         )
+        for obj in queryset:
+            self.log_change(request, obj, _("Mark selected institution as archival"))
 
     @admin.action(description=_("Mark selected institution as NON archival"))
-    def mark_non_archival(modeladmin, request, queryset):
+    def mark_non_archival(self, request, queryset):
         queryset.update(
             archival=False,
         )
+        for obj in queryset:
+            self.log_change(
+                request, obj, _("Mark selected institution as NON archival")
+            )
 
     def get_actions(self, request):
         actions = super().get_actions(request)
