@@ -72,7 +72,7 @@
                     {{ case.institution.community|default:'' }}
                 </td>
                 <td>
-                    {{ case.tags_str }}
+                    {{ case.tags_string }}
                 </td>
                 <td class="centered centered_cell">{{ case.first_request.created|date }}</td>
                 <td class="centered centered_cell">{{ case.first_request.emaillog.status_verbose }}</td>
