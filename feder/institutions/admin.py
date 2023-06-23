@@ -23,7 +23,7 @@ class InstitutionAdmin(VersionAdmin):
         "get_tags",
     )
     search_fields = ["name", "tags__name", "jst__name", "jst__id", "email", "regon"]
-    list_filter = ("tags", "archival")
+    list_filter = ("archival", "tags")
     raw_id_fields = ("jst",)
     actions = ["mark_archival", "mark_non_archival"]
 
