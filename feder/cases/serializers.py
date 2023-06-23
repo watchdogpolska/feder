@@ -43,6 +43,7 @@ class CaseReportSerializer(serializers.HyperlinkedModelSerializer):
     last_request_status = serializers.SerializerMethodField(
         label=_("last request status")
     )
+    url = serializers.SerializerMethodField()
 
     class Meta:
         model = Case
@@ -64,7 +65,6 @@ class CaseReportSerializer(serializers.HyperlinkedModelSerializer):
             "last_request_status",
             "url",
         )
-        extra_kwargs = {"url": {"view_name": "cases:details", "lookup_field": "slug"}}
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -114,3 +114,7 @@ class CaseReportSerializer(serializers.HyperlinkedModelSerializer):
 
     def get_response_received(self, obj):
         return _("yes") if obj.response_received else _("no")
+
+    def get_url(self, obj):
+        request = self.context.get("request")
+        return request.build_absolute_uri(obj.get_absolute_url())

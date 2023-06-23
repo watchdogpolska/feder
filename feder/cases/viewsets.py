@@ -53,6 +53,7 @@ class CaseCSVRenderer(PaginatedCSVStreamingRenderer):
         "response_received": _("Response received"),
         "last_request_date": _("Last request date"),
         "last_request_status": _("Last request status"),
+        "url": _("URL"),
     }
     results_field = "results"
 

@@ -1,7 +1,16 @@
+import logging
+import time
+
+from requests.exceptions import ConnectionError
 from tika import parser
 
 from .documents import LetterDocument
 from .settings import APACHE_TIKA_URL
+
+MAX_RETRIES = 5
+WAIT_TIME = 30
+
+logger = logging.getLogger(__name__)
 
 
 def letter_serialize(letter):
@@ -10,9 +19,22 @@ def letter_serialize(letter):
     doc.body = letter.body
     doc.letter_id = letter.pk
     for attachment in letter.attachment_set.all():
-        text = parser.from_file(attachment.attachment.file.file, APACHE_TIKA_URL)[
-            "content"
-        ]
+        for i in range(MAX_RETRIES):
+            try:
+                text = parser.from_file(
+                    attachment.attachment.file.file, APACHE_TIKA_URL
+                )["content"]
+                break
+            except ConnectionError as e:
+                logger.error(f"Error: {e}")
+                if i == MAX_RETRIES - 1:
+                    logger.error(
+                        f"Max retries exceeded. Skipping attachment {attachment.pk}"
+                    )
+                    text = ""
+                    break
+                logger.info(f"Retrying in {WAIT_TIME} seconds...")
+                time.sleep(WAIT_TIME)
         if text:
             doc.content.append(text.strip())
     # print("title", doc.title)
