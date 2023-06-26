@@ -40,6 +40,11 @@ def letter_serialize(letter):
                 logger.error(f"Skipping attachment {attachment.pk}")
                 text = ""
                 break
+            except Exception as e:
+                logger.error(f"Error: {e}, ")
+                logger.error(f"Skipping attachment {attachment.pk}")
+                text = ""
+                break
         if text:
             doc.content.append(text.strip())
     # print("title", doc.title)
