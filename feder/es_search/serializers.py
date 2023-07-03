@@ -35,6 +35,16 @@ def letter_serialize(letter):
                     break
                 logger.info(f"Retrying in {WAIT_TIME} seconds...")
                 time.sleep(WAIT_TIME)
+            except ValueError as e:
+                logger.error(f"Error: {e}")
+                logger.error(f"Skipping attachment {attachment.pk}")
+                text = ""
+                break
+            except Exception as e:
+                logger.error(f"Error: {e}, ")
+                logger.error(f"Skipping attachment {attachment.pk}")
+                text = ""
+                break
         if text:
             doc.content.append(text.strip())
     # print("title", doc.title)
