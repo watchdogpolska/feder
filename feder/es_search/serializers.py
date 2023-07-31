@@ -3,7 +3,6 @@ import time
 
 from requests.exceptions import ConnectionError
 from tika import parser
-from django.core.files.uploadedfile import InMemoryUploadedFile
 
 from .documents import LetterDocument
 from .settings import APACHE_TIKA_URL
