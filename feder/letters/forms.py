@@ -50,18 +50,20 @@ class LetterForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
             )
             self.fields["html_body"].initial = self.get_html_body_with_footer(case=case)
         else:
+            self.initial["html_body"] = letter.html_body or text_to_html(letter.body)
             self.fields["html_body"].widget = HtmlIframeWidget(
                 attrs={
                     "cols": 80,
                     "rows": 20,
                 },
             )
+            self.fields["html_body"].widget.attrs["readonly"] = True
+            self.fields["html_body"].widget.label = self.fields["html_body"].label
             self.fields["title"].widget.attrs["readonly"] = True
-            self.fields["eml"].widget = forms.TextInput(attrs={"readonly": True})
 
     class Meta:
         model = Letter
-        fields = ["title", "html_body", "case", "note", "eml"]
+        fields = ["title", "html_body", "case", "note"]
 
     def get_html_body_with_footer(self, case=None):
         reply_info = BODY_REPLY_TPL.replace("\n", "")
