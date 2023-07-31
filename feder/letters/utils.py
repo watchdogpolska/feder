@@ -103,10 +103,15 @@ def get_body_with_footer(body, footer):
 
 class HtmlIframeWidget(TextInput):
     template_name = "letters/letter_html_iframe_widget.html"
+    input_type = "hidden"
+    label = ""
 
     def get_context(self, name, value, attrs=None):
         context = super().get_context(name, value, attrs)
-        context["widget"]["iframe_src"] = cleaner.clean(value)
+        if value is None:
+            value = ""
+        context["widget"]["iframe_src"] = value
+        context["widget"]["label"] = self.label
         return context
 
 
