@@ -3,6 +3,7 @@ import time
 
 from requests.exceptions import ConnectionError
 from tika import parser
+from django.core.files.uploadedfile import InMemoryUploadedFile
 
 from .documents import LetterDocument
 from .settings import APACHE_TIKA_URL
@@ -21,10 +22,15 @@ def letter_serialize(letter):
     for attachment in letter.attachment_set.all():
         for i in range(MAX_RETRIES):
             try:
-                text = parser.from_file(
-                    attachment.attachment.file.file, APACHE_TIKA_URL
-                )["content"]
-                break
+                if attachment.attachment.file.file.closed:
+                    with attachment.attachment.file.file.open(mode="rb") as f:
+                        text = parser.from_buffer(f, APACHE_TIKA_URL)["content"]
+                    break
+                else:
+                    text = parser.from_file(
+                        attachment.attachment.file.file, APACHE_TIKA_URL
+                    )["content"]
+                    break
             except ConnectionError as e:
                 logger.error(f"Error: {e}")
                 if i == MAX_RETRIES - 1:
