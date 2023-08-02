@@ -1,5 +1,13 @@
 <div class="letter-body">
-        <iframe srcdoc="{{ widget.iframe_src }}"
-                sandbox="allow-top-navigation">
-        </iframe>
+    <input type="{{ widget.type }}" name="{{ widget.name }}" 
+        {% if widget.value != None %}
+            value="{{ widget.value|stringformat:'s' }}" 
+        {% endif %}
+        {% include "django/forms/widgets/attrs.html" %} 
+    />
+    <label for="{{ widget.name }}_iframe" class="control-label  requiredField">
+        {{ widget.label }}<span class="asteriskField">*</span> </label>
+    <iframe id="{{ widget.name }}_iframe" srcdoc="{{ widget.iframe_src }}"
+        sandbox="allow-top-navigation">
+    </iframe>
 </div>
