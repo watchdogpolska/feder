@@ -466,6 +466,7 @@ class LetterResendView(
             record=Record.objects.create(case=case),
             title=self.object.title,
             body=self.object.body,
+            html_body=self.object.html_body,
         )
         self.resend.send(commit=True, only_email=False)
 
