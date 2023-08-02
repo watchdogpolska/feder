@@ -28,11 +28,11 @@ django-autoslug==1.9.9
 pytz==2023.3
 
 # Commands
-lxml==4.9.2
+lxml==4.9.3
 
 
 # Your custom requirements go here
-cryptography==41.0.1
+cryptography==41.0.2
 django-filter==23.2
 django-autocomplete-light==3.9.7
 # django-ajax-datatable to be installed from github fork until
