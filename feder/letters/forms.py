@@ -86,6 +86,7 @@ class LetterForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
                     case=self.cleaned_data["case"]
                 )
             self.instance.record.save()
+        self.instance.save()
         return super().save(*args, **kwargs)
 
 
