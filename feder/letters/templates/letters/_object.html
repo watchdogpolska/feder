@@ -5,7 +5,7 @@
                 sandbox="allow-top-navigation">
         </iframe>
     {% else %}
-        {{ object.body|linebreaks }}
+        {{ object.body|hide_email|linebreaks }}
     {% endif %}
 </div>
 
@@ -17,7 +17,7 @@
                     sandbox="allow-top-navigation">
             </iframe>
         {% else %}
-            {{ object.quote|linebreaks }}
+            {{ object.quote|hide_email|linebreaks }}
         {% endif %}
     </blockquote>
 {% endif %}
