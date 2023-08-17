@@ -1,5 +1,6 @@
 import logging
 import uuid
+import requests
 
 from atom.models import AttachmentBase
 from django.conf import settings
@@ -602,3 +603,31 @@ class Attachment(AttachmentBase):
         return "".join(
             ["https://", get_current_site(None).domain, self.get_absolute_url()]
         )
+
+    def update_text_content(self):
+        try:
+            response = requests.post(
+                settings.FILE_TO_TEXT_URL,
+                files={
+                    "file": (
+                        self.attachment.name.split("/")[-1],
+                        self.attachment.read(),
+                    )
+                },
+                headers={"Authorization": f"JWT {settings.FILE_TO_TEXT_TOKEN}"},
+            )
+            if response.status_code != 200:
+                self.text_content_update_result = (
+                    f"status_code: {response.status_code}, content: {response.content}"
+                )
+                self.save(update_fields=["text_content_update_result"])
+                return False
+            self.text_content = response.json()["text"]
+            self.text_content_update_result = response.json()["message"]
+            self.save(update_fields=["text_content", "text_content_update_result"])
+            return True
+        except Exception as e:
+            print(e)
+            self.text_content_update_result = str(e)
+            self.save(update_fields=["text_content_update_result"])
+            return False

@@ -412,6 +412,9 @@ CORS_URLS_REGEX = r"^/api/.*$"
 ELASTICSEARCH_URL = env("ELASTICSEARCH_URL", default=None)
 APACHE_TIKA_URL = env("APACHE_TIKA_URL", default="http://localhost:9998/tika")
 
+FILE_TO_TEXT_URL = env("FILE_TO_TEXT_URL", default="http://localhost:9980/")
+FILE_TO_TEXT_TOKEN = env("FILE_TO_TEXT_TOKEN", default="")
+
 ELASTICSEARCH_SHOW_SIMILAR = env("ELASTICSEARCH_SHOW_SIMILAR", default=False)
 
 # To avoid unwanted migrations when upgrading to Django 3.2
