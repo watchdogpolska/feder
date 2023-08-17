@@ -570,6 +570,9 @@ class Attachment(AttachmentBase):
     text_content = models.TextField(
         verbose_name=_("Text content"), blank=True, null=True
     )
+    text_content_update_result = models.TextField(
+        verbose_name=_("Text content update result"), blank=True, null=True
+    )
 
     def current_scan_request(self):
         scans = self.scan_request.all()
