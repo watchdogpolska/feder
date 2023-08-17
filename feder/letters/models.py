@@ -567,6 +567,9 @@ class Attachment(AttachmentBase):
     letter = models.ForeignKey(Letter, on_delete=models.CASCADE)
     objects = AttachmentQuerySet.as_manager()
     scan_request = GenericRelation(ScanRequest, verbose_name=_("Virus scan request"))
+    text_content = models.TextField(
+        verbose_name=_("Text content"), blank=True, null=True
+    )
 
     def current_scan_request(self):
         scans = self.scan_request.all()
