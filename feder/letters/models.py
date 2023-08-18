@@ -606,6 +606,9 @@ class Attachment(AttachmentBase):
 
     def update_text_content(self):
         try:
+            logger.info(
+                f"Updating text content for att. {self.pk}: {self.attachment.name}"
+            )
             response = requests.post(
                 settings.FILE_TO_TEXT_URL,
                 files={
@@ -622,12 +625,17 @@ class Attachment(AttachmentBase):
                 )
                 self.save(update_fields=["text_content_update_result"])
                 return False
+            log_message_dict = response.json().copy()
+            _ = log_message_dict.pop("text")
+            logger.info(
+                f"File to text API response:{response.status_code}, {log_message_dict}"
+            )
             self.text_content = response.json()["text"]
             self.text_content_update_result = response.json()["message"]
             self.save(update_fields=["text_content", "text_content_update_result"])
             return True
         except Exception as e:
-            print(e)
+            logger.error(e)
             self.text_content_update_result = str(e)
             self.save(update_fields=["text_content_update_result"])
             return False
