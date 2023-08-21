@@ -24,12 +24,14 @@ from model_utils import Choices
 from feder.cases.models import Case, enforce_quarantined_queryset
 from feder.domains.models import Domain
 from feder.institutions.models import Institution
+from feder.main.ai_integration import get_openai_completion
 from feder.main.exceptions import FederValueError
 from feder.main.utils import get_email_domain
 from feder.records.models import AbstractRecord, AbstractRecordQuerySet, Record
 
 from ..es_search.queries import find_document, more_like_this
 from ..virus_scan.models import Request as ScanRequest
+from .prompts import letter_evaluation_prompt
 from .utils import (
     html_email_wrapper,
     html_to_text,
@@ -435,6 +437,44 @@ class Letter(AbstractRecord):
             self.is_spam = Letter.SPAM.probable_spam
             self.save()
             return
+
+    def evaluate_letter_content_with_ai(self):
+        attachments_text_content_list = [
+            attachment.text_content
+            if attachment.text_content_update_result == "Processed"
+            else ""
+            for attachment in self.attachment_set.all()
+        ]
+        attachments_text_content = "\n".join(attachments_text_content_list)
+        response_full_text = self.body + "\n" + attachments_text_content
+        q1_prompt = letter_evaluation_prompt(
+            monitoring_question=self.case.monitoring.template,
+            institution=self.case.institution.name,
+            response=response_full_text,
+        )["q_1"]
+        # logger.info(f"\n\n\nOpenAI q1 prompt: {q1_prompt}\n\n\n")
+        response = get_openai_completion(
+            prompt=q1_prompt,
+            role="user",
+        )
+        logger.info(f"\n\n\nOpenAI q1 letter {self.pk} evaluation: {response}\n\n\n")
+        self.ai_evaluation = response
+        if response.startswith("A) email jest odpowiedzią"):
+            q2_prompt = letter_evaluation_prompt(
+                monitoring_question=self.case.monitoring.template,
+                institution=self.case.institution.name,
+                response=response_full_text,
+            )["q_2"]
+            # logger.info(f"\n\n\nOpenAI q2 prompt: {q2_prompt}\n\n\n")
+            response = get_openai_completion(
+                prompt=q2_prompt,
+                role="user",
+            )
+            logger.info(
+                f"\n\n\nOpenAI q2 letter {self.pk} evaluation: {response}\n\n\n"
+            )
+            self.ai_evaluation += "\n\n" + response
+        self.save()
 
 
 class LetterEmailDomain(TimeStampedModel):
