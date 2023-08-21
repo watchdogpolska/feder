@@ -154,6 +154,9 @@ class Letter(AbstractRecord):
         verbose_name=_("To email address"), max_length=100, blank=True, null=True
     )
     note = models.TextField(verbose_name=_("Comments from editor"), blank=True)
+    ai_evaluation = models.TextField(
+        verbose_name=_("Letter AI evaluation"), blank=True, null=True
+    )
     is_spam = models.IntegerField(
         verbose_name=_("Is SPAM?"), choices=SPAM, default=SPAM.unknown, db_index=True
     )
