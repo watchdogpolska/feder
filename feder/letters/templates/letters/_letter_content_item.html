@@ -3,6 +3,9 @@
     <td>
         <i class="fa fa fa-envelope"></i>
         <a href="{{ object.get_absolute_url }}">{{ object }}</a>
+        {% if object.ai_evaluation %}
+            <p class="text-muted">{{ object.ai_evaluation|linebreaksbr }}</p>
+        {% endif %}
     </td>
     <td>
         <i class="fa fa fa-{{ object.author_user | yesno:'user,home' }}"></i>
