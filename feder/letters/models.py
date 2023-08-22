@@ -476,6 +476,13 @@ class Letter(AbstractRecord):
             self.ai_evaluation += "\n\n" + response
         self.save()
 
+    def ai_prompt_help(self):
+        return "Wszystkie możliwe opcje: \n" + letter_evaluation_prompt(
+            monitoring_question="",
+            institution=self.case.institution.name,
+            response="",
+        )["q_1"].split("```")[-2].replace("            ", "")
+
 
 class LetterEmailDomain(TimeStampedModel):
     domain_name = models.CharField(
