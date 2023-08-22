@@ -100,6 +100,11 @@ class Monitoring(RenderBooleanFieldMixin, TimeStampedModel):
         help_text=_("Use {{EMAIL}} for insert reply address"),
         validators=[validate_template_syntax],
     )
+    results = models.TextField(
+        default="",
+        verbose_name=_("Results"),
+        help_text=_("Resulrs of monitoring and received responses"),
+    )
     email_footer = models.TextField(
         default="",
         verbose_name=_("Email footer"),
