@@ -1,6 +1,7 @@
 import logging
 import uuid
 
+import requests
 from atom.models import AttachmentBase
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -23,12 +24,14 @@ from model_utils import Choices
 from feder.cases.models import Case, enforce_quarantined_queryset
 from feder.domains.models import Domain
 from feder.institutions.models import Institution
+from feder.main.ai_integration import get_openai_completion
 from feder.main.exceptions import FederValueError
 from feder.main.utils import get_email_domain
 from feder.records.models import AbstractRecord, AbstractRecordQuerySet, Record
 
 from ..es_search.queries import find_document, more_like_this
 from ..virus_scan.models import Request as ScanRequest
+from .prompts import letter_evaluation_prompt
 from .utils import (
     html_email_wrapper,
     html_to_text,
@@ -153,6 +156,9 @@ class Letter(AbstractRecord):
         verbose_name=_("To email address"), max_length=100, blank=True, null=True
     )
     note = models.TextField(verbose_name=_("Comments from editor"), blank=True)
+    ai_evaluation = models.TextField(
+        verbose_name=_("Letter AI evaluation"), blank=True, null=True
+    )
     is_spam = models.IntegerField(
         verbose_name=_("Is SPAM?"), choices=SPAM, default=SPAM.unknown, db_index=True
     )
@@ -432,6 +438,51 @@ class Letter(AbstractRecord):
             self.save()
             return
 
+    def evaluate_letter_content_with_ai(self):
+        attachments_text_content_list = [
+            attachment.text_content
+            if attachment.text_content_update_result == "Processed"
+            else ""
+            for attachment in self.attachment_set.all()
+        ]
+        attachments_text_content = "\n".join(attachments_text_content_list)
+        response_full_text = self.body + "\n" + attachments_text_content
+        q1_prompt = letter_evaluation_prompt(
+            monitoring_question=self.case.monitoring.template,
+            institution=self.case.institution.name,
+            response=response_full_text,
+        )["q_1"]
+        # logger.info(f"\n\n\nOpenAI q1 prompt: {q1_prompt}\n\n\n")
+        response = get_openai_completion(
+            prompt=q1_prompt,
+            role="user",
+        )
+        logger.info(f"\n\n\nOpenAI q1 letter {self.pk} evaluation: {response}\n\n\n")
+        self.ai_evaluation = response
+        if response.startswith("A) email jest odpowiedzią"):
+            q2_prompt = letter_evaluation_prompt(
+                monitoring_question=self.case.monitoring.template,
+                institution=self.case.institution.name,
+                response=response_full_text,
+            )["q_2"]
+            # logger.info(f"\n\n\nOpenAI q2 prompt: {q2_prompt}\n\n\n")
+            response = get_openai_completion(
+                prompt=q2_prompt,
+                role="user",
+            )
+            logger.info(
+                f"\n\n\nOpenAI q2 letter {self.pk} evaluation: {response}\n\n\n"
+            )
+            self.ai_evaluation += "\n\n" + response
+        self.save()
+
+    def ai_prompt_help(self):
+        return "Wszystkie możliwe opcje: \n" + letter_evaluation_prompt(
+            monitoring_question="",
+            institution=self.case.institution.name,
+            response="",
+        )["q_1"].split("```")[-2].replace("            ", "")
+
 
 class LetterEmailDomain(TimeStampedModel):
     domain_name = models.CharField(
@@ -567,6 +618,12 @@ class Attachment(AttachmentBase):
     letter = models.ForeignKey(Letter, on_delete=models.CASCADE)
     objects = AttachmentQuerySet.as_manager()
     scan_request = GenericRelation(ScanRequest, verbose_name=_("Virus scan request"))
+    text_content = models.TextField(
+        verbose_name=_("Text content"), blank=True, null=True
+    )
+    text_content_update_result = models.TextField(
+        verbose_name=_("Text content update result"), blank=True, null=True
+    )
 
     def current_scan_request(self):
         scans = self.scan_request.all()
@@ -596,3 +653,39 @@ class Attachment(AttachmentBase):
         return "".join(
             ["https://", get_current_site(None).domain, self.get_absolute_url()]
         )
+
+    def update_text_content(self):
+        try:
+            logger.info(
+                f"Updating text content for att. {self.pk}: {self.attachment.name}"
+            )
+            response = requests.post(
+                settings.FILE_TO_TEXT_URL,
+                files={
+                    "file": (
+                        self.attachment.name.split("/")[-1],
+                        self.attachment.read(),
+                    )
+                },
+                headers={"Authorization": f"JWT {settings.FILE_TO_TEXT_TOKEN}"},
+            )
+            if response.status_code != 200:
+                self.text_content_update_result = (
+                    f"status_code: {response.status_code}, content: {response.content}"
+                )
+                self.save(update_fields=["text_content_update_result"])
+                return False
+            log_message_dict = response.json().copy()
+            _ = log_message_dict.pop("text")
+            logger.info(
+                f"File to text API response:{response.status_code}, {log_message_dict}"
+            )
+            self.text_content = response.json()["text"]
+            self.text_content_update_result = response.json()["message"]
+            self.save(update_fields=["text_content", "text_content_update_result"])
+            return True
+        except Exception as e:
+            logger.error(e)
+            self.text_content_update_result = str(e)
+            self.save(update_fields=["text_content_update_result"])
+            return False

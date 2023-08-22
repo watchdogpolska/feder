@@ -4,7 +4,7 @@ from feder.virus_scan.models import Request
 
 
 @admin.register(Request)
-class LetterAdmin(admin.ModelAdmin):
+class ScanRequestAdmin(admin.ModelAdmin):
     list_display = (
         "content_type",
         "content_object",

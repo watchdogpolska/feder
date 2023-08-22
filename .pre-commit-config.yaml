@@ -11,7 +11,7 @@ repos:
       - id: django-upgrade
         args: [--target-version, "3.2"]
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.7.0
+    rev: v3.10.1
     hooks:
       - id: pyupgrade
         args:
@@ -28,7 +28,7 @@ repos:
           - --skip-glob
           - "**/migrations/*.py"
   - repo: https://github.com/sirosen/check-jsonschema
-    rev: 0.23.2
+    rev: 0.24.1
     hooks:
       - id: check-github-workflows
       - id: check-readthedocs
@@ -39,7 +39,7 @@ repos:
         args: [-c, .yamllint.yml]
         exclude: "feder/letters/logs/cassettes/.*"
   - repo: https://github.com/psf/black
-    rev: 23.3.0
+    rev: 23.7.0
     hooks:
       - id: black
         args:
@@ -47,7 +47,7 @@ repos:
           - ./pyproject.toml
         exclude: '.*/[^/]+/migrations/[^/]+\.py'
   - repo: https://github.com/PyCQA/flake8
-    rev: 6.0.0
+    rev: 6.1.0
     hooks:
       - id: flake8
         args:

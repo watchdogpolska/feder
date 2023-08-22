@@ -56,6 +56,9 @@ services:
       ATTACHMENTSCANNER_API_KEY: ""
       ATTACHMENTSCANNER_API_URL: ""
       METADEFENDER_API_KEY: ${METADEFENDER_API_KEY}
+      FILE_TO_TEXT_URL: ${FILE_TO_TEXT_URL}
+      FILE_TO_TEXT_TOKEN: ${FILE_TO_TEXT_TOKEN}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
     ports:
       - "8000:8000"
     # Following allows to execute `docker attach feder_web_1`
