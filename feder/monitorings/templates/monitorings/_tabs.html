@@ -23,4 +23,9 @@
                 href="{% url 'monitorings:template' slug=object.slug %}"
             {% endif %}
         >{% trans 'Template' %}</a></li>
+        <li{% if tab == 'results' %} class="active"{% endif %}><a
+        {% if tab != 'results' %}
+            href="{% url 'monitorings:results' slug=object.slug %}"
+        {% endif %}
+        >{% trans 'Results' %}</a></li>
     </ul>
