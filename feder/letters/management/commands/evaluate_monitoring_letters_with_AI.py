@@ -24,7 +24,7 @@ class Command(BaseCommand):
         for letter in monitoring_resp_letters:
             print(f"Processing letter: {letter.pk}, ")
             for att in letter.attachment_set.all():
-                print(f"Updating text content of attachment: {att.pk}, {att.file}")
+                print(f"Updating text content of att.: {att.pk}, {att.attachment.name}")
                 att.update_text_content()
             if letter.ai_evaluation is None:
                 print(f"Evaluating letter: {letter.pk}")
