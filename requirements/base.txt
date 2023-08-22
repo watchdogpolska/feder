@@ -32,7 +32,7 @@ lxml==4.9.3
 
 
 # Your custom requirements go here
-cryptography==41.0.2
+cryptography==41.0.3
 django-filter==23.2
 django-autocomplete-light==3.9.7
 # django-ajax-datatable to be installed from github fork until
@@ -75,3 +75,6 @@ tika==2.6.0
 django-rosetta==0.9.9
 bleach==6.0.0
 openpyxl==3.1.2
+
+openai==0.27.8
+tiktoken==0.4.0

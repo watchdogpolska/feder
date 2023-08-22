@@ -78,9 +78,19 @@ urlpatterns = [
         name="template",
     ),
     re_path(
+        r"^(?P<slug>[\w-]+)/results",
+        views.MonitoringResultsView.as_view(),
+        name="results",
+    ),
+    re_path(
         _(r"^(?P<slug>[\w-]+)/~update$"),
         views.MonitoringUpdateView.as_view(),
         name="update",
+    ),
+    re_path(
+        r"^(?P<slug>[\w-]+)/~results-update$",
+        views.MonitoringResultsUpdateView.as_view(),
+        name="results_update",
     ),
     re_path(
         _(r"^(?P<slug>[\w-]+)/~delete$"),
