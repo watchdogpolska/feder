@@ -66,6 +66,7 @@ from .forms import (
     CheckboxTranslatedUserObjectPermissionsForm,
     MassMessageForm,
     MonitoringForm,
+    MonitoringResultsForm,
     SaveTranslatedUserObjectPermissionsForm,
     SelectUserForm,
 )
@@ -565,6 +566,24 @@ class MonitoringTemplateView(DetailView):
         return context
 
 
+class MonitoringResultsView(DetailView):
+    model = Monitoring
+    template_name_suffix = "_results"
+    select_related = ["user"]
+
+    def get_context_data(self, **kwargs):
+        kwargs["url_extra_kwargs"] = {"slug": self.object.slug}
+        context = super().get_context_data(**kwargs)
+        context["voivodeship_table"] = mark_safe(
+            self.object.generate_voivodeship_table()
+        )
+        if is_formatted_html(self.object.results):
+            context["results"] = mark_safe(self.object.results)
+        else:
+            context["results"] = mark_safe(text_to_html(self.object.results))
+        return context
+
+
 class MonitoringCreateView(
     LoginRequiredMixin,
     PermissionRequiredMixin,
@@ -612,6 +631,19 @@ class MonitoringUpdateView(
 ):
     model = Monitoring
     form_class = MonitoringForm
+    permission_required = "monitorings.change_monitoring"
+
+
+class MonitoringResultsUpdateView(
+    RaisePermissionRequiredMixin,
+    UserFormKwargsMixin,
+    UpdateMessageMixin,
+    FormValidMessageMixin,
+    FormValidLogEntryMixin,
+    UpdateView,
+):
+    model = Monitoring
+    form_class = MonitoringResultsForm
     permission_required = "monitorings.change_monitoring"
 
 
