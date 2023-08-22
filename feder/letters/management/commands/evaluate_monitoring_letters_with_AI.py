@@ -28,7 +28,7 @@ class Command(BaseCommand):
                 att.update_text_content()
             if letter.ai_evaluation is None:
                 print(f"Evaluating letter: {letter.pk}")
-                letter.ai_evaluation = letter.evaluate_with_ai()
+                letter.ai_evaluation = letter.evaluate_letter_content_with_ai()
                 letter.save()
                 print(f"Letter {letter.pk} evaluated with AI: {letter.ai_evaluation}")
             else:
