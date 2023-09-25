@@ -26,7 +26,8 @@ class Command(BaseCommand):
             if letter.ai_evaluation is None:
                 for att in letter.attachment_set.all():
                     print(
-                        f"Updating text content of att.: {att.pk}, {att.attachment.name}"
+                        f"Updating text content of att.: {att.pk},",
+                        f" {att.attachment.name}",
                     )
                     att.update_text_content()
                 print(f"Evaluating letter: {letter.pk}")
