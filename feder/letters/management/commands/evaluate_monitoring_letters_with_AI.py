@@ -23,10 +23,12 @@ class Command(BaseCommand):
         print("Number of letters to evaluate", monitoring_resp_letters.count())
         for letter in monitoring_resp_letters:
             print(f"Processing letter: {letter.pk}, ")
-            for att in letter.attachment_set.all():
-                print(f"Updating text content of att.: {att.pk}, {att.attachment.name}")
-                att.update_text_content()
             if letter.ai_evaluation is None:
+                for att in letter.attachment_set.all():
+                    print(
+                        f"Updating text content of att.: {att.pk}, {att.attachment.name}"
+                    )
+                    att.update_text_content()
                 print(f"Evaluating letter: {letter.pk}")
                 letter.evaluate_letter_content_with_ai()
                 print(f"Letter {letter.pk} evaluated with AI: {letter.ai_evaluation}")
