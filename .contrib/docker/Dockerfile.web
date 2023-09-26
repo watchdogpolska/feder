@@ -2,8 +2,6 @@
 ARG PYTHON_VERSION='3.10.6'
 FROM python:${PYTHON_VERSION}-slim
 RUN python --version
-RUN pip install --upgrade pip
-RUN pip --version
 RUN mkdir /code /code/production
 WORKDIR /code
 
@@ -20,6 +18,8 @@ RUN apt-get update \
    htop \
    gettext libgettextpo-dev wait-for-it \
 && rm -rf /var/lib/apt/lists/*
+RUN pip install --upgrade pip
+RUN pip --version
 COPY requirements/*.txt ./requirements/
 ARG DJANGO_VERSION='==3.2.20'
 # TODO: Move to /requirements/base.txt after fixing following bug:
