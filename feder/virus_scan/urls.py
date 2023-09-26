@@ -7,7 +7,7 @@ from . import views
 urlpatterns = [
     # URL pattern for the UserListView
     re_path(
-        regex=_(r"^webhook/$"),
+        _(r"^webhook/$"),
         view=csrf_exempt(views.RequestWebhookView.as_view()),
         name="webhook",
     ),
