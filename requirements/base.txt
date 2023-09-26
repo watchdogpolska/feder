@@ -41,7 +41,11 @@ django-autocomplete-light==3.9.7
 git+https://github.com/PiotrIw/django-ajax-datatable.git@05afe42
 
 django-tinymce==3.6.1
-django-atom==0.16.3
+
+# replacing unmaintained django-atom with updated fork
+# django-atom==0.16.3
+git+https://github.com/PiotrIw/django-atom.git@master#egg=django-atom
+
 django-formtools==2.4.1
 django-mptt==0.14.0
 jsonfield==3.1.0
