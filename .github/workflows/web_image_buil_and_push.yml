@@ -9,7 +9,7 @@ on:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true && (github.ref == 'master' || github.ref == 'develop')
+    if: github.event.pull_request.merged == true && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/develop')
     steps:
       - name: Checkout
         uses: actions/checkout@v3
