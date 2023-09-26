@@ -14,6 +14,8 @@ def letter_evaluation_prompt(monitoring_question="", institution="", response=""
                 wniosku o informację publiczną.
             B) email jest odpowiedzią z {institution} i zawiera odmowę odpowiedzi na
                 pytania z wniosku o informację publiczną.
+            B1) email jest odpowiedzią z {institution} i zawiera informację o
+                przedłużeniu terminu na odpowiedź.
             C) email jest potwierdzeniem dostarczenia lub otwarcia maila z {institution}
                 i nie zawiera odpowiedzi na pytania z wniosku o informację publiczną.
             D) email nie jest odpowiedzią z {institution} i jest spamem.
@@ -21,9 +23,11 @@ def letter_evaluation_prompt(monitoring_question="", institution="", response=""
             ```
             """,
         "q_2": f"""{instruction}
-            Oceń otrzymany email z załącznikami i podaj numery pytań z wniosku o
+            Oceń otrzymany email z załącznikami i podaj oznaczenia pytań z wniosku o
             informację publiczną bez ich treści, na które udzielono odpowiedzi oraz
-            numery pytań z wniosku na które nie udzielono odpowiedzi.
+            numery pytań z wniosku na które odmówiono udzielenia odpowiedzi. Osobno
+            podaj oznaczenia pytań dla których poproszono o wydłużenie terminu na
+            odpowiedź.
             """,
     }
     return prompts
