@@ -412,6 +412,9 @@ CORS_URLS_REGEX = r"^/api/.*$"
 ELASTICSEARCH_URL = env("ELASTICSEARCH_URL", default=None)
 APACHE_TIKA_URL = env("APACHE_TIKA_URL", default="http://localhost:9998/tika")
 
+FILE_TO_TEXT_URL = env("FILE_TO_TEXT_URL", default="http://localhost:9980/")
+FILE_TO_TEXT_TOKEN = env("FILE_TO_TEXT_TOKEN", default="")
+
 ELASTICSEARCH_SHOW_SIMILAR = env("ELASTICSEARCH_SHOW_SIMILAR", default=False)
 
 # To avoid unwanted migrations when upgrading to Django 3.2
@@ -500,3 +503,11 @@ BLEACH_ALLOWED_ATTRIBUTES = ALLOWED_ATTRIBUTES = {
     "acronym": ["title"],
     "img": ["alt", "src", "title"],
 }
+
+OPENAI_API_KEY = env.str("OPENAI_API_KEY", "")
+OPENAI_LLM_MODEL = env.str("OPENAI_LLM_MODEL", "gpt-3.5-turbo")
+OPENAI_LLM_MODEL_MAX_TOKENS = env.int("OPENAI_LLM_MODEL_MAX_TOKENS", 4000)
+OPENAI_LLM_MODEL_LARGE = env.str("OPENAI_LLM_MODEL", "gpt-3.5-turbo-16k")
+OPENAI_LLM_MODEL_LARGE_MAX_TOKENS = env.int("OPENAI_LLM_MODEL_LARGE_MAX_TOKENS", 16000)
+OPENAI_LLM_TEMPERATURE = env.float("OPENAI_LLM_TEMPERATURE", 0.0)
+OPENAI_MAX_RETRIES = env.int("OPENAI_MAX_RETRIES", 5)

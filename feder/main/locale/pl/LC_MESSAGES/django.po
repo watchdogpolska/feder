@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: main 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-22 11:13+0000\n"
-"PO-Revision-Date: 2023-06-07 16:06+0000\n"
+"POT-Creation-Date: 2023-10-02 09:50+0000\n"
+"PO-Revision-Date: 2023-08-22 10:20+0000\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -27,6 +27,11 @@ msgstr "Polski"
 #: config/settings/common.py:173
 msgid "English"
 msgstr "Angielski"
+
+#: feder/main/ai_integration.py:46
+#, python-brace-format
+msgid "Prompt of {token_count} is too long."
+msgstr "Prompt ze {token_count} tokenami jest za długi."
 
 #: feder/main/mixins.py:205
 msgid "Page number is not valid."

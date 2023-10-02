@@ -71,6 +71,43 @@ class MonitoringForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm
         ]
 
 
+class MonitoringResultsForm(
+    SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm
+):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.instance.user = self.user
+        self.fields["results"].widget = TinyMCE(attrs={"cols": 80, "rows": 25})
+        self.fields["subject"].widget.attrs["readonly"] = True
+        self.fields["name"].widget.attrs["readonly"] = True
+        self.fields["description"].widget.attrs["readonly"] = True
+        self.helper.layout = Layout(
+            Row(
+                Column(
+                    Fieldset(
+                        _("Monitoring info"),
+                        "name",
+                        "description",
+                    ),
+                    css_class="form-group col-md-5 mb-0",
+                ),
+                Column(
+                    Fieldset(_("Monitoring results"), "subject", "results"),
+                    css_class="form-group col-md-7 mb-0",
+                ),
+            ),
+        )
+
+    class Meta:
+        model = Monitoring
+        fields = [
+            "name",
+            "description",
+            "subject",
+            "results",
+        ]
+
+
 class SelectUserForm(forms.Form):
     user = forms.ModelChoiceField(
         queryset=User.objects.all(),

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cases 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-22 11:13+0000\n"
-"PO-Revision-Date: 2023-06-15 14:07+0000\n"
+"POT-Creation-Date: 2023-10-02 09:50+0000\n"
+"PO-Revision-Date: 2023-08-22 10:20+0000\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -262,7 +262,11 @@ msgstr "Powiat"
 msgid "Voivodeship"
 msgstr "Województwo"
 
-#: feder/cases/viewsets.py:95
+#: feder/cases/viewsets.py:56
+msgid "URL"
+msgstr "URL"
+
+#: feder/cases/viewsets.py:96
 msgid "case_report"
 msgstr "raport_spraw"
 

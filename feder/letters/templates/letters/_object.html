@@ -51,26 +51,39 @@
             {% trans 'Attachments' %}
         </h4>
         <ul>
+            <table class="table">
             {% for attachment in object.attachment_set.all %}
-                <li>
-                    {{ attachment }}
-                    {% if attachment.current_scan_request %}
-                        ({% include 'virus_scan/_request.html' with object=attachment.current_scan_request %})
-                        {% if not attachment.is_infected %}
-                            <a class="btn btn-xs btn-primary" href="{{ attachment.get_absolute_url }}">
-                                <i class="fa fa fa-download"></i>
-                                {% trans 'Download' %}
-                            </a>
+                <tr>
+                    <td>
+                        <li>
+                            {{ attachment }}
+                            {% if attachment.current_scan_request %}
+                                ({% include 'virus_scan/_request.html' with object=attachment.current_scan_request %})
+                                {% if not attachment.is_infected %}
+                                    <a class="btn btn-xs btn-primary" href="{{ attachment.get_absolute_url }}">
+                                        <i class="fa fa fa-download"></i>
+                                        {% trans 'Download' %}
+                                    </a>
+                                {% endif %}
+                            {% else %}
+                                (nieskanowany)
+                                <a class="btn btn-xs btn-default" href="{% url 'letters:scan' pk=attachment.pk letter_pk=object.pk %}">
+                                    <i class="fa fa fa-eye"></i>
+                                    {% trans 'Scan' %}
+                                </a>
+                            {% endif %}
+                        </li>
+                    </td>
+                    <td>
+                        {% if attachment.text_content %}
+                        <blockquote class="expandable">
+                            <p>{{ attachment.text_content|linebreaksbr }}</p>
+                        </blockquote>
                         {% endif %}
-                    {% else %}
-                        (nieskanowany)
-                        <a class="btn btn-xs btn-default" href="{% url 'letters:scan' pk=attachment.pk letter_pk=object.pk %}">
-                            <i class="fa fa fa-eye"></i>
-                            {% trans 'Scan' %}
-                        </a>
-                    {% endif %}
-                </li>
+                    </td>
+                </tr>
             {% endfor %}
+            </table>    
         </ul>
     </div>
 {% endif %}

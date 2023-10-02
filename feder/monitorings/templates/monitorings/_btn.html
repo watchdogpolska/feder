@@ -8,6 +8,9 @@
                 <a class="btn btn-default" href="{% url 'monitorings:update' slug=object.slug %}">
                     {% trans 'Edit' %}
                 </a>
+                <a class="btn btn-default" href="{% url 'monitorings:results_update' slug=object.slug %}">
+                    {% trans 'Update results' %}
+                </a>
                 <a class="btn btn-default" href="{% url 'monitorings:assign' slug=object.slug %}">
                     {% trans 'Assign' %}
                 </a>
