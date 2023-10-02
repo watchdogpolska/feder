@@ -40,6 +40,10 @@
         <div class="text-center">
             {% bootstrap_paginate object_list url_view_name='monitorings:details' url_extra_kwargs=url_extra_kwargs %}
         </div>
+    {% elif monitoring_all_cases_count == 0 %}
+        <div class="gray">
+            <p>{% trans 'No cases defined.' %}</p>
+        </div>
     {% else %}
         <div class="gray">
             <p>{% trans 'No cases available to user: ' %} {{ user }}</p>

@@ -421,6 +421,7 @@ class MonitoringDetailView(SelectRelatedMixin, ExtraListMixin, DetailView):
         context["voivodeship_table"] = mark_safe(
             self.object.generate_voivodeship_table()
         )
+        context["monitoring_all_cases_count"] = self.object.case_set.all().count()
         return context
 
     def get_object_list(self, obj):
