@@ -31,6 +31,15 @@ class CaseAdmin(VersionAdmin, GuardedModelAdmin):
         "email",
         "tags__name",
     ]
+    readonly_fields = [
+        "id",
+        "slug",
+        "first_request",
+        "last_request",
+        "monitoring",
+        "email",
+        "institution",
+    ]
     list_filter = [
         "confirmation_received",
         "response_received",

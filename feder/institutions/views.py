@@ -123,6 +123,9 @@ class InstitutionAutocomplete(autocomplete.Select2QuerySetView):
             qs = qs.filter(name__icontains=self.q)
         return qs.all().order_by("name")
 
+    def get_result_label(self, result):
+        return f"{result.name_with_jst}"
+
 
 class TagAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):

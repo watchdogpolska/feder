@@ -73,6 +73,10 @@ class Institution(TimeStampedModel):
             return self.name + _(" (archival)")
         return self.name
 
+    @property
+    def name_with_jst(self):
+        return f"{self.name}; {self.jst.tree_name}"
+
     def get_absolute_url(self):
         return reverse("institutions:details", kwargs={"slug": self.slug})
 

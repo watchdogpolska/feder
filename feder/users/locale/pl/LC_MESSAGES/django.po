@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-22 10:18+0000\n"
+"POT-Creation-Date: 2023-10-02 09:50+0000\n"
 "PO-Revision-Date: 2020-07-11 23:52+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: \n"
@@ -57,19 +57,19 @@ msgstr "Użytkownicy / użytkowniczki"
 msgid "^$"
 msgstr "^$"
 
-#: feder/users/urls.py:11
+#: feder/users/urls.py:10
 msgid "^~redirect/$"
 msgstr "^~przekieruj/$"
 
-#: feder/users/urls.py:15
+#: feder/users/urls.py:13
 msgid "^(?P<username>[\\w.@+-]+)/$"
 msgstr "^(?P<username>[\\w.@+-]+)/$"
 
-#: feder/users/urls.py:20
+#: feder/users/urls.py:18
 msgid "^~update/$"
 msgstr "^~aktualizuj/$"
 
-#: feder/users/urls.py:23
+#: feder/users/urls.py:21
 msgid "^~autocomplete$"
 msgstr "^~autocomplete$"
 
