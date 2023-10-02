@@ -4,7 +4,7 @@ from feder.letters.models import Letter
 
 
 class Command(BaseCommand):
-    help = "Mark duplicated letters as spam based on 'Message-ID'."
+    help = "Evaluate Monitoiring letter responses content with OpenAI."
 
     def add_arguments(self, parser):
         parser.add_argument(

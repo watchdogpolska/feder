@@ -691,10 +691,12 @@ class ReceiveEmail(View):
         LetterEmailDomain.register_letter_email_domains(letter=letter)
         # TODO
         # letter.spam_check()
-        Attachment.objects.bulk_create(
+        letter_attachemnts = Attachment.objects.bulk_create(
             self.get_attachment(attachment, letter)
             for attachment in request.FILES.getlist("attachment")
         )
+        for attachment in letter_attachemnts:
+            attachment.update_text_content()
         return JsonResponse({"status": "OK", "letter": letter.pk})
 
     def get_letter(self, headers, eml_manifest, text, eml_data, **kwargs):
