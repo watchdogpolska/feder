@@ -530,17 +530,19 @@ class LetterEmailDomain(TimeStampedModel):
         is_outgoing = (
             letter.is_outgoing or "fedrowanie.siecobywatelska.pl" in letter.email_from
         )
-        from_domain_name = get_email_domain(letter.email_from)
-        from_domain, _ = cls.objects.get_or_create(domain_name=from_domain_name)
-        from_domain.is_trusted_domain = from_domain.domain_name in trusted_domains
-        from_domain.save()
-        from_domain.add_email_from_letter()
-        to_domain_name = get_email_domain(letter.email_to)
-        to_domain, _ = cls.objects.get_or_create(domain_name=to_domain_name)
-        to_domain.is_trusted_domain = to_domain.domain_name in trusted_domains
-        to_domain.is_monitoring_email_to_domain = is_outgoing
-        to_domain.save()
-        to_domain.add_email_to_letter()
+        if letter.email_from and "@" in letter.email_from:
+            from_domain_name = get_email_domain(letter.email_from)
+            from_domain, _ = cls.objects.get_or_create(domain_name=from_domain_name)
+            from_domain.is_trusted_domain = from_domain.domain_name in trusted_domains
+            from_domain.save()
+            from_domain.add_email_from_letter()
+        if letter.email_to and "@" in letter.email_to:
+            to_domain_name = get_email_domain(letter.email_to)
+            to_domain, _ = cls.objects.get_or_create(domain_name=to_domain_name)
+            to_domain.is_trusted_domain = to_domain.domain_name in trusted_domains
+            to_domain.is_monitoring_email_to_domain = is_outgoing
+            to_domain.save()
+            to_domain.add_email_to_letter()
 
     class Meta:
         verbose_name = _("Letter Email domain")
