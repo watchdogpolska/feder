@@ -673,7 +673,9 @@ class Attachment(AttachmentBase):
                 self.text_content_update_result = (
                     f"status_code: {response.status_code}, content: {response.content}"
                 )
-                self.save(update_fields=["text_content_update_result"])
+                # save update_fields does not work with MySQL 5.7
+                # self.save(update_fields=["text_content_update_result"])
+                self.save()
                 return False
             log_message_dict = response.json().copy()
             _ = log_message_dict.pop("text")
@@ -682,10 +684,14 @@ class Attachment(AttachmentBase):
             )
             self.text_content = response.json()["text"]
             self.text_content_update_result = response.json()["message"]
-            self.save(update_fields=["text_content", "text_content_update_result"])
+            # save update_fields does not work with MySQL 5.7
+            # self.save(update_fields=["text_content", "text_content_update_result"])
+            self.save()
             return True
         except Exception as e:
             logger.error(e)
             self.text_content_update_result = str(e)
-            self.save(update_fields=["text_content_update_result"])
+            # save update_fields does not work with MySQL 5.7
+            # self.save(update_fields=["text_content_update_result"])
+            self.save()
             return False
