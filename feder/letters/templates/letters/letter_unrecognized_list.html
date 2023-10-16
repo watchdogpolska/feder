@@ -2,5 +2,5 @@
 {% load i18n crispy_forms_tags %}
 
 {% block content %}
-    {% include '_filter.html' with pager=pager title='Letters unassigned to case' form=filter.form object_list=object_list object_template='letters/_letter_unrecognized_small.html' %}
+    {% include '_filter.html' with pager=pager title='Letters unassigned to cases' form=filter.form object_list=object_list object_template='letters/_letter_unrecognized_small.html' %}
 {% endblock %}
