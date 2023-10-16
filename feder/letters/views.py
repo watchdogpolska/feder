@@ -714,14 +714,14 @@ class ReceiveEmail(View):
             message_type = Letter.MESSAGE_TYPES.regular
 
         if Letter.objects.filter(
-            email_from=headers["from"][0] if headers["from"][0] else None,
-            email_to=headers["to"][0] if headers["from"][0] else None,
+            email_from=headers["from"][0] if headers.get("from") else None,
+            email_to=headers["to"][0] if headers.get("to") else None,
             message_id_header=headers["message_id"],
             title=headers["subject"],
         ).exists():
             letter_to_add = Letter.objects.filter(
-                email_from=headers["from"][0] if headers["from"][0] else None,
-                email_to=headers["to"][0] if headers["from"][0] else None,
+                email_from=headers["from"][0] if headers.get("from") else None,
+                email_to=headers["to"][0] if headers.get("to") else None,
                 message_id_header=headers["message_id"],
                 title=headers["subject"],
             ).first()
@@ -732,8 +732,8 @@ class ReceiveEmail(View):
         letter_to_add = Letter.objects.create(
             author_institution=case.institution if case else None,
             email=from_email,
-            email_from=headers["from"][0] if headers["from"][0] else None,
-            email_to=headers["to"][0] if headers["from"][0] else None,
+            email_from=headers["from"][0] if headers.get("from") else None,
+            email_to=headers["to"][0] if headers.get("to") else None,
             message_id_header=headers["message_id"],
             record=Record.objects.create(case=case),
             message_type=message_type,
