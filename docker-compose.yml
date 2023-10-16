@@ -108,7 +108,7 @@ services:
   # imap-to-webhook-feder:
   #   image: quay.io/watchdogpolska/imap-to-webhook:latest
   #   environment:
-  #     WEBHOOK_URL: "http://web:8000/listy/webhook?secret=dev_letter_receive_very_secret"
+  #     WEBHOOK_URL: "http://web:8000/listy/webhook?secret=dev_letter_receive_very_secret" # yamllint disable-line
   #     SENTRY_DSN: ""
   #     SENTRY_ENVIRONMENT: "feder-dev"
   #     COMPRESS_EML: "True"
