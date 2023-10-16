@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-institutions 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-02 09:50+0000\n"
+"POT-Creation-Date: 2023-10-16 11:55+0000\n"
 "PO-Revision-Date: 2023-06-22 11:14+0000\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -41,7 +41,7 @@ msgid "Institution count"
 msgstr "Liczba instytucji"
 
 #: feder/institutions/filters.py:27 feder/institutions/models.py:36
-#: feder/institutions/models.py:118 feder/institutions/viewsets.py:43
+#: feder/institutions/models.py:122 feder/institutions/viewsets.py:43
 msgid "Name"
 msgstr "Nazwa"
 
@@ -49,11 +49,11 @@ msgstr "Nazwa"
 msgid "Institution index"
 msgstr "Wykaz instytucji"
 
-#: feder/institutions/models.py:37 feder/institutions/models.py:120
+#: feder/institutions/models.py:37 feder/institutions/models.py:124
 msgid "Slug"
 msgstr "Identyfikator redakcyjny"
 
-#: feder/institutions/models.py:38 feder/institutions/models.py:130
+#: feder/institutions/models.py:38 feder/institutions/models.py:134
 msgid "Tag"
 msgstr "Tag"
 
@@ -92,7 +92,7 @@ msgstr "Instytucja"
 msgid " (archival)"
 msgstr " (archiwalne)"
 
-#: feder/institutions/models.py:131
+#: feder/institutions/models.py:135
 #: feder/institutions/templates/institutions/institution_detail.html:55
 msgid "Tags"
 msgstr "Tagi"

@@ -6,12 +6,12 @@ default_language_version:
 minimum_pre_commit_version: "1.20.0"
 repos:
   - repo: https://github.com/adamchainz/django-upgrade
-    rev: 1.14.1
+    rev: 1.15.0
     hooks:
       - id: django-upgrade
         args: [--target-version, "3.2"]
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.11.0
+    rev: v3.15.0
     hooks:
       - id: pyupgrade
         args:
@@ -28,7 +28,7 @@ repos:
           - --skip-glob
           - "**/migrations/*.py"
   - repo: https://github.com/sirosen/check-jsonschema
-    rev: 0.26.3
+    rev: 0.27.0
     hooks:
       - id: check-github-workflows
       - id: check-readthedocs
