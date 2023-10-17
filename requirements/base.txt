@@ -84,5 +84,5 @@ django-rosetta==0.9.9
 bleach==6.1.0
 openpyxl==3.1.2
 
-openai==0.27.8
+openai==0.28.1
 tiktoken==0.4.0
