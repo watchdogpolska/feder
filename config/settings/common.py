@@ -78,6 +78,7 @@ LOCAL_APPS = (
     "feder.virus_scan",
     "feder.organisations",
     "feder.es_search.apps.EsSearchConfig",
+    "feder.llm_evaluation",
     # Your stuff: custom apps go here
 )
 
