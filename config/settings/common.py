@@ -97,6 +97,7 @@ INSTALLED_APPS = (
 MIDDLEWARE = (
     # Make sure djangosecure.middleware.SecurityMiddleware is listed first
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
