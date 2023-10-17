@@ -104,6 +104,8 @@ MIDDLEWARE = (
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "reversion.middleware.RevisionMiddleware",
+    # Add the account middleware:
+    "allauth.account.middleware.AccountMiddleware",
 )
 
 # MIGRATIONS CONFIGURATION
