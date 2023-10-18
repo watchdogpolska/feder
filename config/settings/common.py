@@ -78,6 +78,7 @@ LOCAL_APPS = (
     "feder.virus_scan",
     "feder.organisations",
     "feder.es_search.apps.EsSearchConfig",
+    "feder.llm_evaluation",
     # Your stuff: custom apps go here
 )
 
@@ -105,7 +106,9 @@ MIDDLEWARE = (
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "reversion.middleware.RevisionMiddleware",
     # Add the account middleware:
-    "allauth.account.middleware.AccountMiddleware",
+    # needed for django-allauth==0.57.0
+    # but v0.57.0 does not work with production mariadb 10.1
+    # "allauth.account.middleware.AccountMiddleware",
 )
 
 # MIGRATIONS CONFIGURATION

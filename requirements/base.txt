@@ -3,6 +3,9 @@
 # separetelly until migrating production to docker
 #django==3.1.5
 
+# Database adapter
+mysqlclient==2.2.0
+
 # Configuration
 django-environ==0.11.2
 
@@ -18,7 +21,8 @@ Pillow==10.1.0
 
 # For user registration, either via email or social
 # Well-built with regular release cycles!
-django-allauth==0.57.0
+# django-allauth==0.57.0 # v0.57.0 does not work with production mariadb 10.1
+django-allauth==0.54.0
 
 # Unicode slugification
 unicode-slugify==0.1.5
