@@ -1,5 +1,7 @@
+---
 ignore: |
-  **/cassettes/*.yaml
+  **/docker-compose.yml
+  **/cassettes/*.*
 extends: default
 rules:
   line-length:
