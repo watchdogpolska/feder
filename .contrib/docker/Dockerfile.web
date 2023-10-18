@@ -1,5 +1,5 @@
 # This is Dockerfile for development purposes only.
-ARG PYTHON_VERSION='3.10.6'
+ARG PYTHON_VERSION='3.10.12'
 FROM python:${PYTHON_VERSION}-slim
 RUN python --version
 RUN mkdir /code /code/production
@@ -9,22 +9,19 @@ WORKDIR /code
 ENV PYTHONUNBUFFERED 1
 RUN apt-get update \
 && apt-get install -y --no-install-recommends \
-   default-libmysqlclient-dev \
+   python3-dev default-libmysqlclient-dev build-essential \
+   default-mysql-client libssl-dev pkg-config \
    gcc \
    build-essential \
    git \
    curl \
    nano \
    htop \
-   gettext libgettextpo-dev wait-for-it \
-&& rm -rf /var/lib/apt/lists/*
+   gettext libgettextpo-dev wait-for-it
 RUN pip install --upgrade pip
 RUN pip --version
 COPY requirements/*.txt ./requirements/
 ARG DJANGO_VERSION='==3.2.20'
-# TODO: Move to /requirements/base.txt after fixing following bug:
-#       https://github.com/readthedocs/readthedocs-docker-images/issues/158
-RUN pip install mysqlclient==2.1.1
 RUN bash -c "if [[ "${DJANGO_VERSION}" == 'master' ]]; then \
 pip install --no-cache-dir -r requirements/dev.txt https://github.com/django/django/archive/master.tar.gz; else \
 pip install --no-cache-dir -r requirements/dev.txt \"django${DJANGO_VERSION}\"; fi"
