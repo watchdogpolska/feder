@@ -2,6 +2,7 @@ import re
 from html.parser import HTMLParser
 from textwrap import TextWrapper
 
+from html2text import HTML2Text
 from bleach.sanitizer import Cleaner
 from django.conf import settings
 from django.forms.widgets import TextInput
@@ -59,6 +60,17 @@ class HTMLFilter(HTMLParser):
 
 
 def html_to_text(html):
+    h = HTML2Text()
+    h.ignore_links = True
+    h.ignore_images = True
+    h.ignore_emphasis = True
+    h.ignore_tables = True
+    h.ignore_anchors = True
+    h.body_width = 0
+    return h.handle(cleaner.clean(html))
+
+
+def html_to_text_old(html):
     parser = HTMLFilter()
     parser.feed(cleaner.clean(html))
     return parser.text

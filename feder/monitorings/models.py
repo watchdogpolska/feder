@@ -14,7 +14,7 @@ from feder.domains.models import Domain
 from feder.main.utils import FormattedDatetimeMixin, RenderBooleanFieldMixin
 from feder.teryt.models import JST
 
-from .validators import validate_template_syntax
+from .validators import validate_template_syntax, validate_nested_lists
 
 _("Monitorings index")
 _("Can add Monitoring")
@@ -98,7 +98,7 @@ class Monitoring(RenderBooleanFieldMixin, TimeStampedModel):
     template = models.TextField(
         verbose_name=_("Template"),
         help_text=_("Use {{EMAIL}} for insert reply address"),
-        validators=[validate_template_syntax],
+        validators=[validate_template_syntax, validate_nested_lists],
     )
     results = models.TextField(
         default="",
