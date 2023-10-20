@@ -438,7 +438,7 @@ class Letter(AbstractRecord):
             self.save()
             return
 
-    def evaluate_letter_content_with_ai(self):
+    def get_full_content(self):
         attachments_text_content_list = [
             attachment.text_content
             if attachment.text_content_update_result == "Processed"
@@ -446,7 +446,10 @@ class Letter(AbstractRecord):
             for attachment in self.attachment_set.all()
         ]
         attachments_text_content = "\n".join(attachments_text_content_list)
-        response_full_text = self.body + "\n" + attachments_text_content
+        return self.body + "\n" + attachments_text_content
+
+    def evaluate_letter_content_with_ai(self):
+        response_full_text = self.get_full_content()
         q1_prompt = letter_evaluation_prompt(
             monitoring_question=self.case.monitoring.template,
             institution=self.case.institution.name,
