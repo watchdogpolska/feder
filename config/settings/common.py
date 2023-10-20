@@ -41,6 +41,7 @@ THIRD_PARTY_APPS = (
     "allauth.socialaccount",  # registration
     "dal",
     "dal_select2",
+    "django_extensions",
     "tinymce",
     "ajax_datatable",
     "formtools",
@@ -510,6 +511,10 @@ BLEACH_ALLOWED_ATTRIBUTES = ALLOWED_ATTRIBUTES = {
 }
 
 OPENAI_API_KEY = env.str("OPENAI_API_KEY", "")
+OPENAI_API_ENGINE = env.str("OPENAI_API_ENGINE", "")
+OPENAI_API_VERSION = env.str("OPENAI_API_VERSION", "")
+OPENAI_API_TYPE = env.str("OPENAI_API_TYPE", "")
+OPENAI_API_BASE = env.str("OPENAI_API_BASE", "")
 OPENAI_LLM_MODEL = env.str("OPENAI_LLM_MODEL", "gpt-3.5-turbo")
 OPENAI_LLM_MODEL_MAX_TOKENS = env.int("OPENAI_LLM_MODEL_MAX_TOKENS", 4000)
 OPENAI_LLM_MODEL_LARGE = env.str("OPENAI_LLM_MODEL", "gpt-3.5-turbo-16k")
