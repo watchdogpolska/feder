@@ -1,11 +1,11 @@
-import time
-import tiktoken
 import logging
-from django.conf import settings
-from langchain.chat_models import ChatOpenAI
-from langchain.callbacks import get_openai_callback
-from langchain.schema.output_parser import StrOutputParser
+import time
 
+import tiktoken
+from django.conf import settings
+from langchain.callbacks import get_openai_callback
+from langchain.chat_models import ChatOpenAI
+from langchain.schema.output_parser import StrOutputParser
 
 logger = logging.getLogger(__name__)
 

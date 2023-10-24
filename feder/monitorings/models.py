@@ -14,7 +14,7 @@ from feder.domains.models import Domain
 from feder.main.utils import FormattedDatetimeMixin, RenderBooleanFieldMixin
 from feder.teryt.models import JST
 
-from .validators import validate_template_syntax, validate_nested_lists
+from .validators import validate_nested_lists, validate_template_syntax
 
 _("Monitorings index")
 _("Can add Monitoring")
