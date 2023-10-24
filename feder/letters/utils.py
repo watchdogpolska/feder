@@ -2,10 +2,10 @@ import re
 from html.parser import HTMLParser
 from textwrap import TextWrapper
 
-from html2text import HTML2Text
 from bleach.sanitizer import Cleaner
 from django.conf import settings
 from django.forms.widgets import TextInput
+from html2text import HTML2Text
 
 BODY_REPLY_TPL = "\n\nProsimy o odpowiedź na adres {{EMAIL}}"
 BODY_FOOTER_SEPERATOR = "\n\n--\n"
