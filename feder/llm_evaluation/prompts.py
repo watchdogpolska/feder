@@ -1,18 +1,15 @@
 from langchain.prompts import PromptTemplate
 
-
-letter_evaluation_instruction = PromptTemplate.from_template(
+letter_evaluation_intro = PromptTemplate.from_template(
     """
-    W odpowiedzi na wniosek o informację publiczną do {institution}, o treści:
-    ```{monitoring_question}```,
-    otrzymano email z załącznikami o treści:
-    ```{response}```.
+    Do {institution} wysłano wniosek o informację publiczną  o treści:
+    ```{monitoring_question}```.
     """
 )
 
 letter_categorization = PromptTemplate.from_template(
-    """{instruction}
-    Oceń otrzymany email z załącznikami i przypisz go do jednej z kategorii,
+    """{intro}
+    Oceń odpowiedź z {institution} podaną na końcu, przypisując ją do jednej z kategorii
     z listy poniżej wybierając odpowiednią literę wraz z opisem:
     ```
     A) email jest odpowiedzią z {institution} i zawiera odpowiedzi na pytania z
@@ -27,11 +24,13 @@ letter_categorization = PromptTemplate.from_template(
     F) email nie jest odpowiedzią z {institution} i jest spamem.
     G) nie można ustalić kategorii odpowiedzi.
     ```
+    Odpowiedź z {institution}, jako połączony tekst maila i załączników:
+    ```{monitoring_response}```.
     """,
 )
 
 letter_response_answers_evaluation = PromptTemplate.from_template(
-    """{instruction}
+    """{intro}
     Oceń otrzymany email z załącznikami i podaj oznaczenia pytań z wniosku o
     informację publiczną bez ich treści, na które udzielono odpowiedzi oraz
     numery pytań z wniosku na które odmówiono udzielenia odpowiedzi. Osobno
@@ -41,7 +40,7 @@ letter_response_answers_evaluation = PromptTemplate.from_template(
 )
 
 letter_response_formatting = PromptTemplate.from_template(
-    """{instruction}
+    """{intro}
     Zbuduj ujednoliconą formę dokumentu informacyjnego zawierającego listę
     pytań i odpowiedzi w postaci:
     Pytanie: "pytanie z wniosku o informację publiczną"
