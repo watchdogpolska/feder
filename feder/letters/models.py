@@ -450,37 +450,6 @@ class Letter(AbstractRecord):
         attachments_text_content = "\n".join(attachments_text_content_list)
         return self.body + "\n" + attachments_text_content
 
-    def evaluate_letter_content_with_ai(self):
-        response_full_text = self.get_full_content()
-        q1_prompt = letter_evaluation_prompt(
-            monitoring_question=self.case.monitoring.template,
-            institution=self.case.institution.name,
-            response=response_full_text,
-        )["q_1"]
-        # logger.info(f"\n\n\nOpenAI q1 prompt: {q1_prompt}\n\n\n")
-        response = get_openai_completion(
-            prompt=q1_prompt,
-            role="user",
-        )
-        logger.info(f"\n\n\nOpenAI q1 letter {self.pk} evaluation: {response}\n\n\n")
-        self.ai_evaluation = response
-        if response.startswith("A) email jest odpowiedzią"):
-            q2_prompt = letter_evaluation_prompt(
-                monitoring_question=self.case.monitoring.template,
-                institution=self.case.institution.name,
-                response=response_full_text,
-            )["q_2"]
-            # logger.info(f"\n\n\nOpenAI q2 prompt: {q2_prompt}\n\n\n")
-            response = get_openai_completion(
-                prompt=q2_prompt,
-                role="user",
-            )
-            logger.info(
-                f"\n\n\nOpenAI q2 letter {self.pk} evaluation: {response}\n\n\n"
-            )
-            self.ai_evaluation += "\n\n" + response
-        self.save()
-
     def ai_prompt_help(self):
         return "Wszystkie możliwe opcje: \n" + letter_evaluation_prompt(
             monitoring_question="",
