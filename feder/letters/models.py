@@ -24,7 +24,7 @@ from model_utils import Choices
 from feder.cases.models import Case, enforce_quarantined_queryset
 from feder.domains.models import Domain
 from feder.institutions.models import Institution
-from feder.main.ai_integration import get_openai_completion
+from feder.llm_evaluation.prompts import letter_categorization
 from feder.main.exceptions import FederValueError
 from feder.main.utils import get_email_domain
 from feder.records.models import AbstractRecord, AbstractRecordQuerySet, Record
@@ -32,7 +32,6 @@ from feder.records.models import AbstractRecord, AbstractRecordQuerySet, Record
 from ..es_search.queries import find_document, more_like_this
 from ..virus_scan.models import Request as ScanRequest
 from .logs.tasks import update_sent_letter_status
-from feder.llm_evaluation.prompts import letter_categorization
 from .utils import (
     html_email_wrapper,
     html_to_text,
