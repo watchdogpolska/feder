@@ -31,9 +31,13 @@ letter_categorization = PromptTemplate.from_template(
 
 letter_response_formatting = PromptTemplate.from_template(
     """{intro}
-    Zbuduj ujednoliconą formę dokumentu informacyjnego zawierającego listę
+    Przeanalizuj odpowiedź z {institution} podaną na końcu, i uzupełnij odpowiedzi 
+    w ujednoliconej formie dokumentu informacyjnego zawierającego listę
     pytań i odpowiedzi w postaci:
     Pytanie: "pytanie z wniosku o informację publiczną"
     Odpowiedź: "odpowiedź z maila"
+
+    Odpowiedź z {institution}, jako połączony tekst maila i załączników:
+    ```{monitoring_response}```.
     """,
 )
