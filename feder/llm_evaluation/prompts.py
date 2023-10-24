@@ -31,7 +31,7 @@ letter_categorization = PromptTemplate.from_template(
 
 letter_response_formatting = PromptTemplate.from_template(
     """{intro}
-    Przeanalizuj odpowiedź z {institution} podaną na końcu, i uzupełnij odpowiedzi 
+    Przeanalizuj odpowiedź z {institution} podaną na końcu, i uzupełnij odpowiedzi
     w ujednoliconej formie dokumentu informacyjnego zawierającego listę
     pytań i odpowiedzi w postaci:
     Pytanie: "pytanie z wniosku o informację publiczną"
