@@ -21,6 +21,8 @@ RUN apt-get update \
 RUN pip install --upgrade pip
 RUN pip --version
 COPY requirements/*.txt ./requirements/
+RUN touch -a secrets_Azure_OpenAI.env
+RUN touch -a secrets_imap-to-webhook-url.env
 ARG DJANGO_VERSION='==3.2.20'
 RUN bash -c "if [[ "${DJANGO_VERSION}" == 'master' ]]; then \
 pip install --no-cache-dir -r requirements/dev.txt https://github.com/django/django/archive/master.tar.gz; else \
