@@ -29,16 +29,6 @@ letter_categorization = PromptTemplate.from_template(
     """,
 )
 
-letter_response_answers_evaluation = PromptTemplate.from_template(
-    """{intro}
-    Oceń otrzymany email z załącznikami i podaj oznaczenia pytań z wniosku o
-    informację publiczną bez ich treści, na które udzielono odpowiedzi oraz
-    numery pytań z wniosku na które odmówiono udzielenia odpowiedzi. Osobno
-    podaj oznaczenia pytań dla których poproszono o wydłużenie terminu na
-    odpowiedź.
-    """,
-)
-
 letter_response_formatting = PromptTemplate.from_template(
     """{intro}
     Zbuduj ujednoliconą formę dokumentu informacyjnego zawierającego listę
