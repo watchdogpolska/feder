@@ -32,7 +32,7 @@ from feder.records.models import AbstractRecord, AbstractRecordQuerySet, Record
 from ..es_search.queries import find_document, more_like_this
 from ..virus_scan.models import Request as ScanRequest
 from .logs.tasks import update_sent_letter_status
-from .prompts import letter_evaluation_prompt
+from feder.llm_evaluation.prompts import letter_categorization
 from .utils import (
     html_email_wrapper,
     html_to_text,
@@ -451,11 +451,14 @@ class Letter(AbstractRecord):
         return self.body + "\n" + attachments_text_content
 
     def ai_prompt_help(self):
-        return "Wszystkie możliwe opcje: \n" + letter_evaluation_prompt(
-            monitoring_question="",
-            institution=self.case.institution.name,
-            response="",
-        )["q_1"].split("```")[-2].replace("            ", "")
+        return (
+            "Wszystkie możliwe opcje: \n"
+            + letter_categorization.format(
+                intro="",
+                institution=self.case.institution.name,
+                monitoring_response="",
+            ).split("```")[1]
+        )
 
 
 class LetterEmailDomain(TimeStampedModel):
