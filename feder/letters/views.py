@@ -693,8 +693,6 @@ class ReceiveEmail(View):
             eml_data=eml_data,
         )
         LetterEmailDomain.register_letter_email_domains(letter=letter)
-        # TODO
-        # letter.spam_check()
         letter_attachemnts = Attachment.objects.bulk_create(
             self.get_attachment(attachment, letter)
             for attachment in request.FILES.getlist("attachment")
