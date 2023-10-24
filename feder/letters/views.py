@@ -54,6 +54,7 @@ from feder.virus_scan.models import Request as ScanRequest
 
 from .filters import LetterFilter
 from .forms import AssignLetterForm, LetterForm, ReplyForm
+from .logs.tasks import update_sent_letter_status
 from .mixins import LetterObjectFeedMixin, LetterSummaryTableMixin
 from .models import Attachment, Letter, LetterEmailDomain
 
@@ -232,6 +233,7 @@ class LetterReplyView(
         result = super().forms_valid(form, inlines)
         if "send" in self.request.POST:
             self.object.send()
+            update_sent_letter_status(schedule=(3 * 60))
         return result
 
     def get_form_valid_message(self):
@@ -270,6 +272,7 @@ class LetterSendView(
                 ),
                 fail_silently=True,
             )
+            update_sent_letter_status(schedule=(3 * 60))
 
     def get_success_url(self):
         if self.object.is_mass_draft():
@@ -469,6 +472,7 @@ class LetterResendView(
             html_body=self.object.html_body,
         )
         self.resend.send(commit=True, only_email=False)
+        update_sent_letter_status(schedule=(3 * 60))
 
     def get_success_message(self):
         return _("The message was resend.")

@@ -31,6 +31,7 @@ from feder.records.models import AbstractRecord, AbstractRecordQuerySet, Record
 
 from ..es_search.queries import find_document, more_like_this
 from ..virus_scan.models import Request as ScanRequest
+from .logs.tasks import update_sent_letter_status
 from .prompts import letter_evaluation_prompt
 from .utils import (
     html_email_wrapper,
@@ -292,6 +293,7 @@ class Letter(AbstractRecord):
             body=render_to_string("letters/_letter_reply_body.txt", context),
         )
         letter.send(commit=True, only_email=False)
+        update_sent_letter_status(schedule=(3 * 60))
         return letter
 
     def _email_context(self):
