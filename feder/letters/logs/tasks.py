@@ -1,6 +1,6 @@
 import logging
-from background_task import background
 
+from background_task import background
 
 logger = logging.getLogger(__name__)
 

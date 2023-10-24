@@ -1,7 +1,8 @@
 import logging
-from background_task import background
-from .models import LlmLetterRequest
 
+from background_task import background
+
+from .models import LlmLetterRequest
 
 logger = logging.getLogger(__name__)
 
