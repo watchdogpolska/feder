@@ -42,6 +42,7 @@ from feder.alerts.models import Alert
 from feder.cases.models import Case
 from feder.letters.formsets import AttachmentInline
 from feder.letters.settings import LETTER_RECEIVE_SECRET
+from feder.llm_evaluation.tasks import categorize_letter_in_background
 from feder.main.mixins import (
     AttrPermissionRequiredMixin,
     BaseXSendFileView,
@@ -699,6 +700,7 @@ class ReceiveEmail(View):
         )
         for attachment in letter_attachemnts:
             attachment.update_text_content()
+        categorize_letter_in_background(letter.pk)
         return JsonResponse({"status": "OK", "letter": letter.pk})
 
     def get_letter(self, headers, eml_manifest, text, eml_data, **kwargs):
