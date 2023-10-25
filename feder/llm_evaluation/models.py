@@ -55,13 +55,18 @@ class LlmLetterRequest(LlmRequest):
 
     @classmethod
     def categorize_letter(cls, letter):
+        institution_name = ""
+        monitoring_template = ""
+        if letter.case and letter.case.monitoring:
+            institution_name = letter.case.institution.name
+            monitoring_template = letter.case.monitoring.template
         intro = letter_evaluation_intro.format(
-            institution=letter.case.institution.name,
-            monitoring_question=letter.case.monitoring.template,
+            institution=institution_name,
+            monitoring_question=monitoring_template,
         )
         test_prompt = letter_categorization.format(
             intro=intro,
-            institution=letter.case.institution.name,
+            institution=institution_name,
             monitoring_response="",
         )
         q_tokens = num_tokens_from_string(
@@ -80,7 +85,7 @@ class LlmLetterRequest(LlmRequest):
         # )
         final_prompt = letter_categorization.format(
             intro=intro,
-            institution=letter.case.institution.name,
+            institution=institution_name,
             monitoring_response=texts[0],
         )
         letter_llm_request = cls.objects.create(
@@ -108,7 +113,7 @@ class LlmLetterRequest(LlmRequest):
             resp = chain.invoke(
                 {
                     "intro": intro,
-                    "institution": letter.case.institution.name,
+                    "institution": institution_name,
                     "monitoring_response": texts[0],
                 }
             )
