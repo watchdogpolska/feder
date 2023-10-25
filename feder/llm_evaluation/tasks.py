@@ -24,7 +24,7 @@ def categorize_letter_in_background(letter_pk):
         return
 
     if letter.is_spam in [Letter.SPAM.spam, Letter.SPAM.probable_spam]:
-        message = f"AI categorisation skipped for spam or probable spam."
+        message = "AI categorisation skipped for spam or probable spam."
         logger.info(f"Letter (pk={letter_pk}): {message}")
         letter.ai_evaluation = message
         letter.save()
