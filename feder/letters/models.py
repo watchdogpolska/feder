@@ -1,5 +1,7 @@
+import email
 import logging
 import uuid
+from email.utils import getaddresses
 
 import requests
 from atom.models import AttachmentBase
@@ -10,6 +12,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.core.exceptions import ValidationError
 from django.core.files.base import ContentFile
 from django.core.mail.message import EmailMultiAlternatives, make_msgid
+from django.core.validators import validate_email
 from django.db import models
 from django.db.models.manager import BaseManager
 from django.template.loader import render_to_string
@@ -423,7 +426,49 @@ class Letter(AbstractRecord):
         ids = [x.letter_id for x in result]
         return Letter._default_manager.filter(pk__in=ids).all()
 
+    def get_recipients(self):
+        """
+        Returns a list of all email addresses from the "To" and "Cc" fields of the
+        Letter eml file.
+        """
+        if not self.eml:
+            return []
+
+        with self.eml.open(mode="rb") as f:
+            msg = email.message_from_binary_file(f)
+
+        to_addrs = msg.get_all("To", [])
+        cc_addrs = msg.get_all("Cc", [])
+
+        all_addrs = to_addrs + cc_addrs
+
+        return [addr for name, addr in getaddresses(all_addrs)]
+
+    @property
+    def allowed_recipient(self):
+        """
+        Returns True if any of the recipients from Letter.get_recipients email domain
+        is in monitoring domains.
+        """
+        recipients = self.get_recipients()
+        monitoring_domains = Domain.objects.all().values_list("name", flat=True)
+
+        for recipient in recipients:
+            try:
+                validate_email(recipient)
+                recipient_domain = recipient.split("@")[1]
+                if recipient_domain in monitoring_domains:
+                    return True
+            except ValidationError:
+                pass
+
+        return False
+
     def spam_check(self):
+        if not self.allowed_recipient:
+            self.is_spam = Letter.SPAM.probable_spam
+            self.save()
+            return
         if self.email_from is not None and "@" in self.email_from:
             from_domain = LetterEmailDomain.objects.filter(
                 domain_name=get_email_domain(self.email_from)
