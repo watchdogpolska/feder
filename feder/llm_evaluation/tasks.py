@@ -18,13 +18,16 @@ def categorize_letter_in_background(letter_pk):
         return
 
     if not letter.is_incoming:
-        logger.warning(
+        logger.info(
             f"Letter (pk={letter_pk}) categorisation skipped - letter is not incoming."
         )
         return
 
     if letter.is_spam in [Letter.SPAM.spam, Letter.SPAM.probable_spam]:
-        logger.warning(f"Letter (pk={letter_pk}) is spam, categorisation skipped.")
+        message = f"AI categorisation skipped for spam or probable spam."
+        logger.info(f"Letter (pk={letter_pk}): {message}")
+        letter.ai_evaluation = message
+        letter.save()
         return
 
     LlmLetterRequest.categorize_letter(letter)
