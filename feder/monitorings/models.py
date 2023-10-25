@@ -88,7 +88,7 @@ class Monitoring(RenderBooleanFieldMixin, TimeStampedModel):
         populate_from="name", max_length=110, verbose_name=_("Slug"), unique=True
     )
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name=_("User")
+        settings.AUTH_USER_MODEL, on_delete=models.PROTECT, verbose_name=_("User")
     )
     description = models.TextField(verbose_name=_("Description"), blank=True)
     subject = models.CharField(verbose_name=_("Subject"), max_length=100)
@@ -231,8 +231,8 @@ class Monitoring(RenderBooleanFieldMixin, TimeStampedModel):
 
 
 class MonitoringUserObjectPermission(UserObjectPermissionBase):
-    content_object = models.ForeignKey(Monitoring, on_delete=models.CASCADE)
+    content_object = models.ForeignKey(Monitoring, on_delete=models.PROTECT)
 
 
 class MonitoringGroupObjectPermission(GroupObjectPermissionBase):
-    content_object = models.ForeignKey(Monitoring, on_delete=models.CASCADE)
+    content_object = models.ForeignKey(Monitoring, on_delete=models.PROTECT)

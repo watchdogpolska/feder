@@ -131,14 +131,14 @@ class Letter(AbstractRecord):
 
     author_user = models.ForeignKey(
         to=settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         verbose_name=_("Author (if user)"),
         null=True,
         blank=True,
     )
     author_institution = models.ForeignKey(
         Institution,
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         verbose_name=_("Author (if institution)"),
         null=True,
         blank=True,
@@ -172,7 +172,7 @@ class Letter(AbstractRecord):
         to=settings.AUTH_USER_MODEL,
         null=True,
         blank=True,
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         verbose_name=_("Spam marker"),
         help_text=_("The person who marked it as spam"),
         related_name="letter_mark_spam_by",
@@ -550,12 +550,12 @@ class MassMessageDraft(TimeStampedModel):
         to=Letter,
         verbose_name=_("Letter"),
         related_name="mass_draft",
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
     )
     monitoring = models.ForeignKey(
         to="monitorings.Monitoring",
         verbose_name=_("Monitoring"),
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
     )
     recipients_tags = models.ManyToManyField(
         to="cases_tags.Tag",
