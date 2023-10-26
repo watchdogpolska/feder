@@ -8,6 +8,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from guardian.models import GroupObjectPermissionBase, UserObjectPermissionBase
+from jsonfield import JSONField
 from model_utils.models import TimeStampedModel
 
 from feder.domains.models import Domain
@@ -99,6 +100,11 @@ class Monitoring(RenderBooleanFieldMixin, TimeStampedModel):
         verbose_name=_("Template"),
         help_text=_("Use {{EMAIL}} for insert reply address"),
         validators=[validate_template_syntax, validate_nested_lists],
+    )
+    normalized_response_template = JSONField(
+        verbose_name=_("Normalized response template"),
+        null=True,
+        blank=True,
     )
     results = models.TextField(
         default="",
