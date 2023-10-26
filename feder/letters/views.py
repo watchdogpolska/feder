@@ -58,6 +58,7 @@ from .forms import AssignLetterForm, LetterForm, ReplyForm
 from .logs.tasks import update_sent_letter_status
 from .mixins import LetterObjectFeedMixin, LetterSummaryTableMixin
 from .models import Attachment, Letter, LetterEmailDomain
+from .tasks import update_letter_attachments_text_content
 
 _("Letters index")
 
@@ -698,8 +699,9 @@ class ReceiveEmail(View):
             self.get_attachment(attachment, letter)
             for attachment in request.FILES.getlist("attachment")
         )
-        for attachment in letter_attachemnts:
-            attachment.update_text_content()
+        letter.save()
+        logging.info(f"Letter attachments created: {letter_attachemnts}")
+        update_letter_attachments_text_content(letter.pk)
         categorize_letter_in_background(letter.pk)
         return JsonResponse({"status": "OK", "letter": letter.pk})
 
