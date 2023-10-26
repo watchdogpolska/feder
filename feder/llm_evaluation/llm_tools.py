@@ -26,7 +26,7 @@ def get_llm_response(prompt, prompt_kwargs_dict):
             "api_base": settings.OPENAI_API_BASE,
             "engine": settings.OPENAI_API_ENGINE,
         },
-        temperature=settings.OPENAI_LLM_TEMPERATURE,
+        temperature=settings.OPENAI_API_TEMPERATURE,
     )
     chain = prompt | model | StrOutputParser()
     start_time = time.time()
