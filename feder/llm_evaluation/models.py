@@ -230,7 +230,7 @@ class LlmMonitoringRequest(LlmRequest):
     )
 
     @classmethod
-    def get_response_formatting_template(cls, monitoring):
+    def get_response_normalized_template(cls, monitoring):
         final_prompt = monitoring_response_normalized_template.format(
             monitoring_template=monitoring.template,
         )

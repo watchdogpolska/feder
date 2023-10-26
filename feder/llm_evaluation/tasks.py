@@ -2,7 +2,7 @@ import logging
 
 from background_task import background
 
-from .models import LlmLetterRequest
+from .models import LlmLetterRequest, LlmMonitoringRequest
 
 logger = logging.getLogger(__name__)
 
@@ -32,3 +32,19 @@ def categorize_letter_in_background(letter_pk):
 
     LlmLetterRequest.categorize_letter(letter)
     logger.info(f"Letter with pk={letter_pk} categorized.")
+
+
+@background(schedule=120)
+def get_monitoring_normalized_response_template(monitoring_pk):
+    from feder.monitorings.models import Monitoring
+
+    monitoring = Monitoring.objects.filter(pk=monitoring_pk).first()
+
+    if not monitoring:
+        logger.warning(f"Monitoring with pk={monitoring_pk} not found.")
+        return
+
+    LlmMonitoringRequest.get_response_normalized_template(monitoring)
+    logger.info(
+        f"Monitoring (pk={monitoring_pk}) updated with normalized response template."
+    )
