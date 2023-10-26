@@ -12,7 +12,11 @@ from model_utils import Choices
 from model_utils.models import TimeStampedModel
 
 from .llm_tools import num_tokens_from_string
-from .prompts import letter_categorization, letter_evaluation_intro
+from .prompts import (
+    letter_categorization,
+    letter_evaluation_intro,
+    monitoring_response_normalized_template,
+)
 
 
 class LLmRequestQuerySet(models.QuerySet):
@@ -138,3 +142,44 @@ class LlmMonitoringRequest(LlmRequest):
         on_delete=models.DO_NOTHING,
         verbose_name=_("Evaluated Monitoring"),
     )
+
+    @classmethod
+    def get_response_formatting_template(cls, monitoring):
+        final_prompt = monitoring_response_normalized_template.format(
+            monitoring_template=monitoring.template,
+        )
+        llm_engine = settings.OPENAI_API_ENGINE
+        monitoring_llm_request = cls.objects.create(
+            evaluated_monitoring=monitoring,
+            engine_name=llm_engine,
+            request_prompt=final_prompt,
+            status=cls.STATUS.created,
+            response="",
+            token_usage={},
+        )
+        monitoring_llm_request.save()
+        model = ChatOpenAI(
+            model_kwargs={
+                "api_type": settings.OPENAI_API_TYPE,
+                "api_key": settings.OPENAI_API_KEY,
+                "api_version": settings.OPENAI_API_VERSION,
+                "api_base": settings.OPENAI_API_BASE,
+                "engine": llm_engine,
+            },
+            temperature=settings.OPENAI_API_TEMPERATURE,
+        )
+        chain = monitoring_response_normalized_template | model | StrOutputParser()
+        start_time = time.time()
+        with get_openai_callback() as cb:
+            resp = chain.invoke({"monitoring_template": monitoring.template})
+        end_time = time.time()
+        execution_time = end_time - start_time
+        llm_info_dict = vars(cb)
+        llm_info_dict["completion_time"] = execution_time
+        monitoring_llm_request.response = resp
+        monitoring_llm_request.token_usage = llm_info_dict
+        monitoring_llm_request.status = cls.STATUS.done
+        monitoring_llm_request.save()
+        monitoring_llm_request.update_usage_cost()
+        monitoring.normalized_response_template = resp
+        monitoring.save()
