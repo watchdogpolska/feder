@@ -110,6 +110,7 @@ class Monitoring(RenderBooleanFieldMixin, TimeStampedModel):
         default="",
         verbose_name=_("Results"),
         help_text=_("Resulrs of monitoring and received responses"),
+        blank=True,
     )
     email_footer = models.TextField(
         default="",
