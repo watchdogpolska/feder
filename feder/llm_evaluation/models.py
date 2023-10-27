@@ -1,3 +1,4 @@
+import logging
 import time
 
 from django.conf import settings
@@ -17,6 +18,8 @@ from .prompts import (
     letter_evaluation_intro,
     monitoring_response_normalized_template,
 )
+
+logger = logging.getLogger(__name__)
 
 
 class LLmRequestQuerySet(models.QuerySet):
