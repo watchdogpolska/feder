@@ -32,6 +32,13 @@ def categorize_letter_in_background(letter_pk):
 
     LlmLetterRequest.categorize_letter(letter)
     logger.info(f"Letter with pk={letter_pk} categorized.")
+    if "A) email jest odpowiedzią" in letter.ai_evaluation:
+        LlmLetterRequest.get_normalized_answers(letter)
+        logger.info(f"Letter with pk={letter_pk} answer normalization processed.")
+    else:
+        logger.info(
+            f"Letter with pk={letter_pk} is not a response - skipping normalization."
+        )
 
 
 @background(schedule=120)
