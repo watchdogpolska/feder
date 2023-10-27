@@ -77,7 +77,9 @@ class LlmLetterRequest(LlmRequest):
             test_prompt, settings.OPENAI_API_ENGINE.replace("so-", "")
         )
         # print(f"q_tokens: {q_tokens}")
-        max_tokens = min(settings.OPENAI_API_ENGINE_MAX_TOKENS, 6000) - q_tokens - 500
+        # llm_engine = settings.OPENAI_API_ENGINE_35
+        llm_engine = settings.OPENAI_API_ENGINE_4
+        max_tokens = min(settings.OPENAI_API_ENGINE_4_MAX_TOKENS, 6000) - q_tokens - 500
         # print(f"max_tokens: {max_tokens}")
         text_splitter = TokenTextSplitter(chunk_size=max_tokens, chunk_overlap=100)
         texts = text_splitter.split_text(letter.get_full_content())
@@ -92,7 +94,6 @@ class LlmLetterRequest(LlmRequest):
             institution=institution_name,
             monitoring_response=texts[0],
         )
-        llm_engine = settings.OPENAI_API_ENGINE
         letter_llm_request = cls.objects.create(
             evaluated_letter=letter,
             engine_name=llm_engine,
@@ -147,7 +148,7 @@ class LlmMonitoringRequest(LlmRequest):
         final_prompt = monitoring_response_normalized_template.format(
             monitoring_template=monitoring.template,
         )
-        llm_engine = settings.OPENAI_API_ENGINE
+        llm_engine = settings.OPENAI_API_ENGINE_35
         monitoring_llm_request = cls.objects.create(
             evaluated_monitoring=monitoring,
             engine_name=llm_engine,
