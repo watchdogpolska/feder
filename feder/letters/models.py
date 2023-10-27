@@ -1,4 +1,5 @@
 import email
+import json
 import logging
 import uuid
 from email.utils import getaddresses
@@ -22,6 +23,7 @@ from django.utils.encoding import force_str
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 from django_extensions.db.models import TimeStampedModel
+from jsonfield import JSONField
 from model_utils import Choices
 
 from feder.cases.models import Case, enforce_quarantined_queryset
@@ -161,6 +163,11 @@ class Letter(AbstractRecord):
     note = models.TextField(verbose_name=_("Comments from editor"), blank=True)
     ai_evaluation = models.TextField(
         verbose_name=_("Letter AI evaluation"), blank=True, null=True
+    )
+    normalized_response = JSONField(
+        verbose_name=_("Normalized monitoring response"),
+        null=True,
+        blank=True,
     )
     is_spam = models.IntegerField(
         verbose_name=_("Is SPAM?"), choices=SPAM, default=SPAM.unknown, db_index=True
@@ -504,6 +511,19 @@ class Letter(AbstractRecord):
                 monitoring_response="",
             ).split("```")[1]
         )
+
+    def get_normalized_response_html_table(self):
+        if self.normalized_response is None:
+            return ""
+        html = "<table class='table table-bordered compact'>\n"
+        html += "<tr><th>Nr</th><th>Pytanie</th><th>Odpowiedź</th></tr>\n"
+        for key, subdict in json.loads(self.normalized_response).items():
+            html += (
+                f"<tr><td>{key}</td><td>{subdict.get('Pytanie', '')}</td>"
+                + f"<td>{subdict.get('Odpowiedź', '')}</td></tr>\n"
+            )
+        html += "</table>"
+        return mark_safe(html)
 
 
 class LetterEmailDomain(TimeStampedModel):
