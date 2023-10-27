@@ -497,7 +497,7 @@ class Letter(AbstractRecord):
 
     def ai_prompt_help(self):
         return (
-            "Wszystkie możliwe opcje: \n"
+            "Ocena wykonana za pomocą Azure OpenAI. Wszystkie możliwe opcje: \n"
             + letter_categorization.format(
                 intro="",
                 institution=self.case.institution.name,
