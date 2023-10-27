@@ -602,7 +602,9 @@ class AssignLetterFormView(
 
     def form_valid(self, form):
         form.save()
-        return super().form_valid(form)
+        output = super().form_valid(form)
+        categorize_letter_in_background(self.letter.pk)
+        return output
 
     def get_success_url(self):
         query_params = self.request.GET.copy()
