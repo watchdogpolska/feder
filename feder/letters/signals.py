@@ -3,19 +3,21 @@ import logging
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from feder.es_search.settings import ELASTICSEARCH_URL
-from feder.es_search.tasks import index_letter
+# from feder.es_search.settings import ELASTICSEARCH_URL
+# from feder.es_search.tasks import index_letter
 from feder.letters.models import Letter
 
 logger = logging.getLogger(__name__)
 
 
-@receiver(post_save, sender=Letter)
-def index_letter_signal(sender, instance, **kwargs):
-    if ELASTICSEARCH_URL is None:
-        logger.info("Skipping indexing due Elasticsearch integration disabled")
-        return
-    index_letter([instance.pk])
+# TODO: remove whole elasticsearch integration and code
+# workaround - commented to stop indexing letters
+# @receiver(post_save, sender=Letter)
+# def index_letter_signal(sender, instance, **kwargs):
+#     if ELASTICSEARCH_URL is None:
+#         logger.info("Skipping indexing due Elasticsearch integration disabled")
+#         return
+#     index_letter([instance.pk])
 
 
 @receiver(post_save, sender=Letter)
