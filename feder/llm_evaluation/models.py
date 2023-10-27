@@ -16,6 +16,7 @@ from .llm_tools import num_tokens_from_string
 from .prompts import (
     letter_categorization,
     letter_evaluation_intro,
+    letter_response_normalization,
     monitoring_response_normalized_template,
 )
 
@@ -137,6 +138,95 @@ class LlmLetterRequest(LlmRequest):
         # print(f"resp: {resp}")
         # print(f"cb: {cb}")
         # print(f"execution_time: {execution_time}")
+
+    @classmethod
+    def get_normalized_answers(cls, letter):
+        institution_name = ""
+        normalized_questions_json = ""
+        if letter.case and letter.case.monitoring:
+            institution_name = letter.case.institution.name
+            if not letter.case.monitoring.normalized_response_template:
+                logger.warning(
+                    "Can not get normalised answer: normalized_response_template"
+                    + f" missing in monitoring {letter.case.monitoring.pk}"
+                )
+                return
+            normalized_questions_json = (
+                letter.case.monitoring.normalized_response_template
+            )
+        else:
+            logger.warning(
+                f"Can not get normalised answer: letter {letter.pk}"
+                + " has no case or monitoring."
+            )
+            return
+        test_prompt = letter_response_normalization.format(
+            institution=institution_name,
+            normalized_questions=normalized_questions_json,
+            monitoring_response="",
+        )
+        q_tokens = num_tokens_from_string(
+            test_prompt, settings.OPENAI_API_ENGINE.replace("so-", "")
+        )
+        # print(f"q_tokens: {q_tokens}")
+        llm_engine = settings.OPENAI_API_ENGINE_35
+        max_tokens = (
+            min(settings.OPENAI_API_ENGINE_35_MAX_TOKENS, 10000) - q_tokens - 500
+        )
+        # print(f"max_tokens: {max_tokens}")
+        text_splitter = TokenTextSplitter(chunk_size=max_tokens, chunk_overlap=100)
+        texts = text_splitter.split_text(letter.get_full_content())
+        # print(
+        #     "texts[0] tokens:",
+        #     num_tokens_from_string(
+        #         texts[0], settings.OPENAI_API_ENGINE.replace("so-", "")
+        #     ),
+        # )
+        model = AzureChatOpenAI(
+            openai_api_type=settings.OPENAI_API_TYPE,
+            openai_api_key=settings.OPENAI_API_KEY,
+            openai_api_version=settings.OPENAI_API_VERSION,
+            openai_api_base=settings.OPENAI_API_BASE,
+            deployment_name=llm_engine,
+            temperature=settings.OPENAI_API_TEMPERATURE,
+        )
+        chain = letter_response_normalization | model | StrOutputParser()
+        for text in texts:
+            final_prompt = letter_response_normalization.format(
+                institution=institution_name,
+                normalized_questions=normalized_questions_json,
+                monitoring_response=text,
+            )
+            letter_llm_request = cls.objects.create(
+                evaluated_letter=letter,
+                engine_name=llm_engine,
+                request_prompt=final_prompt,
+                status=cls.STATUS.created,
+                response="",
+                token_usage={},
+            )
+            letter_llm_request.save()
+            start_time = time.time()
+            with get_openai_callback() as cb:
+                resp = chain.invoke(
+                    {
+                        "institution": institution_name,
+                        "normalized_questions": normalized_questions_json,
+                        "monitoring_response": text,
+                    }
+                )
+            end_time = time.time()
+            execution_time = end_time - start_time
+            llm_info_dict = vars(cb)
+            llm_info_dict["completion_time"] = execution_time
+            letter_llm_request.response = resp
+            letter_llm_request.token_usage = llm_info_dict
+            letter_llm_request.status = cls.STATUS.done
+            letter_llm_request.save()
+            normalized_questions_json = resp
+        letter.normalized_response = normalized_questions_json
+        letter.save()
+        return normalized_questions_json
 
 
 class LlmMonitoringRequest(LlmRequest):

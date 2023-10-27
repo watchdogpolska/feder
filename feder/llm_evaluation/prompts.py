@@ -4,7 +4,8 @@ letter_evaluation_intro = PromptTemplate.from_template(
     """
     Do {institution} wysłano wniosek o informację publiczną  o treści:
     ```{monitoring_question}```.
-    """
+    """,
+    template_format="f-string",
 )
 
 letter_categorization = PromptTemplate.from_template(
@@ -30,19 +31,26 @@ letter_categorization = PromptTemplate.from_template(
     Odpowiedź z {institution}, jako połączony tekst maila i załączników:
     ```{monitoring_response}```.
     """,
+    template_format="f-string",
 )
 
-letter_response_formatting = PromptTemplate.from_template(
-    """{intro}
-    Przeanalizuj odpowiedź z {institution} podaną na końcu, i uzupełnij odpowiedzi
-    w ujednoliconej formie dokumentu informacyjnego zawierającego listę
-    pytań i odpowiedzi w postaci:
-    Pytanie: "pytanie z wniosku o informację publiczną"
-    Odpowiedź: "odpowiedź z maila"
+letter_response_normalization = PromptTemplate.from_template(
+    """
+    Przeanalizuj odpowiedź na wniosek o informację publiczną z {institution} podaną
+    na końcu jako tekst do analizy, i uzupełnij wartości odpowiedzi w pliku json z
+    pytaniami i miejscami na wartość odpowiedzi:
+    ```
+    {normalized_questions}
+    ```
+    Jako wynik podaj poprawnie sformatowany json, bez żadnych dodatkowych wyjaśnień.
+    Nie zmieniaj kluczy ani wartości pytań. Jeśli w pliku json z pytaniami istnieje już
+    wartość odpowiedzi a tekst zawiera również informację dla odpowiedź na pytanie to
+    uzupełnij wartość odpowiedzi w pliku json o brakujące informacje.
 
-    Odpowiedź z {institution}, jako połączony tekst maila i załączników:
+    Tekst do analizy:
     ```{monitoring_response}```.
     """,
+    template_format="f-string",
 )
 
 monitoring_response_normalized_template = PromptTemplate.from_template(
