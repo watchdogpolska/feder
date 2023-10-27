@@ -10,7 +10,10 @@ letter_evaluation_intro = PromptTemplate.from_template(
 letter_categorization = PromptTemplate.from_template(
     """{intro}
     Oceń odpowiedź z {institution} podaną na końcu, przypisując ją do jednej z kategorii
-    z listy poniżej wybierając odpowiednią literę wraz z opisem:
+    z listy poniżej wybierając odpowiednią literę wraz z opisem, nie dodając żadnych
+    innych komentarzy. Przy ocenie weź pod uwagę tylko zrozumiały tekst w języku
+    Polskim.
+    Lista kategorii:
     ```
     A) email jest odpowiedzią z {institution} i zawiera odpowiedzi na pytania z
         wniosku o informację publiczną.
