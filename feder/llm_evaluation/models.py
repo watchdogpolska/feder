@@ -77,8 +77,8 @@ class LlmLetterRequest(LlmRequest):
             institution=institution_name,
             monitoring_response="",
         )
-        llm_engine = settings.OPENAI_API_ENGINE_35
-        # llm_engine = settings.OPENAI_API_ENGINE_4
+        # llm_engine = settings.OPENAI_API_ENGINE_35
+        llm_engine = settings.OPENAI_API_ENGINE_4
         q_tokens = num_tokens_from_string(test_prompt, llm_engine)
         # print(f"q_tokens: {q_tokens}")
 
