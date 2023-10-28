@@ -77,21 +77,18 @@ class LlmLetterRequest(LlmRequest):
             institution=institution_name,
             monitoring_response="",
         )
-        q_tokens = num_tokens_from_string(
-            test_prompt, settings.OPENAI_API_ENGINE.replace("so-", "")
-        )
+        llm_engine = settings.OPENAI_API_ENGINE_35
+        # llm_engine = settings.OPENAI_API_ENGINE_4
+        q_tokens = num_tokens_from_string(test_prompt, llm_engine)
         # print(f"q_tokens: {q_tokens}")
-        # llm_engine = settings.OPENAI_API_ENGINE_35
-        llm_engine = settings.OPENAI_API_ENGINE_4
+
         max_tokens = min(settings.OPENAI_API_ENGINE_4_MAX_TOKENS, 6000) - q_tokens - 500
         # print(f"max_tokens: {max_tokens}")
         text_splitter = TokenTextSplitter(chunk_size=max_tokens, chunk_overlap=100)
         texts = text_splitter.split_text(letter.get_full_content())
         # print(
         #     "texts[0] tokens:",
-        #     num_tokens_from_string(
-        #         texts[0], settings.OPENAI_API_ENGINE.replace("so-", "")
-        #     ),
+        #     num_tokens_from_string(texts[0], llm_engine),
         # )
         final_prompt = letter_categorization.format(
             intro=intro,
@@ -165,11 +162,10 @@ class LlmLetterRequest(LlmRequest):
             normalized_questions=normalized_questions_json,
             monitoring_response="",
         )
-        q_tokens = num_tokens_from_string(
-            test_prompt, settings.OPENAI_API_ENGINE.replace("so-", "")
-        )
-        # print(f"q_tokens: {q_tokens}")
         llm_engine = settings.OPENAI_API_ENGINE_35
+        q_tokens = num_tokens_from_string(test_prompt, llm_engine)
+        # print(f"q_tokens: {q_tokens}")
+
         max_tokens = (
             min(settings.OPENAI_API_ENGINE_35_MAX_TOKENS, 10000) - q_tokens - 500
         )
@@ -178,9 +174,7 @@ class LlmLetterRequest(LlmRequest):
         texts = text_splitter.split_text(letter.get_full_content())
         # print(
         #     "texts[0] tokens:",
-        #     num_tokens_from_string(
-        #         texts[0], settings.OPENAI_API_ENGINE.replace("so-", "")
-        #     ),
+        #     num_tokens_from_string(texts[0], llm_engine),
         # )
         model = AzureChatOpenAI(
             openai_api_type=settings.OPENAI_API_TYPE,
