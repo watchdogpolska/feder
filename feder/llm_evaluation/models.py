@@ -53,6 +53,16 @@ class LlmRequest(TimeStampedModel):
     class Meta:
         abstract = True
 
+    def get_cost(self):
+        if self.token_usage:
+            return self.token_usage.get("total_cost", 0)
+        return 0
+
+    def get_time_used(self):
+        if self.token_usage:
+            return self.token_usage.get("completion_time", 0)
+        return 0
+
 
 class LlmLetterRequest(LlmRequest):
     evaluated_letter = models.ForeignKey(
