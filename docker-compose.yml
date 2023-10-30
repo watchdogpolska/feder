@@ -1,16 +1,21 @@
 ---
-version: '2.1'
+# yamllint disable-line-length
+version: "2.1"
 # This is application’s services configuration for development purposes only.
 
 services:
   db:
-    image: mariadb:10.11
-    command: '--character-set-server=utf8 --collation-server=utf8_polish_ci --max_allowed_packet=1024M' # yamllint disable-line
+    image: mariadb:10.1
+    command: >-
+      --character-set-server=utf8
+      --collation-server=utf8_polish_ci
+      --max_allowed_packet=1024M
+      --sql-mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
     ports:
       - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: "password"
-      MYSQL_DATABASE: feder3_copy
+      MYSQL_DATABASE: feder # feder3_copy
     volumes:
       - mariadb-data:/var/lib/mysql
 
@@ -28,17 +33,17 @@ services:
       context: .
       dockerfile: .contrib/docker/Dockerfile.web
       # args:
-        # PYTHON_VERSION: '${PYTHON_VERSION:-3.6.9}' # Match to production environment
-        # PYTHON_VERSION: '${PYTHON_VERSION:-3.10.6}' # Match to staging environment
-        # DJANGO_VERSION: '${DJANGO_VERSION:-==3.1.5}'
+      # PYTHON_VERSION: '${PYTHON_VERSION:-3.6.9}' # Match to production environment
+      # PYTHON_VERSION: '${PYTHON_VERSION:-3.10.6}' # Match to staging environment
+      # DJANGO_VERSION: '${DJANGO_VERSION:-==3.1.5}'
     volumes: &webVolumes
       - .:/code
     environment: &webEnvironment
       DATABASE_URL: mysql://root:password@db/feder3_copy
       ELASTICSEARCH_URL: http://elasticsearch:9200/
-      APACHE_TIKA_URL: 'http://tika:9998/'
+      APACHE_TIKA_URL: "http://tika:9998/"
       # APACHE_TIKA_URL: 'http://192.168.100.120:9998/'
-      MEDIA_ROOT_ENV: 'media_prod'
+      MEDIA_ROOT_ENV: "media_prod"
       DJANGO_EMAIL_BACKEND: "django.core.mail.backends.smtp.EmailBackend"
       DJANGO_EMAIL_HOST: "maildump"
       DJANGO_EMAIL_PORT: "1025"
@@ -59,10 +64,14 @@ services:
       FILE_TO_TEXT_URL: ${FILE_TO_TEXT_URL}
       FILE_TO_TEXT_TOKEN: ${FILE_TO_TEXT_TOKEN}
       OPENAI_API_KEY: ${OPENAI_API_KEY}
-      OPENAI_LLM_MODEL: ${OPENAI_LLM_MODEL}
-      OPENAI_LLM_MODEL_MAX_TOKENS: ${OPENAI_LLM_MODEL_MAX_TOKENS:-4000}
-      OPENAI_LLM_MODEL_LARGE: ${OPENAI_LLM_MODEL_LARGE}
-      OPENAI_LLM_MODEL_LARGE_MAX_TOKENS: ${OPENAI_LLM_MODEL_LARGE_MAX_TOKENS:-16000}
+      OPENAI_API_BASE: ${OPENAI_API_BASE}
+      OPENAI_API_ENGINE_35: "gpt-35-turbo-16k"
+      OPENAI_API_ENGINE_4: "gpt-4"
+      OPENAI_API_TYPE: "azure"
+      OPENAI_API_ENGINE_35_MAX_TOKENS: 16000
+      OPENAI_API_ENGINE_4_MAX_TOKENS: 8000
+      OPENAI_API_TEMPERATURE: 0.0
+      OPENAI_API_VERSION: "2023-07-01-preview"
     ports:
       - "8000:8000"
     # Following allows to execute `docker attach feder_web_1`
@@ -70,20 +79,20 @@ services:
     stdin_open: true
     tty: true
 
-# *
-# * for debugging purposes it is better to run worker in VScode launch on web container
-# *
-#  worker:
-#    command: python manage.py process_tasks
-#    build: *webBuild
-#    volumes: *webVolumes
-#    environment: *webEnvironment
+  # *
+  # * for debugging purposes it is better to run worker in VScode launch on web container
+  # *
+  #  worker:
+  #    command: python manage.py process_tasks
+  #    build: *webBuild
+  #    volumes: *webVolumes
+  #    environment: *webEnvironment
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.6.2
     environment:
       discovery.type: single-node
-      cluster.routing.allocation.disk.threshold_enabled: 'false'
+      cluster.routing.allocation.disk.threshold_enabled: "false"
     ports:
       - "9200:9200"
 
@@ -113,7 +122,7 @@ services:
   #     SENTRY_ENVIRONMENT: "feder-dev"
   #     COMPRESS_EML: "True"
   #   env_file:
-  #     - secrets_imap-to-webhook-url.env
+  #     - secrets_imap-to-webhook-url.env:optional
 
 volumes:
   mariadb-data:
