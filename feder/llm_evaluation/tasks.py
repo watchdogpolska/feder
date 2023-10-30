@@ -55,3 +55,44 @@ def get_monitoring_normalized_response_template(monitoring_pk):
     logger.info(
         f"Monitoring (pk={monitoring_pk}) updated with normalized response template."
     )
+
+    monitoring_llm_requests = (
+        LlmMonitoringRequest.objects.filter(evaluated_monitoring=monitoring)
+        .all()
+        .order_by("-created")
+    )
+
+    if (
+        len(monitoring_llm_requests) > 1
+        and monitoring_llm_requests[0].response != monitoring_llm_requests[1].response
+    ):
+        update_monitoring_responses_normalization(monitoring_pk)
+        logger.info(
+            f"Monitoring (pk={monitoring_pk}) tasks to normalize responses generated."
+        )
+        return
+    else:
+        logger.info(
+            f"Monitoring (pk={monitoring_pk}) normalized response template not "
+            + "changed - skipping normalization."
+        )
+
+
+@background(schedule=120)
+def update_monitoring_responses_normalization(monitoring_pk):
+    from feder.letters.models import Letter
+
+    letters_to_normalize = (
+        Letter.objects.all()
+        .filter(record__case__monitoring__pk=monitoring_pk)
+        .filter(author_user__isnull=True)
+    )
+
+    if not letters_to_normalize:
+        logger.warning(
+            f"No letters to normalize for monitoring with pk={monitoring_pk}."
+        )
+        return
+
+    for letter in letters_to_normalize:
+        categorize_letter_in_background(letter.pk)
