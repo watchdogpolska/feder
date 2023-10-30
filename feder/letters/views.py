@@ -42,6 +42,7 @@ from feder.alerts.models import Alert
 from feder.cases.models import Case
 from feder.letters.formsets import AttachmentInline
 from feder.letters.settings import LETTER_RECEIVE_SECRET
+from feder.llm_evaluation.tasks import categorize_letter_in_background
 from feder.main.mixins import (
     AttrPermissionRequiredMixin,
     BaseXSendFileView,
@@ -54,8 +55,10 @@ from feder.virus_scan.models import Request as ScanRequest
 
 from .filters import LetterFilter
 from .forms import AssignLetterForm, LetterForm, ReplyForm
+from .logs.tasks import update_sent_letter_status
 from .mixins import LetterObjectFeedMixin, LetterSummaryTableMixin
 from .models import Attachment, Letter, LetterEmailDomain
+from .tasks import update_letter_attachments_text_content
 
 _("Letters index")
 
@@ -232,6 +235,7 @@ class LetterReplyView(
         result = super().forms_valid(form, inlines)
         if "send" in self.request.POST:
             self.object.send()
+            update_sent_letter_status(schedule=(3 * 60))
         return result
 
     def get_form_valid_message(self):
@@ -270,6 +274,7 @@ class LetterSendView(
                 ),
                 fail_silently=True,
             )
+            update_sent_letter_status(schedule=(3 * 60))
 
     def get_success_url(self):
         if self.object.is_mass_draft():
@@ -469,6 +474,7 @@ class LetterResendView(
             html_body=self.object.html_body,
         )
         self.resend.send(commit=True, only_email=False)
+        update_sent_letter_status(schedule=(3 * 60))
 
     def get_success_message(self):
         return _("The message was resend.")
@@ -596,7 +602,9 @@ class AssignLetterFormView(
 
     def form_valid(self, form):
         form.save()
-        return super().form_valid(form)
+        output = super().form_valid(form)
+        categorize_letter_in_background(self.letter.pk)
+        return output
 
     def get_success_url(self):
         query_params = self.request.GET.copy()
@@ -689,14 +697,14 @@ class ReceiveEmail(View):
             eml_data=eml_data,
         )
         LetterEmailDomain.register_letter_email_domains(letter=letter)
-        # TODO
-        # letter.spam_check()
         letter_attachemnts = Attachment.objects.bulk_create(
             self.get_attachment(attachment, letter)
             for attachment in request.FILES.getlist("attachment")
         )
-        for attachment in letter_attachemnts:
-            attachment.update_text_content()
+        letter.save()
+        logging.info(f"Letter attachments created: {letter_attachemnts}")
+        update_letter_attachments_text_content(letter.pk)
+        categorize_letter_in_background(letter.pk)
         return JsonResponse({"status": "OK", "letter": letter.pk})
 
     def get_letter(self, headers, eml_manifest, text, eml_data, **kwargs):

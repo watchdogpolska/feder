@@ -2,6 +2,7 @@ from background_task import background
 from django.db import transaction
 
 from feder.cases.models import Case
+from feder.letters.logs.tasks import update_sent_letter_status
 from feder.letters.models import Letter
 
 
@@ -11,6 +12,7 @@ def handle_mass_assign(mass_assign):
         case.update_email()
         case.save()
     send_letter_for_mass_assign(mass_assign)
+    update_sent_letter_status(schedule=(15 * 60))
 
 
 @background
@@ -30,3 +32,4 @@ def send_mass_draft(mass_draft_pk):
         for letter in letters:
             letter.send()
         mass_draft.delete()
+    update_sent_letter_status(schedule=(15 * 60))
