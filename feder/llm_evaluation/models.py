@@ -142,6 +142,7 @@ class LlmLetterRequest(LlmRequest):
         letter_llm_request.save()
         letter.ai_evaluation = resp
         letter.save()
+        # TODO: add case.response_received update
         # print(f"resp: {resp}")
         # print(f"cb: {cb}")
         # print(f"execution_time: {execution_time}")
