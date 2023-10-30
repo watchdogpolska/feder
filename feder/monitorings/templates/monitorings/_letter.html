@@ -14,15 +14,6 @@
             {% endif %}
             <time datetime="{{ object.created }}" title="{{ object.created | naturaltime }}">{{ object.created }}</time>
         </small>
-        {% if object.ai_evaluation %}
-            <br>
-            <small>
-                <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="bottom"
-                    title="{{ object.ai_prompt_help }}">
-                </i> {% trans 'LLM evaluation: ' %}
-                {{ object.ai_evaluation|linebreaksbr }}
-            </small>
-        {% endif %}
     </h3>
 
     <div class="letter-body " style="max-height: 20em; overflow: auto;">

@@ -11,7 +11,6 @@ from tinymce.widgets import TinyMCE
 
 from feder.cases.models import Case
 from feder.letters.utils import BODY_REPLY_TPL
-from feder.llm_evaluation.tasks import categorize_letter_in_background
 from feder.records.models import Record
 
 from .models import Letter
@@ -78,8 +77,7 @@ class LetterForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
 
     def save(self, *args, **kwargs):
         self.instance.body = html_to_text(self.cleaned_data["html_body"])
-        if "title" in self.changed_data or "html_body" in self.changed_data:
-            self.instance.author_user = self.user
+        self.instance.author_user = self.user
         if not self.instance.is_mass_draft():
             if hasattr(self.instance, "record"):
                 self.instance.record.case = self.cleaned_data["case"]
@@ -88,7 +86,6 @@ class LetterForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
                     case=self.cleaned_data["case"]
                 )
             self.instance.record.save()
-            categorize_letter_in_background(self.instance.pk)
         self.instance.save()
         return super().save(*args, **kwargs)
 

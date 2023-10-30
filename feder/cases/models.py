@@ -326,19 +326,6 @@ class Case(RenderBooleanFieldMixin, TimeStampedModel):
             .exists()
         )
 
-    def get_normalized_answer(self):
-        normalized_response = (
-            apps.get_model("letters", "Letter")
-            .objects.filter(record__case=self, author_user_id__isnull=True)
-            .exclude_automatic()
-            .exclude(normalized_response="")
-            .exclude(normalized_response__isnull=True)
-        )
-        result = [
-            item.get_normalized_response_html_table() for item in normalized_response
-        ]
-        return result
-
     @property
     def letter_count(self):
         return self.record_set.exclude(letters_letters__is_spam=2).count()

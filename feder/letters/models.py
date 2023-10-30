@@ -1,7 +1,5 @@
-import email
 import logging
 import uuid
-from email.utils import getaddresses
 
 import requests
 from atom.models import AttachmentBase
@@ -12,7 +10,6 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.core.exceptions import ValidationError
 from django.core.files.base import ContentFile
 from django.core.mail.message import EmailMultiAlternatives, make_msgid
-from django.core.validators import validate_email
 from django.db import models
 from django.db.models.manager import BaseManager
 from django.template.loader import render_to_string
@@ -22,20 +19,19 @@ from django.utils.encoding import force_str
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 from django_extensions.db.models import TimeStampedModel
-from jsonfield import JSONField
 from model_utils import Choices
 
 from feder.cases.models import Case, enforce_quarantined_queryset
 from feder.domains.models import Domain
 from feder.institutions.models import Institution
-from feder.llm_evaluation.prompts import letter_categorization
+from feder.main.ai_integration import get_openai_completion
 from feder.main.exceptions import FederValueError
-from feder.main.utils import get_email_domain, render_normalized_response_html_table
+from feder.main.utils import get_email_domain
 from feder.records.models import AbstractRecord, AbstractRecordQuerySet, Record
 
 from ..es_search.queries import find_document, more_like_this
 from ..virus_scan.models import Request as ScanRequest
-from .logs.tasks import update_sent_letter_status
+from .prompts import letter_evaluation_prompt
 from .utils import (
     html_email_wrapper,
     html_to_text,
@@ -135,14 +131,14 @@ class Letter(AbstractRecord):
 
     author_user = models.ForeignKey(
         to=settings.AUTH_USER_MODEL,
-        on_delete=models.PROTECT,
+        on_delete=models.CASCADE,
         verbose_name=_("Author (if user)"),
         null=True,
         blank=True,
     )
     author_institution = models.ForeignKey(
         Institution,
-        on_delete=models.PROTECT,
+        on_delete=models.CASCADE,
         verbose_name=_("Author (if institution)"),
         null=True,
         blank=True,
@@ -163,11 +159,6 @@ class Letter(AbstractRecord):
     ai_evaluation = models.TextField(
         verbose_name=_("Letter AI evaluation"), blank=True, null=True
     )
-    normalized_response = JSONField(
-        verbose_name=_("Normalized monitoring response"),
-        null=True,
-        blank=True,
-    )
     is_spam = models.IntegerField(
         verbose_name=_("Is SPAM?"), choices=SPAM, default=SPAM.unknown, db_index=True
     )
@@ -181,7 +172,7 @@ class Letter(AbstractRecord):
         to=settings.AUTH_USER_MODEL,
         null=True,
         blank=True,
-        on_delete=models.PROTECT,
+        on_delete=models.CASCADE,
         verbose_name=_("Spam marker"),
         help_text=_("The person who marked it as spam"),
         related_name="letter_mark_spam_by",
@@ -301,7 +292,6 @@ class Letter(AbstractRecord):
             body=render_to_string("letters/_letter_reply_body.txt", context),
         )
         letter.send(commit=True, only_email=False)
-        update_sent_letter_status(schedule=(3 * 60))
         return letter
 
     def _email_context(self):
@@ -432,49 +422,7 @@ class Letter(AbstractRecord):
         ids = [x.letter_id for x in result]
         return Letter._default_manager.filter(pk__in=ids).all()
 
-    def get_recipients(self):
-        """
-        Returns a list of all email addresses from the "To" and "Cc" fields of the
-        Letter eml file.
-        """
-        if not self.eml:
-            return []
-
-        with self.eml.open(mode="rb") as f:
-            msg = email.message_from_binary_file(f)
-
-        to_addrs = msg.get_all("To", [])
-        cc_addrs = msg.get_all("Cc", [])
-
-        all_addrs = to_addrs + cc_addrs
-
-        return [addr for name, addr in getaddresses(all_addrs)]
-
-    @property
-    def allowed_recipient(self):
-        """
-        Returns True if any of the recipients from Letter.get_recipients email domain
-        is in monitoring domains.
-        """
-        recipients = self.get_recipients()
-        monitoring_domains = Domain.objects.all().values_list("name", flat=True)
-
-        for recipient in recipients:
-            try:
-                validate_email(recipient)
-                recipient_domain = recipient.split("@")[1]
-                if recipient_domain in monitoring_domains:
-                    return True
-            except ValidationError:
-                pass
-
-        return False
-
     def spam_check(self):
-        if not self.allowed_recipient:
-            self.is_spam = Letter.SPAM.probable_spam
-            self.save()
-            return
         if self.email_from is not None and "@" in self.email_from:
             from_domain = LetterEmailDomain.objects.filter(
                 domain_name=get_email_domain(self.email_from)
@@ -490,31 +438,50 @@ class Letter(AbstractRecord):
             self.save()
             return
 
-    def get_full_content(self):
+    def evaluate_letter_content_with_ai(self):
         attachments_text_content_list = [
             attachment.text_content
             if attachment.text_content_update_result == "Processed"
-            and attachment.text_content
             else ""
             for attachment in self.attachment_set.all()
         ]
         attachments_text_content = "\n".join(attachments_text_content_list)
-        return self.body + "\n" + attachments_text_content
+        response_full_text = self.body + "\n" + attachments_text_content
+        q1_prompt = letter_evaluation_prompt(
+            monitoring_question=self.case.monitoring.template,
+            institution=self.case.institution.name,
+            response=response_full_text,
+        )["q_1"]
+        # logger.info(f"\n\n\nOpenAI q1 prompt: {q1_prompt}\n\n\n")
+        response = get_openai_completion(
+            prompt=q1_prompt,
+            role="user",
+        )
+        logger.info(f"\n\n\nOpenAI q1 letter {self.pk} evaluation: {response}\n\n\n")
+        self.ai_evaluation = response
+        if response.startswith("A) email jest odpowiedzią"):
+            q2_prompt = letter_evaluation_prompt(
+                monitoring_question=self.case.monitoring.template,
+                institution=self.case.institution.name,
+                response=response_full_text,
+            )["q_2"]
+            # logger.info(f"\n\n\nOpenAI q2 prompt: {q2_prompt}\n\n\n")
+            response = get_openai_completion(
+                prompt=q2_prompt,
+                role="user",
+            )
+            logger.info(
+                f"\n\n\nOpenAI q2 letter {self.pk} evaluation: {response}\n\n\n"
+            )
+            self.ai_evaluation += "\n\n" + response
+        self.save()
 
     def ai_prompt_help(self):
-        return (
-            "Ocena wykonana za pomocą Azure OpenAI. Wszystkie możliwe opcje: \n"
-            + letter_categorization.format(
-                intro="",
-                institution=self.case.institution.name,
-                monitoring_response="",
-            ).split("```")[1]
-        )
-
-    def get_normalized_response_html_table(self):
-        if self.normalized_response:
-            return render_normalized_response_html_table(self.normalized_response)
-        return ""
+        return "Wszystkie możliwe opcje: \n" + letter_evaluation_prompt(
+            monitoring_question="",
+            institution=self.case.institution.name,
+            response="",
+        )["q_1"].split("```")[-2].replace("            ", "")
 
 
 class LetterEmailDomain(TimeStampedModel):
@@ -607,12 +574,12 @@ class MassMessageDraft(TimeStampedModel):
         to=Letter,
         verbose_name=_("Letter"),
         related_name="mass_draft",
-        on_delete=models.PROTECT,
+        on_delete=models.CASCADE,
     )
     monitoring = models.ForeignKey(
         to="monitorings.Monitoring",
         verbose_name=_("Monitoring"),
-        on_delete=models.PROTECT,
+        on_delete=models.CASCADE,
     )
     recipients_tags = models.ManyToManyField(
         to="cases_tags.Tag",

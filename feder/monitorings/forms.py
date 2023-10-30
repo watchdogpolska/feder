@@ -33,8 +33,6 @@ class MonitoringForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm
         if self.instance.template and not is_formatted_html(self.instance.template):
             self.initial["template"] = mark_safe(text_to_html(self.instance.template))
         self.instance.user = self.user
-        if not self.user.is_superuser:
-            del self.fields["use_llm"]
         self.fields["template"].initial = BODY_REPLY_TPL
         self.fields["template"].widget = TinyMCE(attrs={"cols": 80, "rows": 20})
         self.fields["email_footer"].widget = TinyMCE(attrs={"cols": 80, "rows": 5})
@@ -47,7 +45,6 @@ class MonitoringForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm
                         "description",
                         "notify_alert",
                         "hide_new_cases",
-                        "use_llm",
                     ),
                     css_class="form-group col-md-5 mb-0",
                 ),
@@ -67,7 +64,6 @@ class MonitoringForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm
             "description",
             "notify_alert",
             "hide_new_cases",
-            "use_llm",
             "subject",
             "template",
             "email_footer",

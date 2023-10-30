@@ -41,7 +41,6 @@ THIRD_PARTY_APPS = (
     "allauth.socialaccount",  # registration
     "dal",
     "dal_select2",
-    "django_extensions",
     "tinymce",
     "ajax_datatable",
     "formtools",
@@ -172,7 +171,7 @@ DATABASES["default"]["ATOMIC_REQUESTS"] = True
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
 # In a Windows environment this must be set to your system time zone.
-TIME_ZONE = "Europe/Warsaw"
+TIME_ZONE = "UTC"
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#language-code
 LANGUAGE_CODE = "pl"
@@ -465,7 +464,7 @@ TINYMCE_DEFAULT_CONFIG = {
     # "height": 500,
     "menubar": True,
     "lineheight": 1,
-    "plugins": "autolink,lists,link,image,charmap,print,preview,anchor,"
+    "plugins": "advlist,autolink,lists,link,image,charmap,print,preview,anchor,"
     "searchreplace,visualblocks,code,fullscreen,insertdatetime,media,table,paste,"
     "code,help,wordcount",
     "toolbar": "undo redo | formatselect | lineheight | fontsizeselect |"
@@ -511,11 +510,9 @@ BLEACH_ALLOWED_ATTRIBUTES = ALLOWED_ATTRIBUTES = {
 }
 
 OPENAI_API_KEY = env.str("OPENAI_API_KEY", "")
-OPENAI_API_VERSION = env.str("OPENAI_API_VERSION", "")
-OPENAI_API_TYPE = env.str("OPENAI_API_TYPE", "")
-OPENAI_API_BASE = env.str("OPENAI_API_BASE", "")
-OPENAI_API_ENGINE_35 = env.str("OPENAI_API_ENGINE_35", "")
-OPENAI_API_ENGINE_35_MAX_TOKENS = env.int("OPENAI_API_ENGINE_35_MAX_TOKENS", 4096)
-OPENAI_API_ENGINE_4 = env.str("OPENAI_API_ENGINE_4", "")
-OPENAI_API_ENGINE_4_MAX_TOKENS = env.int("OPENAI_API_ENGINE_4_MAX_TOKENS", 8000)
-OPENAI_API_TEMPERATURE = env.float("OPENAI_API_TEMPERATURE", 0.0)
+OPENAI_LLM_MODEL = env.str("OPENAI_LLM_MODEL", "gpt-3.5-turbo")
+OPENAI_LLM_MODEL_MAX_TOKENS = env.int("OPENAI_LLM_MODEL_MAX_TOKENS", 4000)
+OPENAI_LLM_MODEL_LARGE = env.str("OPENAI_LLM_MODEL", "gpt-3.5-turbo-16k")
+OPENAI_LLM_MODEL_LARGE_MAX_TOKENS = env.int("OPENAI_LLM_MODEL_LARGE_MAX_TOKENS", 16000)
+OPENAI_LLM_TEMPERATURE = env.float("OPENAI_LLM_TEMPERATURE", 0.0)
+OPENAI_MAX_RETRIES = env.int("OPENAI_MAX_RETRIES", 5)

@@ -1,11 +1,10 @@
 from django.core.management.base import BaseCommand
 
 from feder.letters.models import Letter
-from feder.llm_evaluation.models import LlmLetterRequest
 
 
 class Command(BaseCommand):
-    help = "Categorize Monitoiring letter responses with OpenAI."
+    help = "Evaluate Monitoiring letter responses content with OpenAI."
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -32,7 +31,7 @@ class Command(BaseCommand):
                     )
                     att.update_text_content()
                 print(f"Evaluating letter: {letter.pk}")
-                LlmLetterRequest.categorize_letter(letter)
+                letter.evaluate_letter_content_with_ai()
                 print(f"Letter {letter.pk} evaluated with AI: {letter.ai_evaluation}")
             else:
                 print(

@@ -8,18 +8,13 @@ from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from guardian.models import GroupObjectPermissionBase, UserObjectPermissionBase
-from jsonfield import JSONField
 from model_utils.models import TimeStampedModel
 
 from feder.domains.models import Domain
-from feder.main.utils import (
-    FormattedDatetimeMixin,
-    RenderBooleanFieldMixin,
-    render_normalized_response_html_table,
-)
+from feder.main.utils import FormattedDatetimeMixin, RenderBooleanFieldMixin
 from feder.teryt.models import JST
 
-from .validators import validate_nested_lists, validate_template_syntax
+from .validators import validate_template_syntax
 
 _("Monitorings index")
 _("Can add Monitoring")
@@ -93,7 +88,7 @@ class Monitoring(RenderBooleanFieldMixin, TimeStampedModel):
         populate_from="name", max_length=110, verbose_name=_("Slug"), unique=True
     )
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.PROTECT, verbose_name=_("User")
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name=_("User")
     )
     description = models.TextField(verbose_name=_("Description"), blank=True)
     subject = models.CharField(verbose_name=_("Subject"), max_length=100)
@@ -103,23 +98,12 @@ class Monitoring(RenderBooleanFieldMixin, TimeStampedModel):
     template = models.TextField(
         verbose_name=_("Template"),
         help_text=_("Use {{EMAIL}} for insert reply address"),
-        validators=[validate_template_syntax, validate_nested_lists],
-    )
-    use_llm = models.BooleanField(
-        default=False,
-        verbose_name=_("Use LLM"),
-        help_text=_("Use LLM to evaluate responses"),
-    )
-    normalized_response_template = JSONField(
-        verbose_name=_("Normalized response template"),
-        null=True,
-        blank=True,
+        validators=[validate_template_syntax],
     )
     results = models.TextField(
         default="",
         verbose_name=_("Results"),
         help_text=_("Resulrs of monitoring and received responses"),
-        blank=True,
     )
     email_footer = models.TextField(
         default="",
@@ -132,7 +116,7 @@ class Monitoring(RenderBooleanFieldMixin, TimeStampedModel):
     objects = MonitoringQuerySet.as_manager()
     is_public = models.BooleanField(default=True, verbose_name=_("Is public visible?"))
     domain = models.ForeignKey(
-        to=Domain, help_text=_("Domain used to sends emails"), on_delete=models.PROTECT
+        to=Domain, help_text=_("Domain used to sends emails"), on_delete=models.CASCADE
     )
 
     class Meta:
@@ -245,17 +229,10 @@ class Monitoring(RenderBooleanFieldMixin, TimeStampedModel):
 
         return user_list, index_generate()
 
-    def get_normalized_response_html_table(self):
-        if self.normalized_response_template:
-            return render_normalized_response_html_table(
-                self.normalized_response_template
-            )
-        return ""
-
 
 class MonitoringUserObjectPermission(UserObjectPermissionBase):
-    content_object = models.ForeignKey(Monitoring, on_delete=models.PROTECT)
+    content_object = models.ForeignKey(Monitoring, on_delete=models.CASCADE)
 
 
 class MonitoringGroupObjectPermission(GroupObjectPermissionBase):
-    content_object = models.ForeignKey(Monitoring, on_delete=models.PROTECT)
+    content_object = models.ForeignKey(Monitoring, on_delete=models.CASCADE)

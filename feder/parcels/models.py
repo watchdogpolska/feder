@@ -19,7 +19,7 @@ class AbstractParcelPost(AbstractRecord):
     title = models.CharField(verbose_name=_("Title"), max_length=200)
     content = models.FileField(verbose_name=_("Content"))
     created_by = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.PROTECT, help_text=_("Created by")
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, help_text=_("Created by")
     )
     objects = ParcelPostQuerySet.as_manager()
 
@@ -29,7 +29,7 @@ class AbstractParcelPost(AbstractRecord):
 
 class IncomingParcelPost(AbstractParcelPost):
     sender = models.ForeignKey(
-        to=Institution, on_delete=models.PROTECT, verbose_name=_("Sender")
+        to=Institution, on_delete=models.CASCADE, verbose_name=_("Sender")
     )
     comment = models.TextField(verbose_name=_("Comment"))
     receive_date = models.DateField(
@@ -52,7 +52,7 @@ class IncomingParcelPost(AbstractParcelPost):
 
 class OutgoingParcelPost(AbstractParcelPost):
     recipient = models.ForeignKey(
-        to=Institution, on_delete=models.PROTECT, verbose_name=_("Recipient")
+        to=Institution, on_delete=models.CASCADE, verbose_name=_("Recipient")
     )
     post_date = models.DateField(
         default=datetime.date.today, verbose_name=_("Post date")

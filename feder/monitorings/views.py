@@ -54,7 +54,6 @@ from feder.letters.logs.models import STATUS
 from feder.letters.models import Letter
 from feder.letters.utils import is_formatted_html, text_to_html
 from feder.letters.views import LetterCommonMixin
-from feder.llm_evaluation.tasks import get_monitoring_normalized_response_template
 from feder.main.mixins import ExtraListMixin, RaisePermissionRequiredMixin
 from feder.main.utils import DeleteViewLogEntryMixin, FormValidLogEntryMixin
 
@@ -620,8 +619,6 @@ class MonitoringCreateView(
         ]
         for perm in default_perm:
             assign_perm(perm, self.request.user, form.instance)
-        if form.cleaned_data.get("use_llm"):
-            get_monitoring_normalized_response_template(form.instance.pk)
         return output
 
 
@@ -636,12 +633,6 @@ class MonitoringUpdateView(
     model = Monitoring
     form_class = MonitoringForm
     permission_required = "monitorings.change_monitoring"
-
-    def form_valid(self, form):
-        output = super().form_valid(form)
-        if form.cleaned_data.get("use_llm"):
-            get_monitoring_normalized_response_template(form.instance.pk)
-        return output
 
 
 class MonitoringResultsUpdateView(
