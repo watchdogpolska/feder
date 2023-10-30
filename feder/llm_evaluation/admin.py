@@ -39,3 +39,40 @@ class LlmLetterRequestAdmin(admin.ModelAdmin):
     @admin.display(description="Time used")
     def get_time_used(self, obj):
         return f"{obj.get_time_used():.2f}s"
+
+
+@admin.register(LlmMonitoringRequest)
+class LlmMonitoringRequestAdmin(admin.ModelAdmin):
+    verbose_name = _("LLM Monitoring Request")
+    date_hierarchy = "created"
+    list_display = (
+        "id",
+        "evaluated_monitoring",
+        "engine_name",
+        "status",
+        "get_cost",
+        "get_time_used",
+        "created",
+    )
+    list_filter = (
+        "engine_name",
+        "status",
+    )
+    actions = []
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_add_permission(self, request, obj=None):
+        return False
+
+    @admin.display(description="Cost")
+    def get_cost(self, obj):
+        return f"${obj.get_cost():.5f}"
+
+    @admin.display(description="Time used")
+    def get_time_used(self, obj):
+        return f"{obj.get_time_used():.2f}s"
