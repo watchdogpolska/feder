@@ -105,6 +105,11 @@ class Monitoring(RenderBooleanFieldMixin, TimeStampedModel):
         help_text=_("Use {{EMAIL}} for insert reply address"),
         validators=[validate_template_syntax, validate_nested_lists],
     )
+    use_llm = models.BooleanField(
+        default=False,
+        verbose_name=_("Use LLM"),
+        help_text=_("Use LLM to evaluate responses"),
+    )
     normalized_response_template = JSONField(
         verbose_name=_("Normalized response template"),
         null=True,
