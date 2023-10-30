@@ -158,6 +158,12 @@ class LlmLetterRequest(LlmRequest):
                     + f" missing in monitoring {letter.case.monitoring.pk}"
                 )
                 return
+            if not letter.case.monitoring.use_llm:
+                logger.warning(
+                    "Skipping normalised answer: use_llm is False in monitoring"
+                    + f" {letter.case.monitoring.pk}"
+                )
+                return
             normalized_questions_json = (
                 letter.case.monitoring.normalized_response_template
             )
@@ -242,6 +248,11 @@ class LlmMonitoringRequest(LlmRequest):
 
     @classmethod
     def get_response_normalized_template(cls, monitoring):
+        if not monitoring.use_llm:
+            logger.info(
+                f"Monitoring pk={monitoring.pk} not using LLM - skipping normalization."
+            )
+            return
         final_prompt = monitoring_response_normalized_template.format(
             monitoring_template=monitoring.template,
         )

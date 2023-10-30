@@ -620,7 +620,8 @@ class MonitoringCreateView(
         ]
         for perm in default_perm:
             assign_perm(perm, self.request.user, form.instance)
-        get_monitoring_normalized_response_template(form.instance.pk)
+        if form.cleaned_data.get("use_llm"):
+            get_monitoring_normalized_response_template(form.instance.pk)
         return output
 
 
@@ -638,7 +639,8 @@ class MonitoringUpdateView(
 
     def form_valid(self, form):
         output = super().form_valid(form)
-        get_monitoring_normalized_response_template(form.instance.pk)
+        if form.cleaned_data.get("use_llm"):
+            get_monitoring_normalized_response_template(form.instance.pk)
         return output
 
 
