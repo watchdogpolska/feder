@@ -86,7 +86,11 @@ tika==2.6.0
 
 django-rosetta==0.9.9
 bleach==6.1.0
+beautifulsoup4==4.12.2
+html2text==2020.1.16
 openpyxl==3.1.2
 
+# LLM exvaluation
+langchain[llms]==0.0.317
 openai==0.28.1
 tiktoken==0.5.1

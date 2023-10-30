@@ -16,7 +16,7 @@ class Domain(TimeStampedModel):
     organisation = models.ForeignKey(
         to=Organisation,
         verbose_name=_("Organisation"),
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         null=True,  # TODO(ad-m): make field required after data migration
     )
     objects = DomainQuerySet.as_manager()

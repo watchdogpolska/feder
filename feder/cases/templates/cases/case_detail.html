@@ -34,6 +34,16 @@
             <div class="gray">
                 {% include 'cases/_desc.html' with object=object %}
             </div>
+            <div class="gray">
+                <h4>
+                    {% trans 'Normalized answer' %}
+                </h4>
+                {% for response in object.get_normalized_answer %}
+                <p>
+                    {{ response }}
+                </p>
+                {% endfor %}
+            </div>
         </div>
 
         <div class="col-sm-7">

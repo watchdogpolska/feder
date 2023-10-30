@@ -1,9 +1,12 @@
+import json
+
 from django.contrib.admin.models import ADDITION, CHANGE, DELETION, LogEntry
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.sites.shortcuts import get_current_site
 from django.db.models.expressions import RawSQL
 from django.forms.models import model_to_dict
 from django.utils.encoding import force_str
+from django.utils.safestring import mark_safe
 from rest_framework_csv.renderers import CSVStreamingRenderer
 
 
@@ -55,6 +58,18 @@ def get_email_domain(email: str) -> str:
     if "@" in email:
         return email.split("@")[1]
     return ""
+
+
+def render_normalized_response_html_table(normalized_response):
+    html = "<table class='table table-bordered compact'>\n"
+    html += "<tr><th>Nr</th><th>Pytanie</th><th>Odpowiedź</th></tr>\n"
+    for key, subdict in json.loads(normalized_response).items():
+        html += (
+            f"<tr><td>{key}</td><td>{subdict.get('Pytanie', '')}</td>"
+            + f"<td>{subdict.get('Odpowiedź', '')}</td></tr>\n"
+        )
+    html += "</table>"
+    return mark_safe(html)
 
 
 class PaginatedCSVStreamingRenderer(CSVStreamingRenderer):

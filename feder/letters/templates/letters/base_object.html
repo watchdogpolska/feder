@@ -84,6 +84,15 @@
                             {% trans 'with' %} <a href="{{ object.case.institution.get_absolute_url }}">{{ object.case.institution }}</a>
                         {% endif %}
                     </small>
+                    {% if object.ai_evaluation %}
+                        <br>
+                        <h4 class="text-muted">
+                            <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="bottom"
+                                title="{{ object.ai_prompt_help }}">
+                            </i> {% trans 'LLM evaluation: ' %}
+                            {{ object.ai_evaluation|linebreaksbr }}
+                        </h4>
+                    {% endif %}
                 </h2>
             {% else %}
                 <h2>

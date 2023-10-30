@@ -11,4 +11,13 @@
         <i class="fa fa-download"></i> {{ object.attachment_count }}
     </span>
     {% endif %}
+    {% if object.ai_evaluation %}
+        <br>
+        <small>
+            <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="bottom"
+                title="{{ object.ai_prompt_help }}">
+            </i> {% trans 'LLM evaluation: ' %}
+            {{ object.ai_evaluation|linebreaksbr }}
+        </small>
+    {% endif %}
 </h3>
