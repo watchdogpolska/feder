@@ -12,7 +12,11 @@ from jsonfield import JSONField
 from model_utils.models import TimeStampedModel
 
 from feder.domains.models import Domain
-from feder.main.utils import FormattedDatetimeMixin, RenderBooleanFieldMixin
+from feder.main.utils import (
+    FormattedDatetimeMixin,
+    RenderBooleanFieldMixin,
+    render_normalized_response_html_table,
+)
 from feder.teryt.models import JST
 
 from .validators import validate_nested_lists, validate_template_syntax
@@ -235,6 +239,13 @@ class Monitoring(RenderBooleanFieldMixin, TimeStampedModel):
                 yield perm, [(perm, (user in user_perm_list)) for user in user_list]
 
         return user_list, index_generate()
+
+    def get_normalized_response_html_table(self):
+        if self.normalized_response_template:
+            return render_normalized_response_html_table(
+                self.normalized_response_template
+            )
+        return ""
 
 
 class MonitoringUserObjectPermission(UserObjectPermissionBase):

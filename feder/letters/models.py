@@ -1,5 +1,4 @@
 import email
-import json
 import logging
 import uuid
 from email.utils import getaddresses
@@ -31,7 +30,7 @@ from feder.domains.models import Domain
 from feder.institutions.models import Institution
 from feder.llm_evaluation.prompts import letter_categorization
 from feder.main.exceptions import FederValueError
-from feder.main.utils import get_email_domain
+from feder.main.utils import get_email_domain, render_normalized_response_html_table
 from feder.records.models import AbstractRecord, AbstractRecordQuerySet, Record
 
 from ..es_search.queries import find_document, more_like_this
@@ -513,17 +512,9 @@ class Letter(AbstractRecord):
         )
 
     def get_normalized_response_html_table(self):
-        if self.normalized_response is None:
-            return ""
-        html = "<table class='table table-bordered compact'>\n"
-        html += "<tr><th>Nr</th><th>Pytanie</th><th>Odpowiedź</th></tr>\n"
-        for key, subdict in json.loads(self.normalized_response).items():
-            html += (
-                f"<tr><td>{key}</td><td>{subdict.get('Pytanie', '')}</td>"
-                + f"<td>{subdict.get('Odpowiedź', '')}</td></tr>\n"
-            )
-        html += "</table>"
-        return mark_safe(html)
+        if self.normalized_response:
+            return render_normalized_response_html_table(self.normalized_response)
+        return ""
 
 
 class LetterEmailDomain(TimeStampedModel):
