@@ -1,4 +1,5 @@
 import json
+import logging
 
 from django.contrib.admin.models import ADDITION, CHANGE, DELETION, LogEntry
 from django.contrib.contenttypes.models import ContentType
@@ -8,6 +9,8 @@ from django.forms.models import model_to_dict
 from django.utils.encoding import force_str
 from django.utils.safestring import mark_safe
 from rest_framework_csv.renderers import CSVStreamingRenderer
+
+logger = logging.getLogger(__name__)
 
 
 def get_numeric_param(request, key):
@@ -63,13 +66,17 @@ def get_email_domain(email: str) -> str:
 def render_normalized_response_html_table(normalized_response):
     html = "<table class='table table-bordered compact'>\n"
     html += "<tr><th>Nr</th><th>Pytanie</th><th>Odpowiedź</th></tr>\n"
-    for key, subdict in json.loads(normalized_response).items():
-        html += (
-            f"<tr><td>{key}</td><td>{subdict.get('Pytanie', '')}</td>"
-            + f"<td>{subdict.get('Odpowiedź', '')}</td></tr>\n"
-        )
-    html += "</table>"
-    return mark_safe(html)
+    try:
+        for key, subdict in json.loads(normalized_response).items():
+            html += (
+                f"<tr><td>{key}</td><td>{subdict.get('Pytanie', '')}</td>"
+                + f"<td>{subdict.get('Odpowiedź', '')}</td></tr>\n"
+            )
+        html += "</table>"
+        return mark_safe(html)
+    except json.JSONDecodeError:
+        logger.warning(f"Normalized response is not valid JSON: {normalized_response}")
+        return mark_safe("<p>Normalized response is not valid JSON.</p>")
 
 
 class PaginatedCSVStreamingRenderer(CSVStreamingRenderer):

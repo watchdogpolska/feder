@@ -62,7 +62,9 @@ def get_monitoring_normalized_response_template(monitoring_pk):
         .order_by("-created")
     )
 
-    if (
+    # TODO: make sure to update when introducing more LlmMonitoringRequest methods
+    # TODO: or find better solution
+    if len(monitoring_llm_requests) == 1 or (
         len(monitoring_llm_requests) > 1
         and monitoring_llm_requests[0].response != monitoring_llm_requests[1].response
     ):
