@@ -8,6 +8,7 @@ from django.db.models.expressions import RawSQL
 from django.forms.models import model_to_dict
 from django.utils.encoding import force_str
 from django.utils.safestring import mark_safe
+from django.utils.translation import gettext_lazy as _
 from rest_framework_csv.renderers import CSVStreamingRenderer
 
 logger = logging.getLogger(__name__)
@@ -76,7 +77,7 @@ def render_normalized_response_html_table(normalized_response):
         return mark_safe(html)
     except json.JSONDecodeError:
         logger.warning(f"Normalized response is not valid JSON: {normalized_response}")
-        return mark_safe("<p>Normalized response is not valid JSON.</p>")
+        return mark_safe(_("<p>Normalized response is not valid JSON.</p>"))
 
 
 class PaginatedCSVStreamingRenderer(CSVStreamingRenderer):
