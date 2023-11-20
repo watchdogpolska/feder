@@ -607,7 +607,7 @@ class MassMessageDraft(TimeStampedModel):
         to=Letter,
         verbose_name=_("Letter"),
         related_name="mass_draft",
-        on_delete=models.PROTECT,
+        on_delete=models.CASCADE,
     )
     monitoring = models.ForeignKey(
         to="monitorings.Monitoring",

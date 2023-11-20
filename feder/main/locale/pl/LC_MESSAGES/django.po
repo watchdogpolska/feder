@@ -53,7 +53,7 @@ msgstr "Wykonane"
 
 #: feder/llm_evaluation/models.py:36
 msgid "Failed"
-msgstr "Błędny"
+msgstr "Niepowodzenie"
 
 #: feder/llm_evaluation/models.py:39
 msgid "LLM Engine name"
