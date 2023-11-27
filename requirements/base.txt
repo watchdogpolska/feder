@@ -91,6 +91,6 @@ html2text==2020.1.16
 openpyxl==3.1.2
 
 # LLM exvaluation
-langchain[llms]==0.0.317
+langchain[llms]==0.0.340
 openai==0.28.1
 tiktoken==0.5.1
