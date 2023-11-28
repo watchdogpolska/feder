@@ -36,8 +36,8 @@ lxml==4.9.3
 
 
 # Your custom requirements go here
-cryptography==41.0.5
-django-filter==23.3
+cryptography==41.0.7
+django-filter==23.4
 django-autocomplete-light==3.9.7
 # django-ajax-datatable to be installed from github fork until
 # https://github.com/morlandi/django-ajax-datatable/pull/111 is merged
@@ -61,9 +61,9 @@ cached-property==1.5.2
 # django-bootstrap-pagination==1.7.1
 git+https://github.com/PiotrIw/django-bootstrap-pagination.git@master#egg=django-bootstrap-pagination
 
-django-reversion==5.0.6
+django-reversion==5.0.8
 djangorestframework==3.14.0
-djangorestframework-csv==2.1.1
+djangorestframework-csv==3.0.1
 unicodecsv==0.14.1
 tqdm==4.66.1
 django-github-revision==0.0.3
@@ -91,6 +91,6 @@ html2text==2020.1.16
 openpyxl==3.1.2
 
 # LLM exvaluation
-langchain[llms]==0.0.340
+langchain[llms]==0.0.341
 openai==0.28.1
 tiktoken==0.5.1
