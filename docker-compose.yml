@@ -122,7 +122,7 @@ services:
   #     SENTRY_ENVIRONMENT: "feder-dev"
   #     COMPRESS_EML: "True"
   #   env_file:
-  #     - secrets_imap-to-webhook-url.env:optional
+  #     - secrets_imap-to-webhook-url.env
 
 volumes:
   mariadb-data:
