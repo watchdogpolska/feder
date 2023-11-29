@@ -45,6 +45,9 @@ class Tag(TimeStampedModel):
             kwargs={"monitoring": self.monitoring_id, "pk": self.pk},
         )
 
+    def get_cases_count(self):
+        return self.case_set.count()
+
     class Meta:
         unique_together = [["monitoring", "name"]]
         verbose_name = _("Tag")
