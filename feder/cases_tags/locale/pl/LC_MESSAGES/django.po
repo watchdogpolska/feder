@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-30 18:11+0100\n"
+"POT-Creation-Date: 2023-11-29 11:48+0100\n"
 "PO-Revision-Date: 2021-01-29 01:44+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -32,11 +32,11 @@ msgstr "Nazwa"
 msgid "Slug"
 msgstr "Identyfikator redakcyjny"
 
-#: feder/cases_tags/models.py:50
+#: feder/cases_tags/models.py:53
 msgid "Tag"
 msgstr "Tag"
 
-#: feder/cases_tags/models.py:51
+#: feder/cases_tags/models.py:54
 msgid "Tags"
 msgstr "Tagi"
 

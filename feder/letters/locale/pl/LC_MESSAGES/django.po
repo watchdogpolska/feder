@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: letters 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-30 18:11+0100\n"
-"PO-Revision-Date: 2023-10-30 18:17+0124\n"
+"POT-Creation-Date: 2023-11-29 11:48+0100\n"
+"PO-Revision-Date: 2023-11-29 11:48+0124\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -410,7 +410,6 @@ msgstr "przez"
 #: feder/letters/templates/letters/_header.html:19
 #: feder/letters/templates/letters/_letter_content_item.html:10
 #: feder/letters/templates/letters/base_object.html:92
-#| msgid "Letter AI evaluation"
 msgid "LLM evaluation: "
 msgstr "Ocena listu z LLM"
 
@@ -441,7 +440,7 @@ msgstr "Adres e-mail sprawy"
 
 #: feder/letters/templates/letters/_letter_reply_body.txt:4
 #: feder/letters/templates/letters/_object.html:51
-#: feder/letters/templates/letters/letter_form.html:14
+#: feder/letters/templates/letters/letter_form.html:22
 #: feder/letters/templates/letters/messages/_message.html:26
 msgid "Attachments"
 msgstr "Załączniki"
@@ -485,13 +484,19 @@ msgstr ""
 msgid "Recipient's tags"
 msgstr "Tagi odbiorców"
 
+#: feder/letters/templates/letters/_object.html:43
+#: feder/letters/templates/letters/letter_form.html:9
+#| msgid "Recipient tags"
+msgid "recipients"
+msgstr "odbiorców"
+
 #: feder/letters/templates/letters/_object.html:65
-#: feder/letters/templates/letters/letter_form.html:25
+#: feder/letters/templates/letters/letter_form.html:33
 msgid "Download"
 msgstr "Pobierz"
 
 #: feder/letters/templates/letters/_object.html:72
-#: feder/letters/templates/letters/letter_form.html:32
+#: feder/letters/templates/letters/letter_form.html:40
 msgid "Scan"
 msgstr "Skanuj"
 
@@ -550,6 +555,10 @@ msgstr "Potwierdź usuwanie"
 #: feder/letters/templates/letters/letter_detail.html:55
 msgid "Similar list"
 msgstr "Podobne listy"
+
+#: feder/letters/templates/letters/letter_form.html:6
+msgid "This is a mass message draft for recipients with tags:"
+msgstr "To jest wersja robocza wiadomości masowej dla odbiorców z tagami:"
 
 #: feder/letters/templates/letters/letter_mark_spam.html:15
 msgid "Mark (non-)spam"
