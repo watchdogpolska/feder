@@ -17,7 +17,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.syndication.views import Feed
 from django.core.exceptions import PermissionDenied
 from django.db.models import Count, Q
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.template.defaultfilters import linebreaksbr
 from django.urls import reverse, reverse_lazy
@@ -54,7 +54,10 @@ from feder.letters.logs.models import STATUS
 from feder.letters.models import Letter
 from feder.letters.utils import is_formatted_html, text_to_html
 from feder.letters.views import LetterCommonMixin
-from feder.llm_evaluation.tasks import get_monitoring_normalized_response_template
+from feder.llm_evaluation.tasks import (
+    LlmMonitoringRequest,
+    get_monitoring_normalized_response_template,
+)
 from feder.main.mixins import ExtraListMixin, RaisePermissionRequiredMixin
 from feder.main.utils import DeleteViewLogEntryMixin, FormValidLogEntryMixin
 
@@ -584,6 +587,44 @@ class MonitoringResultsView(DetailView):
         else:
             context["results"] = mark_safe(text_to_html(self.object.results))
         return context
+
+
+class MonitoringChatView(DetailView):
+    model = Monitoring
+    template_name_suffix = "_chat"
+    select_related = ["user"]
+
+    def get_context_data(self, **kwargs):
+        kwargs["url_extra_kwargs"] = {"slug": self.object.slug}
+        context = super().get_context_data(**kwargs)
+        context["voivodeship_table"] = mark_safe(
+            self.object.generate_voivodeship_table()
+        )
+        context["chats"] = [
+            {
+                "message": llm_monitoring_request.request_prompt,
+                "response": llm_monitoring_request.response,
+            }
+            for llm_monitoring_request in LlmMonitoringRequest.objects.filter(
+                evaluated_monitoring=self.object, chat_request=True
+            ).order_by("created")
+        ]
+        context["chat_post_url"] = reverse(
+            "monitorings:chat",
+            kwargs={"slug": self.kwargs.get("slug")},
+        )
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if request.POST.get("message"):
+            chat_question = request.POST.get("message")
+            response_data = {
+                "response": LlmMonitoringRequest.get_monitoring_chat_response(
+                    monitoring=self.object, chat_question=chat_question
+                ),
+            }
+            return JsonResponse(response_data)
 
 
 class MonitoringCreateView(
