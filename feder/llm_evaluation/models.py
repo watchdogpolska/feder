@@ -298,6 +298,9 @@ class LlmMonitoringRequest(LlmRequest):
         on_delete=models.DO_NOTHING,
         verbose_name=_("Evaluated Monitoring"),
     )
+    chat_request = models.BooleanField(
+        verbose_name=_("Chat Request"), default=False, blank=True
+    )
 
     @classmethod
     def get_response_normalized_template(cls, monitoring):
