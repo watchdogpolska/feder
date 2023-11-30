@@ -12,11 +12,11 @@
             {% endif %}
         >{% trans 'Letters' %}</a></li>
         {% if 'reply' in monitoring_perms or 'add_draft' in monitoring_perms %}
-        <li{% if tab == 'drafts' %} class="active"{% endif %}><a
-            {% if tab != 'drafts' %}
-                href="{% url 'monitorings:drafts' slug=object.slug %}"
-            {% endif %}
-        >{% trans 'Drafts' %}</a></li>
+            <li{% if tab == 'drafts' %} class="active"{% endif %}><a
+                {% if tab != 'drafts' %}
+                    href="{% url 'monitorings:drafts' slug=object.slug %}"
+                {% endif %}
+            >{% trans 'Drafts' %}</a></li>
         {% endif %}
         <li{% if tab == 'template' %} class="active"{% endif %}><a
             {% if tab != 'template' %}
@@ -28,4 +28,11 @@
             href="{% url 'monitorings:results' slug=object.slug %}"
         {% endif %}
         >{% trans 'Results' %}</a></li>
+        {% if user.is_superuser and object.use_llm %}
+            <li{% if tab == 'chat' %} class="active"{% endif %}><a
+            {% if tab != 'chat' %}
+                href="{% url 'monitorings:chat' slug=object.slug %}"
+            {% endif %}
+            >{% trans 'Chat' %}</a></li>
+        {% endif %}
     </ul>

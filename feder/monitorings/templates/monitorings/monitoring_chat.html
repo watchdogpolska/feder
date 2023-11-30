@@ -1,0 +1,204 @@
+{% extends 'monitorings/base_monitoring_detail.html' %}
+{% load i18n humanize bootstrap_pagination%}
+{% block content_object %}
+    {% include 'monitorings/_tabs.html' with tab='chat' %}
+    <style>
+        .content-frame {
+            border: 1px solid darkgray; /* Black border */
+            background-color: white; /* White background */
+            padding: 10px; /* Optional: Add padding for content inside the div */
+        }
+        .message-form {
+            display: flex;
+            /* position: fixed; */
+            /* width: 500px; */
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 10px;
+            background-color: #f8f9fa;
+        }
+        .message-input {
+            display: flex;
+            flex: 1;
+            border-radius: 0;
+            border-right: none;
+        }
+        .chat-container {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        #chat-input {
+            display: flex;
+            flex: 1;
+            width: 100% !important;
+            border-radius: 0;
+            border-right: none;
+        }
+        .input-group {
+            width: 100%;
+        }
+        .message {
+          margin-bottom: 15px;
+          list-style: none;
+        }
+        .message-text {
+          padding: 10px;
+          border-radius: 5px;
+        }
+        .sent {
+          background-color: #f5d5cd;
+          align-self: flex-end;
+        }
+        .received {
+          background-color: #f1f0f0;
+          align-self: flex-start;
+        }
+        .spinner-container {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 60px;
+        }
+        .spinner {
+          border: 8px solid rgba(0, 0, 0, 0.3);
+          border-top: 8px solid #b8cf37;
+          border-radius: 50%;
+          width: 40px;
+          height: 40px;
+          animation: spin 1s linear infinite;
+        }
+        .loading-text {
+          margin-left: 10px;
+          font-size: 1.2em;
+        }
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+    </style>
+    <h3 class="sr-only">{% trans "Monitoring Chat" %}</h3>
+    <div class="gray">
+        <ul class="list-unstyled messages-list">
+        {% for chat in chats %}
+          <li class="message sent">
+            <div class="message-text">
+              <div class="message-sender">
+                <b>{% trans "Your question regarding monitoring responses:"  %}</b>
+              </div>
+              <div class="content-frame">
+                {{chat.message}}
+              </div>
+            </div>
+          </li>
+          <li class="message received">
+            <div class="message-text">
+              <div class="message-sender">
+                <b>{% trans "LLM response based on responses content:"  %}</b>
+              </div>
+              <div class="content-frame">
+                {{chat.response}}
+              </div>
+            </div>
+          </li>
+        {% endfor %}
+        </ul>
+        <div class="spinner-container" style="display: none;">
+          <div class="spinner"></div>
+          <div class="loading-text" id="loading-text">{% trans "Response is being prepared" %}...</div>
+        </div>
+        <form class="message-form">
+            {%csrf_token%}
+            <div class="input-group">
+            <textarea id="chat-input" type="text" class="form-control message-input" 
+              placeholder="{% trans 'Type your question regarding monitoring responses' %}..."></textarea>
+              <div class="input-group-append">
+                <button type="submit" id="submit-chat" class="btn btn-primary btn-send">Send</button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/autosize.js/4.0.2/autosize.min.js"></script>
+    <script>
+        let resp_wait_seconds = 1;
+        const messagesList = document.querySelector('.messages-list');
+        const messageForm = document.querySelector('.message-form');
+        const messageInput = document.querySelector('.message-input');
+        const loadingText = document.querySelector('.loading-text');
+        const chatInput = document.querySelector('#chat-input');
+        const submitChat = document.querySelector('#submit-chat');
+        const spinnerContainer = document.querySelector('.spinner-container');
+    
+        function updateLoadingText() {
+          loadingText.textContent = `{% trans "Response is being prepared" %}... ${resp_wait_seconds}s`;
+          resp_wait_seconds++;
+        }
+        autosize(chatInput);
+
+        messageForm.addEventListener('submit', (event) => {
+          event.preventDefault();
+      
+          const message = messageInput.value.trim().replace(/\n/g, '<br>');
+          if (message.length === 0) {
+            return;
+          }
+          const messageItem = document.createElement('li');
+          messageItem.classList.add('message', 'sent');
+          messageItem.innerHTML = `
+            <div class="message-text">
+              <div class="message-sender">
+                <b>{% trans "Your question regarding monitoring responses:"  %}</b>
+              </div>
+              <div class="content-frame">
+                ${message}
+              </div>
+            </div>`;
+          messagesList.appendChild(messageItem);
+      
+          messageInput.value = '';
+          resp_wait_seconds = 1;
+          loadingText.textContent = `{% trans "Response is being prepared" %}...`;
+          // Call the updateLoadingText function every second
+          const intervalId = setInterval(updateLoadingText, 1000);
+          spinnerContainer.style.display = 'flex';
+          chatInput.disabled = true;
+          submitChat.disabled = true;
+          chatInput.style.height = '';
+          
+          fetch('{{chat_post_url}}', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({
+              'csrfmiddlewaretoken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+              'message': message
+            })
+          })
+            .then(response => response.json())
+            .then(data => {
+              const response = data.response;
+              const messageItem = document.createElement('li');
+              messageItem.classList.add('message', 'received');
+              messageItem.innerHTML = `
+              <div class="message-text">
+                <div class="message-sender">
+                  <b>{% trans "LLM response based on responses content:"  %}</b>
+                </div>
+                <div class="content-frame">
+                  ${response}
+                </div>
+              </div>`;
+              messagesList.appendChild(messageItem);
+              
+              spinnerContainer.style.display = 'none';
+              chatInput.disabled = false;
+              submitChat.disabled = false;
+              // To stop running the updateLoadingText function
+              clearInterval(intervalId);
+
+            });
+        });
+      
+      </script>
+{% endblock %}
