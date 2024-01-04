@@ -21,16 +21,9 @@ RUN apt-get update \
 RUN pip install --upgrade pip
 RUN pip --version
 COPY requirements/*.txt ./requirements/
-<<<<<<< HEAD
-ARG DJANGO_VERSION='==3.2.23'
-RUN bash -c "if [[ "${DJANGO_VERSION}" == 'master' ]]; then \
-pip install --no-cache-dir -r requirements/dev.txt https://github.com/django/django/archive/master.tar.gz; else \
-pip install --no-cache-dir -r requirements/dev.txt \"django${DJANGO_VERSION}\"; fi"
-=======
 # left for github actions reference:
 ARG DJANGO_VERSION='==3.2.23'
 RUN pip install --no-cache-dir -r requirements/dev.txt
->>>>>>> master
 # CMD ["bash", "-c", "python manage.py collectstatic --no-input && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
 # to allow VScode run and debug django app:
 CMD ["bash", "-c", "python manage.py collectstatic --no-input && python manage.py migrate && sleep infinity"]
