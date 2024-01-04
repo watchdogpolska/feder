@@ -21,9 +21,7 @@ RUN apt-get update \
 RUN pip install --upgrade pip
 RUN pip --version
 COPY requirements/*.txt ./requirements/
-ARG DJANGO_VERSION='==3.2.20'
-# TODO: Move to /requirements/base.txt after fixing following bug:
-#       https://github.com/readthedocs/readthedocs-docker-images/issues/158
+ARG DJANGO_VERSION='==3.2.23'
 RUN pip install --no-cache-dir -r requirements/production.txt
 COPY . /code/
 # Start container with bash shell to allow run and debug django app
