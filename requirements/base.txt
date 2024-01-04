@@ -59,9 +59,9 @@ cached-property==1.5.2
 # django-bootstrap-pagination==1.7.1
 git+https://github.com/PiotrIw/django-bootstrap-pagination.git@master#egg=django-bootstrap-pagination
 
-django-reversion==5.0.8
+django-reversion==5.0.10
 djangorestframework==3.14.0
-djangorestframework-csv==3.0.1
+djangorestframework-csv==3.0.2
 unicodecsv==0.14.1
 tqdm==4.66.1
 django-github-revision==0.0.3
@@ -90,5 +90,5 @@ openpyxl==3.1.2
 
 # LLM exvaluation
 langchain[llms]==0.0.341
-openai==0.28.1
-tiktoken==0.5.1
+openai==1.6.1
+tiktoken==0.5.2
