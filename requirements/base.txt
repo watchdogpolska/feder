@@ -1,10 +1,8 @@
-# Production and staging Django - 
-# covered with environment variables and production requirements 
-# separetelly until migrating production to docker
-#django==3.1.5
+# Production and staging Django
+Django==3.2.23
 
 # Database adapter
-mysqlclient==2.2.0
+mysqlclient==2.2.1
 
 # Configuration
 django-environ==0.11.2
@@ -32,12 +30,12 @@ django-autoslug==1.9.9
 pytz==2023.3.post1
 
 # Commands
-lxml==4.9.3
+lxml==4.9.4
 
 
 # Your custom requirements go here
 cryptography==41.0.7
-django-filter==23.4
+django-filter==23.5
 django-autocomplete-light==3.9.7
 # django-ajax-datatable to be installed from github fork until
 # https://github.com/morlandi/django-ajax-datatable/pull/111 is merged
@@ -50,7 +48,7 @@ django-tinymce==3.6.1
 # django-atom==0.16.3
 git+https://github.com/PiotrIw/django-atom.git@master#egg=django-atom
 
-django-formtools==2.4.1
+django-formtools==2.5.1
 django-mptt==0.15.0
 jsonfield==3.1.0
 django-guardian==2.4.0
@@ -61,9 +59,9 @@ cached-property==1.5.2
 # django-bootstrap-pagination==1.7.1
 git+https://github.com/PiotrIw/django-bootstrap-pagination.git@master#egg=django-bootstrap-pagination
 
-django-reversion==5.0.8
+django-reversion==5.0.10
 djangorestframework==3.14.0
-djangorestframework-csv==3.0.1
+djangorestframework-csv==3.0.2
 unicodecsv==0.14.1
 tqdm==4.66.1
 django-github-revision==0.0.3
@@ -91,6 +89,6 @@ html2text==2020.1.16
 openpyxl==3.1.2
 
 # LLM exvaluation
-langchain[llms]==0.0.341
-openai==0.28.1
-tiktoken==0.5.1
+langchain[llms]==0.0.354
+openai==1.6.1
+tiktoken==0.5.2

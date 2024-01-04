@@ -12,7 +12,7 @@
     "datatables.net-plugins": "^1.13.6",
     "font-awesome": "^4.7.0",
     "jquery": "^3.7.0",
-    "postcss": "8.4.31"
+    "postcss": "8.4.32"
   },
   "devDependencies": {
     "gulp": "^4.0.0",
@@ -28,7 +28,7 @@
     "gulp-terser": "^2.1.0",
     "gulp-uglify": "^3.0.2",
     "gulp-watch": "^5.0.1",
-    "sass": "^1.69.5"
+    "sass": "^1.69.7"
   },
   "engines": {
     "node": ">=0.8.0"
