@@ -27,7 +27,7 @@ unicode-slugify==0.1.5
 django-autoslug==1.9.9
 
 # Time zones support
-pytz==2023.3.post1
+pytz==2023.4
 
 # Commands
 lxml==5.1.0
