@@ -79,9 +79,9 @@ class RecordAdmin(admin.ModelAdmin):
     @admin.action(description="Export selected records as CSV")
     def export_as_csv(modeladmin, request, queryset):
         response = HttpResponse(content_type="text/csv")
-        response[
-            "Content-Disposition"
-        ] = 'attachment; filename="selected_records_export.csv"'
+        response["Content-Disposition"] = (
+            'attachment; filename="selected_records_export.csv"'
+        )
 
         writer = csv.writer(response)
         # Write the headers
