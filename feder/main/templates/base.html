@@ -38,7 +38,12 @@
 
 <body>
 
-    {% include '_navbar.html' %}
+{% show_donate_popup as show_donate_popup_flag %}
+{% if show_donate_popup_flag %}
+    {% include 'donate_popup.html' %}
+{% endif %}
+
+{% include '_navbar.html' %}
 
 <!-- app_main_style tag used to differentiate dev, demo and production environments -->
 {% app_main_style %}
@@ -127,6 +132,10 @@
             });
         });
     </script>
+    {% if show_donate_popup_flag %}
+        <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+        <script src="{% static 'js/donate_popup.js' %}"></script>
+    {% endif %}
     {{ filter.form.media }}
 {% endblock javascript %}
 </body>
