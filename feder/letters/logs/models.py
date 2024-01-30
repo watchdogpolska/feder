@@ -71,7 +71,9 @@ class LogRecordQuerySet(models.QuerySet):
             Letter.objects.is_outgoing().values_list("message_id_header", "id")
         )
         # search only last 10k records for duplicates to speed up
-        id_to_check = LogRecord.objects.order_by("-id").first().id - 10000
+        id_to_check = 0
+        if LogRecord.objects.order_by("-id").first():
+            id_to_check = LogRecord.objects.order_by("-id").first().id - 10000
         for row in rows:
             if get_clean_email(row["from"]) not in cases:
                 logger.info(f"Skipped {skipped}, log record not in cases: {row}")
