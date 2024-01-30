@@ -59,3 +59,17 @@ def boolean_icon(value):
 @register.filter
 def sanitize_html(value):
     return mark_safe(cleaner.clean(value))
+
+
+@register.simple_tag
+def show_donate_popup():
+    """
+    show_donate_popup tag used to display donate popup between Jan 1 and May 2nd
+    inclusive, every year
+    """
+    from datetime import datetime
+
+    now = datetime.now()
+    if (1 <= now.month <= 4) or (now.month == 5 and now.day in [1, 2]):
+        return True
+    return False
