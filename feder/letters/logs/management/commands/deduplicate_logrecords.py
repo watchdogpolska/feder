@@ -14,7 +14,7 @@ class Command(BaseCommand):
                   Defaults to the highest ID in the database.
     """
 
-    BATCH_SIZE = 1000000
+    BATCH_SIZE = 100000
     MAX_ID = LogRecord.objects.order_by("-id").first().id
 
     def add_arguments(self, parser):
@@ -33,7 +33,7 @@ class Command(BaseCommand):
             default=self.BATCH_SIZE,
             help=(
                 "Number of LogRecord instances to process per batch."
-                + " Defaults to 1 000 000."
+                + " Defaults to 100 000."
             ),
         )
 
