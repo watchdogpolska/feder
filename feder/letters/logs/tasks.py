@@ -6,7 +6,7 @@ from django.conf import settings
 logger = logging.getLogger(__name__)
 
 
-@background(schedule=120)
+@background(schedule=600, remove_existing_tasks=True)
 def update_sent_letter_status():
     """
     Update the status of sent letters using Emaillabs API
