@@ -492,10 +492,12 @@ class Letter(AbstractRecord):
 
     def get_full_content(self):
         attachments_text_content_list = [
-            attachment.text_content
-            if attachment.text_content_update_result == "Processed"
-            and attachment.text_content
-            else ""
+            (
+                attachment.text_content
+                if attachment.text_content_update_result == "Processed"
+                and attachment.text_content
+                else ""
+            )
             for attachment in self.attachment_set.all()
         ]
         attachments_text_content = "\n".join(attachments_text_content_list)
