@@ -166,9 +166,9 @@ class MassMessageForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
         self.fields["recipients_tags"].queryset = Tag.objects.for_monitoring(
             obj=monitoring
         )
-        self.fields[
-            "recipients_tags"
-        ].label_from_instance = recipients_tags_label_from_instance
+        self.fields["recipients_tags"].label_from_instance = (
+            recipients_tags_label_from_instance
+        )
         self.fields["html_body"].help_text = _("Use {{EMAIL}} to insert reply address.")
 
         self.helper.form_tag = False
