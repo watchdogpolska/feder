@@ -1,4 +1,5 @@
 import json
+import logging
 from collections import OrderedDict
 
 from django.db import models
@@ -11,6 +12,9 @@ from model_utils.models import TimeStampedModel
 
 from feder.cases.models import Case
 from feder.letters.models import Letter
+from feder.main.utils import get_clean_email
+
+logger = logging.getLogger(__name__)
 
 STATUS = Choices(
     ("open", _("Open")),
@@ -66,16 +70,22 @@ class LogRecordQuerySet(models.QuerySet):
         letters = dict(
             Letter.objects.is_outgoing().values_list("message_id_header", "id")
         )
-
+        # search only last 10k records for duplicates to speed up
+        id_to_check = LogRecord.objects.order_by("-id").first().id - 10000
         for row in rows:
-            if row["from"] not in cases:
+            if get_clean_email(row["from"]) not in cases:
+                logger.info(f"Skipped {skipped}, log record not in cases: {row}")
+                skipped += 1
+                continue
+            if LogRecord.objects.filter(id__gt=id_to_check).filter(data=row).exists():
+                logger.info(f"Skipped {skipped}, log record exists: {row}")
                 skipped += 1
                 continue
             log = LogRecord(data=row)
             status = log.get_status()
             letter = letters.get(row["message_id"], None)
             obj, created = EmailLog.objects.get_or_create(
-                case_id=cases[row["from"]],
+                case_id=cases[get_clean_email(row["from"])],
                 email_id=row["id"],
                 to=row["to"],
                 defaults={"status": status, "letter_id": letter},
@@ -85,6 +95,7 @@ class LogRecordQuerySet(models.QuerySet):
                 obj.save(update_fields=["status"])
             log.email = obj
             log.save()
+            logger.info(f"Saved {saved} log record: {row}")
             saved += 1
         return skipped, saved
 
