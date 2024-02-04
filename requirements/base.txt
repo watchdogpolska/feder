@@ -90,5 +90,5 @@ openpyxl==3.1.2
 
 # LLM exvaluation
 langchain[llms]==0.1.5
-openai==1.10.0
+openai==1.11.1
 tiktoken==0.5.2
