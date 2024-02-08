@@ -78,6 +78,8 @@ class LlmLetterRequest(LlmRequest):
         if letter.case and letter.case.monitoring:
             institution_name = letter.case.institution.name
             monitoring_template = letter.case.monitoring.template
+            # TODO: get only part of monitoring template if it is longer than half
+            #       of engine max tokens
         intro = letter_evaluation_intro.format(
             institution=institution_name,
             monitoring_question=monitoring_template,
@@ -94,7 +96,9 @@ class LlmLetterRequest(LlmRequest):
 
         max_tokens = min(settings.OPENAI_API_ENGINE_4_MAX_TOKENS, 6000) - q_tokens - 500
         # print(f"max_tokens: {max_tokens}")
-        text_splitter = TokenTextSplitter(chunk_size=max_tokens, chunk_overlap=100)
+        text_splitter = TokenTextSplitter(
+            chunk_size=max_tokens, chunk_overlap=min(max_tokens // 2, 100)
+        )
         texts = text_splitter.split_text(letter.get_full_content())
         # print(
         #     "texts[0] tokens:",
