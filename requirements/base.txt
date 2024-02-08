@@ -1,8 +1,8 @@
 # Production and staging Django
-Django==3.2.23
+Django==3.2.24
 
 # Database adapter
-mysqlclient==2.2.1
+mysqlclient==2.2.3
 
 # Configuration
 django-environ==0.11.2
@@ -27,7 +27,7 @@ unicode-slugify==0.1.5
 django-autoslug==1.9.9
 
 # Time zones support
-pytz==2023.4
+pytz==2024.1
 
 # Commands
 lxml==5.1.0
@@ -42,7 +42,7 @@ django-autocomplete-light==3.9.7
 # django-ajax-datatable==4.4.5
 git+https://github.com/PiotrIw/django-ajax-datatable.git@05afe42
 
-django-tinymce==3.6.1
+django-tinymce==3.7.1
 
 # replacing unmaintained django-atom with updated fork
 # django-atom==0.16.3
@@ -89,6 +89,8 @@ html2text==2020.1.16
 openpyxl==3.1.2
 
 # LLM exvaluation
-langchain[llms]==0.1.4
-openai==1.10.0
+langchain==0.1.5
+#langchain[llms]==0.1.5
+openai==1.11.1
+langchain-openai==0.0.5
 tiktoken==0.5.2
