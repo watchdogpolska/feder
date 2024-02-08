@@ -5,14 +5,14 @@ from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from jsonfield import JSONField
-from langchain.callbacks import get_openai_callback
-from langchain.chat_models import AzureChatOpenAI
 from langchain.schema.output_parser import StrOutputParser
 from langchain.text_splitter import TokenTextSplitter
+from langchain_community.callbacks import get_openai_callback
+from langchain_openai import AzureChatOpenAI
 from model_utils import Choices
 from model_utils.models import TimeStampedModel
 
-from .llm_tools import num_tokens_from_string
+from .llm_tools import get_serializable_dict, num_tokens_from_string
 from .prompts import (
     letter_categorization,
     letter_evaluation_intro,
@@ -118,7 +118,7 @@ class LlmLetterRequest(LlmRequest):
             openai_api_type=settings.OPENAI_API_TYPE,
             openai_api_key=settings.OPENAI_API_KEY,
             openai_api_version=settings.OPENAI_API_VERSION,
-            openai_api_base=settings.OPENAI_API_BASE,
+            azure_endpoint=settings.AZURE_ENDPOINT,
             deployment_name=llm_engine,
             temperature=settings.OPENAI_API_TEMPERATURE,
         )
@@ -134,7 +134,7 @@ class LlmLetterRequest(LlmRequest):
             )
         end_time = time.time()
         execution_time = end_time - start_time
-        llm_info_dict = vars(cb)
+        llm_info_dict = get_serializable_dict(cb)
         llm_info_dict["completion_time"] = execution_time
         letter_llm_request.response = resp
         letter_llm_request.token_usage = llm_info_dict
@@ -197,7 +197,7 @@ class LlmLetterRequest(LlmRequest):
             openai_api_type=settings.OPENAI_API_TYPE,
             openai_api_key=settings.OPENAI_API_KEY,
             openai_api_version=settings.OPENAI_API_VERSION,
-            openai_api_base=settings.OPENAI_API_BASE,
+            azure_endpoint=settings.AZURE_ENDPOINT,
             deployment_name=llm_engine,
             temperature=settings.OPENAI_API_TEMPERATURE,
         )
@@ -271,7 +271,7 @@ class LlmMonitoringRequest(LlmRequest):
             openai_api_type=settings.OPENAI_API_TYPE,
             openai_api_key=settings.OPENAI_API_KEY,
             openai_api_version=settings.OPENAI_API_VERSION,
-            openai_api_base=settings.OPENAI_API_BASE,
+            azure_endpoint=settings.AZURE_ENDPOINT,
             deployment_name=llm_engine,
             temperature=settings.OPENAI_API_TEMPERATURE,
         )
