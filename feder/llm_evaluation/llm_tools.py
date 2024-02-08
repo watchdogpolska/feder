@@ -3,8 +3,8 @@ import time
 
 import tiktoken
 from django.conf import settings
-from langchain.callbacks import get_openai_callback
-from langchain.chat_models import AzureChatOpenAI
+from langchain_community.callbacks import get_openai_callback
+from langchain_community.chat_models import AzureChatOpenAI
 from langchain.schema.output_parser import StrOutputParser
 
 logger = logging.getLogger(__name__)

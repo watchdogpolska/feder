@@ -5,8 +5,8 @@ from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from jsonfield import JSONField
-from langchain.callbacks import get_openai_callback
-from langchain.chat_models import AzureChatOpenAI
+from langchain_community.callbacks import get_openai_callback
+from langchain_community.chat_models import AzureChatOpenAI
 from langchain.schema.output_parser import StrOutputParser
 from langchain.text_splitter import TokenTextSplitter
 from model_utils import Choices
