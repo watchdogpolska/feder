@@ -16,7 +16,7 @@ class InstitutionFilter(django_filters.FilterSet):
         choices=TAGS_MODE_CHOICES,
         widget=Select(),
         method="filter_tags",
-        label=_("Tags mode"),
+        label=_("Tags filter mode"),
         initial="OR",
         empty_label=None,
     )
