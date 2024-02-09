@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: main 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-30 18:11+0100\n"
-"PO-Revision-Date: 2023-10-30 18:15+0124\n"
+"POT-Creation-Date: 2024-02-09 18:20+0100\n"
+"PO-Revision-Date: 2024-02-09 18:24+0124\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -19,11 +19,11 @@ msgstr ""
 "X-Generator: Poedit 2.4.1\n"
 "X-Translated-Using: django-rosetta 0.9.9\n"
 
-#: config/settings/common.py:179
+#: config/settings/common.py:180
 msgid "Polish"
 msgstr "Polski"
 
-#: config/settings/common.py:179
+#: config/settings/common.py:180
 msgid "English"
 msgstr "Angielski"
 
@@ -39,43 +39,43 @@ msgstr "Pytanie do LLM o monitoring"
 msgid "LLM Evaluation"
 msgstr "Ocena LLM"
 
-#: feder/llm_evaluation/models.py:33
+#: feder/llm_evaluation/models.py:35
 msgid "Created"
 msgstr "Utworzono"
 
-#: feder/llm_evaluation/models.py:34
+#: feder/llm_evaluation/models.py:36
 msgid "Queued"
 msgstr "Skolejkowane"
 
-#: feder/llm_evaluation/models.py:35
+#: feder/llm_evaluation/models.py:37
 msgid "Done"
 msgstr "Wykonane"
 
-#: feder/llm_evaluation/models.py:36
+#: feder/llm_evaluation/models.py:38
 msgid "Failed"
 msgstr "Niepowodzenie"
 
-#: feder/llm_evaluation/models.py:39
+#: feder/llm_evaluation/models.py:41
 msgid "LLM Engine name"
 msgstr "Nazwa silnika LLM"
 
-#: feder/llm_evaluation/models.py:43
+#: feder/llm_evaluation/models.py:45
 msgid "LLM Engine request"
 msgstr "Żądanie do silnika LLM"
 
-#: feder/llm_evaluation/models.py:46
+#: feder/llm_evaluation/models.py:48
 msgid "LLM Engine response"
 msgstr "Odpowiedź silnika LLM"
 
-#: feder/llm_evaluation/models.py:49
+#: feder/llm_evaluation/models.py:51
 msgid "LLM Engine token usage"
 msgstr "Użycie tokenów LLM"
 
-#: feder/llm_evaluation/models.py:71
+#: feder/llm_evaluation/models.py:73
 msgid "Evaluated Letter"
 msgstr "Oceniany list"
 
-#: feder/llm_evaluation/models.py:247
+#: feder/llm_evaluation/models.py:266
 msgid "Evaluated Monitoring"
 msgstr "Oceniany monitoring"
 
@@ -485,15 +485,15 @@ msgstr ""
 "<strong>Uwaga:</strong> możesz ciągle <a href=\"%(email_url)s\">zmienić swój"
 " adres e-mail</a>."
 
-#: feder/main/templates/base.html:92
+#: feder/main/templates/base.html:99
 msgid "This site uses cookies."
 msgstr "Ta strona wykorzystuje cookies."
 
-#: feder/main/templates/base.html:115
+#: feder/main/templates/base.html:122
 msgid "Show quote"
 msgstr "Pokaż cytat"
 
-#: feder/main/templates/base.html:116
+#: feder/main/templates/base.html:123
 msgid "Hide quote"
 msgstr "Ukryj cytat"
 
@@ -595,6 +595,10 @@ msgstr "^przesylki/"
 #: feder/main/urls.py:67
 msgid "^virus_scan/"
 msgstr "^virus_scan/"
+
+#: feder/main/utils.py:80
+msgid "<p>Normalized response is not valid JSON.</p>"
+msgstr "<p>Znormalizowana odpowiedź nie jest prawidłowym kodem JSON.</p>"
 
 #: feder/organisations/models.py:12
 msgid "Name"
