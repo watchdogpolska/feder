@@ -7,16 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-institutions 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-30 18:11+0100\n"
-"PO-Revision-Date: 2023-06-22 11:14+0000\n"
+"POT-Creation-Date: 2024-02-09 18:20+0100\n"
+"PO-Revision-Date: 2024-02-09 18:25+0124\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
-"|| n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 2.0.6\n"
 "X-Translated-Using: django-rosetta 0.9.9\n"
 
@@ -40,22 +39,27 @@ msgstr "Oznacz wybraną instytucję jako NIE archiwalną"
 msgid "Institution count"
 msgstr "Liczba instytucji"
 
-#: feder/institutions/filters.py:27 feder/institutions/models.py:36
-#: feder/institutions/models.py:122 feder/institutions/viewsets.py:43
-msgid "Name"
-msgstr "Nazwa"
+#: feder/institutions/filters.py:19
+msgid "Tags filter mode"
+msgstr "Metoda filtrowania tagów"
 
 #: feder/institutions/models.py:12
 msgid "Institution index"
 msgstr "Wykaz instytucji"
 
+#: feder/institutions/models.py:36 feder/institutions/models.py:122
+#: feder/institutions/viewsets.py:43
+msgid "Name"
+msgstr "Nazwa"
+
 #: feder/institutions/models.py:37 feder/institutions/models.py:124
 msgid "Slug"
 msgstr "Identyfikator redakcyjny"
 
-#: feder/institutions/models.py:38 feder/institutions/models.py:134
-msgid "Tag"
-msgstr "Tag"
+#: feder/institutions/models.py:38 feder/institutions/models.py:135
+#: feder/institutions/templates/institutions/institution_detail.html:55
+msgid "Tags"
+msgstr "Tagi"
 
 #: feder/institutions/models.py:42
 #: feder/institutions/templates/institutions/_institution_small.html:9
@@ -92,10 +96,9 @@ msgstr "Instytucja"
 msgid " (archival)"
 msgstr " (archiwalne)"
 
-#: feder/institutions/models.py:135
-#: feder/institutions/templates/institutions/institution_detail.html:55
-msgid "Tags"
-msgstr "Tagi"
+#: feder/institutions/models.py:134
+msgid "Tag"
+msgstr "Tag"
 
 #: feder/institutions/templates/institutions/_btn.html:8
 #: feder/institutions/templates/institutions/base_object.html:28

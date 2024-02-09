@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-30 18:11+0100\n"
+"POT-Creation-Date: 2024-02-09 18:20+0100\n"
 "PO-Revision-Date: 2023-06-15 16:01+0000\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: \n"
@@ -24,73 +24,73 @@ msgstr ""
 msgid "Logs of letter"
 msgstr "Dziennik listów"
 
-#: feder/letters/logs/models.py:16
+#: feder/letters/logs/models.py:20
 msgid "Open"
 msgstr "Otwarty"
 
-#: feder/letters/logs/models.py:17
+#: feder/letters/logs/models.py:21
 msgid "Delivered"
 msgstr "Dostarczony"
 
-#: feder/letters/logs/models.py:18
+#: feder/letters/logs/models.py:22
 msgid "Spam-bounce"
 msgstr "Odrzucony z powodu spamu"
 
-#: feder/letters/logs/models.py:19
+#: feder/letters/logs/models.py:23
 msgid "Soft-bounce"
 msgstr "Miękko odrzucony"
 
-#: feder/letters/logs/models.py:20
+#: feder/letters/logs/models.py:24
 msgid "Hard-bounce"
 msgstr "Twardo odrzucony"
 
-#: feder/letters/logs/models.py:21
+#: feder/letters/logs/models.py:25
 msgid "Dropped"
 msgstr "NIEWYSŁANY"
 
-#: feder/letters/logs/models.py:22
+#: feder/letters/logs/models.py:26
 msgid "Deferred"
 msgstr "Odroczony"
 
-#: feder/letters/logs/models.py:23
+#: feder/letters/logs/models.py:27
 msgid "Unknown"
 msgstr "Nieznany"
 
-#: feder/letters/logs/models.py:34
+#: feder/letters/logs/models.py:38
 #: feder/letters/logs/templates/logs/_list.html:7
 msgid "Case"
 msgstr "Sprawa"
 
-#: feder/letters/logs/models.py:36
+#: feder/letters/logs/models.py:40
 #: feder/letters/logs/templates/logs/_list.html:9
 msgid "Letter"
 msgstr "List"
 
-#: feder/letters/logs/models.py:38
+#: feder/letters/logs/models.py:42
 msgid "Message-ID"
 msgstr "Message-ID"
 
-#: feder/letters/logs/models.py:39
+#: feder/letters/logs/models.py:43
 msgid "To"
 msgstr "Do"
 
-#: feder/letters/logs/models.py:53
+#: feder/letters/logs/models.py:57
 msgid "Email log"
 msgstr "Log e-mail"
 
-#: feder/letters/logs/models.py:54
+#: feder/letters/logs/models.py:58
 msgid "Email logs"
 msgstr "Logi e-maili"
 
-#: feder/letters/logs/models.py:94
+#: feder/letters/logs/models.py:107
 msgid "Email"
 msgstr "E-mail"
 
-#: feder/letters/logs/models.py:112
+#: feder/letters/logs/models.py:125
 msgid "Log record"
 msgstr "Rekord dziennika"
 
-#: feder/letters/logs/models.py:113
+#: feder/letters/logs/models.py:126
 msgid "Log records"
 msgstr "Rekordy dziennika"
 

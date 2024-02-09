@@ -35,7 +35,7 @@ class InstitutionQuerySet(models.QuerySet):
 class Institution(TimeStampedModel):
     name = models.CharField(max_length=250, verbose_name=_("Name"))
     slug = AutoSlugField(populate_from="name", verbose_name=_("Slug"), unique=True)
-    tags = models.ManyToManyField("Tag", blank=True, verbose_name=_("Tag"))
+    tags = models.ManyToManyField("Tag", blank=True, verbose_name=_("Tags"))
     jst = models.ForeignKey(
         JST,
         on_delete=models.CASCADE,

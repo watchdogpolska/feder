@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-monitorings 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-30 18:11+0100\n"
+"POT-Creation-Date: 2024-02-09 18:20+0100\n"
 "PO-Revision-Date: 2023-10-30 18:21+0124\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -15,7 +15,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.8.7.1\n"
 "X-Translated-Using: django-rosetta 0.9.9\n"
 
@@ -562,8 +563,8 @@ msgid ""
 "Select tags to add or remove, select cases from the list below and then "
 "confirm by clicking selected action button."
 msgstr ""
-"Wybierz tagi, które chcesz dodać lub usunąć, wybierz sprawy z listy poniżej,"
-" a następnie potwierdź klikając w przycisk wybranej akcji."
+"Wybierz tagi, które chcesz dodać lub usunąć, wybierz sprawy z listy poniżej, "
+"a następnie potwierdź klikając w przycisk wybranej akcji."
 
 #: feder/monitorings/templates/monitorings/monitoring_results.html:14
 #: feder/monitorings/templates/monitorings/monitoring_template.html:14
@@ -681,8 +682,8 @@ msgstr "Użycie pola {{EMAIL}} jest obowiązkowe."
 msgid "Do not use HTML nested lists - not readable in text mail clients."
 msgstr ""
 "Nie używaj zagnieżdżonych list HTML. Punkty mogą być wyświetlane różnie w "
-"zależności od klienta poczty mailowej. W przypadku konieczności użycia listy"
-" zagnieżdżonej, utwórz punktację ręcznie. "
+"zależności od klienta poczty mailowej. W przypadku konieczności użycia listy "
+"zagnieżdżonej, utwórz punktację ręcznie. "
 
 #: feder/monitorings/views.py:105
 msgid "Monitorings search table"
@@ -803,7 +804,8 @@ msgstr "Wysyłka wniosków została zaplanowana"
 
 #: feder/monitorings/views.py:919
 #, python-brace-format
-msgid "Message \"{letter}\" has been scheduled for sending to {count} recipients!"
+msgid ""
+"Message \"{letter}\" has been scheduled for sending to {count} recipients!"
 msgstr "Wiadomość \"{letter}\" zaplanowana do wysyłki do {count} odbiorców!"
 
 #: feder/monitorings/views.py:926
