@@ -12,6 +12,8 @@ from langchain_openai import AzureChatOpenAI
 from model_utils import Choices
 from model_utils.models import TimeStampedModel
 
+from feder.letters.utils import html_to_text
+
 from .llm_tools import get_serializable_dict, num_tokens_from_string
 from .prompts import (
     letter_categorization,
@@ -73,13 +75,27 @@ class LlmLetterRequest(LlmRequest):
 
     @classmethod
     def categorize_letter(cls, letter):
+        # llm_engine = settings.OPENAI_API_ENGINE_35
+        llm_engine = settings.OPENAI_API_ENGINE_4
         institution_name = ""
         monitoring_template = ""
+        max_engine_tokens = min(settings.OPENAI_API_ENGINE_4_MAX_TOKENS, 6000)
         if letter.case and letter.case.monitoring:
             institution_name = letter.case.institution.name
-            monitoring_template = letter.case.monitoring.template
-            # TODO: get only part of monitoring template if it is longer than half
-            #       of engine max tokens
+            monitoring_template = html_to_text(letter.case.monitoring.template)
+            monitoring_template_tokens = num_tokens_from_string(
+                monitoring_template, llm_engine
+            )
+            if monitoring_template_tokens > (max_engine_tokens // 3 * 2):
+                text_splitter = TokenTextSplitter(
+                    chunk_size=(max_engine_tokens // 3 * 2), chunk_overlap=0
+                )
+                texts = text_splitter.split_text(monitoring_template)
+                monitoring_template = texts[0] + "... (tekst skrócony)"
+                logger.warning(
+                    "Monitoring template text too long for LLM engine: "
+                    + f"{monitoring_template_tokens} tokens. Using only first 66%."
+                )
         intro = letter_evaluation_intro.format(
             institution=institution_name,
             monitoring_question=monitoring_template,
@@ -89,12 +105,11 @@ class LlmLetterRequest(LlmRequest):
             institution=institution_name,
             monitoring_response="",
         )
-        # llm_engine = settings.OPENAI_API_ENGINE_35
-        llm_engine = settings.OPENAI_API_ENGINE_4
+
         q_tokens = num_tokens_from_string(test_prompt, llm_engine)
         # print(f"q_tokens: {q_tokens}")
 
-        max_tokens = min(settings.OPENAI_API_ENGINE_4_MAX_TOKENS, 6000) - q_tokens - 500
+        max_tokens = max_engine_tokens - q_tokens - 500
         # print(f"max_tokens: {max_tokens}")
         text_splitter = TokenTextSplitter(
             chunk_size=max_tokens, chunk_overlap=min(max_tokens // 2, 100)
