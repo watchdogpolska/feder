@@ -110,6 +110,12 @@ class Monitoring(RenderBooleanFieldMixin, TimeStampedModel):
         verbose_name=_("Use LLM"),
         help_text=_("Use LLM to evaluate responses"),
     )
+    responses_chat_context = JSONField(
+        verbose_name=_("Responses chat context"),
+        null=True,
+        blank=True,
+        help_text=_("Monitoring responses context for AI chat"),
+    )
     normalized_response_template = JSONField(
         verbose_name=_("Normalized response template"),
         null=True,
