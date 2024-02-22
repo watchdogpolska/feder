@@ -278,6 +278,9 @@ AUTHENTICATION_BACKENDS = (
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+# NoSignupAdapter disables the signup functionality - new users to be
+# manually added by admins
+ACCOUNT_ADAPTER = "feder.main.adapters.NoSignupAdapter"
 SOCIALACCOUNT_EMAIL_VERIFICATION = "optional"
 # Custom user app defaults
 # Select the correct user model
