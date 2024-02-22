@@ -11,11 +11,13 @@ services:
       --collation-server=utf8_polish_ci
       --max_allowed_packet=1024M
       --sql-mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
+      --innodb-buffer-pool-size=512M
+      --innodb-flush-log-at-trx-commit=2
     ports:
       - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: "password"
-      MYSQL_DATABASE: feder # feder3_copy
+      MYSQL_DATABASE: feder3_copy # feder3_copy
     volumes:
       - mariadb-data:/var/lib/mysql
 
@@ -39,7 +41,7 @@ services:
     volumes: &webVolumes
       - .:/code
     environment: &webEnvironment
-      DATABASE_URL: mysql://root:password@db/feder3_copy
+      DATABASE_URL: mysql://root:password@db/feder3_copy_2
       ELASTICSEARCH_URL: http://elasticsearch:9200/
       APACHE_TIKA_URL: "http://tika:9998/"
       # APACHE_TIKA_URL: 'http://192.168.100.120:9998/'

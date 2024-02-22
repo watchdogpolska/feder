@@ -79,9 +79,10 @@
             </li>
 
         {% else %}
-            <li class="block-list-item">
-                <a href="{% url 'account_signup' %}"><i class="fa fa-user"></i> {% trans "Sign Up" %}</a>
-            </li>
+            {# Remove temporairly new user signup until more robust signup process is agreed #}
+            {# <li class="block-list-item"> #}
+            {#     <a href="{% url 'account_signup' %}"><i class="fa fa-user"></i> {% trans "Sign Up" %}</a>  #}
+            {# </li> #}
             <li class="block-list-item">
                 <a href="{% url 'account_login' %}?next={{ request.get_full_path }}">
                     <i class="fa fa-sign-in"></i> {% trans "Log In" %}</a>

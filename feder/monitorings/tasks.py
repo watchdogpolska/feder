@@ -26,6 +26,8 @@ def send_mass_draft(mass_draft_pk):
     """
     Generates letters from mass draft object, sends them and then deletes the draft.
     """
+    if not Letter.objects.filter(pk=mass_draft_pk).exists():
+        return
     with transaction.atomic():
         mass_draft = Letter.objects.get(pk=mass_draft_pk)
         letters = mass_draft.generate_mass_letters()

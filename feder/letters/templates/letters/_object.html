@@ -40,7 +40,7 @@
     <h4>{% trans "Recipient's tags" %}</h4>
     <ul>
         {% for tag in object.mass_draft.recipients_tags.all %}
-            <li>{{ tag.name }}</li>
+            <li>{{ tag.name }} - {{ tag.get_cases_count }} {% trans "recipients" %}</li>
         {% endfor %}
     </ul>
 {% endif %}
