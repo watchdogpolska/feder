@@ -42,6 +42,7 @@ THIRD_PARTY_APPS = (
     "allauth.socialaccount",  # registration
     "dal",
     "dal_select2",
+    "tinycontent",
     "django_extensions",
     "tinymce",
     "ajax_datatable",
