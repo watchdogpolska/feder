@@ -23,12 +23,23 @@
                 {{ object.ai_evaluation|linebreaksbr }}
             </small>
         {% endif %}
+        
     </h3>
+
+    {% if object.is_mass_draft %}
+        <h5><b>{% trans "Recipient's tags" %}</b></h5>
+        <ul>
+            {% for tag in object.mass_draft.recipients_tags.all %}
+                <li>{{ tag.name }} - {{ tag.get_cases_count }} {% trans "recipients" %}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 
     <div class="letter-body " style="max-height: 20em; overflow: auto;">
         {% if object.html_body %}
             <iframe srcdoc="{{ object.html_body|escape }}"
-                    sandbox="allow-top-navigation">
+                    sandbox="allow-top-navigation"
+                    style="border: 1px solid gray;">
             </iframe>
         {% else %}
             {{ object.body|linebreaks }}

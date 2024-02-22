@@ -1,4 +1,4 @@
-{% load static i18n github_revision_tags feder_tags %}
+{% load static i18n github_revision_tags feder_tags tinycontent_tags %}
 <!DOCTYPE html>
 <html lang="en" ng-app>
 <head>
@@ -61,7 +61,9 @@
                 <p>Fedrowanie</p>
             </a>
             <p><a href="http://siecobywatelska.pl">Sieci Watchdog</a></p>
+            {% tinycontent 'base:rodo_link' %}
             <p><a href="https://fedrowanie.siecobywatelska.pl/media/KLAUZULA_RODO-fedrowanie.pdf">Kaluzula RODO</a></p>
+            {% endtinycontent %}
         </div>
         {% include '_sidebar.html' %}
     </div>
@@ -88,7 +90,9 @@
                 <div class="footer-right">Sieć Obywatelska - Watchdog Polska<br>
                     ul. Ursynowska 22/2<br>
                     02-605 Warszawa<br>
+                    {% tinycontent 'base:rodo_link' %}
                     <a href="https://fedrowanie.siecobywatelska.pl/media/KLAUZULA_RODO-fedrowanie.pdf">Kaluzula RODO</a>
+                    {% endtinycontent %}
                 </div>
                 <div class="footer-left">
                     silnik: <a href="http://jawne.info.pl">jawne.info.pl</a> |
