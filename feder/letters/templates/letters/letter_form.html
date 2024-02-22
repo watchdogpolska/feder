@@ -2,6 +2,14 @@
 {% load crispy_forms_tags i18n %}
 {% block content_object %}
     <form enctype="multipart/form-data" method="POST">
+        {% if object.is_mass_draft %}
+            <h5><b>{% trans "This is a mass message draft for recipients with tags:" %}</b></h5>
+            <ul>
+                {% for tag in object.mass_draft.recipients_tags.all %}
+                    <li>{{ tag.name }} - {{ tag.get_cases_count }} {% trans "recipients" %}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
         {% crispy form %}
         {% if object.is_draft  or object.is_mass_draft%}
             {% for inline in inlines %}

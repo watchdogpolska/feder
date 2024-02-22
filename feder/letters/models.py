@@ -515,7 +515,13 @@ class Letter(AbstractRecord):
 
     def get_normalized_response_html_table(self):
         if self.normalized_response:
-            return render_normalized_response_html_table(self.normalized_response)
+            response_received = timezone.localtime(self.created).strftime(
+                "%Y-%m-%d %H:%M:%S"
+            )
+            return mark_safe(
+                f"<p> Otrzymano: {response_received} </p>"
+                + render_normalized_response_html_table(self.normalized_response)
+            )
         return ""
 
 

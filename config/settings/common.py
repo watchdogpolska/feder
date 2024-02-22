@@ -42,6 +42,7 @@ THIRD_PARTY_APPS = (
     "allauth.socialaccount",  # registration
     "dal",
     "dal_select2",
+    "tinycontent",
     "django_extensions",
     "tinymce",
     "ajax_datatable",
@@ -278,7 +279,14 @@ AUTHENTICATION_BACKENDS = (
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+# NoSignupAdapter disables the signup functionality - new users to be
+# manually added by admins
+ACCOUNT_ADAPTER = "feder.main.adapters.NoSignupAdapter"
 SOCIALACCOUNT_EMAIL_VERIFICATION = "optional"
+SOCIALACCOUNT_PROVIDERS = {
+    "github": {"SCOPE": ["user"]},
+    "gilab": {"SCOPE": ["read_user", "openid"]},
+}
 # Custom user app defaults
 # Select the correct user model
 AUTH_USER_MODEL = "users.User"
@@ -364,10 +372,6 @@ REST_FRAMEWORK = {
     "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
 }
 
-SOCIALACCOUNT_PROVIDERS = {
-    "github": {"SCOPE": ["user"]},
-    "gilab": {"SCOPE": ["read_user", "openid"]},
-}
 EMAIL_NOTIFICATION = env(
     "DJANGO_EMAIL_NOTIFICATION", default="no-reply@siecobywatelska.pl"
 )
