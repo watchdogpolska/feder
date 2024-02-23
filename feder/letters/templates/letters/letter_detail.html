@@ -44,10 +44,12 @@
     {% include 'letters/_letter_metadata.html' with object=object %}
     {% include 'letters/_object.html' with object=object %}
     {% if object.eml and not user.is_anonymous %}
-        <a class="btn btn-default" href="{{ object.get_eml_url }}">
-            <i class="fa fa-download"></i>
-            {% trans 'Download letter' %}
-        </a>
+        {% if user.is_superuser or user.can_download_attachment %}
+            <a class="btn btn-default" href="{{ object.get_eml_url }}">
+                <i class="fa fa-download"></i>
+                {% trans 'Download letter' %}
+            </a>
+        {% endif %}
     {% endif %}
     {% if show_similar and similar_list %}
     <div class="panel panel-default">
