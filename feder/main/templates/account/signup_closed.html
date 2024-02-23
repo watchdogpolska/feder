@@ -1,6 +1,6 @@
 {% extends "account/base.html" %}
 
-{% load i18n %}
+{% load i18n tinycontent_tags %}
 
 {% block head_title %}{% trans "Sign Up Closed" %}{% endblock %}
 
@@ -9,8 +9,9 @@
         <div class="row">
             <div class="col-md-5 gray">
                 <h2>{% trans "Sign Up Closed" %}</h2>
-
+                {% tinycontent 'account:signup_closed' %}
                 <p>{% trans "We are sorry, but the sign up is currently closed." %}</p>
+                {% endtinycontent %}
             </div>
         </div>
     </div>
