@@ -57,25 +57,34 @@
                     <td>
                         <li>
                             {{ attachment }}
-                            {% if attachment.current_scan_request %}
-                                ({% include 'virus_scan/_request.html' with object=attachment.current_scan_request %})
-                                {% if not attachment.is_infected %}
-                                    <a class="btn btn-xs btn-primary" href="{{ attachment.get_absolute_url }}">
-                                        <i class="fa fa fa-download"></i>
-                                        {% trans 'Download' %}
+                            {% if user.is_superuser or user.can_download_attachment %}
+                                {% if attachment.current_scan_request %}
+                                    ({% include 'virus_scan/_request.html' with object=attachment.current_scan_request %})
+                                    {% if not attachment.is_infected %}
+                                            <a class="btn btn-xs btn-primary" href="{{ attachment.get_absolute_url }}">
+                                                <i class="fa fa fa-download"></i>
+                                                {% trans 'Download' %}
+                                            </a>
+                                    {% endif %}
+                                {% else %}
+                                    (nieskanowany)
+                                    <a class="btn btn-xs btn-default" href="{% url 'letters:scan' pk=attachment.pk letter_pk=object.pk %}">
+                                        <i class="fa fa fa-eye"></i>
+                                        {% trans 'Scan' %}
                                     </a>
                                 {% endif %}
                             {% else %}
-                                (nieskanowany)
-                                <a class="btn btn-xs btn-default" href="{% url 'letters:scan' pk=attachment.pk letter_pk=object.pk %}">
-                                    <i class="fa fa fa-eye"></i>
-                                    {% trans 'Scan' %}
-                                </a>
-                            {% endif %}
+                                <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="bottom"
+                                    title="Załączniki mogą być pobierane tylko przez uprawnionych użytkowników">
+                                </i>
+                            {% endif %}     
                         </li>
                     </td>
                     <td>
                         {% if attachment.text_content %}
+                        <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="bottom"
+                            title="{{attachment.text_content_warning}}">
+                        </i>
                         <blockquote class="expandable">
                             <p>{{ attachment.text_content|linebreaksbr }}</p>
                         </blockquote>
