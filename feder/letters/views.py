@@ -630,9 +630,17 @@ class AttachmentXSendFileView(MixinGzipXSendFile, BaseXSendFileView):
     def render_to_response(self, context):
         if context["object"].is_infected():
             raise PermissionDenied(
-                "You do not have permission to view that file. "
-                "The file was considered dangerous."
+                _(
+                    "You do not have permission to view that file. "
+                    + "The file was considered dangerous."
+                )
             )
+        if not self.request.user.is_authenticated:
+            raise PermissionDenied(_("You do not have permission to view that file."))
+        if self.request.user.is_authenticated and not (
+            self.request.user.is_superuser or self.request.user.can_download_attachment
+        ):
+            raise PermissionDenied(_("You do not have permission to view that file."))
         return super().render_to_response(context)
 
 
