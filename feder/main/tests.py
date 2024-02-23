@@ -1,3 +1,4 @@
+from django.contrib.auth.models import Permission
 from django.core.exceptions import ImproperlyConfigured
 from django.test import TestCase
 from django.urls import reverse
@@ -30,6 +31,9 @@ class PermissionStatusMixin:
         super().setUp()
 
         self.user = getattr(self, "user", UserFactory(username="john"))
+        self.user.user_permissions.add(
+            Permission.objects.get(name="Can view Attachment")
+        )
 
     def get_url(self):
         """Get url to tests

@@ -61,7 +61,7 @@ class UserAdmin(AuthUserAdmin):
         "date_joined",
         "last_login",
     )
-    list_filter = ("is_staff", "is_active", UserEmailVerifiedFilter)
+    list_filter = ("is_staff", "is_active", "is_superuser", UserEmailVerifiedFilter)
     search_fields = ("username", "email", "first_name", "last_name")
     ordering = ("-id",)
 
