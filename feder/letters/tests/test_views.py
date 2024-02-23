@@ -21,6 +21,7 @@ from feder.main.tests import PermissionStatusMixin
 from feder.monitorings.factories import MonitoringFactory
 from feder.records.models import Record
 from feder.users.factories import UserFactory
+from feder.users.models import User
 from feder.virus_scan.factories import AttachmentRequestFactory
 
 from ...es_search.tests import ESMixin
@@ -105,7 +106,7 @@ class LetterDetailViewTestCase(ESMixin, ObjectMixin, PermissionStatusMixin, Test
             response, reverse("letters:spam", kwargs={"pk": self.letter.pk})
         )
 
-    def test_contains_link_to_attachment(self):
+    def test_contains_link_to_attachment_for_superuser(self):
         attachment = AttachmentFactory(letter=self.letter)
         self.assertNotContains(
             self.client.get(self.get_url()), attachment.get_absolute_url()
@@ -114,7 +115,24 @@ class LetterDetailViewTestCase(ESMixin, ObjectMixin, PermissionStatusMixin, Test
             content_object=attachment,
             status=ScanRequest.STATUS.not_detected,
         )
+        user = User.objects.create_superuser(
+            username="admin", password="admin123", email="admin@example.com"
+        )
+        self.client.force_login(user)  # Simulate request user as superuser
         self.assertContains(
+            self.client.get(self.get_url()), attachment.get_absolute_url()
+        )
+
+    def test_does_not_contains_link_to_attachment_for_anonymous(self):
+        attachment = AttachmentFactory(letter=self.letter)
+        self.assertNotContains(
+            self.client.get(self.get_url()), attachment.get_absolute_url()
+        )
+        AttachmentRequestFactory(
+            content_object=attachment,
+            status=ScanRequest.STATUS.not_detected,
+        )
+        self.assertNotContains(
             self.client.get(self.get_url()), attachment.get_absolute_url()
         )
 
@@ -502,6 +520,18 @@ class StandardAttachmentXSendFileViewTestCase(PermissionStatusMixin, TestCase):
         self.login_permitted_user()
         resp = self.client.get(self.get_url())
         self.assertEqual(resp.status_code, 403)
+
+    def test_forbid_access_for_unpriviliged(self):
+        self.unpriviliged_user = getattr(
+            self, "user", UserFactory(username="mary", password="pass")
+        )
+        self.client.login(username="mary", password="pass")
+        resp = self.client.get(self.get_url())
+        self.assertEqual(resp.status_code, 403)
+
+    def test_status_code_for_anonymous_user(self):
+        response = self.client.get(self.get_url())
+        self.assertEqual(response.status_code, 403)
 
 
 class ReceiveEmailTestCase(TestCase):

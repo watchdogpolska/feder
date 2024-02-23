@@ -1,4 +1,5 @@
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, Permission
+from django.contrib.contenttypes.models import ContentType
 from django.urls import reverse
 from guardian.mixins import GuardianUserMixin
 
@@ -9,3 +10,13 @@ class User(GuardianUserMixin, AbstractUser):
 
     def get_absolute_url(self):
         return reverse("users:detail", kwargs={"username": self.username})
+
+    @property
+    def can_download_attachment(self):
+        from feder.letters.models import Attachment
+
+        content_type = ContentType.objects.get_for_model(Attachment)
+        perm = Permission.objects.get(
+            content_type=content_type, codename="view_attachment"
+        )
+        return self.user_permissions.filter(id=perm.id).exists()

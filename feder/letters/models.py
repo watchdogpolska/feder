@@ -738,3 +738,15 @@ class Attachment(AttachmentBase):
             # self.save(update_fields=["text_content_update_result"])
             self.save()
             return False
+
+    @property
+    def text_content_warning(self):
+        warning = """
+            Uwaga: treść załączników została odczytana maszynowo, więc może
+            zawierać błędy związane z nieprawidłowym odczytaniem znaków,
+            a także błędną interpretacji układu tekstu na stronie.
+            Jeśli nie masz stosownych uprawnień i potrzebujesz dostępu
+            do oryginału, skontaktuj się z biurem SOWP.
+
+        """
+        return warning  # " ".join(warning.split())
