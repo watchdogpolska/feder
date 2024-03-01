@@ -65,6 +65,39 @@ class LlmRequest(TimeStampedModel):
             return self.token_usage.get("completion_time", 0)
         return 0
 
+    @property
+    def tokens_used(self):
+        if self.token_usage:
+            return self.token_usage.get("total_tokens", 0)
+        return 0
+
+    @property
+    def completion_time(self):
+        if self.token_usage:
+            value = float(self.token_usage.get("completion_time", 0))
+            if value < 1:
+                return f"{value:.2f}"
+            return f"{value:.0f}"
+        return 0
+
+    @property
+    def cost(self):
+        if self.token_usage:
+            return float(self.token_usage.get("total_cost", 0))
+        return 0
+
+    @property
+    def response_text(self):
+        if self.response:
+            try:
+                value = json.loads(
+                    self.response.replace("'", '"').replace("\n", "")
+                ).get("output_text", "")
+                return value
+            except json.JSONDecodeError:
+                return self.response
+        return ""
+
 
 class LlmLetterRequest(LlmRequest):
     evaluated_letter = models.ForeignKey(
