@@ -30,6 +30,13 @@ def categorize_letter_in_background(letter_pk):
         letter.save()
         return
 
+    if letter.message_type in Letter.MESSAGE_TYPES_AUTO:
+        message = "AI categorisation skipped for auto reply letter."
+        logger.info(f"Letter (pk={letter_pk}): {message}")
+        letter.ai_evaluation = message
+        letter.save()
+        return
+
     LlmLetterRequest.categorize_letter(letter)
     logger.info(f"Letter with pk={letter_pk} categorized.")
     if "A) email jest odpowiedzią" in letter.ai_evaluation:
