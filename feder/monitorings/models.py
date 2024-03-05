@@ -260,14 +260,21 @@ class Monitoring(RenderBooleanFieldMixin, TimeStampedModel):
             )
         return ""
 
-    def get_normalized_responses_data(self):
+    def get_normalized_responses_data(self, user):
         if not self.use_llm:
             return []
         from feder.letters.models import Letter
 
+        def validate_json(j):
+            try:
+                return json.loads(j)
+            except json.JSONDecodeError:
+                return {}
+
         resp_letters = (
             Letter.objects.filter(record__case__monitoring=self)
             .filter(ai_evaluation__contains="A) email jest odpowiedzią")
+            .for_user(user)
             .annotate(
                 case_name=models.F("record__case__name"),
                 case_id=models.F("record__case__id"),
@@ -283,6 +290,12 @@ class Monitoring(RenderBooleanFieldMixin, TimeStampedModel):
                     "record__case__institution__jst__parent__parent__name"
                 ),
             )
+            .order_by(
+                "record__case__institution__jst__parent__parent__name",
+                "record__case__institution__jst__parent__name",
+                "record__case__institution__jst__name",
+                "record__case__institution__name",
+            )
         )
         resp_data = [
             {
@@ -294,17 +307,17 @@ class Monitoring(RenderBooleanFieldMixin, TimeStampedModel):
                 "jst": x.jst,
                 "jst_category": x.jst_category,
                 "jst_code": x.jst_code,
-                "jst_voivodship": (
+                "voivodship": (
                     x.jst
                     if x.jst_level == 1
                     else x.jst_parent if x.jst_level == 2 else x.jst_parent_parent
                 ),
-                "jst_county": (
+                "county": (
                     x.jst
                     if x.jst_level == 2
                     else x.jst_parent if x.jst_level == 3 else ""
                 ),
-                "jst_community": (x.jst if x.jst_level == 3 else ""),
+                "community": (x.jst if x.jst_level == 3 else ""),
                 "jst_full_name": (
                     (f"{x.jst_parent_parent} / " if x.jst_parent_parent else "")
                     + (f"{x.jst_parent} / " if x.jst_parent else "")
@@ -313,7 +326,7 @@ class Monitoring(RenderBooleanFieldMixin, TimeStampedModel):
                 "received_on": x.created.astimezone(
                     timezone.get_default_timezone()
                 ).strftime("%Y-%m-%d %H:%M:%S"),
-                "normalized_response": json.loads(x.normalized_response),
+                "normalized_response": validate_json(x.normalized_response),
             }
             for x in resp_letters
         ]
