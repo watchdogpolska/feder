@@ -310,10 +310,10 @@ class Monitoring(RenderBooleanFieldMixin, TimeStampedModel):
                     + (f"{x.jst_parent} / " if x.jst_parent else "")
                     + f"{x.jst} ({x.jst_code}, {x.jst_category})"
                 ),
-                "normalized_response": json.loads(x.normalized_response),
                 "received_on": x.created.astimezone(
                     timezone.get_default_timezone()
                 ).strftime("%Y-%m-%d %H:%M:%S"),
+                "normalized_response": json.loads(x.normalized_response),
             }
             for x in resp_letters
         ]
