@@ -11,6 +11,7 @@ class LlmLetterRequestAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "evaluated_letter",
+        "letter_id",
         "engine_name",
         "status",
         "get_cost",
@@ -39,6 +40,10 @@ class LlmLetterRequestAdmin(admin.ModelAdmin):
     @admin.display(description="Time used")
     def get_time_used(self, obj):
         return f"{obj.get_time_used():.2f}s"
+
+    @admin.display(description="Letter ID")
+    def letter_id(self, obj):
+        return obj.evaluated_letter.id
 
 
 @admin.register(LlmMonitoringRequest)
