@@ -83,6 +83,11 @@ urlpatterns = [
         name="results",
     ),
     re_path(
+        r"^(?P<slug>[\w-]+)/responses-report",
+        views.MonitoringResponsesReportView.as_view(),
+        name="responses_report",
+    ),
+    re_path(
         _(r"^(?P<slug>[\w-]+)/~update$"),
         views.MonitoringUpdateView.as_view(),
         name="update",

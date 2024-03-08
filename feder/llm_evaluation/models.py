@@ -1,8 +1,11 @@
+import json
 import logging
 import time
 
 from django.conf import settings
 from django.db import models
+from django.db.models.functions import Substr
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from jsonfield import JSONField
 from langchain.schema.output_parser import StrOutputParser
@@ -13,6 +16,7 @@ from model_utils import Choices
 from model_utils.models import TimeStampedModel
 
 from feder.letters.utils import html_to_text
+from feder.main.utils import FormattedDatetimeMixin
 
 from .llm_tools import get_serializable_dict, num_tokens_from_string
 from .prompts import (
@@ -25,7 +29,7 @@ from .prompts import (
 logger = logging.getLogger(__name__)
 
 
-class LLmRequestQuerySet(models.QuerySet):
+class LLmRequestQuerySet(FormattedDatetimeMixin, models.QuerySet):
     def queued(self):
         return self.filter(status=self.model.STATUS.queued)
 
@@ -55,15 +59,48 @@ class LlmRequest(TimeStampedModel):
     class Meta:
         abstract = True
 
-    def get_cost(self):
+    @property
+    def completion_time(self):
         if self.token_usage:
-            return self.token_usage.get("total_cost", 0)
+            return float(self.token_usage.get("completion_time", 0))
         return 0
 
-    def get_time_used(self):
+    @property
+    def completion_time_str(self):
+        value = self.completion_time
+        if value < 1:
+            return f"{value:.2f}s"
+        elif value < 10:
+            return f"{value:.1f}s"
+        return f"{value:.0f}s"
+
+    @property
+    def tokens_used(self):
         if self.token_usage:
-            return self.token_usage.get("completion_time", 0)
+            return self.token_usage.get("total_tokens", 0)
         return 0
+
+    @property
+    def cost(self):
+        if self.token_usage:
+            return float(self.token_usage.get("total_cost", 0))
+        return 0
+
+    @property
+    def cost_str(self):
+        return f"${self.cost:.5f}"
+
+    @property
+    def response_text(self):
+        if self.response:
+            try:
+                value = json.loads(
+                    self.response.replace("'", '"').replace("\n", "")
+                ).get("output_text", "")
+                return value
+            except json.JSONDecodeError:
+                return self.response
+        return ""
 
 
 class LlmLetterRequest(LlmRequest):
@@ -265,6 +302,9 @@ class LlmMonitoringRequest(LlmRequest):
         on_delete=models.DO_NOTHING,
         verbose_name=_("Evaluated Monitoring"),
     )
+    chat_request = models.BooleanField(
+        verbose_name=_("Chat Request"), default=False, blank=True
+    )
 
     @classmethod
     def get_response_normalized_template(cls, monitoring):
@@ -308,3 +348,154 @@ class LlmMonitoringRequest(LlmRequest):
         monitoring_llm_request.save()
         monitoring.normalized_response_template = resp
         monitoring.save()
+
+
+class LlmMonthlyCost(TimeStampedModel):
+    year_month = models.CharField(
+        max_length=20, verbose_name=_("Month"), null=True, blank=True
+    )
+    engine_name = models.CharField(
+        max_length=20, verbose_name=_("LLM Engine name"), null=True, blank=True
+    )
+    cost = models.FloatField(verbose_name=_("Cost"))
+
+    class Meta:
+        verbose_name = _("LLM Monthly Cost")
+
+    @classmethod
+    def get_costs_dict(cls):
+        llm_letters_costs = list(
+            LlmLetterRequest.objects.all()
+            .with_formatted_datetime("created", timezone.get_default_timezone())
+            .annotate(
+                year_month=Substr("created_str", 1, 7),
+            )
+            .values(
+                "created_str",
+                "year_month",
+                "engine_name",
+                "token_usage",
+            )
+        )
+        llm_monitorings_costs = list(
+            LlmMonitoringRequest.objects.all()
+            .with_formatted_datetime("created", timezone.get_default_timezone())
+            .annotate(
+                year_month=Substr("created_str", 1, 7),
+            )
+            .values(
+                "created_str",
+                "year_month",
+                "engine_name",
+                "token_usage",
+            )
+        )
+        llm_costs = llm_letters_costs + llm_monitorings_costs
+        cost_months = sorted(list({x["year_month"] for x in llm_costs}))
+        llm_engines = sorted(list({x["engine_name"] for x in llm_costs}))
+        llm_monthly_costs = [
+            {
+                "year_month": y_m,
+                "engine_name": e_n,
+                "cost": 0.0,
+            }
+            for y_m in cost_months
+            for e_n in llm_engines
+        ]
+        id = 0
+        for llm_cost in llm_monthly_costs:
+            id += 1
+            year_month = llm_cost["year_month"]
+            engine_name = llm_cost["engine_name"]
+            llm_cost["id"] = id
+            llm_cost["cost"] = sum(
+                [
+                    float(x["token_usage"].get("total_cost", 0))
+                    for x in llm_costs
+                    if x["year_month"] == year_month and x["engine_name"] == engine_name
+                ]
+            )
+        return llm_monthly_costs
+
+
+class LlmMonitoringCost(TimeStampedModel):
+    monitoring_id = models.IntegerField(verbose_name=_("Monitoring ID"))
+    monitoring_name = models.CharField(
+        max_length=100, verbose_name=_("Monitoring Name"), null=True, blank=True
+    )
+    engine_name = models.CharField(
+        max_length=20, verbose_name=_("LLM Engine name"), null=True, blank=True
+    )
+    cost = models.FloatField(verbose_name=_("Cost"))
+
+    class Meta:
+        verbose_name = _("LLM Cost Per Monitoring")
+        verbose_name_plural = _("LLM Costs Per Monitoring")
+
+    @classmethod
+    def get_costs_dict(cls):
+        llm_letters_costs = list(
+            LlmLetterRequest.objects.all()
+            .annotate(
+                monitoring_id=models.F(
+                    "evaluated_letter__record__case__monitoring__id"
+                ),
+                monitoring_name=models.F(
+                    "evaluated_letter__record__case__monitoring__name"
+                ),
+            )
+            .values(
+                "monitoring_id",
+                "monitoring_name",
+                "engine_name",
+                "token_usage",
+            )
+        )
+        llm_monitorings_costs = list(
+            LlmMonitoringRequest.objects.all()
+            .annotate(
+                monitoring_id=models.F("evaluated_monitoring__id"),
+                monitoring_name=models.F("evaluated_monitoring__name"),
+            )
+            .values(
+                "monitoring_id",
+                "monitoring_name",
+                "engine_name",
+                "token_usage",
+            )
+        )
+        llm_costs = llm_letters_costs + llm_monitorings_costs
+        monitorings = sorted(list({x["monitoring_id"] or 0 for x in llm_costs}))
+        llm_engines = sorted(list({x["engine_name"] for x in llm_costs}))
+        llm_monitorings_costs = [
+            {
+                "monitoring_id": m_id,
+                "engine_name": e_n,
+                "cost": 0.0,
+            }
+            for m_id in monitorings
+            for e_n in llm_engines
+        ]
+        id = 0
+        for llm_cost in llm_monitorings_costs:
+            id += 1
+            monitoring_id = llm_cost["monitoring_id"]
+            engine_name = llm_cost["engine_name"]
+            llm_cost["id"] = id
+            llm_cost["monitoring_name"] = next(
+                (
+                    x["monitoring_name"]
+                    for x in llm_costs
+                    if x["monitoring_id"] == monitoring_id
+                ),
+                "",
+            )
+            llm_cost["cost"] = sum(
+                [
+                    float(x["token_usage"].get("total_cost", 0))
+                    for x in llm_costs
+                    if x["monitoring_id"] == monitoring_id
+                    and x["engine_name"] == engine_name
+                ]
+            )
+        return llm_monitorings_costs
