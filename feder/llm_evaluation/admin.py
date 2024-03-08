@@ -35,11 +35,11 @@ class LlmLetterRequestAdmin(admin.ModelAdmin):
 
     @admin.display(description="Cost")
     def get_cost(self, obj):
-        return f"${obj.get_cost():.5f}"
+        return obj.cost_str
 
     @admin.display(description="Time used")
     def get_time_used(self, obj):
-        return f"{obj.get_time_used():.2f}s"
+        return obj.completion_time_str
 
     @admin.display(description="Letter ID")
     def letter_id(self, obj):
@@ -76,8 +76,8 @@ class LlmMonitoringRequestAdmin(admin.ModelAdmin):
 
     @admin.display(description="Cost")
     def get_cost(self, obj):
-        return f"${obj.get_cost():.5f}"
+        return obj.cost_str
 
     @admin.display(description="Time used")
     def get_time_used(self, obj):
-        return f"{obj.get_time_used():.2f}s"
+        return obj.completion_time_str

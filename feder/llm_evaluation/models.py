@@ -56,15 +56,20 @@ class LlmRequest(TimeStampedModel):
     class Meta:
         abstract = True
 
-    def get_cost(self):
-        if self.token_usage:
-            return float(self.token_usage.get("total_cost", 0))
-        return 0
-
-    def get_time_used(self):
+    @property
+    def completion_time(self):
         if self.token_usage:
             return float(self.token_usage.get("completion_time", 0))
         return 0
+
+    @property
+    def completion_time_str(self):
+        value = self.completion_time
+        if value < 1:
+            return f"{value:.2f}s"
+        elif value < 10:
+            return f"{value:.1f}s"
+        return f"{value:.0f}s"
 
     @property
     def tokens_used(self):
@@ -73,19 +78,14 @@ class LlmRequest(TimeStampedModel):
         return 0
 
     @property
-    def completion_time_str(self):
-        if self.token_usage:
-            value = float(self.token_usage.get("completion_time", 0))
-            if value < 1:
-                return f"{value:.2f}"
-            return f"{value:.0f}"
-        return 0
-
-    @property
     def cost(self):
         if self.token_usage:
             return float(self.token_usage.get("total_cost", 0))
         return 0
+
+    @property
+    def cost_str(self):
+        return f"${self.cost:.5f}"
 
     @property
     def response_text(self):
