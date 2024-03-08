@@ -73,7 +73,7 @@ class LlmRequest(TimeStampedModel):
         return 0
 
     @property
-    def completion_time(self):
+    def completion_time_str(self):
         if self.token_usage:
             value = float(self.token_usage.get("completion_time", 0))
             if value < 1:
