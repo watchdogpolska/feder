@@ -1,7 +1,11 @@
+from typing import Any
+
 from django.contrib import admin
+from django.db.models.query import QuerySet
+from django.http import HttpRequest
 from django.utils.translation import gettext_lazy as _
 
-from .models import LlmLetterRequest, LlmMonitoringRequest
+from .models import LlmLetterRequest, LlmMonitoringRequest, LlmMonthlyCost
 
 
 @admin.register(LlmLetterRequest)
@@ -81,3 +85,36 @@ class LlmMonitoringRequestAdmin(admin.ModelAdmin):
     @admin.display(description="Time used")
     def get_time_used(self, obj):
         return obj.completion_time_str
+
+
+@admin.register(LlmMonthlyCost)
+class LlmMonthlyCostAdmin(admin.ModelAdmin):
+    verbose_name = _("LLM Monthly Cost")
+    list_display = (
+        "id",
+        "year_month",
+        "engine_name",
+        "formatted_cost",
+    )
+    actions = []
+    ordering = ("id",)
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_add_permission(self, request, obj=None):
+        return False
+
+    @admin.display(description="Cost in USD")
+    def formatted_cost(self, obj):
+        return f"{obj.cost:.5f}"[:7]
+
+    def get_queryset(self, request: HttpRequest) -> QuerySet[Any]:
+        LlmMonthlyCost.objects.all().delete()
+        data = LlmMonthlyCost.get_costs_dict()
+        for item in data:
+            LlmMonthlyCost.objects.get_or_create(**item)
+        return super().get_queryset(request)
