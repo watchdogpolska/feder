@@ -1,5 +1,6 @@
 from datetime import datetime
 
+import openpyxl
 from ajax_datatable import AjaxDatatableView
 from atom.views import DeleteMessageMixin, UpdateMessageMixin
 from braces.views import (
@@ -17,7 +18,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.syndication.views import Feed
 from django.core.exceptions import PermissionDenied
 from django.db.models import Count, Q
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.template.defaultfilters import linebreaksbr
 from django.urls import reverse, reverse_lazy
@@ -34,6 +35,7 @@ from django.views.generic import (
     FormView,
     TemplateView,
     UpdateView,
+    View,
 )
 from django_filters.views import FilterView
 from extra_views import CreateWithInlinesView
@@ -602,11 +604,64 @@ class MonitoringResultsView(DetailView):
         context["voivodeship_table"] = mark_safe(
             self.object.generate_voivodeship_table()
         )
+        if self.object.use_llm and self.object.normalized_response_template:
+            context["xlsx_url"] = reverse_lazy(
+                "monitorings:responses_report", kwargs={"slug": self.object.slug}
+            )
         if is_formatted_html(self.object.results):
             context["results"] = mark_safe(self.object.results)
         else:
             context["results"] = mark_safe(text_to_html(self.object.results))
         return context
+
+
+class MonitoringResponsesReportView(View):
+    def get(self, request, slug):
+        monitoring = Monitoring.objects.filter(slug=slug)
+        if not monitoring.exists():
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        monitoring_responses_data = monitoring.first().get_normalized_responses_data(
+            self.request.user
+        )
+        if not monitoring_responses_data:
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        workbook = self.get_excel_workbook(monitoring_responses_data)
+        response = HttpResponse(
+            content_type=(
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            )
+        )
+        response["Content-Disposition"] = (
+            f"attachment; filename=responses_report_{slug}.xlsx"
+        )
+        workbook.save(response)
+        return response
+
+    def get_excel_workbook(self, monitoring_responses_data):
+        wb = openpyxl.Workbook()
+        ws = wb.active
+        ws.title = "Responses"
+        question_keys = ["question_no", "question", "response"]
+        info_keys = list(monitoring_responses_data[0].keys())[:-1]
+        labels = [
+            label.replace("_", " ").capitalize()
+            for label in (info_keys + question_keys)
+        ]
+        ws.append(labels)
+        for r_data in monitoring_responses_data:
+            questions = r_data.pop("normalized_response", {})
+            if len(questions.keys()) > 0:
+                for key in questions.keys():
+                    r_data["question_no"] = key
+                    r_data["question"] = questions[key]["Pytanie"]
+                    r_data["response"] = questions[key]["Odpowiedź"]
+                    ws.append([r_data[k] for k in (info_keys + question_keys)])
+            else:
+                r_data["question_no"] = ""
+                r_data["question"] = ""
+                r_data["response"] = ""
+                ws.append([r_data[k] for k in (info_keys + question_keys)])
+        return wb
 
 
 class MonitoringChatView(DetailView):

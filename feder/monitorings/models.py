@@ -1,3 +1,4 @@
+import json
 from itertools import groupby
 
 import reversion
@@ -6,6 +7,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from guardian.models import GroupObjectPermissionBase, UserObjectPermissionBase
 from jsonfield import JSONField
@@ -109,6 +111,12 @@ class Monitoring(RenderBooleanFieldMixin, TimeStampedModel):
         default=False,
         verbose_name=_("Use LLM"),
         help_text=_("Use LLM to evaluate responses"),
+    )
+    responses_chat_context = JSONField(
+        verbose_name=_("Responses chat context"),
+        null=True,
+        blank=True,
+        help_text=_("Monitoring responses context for AI chat"),
     )
     normalized_response_template = JSONField(
         verbose_name=_("Normalized response template"),
@@ -251,6 +259,78 @@ class Monitoring(RenderBooleanFieldMixin, TimeStampedModel):
                 self.normalized_response_template
             )
         return ""
+
+    def get_normalized_responses_data(self, user):
+        if not self.use_llm:
+            return []
+        from feder.letters.models import Letter
+
+        def validate_json(j):
+            try:
+                return json.loads(j)
+            except json.JSONDecodeError:
+                return {}
+
+        resp_letters = (
+            Letter.objects.filter(record__case__monitoring=self)
+            .filter(ai_evaluation__contains="A) email jest odpowiedzią")
+            .for_user(user)
+            .annotate(
+                case_name=models.F("record__case__name"),
+                case_id=models.F("record__case__id"),
+                institution_name=models.F("record__case__institution__name"),
+                institution_id=models.F("record__case__institution__id"),
+                institution_email=models.F("record__case__institution__email"),
+                jst=models.F("record__case__institution__jst__name"),
+                jst_category=models.F("record__case__institution__jst__category__name"),
+                jst_code=models.F("record__case__institution__jst__id"),
+                jst_level=models.F("record__case__institution__jst__category__level"),
+                jst_parent=models.F("record__case__institution__jst__parent__name"),
+                jst_parent_parent=models.F(
+                    "record__case__institution__jst__parent__parent__name"
+                ),
+            )
+            .order_by(
+                "record__case__institution__jst__parent__parent__name",
+                "record__case__institution__jst__parent__name",
+                "record__case__institution__jst__name",
+                "record__case__institution__name",
+            )
+        )
+        resp_data = [
+            {
+                "case_name": x.case_name,
+                "case_id": x.case_id,
+                "institution_name": x.institution_name,
+                "institution_id": x.institution_id,
+                "institution_email": x.institution_email,
+                "jst": x.jst,
+                "jst_category": x.jst_category,
+                "jst_code": x.jst_code,
+                "voivodship": (
+                    x.jst
+                    if x.jst_level == 1
+                    else x.jst_parent if x.jst_level == 2 else x.jst_parent_parent
+                ),
+                "county": (
+                    x.jst
+                    if x.jst_level == 2
+                    else x.jst_parent if x.jst_level == 3 else ""
+                ),
+                "community": (x.jst if x.jst_level == 3 else ""),
+                "jst_full_name": (
+                    (f"{x.jst_parent_parent} / " if x.jst_parent_parent else "")
+                    + (f"{x.jst_parent} / " if x.jst_parent else "")
+                    + f"{x.jst} ({x.jst_code}, {x.jst_category})"
+                ),
+                "received_on": x.created.astimezone(
+                    timezone.get_default_timezone()
+                ).strftime("%Y-%m-%d %H:%M:%S"),
+                "normalized_response": validate_json(x.normalized_response),
+            }
+            for x in resp_letters
+        ]
+        return resp_data
 
 
 class MonitoringUserObjectPermission(UserObjectPermissionBase):
