@@ -416,3 +416,86 @@ class LlmMonthlyCost(TimeStampedModel):
                 ]
             )
         return llm_monthly_costs
+
+
+class LlmMonitoringCost(TimeStampedModel):
+    monitoring_id = models.IntegerField(verbose_name=_("Monitoring ID"))
+    monitoring_name = models.CharField(
+        max_length=100, verbose_name=_("Monitoring Name"), null=True, blank=True
+    )
+    engine_name = models.CharField(
+        max_length=20, verbose_name=_("LLM Engine name"), null=True, blank=True
+    )
+    cost = models.FloatField(verbose_name=_("Cost"))
+
+    class Meta:
+        verbose_name = _("LLM Cost Per Monitoring")
+        verbose_name_plural = _("LLM Costs Per Monitoring")
+
+    @classmethod
+    def get_costs_dict(cls):
+        llm_letters_costs = list(
+            LlmLetterRequest.objects.all()
+            .annotate(
+                monitoring_id=models.F(
+                    "evaluated_letter__record__case__monitoring__id"
+                ),
+                monitoring_name=models.F(
+                    "evaluated_letter__record__case__monitoring__name"
+                ),
+            )
+            .values(
+                "monitoring_id",
+                "monitoring_name",
+                "engine_name",
+                "token_usage",
+            )
+        )
+        llm_monitorings_costs = list(
+            LlmMonitoringRequest.objects.all()
+            .annotate(
+                monitoring_id=models.F("evaluated_monitoring__id"),
+                monitoring_name=models.F("evaluated_monitoring__name"),
+            )
+            .values(
+                "monitoring_id",
+                "monitoring_name",
+                "engine_name",
+                "token_usage",
+            )
+        )
+        llm_costs = llm_letters_costs + llm_monitorings_costs
+        monitorings = sorted(list({x["monitoring_id"] or 0 for x in llm_costs}))
+        llm_engines = sorted(list({x["engine_name"] for x in llm_costs}))
+        llm_monitorings_costs = [
+            {
+                "monitoring_id": m_id,
+                "engine_name": e_n,
+                "cost": 0.0,
+            }
+            for m_id in monitorings
+            for e_n in llm_engines
+        ]
+        id = 0
+        for llm_cost in llm_monitorings_costs:
+            id += 1
+            monitoring_id = llm_cost["monitoring_id"]
+            engine_name = llm_cost["engine_name"]
+            llm_cost["id"] = id
+            llm_cost["monitoring_name"] = next(
+                (
+                    x["monitoring_name"]
+                    for x in llm_costs
+                    if x["monitoring_id"] == monitoring_id
+                ),
+                "",
+            )
+            llm_cost["cost"] = sum(
+                [
+                    float(x["token_usage"].get("total_cost", 0))
+                    for x in llm_costs
+                    if x["monitoring_id"] == monitoring_id
+                    and x["engine_name"] == engine_name
+                ]
+            )
+        return llm_monitorings_costs
