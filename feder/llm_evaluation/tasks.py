@@ -1,6 +1,7 @@
 import logging
 
 from background_task import background
+from django.utils.translation import gettext_lazy as _
 
 from .models import LlmLetterRequest, LlmMonitoringRequest
 
@@ -24,14 +25,14 @@ def categorize_letter_in_background(letter_pk):
         return
 
     if letter.is_spam in [Letter.SPAM.spam, Letter.SPAM.probable_spam]:
-        message = "AI categorisation skipped for spam or probable spam."
+        message = _("AI categorisation skipped for spam or probable spam.")
         logger.info(f"Letter (pk={letter_pk}): {message}")
         letter.ai_evaluation = message
         letter.save()
         return
 
     if letter.message_type in Letter.MESSAGE_TYPES_AUTO:
-        message = "AI categorisation skipped for auto reply letter."
+        message = _("AI categorisation skipped for auto reply letter.")
         logger.info(f"Letter (pk={letter_pk}): {message}")
         letter.ai_evaluation = message
         letter.save()

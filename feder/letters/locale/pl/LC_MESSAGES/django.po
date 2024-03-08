@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: letters 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-22 15:32+0100\n"
-"PO-Revision-Date: 2024-02-22 15:37+0124\n"
+"POT-Creation-Date: 2024-03-08 17:29+0100\n"
+"PO-Revision-Date: 2024-03-08 17:37+0124\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -390,7 +390,7 @@ msgstr "Wyślij ponownie"
 
 #: feder/letters/templates/letters/_btn.html:49
 #: feder/letters/templates/letters/letter_spam.html:15
-#: feder/letters/tests/test_views.py:103
+#: feder/letters/tests/test_views.py:104
 msgid "Report spam"
 msgstr "Zgłoś spam"
 
@@ -461,7 +461,7 @@ msgstr ""
 "            </small>"
 
 #: feder/letters/templates/letters/_letter_unrecognized_small.html:24
-#: feder/letters/templates/letters/letter_detail.html:49
+#: feder/letters/templates/letters/letter_detail.html:50
 msgid "Download letter"
 msgstr "Pobierz list"
 
@@ -486,16 +486,15 @@ msgstr "Tagi odbiorców"
 
 #: feder/letters/templates/letters/_object.html:43
 #: feder/letters/templates/letters/letter_form.html:9
-#| msgid "Recipient tags"
 msgid "recipients"
 msgstr "odbiorców"
 
-#: feder/letters/templates/letters/_object.html:65
+#: feder/letters/templates/letters/_object.html:66
 #: feder/letters/templates/letters/letter_form.html:33
 msgid "Download"
 msgstr "Pobierz"
 
-#: feder/letters/templates/letters/_object.html:72
+#: feder/letters/templates/letters/_object.html:73
 #: feder/letters/templates/letters/letter_form.html:40
 msgid "Scan"
 msgstr "Skanuj"
@@ -552,14 +551,11 @@ msgstr "Nowy list"
 msgid "Confirm delete"
 msgstr "Potwierdź usuwanie"
 
-#: feder/letters/templates/letters/letter_detail.html:55
+#: feder/letters/templates/letters/letter_detail.html:57
 msgid "Similar list"
 msgstr "Podobne listy"
 
 #: feder/letters/templates/letters/letter_form.html:6
-#| msgid ""
-#| "This is a mass message draft. The message has not been sent to any "
-#| "recipients yet."
 msgid "This is a mass message draft for recipients with tags:"
 msgstr "To jest szablon wiadomości masowej dla odbiorców z tagami:"
 
@@ -832,7 +828,21 @@ msgstr "List {object} został oznaczony jako spam i ukryty."
 msgid "Assigned letter to case '%(case)s'"
 msgstr "Przypisano list do sprawy '%(case)s'"
 
-#: feder/letters/views.py:658
+#: feder/letters/views.py:634
+#| msgid "You do not have permission to send replies."
+msgid ""
+"You do not have permission to view that file. The file was considered "
+"dangerous."
+msgstr ""
+"Nie masz uprawnień do wyświetlania tego pliku. Plik został uznany za "
+"niebezpieczny."
+
+#: feder/letters/views.py:639 feder/letters/views.py:643
+#| msgid "You do not have permission to save draft."
+msgid "You do not have permission to view that file."
+msgstr "Nie masz uprawnień do wyświetlania tego pliku."
+
+#: feder/letters/views.py:666
 msgid "The file {} has been queued for scanning"
 msgstr "Plik {} został zakolejkowany do skanowania"
 
