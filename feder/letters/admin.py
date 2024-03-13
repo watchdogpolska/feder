@@ -25,6 +25,53 @@ class LetterDirectionListFilter(admin.SimpleListFilter):
             return queryset.is_incoming()
 
 
+class LetterLlmEvaluationListFilter(admin.SimpleListFilter):
+    title = _("Letter LLM Evaluation")  # Displayed in the admin sidebar
+    parameter_name = "letter_llm_evaluation_filter"  # The URL parameter name
+
+    def lookups(self, request, model_admin):
+        # Return the filter options as a list of tuples
+        return (
+            (
+                "A) email jest odpowiedzią",
+                "A) email jest odpowiedzią z ... i zawiera odpowiedzi...",
+            ),
+            (
+                ",B) email jest odpowiedzią z",
+                "B) email jest odpowiedzią z ... i zawiera odmowę odpowiedzi...",
+            ),
+            (
+                "C) email jest odpowiedzią z",
+                (
+                    "C) email jest odpowiedzią z ... i zawiera informację o "
+                    + "przedłużeniu terminu..."
+                ),
+            ),
+            (
+                "D) email jest potwierdzeniem dostarczenia lub otwarcia",
+                "D) email jest potwierdzeniem dostarczenia lub otwarcia maila z ...",
+            ),
+            (
+                "E) email jest odpowiedzią z innej",
+                "E) email jest odpowiedzią z innej instytucji lub na inny wniosek.",
+            ),
+            (
+                "F) email nie jest odpowiedzią z",
+                "F) email nie jest odpowiedzią z ... i jest spamem.",
+            ),
+            (
+                "G) nie można ustalić kategorii",
+                "G) nie można ustalić kategorii odpowiedzi.",
+            ),
+        )
+
+    def queryset(self, request, queryset):
+        # Apply the filter to the queryset based on the selected option
+        if self.value():
+            return queryset.filter(ai_evaluation__startswith=self.value())
+        return queryset
+
+
 class AttachmentInline(admin.StackedInline):
     """
     Stacked Inline View for Attachment
@@ -54,6 +101,7 @@ class LetterAdmin(admin.ModelAdmin):
         "get_outgoing",
         "get_delivery_status",
         "is_spam",
+        "ai_evaluation",
         "email_from",
         "email_to",
         "eml",
@@ -61,6 +109,7 @@ class LetterAdmin(admin.ModelAdmin):
     )
     list_filter = (
         "is_spam",
+        LetterLlmEvaluationListFilter,
         LetterDirectionListFilter,
         # "created",
         "record__case__monitoring",

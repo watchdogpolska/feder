@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: main 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-08 17:29+0100\n"
-"PO-Revision-Date: 2024-03-08 17:37+0124\n"
+"POT-Creation-Date: 2024-03-13 19:23+0100\n"
+"PO-Revision-Date: 2024-03-13 19:26+0124\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -19,11 +19,11 @@ msgstr ""
 "X-Generator: Poedit 2.4.1\n"
 "X-Translated-Using: django-rosetta 0.9.9\n"
 
-#: config/settings/common.py:181
+#: config/settings/common.py:180
 msgid "Polish"
 msgstr "Polski"
 
-#: config/settings/common.py:181
+#: config/settings/common.py:180
 msgid "English"
 msgstr "Angielski"
 
@@ -40,7 +40,6 @@ msgid "LLM Monthly Cost"
 msgstr "Miesięczny koszt LLM"
 
 #: feder/llm_evaluation/admin.py:130
-#| msgid "LLM Monitoring Request"
 msgid "LLM Monitoring Cost"
 msgstr "Koszt LLM Monitoringu"
 
@@ -90,7 +89,6 @@ msgid "Evaluated Monitoring"
 msgstr "Oceniany monitoring"
 
 #: feder/llm_evaluation/models.py:306
-#| msgid "LLM Letter Request"
 msgid "Chat Request"
 msgstr "Zapytanie czatu"
 
@@ -107,17 +105,14 @@ msgid "Monitoring ID"
 msgstr "Id Monitoringu"
 
 #: feder/llm_evaluation/models.py:424
-#| msgid "Monitorings table"
 msgid "Monitoring Name"
 msgstr "Nazwa Monitoringu"
 
 #: feder/llm_evaluation/models.py:432
-#| msgid "Last monitorings"
 msgid "LLM Cost Per Monitoring"
 msgstr "Koszt LLM per Monitoring"
 
 #: feder/llm_evaluation/models.py:433
-#| msgid "Last monitorings"
 msgid "LLM Costs Per Monitoring"
 msgstr "Koszty LLM per Monitoring"
 
@@ -594,6 +589,20 @@ msgstr ""
 #: feder/main/templates/socialaccount/connections.html:60
 msgid "Add a 3rd Party Account"
 msgstr "Dodaj konto zewnętrzne"
+
+#: feder/main/templates/tinycontent/tinycontent.html:6
+#, python-format
+msgid "(<a href=\"%(edit_url)s\" title=\"Edit this content block\">Edit</a>)"
+msgstr "(<a href=\"%(edit_url)s\" title=\"Edytuj ten blok kontentu\">Edytuj</a>)"
+
+#: feder/main/templates/tinycontent/tinycontent_add.html:4
+#, python-format
+msgid ""
+"(No content defined: <a href=\"%(add_url)s?name=%(name_url)s\" title=\"Add "
+"content here\">Add some</a>)"
+msgstr ""
+"(Kontent niezdefiniowany: <a href=\"%(add_url)s?name=%(name_url)s\" "
+"title=\"Dodaj kontent\">Dodaj nowy</a>)"
 
 #: feder/main/urls.py:36
 msgid "^$"

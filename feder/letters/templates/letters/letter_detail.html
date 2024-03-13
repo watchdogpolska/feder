@@ -51,16 +51,4 @@
             </a>
         {% endif %}
     {% endif %}
-    {% if show_similar and similar_list %}
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            {% trans 'Similar list' %}
-        </div>
-        <table class="table">
-            {% for sm in similar_list %}
-                {% include 'letters/_letter_content_item.html' with object=sm %}
-            {% endfor %}
-        </table>
-    </div>
-    {% endif %}
 {% endblock %}

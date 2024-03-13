@@ -33,7 +33,6 @@ from feder.main.exceptions import FederValueError
 from feder.main.utils import get_email_domain, render_normalized_response_html_table
 from feder.records.models import AbstractRecord, AbstractRecordQuerySet, Record
 
-from ..es_search.queries import find_document, more_like_this
 from ..virus_scan.models import Request as ScanRequest
 from .logs.tasks import update_sent_letter_status
 from .utils import (
@@ -423,14 +422,6 @@ class Letter(AbstractRecord):
                 self.case.last_request = self
                 self.case.save()
         return message.send()
-
-    def get_more_like_this(self):
-        doc = find_document(self.pk)
-        if not doc:
-            return Letter._default_manager.none()
-        result = more_like_this(doc)
-        ids = [x.letter_id for x in result]
-        return Letter._default_manager.filter(pk__in=ids).all()
 
     def get_recipients(self):
         """
