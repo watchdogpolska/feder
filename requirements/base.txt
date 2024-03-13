@@ -1,5 +1,5 @@
 # Production and staging Django
-Django==3.2.24
+Django==3.2.25
 
 # Database adapter
 mysqlclient==2.2.4
@@ -81,8 +81,6 @@ https://github.com/ross/performant-pagination/archive/5b537da95728d622792031071e
 
 django4-background-tasks==1.2.9
 django-cors-headers==4.3.1
-elasticsearch-dsl==7.4.1
-tika==2.6.0
 
 django-rosetta==0.9.9
 bleach==6.1.0

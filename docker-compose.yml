@@ -17,7 +17,7 @@ services:
       - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: "password"
-      MYSQL_DATABASE: feder3_copy # feder3_copy
+      MYSQL_DATABASE: feder # feder_copy
     volumes:
       - mariadb-data:/var/lib/mysql
 
@@ -41,10 +41,7 @@ services:
     volumes: &webVolumes
       - .:/code
     environment: &webEnvironment
-      DATABASE_URL: mysql://root:password@db/feder3_copy_2
-      ELASTICSEARCH_URL: http://elasticsearch:9200/
-      APACHE_TIKA_URL: "http://tika:9998/"
-      # APACHE_TIKA_URL: 'http://192.168.100.120:9998/'
+      DATABASE_URL: mysql://root:password@db/feder3_copy
       MEDIA_ROOT_ENV: "media_prod"
       DJANGO_EMAIL_BACKEND: "django.core.mail.backends.smtp.EmailBackend"
       DJANGO_EMAIL_HOST: "maildump"
@@ -92,16 +89,6 @@ services:
   #    volumes: *webVolumes
   #    environment: *webEnvironment
 
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.6.2
-    environment:
-      discovery.type: single-node
-      cluster.routing.allocation.disk.threshold_enabled: "false"
-    ports:
-      - "9200:9200"
-
-  tika:
-    image: quay.io/watchdogpolska/apache-tika
 
   maildump:
     build:
