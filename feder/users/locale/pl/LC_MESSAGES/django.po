@@ -7,29 +7,39 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-08 17:29+0100\n"
-"PO-Revision-Date: 2020-07-11 23:52+0200\n"
-"Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
+"POT-Creation-Date: 2024-03-13 19:23+0100\n"
+"PO-Revision-Date: 2024-03-13 19:27+0124\n"
+"Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: \n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
-"|| n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.8.7.1\n"
+"X-Translated-Using: django-rosetta 0.9.9\n"
 
 #: feder/users/admin.py:34
 msgid "Yes"
-msgstr ""
+msgstr "Tak"
 
 #: feder/users/admin.py:35
 msgid "No"
-msgstr ""
+msgstr "Nie"
 
-#: feder/users/admin.py:68
+#: feder/users/admin.py:51 feder/users/models.py:13
+msgid "Content Editor"
+msgstr "Jest edytorem kontentu "
+
+#: feder/users/admin.py:74
 msgid "Delete selected users that never logged in"
+msgstr "Usuwanie wybranych użytkowników, którzy nigdy się nie logowali"
+
+#: feder/users/models.py:14
+msgid "Whether or not to show user tinycontent editable fields"
 msgstr ""
+"Określa, czy mają być wyświetlane użytkownikowi edytowalne pola kontentu "
+"\"tinycontent\""
 
 #: feder/users/templates/users/_social.html:7
 msgid "Connect a Google account"
@@ -186,16 +196,10 @@ msgstr "^~autocomplete$"
 
 #~ msgid ""
 #~ "<a href=\"%(object_url)s\">%(object)s</a>\n"
-#~ "        <small>by <a href=\"%(author_url)s\"> %(author)s </a> <time "
-#~ "datetime=\"%(created)s\" title=\"%(created)s\">%(created_natural)s</time> "
-#~ "in case  <a href=\"%(case_url)s\">%(case)s</a> with <a "
-#~ "href=\"%(institution_url)s\">%(institution)s</a></small>"
+#~ "        <small>by <a href=\"%(author_url)s\"> %(author)s </a> <time datetime=\"%(created)s\" title=\"%(created)s\">%(created_natural)s</time> in case  <a href=\"%(case_url)s\">%(case)s</a> with <a href=\"%(institution_url)s\">%(institution)s</a></small>"
 #~ msgstr ""
 #~ "<a href=\"%(object_url)s\">%(object)s</a>\n"
-#~ "        <small>przez <a href=\"%(author_url)s\"> %(author)s </a><time "
-#~ "datetime=\"%(created)s\" title=\"%(created)s\">%(created_natural)s</time> "
-#~ "w sprawie  <a href=\"%(case_url)s\">%(case)s</a> z <a "
-#~ "href=\"%(institution_url)s\">%(institution)s</a></small>"
+#~ "        <small>przez <a href=\"%(author_url)s\"> %(author)s </a><time datetime=\"%(created)s\" title=\"%(created)s\">%(created_natural)s</time> w sprawie  <a href=\"%(case_url)s\">%(case)s</a> z <a href=\"%(institution_url)s\">%(institution)s</a></small>"
 
 #~ msgid "Confirm delete"
 #~ msgstr "Potwierdź usuwanie"
