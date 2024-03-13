@@ -19,7 +19,6 @@ from braces.views import (
     UserFormKwargsMixin,
 )
 from cached_property import cached_property
-from django.conf import settings
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.syndication.views import Feed
 from django.core.exceptions import PermissionDenied
@@ -143,9 +142,6 @@ class LetterDetailView(SelectRelatedMixin, LetterCommonMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        if settings.ELASTICSEARCH_SHOW_SIMILAR:
-            context["similar_list"] = context["object"].get_more_like_this()
-        context["show_similar"] = settings.ELASTICSEARCH_SHOW_SIMILAR
         return context
 
     def get_queryset(self):
