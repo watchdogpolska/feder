@@ -46,6 +46,12 @@ class UserEmailVerifiedFilter(admin.SimpleListFilter):
 class UserAdmin(AuthUserAdmin):
     form = MyUserChangeForm
     add_form = MyUserCreationForm
+    fieldsets = list(AuthUserAdmin.fieldsets) + [
+        (
+            _("Content Editor"),
+            {"fields": ("is_content_editor",)},
+        ),
+    ]
     actions = [
         "delete_never_logged_in",
     ]

@@ -29,7 +29,7 @@ jobs:
           DJANGO_VERSION: ${{ matrix.django }}
           METADEFENDER_API_KEY: ${{ secrets.METADEFENDER_API_KEY }}
       - name: Run side services
-        run: make wait_mysql wait_elasticsearch wait_tika
+        run: make wait_mysql
       - name: Migration check
         run: make check
       - name: Show settings
@@ -43,12 +43,6 @@ jobs:
 #         COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
       - name: Show MySQL logs
         run: docker-compose logs db
-        if: failure()
-      - name: Show Elasticsearch logs
-        run: docker-compose logs elasticsearch
-        if: failure()
-      - name: Show Tika logs
-        run: docker-compose logs tika
         if: failure()
       - name: Show docker process
         run: docker ps
