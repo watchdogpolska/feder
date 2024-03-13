@@ -1,10 +1,19 @@
 from django.contrib.auth.models import AbstractUser, Permission
 from django.contrib.contenttypes.models import ContentType
+from django.db import models
 from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
 from guardian.mixins import GuardianUserMixin
 
 
 class User(GuardianUserMixin, AbstractUser):
+
+    is_content_editor = models.BooleanField(
+        default=False,
+        verbose_name=_("Content Editor"),
+        help_text=_("Whether or not to show user tinycontent editable fields"),
+    )
+
     def __str__(self):
         return self.username
 
