@@ -5,21 +5,20 @@ version: "2.1"
 
 services:
   db:
-    image: mariadb:10.1
+    image: mysql:8.0.36-bullseye
+    security_opt:
+      - seccomp:unconfined
     command: >-
       --character-set-server=utf8
       --collation-server=utf8_polish_ci
       --max_allowed_packet=1024M
-      --sql-mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
-      --innodb-buffer-pool-size=512M
-      --innodb-flush-log-at-trx-commit=2
     ports:
       - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: "password"
       MYSQL_DATABASE: feder # feder_copy
     volumes:
-      - mariadb-data:/var/lib/mysql
+      - mysql-data:/var/lib/mysql
 
   gulp:
     build:
@@ -41,7 +40,7 @@ services:
     volumes: &webVolumes
       - .:/code
     environment: &webEnvironment
-      DATABASE_URL: mysql://root:password@db/feder3_copy
+      DATABASE_URL: mysql://root:password@db/feder3_copy_mb4
       MEDIA_ROOT_ENV: "media_prod"
       DJANGO_EMAIL_BACKEND: "django.core.mail.backends.smtp.EmailBackend"
       DJANGO_EMAIL_HOST: "maildump"
@@ -116,5 +115,5 @@ services:
   #     - secrets_imap-to-webhook-url.env:optional
 
 volumes:
-  mariadb-data:
+  mysql-data:
   maildump_data:
