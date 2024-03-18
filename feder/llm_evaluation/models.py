@@ -197,6 +197,8 @@ class LlmLetterRequest(LlmRequest):
         letter_llm_request.status = cls.STATUS.done
         letter_llm_request.save()
         letter.ai_evaluation = resp
+        if "F) email nie jest odpowiedzią" in resp and "jest spamem" in resp:
+            letter.is_spam = letter.SPAM.probable_spam
         letter.save()
         # TODO: add case.response_received update
         # print(f"resp: {resp}")

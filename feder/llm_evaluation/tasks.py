@@ -38,6 +38,38 @@ def categorize_letter_in_background(letter_pk):
         letter.save()
         return
 
+    the_same_content_evaluated = (
+        Letter.objects.filter(
+            title=letter.title, body=letter.body, ai_evaluation__isnull=False
+        )
+        .exclude(pk=letter_pk)
+        .first()
+    )
+
+    if (
+        the_same_content_evaluated
+        and "F) email nie jest odpowiedzią" in the_same_content_evaluated.ai_evaluation
+        and "jest spamem" in the_same_content_evaluated.ai_evaluation
+    ):
+        message = _(
+            "AI categorisation skipped for letter with the same content "
+            + f"as already evaluated letter: {the_same_content_evaluated.pk}"
+        )
+        logger.info(f"Letter (pk={letter_pk}): {message}")
+        letter.ai_evaluation = the_same_content_evaluated.ai_evaluation
+        letter.is_spam = the_same_content_evaluated.is_spam
+        letter.save()
+        letter_llm_request = LlmLetterRequest.objects.create(
+            evaluated_letter=letter,
+            engine_name="",
+            request_prompt=message,
+            status=LlmLetterRequest.STATUS.done,
+            response=the_same_content_evaluated.ai_evaluation,
+            token_usage={},
+        )
+        letter_llm_request.save()
+        return
+
     LlmLetterRequest.categorize_letter(letter)
     logger.info(f"Letter with pk={letter_pk} categorized.")
     if "A) email jest odpowiedzią" in letter.ai_evaluation:
