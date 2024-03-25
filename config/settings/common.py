@@ -108,9 +108,7 @@ MIDDLEWARE = (
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "reversion.middleware.RevisionMiddleware",
     # Add the account middleware:
-    # needed for django-allauth==0.57.0
-    # but v0.57.0 does not work with production mariadb 10.1
-    # "allauth.account.middleware.AccountMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
 )
 
 # MIGRATIONS CONFIGURATION
