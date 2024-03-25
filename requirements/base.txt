@@ -20,7 +20,7 @@ Pillow==10.2.0
 # For user registration, either via email or social
 # Well-built with regular release cycles!
 # django-allauth==0.57.0 # v0.57.0 does not work with production mariadb 10.1
-django-allauth==0.54.0
+django-allauth==0.61.1
 
 # Unicode slugification
 unicode-slugify==0.1.5
