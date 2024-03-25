@@ -299,6 +299,7 @@ class Letter(AbstractRecord):
             html_body=render_to_string("letters/_letter_reply_body.html", context),
             body=render_to_string("letters/_letter_reply_body.txt", context),
         )
+        letter.save()
         letter.send(commit=True, only_email=False)
         update_sent_letter_status(schedule=(3 * 60))
         return letter

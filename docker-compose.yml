@@ -40,7 +40,7 @@ services:
     volumes: &webVolumes
       - .:/code
     environment: &webEnvironment
-      DATABASE_URL: mysql://root:password@db/feder3_copy_mb4
+      DATABASE_URL: mysql://root:password@db/feder  # feder3_copy_mb4
       MEDIA_ROOT_ENV: "media_prod"
       DJANGO_EMAIL_BACKEND: "django.core.mail.backends.smtp.EmailBackend"
       DJANGO_EMAIL_HOST: "maildump"

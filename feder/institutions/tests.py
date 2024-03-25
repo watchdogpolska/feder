@@ -114,7 +114,7 @@ class InstitutionSerializerTestCase(TestCase):
         serializer = InstitutionSerializer(data=self.data)
         self.assertTrue(serializer.is_valid(), serializer.errors)
         obj = serializer.save()
-        self.assertQuerysetEqual(
+        self.assertQuerySetEqual(
             qs=obj.tags.all(), values=["blabla", "X", "Z"], transform=force_str
         )
 
@@ -126,7 +126,7 @@ class InstitutionSerializerTestCase(TestCase):
         serializer = InstitutionSerializer(institution, data=self.data)
         self.assertTrue(serializer.is_valid(), serializer.errors)
         obj = serializer.save()
-        self.assertQuerysetEqual(
+        self.assertQuerySetEqual(
             qs=obj.tags.all(), values=["blabla", "X", "Z"], transform=force_str
         )
         self.assertEqual(Institution.objects.count(), 1)  # updated
