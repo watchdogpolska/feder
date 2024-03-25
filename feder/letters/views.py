@@ -469,6 +469,7 @@ class LetterResendView(
             body=self.object.body,
             html_body=self.object.html_body,
         )
+        self.resend.save()
         self.resend.send(commit=True, only_email=False)
         update_sent_letter_status(schedule=(3 * 60))
 

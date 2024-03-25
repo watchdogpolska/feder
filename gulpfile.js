@@ -4,13 +4,19 @@ var fs = require('fs'),
     concat = require('gulp-concat'),
     livereload = require('gulp-livereload'),
     cleanCss = require('gulp-clean-css'),
-    prefix = require('gulp-autoprefixer'),
     rename = require('gulp-rename'),
     sass = require('gulp-sass')(require('sass')),
     watch = require('gulp-watch'),
     postcss = require('gulp-postcss'),
     json = JSON.parse(fs.readFileSync('./package.json')),
     terser = require('gulp-terser');
+
+let prefix;
+import('gulp-autoprefixer').then((module) => {
+    prefix = module.default;
+}).catch((error) => {
+    console.error('Error importing module:', error);
+});
 
 var config = (function () {
     var appName = json.name;

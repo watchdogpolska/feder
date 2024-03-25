@@ -12,17 +12,17 @@
     "datatables.net-plugins": "^1.13.6",
     "font-awesome": "^4.7.0",
     "jquery": "^3.7.0",
-    "postcss": "8.4.32"
+    "postcss": "8.4.38"
   },
   "devDependencies": {
     "gulp": "^4.0.0",
-    "gulp-autoprefixer": "^8.0.0",
+    "gulp-autoprefixer": "^9.0.0",
     "gulp-clean-css": "^4.3.0",
     "gulp-concat": "^2.6.0",
     "gulp-csslint": "^1.0.1",
     "gulp-livereload": "^4.0.2",
     "gulp-notify": "^4.0.0",
-    "gulp-postcss": "^9.0.1",
+    "gulp-postcss": "^10.0.0",
     "gulp-rename": "^2.0.0",
     "gulp-sass": "^5.1.0",
     "gulp-terser": "^2.1.0",
