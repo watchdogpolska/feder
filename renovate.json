@@ -23,12 +23,12 @@
   },
   "constraints": {
     "node": "< 21.0.0",
-    "django": "< 5.0.0"
+    "django": ["^4.2", "^5.2"]
   },
   "force": {
     "constraints": {
       "node": "< 21.0.0",
-      "django": "< 5.0.0"
+      "django": ["^4.2", "^5.2"]
     }
   }
 }
