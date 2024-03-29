@@ -123,10 +123,14 @@
     {% endif %}
     <script>
         $(function () {
-            var show = '<i class="fa fa-plus-square"></i> {%trans "Show quote" %}';
-            var hide = '<i class="fa fa-minus-square"></i> {%trans "Hide quote" %}';
+            var show_quote = '<i class="fa fa-plus-square"></i> {%trans "Show quote" %}';
+            var hide_quote = '<i class="fa fa-minus-square"></i> {%trans "Hide quote" %}';
+            var show_att_text = '<i class="fa fa-plus-square"></i> {%trans "Show att text" %}';
+            var hide_att_text = '<i class="fa fa-minus-square"></i> {%trans "Hide att text" %}';
             $('blockquote.expandable').each(function (index, value) {
                 var el = $(value).hide();
+                var show = el.attr('name') === 'attachment_text' ? show_att_text : show_quote;
+                var hide = el.attr('name') === 'attachment_text' ? hide_att_text : hide_quote;
                 var new_el = $("<button class='btn btn-primary'>" + show + "</a>");
                 new_el.click(function (event) {
                     event.preventDefault();

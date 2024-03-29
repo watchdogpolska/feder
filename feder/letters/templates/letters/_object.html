@@ -82,10 +82,10 @@
                     </td>
                     <td>
                         {% if attachment.text_content %}
-                        <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="bottom"
+                        <i class="fa fa-exclamation-triangle" data-toggle="tooltip" data-placement="bottom"
                             title="{{attachment.text_content_warning}}">
                         </i>
-                        <blockquote class="expandable">
+                        <blockquote class="expandable" name="attachment_text">
                             <p>{{ attachment.text_content|linebreaksbr }}</p>
                         </blockquote>
                         {% endif %}

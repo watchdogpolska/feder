@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: main 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-13 19:23+0100\n"
-"PO-Revision-Date: 2024-03-13 19:26+0124\n"
+"POT-Creation-Date: 2024-03-29 16:31+0100\n"
+"PO-Revision-Date: 2024-03-29 16:32+0100\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -17,13 +17,13 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 2.4.1\n"
-"X-Translated-Using: django-rosetta 0.9.9\n"
+"X-Translated-Using: django-rosetta 0.10.0\n"
 
-#: config/settings/common.py:180
+#: config/settings/common.py:178
 msgid "Polish"
 msgstr "Polski"
 
-#: config/settings/common.py:180
+#: config/settings/common.py:178
 msgid "English"
 msgstr "Angielski"
 
@@ -35,7 +35,7 @@ msgstr "Prośba o list LLM"
 msgid "LLM Monitoring Request"
 msgstr "Pytanie do LLM o monitoring"
 
-#: feder/llm_evaluation/admin.py:97 feder/llm_evaluation/models.py:363
+#: feder/llm_evaluation/admin.py:97 feder/llm_evaluation/models.py:365
 msgid "LLM Monthly Cost"
 msgstr "Miesięczny koszt LLM"
 
@@ -63,8 +63,8 @@ msgstr "Wykonane"
 msgid "Failed"
 msgstr "Niepowodzenie"
 
-#: feder/llm_evaluation/models.py:45 feder/llm_evaluation/models.py:358
-#: feder/llm_evaluation/models.py:427
+#: feder/llm_evaluation/models.py:45 feder/llm_evaluation/models.py:360
+#: feder/llm_evaluation/models.py:429
 msgid "LLM Engine name"
 msgstr "Nazwa silnika LLM"
 
@@ -84,35 +84,35 @@ msgstr "Użycie tokenów LLM"
 msgid "Evaluated Letter"
 msgstr "Oceniany list"
 
-#: feder/llm_evaluation/models.py:303
+#: feder/llm_evaluation/models.py:305
 msgid "Evaluated Monitoring"
 msgstr "Oceniany monitoring"
 
-#: feder/llm_evaluation/models.py:306
+#: feder/llm_evaluation/models.py:308
 msgid "Chat Request"
 msgstr "Zapytanie czatu"
 
-#: feder/llm_evaluation/models.py:355
+#: feder/llm_evaluation/models.py:357
 msgid "Month"
 msgstr "Miesiąc"
 
-#: feder/llm_evaluation/models.py:360 feder/llm_evaluation/models.py:429
+#: feder/llm_evaluation/models.py:362 feder/llm_evaluation/models.py:431
 msgid "Cost"
 msgstr "Koszt"
 
-#: feder/llm_evaluation/models.py:422
+#: feder/llm_evaluation/models.py:424
 msgid "Monitoring ID"
 msgstr "Id Monitoringu"
 
-#: feder/llm_evaluation/models.py:424
+#: feder/llm_evaluation/models.py:426
 msgid "Monitoring Name"
 msgstr "Nazwa Monitoringu"
 
-#: feder/llm_evaluation/models.py:432
+#: feder/llm_evaluation/models.py:434
 msgid "LLM Cost Per Monitoring"
 msgstr "Koszt LLM per Monitoring"
 
-#: feder/llm_evaluation/models.py:433
+#: feder/llm_evaluation/models.py:435
 msgid "LLM Costs Per Monitoring"
 msgstr "Koszty LLM per Monitoring"
 
@@ -125,6 +125,15 @@ msgstr ""
 msgid "AI categorisation skipped for auto reply letter."
 msgstr ""
 "Kategoryzacja AI została pominięta dla listu z automatyczną odpowiedzią."
+
+#: feder/llm_evaluation/tasks.py:56
+#| msgid "AI categorisation skipped for auto reply letter."
+msgid ""
+"AI categorisation skipped for letter with the same content as already "
+"evaluated letter: "
+msgstr ""
+"Kategoryzacja AI pominięta dla listu o tej samej treści, co już oceniany "
+"list: "
 
 #: feder/main/mixins.py:205
 msgid "Page number is not valid."
@@ -542,6 +551,14 @@ msgstr "Pokaż cytat"
 #: feder/main/templates/base.html:127
 msgid "Hide quote"
 msgstr "Ukryj cytat"
+
+#: feder/main/templates/base.html:128
+msgid "Show att text"
+msgstr "Pokaż treść"
+
+#: feder/main/templates/base.html:129
+msgid "Hide att text"
+msgstr "Ukryj treść"
 
 #: feder/main/templates/main/home.html:7
 msgid "Let's civil data mining!"
