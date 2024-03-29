@@ -51,9 +51,12 @@ def categorize_letter_in_background(letter_pk):
         and "F) email nie jest odpowiedzią" in the_same_content_evaluated.ai_evaluation
         and "jest spamem" in the_same_content_evaluated.ai_evaluation
     ):
-        message = _(
-            "AI categorisation skipped for letter with the same content "
-            + f"as already evaluated letter: {the_same_content_evaluated.pk}"
+        message = (
+            _(
+                "AI categorisation skipped for letter with the same content "
+                + "as already evaluated letter: "
+            )
+            + the_same_content_evaluated.pk
         )
         logger.info(f"Letter (pk={letter_pk}): {message}")
         letter.ai_evaluation = the_same_content_evaluated.ai_evaluation
