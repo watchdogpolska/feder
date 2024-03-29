@@ -500,7 +500,7 @@ class Letter(AbstractRecord):
             "Ocena wykonana za pomocą Azure OpenAI. Wszystkie możliwe opcje: \n"
             + letter_categorization.format(
                 intro="",
-                institution=self.case.institution.name,
+                institution=self.case.institution.name if self.case else "???",
                 monitoring_response="",
             ).split("```")[1]
         )
