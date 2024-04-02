@@ -6,8 +6,8 @@ clean:
 	docker-compose down
 
 regenerate_frontend:
-	docker-compose up gulp
 	docker-compose run web python manage.py collectstatic --noinput
+	docker-compose up gulp
 
 makemessages:
 	docker-compose run web python manage.py  makemessages --ignore=htmlcov --all
