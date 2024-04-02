@@ -18,6 +18,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Build frontend
+        run: docker-compose build gulp
+      - name: Regenerate frontend
         run: make wait_web regenerate_frontend
       - name: Show git status
         run: git status
