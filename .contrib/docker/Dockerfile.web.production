@@ -25,6 +25,7 @@ COPY requirements/*.txt ./requirements/
 ARG DJANGO_VERSION='==3.2.23'
 RUN pip install --no-cache-dir -r requirements/production.txt
 COPY . /code/
+RUN python manage.py collectstatic --no-input
 # Start container with bash shell to allow run and debug django app
 #   or debug container starting errors:
 CMD ["bash", "-c", " sleep infinity "]
