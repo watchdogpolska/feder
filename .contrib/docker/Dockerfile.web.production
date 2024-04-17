@@ -25,7 +25,16 @@ COPY requirements/*.txt ./requirements/
 ARG DJANGO_VERSION='==3.2.23'
 RUN pip install --no-cache-dir -r requirements/production.txt
 COPY . /code/
-RUN python manage.py collectstatic --no-input
+RUN export DJANGO_SETTINGS_MODULE="config.settings.production" && \
+   export DJANGO_SECRET_KEY="fake_key" && \
+   export DJANGO_SERVER_EMAIL="fake_server" && \
+   export DATABASE_URL="fake_database" && \
+   export EMAILLABS_APP_KEY="fake_app_key" &&\
+   export EMAILLABS_SECRET_KEY="fake_secret_key" &&\
+   export LETTER_RECEIVE_SECRET="fake_secret_key" &&\
+   export RAVEN_DSN="https://examplePublicKey@o0.ingest.sentry.io/0" && \
+   export CACHE_URL="locmemcache://" && \
+   python manage.py collectstatic --no-input
 # Start container with bash shell to allow run and debug django app
 #   or debug container starting errors:
 CMD ["bash", "-c", " sleep infinity "]
