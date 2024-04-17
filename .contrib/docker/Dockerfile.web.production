@@ -18,6 +18,7 @@ RUN apt-get update \
    nano \
    htop \
    gettext libgettextpo-dev wait-for-it
+RUN git config --global --add safe.directory /code
 RUN pip install --upgrade pip
 RUN pip --version
 COPY requirements/*.txt ./requirements/
