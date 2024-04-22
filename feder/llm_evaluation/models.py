@@ -286,7 +286,7 @@ class LlmLetterRequest(LlmRequest):
                 )
             end_time = time.time()
             execution_time = end_time - start_time
-            llm_info_dict = vars(cb)
+            llm_info_dict = get_serializable_dict(cb)
             llm_info_dict["completion_time"] = execution_time
             letter_llm_request.response = resp
             letter_llm_request.token_usage = llm_info_dict
@@ -342,7 +342,7 @@ class LlmMonitoringRequest(LlmRequest):
             resp = chain.invoke({"monitoring_template": monitoring.template})
         end_time = time.time()
         execution_time = end_time - start_time
-        llm_info_dict = vars(cb)
+        llm_info_dict = get_serializable_dict(cb)
         llm_info_dict["completion_time"] = execution_time
         monitoring_llm_request.response = resp
         monitoring_llm_request.token_usage = llm_info_dict
