@@ -45,13 +45,13 @@ jobs:
 
       - name: Display contents of code directory
         run: ls -la
-  
+
       - name: Display contents of .git directory
         run: ls -la .git
-      
+
       - name: Create git copy
         run: cp -r .git .git_copy
-  
+
       - name: Show git status
         run: git status
 
