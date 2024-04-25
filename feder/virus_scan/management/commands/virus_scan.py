@@ -1,3 +1,4 @@
+import logging
 from time import sleep
 
 from django.core.management.base import BaseCommand
@@ -5,6 +6,7 @@ from django.core.management.base import BaseCommand
 from feder.virus_scan.engine import get_engine
 from feder.virus_scan.models import Request
 
+logger = logging.getLogger(__name__)
 current_engine = get_engine()
 
 
@@ -20,10 +22,10 @@ class Command(BaseCommand):
 
     def send_scan(self):
         if Request.objects.filter(status=Request.STATUS.created).all().count == 0:
-            self.stdout.write("No requests to send for scanning.")
+            logger.info("No requests to send for scanning.")
             return
         for request in Request.objects.filter(status=Request.STATUS.created).all():
-            self.stdout.write(f"Send to scan: {request}")
+            logger.info(f"Send to scan: {request}")
             request.send_scan()
             request.save()
 
@@ -33,17 +35,18 @@ class Command(BaseCommand):
             .filter(engine_name=current_engine.name)
             .all()
         ):
-            self.stdout.write(f"Receive result: {request}")
+            logger.info(f"Receive result: {request}")
             request.receive_result()
             request.save()
 
     def handle(self, *args, **options):
+        logger.info("Virus scan started.")
         if not options["skip_send"]:
-            self.stdout.write("Sending requests to scan")
+            logger.info("Sending requests to scan")
             self.send_scan()
         if not options["skip_send"] and not options["skip_receive"]:
-            self.stdout.write("Delay {} seconds between steps".format(options["delay"]))
+            logger.info("Delay {} seconds between steps".format(options["delay"]))
             sleep(options["delay"])
         if not options["skip_receive"]:
-            self.stdout.write("Fetching results of requests of scan")
+            logger.info("Fetching results of requests of scan")
             self.receive_result()
