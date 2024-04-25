@@ -29,7 +29,7 @@ $VIRUS_SCAN_SCHEDULE $CRON_DIR/run_locked.sh feder_virus_scan 3h \
     '$PTYHON $APP_ROOT_DIR/manage.py virus_scan'
 # $APP_NAME-queue_virus_scan
 $QUEUEVIRUS_SCAN_SCHEDULE $CRON_DIR/run_locked.sh feder_queue_virus_scan 24h \
-    '$PTYHON $APP_ROOT_DIR/manage.py feder_queue_virus_scan --count 80'
+    '$PTYHON $APP_ROOT_DIR/manage.py queue_virus_scan --count 80'
 " | crontab -
  
 # The  run_locked.sh  script is a simple wrapper around  flock  that ensures that only one 
