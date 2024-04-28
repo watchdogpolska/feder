@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "run_locked started at $(date) with parameters: $@"
+
 if [ -z "$2" ]; then
   echo Usage: $0 lock_name [max_ok_delay] command...
   exit 1
@@ -23,5 +25,7 @@ trap "flock -u 99" EXIT
 
 output=$(eval $@)
 exitcode=$?
+
+echo "run_locked exiting at $(date) with parameters: $@; and output: $output; and exit code: $exitcode"
 
 exit $exitcode
