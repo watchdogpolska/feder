@@ -1,6 +1,6 @@
 # This is Dockerfile for development purposes only.
-ARG PYTHON_VERSION='3.10.12'
-FROM python:${PYTHON_VERSION}-slim
+ARG PYTHON_VERSION='3.10.14'
+FROM python:${PYTHON_VERSION}-bookworm
 RUN python --version
 RUN mkdir /code /code/production
 WORKDIR /code
