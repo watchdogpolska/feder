@@ -23,9 +23,9 @@ date +%s > $TIMEFILE
 [[ $1 =~ ^[0-9]*[mhd]?$ ]] && { echo $1 > $TIMEFILE.maxokdelay; shift; }
 trap "flock -u 99" EXIT
 
-output=$(eval $@)
+output=$(eval ${@: -1})
 exitcode=$?
 
-echo "run_locked exiting at $(date) with parameters: $@; and output: $output; and exit code: $exitcode"
+echo "run_locked run command: ${@: -1}; at $(date); with output: $output; and exit code: $exitcode"
 
 exit $exitcode

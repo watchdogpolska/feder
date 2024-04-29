@@ -19,17 +19,17 @@ QUEUEVIRUS_SCAN_SCHEDULE="${QUEUEVIRUS_SCAN_SCHEDULE:-15 23 * * *}"
 # Set the crontab for the application
 echo "
 # $APP_NAME-update_emaillabs
-$UPDATE_EMAILLABS_SCHEDULE $CRON_DIR/run_locked.sh feder_update_emaillabs 25h \
-    '$PTYHON $APP_ROOT_DIR/manage.py update_emaillabs'
+$UPDATE_EMAILLABS_SCHEDULE cd $APP_ROOT_DIR && $CRON_DIR/run_locked.sh feder_update_emaillabs 25h \
+    \"$PTYHON $APP_ROOT_DIR/manage.py update_emaillabs\" >> /var/log/cron.log 2>&1
 # $APP_NAME-clearsessions
-$CLEARSESSIONS_SCHEDULE $CRON_DIR/run_locked.sh feder_clearsessions 34h \
-    '$PTYHON $APP_ROOT_DIR/manage.py clearsessions'
+$CLEARSESSIONS_SCHEDULE cd $APP_ROOT_DIR && $CRON_DIR/run_locked.sh feder_clearsessions 34h \
+    \"$PTYHON $APP_ROOT_DIR/manage.py clearsessions\" >> /var/log/cron.log 2>&1
 # $APP_NAME-virus_scan
-$VIRUS_SCAN_SCHEDULE $CRON_DIR/run_locked.sh feder_virus_scan 3h \
-    '$PTYHON $APP_ROOT_DIR/manage.py virus_scan'
+$VIRUS_SCAN_SCHEDULE cd $APP_ROOT_DIR && $CRON_DIR/run_locked.sh feder_virus_scan 3h \
+    \"$PTYHON $APP_ROOT_DIR/manage.py virus_scan\" >> /var/log/cron.log 2>&1
 # $APP_NAME-queue_virus_scan
-$QUEUEVIRUS_SCAN_SCHEDULE $CRON_DIR/run_locked.sh feder_queue_virus_scan 24h \
-    '$PTYHON $APP_ROOT_DIR/manage.py queue_virus_scan --count 80'
+$QUEUEVIRUS_SCAN_SCHEDULE cd $APP_ROOT_DIR && $CRON_DIR/run_locked.sh feder_queue_virus_scan 24h \
+    \"$PTYHON $APP_ROOT_DIR/manage.py queue_virus_scan --count 80\" >> /var/log/cron.log 2>&1
 " | crontab -
  
 # The  run_locked.sh  script is a simple wrapper around  flock  that ensures that only one 
