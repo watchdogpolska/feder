@@ -1,6 +1,6 @@
 # This is Dockerfile for production.
 ARG PYTHON_VERSION='3.10.14'
-FROM python:${PYTHON_VERSION}-bookworm
+FROM python:${PYTHON_VERSION}-slim
 RUN python --version
 RUN mkdir /code code/media code/staticfiles
 WORKDIR /code
