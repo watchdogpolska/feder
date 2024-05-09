@@ -28,7 +28,7 @@ from model_utils import Choices
 from feder.cases.models import Case, enforce_quarantined_queryset
 from feder.domains.models import Domain
 from feder.institutions.models import Institution
-from feder.llm_evaluation.prompts import letter_categorization
+from feder.llm_evaluation.prompts import letter_categories_list, letter_categories_text
 from feder.main.exceptions import FederValueError
 from feder.main.utils import get_email_domain, render_normalized_response_html_table
 from feder.records.models import AbstractRecord, AbstractRecordQuerySet, Record
@@ -497,12 +497,31 @@ class Letter(AbstractRecord):
 
     def ai_prompt_help(self):
         return (
-            "Ocena wykonana za pomocą Azure OpenAI. Wszystkie możliwe opcje: \n"
-            + letter_categorization.format(
-                intro="",
-                institution=self.case.institution.name if self.case else "???",
-                monitoring_response="",
-            ).split("```")[1]
+            "Ocena wykonana za pomocą Azure OpenAI. Wszystkie możliwe opcje: \n\n"
+            + letter_categories_text.format(
+                institution=self.case.institution.name if self.case else "???"
+            )
+        )
+
+    def ai_letter_category_choices(self):
+        return list(
+            (
+                " ".join(
+                    item.format(
+                        institution=self.case.institution.name if self.case else "???"
+                    )
+                    .replace("\n", "")
+                    .split()
+                ),
+                " ".join(
+                    item.format(
+                        institution=self.case.institution.name if self.case else "???"
+                    )
+                    .replace("\n", "")
+                    .split()
+                ),
+            )
+            for item in letter_categories_list
         )
 
     def get_normalized_response_html_table(self):

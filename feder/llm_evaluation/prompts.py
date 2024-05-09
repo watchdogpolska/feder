@@ -8,6 +8,47 @@ letter_evaluation_intro = PromptTemplate.from_template(
     template_format="f-string",
 )
 
+letter_categories_list = [
+    PromptTemplate.from_template(
+        """A) email jest odpowiedzią z {institution} i zawiera odpowiedzi na pytania z
+        wniosku o informację publiczną.""",
+        template_format="f-string",
+    ),
+    PromptTemplate.from_template(
+        """B) email jest odpowiedzią z {institution} i zawiera odmowę odpowiedzi na
+        pytania z wniosku o informację publiczną.""",
+        template_format="f-string",
+    ),
+    PromptTemplate.from_template(
+        """C) email jest odpowiedzią z {institution} i zawiera informację o przedłużeniu
+        terminu na odpowiedź.""",
+        template_format="f-string",
+    ),
+    PromptTemplate.from_template(
+        """D) email jest potwierdzeniem dostarczenia lub otwarcia maila z {institution}
+        i nie zawiera odpowiedzi na pytania z wniosku o informację publiczną.""",
+        template_format="f-string",
+    ),
+    PromptTemplate.from_template(
+        """E) email jest odpowiedzią z innej instytucji lub na inny wniosek.""",
+        template_format="f-string",
+    ),
+    PromptTemplate.from_template(
+        """F) email nie jest odpowiedzią z {institution} i jest spamem.""",
+        template_format="f-string",
+    ),
+    PromptTemplate.from_template(
+        """G) nie można ustalić kategorii odpowiedzi.""", template_format="f-string"
+    ),
+]
+
+EMAIL_IS_ANSWER = letter_categories_list[0].template[:25]
+
+letter_categories_text = PromptTemplate.from_template(
+    "\n".join(("  " + item.template) for item in letter_categories_list),
+    template_format="f-string",
+)
+
 letter_categorization = PromptTemplate.from_template(
     """{intro}
     Oceń odpowiedź z {institution} podaną na końcu, przypisując ją do jednej z kategorii
@@ -16,22 +57,13 @@ letter_categorization = PromptTemplate.from_template(
     Polskim.
     Lista kategorii:
     ```
-    A) email jest odpowiedzią z {institution} i zawiera odpowiedzi na pytania z
-        wniosku o informację publiczną.
-    B) email jest odpowiedzią z {institution} i zawiera odmowę odpowiedzi na
-        pytania z wniosku o informację publiczną.
-    C) email jest odpowiedzią z {institution} i zawiera informację o
-        przedłużeniu terminu na odpowiedź.
-    D) email jest potwierdzeniem dostarczenia lub otwarcia maila z {institution}
-        i nie zawiera odpowiedzi na pytania z wniosku o informację publiczną.
-    E) email jest odpowiedzią z innej instytucji lub na inny wniosek.
-    F) email nie jest odpowiedzią z {institution} i jest spamem.
-    G) nie można ustalić kategorii odpowiedzi.
+    {letter_categories}
     ```
     Odpowiedź z {institution}, jako połączony tekst maila i załączników:
     ```{monitoring_response}```.
     """,
     template_format="f-string",
+    partial_variables={"letter_categories": letter_categories_text},
 )
 
 letter_response_normalization = PromptTemplate.from_template(
