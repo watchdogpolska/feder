@@ -3,6 +3,8 @@ import logging
 from background_task import background
 from django.utils.translation import gettext_lazy as _
 
+from feder.llm_evaluation.prompts import EMAIL_IS_ANSWER
+
 from .models import LlmLetterRequest, LlmMonitoringRequest
 
 logger = logging.getLogger(__name__)
@@ -72,10 +74,32 @@ def categorize_letter_in_background(letter_pk):
 
     LlmLetterRequest.categorize_letter(letter)
     logger.info(f"Letter with pk={letter_pk} categorized.")
-    if "A) email jest odpowiedzią" in letter.ai_evaluation:
+    if EMAIL_IS_ANSWER in letter.ai_evaluation:
         LlmLetterRequest.get_normalized_answers(letter)
         logger.info(f"Letter with pk={letter_pk} answer normalization processed.")
     else:
+        logger.info(
+            f"Letter with pk={letter_pk} is not a response - "
+            + "skipping answers normalization."
+        )
+
+
+@background(schedule=120)
+def update_letter_normalized_answers(letter_pk):
+    from feder.letters.models import Letter
+
+    letter = Letter.objects.filter(pk=letter_pk).first()
+
+    if not letter:
+        logger.warning(f"Letter with pk={letter_pk} not found.")
+        return
+
+    if EMAIL_IS_ANSWER in letter.ai_evaluation:
+        LlmLetterRequest.get_normalized_answers(letter)
+        logger.info(f"Letter with pk={letter_pk} answer normalization processed.")
+    else:
+        letter.normalized_response = None
+        letter.save()
         logger.info(
             f"Letter with pk={letter_pk} is not a response - skipping normalization."
         )

@@ -32,7 +32,6 @@ urlpatterns = [
         name="create",
     ),
     re_path(_(r"^(?P<pk>[\d-]+)$"), views.LetterDetailView.as_view(), name="details"),
-    re_path(_(r"^(?P<pk>[\d-]+)$"), views.LetterDetailView.as_view(), name="details"),
     re_path(
         _(r"^(?P<pk>[\d-]+)-msg$"),
         views.LetterMessageXSendFileView.as_view(),
