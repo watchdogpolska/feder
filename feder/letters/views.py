@@ -600,6 +600,7 @@ class AssignLetterFormView(
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs["letter"] = self.letter
+        kwargs["request"] = self.request
         return kwargs
 
     def form_valid(self, form):

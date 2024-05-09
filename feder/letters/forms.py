@@ -47,14 +47,16 @@ class LetterForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
         letter = kwargs.get("instance")
         self.request = kwargs.pop("request", None)
         super().__init__(*args, **kwargs)
+        if letter:
+            self.fields["ai_evaluation"].choices = [
+                (letter.ai_evaluation, letter.ai_evaluation)
+            ] + letter.ai_letter_category_choices()
         if letter and letter.is_mass_draft():
             del self.fields["case"]
+            del self.fields["ai_evaluation"]
         else:
             self.initial["case"] = case or letter.case
         self.helper.form_tag = False
-        self.fields["ai_evaluation"].choices = [
-            (letter.ai_evaluation, letter.ai_evaluation)
-        ] + letter.ai_letter_category_choices()
         if not letter or letter.is_mass_draft() or letter.is_draft:
             self.fields["html_body"].widget = TinyMCE(
                 attrs={
@@ -248,6 +250,7 @@ class AssignLetterForm(SingleButtonMixin, forms.Form):
 
     def __init__(self, *args, **kwargs):
         self.letter = kwargs.pop("letter")
+        self.request = kwargs.pop("request", None)
         super().__init__(*args, **kwargs)
         # Field creation moved to init as multiple autocomplete widgets
         # on the same page need different ids to be identified properly
@@ -267,7 +270,7 @@ class AssignLetterForm(SingleButtonMixin, forms.Form):
         self.letter.case = self.cleaned_data["case"]
         self.letter.record.save()
         self.letter.case.save()
-        categorize_letter_in_background(self.instance.pk)
+        categorize_letter_in_background(self.letter.pk)
         messages.success(
             self.request,
             _(
