@@ -14,6 +14,7 @@ from jsonfield import JSONField
 from model_utils.models import TimeStampedModel
 
 from feder.domains.models import Domain
+from feder.llm_evaluation.prompts import EMAIL_IS_ANSWER
 from feder.main.utils import (
     FormattedDatetimeMixin,
     RenderBooleanFieldMixin,
@@ -273,7 +274,7 @@ class Monitoring(RenderBooleanFieldMixin, TimeStampedModel):
 
         resp_letters = (
             Letter.objects.filter(record__case__monitoring=self)
-            .filter(ai_evaluation__contains="A) email jest odpowiedzią")
+            .filter(ai_evaluation__contains=EMAIL_IS_ANSWER)
             .for_user(user)
             .annotate(
                 case_name=models.F("record__case__name"),
