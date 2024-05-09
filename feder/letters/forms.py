@@ -4,6 +4,7 @@ from crispy_forms.layout import Column, Fieldset, Layout, Row, Submit
 from dal import autocomplete
 from django import forms
 from django.conf import settings
+from django.contrib import messages
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
@@ -11,7 +12,10 @@ from tinymce.widgets import TinyMCE
 
 from feder.cases.models import Case
 from feder.letters.utils import BODY_REPLY_TPL
-from feder.llm_evaluation.tasks import categorize_letter_in_background
+from feder.llm_evaluation.tasks import (
+    categorize_letter_in_background,
+    update_letter_normalized_answers,
+)
 from feder.records.models import Record
 
 from .models import Letter
@@ -32,13 +36,24 @@ class LetterForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
         label=_("Case"),
         widget=autocomplete.ModelSelect2(url="cases:autocomplete-find"),
     )
+    ai_evaluation = forms.ChoiceField(
+        choices=[],
+        label=_("Letter AI evaluation"),
+        required=False,
+    )
 
     def __init__(self, *args, **kwargs):
         case = kwargs.pop("case", None)
         letter = kwargs.get("instance")
+        self.request = kwargs.pop("request", None)
         super().__init__(*args, **kwargs)
+        if letter:
+            self.fields["ai_evaluation"].choices = [
+                (letter.ai_evaluation, letter.ai_evaluation)
+            ] + letter.ai_letter_category_choices()
         if letter and letter.is_mass_draft():
             del self.fields["case"]
+            del self.fields["ai_evaluation"]
         else:
             self.initial["case"] = case or letter.case
         self.helper.form_tag = False
@@ -64,7 +79,7 @@ class LetterForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
 
     class Meta:
         model = Letter
-        fields = ["title", "html_body", "case", "note"]
+        fields = ["title", "html_body", "case", "ai_evaluation", "note"]
 
     def get_html_body_with_footer(self, case=None):
         reply_info = BODY_REPLY_TPL.replace("\n", "")
@@ -80,7 +95,16 @@ class LetterForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
         self.instance.body = html_to_text(self.cleaned_data["html_body"])
         if "title" in self.changed_data or "html_body" in self.changed_data:
             self.instance.author_user = self.user
-        if not self.instance.is_mass_draft():
+        if not self.instance.is_mass_draft() and "ai_evaluation" in self.changed_data:
+            update_letter_normalized_answers(self.instance.pk)
+            messages.success(
+                self.request,
+                _(
+                    "AI evaluation was changed."
+                    + " Task to update letter normalized answers created"
+                ),
+            )
+        if not self.instance.is_mass_draft() and "case" in self.changed_data:
             if hasattr(self.instance, "record"):
                 self.instance.record.case = self.cleaned_data["case"]
             else:
@@ -88,8 +112,17 @@ class LetterForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
                     case=self.cleaned_data["case"]
                 )
             self.instance.record.save()
-            categorize_letter_in_background(self.instance.pk)
+            if "ai_evaluation" not in self.changed_data:
+                categorize_letter_in_background(self.instance.pk)
+                messages.success(
+                    self.request,
+                    _(
+                        "Case was changed. Task to update letter"
+                        + " categorization and upadte normalized answers created"
+                    ),
+                )
         self.instance.save()
+
         return super().save(*args, **kwargs)
 
 
@@ -217,6 +250,7 @@ class AssignLetterForm(SingleButtonMixin, forms.Form):
 
     def __init__(self, *args, **kwargs):
         self.letter = kwargs.pop("letter")
+        self.request = kwargs.pop("request", None)
         super().__init__(*args, **kwargs)
         # Field creation moved to init as multiple autocomplete widgets
         # on the same page need different ids to be identified properly
@@ -236,6 +270,14 @@ class AssignLetterForm(SingleButtonMixin, forms.Form):
         self.letter.case = self.cleaned_data["case"]
         self.letter.record.save()
         self.letter.case.save()
+        categorize_letter_in_background(self.letter.pk)
+        messages.success(
+            self.request,
+            _(
+                "Case was changed. Task to update letter"
+                + " categorization and upadte normalized answers created"
+            ),
+        )
 
 
 class ReassignLetterForm(SingleButtonMixin, forms.ModelForm):

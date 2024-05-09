@@ -300,6 +300,11 @@ class LetterUpdateView(
     def get_queryset(self):
         return super().get_queryset().for_user(self.request.user).with_attachment()
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["request"] = self.request
+        return kwargs
+
 
 class LetterDeleteView(
     LetterCommonMixin, AttrPermissionRequiredMixin, DeleteMessageMixin, DeleteView
@@ -595,6 +600,7 @@ class AssignLetterFormView(
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs["letter"] = self.letter
+        kwargs["request"] = self.request
         return kwargs
 
     def form_valid(self, form):

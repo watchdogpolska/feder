@@ -3,6 +3,8 @@ from django.db.models import Q
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
+from feder.llm_evaluation.prompts import letter_categories_list
+
 from .models import Attachment, Letter, LetterEmailDomain, ReputableLetterEmailTLD
 
 
@@ -31,38 +33,14 @@ class LetterLlmEvaluationListFilter(admin.SimpleListFilter):
 
     def lookups(self, request, model_admin):
         # Return the filter options as a list of tuples
-        return (
+        return list(
             (
-                "A) email jest odpowiedzią",
-                "A) email jest odpowiedzią z ... i zawiera odpowiedzi...",
-            ),
-            (
-                ",B) email jest odpowiedzią z",
-                "B) email jest odpowiedzią z ... i zawiera odmowę odpowiedzi...",
-            ),
-            (
-                "C) email jest odpowiedzią z",
-                (
-                    "C) email jest odpowiedzią z ... i zawiera informację o "
-                    + "przedłużeniu terminu..."
-                ),
-            ),
-            (
-                "D) email jest potwierdzeniem dostarczenia lub otwarcia",
-                "D) email jest potwierdzeniem dostarczenia lub otwarcia maila z ...",
-            ),
-            (
-                "E) email jest odpowiedzią z innej",
-                "E) email jest odpowiedzią z innej instytucji lub na inny wniosek.",
-            ),
-            (
-                "F) email nie jest odpowiedzią z",
-                "F) email nie jest odpowiedzią z ... i jest spamem.",
-            ),
-            (
-                "G) nie można ustalić kategorii",
-                "G) nie można ustalić kategorii odpowiedzi.",
-            ),
+                " ".join(item.format(institution=" ... ").replace("\n", "").split())[
+                    :20
+                ],
+                " ".join(item.format(institution=" ... ").replace("\n", "").split()),
+            )
+            for item in letter_categories_list
         )
 
     def queryset(self, request, queryset):
@@ -127,7 +105,7 @@ class LetterAdmin(admin.ModelAdmin):
         "email_from",
         "email_to",
     )
-    raw_id_fields = ("author_user", "author_institution", "record")
+    # raw_id_fields = ("author_user", "author_institution", "record")
     # list_editable = ("is_spam",)
     ordering = ("-id",)
     actions = [
@@ -137,6 +115,16 @@ class LetterAdmin(admin.ModelAdmin):
         "mark_spam_unknown",
         "mark_non_spam",
     ]
+    readonly_fields = ("author_user", "author_institution", "record")
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
 
     @admin.display(
         description=_("Record id"),

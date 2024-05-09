@@ -1,5 +1,5 @@
 # Production and staging Django
-Django==4.2.11
+Django==4.2.13
 
 # Database adapter
 mysqlclient==2.2.4
@@ -12,7 +12,7 @@ django-braces==1.15.0
 django-crispy-forms==1.14.0
 
 # Models
-django-model-utils==4.5.0
+django-model-utils==4.5.1
 
 # Images
 Pillow==10.3.0
@@ -35,7 +35,7 @@ lxml==5.2.1
 
 
 # Your custom requirements go here
-cryptography==42.0.5
+cryptography==42.0.7
 django-filter==24.2
 django-autocomplete-light==3.11.0
 # django-ajax-datatable to be installed from github fork until
@@ -67,7 +67,7 @@ django-reversion==5.0.12
 djangorestframework==3.15.1
 djangorestframework-csv==3.0.2
 unicodecsv==0.14.1
-tqdm==4.66.2
+tqdm==4.66.4
 django-github-revision==0.0.3
 django-extensions==3.2.3
 django-cleanup==8.1.0
@@ -91,8 +91,8 @@ html2text==2024.2.26
 openpyxl==3.1.2
 
 # LLM exvaluation
-langchain==0.1.16
+langchain==0.1.17
 #langchain[llms]==0.1.5
-openai==1.23.6
-langchain-openai==0.1.4
+openai==1.26.0
+langchain-openai==0.1.6
 tiktoken==0.6.0
