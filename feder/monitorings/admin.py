@@ -12,6 +12,7 @@ class MonitoringAdmin(VersionAdmin, GuardedModelAdmin):
     """
 
     list_display = (
+        "id",
         "name",
         "user",
         "is_public",
@@ -19,5 +20,17 @@ class MonitoringAdmin(VersionAdmin, GuardedModelAdmin):
         "notify_alert",
         "domain",
     )
-    search_fields = ["name"]
+    search_fields = ["id", "name"]
     actions = None
+    ordering = [
+        "-id",
+    ]
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
