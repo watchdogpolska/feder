@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: main 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-03-29 16:31+0100\n"
-"PO-Revision-Date: 2024-03-29 16:32+0100\n"
+"PO-Revision-Date: 2024-05-09 12:40+0200\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -37,7 +37,7 @@ msgstr "Pytanie do LLM o monitoring"
 
 #: feder/llm_evaluation/admin.py:97 feder/llm_evaluation/models.py:365
 msgid "LLM Monthly Cost"
-msgstr "Miesięczny koszt LLM"
+msgstr "Koszty LLM miesięcznie"
 
 #: feder/llm_evaluation/admin.py:130
 msgid "LLM Monitoring Cost"
