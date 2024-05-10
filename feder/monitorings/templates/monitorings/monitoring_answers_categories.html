@@ -1,0 +1,36 @@
+{% extends 'monitorings/base_monitoring_detail.html' %}
+{% load i18n humanize bootstrap_pagination%}
+{% block content_object %}
+    {% include 'monitorings/_tabs.html' with tab='answers_categories' %}
+    <style>
+        .content-frame {
+            border: 1px solid darkgray; /* Black border */
+            background-color: white; /* White background */
+            padding: 10px; /* Optional: Add padding for content inside the div */
+        }
+    </style>
+    <h3 class="sr-only">{% trans "Answers categories" %}</h3>
+    <div class="gray">
+        {% for key, value in answers_categories.items %}
+            <h5><b>{% trans "Question number: " %}{{key}}</b></h5>
+            <div class="content-frame">
+                    {{value.question}}
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <h5><b>{% trans "Answes categories with prompt support instruction:"  %}</b></h5>
+                </div>
+                <div class="col-md-6 text-right">
+                    <a class="btn btn-default" href="{{ xlsx_url }}">
+                        {% trans 'Update answer categories' %}
+                    </a>
+                </div>
+            </div>
+            <div class="content-frame">
+                {{value.answer_categories}}
+            </div>
+            <br><br>
+        {% endfor %}
+    </div>
+
+{% endblock %}

@@ -615,6 +615,28 @@ class MonitoringResultsView(DetailView):
         return context
 
 
+class MonitoringAnswersCategoriesView(DetailView):
+    model = Monitoring
+    template_name_suffix = "_answers_categories"
+    select_related = ["user"]
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        qs = qs.for_user(self.request.user)
+        return qs
+
+    def get_context_data(self, **kwargs):
+        kwargs["url_extra_kwargs"] = {"slug": self.object.slug}
+        context = super().get_context_data(**kwargs)
+        context["voivodeship_table"] = mark_safe(
+            self.object.generate_voivodeship_table()
+        )
+        context["answers_categories"] = (
+            self.object.get_normalized_response_answers_categories_dict()
+        )
+        return context
+
+
 class MonitoringResponsesReportView(View):
     def get(self, request, slug):
         monitoring = Monitoring.objects.filter(slug=slug)
