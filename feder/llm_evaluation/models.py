@@ -363,6 +363,7 @@ class LlmMonthlyCost(TimeStampedModel):
 
     class Meta:
         verbose_name = _("LLM Monthly Cost")
+        verbose_name_plural = _("LLM Monthly Cost")
 
     @classmethod
     def get_costs_dict(cls):
