@@ -22,16 +22,19 @@
             <div class="content-frame">
                     {{value.question}}
             </div>
-            <div class="row">
+            <div class="row" style="display: flex; align-items: flex-end;">
                 <div class="col-md-6">
                     <h5><b>{% trans "Answes categories with prompt support instruction:"  %}</b></h5>
+                </div>
+                <div class="col-md-6">
+                    {% trans "Updated: " %}{{value.update_time|slice:":19"}}
                 </div>
             </div>
             <form class="message-form" method="post">
                 {%csrf_token%}
                 <div class="input-group">
                     <input type="hidden" id="{{key|spaces_to_underscores}}" 
-                        name="question" value="{{key}}">
+                        name="question_number" value="{{key}}">
                     <textarea id="{{key|spaces_to_underscores}}" type="text"
                         name="answer_categories" class="form-control message-input" 
                         placeholder="{% trans 'Type your answer categories' %}..."
