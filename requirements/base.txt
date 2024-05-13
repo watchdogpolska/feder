@@ -95,4 +95,4 @@ langchain==0.1.19
 #langchain[llms]==0.1.5
 openai==1.28.0
 langchain-openai==0.1.6
-tiktoken==0.6.0
+tiktoken==0.7.0
