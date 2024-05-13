@@ -633,6 +633,13 @@ class MonitoringAnswersCategoriesView(DetailView):
         )
         return context
 
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.set_answer_categories_for_question(
+            request.POST["question"], request.POST["answer_categories"]
+        )
+        return self.get(request, *args, **kwargs)
+
 
 class MonitoringResponsesReportView(View):
     def get(self, request, slug):

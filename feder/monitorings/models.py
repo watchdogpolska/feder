@@ -367,6 +367,14 @@ class Monitoring(RenderBooleanFieldMixin, TimeStampedModel):
         self.refresh_normalized_response_answers_categories()
         return validate_json(self.normalized_response_answers_categories)
 
+    def set_answer_categories_for_question(self, question, answer_categories):
+        nr_answers_categories = self.get_normalized_response_answers_categories_dict()
+        nr_answers_categories[question]["answer_categories"] = answer_categories
+        self.normalized_response_answers_categories = json.dumps(
+            nr_answers_categories, indent=4
+        )
+        self.save()
+
 
 class MonitoringUserObjectPermission(UserObjectPermissionBase):
     content_object = models.ForeignKey(Monitoring, on_delete=models.PROTECT)
