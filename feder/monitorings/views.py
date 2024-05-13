@@ -686,49 +686,6 @@ class MonitoringResponsesReportView(View):
         return wb
 
 
-class MonitoringChatView(DetailView):
-    model = Monitoring
-    template_name_suffix = "_chat"
-    select_related = ["user"]
-
-    def get_queryset(self):
-        qs = super().get_queryset()
-        qs = qs.for_user(self.request.user)
-        return qs
-
-    def get_context_data(self, **kwargs):
-        kwargs["url_extra_kwargs"] = {"slug": self.object.slug}
-        context = super().get_context_data(**kwargs)
-        context["voivodeship_table"] = mark_safe(
-            self.object.generate_voivodeship_table()
-        )
-        context["chats"] = [
-            {
-                "message": llm_monitoring_request.request_prompt,
-                "response": llm_monitoring_request.response,
-            }
-            for llm_monitoring_request in LlmMonitoringRequest.objects.filter(
-                evaluated_monitoring=self.object, chat_request=True
-            ).order_by("created")
-        ]
-        context["chat_post_url"] = reverse(
-            "monitorings:chat",
-            kwargs={"slug": self.kwargs.get("slug")},
-        )
-        return context
-
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        if request.POST.get("message"):
-            chat_question = request.POST.get("message")
-            response_data = {
-                "response": LlmMonitoringRequest.get_monitoring_chat_response(
-                    monitoring=self.object, chat_question=chat_question
-                ),
-            }
-            return JsonResponse(response_data)
-
-
 class MonitoringCreateView(
     LoginRequiredMixin,
     PermissionRequiredMixin,
