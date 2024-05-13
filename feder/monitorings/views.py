@@ -18,7 +18,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.syndication.views import Feed
 from django.core.exceptions import PermissionDenied
 from django.db.models import Count, Q
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.template.defaultfilters import linebreaksbr
 from django.urls import reverse, reverse_lazy
@@ -56,10 +56,7 @@ from feder.letters.logs.models import STATUS
 from feder.letters.models import Letter
 from feder.letters.utils import is_formatted_html, text_to_html
 from feder.letters.views import LetterCommonMixin
-from feder.llm_evaluation.tasks import (
-    LlmMonitoringRequest,
-    get_monitoring_normalized_response_template,
-)
+from feder.llm_evaluation.tasks import get_monitoring_normalized_response_template
 from feder.main.mixins import ExtraListMixin, RaisePermissionRequiredMixin
 from feder.main.utils import DeleteViewLogEntryMixin, FormValidLogEntryMixin
 
