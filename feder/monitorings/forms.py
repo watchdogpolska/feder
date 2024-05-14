@@ -33,10 +33,25 @@ class MonitoringForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm
         if self.instance.template and not is_formatted_html(self.instance.template):
             self.initial["template"] = mark_safe(text_to_html(self.instance.template))
         self.instance.user = self.user
+        if not self.instance.use_llm:
+            self.fields["use_llm"].help_text = _(
+                "Before enabling, make sure that the content of the application will no"
+                + " longer be changed. You can always go back to edit and enable later."
+            )
         if not self.user.is_superuser:
             del self.fields["use_llm"]
         self.fields["template"].initial = BODY_REPLY_TPL
         self.fields["template"].widget = TinyMCE(attrs={"cols": 80, "rows": 20})
+        if self.instance.use_llm:
+            self.fields["template"].help_text = _(
+                "Use {{EMAIL}} for insert reply address. \n"
+                + "NOTE: LLM use is enabled. This means that any interference with the"
+                + " application template may significantly disturb the credibility of"
+                + " the results. If applications have already been sent to some"
+                + " institutions during this monitoring period and you still need to"
+                + " change the application template, consider setting up a new"
+                + " monitoring query."
+            )
         self.fields["email_footer"].widget = TinyMCE(attrs={"cols": 80, "rows": 5})
         self.helper.layout = Layout(
             Row(
