@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: main 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-29 16:31+0100\n"
+"POT-Creation-Date: 2024-05-14 14:58+0200\n"
 "PO-Revision-Date: 2024-05-09 12:40+0200\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -15,15 +15,16 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 2.4.1\n"
 "X-Translated-Using: django-rosetta 0.10.0\n"
 
-#: config/settings/common.py:178
+#: config/settings/common.py:179
 msgid "Polish"
 msgstr "Polski"
 
-#: config/settings/common.py:178
+#: config/settings/common.py:179
 msgid "English"
 msgstr "Angielski"
 
@@ -36,6 +37,7 @@ msgid "LLM Monitoring Request"
 msgstr "Pytanie do LLM o monitoring"
 
 #: feder/llm_evaluation/admin.py:97 feder/llm_evaluation/models.py:365
+#: feder/llm_evaluation/models.py:366
 msgid "LLM Monthly Cost"
 msgstr "Koszty LLM miesięcznie"
 
@@ -64,7 +66,7 @@ msgid "Failed"
 msgstr "Niepowodzenie"
 
 #: feder/llm_evaluation/models.py:45 feder/llm_evaluation/models.py:360
-#: feder/llm_evaluation/models.py:429
+#: feder/llm_evaluation/models.py:430
 msgid "LLM Engine name"
 msgstr "Nazwa silnika LLM"
 
@@ -96,38 +98,37 @@ msgstr "Zapytanie czatu"
 msgid "Month"
 msgstr "Miesiąc"
 
-#: feder/llm_evaluation/models.py:362 feder/llm_evaluation/models.py:431
+#: feder/llm_evaluation/models.py:362 feder/llm_evaluation/models.py:432
 msgid "Cost"
 msgstr "Koszt"
 
-#: feder/llm_evaluation/models.py:424
+#: feder/llm_evaluation/models.py:425
 msgid "Monitoring ID"
 msgstr "Id Monitoringu"
 
-#: feder/llm_evaluation/models.py:426
+#: feder/llm_evaluation/models.py:427
 msgid "Monitoring Name"
 msgstr "Nazwa Monitoringu"
 
-#: feder/llm_evaluation/models.py:434
+#: feder/llm_evaluation/models.py:435
 msgid "LLM Cost Per Monitoring"
 msgstr "Koszt LLM per Monitoring"
 
-#: feder/llm_evaluation/models.py:435
+#: feder/llm_evaluation/models.py:436
 msgid "LLM Costs Per Monitoring"
 msgstr "Koszty LLM per Monitoring"
 
-#: feder/llm_evaluation/tasks.py:28
+#: feder/llm_evaluation/tasks.py:30
 msgid "AI categorisation skipped for spam or probable spam."
 msgstr ""
 "Kategoryzacja AI została pominięta dla spamu lub prawdopodobnego spamu."
 
-#: feder/llm_evaluation/tasks.py:35
+#: feder/llm_evaluation/tasks.py:37
 msgid "AI categorisation skipped for auto reply letter."
 msgstr ""
 "Kategoryzacja AI została pominięta dla listu z automatyczną odpowiedzią."
 
-#: feder/llm_evaluation/tasks.py:56
-#| msgid "AI categorisation skipped for auto reply letter."
+#: feder/llm_evaluation/tasks.py:57
 msgid ""
 "AI categorisation skipped for letter with the same content as already "
 "evaluated letter: "
@@ -281,12 +282,11 @@ msgstr "Uwaga:"
 #: feder/main/templates/account/email.html:58
 msgid ""
 "You currently do not have any e-mail address set up. You should really add "
-"an e-mail address so you can receive notifications, reset your password, "
-"etc."
+"an e-mail address so you can receive notifications, reset your password, etc."
 msgstr ""
 "Aktualnie nie posiadasz przypisanych do twojego konta adresów e-mail. "
-"Powinieneś je dodać, aby otrzymywać informacje administracyjne, wiadomości o"
-" zmianie hasła, itd."
+"Powinieneś je dodać, aby otrzymywać informacje administracyjne, wiadomości o "
+"zmianie hasła, itd."
 
 #: feder/main/templates/account/email.html:66
 msgid "Add E-mail Address"
@@ -311,7 +311,8 @@ msgstr "Potwierdź adres e-mail"
 #, python-format
 msgid ""
 "Please confirm that\n"
-"                        <a href=\"mailto:%(email)s\">%(email)s</a> is an e-mail address for user %(user_display)s\n"
+"                        <a href=\"mailto:%(email)s\">%(email)s</a> is an e-"
+"mail address for user %(user_display)s\n"
 "                        ."
 msgstr ""
 "Proszę potwierdź, że adres <a href=\"mailto:%(email)s\">%(email)s</a> jest "
@@ -325,7 +326,8 @@ msgstr "Potwierdź"
 #, python-format
 msgid ""
 "This e-mail confirmation link expired or is invalid. Please\n"
-"                        <a href=\"%(email_url)s\">issue a new e-mail confirmation request</a>."
+"                        <a href=\"%(email_url)s\">issue a new e-mail "
+"confirmation request</a>."
 msgstr ""
 "Łącze z adresem do zresetowania hasła wygasło lub jest niepoprawne. "
 "Powinieneś <a href=\"%(email_url)s\">wygenerować nowe łącze dla Twojego "
@@ -335,7 +337,8 @@ msgstr ""
 #, python-format
 msgid ""
 "You have confirmed that\n"
-"                    <a href=\"mailto:%(email)s\">%(email)s</a> is an e-mail address for user %(user_display)s\n"
+"                    <a href=\"mailto:%(email)s\">%(email)s</a> is an e-mail "
+"address for user %(user_display)s\n"
 "                    ."
 msgstr ""
 "Potwierdziłeś, że adres <a href=\"mailto:%(email)s\">%(email)s</a> jest "
@@ -357,7 +360,8 @@ msgid ""
 "                        or <a href=\"%(signup_url)s\">sign&nbsp;up</a>\n"
 "                        for an account and sign in below."
 msgstr ""
-"Proszę zaloguj się za pomocą konta Google, lub <a href=\"%(signup_url)s\">zarejestruj się</a> \n"
+"Proszę zaloguj się za pomocą konta Google, lub <a "
+"href=\"%(signup_url)s\">zarejestruj się</a> \n"
 "na stronie i zaloguj poniżej."
 
 #: feder/main/templates/account/login.html:23
@@ -406,8 +410,8 @@ msgstr "Resetowanie hasła"
 
 #: feder/main/templates/account/password_reset.html:19
 msgid ""
-"Forgotten your password? Enter your e-mail address below, and we'll send you"
-" an e-mail allowing you to reset it."
+"Forgotten your password? Enter your e-mail address below, and we'll send you "
+"an e-mail allowing you to reset it."
 msgstr ""
 "Zapomniałeś swojego hasła? Wpisz swój adres e-mail poniżej, a my wyślemy "
 "Tobie wiadomość, dzięki której dokonasz jego zmiany."
@@ -425,7 +429,8 @@ msgstr ""
 
 #: feder/main/templates/account/password_reset_done.html:18
 msgid ""
-"We have sent you an e-mail. Please contact us if you do not receive it within a few\n"
+"We have sent you an e-mail. Please contact us if you do not receive it "
+"within a few\n"
 "                    minutes."
 msgstr ""
 "Wysłaliśmy Tobie e-mail. Proszę skontaktuj się z nami, jeśli go nie "
@@ -438,8 +443,10 @@ msgstr "Zły klucz"
 #: feder/main/templates/account/password_reset_from_key.html:16
 #, python-format
 msgid ""
-"The password reset link was invalid, possibly because it has already been used.\n"
-"                        Please request a <a href=\"%(passwd_reset_url)s\">new password reset</a>."
+"The password reset link was invalid, possibly because it has already been "
+"used.\n"
+"                        Please request a <a "
+"href=\"%(passwd_reset_url)s\">new password reset</a>."
 msgstr ""
 "Łącze resetujące hasło jest niepoprawne, prawdopodobnie już go użyłeś.  <a "
 "href=\"%(passwd_reset_url)s\">Zresetuj hasło jeszcze raz.</a>."
@@ -473,7 +480,8 @@ msgstr "Zarejestuj się"
 msgid ""
 "Already have an account? Then please <a href=\"%(login_url)s\">sign in</a>\n"
 "            ."
-msgstr "Masz już konto? Jeżeli tak, to <a href=\"%(login_url)s\">zaloguj się</a>."
+msgstr ""
+"Masz już konto? Jeżeli tak, to <a href=\"%(login_url)s\">zaloguj się</a>."
 
 #: feder/main/templates/account/signup.html:25
 msgid "Sign Up through social media"
@@ -505,18 +513,20 @@ msgstr "Zweryfikuj swój adres e-mail"
 #, python-format
 msgid ""
 "We have sent an e-mail to <a href=\"mailto:%(email)s\">%(email)s</a> for\n"
-"                    verification. Follow the link provided to finalize the signup process. Please contact us if you do\n"
+"                    verification. Follow the link provided to finalize the "
+"signup process. Please contact us if you do\n"
 "                    not receive it within a few minutes."
 msgstr ""
-"Przesłaliśmy weryfikacyjny e-mail na adres <a "
-"href=\"mailto:%(email)s\">%(email)s</a>. Kliknij w łącze w wiadomości, aby "
-"zakończyć proces rejestracji. Skontaktuj się z nami, jeśli nie otrzymasz jej"
-" w ciągu kilku minut."
+"Przesłaliśmy weryfikacyjny e-mail na adres <a href=\"mailto:"
+"%(email)s\">%(email)s</a>. Kliknij w łącze w wiadomości, aby zakończyć "
+"proces rejestracji. Skontaktuj się z nami, jeśli nie otrzymasz jej w ciągu "
+"kilku minut."
 
 #: feder/main/templates/account/verified_email_required.html:15
 msgid ""
 "This part of the site requires us to verify that\n"
-"                    you are who you claim to be. For this purpose, we require that you\n"
+"                    you are who you claim to be. For this purpose, we "
+"require that you\n"
 "                    verify ownership of your e-mail address. "
 msgstr ""
 "Ta część strony wymaga weryfikacji tego, kim jesteś. Dlatego wymagamy "
@@ -525,11 +535,13 @@ msgstr ""
 #: feder/main/templates/account/verified_email_required.html:19
 msgid ""
 "We have sent an e-mail to you for\n"
-"                    verification. Please click on the link inside this e-mail. Please\n"
+"                    verification. Please click on the link inside this e-"
+"mail. Please\n"
 "                    contact us if you do not receive it within a few minutes."
 msgstr ""
 "Wysłaliśmy Tobie wiadomość e-mail.\n"
-"W celu weryfikacji musisz kliknąć w łącze zawarte w wiadomości. Proszę skontaktuj się z nami, jeśli jej nie otrzymałeś w ciągu paru minut."
+"W celu weryfikacji musisz kliknąć w łącze zawarte w wiadomości. Proszę "
+"skontaktuj się z nami, jeśli jej nie otrzymałeś w ciągu paru minut."
 
 #: feder/main/templates/account/verified_email_required.html:23
 #, python-format
@@ -537,8 +549,8 @@ msgid ""
 "<strong>Note:</strong> you can still\n"
 "                    <a href=\"%(email_url)s\">change your e-mail address</a>."
 msgstr ""
-"<strong>Uwaga:</strong> możesz ciągle <a href=\"%(email_url)s\">zmienić swój"
-" adres e-mail</a>."
+"<strong>Uwaga:</strong> możesz ciągle <a href=\"%(email_url)s\">zmienić swój "
+"adres e-mail</a>."
 
 #: feder/main/templates/base.html:103
 msgid "This site uses cookies."
@@ -610,7 +622,8 @@ msgstr "Dodaj konto zewnętrzne"
 #: feder/main/templates/tinycontent/tinycontent.html:6
 #, python-format
 msgid "(<a href=\"%(edit_url)s\" title=\"Edit this content block\">Edit</a>)"
-msgstr "(<a href=\"%(edit_url)s\" title=\"Edytuj ten blok kontentu\">Edytuj</a>)"
+msgstr ""
+"(<a href=\"%(edit_url)s\" title=\"Edytuj ten blok kontentu\">Edytuj</a>)"
 
 #: feder/main/templates/tinycontent/tinycontent_add.html:4
 #, python-format
@@ -872,7 +885,8 @@ msgstr "Wpisy"
 #~ msgid "Social media assist"
 #~ msgstr "Wsparcie mediów społecznościowcyh"
 
-#~ msgid "If you want to speed up your registration - you can use social media."
+#~ msgid ""
+#~ "If you want to speed up your registration - you can use social media."
 #~ msgstr ""
 #~ "Jeżeli chcesz przyspieszyć rejestracje - możesz użyć konta "
 #~ "społecznościowego."
@@ -1006,11 +1020,11 @@ msgstr "Wpisy"
 #~ msgstr "Konta społecznościowe"
 
 #~ msgid ""
-#~ "An account already exists with this e-mail address. Please sign in to that "
-#~ "account first, then connect your %s account."
+#~ "An account already exists with this e-mail address. Please sign in to "
+#~ "that account first, then connect your %s account."
 #~ msgstr ""
-#~ "Istnieje już konto dla tego adresu e-mail. Zaloguj się wpierw na to konto, a"
-#~ " następnie połącz swoje konto %s."
+#~ "Istnieje już konto dla tego adresu e-mail. Zaloguj się wpierw na to "
+#~ "konto, a następnie połącz swoje konto %s."
 
 #~ msgid "provider"
 #~ msgstr "dostawca usług"
@@ -1101,11 +1115,14 @@ msgstr "Wpisy"
 #~ msgid ""
 #~ "Hello from %(site_name)s!\n"
 #~ "\n"
-#~ "You're receiving this e-mail because user %(user_display)s at %(site_domain)s has given yours as an e-mail address to connect their account.\n"
+#~ "You're receiving this e-mail because user %(user_display)s at "
+#~ "%(site_domain)s has given yours as an e-mail address to connect their "
+#~ "account.\n"
 #~ "\n"
 #~ "To confirm this is correct, go to %(activate_url)s\n"
 #~ msgstr ""
-#~ "Użytkownik %(user_display)s na %(site_name)s podał ten adres podczas rejestracji.\n"
+#~ "Użytkownik %(user_display)s na %(site_name)s podał ten adres podczas "
+#~ "rejestracji.\n"
 #~ "\n"
 #~ "Jeżeli to prawda. Kliknij, aby go aktywować %(activate_url)s \n"
 
@@ -1117,11 +1134,15 @@ msgstr "Wpisy"
 #~ msgid ""
 #~ "Hello from %(site_name)s!\n"
 #~ "\n"
-#~ "You're receiving this e-mail because you or someone else has requested a password for your user account at %(site_domain)s.\n"
-#~ "It can be safely ignored if you did not request a password reset. Click the link below to reset your password."
+#~ "You're receiving this e-mail because you or someone else has requested a "
+#~ "password for your user account at %(site_domain)s.\n"
+#~ "It can be safely ignored if you did not request a password reset. Click "
+#~ "the link below to reset your password."
 #~ msgstr ""
-#~ "Dostałeś tę wiadomość ponieważ Ty lub ktoś inny zażądał zmiany hasła do konta użytkownika na stronie %(site_domain)s.\n"
-#~ "Jeżeli to nie byłeś Ty, zignoruj tę wiadomość. Kliknij w łącze poniżej jeżeli chcesz zresetować hasło."
+#~ "Dostałeś tę wiadomość ponieważ Ty lub ktoś inny zażądał zmiany hasła do "
+#~ "konta użytkownika na stronie %(site_domain)s.\n"
+#~ "Jeżeli to nie byłeś Ty, zignoruj tę wiadomość. Kliknij w łącze poniżej "
+#~ "jeżeli chcesz zresetować hasło."
 
 #~ msgid "In case you forgot, your username is %(username)s."
 #~ msgstr "Gdybyś zapomniał, Twoja nazwa użytkownika to %(username)s."
@@ -1172,7 +1193,8 @@ msgstr "Wpisy"
 #~ msgstr "Błędne logowanie z konta społecznościowego"
 
 #~ msgid ""
-#~ "An error occurred while attempting to login via your social network account."
+#~ "An error occurred while attempting to login via your social network "
+#~ "account."
 #~ msgstr ""
 #~ "Wystąpił błąd podczas próby logowania za pomocą konta społecznościowego"
 
@@ -1184,8 +1206,9 @@ msgstr "Wpisy"
 #~ "accounts. If this was a mistake, please proceed to <a "
 #~ "href=\"%(login_url)s\">sign in</a>."
 #~ msgstr ""
-#~ "Zdecydowałeś się anulować logowanie przez jedno z istniejących kont. Jeżeli "
-#~ "to była pomyłka, proszę przejdź do <a href=\"%(login_url)s\">zaloguj</a>."
+#~ "Zdecydowałeś się anulować logowanie przez jedno z istniejących kont. "
+#~ "Jeżeli to była pomyłka, proszę przejdź do <a "
+#~ "href=\"%(login_url)s\">zaloguj</a>."
 
 #~ msgid "The social account has been connected."
 #~ msgstr "Konto społecznościowe zostało połączone."
@@ -1229,7 +1252,8 @@ msgstr "Wpisy"
 #~ msgstr "Skasuj hasło"
 
 #~ msgid ""
-#~ "You may delete your password since you are currently logged in using OpenID."
+#~ "You may delete your password since you are currently logged in using "
+#~ "OpenID."
 #~ msgstr "Możesz skasować swoje hasło jeśli używasz OpenID."
 
 #~ msgid "delete my password"
