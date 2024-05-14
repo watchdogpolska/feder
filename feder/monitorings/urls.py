@@ -88,6 +88,11 @@ urlpatterns = [
         name="answers-categories",
     ),
     re_path(
+        r"^(?P<slug>[\w-]+)/answer-categories-prompt",
+        views.MonitoringAnswerCategoriesPromptView.as_view(),
+        name="answer-categories-prompt",
+    ),
+    re_path(
         r"^(?P<slug>[\w-]+)/responses-report",
         views.MonitoringResponsesReportView.as_view(),
         name="responses_report",

@@ -18,7 +18,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.syndication.views import Feed
 from django.core.exceptions import PermissionDenied
 from django.db.models import Count, Q
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.template.defaultfilters import linebreaksbr
 from django.urls import reverse, reverse_lazy
@@ -639,6 +639,25 @@ class MonitoringAnswersCategoriesView(DetailView):
             request.POST["question_number"], request.POST["answer_categories"]
         )
         return self.get(request, *args, **kwargs)
+
+
+class MonitoringAnswerCategoriesPromptView(DetailView):
+    model = Monitoring
+    select_related = ["user"]
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        qs = qs.for_user(self.request.user)
+        return qs
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        resp = {
+            "prompt_sample": self.object.get_answer_categorization_prompt_sample(
+                request.GET.get("question_number", "")
+            )
+        }
+        return JsonResponse(resp)
 
 
 class MonitoringResponsesReportView(View):
