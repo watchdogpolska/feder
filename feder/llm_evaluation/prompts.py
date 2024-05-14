@@ -131,3 +131,25 @@ monitoring_response_normalized_template = PromptTemplate.from_template(
     """,
     template_format="f-string",
 )
+
+answer_categorization = PromptTemplate.from_template(
+    """
+    Oceń odpowiedź z {institution} udzieloną do pytanie, przypisując ją do jednej z
+    kategorii z listy poniżej wybierając odpowiednią literę wraz z opisem, nie dodając
+    żadnych innych komentarzy. Przy ocenie weź pod uwagę tylko zrozumiały tekst w
+    języku Polskim.
+    Pytanie zadane {institution}:
+    ```
+    {question}
+    ```.
+    Odpowiedź udzielona na powyższe pytanie przez {institution}:
+    ```
+    {answer}
+    ```.
+    Lista kategorii odpowiedzi:
+    ```
+    {answer_categories}
+    ```
+    """,
+    template_format="f-string",
+)

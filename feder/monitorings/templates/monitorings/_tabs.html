@@ -28,4 +28,11 @@
             href="{% url 'monitorings:results' slug=object.slug %}"
         {% endif %}
         >{% trans 'Results' %}</a></li>
+        {% if user.is_superuser and object.use_llm and object.normalized_response_template %}
+            <li{% if tab == 'answers_categories' %} class="active"{% endif %}><a
+            {% if tab != 'answers_categories' %}
+                href="{% url 'monitorings:answers-categories' slug=object.slug %}"
+            {% endif %}
+            >{% trans 'Answers categories' %}</a></li>
+        {% endif %}
     </ul>
