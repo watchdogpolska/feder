@@ -14,7 +14,7 @@ from jsonfield import JSONField
 from model_utils.models import TimeStampedModel
 
 from feder.domains.models import Domain
-from feder.llm_evaluation.prompts import EMAIL_IS_ANSWER
+from feder.llm_evaluation.prompts import EMAIL_IS_ANSWER, answer_categorization
 from feder.main.utils import (
     FormattedDatetimeMixin,
     RenderBooleanFieldMixin,
@@ -377,6 +377,32 @@ class Monitoring(RenderBooleanFieldMixin, TimeStampedModel):
             nr_answers_categories, indent=4
         )
         self.save()
+
+    def get_answer_categorization_prompt_sample(self, question_number):
+        answers_categorization_dict = (
+            self.get_normalized_response_answers_categories_dict()
+        )
+        if question_number in answers_categorization_dict:
+            question_text = answers_categorization_dict[question_number]["question"]
+            answer_categories = answers_categorization_dict[question_number][
+                "answer_categories"
+            ]
+            if not answer_categories:
+                return (
+                    "Kategorie odpowiedzi nie zostały zdefiniowane,"
+                    + " zapytanie LLM o kategorie odpowiedzi nie zostanie wysłane."
+                )
+            return answer_categorization.format(
+                institution="INSTITUTION",
+                question=question_text,
+                answer="ODPOWIEDŹ Z INSTYTUCJI",
+                answer_categories=answer_categories,
+            ).replace("    ", "")
+        else:
+            return (
+                f'Brak pytania "{question_number}", zapytanie LLM o kategorie'
+                + " odpowiedzi nie zostanie wysłane."
+            )
 
 
 class MonitoringUserObjectPermission(UserObjectPermissionBase):

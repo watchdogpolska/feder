@@ -14,9 +14,64 @@
         .btn-send {
             display: none;
         }
+        .help-text {
+            font-size: 1.1em;
+            color: #888;
+        }
+        #showPromptPopup {
+            display: none;
+            position: fixed;
+            top: 30%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 100px;
+            color: rgb(0, 0, 0);
+            background-color: #e0e5aa;
+            border: 1px solid #000000;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            white-space: normal;
+            /* justify-content: center; */
+            /* align-items: center; */
+            /* flex-direction: column; */
+            text-align: center;
+            overflow: "auto";
+            max-height: "90vh";
+            max-width: "90vw";
+        }
+        #showPromptPopup a {
+            color: white;
+        }
+        #showPromptPopup button {
+            color: white;
+        }
+        #showPromptPopup input[type="radio"] {
+            float: left;
+        }
+        #showPromptPopup .content-frame {
+            float: left;
+            text-align: left;
+            font-size: 1em;
+            font-weight: normal;
+            word-wrap: break-word;
+            max-width: 100%;
+        }
     </style>
     <h3 class="sr-only">{% trans "Answers categories" %}</h3>
     <div class="gray">
+        <p class="help-text">
+            <b>{% trans "Attention:"  %}</b><br>
+            {% blocktrans %}
+            Please make a clear list of categories using letter bullet points like <br>
+            a)...<br>
+            b)...<br>
+            You can add additional prompt instruction after the list.
+            <br>
+            <br>
+            <br>
+            {% endblocktrans %}        
+        </p>
+        
         {% for key, value in answers_categories.items %}
             <h4><b>{% trans "Question number: " %}{{key}}</b></h4>
             <div class="content-frame">
@@ -26,8 +81,15 @@
                 <div class="col-md-6">
                     <h5><b>{% trans "Answes categories with prompt support instruction:"  %}</b></h5>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                     {% trans "Updated: " %}{{value.update_time|slice:":19"}}
+                </div>
+                <div class="col-md-1">
+                    <a class="btn btn-default showPromptButton"
+                    id="showPromptButton-{{ key|urlencode }}"
+                    href="{% url 'monitorings:answer-categories-prompt' slug=object.slug %}?question_number={{ key|urlencode }}">
+                        {% trans 'Show prompt' %}
+                    </a>
                 </div>
             </div>
             <form class="message-form" method="post">
@@ -47,6 +109,26 @@
             </form>
             <br><br>
         {% endfor %}
+    </div>
+
+    <div id="modalBackdrop" style="display: none; position: fixed; width: 100%; height: 100%; 
+        top: 0; left: 0; background-color: rgba(0,0,0,0.5); z-index: 9999;">
+        </div>
+
+
+    <div id="showPromptPopup" style="display: none; z-index: 10000;">
+        <div class="row">
+            <h4><b>{% trans 'Prompt example:' %}</b></h4>
+        </div>
+        <div class="row">
+            <div class="content-frame">
+                <p id="promptSample"></p>
+            </div>
+        </div>
+        <div class="row">
+            <br>
+            <button class="btn btn-primary">{% trans 'Close' %}</button>
+        </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/autosize.js/4.0.2/autosize.min.js"></script>
@@ -74,6 +156,31 @@
                 });
             });
         });
-    </script>
+
+        document.querySelectorAll('.showPromptButton').forEach(function(button) {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                var url = this.href;
+                fetch(url)
+                .then(response => response.json())  // parse the JSON from the server
+                .then(data => {
+                    // Update the popup with the received data
+                    document.getElementById('promptSample').innerHTML = data.prompt_sample.replace(/\n/g, '<br>');
+                    var showPromptPopup = document.getElementById('showPromptPopup');
+                    if (showPromptPopup.style.display === 'none') {
+                        showPromptPopup.style.display = 'block';
+                        modalBackdrop.style.display = 'block';
+                    } else {
+                        showPromptPopup.style.display = 'none';
+                        modalBackdrop.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        document.querySelector('#showPromptPopup .btn-primary').addEventListener('click', function() {
+            document.getElementById('showPromptPopup').style.display = 'none';
+            document.getElementById('modalBackdrop').style.display = 'none';
+        });
     </script>
 {% endblock %}
