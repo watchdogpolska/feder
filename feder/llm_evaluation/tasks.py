@@ -106,6 +106,29 @@ def update_letter_normalized_answers(letter_pk):
 
 
 @background(schedule=120)
+def categorize_letter_monitoring_answer(letter_pk, question_number):
+    from feder.letters.models import Letter
+
+    letter = Letter.objects.filter(pk=letter_pk).first()
+
+    if not letter:
+        logger.warning(f"Letter with pk={letter_pk} not found.")
+        return
+
+    if EMAIL_IS_ANSWER in letter.ai_evaluation:
+        LlmLetterRequest.categorize_answer(letter, question_number)
+        logger.info(
+            f'Letter with pk={letter_pk} answer to question "{question_number}"'
+            + " categorized."
+        )
+    else:
+        logger.info(
+            f"Letter with pk={letter_pk} is not a response - "
+            + f'skipping question "{question_number}" categorization.'
+        )
+
+
+@background(schedule=120)
 def get_monitoring_normalized_response_template(monitoring_pk):
     from feder.monitorings.models import Monitoring
 

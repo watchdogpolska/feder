@@ -132,6 +132,10 @@ monitoring_response_normalized_template = PromptTemplate.from_template(
     template_format="f-string",
 )
 
+NORMALIZED_RESPONSE_QUESTION_KEY = "Pytanie"
+NORMALIZED_RESPONSE_ANSWER_KEY = "Odpowiedź"
+NORMALIZED_RESPONSE_ANSWER_CATEGORY_KEY = "Kategoria odpowiedzi"
+
 answer_categorization = PromptTemplate.from_template(
     """
     Oceń odpowiedź z {institution} udzieloną na pytanie, przypisując ją do jednej z

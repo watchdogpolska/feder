@@ -378,6 +378,17 @@ class Monitoring(RenderBooleanFieldMixin, TimeStampedModel):
         )
         self.save()
 
+    def get_answer_categories_for_question(self, question_number):
+        answers_categorization_dict = (
+            self.get_normalized_response_answers_categories_dict()
+        )
+        if question_number in answers_categorization_dict:
+            answer_categories = answers_categorization_dict[question_number][
+                "answer_categories"
+            ]
+            return answer_categories
+        return ""
+
     def get_answer_categorization_prompt_sample(self, question_number):
         answers_categorization_dict = (
             self.get_normalized_response_answers_categories_dict()
