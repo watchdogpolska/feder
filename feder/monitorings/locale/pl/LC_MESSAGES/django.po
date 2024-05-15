@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-monitorings 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-15 10:14+0200\n"
-"PO-Revision-Date: 2024-05-15 10:20+0200\n"
+"POT-Creation-Date: 2024-05-15 14:54+0200\n"
+"PO-Revision-Date: 2024-05-15 14:55+0200\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -297,7 +297,7 @@ msgstr "Może usuwać tagi"
 msgid "Can view report"
 msgstr "Może widzieć raport"
 
-#: feder/monitorings/models.py:392
+#: feder/monitorings/models.py:403
 msgid ""
 "Response categories have not been defined, so the LLM request for response "
 "categories will not be sent."
@@ -305,7 +305,7 @@ msgstr ""
 "Kategorie odpowiedzi nie zostały zdefiniowane, więc żądanie LLM dotyczące "
 "kategorii odpowiedzi nie zostanie wysłane."
 
-#: feder/monitorings/models.py:403
+#: feder/monitorings/models.py:414
 #, python-brace-format
 msgid ""
 "There is no question \"{question_number}\", so the LLM query for answer "
@@ -526,7 +526,7 @@ msgstr "Uwaga:"
 #: feder/monitorings/templates/monitorings/monitoring_answers_categories.html:64
 msgid ""
 "\n"
-"            Please make a clear list of answer categories using letter bullet points. \n"
+"            Please make a clear list of at least 2 answer categories using letter and \")\" bullet points.\n"
 "            You can add additional prompt instruction after the list and separator line \n"
 "            containing ``` like in the sample below:<br>\n"
 "            _______________________________________________________________________<br>\n"
@@ -538,7 +538,7 @@ msgid ""
 "            "
 msgstr ""
 "\n"
-"Proszę sporządzić przejrzystą listę kategorii odpowiedzi, używając wypunktowań literowych. Możesz dodać dodatkową instrukcję dla LLM po liście i linii separatora zawierającej ```, jak w poniższym przykładzie:<br>\n"
+"Proszę sporządzić przejrzystą listę co najmniej 2 kategorii odpowiedzi, używając wypunktowań literowych z \")\". Możesz dodać dodatkową instrukcję dla LLM po liście i linii separatora zawierającej ```, jak w poniższym przykładzie:<br>\n"
 "__________________________________________________________<br>\n"
 "a) Tak<br>\n"
 "b) Nie<br>\n"
@@ -577,6 +577,12 @@ msgstr "Przykład promptu LLM:"
 #: feder/monitorings/templates/monitorings/monitoring_answers_categories.html:134
 msgid "Close"
 msgstr "Zamknij"
+
+#: feder/monitorings/templates/monitorings/monitoring_answers_categories.html:214
+#| msgid "Answes categories with prompt support instruction:"
+msgid "Invalid answer categories - please follow instruction."
+msgstr ""
+"Nieprawidłowe kategorie odpowiedzi - zmień aby były  zgodne z instrukcją."
 
 #: feder/monitorings/templates/monitorings/monitoring_cases_table.html:66
 #: feder/monitorings/templates/monitorings/monitoring_report.html:46
