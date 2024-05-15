@@ -62,7 +62,7 @@
         <p class="help-text">
             <b>{% trans "Attention:"  %}</b><br>
             {% blocktrans %}
-            Please make a clear list of answer categories using letter bullet points. 
+            Please make a clear list of at least 2 answer categories using letter and ")" bullet points.
             You can add additional prompt instruction after the list and separator line 
             containing ``` like in the sample below:<br>
             _______________________________________________________________________<br>
@@ -185,6 +185,35 @@
         document.querySelector('#showPromptPopup .btn-primary').addEventListener('click', function() {
             document.getElementById('showPromptPopup').style.display = 'none';
             document.getElementById('modalBackdrop').style.display = 'none';
+        });
+
+        function validateAnswerCategories(answerCategories) {
+            if (!answerCategories) {
+                return true; // Empty string is allowed
+            }
+            var answerCategoryList = answerCategories.split("```")[0].split("\n");
+            if (answerCategoryList.length < 2) {
+                return false;
+            }
+            for (var i = 0; i < answerCategoryList.length; i++) {
+                var item = answerCategoryList[i].trim();
+                if (item === "" || item.match(/^[a-zA-Z0-9]\) .+/)) {
+                    continue;
+                }
+                return false;
+            }
+            return true;
+        }
+
+        buttons.forEach(function(button) {
+            button.addEventListener('click', function(event) {
+                var textareaId = this.id;
+                var textarea = document.querySelector(`textarea[id="${textareaId}"][name="answer_categories"]`);
+                if (!validateAnswerCategories(textarea.value)) {
+                    event.preventDefault();
+                    alert("{% trans 'Invalid answer categories - please follow instruction.' %}");
+                }
+            });
         });
     </script>
 {% endblock %}
