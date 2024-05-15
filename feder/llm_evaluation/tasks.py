@@ -106,7 +106,7 @@ def update_letter_normalized_answers(letter_pk):
 
 
 @background(schedule=120)
-def categorize_letter_monitoring_answer(letter_pk, question_number):
+def categorize_letter_answer_to_monitoring_question(letter_pk, question_number):
     from feder.letters.models import Letter
 
     letter = Letter.objects.filter(pk=letter_pk).first()
