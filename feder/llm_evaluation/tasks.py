@@ -129,6 +129,36 @@ def categorize_letter_answer_to_monitoring_question(letter_pk, question_number):
 
 
 @background(schedule=120)
+def update_letter_answers_to_monitoring_questions_categorization(monitoring_pk):
+    from feder.letters.models import Letter
+    from feder.monitorings.models import Monitoring
+
+    letters_to_categorize = (
+        Letter.objects.all()
+        .filter(record__case__monitoring__pk=monitoring_pk)
+        .filter(author_user__isnull=True)
+        .filter(ai_evaluation__contains=EMAIL_IS_ANSWER)
+    )
+
+    if not letters_to_categorize:
+        logger.warning(
+            f"No letters to categorize answers for monitoring with pk={monitoring_pk}."
+        )
+        return
+
+    monitoring = Monitoring.objects.filter(pk=monitoring_pk).first()
+    response_answers_categories_dict = (
+        monitoring.get_normalized_response_answers_categories_dict()
+    )
+    questions_to_categorize_list = [
+        k for k, v in response_answers_categories_dict.items() if v["answer_categories"]
+    ]
+    for letter in letters_to_categorize:
+        for question_number in questions_to_categorize_list:
+            categorize_letter_answer_to_monitoring_question(letter.pk, question_number)
+
+
+@background(schedule=120)
 def get_monitoring_normalized_response_template(monitoring_pk):
     from feder.monitorings.models import Monitoring
 
