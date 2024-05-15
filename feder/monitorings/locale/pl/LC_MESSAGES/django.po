@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-monitorings 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-14 14:58+0200\n"
-"PO-Revision-Date: 2024-05-14 15:08+0200\n"
+"POT-Creation-Date: 2024-05-15 10:14+0200\n"
+"PO-Revision-Date: 2024-05-15 10:20+0200\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -171,7 +171,6 @@ msgid "Normalized response template"
 msgstr "Znormalizowany szablon odpowiedzi"
 
 #: feder/monitorings/models.py:135
-#| msgid "Normalized response template"
 msgid "Normalized response answers categories"
 msgstr "Znormalizowane kategorie odpowiedzi"
 
@@ -297,6 +296,23 @@ msgstr "Może usuwać tagi"
 #: feder/monitorings/models.py:186
 msgid "Can view report"
 msgstr "Może widzieć raport"
+
+#: feder/monitorings/models.py:392
+msgid ""
+"Response categories have not been defined, so the LLM request for response "
+"categories will not be sent."
+msgstr ""
+"Kategorie odpowiedzi nie zostały zdefiniowane, więc żądanie LLM dotyczące "
+"kategorii odpowiedzi nie zostanie wysłane."
+
+#: feder/monitorings/models.py:403
+#, python-brace-format
+msgid ""
+"There is no question \"{question_number}\", so the LLM query for answer "
+"categories will not be sent."
+msgstr ""
+"Nie ma pytania \"{question_number}\", więc zapytanie LLM o kategorie "
+"odpowiedzi nie zostanie wysłane."
 
 #: feder/monitorings/serializers.py:40
 #: feder/monitorings/templates/monitorings/monitoring_report.html:86
@@ -510,61 +526,57 @@ msgstr "Uwaga:"
 #: feder/monitorings/templates/monitorings/monitoring_answers_categories.html:64
 msgid ""
 "\n"
-"            Please make a clear list of categories using letter bullet points like <br>\n"
-"            a)...<br>\n"
-"            b)...<br>\n"
-"            You can add additional prompt instruction after the list.\n"
-"            <br>\n"
-"            <br>\n"
-"            <br>\n"
+"            Please make a clear list of answer categories using letter bullet points. \n"
+"            You can add additional prompt instruction after the list and separator line \n"
+"            containing ``` like in the sample below:<br>\n"
+"            _______________________________________________________________________<br>\n"
+"            a) Yes<br>\n"
+"            b) No<br>\n"
+"            c) Not sure<br>\n"
+"            ```<br>\n"
+"            In case of any uncertainty, please please use \"c) Not sure\" as response.\n"
 "            "
 msgstr ""
 "\n"
-"Zrób przejrzystą listę kategorii, używając wypunktowań literowych, takich jak <br>\n"
-"a)... <br>\n"
-"b)... <br>\n"
-"Możesz dodać dodatkową instrukcję dla LLM po liście.\n"
-"<br>\n"
-"<br>\n"
-"<br>\n"
-"            <br>\n"
-"            <br>\n"
-"            <br>\n"
-"            "
+"Proszę sporządzić przejrzystą listę kategorii odpowiedzi, używając wypunktowań literowych. Możesz dodać dodatkową instrukcję dla LLM po liście i linii separatora zawierającej ```, jak w poniższym przykładzie:<br>\n"
+"__________________________________________________________<br>\n"
+"a) Tak<br>\n"
+"b) Nie<br>\n"
+"c) Nie jestem pewien<br>\n"
+"```<br>\n"
+"W przypadku jakichkolwiek wątpliwości użyj \"c) Nie jestem pewien” jako odpowiedzi."
 
-#: feder/monitorings/templates/monitorings/monitoring_answers_categories.html:76
-#| msgid "Questionaries"
+#: feder/monitorings/templates/monitorings/monitoring_answers_categories.html:80
 msgid "Question number: "
 msgstr "Numer pytania: "
 
-#: feder/monitorings/templates/monitorings/monitoring_answers_categories.html:82
+#: feder/monitorings/templates/monitorings/monitoring_answers_categories.html:86
 msgid "Answes categories with prompt support instruction:"
 msgstr "Kategorie odpowiedzi z dodatkową instrukcją dla LLM:"
 
-#: feder/monitorings/templates/monitorings/monitoring_answers_categories.html:85
-#| msgid "Update results"
+#: feder/monitorings/templates/monitorings/monitoring_answers_categories.html:89
 msgid "Updated: "
 msgstr "Aktualizowano: "
 
-#: feder/monitorings/templates/monitorings/monitoring_answers_categories.html:91
+#: feder/monitorings/templates/monitorings/monitoring_answers_categories.html:95
 msgid "Show prompt"
 msgstr "Pokaż prompt"
 
-#: feder/monitorings/templates/monitorings/monitoring_answers_categories.html:102
+#: feder/monitorings/templates/monitorings/monitoring_answers_categories.html:106
 msgid "Type your answer categories"
 msgstr "Wpisz kategorie odpowiedzi"
 
-#: feder/monitorings/templates/monitorings/monitoring_answers_categories.html:106
+#: feder/monitorings/templates/monitorings/monitoring_answers_categories.html:110
 msgid "Update answer categories"
 msgstr "Zaktualizuj kategorie odpowiedzi"
 
-#: feder/monitorings/templates/monitorings/monitoring_answers_categories.html:121
+#: feder/monitorings/templates/monitorings/monitoring_answers_categories.html:125
 msgid "Prompt example:"
 msgstr "Przykład promptu LLM:"
 
-#: feder/monitorings/templates/monitorings/monitoring_answers_categories.html:130
+#: feder/monitorings/templates/monitorings/monitoring_answers_categories.html:134
 msgid "Close"
-msgstr "Zamyknij"
+msgstr "Zamknij"
 
 #: feder/monitorings/templates/monitorings/monitoring_cases_table.html:66
 #: feder/monitorings/templates/monitorings/monitoring_report.html:46
@@ -930,6 +942,30 @@ msgstr "Ostatnie monitoringi"
 #: feder/monitorings/views.py:1103
 msgid "Updates on new monitorings on site"
 msgstr "Aktualizacje o nowych monitoringach na stronie"
+
+#~ msgid ""
+#~ "\n"
+#~ "            Please make a clear list of categories using letter bullet points like <br>\n"
+#~ "            a)...<br>\n"
+#~ "            b)...<br>\n"
+#~ "            You can add additional prompt instruction after the list.\n"
+#~ "            <br>\n"
+#~ "            <br>\n"
+#~ "            <br>\n"
+#~ "            "
+#~ msgstr ""
+#~ "\n"
+#~ "Zrób przejrzystą listę kategorii, używając wypunktowań literowych, takich jak <br>\n"
+#~ "a)... <br>\n"
+#~ "b)... <br>\n"
+#~ "Możesz dodać dodatkową instrukcję dla LLM po liście.\n"
+#~ "<br>\n"
+#~ "<br>\n"
+#~ "<br>\n"
+#~ "            <br>\n"
+#~ "            <br>\n"
+#~ "            <br>\n"
+#~ "            "
 
 #, python-brace-format
 #~ msgid "Filter less than {self.LIMIT} institutions or select manually"

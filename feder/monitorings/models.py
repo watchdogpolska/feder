@@ -388,9 +388,9 @@ class Monitoring(RenderBooleanFieldMixin, TimeStampedModel):
                 "answer_categories"
             ]
             if not answer_categories:
-                return (
-                    "Kategorie odpowiedzi nie zostały zdefiniowane,"
-                    + " zapytanie LLM o kategorie odpowiedzi nie zostanie wysłane."
+                return _(
+                    "Response categories have not been defined, so the LLM request"
+                    + " for response categories will not be sent."
                 )
             return answer_categorization.format(
                 institution="INSTITUTION",
@@ -399,9 +399,9 @@ class Monitoring(RenderBooleanFieldMixin, TimeStampedModel):
                 answer_categories=answer_categories,
             ).replace("    ", "")
         else:
-            return (
-                f'Brak pytania "{question_number}", zapytanie LLM o kategorie'
-                + " odpowiedzi nie zostanie wysłane."
+            return _(
+                f'There is no question "{question_number}", so the LLM query for'
+                + " answer categories will not be sent."
             )
 
 

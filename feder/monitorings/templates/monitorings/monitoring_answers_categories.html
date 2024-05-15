@@ -62,15 +62,19 @@
         <p class="help-text">
             <b>{% trans "Attention:"  %}</b><br>
             {% blocktrans %}
-            Please make a clear list of categories using letter bullet points like <br>
-            a)...<br>
-            b)...<br>
-            You can add additional prompt instruction after the list.
-            <br>
-            <br>
-            <br>
+            Please make a clear list of answer categories using letter bullet points. 
+            You can add additional prompt instruction after the list and separator line 
+            containing ``` like in the sample below:<br>
+            _______________________________________________________________________<br>
+            a) Yes<br>
+            b) No<br>
+            c) Not sure<br>
+            ```<br>
+            In case of any uncertainty, please please use "c) Not sure" as response.
             {% endblocktrans %}        
         </p>
+        <br>
+        <br>
         
         {% for key, value in answers_categories.items %}
             <h4><b>{% trans "Question number: " %}{{key}}</b></h4>
