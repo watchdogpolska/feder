@@ -31,7 +31,7 @@ django-autoslug==1.9.9
 pytz==2024.1
 
 # Commands
-lxml==5.2.1
+lxml==5.2.2
 
 
 # Your custom requirements go here
@@ -91,8 +91,8 @@ html2text==2024.2.26
 openpyxl==3.1.2
 
 # LLM exvaluation
-langchain==0.1.19
+langchain==0.1.20
 #langchain[llms]==0.1.5
-openai==1.28.0
-langchain-openai==0.1.6
-tiktoken==0.6.0
+openai==1.30.1
+langchain-openai==0.1.7
+tiktoken==0.7.0
