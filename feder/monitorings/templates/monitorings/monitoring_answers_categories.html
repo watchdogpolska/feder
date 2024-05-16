@@ -21,7 +21,7 @@
         #showPromptPopup {
             display: none;
             position: fixed;
-            top: 30%;
+            top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             padding: 100px;
@@ -62,15 +62,19 @@
         <p class="help-text">
             <b>{% trans "Attention:"  %}</b><br>
             {% blocktrans %}
-            Please make a clear list of categories using letter bullet points like <br>
-            a)...<br>
-            b)...<br>
-            You can add additional prompt instruction after the list.
-            <br>
-            <br>
-            <br>
+            Please make a clear list of at least 2 answer categories using letter and ")" bullet points.
+            You can add additional prompt instruction after the list and separator line 
+            containing ``` like in the sample below:<br>
+            _______________________________________________________________________<br>
+            a) Yes<br>
+            b) No<br>
+            c) Not sure<br>
+            ```<br>
+            In case of any uncertainty, please please use "c) Not sure" as response.
             {% endblocktrans %}        
         </p>
+        <br>
+        <br>
         
         {% for key, value in answers_categories.items %}
             <h4><b>{% trans "Question number: " %}{{key}}</b></h4>
@@ -109,6 +113,18 @@
             </form>
             <br><br>
         {% endfor %}
+        <br>
+        <form class="form" method="post">
+            {%csrf_token%}
+            <div class="input-group">
+                <input type="hidden" id="categorize_answers" 
+                    name="categorize_answers" value="true">
+                <div class="input-group-append">
+                    <button type="submit" id="categorize_answers"
+                        class="btn btn-primary">{% trans 'Generate answers categorization tasks for cases' %}</button>
+                </div>
+            </div>
+        </form>
     </div>
 
     <div id="modalBackdrop" style="display: none; position: fixed; width: 100%; height: 100%; 
@@ -181,6 +197,35 @@
         document.querySelector('#showPromptPopup .btn-primary').addEventListener('click', function() {
             document.getElementById('showPromptPopup').style.display = 'none';
             document.getElementById('modalBackdrop').style.display = 'none';
+        });
+
+        function validateAnswerCategories(answerCategories) {
+            if (!answerCategories) {
+                return true; // Empty string is allowed
+            }
+            var answerCategoryList = answerCategories.split("```")[0].split("\n");
+            if (answerCategoryList.length < 2) {
+                return false;
+            }
+            for (var i = 0; i < answerCategoryList.length; i++) {
+                var item = answerCategoryList[i].trim();
+                if (item === "" || item.match(/^[a-zA-Z0-9]\) .+/)) {
+                    continue;
+                }
+                return false;
+            }
+            return true;
+        }
+
+        buttons.forEach(function(button) {
+            button.addEventListener('click', function(event) {
+                var textareaId = this.id;
+                var textarea = document.querySelector(`textarea[id="${textareaId}"][name="answer_categories"]`);
+                if (!validateAnswerCategories(textarea.value)) {
+                    event.preventDefault();
+                    alert("{% trans 'Invalid answer categories - please follow instruction.' %}");
+                }
+            });
         });
     </script>
 {% endblock %}
