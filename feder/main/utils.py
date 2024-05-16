@@ -11,6 +11,12 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 from rest_framework_csv.renderers import CSVStreamingRenderer
 
+from feder.llm_evaluation.prompts import (
+    NORMALIZED_RESPONSE_QUESTION_KEY,
+    NORMALIZED_RESPONSE_ANSWER_KEY,
+    NORMALIZED_RESPONSE_ANSWER_CATEGORY_KEY,
+)
+
 logger = logging.getLogger(__name__)
 
 
@@ -66,12 +72,19 @@ def get_email_domain(email: str) -> str:
 
 def render_normalized_response_html_table(normalized_response):
     html = "<table class='table table-bordered compact'>\n"
-    html += "<tr><th>Nr</th><th>Pytanie</th><th>Odpowiedź</th></tr>\n"
+    html += (
+        f"<tr><th>Nr</th><th>{NORMALIZED_RESPONSE_QUESTION_KEY}</th>"
+        + f"<th>{NORMALIZED_RESPONSE_ANSWER_KEY}</th>"
+        + f"<th>{NORMALIZED_RESPONSE_ANSWER_CATEGORY_KEY}</th></tr>\n"
+    )
     try:
         for key, subdict in json.loads(normalized_response).items():
             html += (
-                f"<tr><td>{key}</td><td>{subdict.get('Pytanie', '')}</td>"
-                + f"<td>{subdict.get('Odpowiedź', '')}</td></tr>\n"
+                f"<tr><td>{key}</td>"
+                + f"<td>{subdict.get(NORMALIZED_RESPONSE_QUESTION_KEY, '')}</td>"
+                + f"<td>{subdict.get(NORMALIZED_RESPONSE_ANSWER_KEY, '')}</td>"
+                + f"<td>{subdict.get(NORMALIZED_RESPONSE_ANSWER_CATEGORY_KEY, '')}"
+                + "</td></tr>\n"
             )
         html += "</table>"
         return mark_safe(html)
