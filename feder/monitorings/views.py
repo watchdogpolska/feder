@@ -61,7 +61,10 @@ from feder.llm_evaluation.prompts import (
     NORMALIZED_RESPONSE_ANSWER_KEY,
     NORMALIZED_RESPONSE_QUESTION_KEY,
 )
-from feder.llm_evaluation.tasks import get_monitoring_normalized_response_template
+from feder.llm_evaluation.tasks import (
+    get_monitoring_normalized_response_template,
+    update_letter_answers_to_monitoring_questions_categorization,
+)
 from feder.main.mixins import ExtraListMixin, RaisePermissionRequiredMixin
 from feder.main.utils import DeleteViewLogEntryMixin, FormValidLogEntryMixin
 
@@ -640,9 +643,12 @@ class MonitoringAnswersCategoriesView(DetailView):
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
-        self.object.set_answer_categories_for_question(
-            request.POST["question_number"], request.POST["answer_categories"]
-        )
+        if "question_number" in request.POST:
+            self.object.set_answer_categories_for_question(
+                request.POST["question_number"], request.POST["answer_categories"]
+            )
+        if "categorize_answers" in request.POST:
+            update_letter_answers_to_monitoring_questions_categorization(self.object.pk)
         return self.get(request, *args, **kwargs)
 
 
