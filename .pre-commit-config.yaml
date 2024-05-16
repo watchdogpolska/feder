@@ -6,7 +6,7 @@ default_language_version:
 minimum_pre_commit_version: "1.20.0"
 repos:
   - repo: https://github.com/adamchainz/django-upgrade
-    rev: 1.16.0
+    rev: 1.17.0
     hooks:
       - id: django-upgrade
         args: [--target-version, "4.2"]
@@ -28,7 +28,7 @@ repos:
           - --skip-glob
           - "**/migrations/*.py"
   - repo: https://github.com/sirosen/check-jsonschema
-    rev: 0.28.2
+    rev: 0.28.3
     hooks:
       - id: check-github-workflows
       - id: check-readthedocs
