@@ -1,0 +1,231 @@
+{% extends 'monitorings/base_monitoring_detail.html' %}
+{% load i18n humanize bootstrap_pagination feder_tags %}
+{% block content_object %}
+    {% include 'monitorings/_tabs.html' with tab='answers_categories' %}
+    <style>
+        .content-frame {
+            border: 1px solid darkgray; /* Black border */
+            background-color: white; /* White background */
+            padding: 10px; /* Optional: Add padding for content inside the div */
+        }
+        .input-group {
+            width: 100%;
+        }
+        .btn-send {
+            display: none;
+        }
+        .help-text {
+            font-size: 1.1em;
+            color: #888;
+        }
+        #showPromptPopup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 100px;
+            color: rgb(0, 0, 0);
+            background-color: #e0e5aa;
+            border: 1px solid #000000;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            white-space: normal;
+            /* justify-content: center; */
+            /* align-items: center; */
+            /* flex-direction: column; */
+            text-align: center;
+            overflow: "auto";
+            max-height: "90vh";
+            max-width: "90vw";
+        }
+        #showPromptPopup a {
+            color: white;
+        }
+        #showPromptPopup button {
+            color: white;
+        }
+        #showPromptPopup input[type="radio"] {
+            float: left;
+        }
+        #showPromptPopup .content-frame {
+            float: left;
+            text-align: left;
+            font-size: 1em;
+            font-weight: normal;
+            word-wrap: break-word;
+            max-width: 100%;
+        }
+    </style>
+    <h3 class="sr-only">{% trans "Answers categories" %}</h3>
+    <div class="gray">
+        <p class="help-text">
+            <b>{% trans "Attention:"  %}</b><br>
+            {% blocktrans %}
+            Please make a clear list of at least 2 answer categories using letter and ")" bullet points.
+            You can add additional prompt instruction after the list and separator line 
+            containing ``` like in the sample below:<br>
+            _______________________________________________________________________<br>
+            a) Yes<br>
+            b) No<br>
+            c) Not sure<br>
+            ```<br>
+            In case of any uncertainty, please please use "c) Not sure" as response.
+            {% endblocktrans %}        
+        </p>
+        <br>
+        <br>
+        
+        {% for key, value in answers_categories.items %}
+            <h4><b>{% trans "Question number: " %}{{key}}</b></h4>
+            <div class="content-frame">
+                    {{value.question}}
+            </div>
+            <div class="row" style="display: flex; align-items: flex-end;">
+                <div class="col-md-6">
+                    <h5><b>{% trans "Answes categories with prompt support instruction:"  %}</b></h5>
+                </div>
+                <div class="col-md-4">
+                    {% trans "Updated: " %}{{value.update_time|slice:":19"}}
+                </div>
+                <div class="col-md-1">
+                    <a class="btn btn-default showPromptButton"
+                    id="showPromptButton-{{ key|urlencode }}"
+                    href="{% url 'monitorings:answer-categories-prompt' slug=object.slug %}?question_number={{ key|urlencode }}">
+                        {% trans 'Show prompt' %}
+                    </a>
+                </div>
+            </div>
+            <form class="message-form" method="post">
+                {%csrf_token%}
+                <div class="input-group">
+                    <input type="hidden" id="{{key|spaces_to_underscores}}" 
+                        name="question_number" value="{{key}}">
+                    <textarea id="{{key|spaces_to_underscores}}" type="text"
+                        name="answer_categories" class="form-control message-input" 
+                        placeholder="{% trans 'Type your answer categories' %}..."
+                        >{{value.answer_categories}}</textarea>
+                    <div class="input-group-append">
+                        <button type="submit" id="{{key|spaces_to_underscores}}"
+                            class="btn btn-primary btn-send">{% trans 'Update answer categories' %}</button>
+                    </div>
+                </div>
+            </form>
+            <br><br>
+        {% endfor %}
+        <br>
+        <form class="form" method="post">
+            {%csrf_token%}
+            <div class="input-group">
+                <input type="hidden" id="categorize_answers" 
+                    name="categorize_answers" value="true">
+                <div class="input-group-append">
+                    <button type="submit" id="categorize_answers"
+                        class="btn btn-primary">{% trans 'Generate answers categorization tasks for cases' %}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div id="modalBackdrop" style="display: none; position: fixed; width: 100%; height: 100%; 
+        top: 0; left: 0; background-color: rgba(0,0,0,0.5); z-index: 9999;">
+        </div>
+
+
+    <div id="showPromptPopup" style="display: none; z-index: 10000;">
+        <div class="row">
+            <h4><b>{% trans 'Prompt example:' %}</b></h4>
+        </div>
+        <div class="row">
+            <div class="content-frame">
+                <p id="promptSample"></p>
+            </div>
+        </div>
+        <div class="row">
+            <br>
+            <button class="btn btn-primary">{% trans 'Close' %}</button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/autosize.js/4.0.2/autosize.min.js"></script>
+    <script>
+        autosize(document.querySelectorAll('textarea'));
+        var textareas = document.querySelectorAll('textarea');
+        var buttons = document.querySelectorAll('.btn-send');
+
+        textareas.forEach(function(textarea) {
+            textarea.addEventListener('input', function() {
+                var activeTextareaId = this.id;
+
+                // Disable all other textareas
+                textareas.forEach(function(otherTextarea) {
+                    if (otherTextarea.id !== activeTextareaId) {
+                        otherTextarea.disabled = true;
+                    }
+                });
+
+                // Show the corresponding button
+                buttons.forEach(function(button) {
+                    if (button.id === activeTextareaId) {
+                        button.style.display = 'block';
+                    }
+                });
+            });
+        });
+
+        document.querySelectorAll('.showPromptButton').forEach(function(button) {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                var url = this.href;
+                fetch(url)
+                .then(response => response.json())  // parse the JSON from the server
+                .then(data => {
+                    // Update the popup with the received data
+                    document.getElementById('promptSample').innerHTML = data.prompt_sample.replace(/\n/g, '<br>');
+                    var showPromptPopup = document.getElementById('showPromptPopup');
+                    if (showPromptPopup.style.display === 'none') {
+                        showPromptPopup.style.display = 'block';
+                        modalBackdrop.style.display = 'block';
+                    } else {
+                        showPromptPopup.style.display = 'none';
+                        modalBackdrop.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        document.querySelector('#showPromptPopup .btn-primary').addEventListener('click', function() {
+            document.getElementById('showPromptPopup').style.display = 'none';
+            document.getElementById('modalBackdrop').style.display = 'none';
+        });
+
+        function validateAnswerCategories(answerCategories) {
+            if (!answerCategories) {
+                return true; // Empty string is allowed
+            }
+            var answerCategoryList = answerCategories.split("```")[0].split("\n");
+            if (answerCategoryList.length < 2) {
+                return false;
+            }
+            for (var i = 0; i < answerCategoryList.length; i++) {
+                var item = answerCategoryList[i].trim();
+                if (item === "" || item.match(/^[a-zA-Z0-9]\) .+/)) {
+                    continue;
+                }
+                return false;
+            }
+            return true;
+        }
+
+        buttons.forEach(function(button) {
+            button.addEventListener('click', function(event) {
+                var textareaId = this.id;
+                var textarea = document.querySelector(`textarea[id="${textareaId}"][name="answer_categories"]`);
+                if (!validateAnswerCategories(textarea.value)) {
+                    event.preventDefault();
+                    alert("{% trans 'Invalid answer categories - please follow instruction.' %}");
+                }
+            });
+        });
+    </script>
+{% endblock %}

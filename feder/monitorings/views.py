@@ -56,9 +56,14 @@ from feder.letters.logs.models import STATUS
 from feder.letters.models import Letter
 from feder.letters.utils import is_formatted_html, text_to_html
 from feder.letters.views import LetterCommonMixin
+from feder.llm_evaluation.prompts import (
+    NORMALIZED_RESPONSE_ANSWER_CATEGORY_KEY,
+    NORMALIZED_RESPONSE_ANSWER_KEY,
+    NORMALIZED_RESPONSE_QUESTION_KEY,
+)
 from feder.llm_evaluation.tasks import (
-    LlmMonitoringRequest,
     get_monitoring_normalized_response_template,
+    update_letter_answers_to_monitoring_questions_categorization,
 )
 from feder.main.mixins import ExtraListMixin, RaisePermissionRequiredMixin
 from feder.main.utils import DeleteViewLogEntryMixin, FormValidLogEntryMixin
@@ -615,6 +620,57 @@ class MonitoringResultsView(DetailView):
         return context
 
 
+class MonitoringAnswersCategoriesView(DetailView):
+    model = Monitoring
+    template_name_suffix = "_answers_categories"
+    select_related = ["user"]
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        qs = qs.for_user(self.request.user)
+        return qs
+
+    def get_context_data(self, **kwargs):
+        kwargs["url_extra_kwargs"] = {"slug": self.object.slug}
+        context = super().get_context_data(**kwargs)
+        context["voivodeship_table"] = mark_safe(
+            self.object.generate_voivodeship_table()
+        )
+        context["answers_categories"] = (
+            self.object.get_normalized_response_answers_categories_dict()
+        )
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if "question_number" in request.POST:
+            self.object.set_answer_categories_for_question(
+                request.POST["question_number"], request.POST["answer_categories"]
+            )
+        if "categorize_answers" in request.POST:
+            update_letter_answers_to_monitoring_questions_categorization(self.object.pk)
+        return self.get(request, *args, **kwargs)
+
+
+class MonitoringAnswerCategoriesPromptView(DetailView):
+    model = Monitoring
+    select_related = ["user"]
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        qs = qs.for_user(self.request.user)
+        return qs
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        resp = {
+            "prompt_sample": self.object.get_answer_categorization_prompt_sample(
+                request.GET.get("question_number", "")
+            )
+        }
+        return JsonResponse(resp)
+
+
 class MonitoringResponsesReportView(View):
     def get(self, request, slug):
         monitoring = Monitoring.objects.filter(slug=slug)
@@ -641,7 +697,7 @@ class MonitoringResponsesReportView(View):
         wb = openpyxl.Workbook()
         ws = wb.active
         ws.title = "Responses"
-        question_keys = ["question_no", "question", "response"]
+        question_keys = ["question_no", "question", "answer", "answer_category"]
         info_keys = list(monitoring_responses_data[0].keys())[:-1]
         labels = [
             label.replace("_", " ").capitalize()
@@ -653,58 +709,24 @@ class MonitoringResponsesReportView(View):
             if len(questions.keys()) > 0:
                 for key in questions.keys():
                     r_data["question_no"] = key
-                    r_data["question"] = questions[key]["Pytanie"]
-                    r_data["response"] = questions[key]["Odpowiedź"]
+                    r_data["question"] = questions[key].get(
+                        NORMALIZED_RESPONSE_QUESTION_KEY, ""
+                    )
+                    r_data["answer"] = questions[key].get(
+                        NORMALIZED_RESPONSE_ANSWER_KEY, ""
+                    )
+                    r_data["answer_category"] = questions[key].get(
+                        NORMALIZED_RESPONSE_ANSWER_CATEGORY_KEY, ""
+                    )
                     ws.append([r_data[k] for k in (info_keys + question_keys)])
             else:
                 r_data["question_no"] = ""
                 r_data["question"] = ""
-                r_data["response"] = ""
+                r_data["answer"] = ""
+                r_data["answer_category"] = ""
                 ws.append([r_data[k] for k in (info_keys + question_keys)])
+        ws.auto_filter.ref = ws.dimensions
         return wb
-
-
-class MonitoringChatView(DetailView):
-    model = Monitoring
-    template_name_suffix = "_chat"
-    select_related = ["user"]
-
-    def get_queryset(self):
-        qs = super().get_queryset()
-        qs = qs.for_user(self.request.user)
-        return qs
-
-    def get_context_data(self, **kwargs):
-        kwargs["url_extra_kwargs"] = {"slug": self.object.slug}
-        context = super().get_context_data(**kwargs)
-        context["voivodeship_table"] = mark_safe(
-            self.object.generate_voivodeship_table()
-        )
-        context["chats"] = [
-            {
-                "message": llm_monitoring_request.request_prompt,
-                "response": llm_monitoring_request.response,
-            }
-            for llm_monitoring_request in LlmMonitoringRequest.objects.filter(
-                evaluated_monitoring=self.object, chat_request=True
-            ).order_by("created")
-        ]
-        context["chat_post_url"] = reverse(
-            "monitorings:chat",
-            kwargs={"slug": self.kwargs.get("slug")},
-        )
-        return context
-
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        if request.POST.get("message"):
-            chat_question = request.POST.get("message")
-            response_data = {
-                "response": LlmMonitoringRequest.get_monitoring_chat_response(
-                    monitoring=self.object, chat_question=chat_question
-                ),
-            }
-            return JsonResponse(response_data)
 
 
 class MonitoringCreateView(

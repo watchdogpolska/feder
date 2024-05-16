@@ -73,3 +73,13 @@ def show_donate_popup():
     if (1 <= now.month <= 4) or (now.month == 5 and now.day in [1, 2]):
         return True
     return False
+
+
+@register.filter
+def underscores_to_spaces(value):
+    return value.replace("_", " ")
+
+
+@register.filter
+def spaces_to_underscores(value):
+    return value.replace(" ", "_")
