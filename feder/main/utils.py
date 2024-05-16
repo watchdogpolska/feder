@@ -12,9 +12,9 @@ from django.utils.translation import gettext_lazy as _
 from rest_framework_csv.renderers import CSVStreamingRenderer
 
 from feder.llm_evaluation.prompts import (
-    NORMALIZED_RESPONSE_QUESTION_KEY,
-    NORMALIZED_RESPONSE_ANSWER_KEY,
     NORMALIZED_RESPONSE_ANSWER_CATEGORY_KEY,
+    NORMALIZED_RESPONSE_ANSWER_KEY,
+    NORMALIZED_RESPONSE_QUESTION_KEY,
 )
 
 logger = logging.getLogger(__name__)
