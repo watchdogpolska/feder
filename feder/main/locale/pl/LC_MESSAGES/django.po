@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: main 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-15 14:42+0200\n"
+"POT-Creation-Date: 2024-05-16 12:46+0200\n"
 "PO-Revision-Date: 2024-05-09 12:40+0200\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -686,7 +686,7 @@ msgstr "^przesylki/"
 msgid "^virus_scan/"
 msgstr "^virus_scan/"
 
-#: feder/main/utils.py:80
+#: feder/main/utils.py:93
 msgid "<p>Normalized response is not valid JSON.</p>"
 msgstr "<p>Znormalizowana odpowiedź nie jest prawidłowym kodem JSON.</p>"
 

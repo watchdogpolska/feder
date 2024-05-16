@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-monitorings 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-15 14:54+0200\n"
-"PO-Revision-Date: 2024-05-15 14:55+0200\n"
+"POT-Creation-Date: 2024-05-16 12:46+0200\n"
+"PO-Revision-Date: 2024-05-16 12:46+0200\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -25,7 +25,7 @@ msgid "Creation date"
 msgstr "Data utworzenia"
 
 #: feder/monitorings/filters.py:23 feder/monitorings/models.py:101
-#: feder/monitorings/views.py:140 feder/monitorings/views.py:298
+#: feder/monitorings/views.py:148 feder/monitorings/views.py:306
 msgid "Name"
 msgstr "Nazwa"
 
@@ -70,7 +70,7 @@ msgstr "Wyniki monitoringu"
 
 #: feder/monitorings/forms.py:134 feder/monitorings/models.py:106
 #: feder/monitorings/templates/monitorings/_monitoring_small.html:8
-#: feder/monitorings/views.py:151
+#: feder/monitorings/views.py:159
 msgid "User"
 msgstr "Użytkownik"
 
@@ -133,7 +133,7 @@ msgstr "Identyfikator redakcyjny"
 
 #: feder/monitorings/models.py:108
 #: feder/monitorings/templates/monitorings/base_monitoring_detail.html:30
-#: feder/monitorings/views.py:146
+#: feder/monitorings/views.py:154
 msgid "Description"
 msgstr "Opis"
 
@@ -141,7 +141,7 @@ msgstr "Opis"
 msgid "Subject"
 msgstr "Temat"
 
-#: feder/monitorings/models.py:111 feder/monitorings/views.py:181
+#: feder/monitorings/models.py:111 feder/monitorings/views.py:189
 msgid "Hide new cases when assigning?"
 msgstr "Czy ukrywać nowe sprawy przy przypisywaniu?"
 
@@ -193,11 +193,11 @@ msgstr "Podpis w e-mail"
 msgid "Footer for sent mail and replies"
 msgstr "Podpis w stopce e-maili, w tym w odpowiedziach na e-maile"
 
-#: feder/monitorings/models.py:151 feder/monitorings/views.py:193
+#: feder/monitorings/models.py:151 feder/monitorings/views.py:201
 msgid "Notify about alerts"
 msgstr "Powiadamiaj o alertach"
 
-#: feder/monitorings/models.py:154 feder/monitorings/views.py:187
+#: feder/monitorings/models.py:154 feder/monitorings/views.py:195
 msgid "Is public visible?"
 msgstr "Czy publicznie widoczny?"
 
@@ -390,7 +390,7 @@ msgid "recipients"
 msgstr "odbiorców"
 
 #: feder/monitorings/templates/monitorings/_monitoring_small.html:16
-#: feder/monitorings/views.py:158
+#: feder/monitorings/views.py:166
 msgid "Case count"
 msgstr "Liczba spraw"
 
@@ -481,7 +481,7 @@ msgstr "Kategorie odpowiedzi"
 
 #: feder/monitorings/templates/monitorings/base.html:5
 #: feder/monitorings/templates/monitorings/base_monitoring_detail.html:3
-#: feder/monitorings/views.py:120
+#: feder/monitorings/views.py:128
 msgid "Monitorings"
 msgstr "Monitoringi"
 
@@ -570,16 +570,19 @@ msgstr "Wpisz kategorie odpowiedzi"
 msgid "Update answer categories"
 msgstr "Zaktualizuj kategorie odpowiedzi"
 
-#: feder/monitorings/templates/monitorings/monitoring_answers_categories.html:125
+#: feder/monitorings/templates/monitorings/monitoring_answers_categories.html:124
+msgid "Generate answers categorization tasks for cases"
+msgstr "Wygeneruj zadania kategoryzacji odpowiedzi w sprawach"
+
+#: feder/monitorings/templates/monitorings/monitoring_answers_categories.html:137
 msgid "Prompt example:"
 msgstr "Przykład promptu LLM:"
 
-#: feder/monitorings/templates/monitorings/monitoring_answers_categories.html:134
+#: feder/monitorings/templates/monitorings/monitoring_answers_categories.html:146
 msgid "Close"
 msgstr "Zamknij"
 
-#: feder/monitorings/templates/monitorings/monitoring_answers_categories.html:214
-#| msgid "Answes categories with prompt support instruction:"
+#: feder/monitorings/templates/monitorings/monitoring_answers_categories.html:226
 msgid "Invalid answer categories - please follow instruction."
 msgstr ""
 "Nieprawidłowe kategorie odpowiedzi - zmień aby były  zgodne z instrukcją."
@@ -596,14 +599,14 @@ msgstr "Otrzymano potwierdzenie? (kol. Potw.?)"
 #: feder/monitorings/templates/monitorings/monitoring_cases_table.html:70
 #: feder/monitorings/templates/monitorings/monitoring_cases_table.html:82
 #: feder/monitorings/templates/monitorings/monitoring_cases_table.html:94
-#: feder/monitorings/views.py:232
+#: feder/monitorings/views.py:240
 msgid "Yes"
 msgstr "Tak"
 
 #: feder/monitorings/templates/monitorings/monitoring_cases_table.html:74
 #: feder/monitorings/templates/monitorings/monitoring_cases_table.html:86
 #: feder/monitorings/templates/monitorings/monitoring_cases_table.html:98
-#: feder/monitorings/views.py:232
+#: feder/monitorings/views.py:240
 msgid "No"
 msgstr "Nie"
 
@@ -814,106 +817,106 @@ msgstr ""
 "zależności od klienta poczty mailowej. W przypadku konieczności użycia listy"
 " zagnieżdżonej, utwórz punktację ręcznie. "
 
-#: feder/monitorings/views.py:107
+#: feder/monitorings/views.py:115
 msgid "Monitorings search table"
 msgstr "Tabela monitoringów"
 
-#: feder/monitorings/views.py:134
+#: feder/monitorings/views.py:142
 msgid "Created"
 msgstr "Utworzony"
 
-#: feder/monitorings/views.py:164
+#: feder/monitorings/views.py:172
 msgid "Case quarantined count"
 msgstr "Licznik spraw poddanych kwarantannie"
 
-#: feder/monitorings/views.py:170
+#: feder/monitorings/views.py:178
 msgid "Confirmation received count"
 msgstr "Liczba otrzymanych potwierdzeń"
 
-#: feder/monitorings/views.py:176
+#: feder/monitorings/views.py:184
 msgid "Response received count"
 msgstr "Liczba otrzymanych odpowiedzi"
 
-#: feder/monitorings/views.py:260
+#: feder/monitorings/views.py:268
 msgid "Monitoring Cases table - "
 msgstr "Tabela Spraw Monitoringu - "
 
-#: feder/monitorings/views.py:278
+#: feder/monitorings/views.py:286
 msgid "Monitoring Cases"
 msgstr "Sprawy w Monitoringu"
 
-#: feder/monitorings/views.py:303
+#: feder/monitorings/views.py:311
 msgid "Institution"
 msgstr "Instytucja"
 
-#: feder/monitorings/views.py:309
+#: feder/monitorings/views.py:317
 msgid "JST"
 msgstr "JST"
 
-#: feder/monitorings/views.py:316
+#: feder/monitorings/views.py:324
 msgid "Application letter status"
 msgstr "Status wniosku"
 
-#: feder/monitorings/views.py:322
+#: feder/monitorings/views.py:330
 msgid "Last letter"
 msgstr "Ostatni List"
 
-#: feder/monitorings/views.py:329
+#: feder/monitorings/views.py:337
 msgid "Letters count"
 msgstr "Liczba listów"
 
-#: feder/monitorings/views.py:335
+#: feder/monitorings/views.py:343
 msgid "Tags"
 msgstr "Tagi"
 
-#: feder/monitorings/views.py:344
+#: feder/monitorings/views.py:352
 msgid "Conf."
 msgstr "Potw.?"
 
-#: feder/monitorings/views.py:350
+#: feder/monitorings/views.py:358
 msgid "Resp."
 msgstr "Odp.?"
 
-#: feder/monitorings/views.py:356
+#: feder/monitorings/views.py:364
 msgid "Quar."
 msgstr "Kwar.?"
 
-#: feder/monitorings/views.py:727
+#: feder/monitorings/views.py:747
 #, python-brace-format
 msgid "{0} created!"
 msgstr "{0} utworzony!"
 
-#: feder/monitorings/views.py:822
+#: feder/monitorings/views.py:842
 #, python-brace-format
 msgid "Permissions to {monitoring} updated!"
 msgstr "Uprawnienia dla {monitoring} zaktualizowane!"
 
-#: feder/monitorings/views.py:878
+#: feder/monitorings/views.py:898
 #, python-brace-format
 msgid "Permissions to {monitoring} of {user} updated!"
 msgstr "Uprawnienia do {monitoring} dla {user} zaktualizowane!"
 
-#: feder/monitorings/views.py:931
+#: feder/monitorings/views.py:951
 msgid "Assign all filtered institutions: "
 msgstr "Przypisz wszystkie odfiltrowane instytucje: "
 
-#: feder/monitorings/views.py:936
+#: feder/monitorings/views.py:956
 msgid "For bulk assignment, filter less than "
 msgstr "W celu przypisania zbiorczo odfiltruj mniej niż "
 
-#: feder/monitorings/views.py:937
+#: feder/monitorings/views.py:957
 msgid " (filtered: "
 msgstr " (odfiltrowane: "
 
-#: feder/monitorings/views.py:938
+#: feder/monitorings/views.py:958
 msgid ") or select individual institutions from the list below."
 msgstr ") lub wybierz poszczególne instytucje z poniższej listy."
 
-#: feder/monitorings/views.py:950
+#: feder/monitorings/views.py:970
 msgid "You can not send letters without using filtering."
 msgstr "Nie możesz wysyłać listów bez używania filtrowania."
 
-#: feder/monitorings/views.py:966
+#: feder/monitorings/views.py:986
 #, python-format
 msgid ""
 "You can not send %(count)d letters at once. The maximum is %(limit)d. Use "
@@ -922,30 +925,30 @@ msgstr ""
 "Nie możesz wysłać %(count)d listów na raz. Maksimum to %(limit)d. Użyj "
 "filtrowania."
 
-#: feder/monitorings/views.py:987
+#: feder/monitorings/views.py:1007
 #, python-format
 msgid "%(count)d institutions was assigned to %(monitoring)s. "
 msgstr "%(count)d instytucji zostało przypisanych do %(monitoring)s."
 
-#: feder/monitorings/views.py:992
+#: feder/monitorings/views.py:1012
 msgid " Emails are scheduled to be sent."
 msgstr "Wysyłka wniosków została zaplanowana"
 
-#: feder/monitorings/views.py:1042
+#: feder/monitorings/views.py:1062
 #, python-brace-format
 msgid "Message \"{letter}\" has been scheduled for sending to {count} recipients!"
 msgstr "Wiadomość \"{letter}\" zaplanowana do wysyłki do {count} odbiorców!"
 
-#: feder/monitorings/views.py:1049
+#: feder/monitorings/views.py:1069
 #, python-brace-format
 msgid "Message {message} saved to review!"
 msgstr "Wiadomość {message} zapisana do przejrzenia!"
 
-#: feder/monitorings/views.py:1101
+#: feder/monitorings/views.py:1121
 msgid "Latest monitorings"
 msgstr "Ostatnie monitoringi"
 
-#: feder/monitorings/views.py:1103
+#: feder/monitorings/views.py:1123
 msgid "Updates on new monitorings on site"
 msgstr "Aktualizacje o nowych monitoringach na stronie"
 
