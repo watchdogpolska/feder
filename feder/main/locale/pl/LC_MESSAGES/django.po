@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: main 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-14 14:58+0200\n"
+"POT-Creation-Date: 2024-05-15 14:42+0200\n"
 "PO-Revision-Date: 2024-05-09 12:40+0200\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -36,8 +36,8 @@ msgstr "Prośba o list LLM"
 msgid "LLM Monitoring Request"
 msgstr "Pytanie do LLM o monitoring"
 
-#: feder/llm_evaluation/admin.py:97 feder/llm_evaluation/models.py:365
-#: feder/llm_evaluation/models.py:366
+#: feder/llm_evaluation/admin.py:97 feder/llm_evaluation/models.py:488
+#: feder/llm_evaluation/models.py:489
 msgid "LLM Monthly Cost"
 msgstr "Koszty LLM miesięcznie"
 
@@ -49,72 +49,72 @@ msgstr "Koszt LLM Monitoringu"
 msgid "LLM Evaluation"
 msgstr "Ocena LLM"
 
-#: feder/llm_evaluation/models.py:39
+#: feder/llm_evaluation/models.py:42
 msgid "Created"
 msgstr "Utworzono"
 
-#: feder/llm_evaluation/models.py:40
+#: feder/llm_evaluation/models.py:43
 msgid "Queued"
 msgstr "Skolejkowane"
 
-#: feder/llm_evaluation/models.py:41
+#: feder/llm_evaluation/models.py:44
 msgid "Done"
 msgstr "Wykonane"
 
-#: feder/llm_evaluation/models.py:42
+#: feder/llm_evaluation/models.py:45
 msgid "Failed"
 msgstr "Niepowodzenie"
 
-#: feder/llm_evaluation/models.py:45 feder/llm_evaluation/models.py:360
-#: feder/llm_evaluation/models.py:430
+#: feder/llm_evaluation/models.py:48 feder/llm_evaluation/models.py:483
+#: feder/llm_evaluation/models.py:553
 msgid "LLM Engine name"
 msgstr "Nazwa silnika LLM"
 
-#: feder/llm_evaluation/models.py:49
+#: feder/llm_evaluation/models.py:52
 msgid "LLM Engine request"
 msgstr "Żądanie do silnika LLM"
 
-#: feder/llm_evaluation/models.py:52
+#: feder/llm_evaluation/models.py:55
 msgid "LLM Engine response"
 msgstr "Odpowiedź silnika LLM"
 
-#: feder/llm_evaluation/models.py:55
+#: feder/llm_evaluation/models.py:58
 msgid "LLM Engine token usage"
 msgstr "Użycie tokenów LLM"
 
-#: feder/llm_evaluation/models.py:110
+#: feder/llm_evaluation/models.py:113
 msgid "Evaluated Letter"
 msgstr "Oceniany list"
 
-#: feder/llm_evaluation/models.py:305
+#: feder/llm_evaluation/models.py:428
 msgid "Evaluated Monitoring"
 msgstr "Oceniany monitoring"
 
-#: feder/llm_evaluation/models.py:308
+#: feder/llm_evaluation/models.py:431
 msgid "Chat Request"
 msgstr "Zapytanie czatu"
 
-#: feder/llm_evaluation/models.py:357
+#: feder/llm_evaluation/models.py:480
 msgid "Month"
 msgstr "Miesiąc"
 
-#: feder/llm_evaluation/models.py:362 feder/llm_evaluation/models.py:432
+#: feder/llm_evaluation/models.py:485 feder/llm_evaluation/models.py:555
 msgid "Cost"
 msgstr "Koszt"
 
-#: feder/llm_evaluation/models.py:425
+#: feder/llm_evaluation/models.py:548
 msgid "Monitoring ID"
 msgstr "Id Monitoringu"
 
-#: feder/llm_evaluation/models.py:427
+#: feder/llm_evaluation/models.py:550
 msgid "Monitoring Name"
 msgstr "Nazwa Monitoringu"
 
-#: feder/llm_evaluation/models.py:435
+#: feder/llm_evaluation/models.py:558
 msgid "LLM Cost Per Monitoring"
 msgstr "Koszt LLM per Monitoring"
 
-#: feder/llm_evaluation/models.py:436
+#: feder/llm_evaluation/models.py:559
 msgid "LLM Costs Per Monitoring"
 msgstr "Koszty LLM per Monitoring"
 

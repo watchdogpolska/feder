@@ -20,6 +20,9 @@ from feder.main.utils import FormattedDatetimeMixin
 
 from .llm_tools import get_serializable_dict, num_tokens_from_string
 from .prompts import (
+    NORMALIZED_RESPONSE_ANSWER_KEY,
+    NORMALIZED_RESPONSE_QUESTION_KEY,
+    answer_categorization,
     letter_categorization,
     letter_evaluation_intro,
     letter_response_normalization,
@@ -296,6 +299,126 @@ class LlmLetterRequest(LlmRequest):
         letter.normalized_response = normalized_questions_json
         letter.save()
         return normalized_questions_json
+
+    @classmethod
+    def categorize_answer(self, letter, question_number):
+        institution_name = ""
+        if letter.case and letter.case.monitoring:
+            institution_name = letter.case.institution.name
+            if not letter.case.monitoring.use_llm:
+                logger.warning(
+                    f"Skipping normalising answer for letter {letter.pk}:"
+                    + ": use_llm is False in monitoring"
+                    + f" {letter.case.monitoring.pk}"
+                )
+                return
+            if not letter.case.monitoring.normalized_response_template:
+                logger.warning(
+                    f"Can not categorize answer for letter {letter.pk}:"
+                    + ": normalized_response_template"
+                    + f" missing in monitoring {letter.case.monitoring.pk}"
+                )
+                return
+            if not letter.case.monitoring.normalized_response_answers_categories:
+                logger.warning(
+                    f"Can not categorize answer for letter {letter.pk}:"
+                    + " normalized_response_answers_categories"
+                    + f" missing in monitoring {letter.case.monitoring.pk}"
+                )
+                return
+            if not letter.normalized_response:
+                logger.warning(
+                    f"Can not categorize answer for letter {letter.pk}:"
+                    + ": normalized_response"
+                    + f" missing in letter {letter.pk}"
+                )
+                return
+            question_and_answer_dict = letter.get_normalized_question_and_answer_dict(
+                question_number
+            )
+            if not question_and_answer_dict.get(
+                NORMALIZED_RESPONSE_QUESTION_KEY, None
+            ) or not question_and_answer_dict.get(NORMALIZED_RESPONSE_ANSWER_KEY, None):
+                logger.warning(
+                    f"Can not categorize answer for letter {letter.pk}: question or"
+                    + f" answer missing for letter {letter.pk} and question"
+                    + f' "{question_number}"'
+                )
+                return
+            question = question_and_answer_dict[NORMALIZED_RESPONSE_QUESTION_KEY]
+            answer = question_and_answer_dict[NORMALIZED_RESPONSE_ANSWER_KEY]
+            answer_categories = (
+                letter.case.monitoring.get_answer_categories_for_question(
+                    question_number
+                )
+            )
+            if not answer_categories:
+                logger.warning(
+                    "Can not categorize answer: answer_categories"
+                    + f" missing in monitoring {letter.case.monitoring.pk}"
+                    + f" for question {question_number}"
+                )
+                return
+        else:
+            logger.warning(
+                f"Can not categorize answer: letter {letter.pk}"
+                + " has no case or monitoring."
+            )
+            return
+        prompt = answer_categorization.format(
+            institution=institution_name,
+            question=question,
+            answer=answer,
+            answer_categories=answer_categories,
+        )
+        llm_engine = settings.OPENAI_API_ENGINE_35
+        prompt_tokens = num_tokens_from_string(prompt, llm_engine)
+        # print(f"q_tokens: {q_tokens}")
+        max_tokens = min(settings.OPENAI_API_ENGINE_35_MAX_TOKENS, 12000)
+        if prompt_tokens > max_tokens:
+            message = (
+                f"Prompt tokens {prompt_tokens} exceed max tokens {max_tokens}."
+                + f"for letter {letter.pk} and question {question_number}"
+            )
+            logger.warning(message)
+            return
+        letter_llm_request = self.objects.create(
+            evaluated_letter=letter,
+            engine_name=llm_engine,
+            request_prompt=prompt,
+            status=self.STATUS.created,
+            response="",
+            token_usage={},
+        )
+        letter_llm_request.save()
+        model = AzureChatOpenAI(
+            openai_api_type=settings.OPENAI_API_TYPE,
+            openai_api_key=settings.OPENAI_API_KEY,
+            openai_api_version=settings.OPENAI_API_VERSION,
+            azure_endpoint=settings.AZURE_ENDPOINT,
+            deployment_name=llm_engine,
+            temperature=settings.OPENAI_API_TEMPERATURE,
+        )
+        chain = answer_categorization | model | StrOutputParser()
+        start_time = time.time()
+        with get_openai_callback() as cb:
+            resp = chain.invoke(
+                {
+                    "institution": institution_name,
+                    "question": question,
+                    "answer": answer,
+                    "answer_categories": answer_categories,
+                }
+            )
+        end_time = time.time()
+        execution_time = end_time - start_time
+        llm_info_dict = get_serializable_dict(cb)
+        llm_info_dict["completion_time"] = execution_time
+        letter_llm_request.response = resp
+        letter_llm_request.token_usage = llm_info_dict
+        letter_llm_request.status = self.STATUS.done
+        letter_llm_request.save()
+        letter.set_normalized_answer_category(question_number, resp)
 
 
 class LlmMonitoringRequest(LlmRequest):
