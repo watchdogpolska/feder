@@ -56,6 +56,11 @@ from feder.letters.logs.models import STATUS
 from feder.letters.models import Letter
 from feder.letters.utils import is_formatted_html, text_to_html
 from feder.letters.views import LetterCommonMixin
+from feder.llm_evaluation.prompts import (
+    NORMALIZED_RESPONSE_ANSWER_CATEGORY_KEY,
+    NORMALIZED_RESPONSE_ANSWER_KEY,
+    NORMALIZED_RESPONSE_QUESTION_KEY,
+)
 from feder.llm_evaluation.tasks import get_monitoring_normalized_response_template
 from feder.main.mixins import ExtraListMixin, RaisePermissionRequiredMixin
 from feder.main.utils import DeleteViewLogEntryMixin, FormValidLogEntryMixin
@@ -686,7 +691,7 @@ class MonitoringResponsesReportView(View):
         wb = openpyxl.Workbook()
         ws = wb.active
         ws.title = "Responses"
-        question_keys = ["question_no", "question", "response"]
+        question_keys = ["question_no", "question", "answer", "answer_category"]
         info_keys = list(monitoring_responses_data[0].keys())[:-1]
         labels = [
             label.replace("_", " ").capitalize()
@@ -698,14 +703,23 @@ class MonitoringResponsesReportView(View):
             if len(questions.keys()) > 0:
                 for key in questions.keys():
                     r_data["question_no"] = key
-                    r_data["question"] = questions[key]["Pytanie"]
-                    r_data["response"] = questions[key]["Odpowiedź"]
+                    r_data["question"] = questions[key].get(
+                        NORMALIZED_RESPONSE_QUESTION_KEY, ""
+                    )
+                    r_data["answer"] = questions[key].get(
+                        NORMALIZED_RESPONSE_ANSWER_KEY, ""
+                    )
+                    r_data["answer_category"] = questions[key].get(
+                        NORMALIZED_RESPONSE_ANSWER_CATEGORY_KEY, ""
+                    )
                     ws.append([r_data[k] for k in (info_keys + question_keys)])
             else:
                 r_data["question_no"] = ""
                 r_data["question"] = ""
-                r_data["response"] = ""
+                r_data["answer"] = ""
+                r_data["answer_category"] = ""
                 ws.append([r_data[k] for k in (info_keys + question_keys)])
+        ws.auto_filter.ref = ws.dimensions
         return wb
 
 
