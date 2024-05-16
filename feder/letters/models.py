@@ -1,4 +1,5 @@
 import email
+import json
 import logging
 import uuid
 from email.utils import getaddresses
@@ -28,7 +29,13 @@ from model_utils import Choices
 from feder.cases.models import Case, enforce_quarantined_queryset
 from feder.domains.models import Domain
 from feder.institutions.models import Institution
-from feder.llm_evaluation.prompts import letter_categories_list, letter_categories_text
+from feder.llm_evaluation.prompts import (
+    NORMALIZED_RESPONSE_ANSWER_CATEGORY_KEY,
+    NORMALIZED_RESPONSE_ANSWER_KEY,
+    NORMALIZED_RESPONSE_QUESTION_KEY,
+    letter_categories_list,
+    letter_categories_text,
+)
 from feder.main.exceptions import FederValueError
 from feder.main.utils import get_email_domain, render_normalized_response_html_table
 from feder.records.models import AbstractRecord, AbstractRecordQuerySet, Record
@@ -534,6 +541,29 @@ class Letter(AbstractRecord):
                 + render_normalized_response_html_table(self.normalized_response)
             )
         return ""
+
+    def get_normalized_response_dict(self):
+        try:
+            return json.loads(self.normalized_response)
+        except json.JSONDecodeError:
+            return {}
+
+    def get_normalized_question_and_answer_dict(self, question_number=None):
+        response_dict = self.get_normalized_response_dict()
+        if question_number in response_dict:
+            return response_dict.get(question_number)
+        return {
+            NORMALIZED_RESPONSE_QUESTION_KEY: "",
+            NORMALIZED_RESPONSE_ANSWER_KEY: "",
+        }
+
+    def set_normalized_answer_category(self, question_number, answer_category):
+        response_dict = self.get_normalized_response_dict()
+        response_dict[question_number][
+            NORMALIZED_RESPONSE_ANSWER_CATEGORY_KEY
+        ] = answer_category
+        self.normalized_response = json.dumps(response_dict)
+        self.save()
 
 
 class LetterEmailDomain(TimeStampedModel):
