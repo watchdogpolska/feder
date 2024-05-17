@@ -1,3 +1,4 @@
+import inspect
 import json
 import logging
 import time
@@ -44,6 +45,10 @@ class LlmRequest(TimeStampedModel):
         (2, "done", _("Done")),
         (3, "failed", _("Failed")),
     )
+    name = models.CharField(
+        max_length=100, verbose_name=_("Name"), null=True, blank=True
+    )
+    args = models.JSONField(verbose_name=_("Arguments"), null=True, blank=True)
     engine_name = models.CharField(
         max_length=20, verbose_name=_("LLM Engine name"), null=True, blank=True
     )
@@ -165,6 +170,8 @@ class LlmLetterRequest(LlmRequest):
             monitoring_response=texts[0],
         )
         letter_llm_request = cls.objects.create(
+            name=inspect.currentframe().f_code.co_name,
+            args={"letter_pk": letter.pk},
             evaluated_letter=letter,
             engine_name=llm_engine,
             request_prompt=final_prompt,
@@ -270,6 +277,8 @@ class LlmLetterRequest(LlmRequest):
                 monitoring_response=text,
             )
             letter_llm_request = cls.objects.create(
+                name=inspect.currentframe().f_code.co_name,
+                args={"letter_pk": letter.pk},
                 evaluated_letter=letter,
                 engine_name=llm_engine,
                 request_prompt=final_prompt,
@@ -383,6 +392,8 @@ class LlmLetterRequest(LlmRequest):
             logger.warning(message)
             return
         letter_llm_request = self.objects.create(
+            name=inspect.currentframe().f_code.co_name,
+            args={"letter_pk": letter.pk, "question_number": question_number},
             evaluated_letter=letter,
             engine_name=llm_engine,
             request_prompt=prompt,
@@ -443,6 +454,8 @@ class LlmMonitoringRequest(LlmRequest):
         )
         llm_engine = settings.OPENAI_API_ENGINE_35
         monitoring_llm_request = cls.objects.create(
+            name=inspect.currentframe().f_code.co_name,
+            args={"monitoring_pk": monitoring.pk},
             evaluated_monitoring=monitoring,
             engine_name=llm_engine,
             request_prompt=final_prompt,
