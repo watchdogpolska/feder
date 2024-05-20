@@ -93,7 +93,14 @@ class LetterForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
 
     def save(self, *args, **kwargs):
         self.instance.body = html_to_text(self.cleaned_data["html_body"])
-        if "title" in self.changed_data or "html_body" in self.changed_data:
+        if (
+            not (
+                self.fields["html_body"].widget.attrs["readonly"]
+                or self.fields["title"].widget.attrs["readonly"]
+            )
+            and ("title" in self.changed_data or "html_body" in self.changed_data)
+            and not self.instance.author_institution
+        ):
             self.instance.author_user = self.user
         if not self.instance.is_mass_draft() and "ai_evaluation" in self.changed_data:
             update_letter_normalized_answers(self.instance.pk)
