@@ -353,6 +353,25 @@ class LlmLetterRequest(LlmRequest):
                     + f' "{question_number}"'
                 )
                 return
+            categories_update_time = (
+                letter.case.monitoring.get_categories_update_time_for_question(
+                    question_number
+                )
+            )
+            categorization_already_done = self.objects.filter(
+                name=inspect.currentframe().f_code.co_name,
+                evaluated_letter=letter,
+                args__question_number=question_number,
+                created__gt=categories_update_time,
+            ).first()
+            if categorization_already_done:
+                logger.info(
+                    f"Skipping categorization for letter {letter.pk} and question"
+                    + f' "{question_number}" as already done: '
+                    + f"{categorization_already_done.args} at "
+                    + f"{categorization_already_done.created}."
+                )
+                return
             question = question_and_answer_dict[NORMALIZED_RESPONSE_QUESTION_KEY]
             answer = question_and_answer_dict[NORMALIZED_RESPONSE_ANSWER_KEY]
             answer_categories = (
