@@ -8,7 +8,6 @@ from django.db import models
 from django.db.models.functions import Substr
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from jsonfield import JSONField
 from langchain.schema.output_parser import StrOutputParser
 from langchain.text_splitter import TokenTextSplitter
 from langchain_community.callbacks import get_openai_callback
@@ -59,7 +58,7 @@ class LlmRequest(TimeStampedModel):
     response = models.TextField(
         verbose_name=_("LLM Engine response"), null=True, blank=True
     )
-    token_usage = JSONField(
+    token_usage = models.JSONField(
         verbose_name=_("LLM Engine token usage"), null=True, blank=True
     )
     objects = LLmRequestQuerySet.as_manager()
