@@ -24,7 +24,7 @@ def get_llm_response(prompt, prompt_kwargs_dict):
         openai_api_key=settings.OPENAI_API_KEY,
         openai_api_version=settings.OPENAI_API_VERSION,
         azure_endpoint=settings.AZURE_ENDPOINT,
-        deployment_name=settings.OPENAI_API_DEPLOYMENT_NAME,
+        deployment_name=settings.OPENAI_API_ENGINE_35,
         temperature=settings.OPENAI_API_TEMPERATURE,
     )
     chain = prompt | model | StrOutputParser()

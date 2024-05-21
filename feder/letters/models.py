@@ -209,12 +209,6 @@ class Letter(AbstractRecord):
     objects = LetterManager()
     objects_with_spam = LetterQuerySet.as_manager()
 
-    def is_spam_validated(self):
-        return self.is_spam in (Letter.SPAM.spam, Letter.SPAM.non_spam)
-
-    def is_mass_draft(self):
-        return self.is_draft and self.message_type == self.MESSAGE_TYPES.mass_draft
-
     class Meta:
         verbose_name = _("Letter")
         verbose_name_plural = _("Letters")
@@ -224,6 +218,26 @@ class Letter(AbstractRecord):
             ("can_filter_eml", _("Can filter eml")),
             ("recognize_letter", _("Can recognize letter")),
         )
+        constraints = [
+            models.CheckConstraint(
+                check=(
+                    models.Q(author_user__isnull=False, author_institution__isnull=True)
+                    | models.Q(
+                        author_user__isnull=True, author_institution__isnull=False
+                    )
+                    | models.Q(
+                        author_user__isnull=True, author_institution__isnull=True
+                    )
+                ),
+                name="only_one_or_none_author",
+            ),
+        ]
+
+    def is_spam_validated(self):
+        return self.is_spam in (Letter.SPAM.spam, Letter.SPAM.non_spam)
+
+    def is_mass_draft(self):
+        return self.is_draft and self.message_type == self.MESSAGE_TYPES.mass_draft
 
     def delete(self, *args, **kwargs):
         self.record.delete()  # Delete the associated Record instance

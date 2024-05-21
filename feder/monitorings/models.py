@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 from itertools import groupby
 
 import reversion
@@ -388,6 +389,20 @@ class Monitoring(RenderBooleanFieldMixin, TimeStampedModel):
             ]
             return answer_categories
         return ""
+
+    def get_categories_update_time_for_question(self, question_number):
+        answers_categorization_dict = (
+            self.get_normalized_response_answers_categories_dict()
+        )
+        if question_number in answers_categorization_dict:
+            update_time = answers_categorization_dict[question_number].get(
+                "update_time", ""
+            )
+            try:
+                return datetime.strptime(update_time, "%Y-%m-%d %H:%M:%S %Z%z")
+            except ValueError:
+                return None
+        return None
 
     def get_answer_categorization_prompt_sample(self, question_number):
         answers_categorization_dict = (
