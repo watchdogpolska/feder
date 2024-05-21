@@ -1,3 +1,4 @@
+import inspect
 import json
 import logging
 import time
@@ -7,7 +8,6 @@ from django.db import models
 from django.db.models.functions import Substr
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from jsonfield import JSONField
 from langchain.schema.output_parser import StrOutputParser
 from langchain.text_splitter import TokenTextSplitter
 from langchain_community.callbacks import get_openai_callback
@@ -44,6 +44,10 @@ class LlmRequest(TimeStampedModel):
         (2, "done", _("Done")),
         (3, "failed", _("Failed")),
     )
+    name = models.CharField(
+        max_length=100, verbose_name=_("Name"), null=True, blank=True
+    )
+    args = models.JSONField(verbose_name=_("Arguments"), null=True, blank=True)
     engine_name = models.CharField(
         max_length=20, verbose_name=_("LLM Engine name"), null=True, blank=True
     )
@@ -54,7 +58,7 @@ class LlmRequest(TimeStampedModel):
     response = models.TextField(
         verbose_name=_("LLM Engine response"), null=True, blank=True
     )
-    token_usage = JSONField(
+    token_usage = models.JSONField(
         verbose_name=_("LLM Engine token usage"), null=True, blank=True
     )
     objects = LLmRequestQuerySet.as_manager()
@@ -165,6 +169,8 @@ class LlmLetterRequest(LlmRequest):
             monitoring_response=texts[0],
         )
         letter_llm_request = cls.objects.create(
+            name=inspect.currentframe().f_code.co_name,
+            args={"letter_pk": letter.pk},
             evaluated_letter=letter,
             engine_name=llm_engine,
             request_prompt=final_prompt,
@@ -270,6 +276,8 @@ class LlmLetterRequest(LlmRequest):
                 monitoring_response=text,
             )
             letter_llm_request = cls.objects.create(
+                name=inspect.currentframe().f_code.co_name,
+                args={"letter_pk": letter.pk},
                 evaluated_letter=letter,
                 engine_name=llm_engine,
                 request_prompt=final_prompt,
@@ -345,6 +353,25 @@ class LlmLetterRequest(LlmRequest):
                     + f' "{question_number}"'
                 )
                 return
+            categories_update_time = (
+                letter.case.monitoring.get_categories_update_time_for_question(
+                    question_number
+                )
+            )
+            categorization_already_done = self.objects.filter(
+                name=inspect.currentframe().f_code.co_name,
+                evaluated_letter=letter,
+                args__question_number=question_number,
+                created__gt=categories_update_time,
+            ).first()
+            if categorization_already_done:
+                logger.info(
+                    f"Skipping categorization for letter {letter.pk} and question"
+                    + f' "{question_number}" as already done: '
+                    + f"{categorization_already_done.args} at "
+                    + f"{categorization_already_done.created}."
+                )
+                return
             question = question_and_answer_dict[NORMALIZED_RESPONSE_QUESTION_KEY]
             answer = question_and_answer_dict[NORMALIZED_RESPONSE_ANSWER_KEY]
             answer_categories = (
@@ -383,6 +410,8 @@ class LlmLetterRequest(LlmRequest):
             logger.warning(message)
             return
         letter_llm_request = self.objects.create(
+            name=inspect.currentframe().f_code.co_name,
+            args={"letter_pk": letter.pk, "question_number": question_number},
             evaluated_letter=letter,
             engine_name=llm_engine,
             request_prompt=prompt,
@@ -443,6 +472,8 @@ class LlmMonitoringRequest(LlmRequest):
         )
         llm_engine = settings.OPENAI_API_ENGINE_35
         monitoring_llm_request = cls.objects.create(
+            name=inspect.currentframe().f_code.co_name,
+            args={"monitoring_pk": monitoring.pk},
             evaluated_monitoring=monitoring,
             engine_name=llm_engine,
             request_prompt=final_prompt,
