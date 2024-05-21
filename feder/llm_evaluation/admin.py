@@ -19,6 +19,7 @@ class LlmLetterRequestAdmin(admin.ModelAdmin):
     date_hierarchy = "created"
     list_display = (
         "id",
+        "name",
         "evaluated_letter",
         "letter_id",
         "engine_name",
@@ -27,10 +28,7 @@ class LlmLetterRequestAdmin(admin.ModelAdmin):
         "get_time_used",
         "created",
     )
-    list_filter = (
-        "engine_name",
-        "status",
-    )
+    list_filter = ("engine_name", "status", "name")
     actions = []
 
     def has_delete_permission(self, request, obj=None):
@@ -61,6 +59,7 @@ class LlmMonitoringRequestAdmin(admin.ModelAdmin):
     date_hierarchy = "created"
     list_display = (
         "id",
+        "name",
         "evaluated_monitoring",
         "engine_name",
         "status",
@@ -68,10 +67,7 @@ class LlmMonitoringRequestAdmin(admin.ModelAdmin):
         "get_time_used",
         "created",
     )
-    list_filter = (
-        "engine_name",
-        "status",
-    )
+    list_filter = ("engine_name", "status", "name")
     actions = []
 
     def has_delete_permission(self, request, obj=None):
