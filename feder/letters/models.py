@@ -244,6 +244,10 @@ class Letter(AbstractRecord):
         super().delete(*args, **kwargs)
 
     @property
+    def is_delete_protected(self):
+        return self.llmletterrequest_set.count() != 0
+
+    @property
     def is_incoming(self):
         return not bool(self.author_user_id)
 

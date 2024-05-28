@@ -503,9 +503,8 @@ class LetterMarkSpamView(RaisePermissionRequiredMixin, ActionMessageMixin, Actio
 
     def get_queryset(self):
         return (
-            super()
-            .get_queryset()
-            .filter(is_spam__in=[Letter.SPAM.unknown, Letter.SPAM.probable_spam])
+            super().get_queryset()
+            # .filter(is_spam__in=[Letter.SPAM.unknown, Letter.SPAM.probable_spam])
             .for_user(self.request.user)
         )
 
