@@ -79,7 +79,9 @@ class TestAzureChatOpenAI(TestCase):
         response_format = model.output_schema.schema()["definitions"]["AIMessage"][
             "properties"
         ]
-        self.assertEqual(response_format.keys(), EXPECTED_RESPONSE_DICT.keys())
+        self.assertEqual(
+            set(response_format.keys()), set(EXPECTED_RESPONSE_DICT.keys())
+        )
 
 
 class TestLlmLetterRequest(TestCase):
