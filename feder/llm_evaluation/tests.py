@@ -55,6 +55,7 @@ EXPECTED_RESPONSE_DICT = {
             "violence": {"filtered": False, "severity": "safe"},
         },
     },
+    "usage_metadata": {},  # TODO: Recheck this with chat response
     "type": "ai",
     "name": None,
     "id": "run-e98a1d1b-a086-4013-9f25-64997f03f703-0",
