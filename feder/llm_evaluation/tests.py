@@ -83,7 +83,13 @@ class TestAzureChatOpenAI(TestCase):
         print(set(response_format.keys()))
         print(set(EXPECTED_RESPONSE_DICT.keys()))
         self.assertEqual(
-            set(response_format.keys()), set(EXPECTED_RESPONSE_DICT.keys())
+            set(response_format.keys()),
+            set(
+                EXPECTED_RESPONSE_DICT.keys()
+                + [
+                    "usage_metadata",
+                ]
+            ),
         )
 
 
