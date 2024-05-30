@@ -15,7 +15,12 @@ from jsonfield import JSONField
 from model_utils.models import TimeStampedModel
 
 from feder.domains.models import Domain
-from feder.llm_evaluation.prompts import EMAIL_IS_ANSWER, answer_categorization
+from feder.llm_evaluation.prompts import (
+    EMAIL_IS_ANSWER,
+    answer_categorization,
+    letter_response_normalization,
+    monitoring_response_normalized_template,
+)
 from feder.main.utils import (
     FormattedDatetimeMixin,
     RenderBooleanFieldMixin,
@@ -134,6 +139,16 @@ class Monitoring(RenderBooleanFieldMixin, TimeStampedModel):
     )
     normalized_response_answers_categories = JSONField(
         verbose_name=_("Normalized response answers categories"),
+        null=True,
+        blank=True,
+    )
+    letter_normalization_prompt_extension = models.TextField(
+        verbose_name=_("Letter normalization prompt extension"),
+        null=True,
+        blank=True,
+    )
+    letter_normalization_prompt_extension_modified = models.DateTimeField(
+        verbose_name=_("Letter normalization prompt extension modified"),
         null=True,
         blank=True,
     )
@@ -419,9 +434,9 @@ class Monitoring(RenderBooleanFieldMixin, TimeStampedModel):
                     + " for response categories will not be sent."
                 )
             return answer_categorization.format(
-                institution="INSTITUTION",
+                institution=_("INSTITUTION"),
                 question=question_text,
-                answer="ODPOWIEDŹ Z INSTYTUCJI",
+                answer=_("INSTITUTION RESPONSE"),
                 answer_categories=answer_categories,
             ).replace("    ", "")
         else:
@@ -429,6 +444,58 @@ class Monitoring(RenderBooleanFieldMixin, TimeStampedModel):
                 f'There is no question "{question_number}", so the LLM query for'
                 + " answer categories will not be sent."
             )
+
+    def get_template_normalization_prompt_sample(self):
+        return monitoring_response_normalized_template.format(
+            monitoring_template=self.template,
+        )
+
+    @property
+    def normalized_response_template_is_up_to_date(self):
+        if not self.normalized_response_template or not self.use_llm:
+            return False
+        from feder.llm_evaluation.models import LlmMonitoringRequest
+
+        return LlmMonitoringRequest.objects.filter(
+            name="get_response_normalized_template",
+            evaluated_monitoring=self,
+            request_prompt=self.get_template_normalization_prompt_sample(),
+        ).exists()
+
+    @property
+    def normalized_response_template_created(self):
+        if not self.normalized_response_template or not self.use_llm:
+            return None
+        from feder.llm_evaluation.models import LlmMonitoringRequest
+
+        llm_request = (
+            LlmMonitoringRequest.objects.filter(
+                name="get_response_normalized_template",
+                evaluated_monitoring=self,
+            )
+            .order_by("created")
+            .last()
+        )
+        return llm_request.created if llm_request else None
+
+    def get_letter_normalization_prompt_sample(self):
+        if not self.use_llm:
+            return _(
+                "The LLM has not been enabled, so the LLM request for normalization"
+                + " will not be sent."
+            )
+        if not self.normalized_response_template:
+            return _(
+                "The normalization template has not been defined, so the LLM request"
+                + " for normalization will not be sent."
+            )
+        return letter_response_normalization.format(
+            institution=_("INSTITUTION"),
+            normalized_questions=self.normalized_response_template,
+            monitoring_response=_("INSTITUTION RESPONSE"),
+            prompt_instruction_extension=self.letter_normalization_prompt_extension
+            or _("PROMPT INSTRUCTION EXTENSION"),
+        )
 
 
 class MonitoringUserObjectPermission(UserObjectPermissionBase):
