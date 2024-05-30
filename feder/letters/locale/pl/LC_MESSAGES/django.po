@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: letters 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-15 14:42+0200\n"
+"POT-Creation-Date: 2024-05-30 15:53+0200\n"
 "PO-Revision-Date: 2024-05-14 15:01+0200\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -80,8 +80,8 @@ msgstr "Renomowane TLDs"
 msgid "Non-reputable TLDs"
 msgstr "Nie renomowane TLDs"
 
-#: feder/letters/apps.py:7 feder/letters/models.py:219
-#: feder/letters/models.py:657
+#: feder/letters/apps.py:7 feder/letters/models.py:213
+#: feder/letters/models.py:700
 msgid "Letter"
 msgstr "List"
 
@@ -110,14 +110,14 @@ msgstr "Sprawa"
 msgid "Letter AI evaluation"
 msgstr "Ocena AI listu"
 
-#: feder/letters/forms.py:103
+#: feder/letters/forms.py:110
 msgid ""
 "AI evaluation was changed. Task to update letter normalized answers created"
 msgstr ""
 "Ocena AI została zmieniona. Utworzono zadanie aktualizacji znormalizowanych "
 "odpowiedzi w listach z instytucji"
 
-#: feder/letters/forms.py:120 feder/letters/forms.py:277
+#: feder/letters/forms.py:127 feder/letters/forms.py:284
 msgid ""
 "Case was changed. Task to update letter categorization and upadte normalized "
 "answers created"
@@ -125,45 +125,45 @@ msgstr ""
 "Sprawa została zmieniona. Utworzono zadanie aktualizowania kategoryzacji "
 "listów i tworzenia znormalizowanych odpowiedzi"
 
-#: feder/letters/forms.py:146
+#: feder/letters/forms.py:153
 msgid "Message"
 msgstr "Wiadomość"
 
-#: feder/letters/forms.py:150
+#: feder/letters/forms.py:157
 msgid "Message continued"
 msgstr "Wiadomość cd."
 
-#: feder/letters/forms.py:175 feder/letters/forms.py:182
+#: feder/letters/forms.py:182 feder/letters/forms.py:189
 msgid "Save draft"
 msgstr "Zapisz szkic"
 
-#: feder/letters/forms.py:178 feder/letters/forms.py:186
+#: feder/letters/forms.py:185 feder/letters/forms.py:193
 msgid "Send reply"
 msgstr "Wyślij odpowiedź"
 
-#: feder/letters/forms.py:194
+#: feder/letters/forms.py:201
 msgid ""
 "Nothing to do. You do not have permission to save draft or send replies."
 msgstr ""
 "Nic do zrobienia. Nie masz uprawnień, aby zapisać szkic lub wysłać odpowiedź."
 
-#: feder/letters/forms.py:200
+#: feder/letters/forms.py:207
 msgid "You do not have permission to send replies."
 msgstr "Nie masz uprawnień, aby wysłać odpowiedzi."
 
-#: feder/letters/forms.py:203
+#: feder/letters/forms.py:210
 msgid "You do not have permission to save draft."
 msgstr "Nie masz odpowiedzi, aby wysłać odpowiedź."
 
-#: feder/letters/forms.py:249
+#: feder/letters/forms.py:256
 msgid "Assign"
 msgstr "Przypisz"
 
-#: feder/letters/forms.py:260 feder/letters/forms.py:288
+#: feder/letters/forms.py:267 feder/letters/forms.py:295
 msgid "Case number"
 msgstr "Numer sprawy"
 
-#: feder/letters/forms.py:284
+#: feder/letters/forms.py:291
 msgid "Reassign"
 msgstr "Przepisz"
 
@@ -195,7 +195,7 @@ msgstr "Potwierdzenie dostarczenia"
 msgid "Vacation reply"
 msgstr "Odpowiedź urlopowa"
 
-#: feder/letters/models.py:136 feder/letters/models.py:674
+#: feder/letters/models.py:136 feder/letters/models.py:717
 msgid "Mass message draft"
 msgstr "Szkic wiadomości masowej"
 
@@ -285,100 +285,100 @@ msgstr "ID wysłanej wiadomości e-mail \"Message-ID\""
 msgid "File"
 msgstr "Plik"
 
-#: feder/letters/models.py:220 feder/letters/templates/letters/base.html:5
+#: feder/letters/models.py:214 feder/letters/templates/letters/base.html:5
 #: feder/letters/templates/letters/letter_detail.html:3
 msgid "Letters"
 msgstr "Listy"
 
-#: feder/letters/models.py:224
+#: feder/letters/models.py:218
 msgid "Can filter eml"
 msgstr "Może filtrować po eml"
 
-#: feder/letters/models.py:225
+#: feder/letters/models.py:219
 msgid "Can recognize letter"
 msgstr "Może rozpoznawać listy"
 
-#: feder/letters/models.py:243
+#: feder/letters/models.py:261
 msgid "(no subject)"
 msgstr "(bez tematu)"
 
-#: feder/letters/models.py:571
+#: feder/letters/models.py:614
 msgid "Email address domain"
 msgstr "Domena adresu e-mail"
 
-#: feder/letters/models.py:574
+#: feder/letters/models.py:617
 msgid "Is trusted (own or partner) domain?"
 msgstr "Czy zaufana (własna lub partnerska)?"
 
-#: feder/letters/models.py:577
+#: feder/letters/models.py:620
 msgid "Is monitoring Email To domain?"
 msgstr "Czy E-mail Do jest z monitoringu?"
 
-#: feder/letters/models.py:580
+#: feder/letters/models.py:623
 msgid "Is spammer domain?"
 msgstr "Jest spamerem"
 
-#: feder/letters/models.py:583
+#: feder/letters/models.py:626
 msgid "Is non spammer domain?"
 msgstr "Nie jest spamerem"
 
-#: feder/letters/models.py:586
+#: feder/letters/models.py:629
 msgid "Email To addres counter"
 msgstr "Liczba adresów email do"
 
-#: feder/letters/models.py:589
+#: feder/letters/models.py:632
 msgid "Email From addres counter"
 msgstr "Liczba adresów email od"
 
-#: feder/letters/models.py:630
+#: feder/letters/models.py:673
 msgid "Letter Email domain"
 msgstr "Domena listu e-mail"
 
-#: feder/letters/models.py:631
+#: feder/letters/models.py:674
 msgid "Letter Email domains"
 msgstr "Domeny listów e-mail"
 
-#: feder/letters/models.py:636
+#: feder/letters/models.py:679
 msgid "TLD name must be a single word"
 msgstr "Nazwa TLD musi być pojedynczym słowem"
 
-#: feder/letters/models.py:641
+#: feder/letters/models.py:684
 msgid "Email address repurable TLD"
 msgstr "Renomowana domena najwyższego poziomu z adresu e-mail"
 
-#: feder/letters/models.py:650
+#: feder/letters/models.py:693
 msgid "Reputable Letter Email TLD"
 msgstr "Renomowana TLD adresu e-mail "
 
-#: feder/letters/models.py:651
+#: feder/letters/models.py:694
 msgid "Reputable Letter Email TLDs"
 msgstr "Renomowane TLD adresu e-mail "
 
-#: feder/letters/models.py:663
+#: feder/letters/models.py:706
 msgid "Monitoring"
 msgstr "Monitoring"
 
-#: feder/letters/models.py:668
+#: feder/letters/models.py:711
 msgid "Recipient tags"
 msgstr "Tagi odbiorców"
 
-#: feder/letters/models.py:669
+#: feder/letters/models.py:712
 msgid "Used to determine recipients by case tags."
 msgstr "Używane do określenia odbiorców na podstawie znaczników sprawy."
 
-#: feder/letters/models.py:675
+#: feder/letters/models.py:718
 msgid "Mass message drafts"
 msgstr "Szkice wiadomości masowych"
 
-#: feder/letters/models.py:704
+#: feder/letters/models.py:747
 msgid "Virus scan request"
 msgstr "Żądanie skanowania antywirusowego"
 
-#: feder/letters/models.py:706
+#: feder/letters/models.py:749
 msgid "Text content"
 msgstr "Treść tekstowa"
 
-#: feder/letters/models.py:709
+#: feder/letters/models.py:752
 msgid "Text content update result"
 msgstr "Wynik aktualizacji zawartości tekstowej"
 
@@ -833,22 +833,22 @@ msgstr ""
 msgid "The message was resend."
 msgstr "Wiadomość została wysłana ponownie."
 
-#: feder/letters/views.py:526
+#: feder/letters/views.py:525
 #, python-brace-format
 msgid "The letter {object} has been marked as valid."
 msgstr "List {object} został oznaczony jako spam i ukryty."
 
-#: feder/letters/views.py:529
+#: feder/letters/views.py:528
 #, python-brace-format
 msgid "The message {object} has been marked as spam and hidden."
 msgstr "List {object} został oznaczony jako spam i ukryty."
 
-#: feder/letters/views.py:588
+#: feder/letters/views.py:587
 #, python-format
 msgid "Assigned letter to case '%(case)s'"
 msgstr "Przypisano list do sprawy '%(case)s'"
 
-#: feder/letters/views.py:637
+#: feder/letters/views.py:636
 msgid ""
 "You do not have permission to view that file. The file was considered "
 "dangerous."
@@ -856,11 +856,11 @@ msgstr ""
 "Nie masz uprawnień do wyświetlania tego pliku. Plik został uznany za "
 "niebezpieczny."
 
-#: feder/letters/views.py:642 feder/letters/views.py:646
+#: feder/letters/views.py:641 feder/letters/views.py:645
 msgid "You do not have permission to view that file."
 msgstr "Nie masz uprawnień do wyświetlania tego pliku."
 
-#: feder/letters/views.py:669
+#: feder/letters/views.py:668
 msgid "The file {} has been queued for scanning"
 msgstr "Plik {} został zakolejkowany do skanowania"
 
