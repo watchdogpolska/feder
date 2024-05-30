@@ -88,7 +88,7 @@ class TestAzureChatOpenAI(TestCase):
                 EXPECTED_RESPONSE_DICT.keys()
                 + [
                     "usage_metadata",
-                ]
+                ]  # TODO: check schema changes
             ),
         )
 
