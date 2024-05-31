@@ -64,6 +64,7 @@ from feder.llm_evaluation.prompts import (
 from feder.llm_evaluation.tasks import (
     get_monitoring_normalized_response_template,
     update_letter_answers_to_monitoring_questions_categorization,
+    update_monitoring_responses_normalization,
 )
 from feder.main.mixins import ExtraListMixin, RaisePermissionRequiredMixin
 from feder.main.utils import DeleteViewLogEntryMixin, FormValidLogEntryMixin
@@ -591,6 +592,46 @@ class MonitoringTemplateView(DetailView):
         else:
             context["email_footer"] = mark_safe(text_to_html(self.object.email_footer))
         return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if "letter_normalization_prompt_extension" in request.POST:
+            self.object.letter_normalization_prompt_extension = request.POST[
+                "letter_normalization_prompt_extension"
+            ]
+            self.object.letter_normalization_prompt_extension_modified = timezone.now()
+            self.object.save()
+        if (
+            "update_normalized_response_template" in request.POST
+            and self.object.use_llm
+        ):
+            if self.object.normalized_response_template_is_up_to_date:
+                messages.info(
+                    request,
+                    _("Normalized response template is already up to date."),
+                )
+            else:
+                get_monitoring_normalized_response_template(self.object.pk)
+                messages.success(
+                    request,
+                    _(
+                        "Normalized response template update task generated. Lerrter"
+                        + " responses categorization and normalization tasks will"
+                        + " follow. It may take a while to get full update - check"
+                        + " task queue in admin panel."
+                    ),
+                )
+        if "normalize_monitoring_responses" in request.POST:
+            update_monitoring_responses_normalization(self.object.pk)
+            messages.success(
+                request,
+                _(
+                    "Letter responses categorization and normalization tasks generated."
+                    + " It may take a while to get full update - check task queue in"
+                    + " admin panel."
+                ),
+            )
+        return self.get(request, *args, **kwargs)
 
 
 class MonitoringResultsView(DetailView):

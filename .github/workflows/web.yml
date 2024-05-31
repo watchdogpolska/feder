@@ -34,6 +34,8 @@ jobs:
         run: make check
       - name: Show settings
         run: make settings
+      - name: Show installed dependencies
+        run: pip list
       - name: Build test
         run: make test
 #     - name: Send coverage report

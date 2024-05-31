@@ -1,8 +1,19 @@
 {% load i18n %}
-{% blocktrans with object=object %}Are you sure you want to remove "{{ object }}"?{% endblocktrans %}
-<form method="POST">
-    <div style="display:none">
-        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+{% if object.is_delete_protected %}
+    <div class="alert alert-danger">
+        "{{ object }}" - {% blocktrans %} cannot be deleted  
+        because it is related to protected object. Mark as spam to hide it.{% endblocktrans %}
     </div>
-    <input type="submit" class="btn btn-primary" value="{% trans 'Delete' %}">
-</form>
+    <a class="btn btn-primary" href="{% url 'letters:mark_spam' pk=object.pk %}">
+        <i class="fa fa-bullhorn"></i>
+        {% trans 'Mark spam' %}
+    </a>
+{% else %}
+    {% blocktrans with object=object %}Are you sure you want to remove "{{ object }}"?{% endblocktrans %}
+    <form method="POST">
+        <div style="display:none">
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+        </div>
+        <input type="submit" class="btn btn-primary" value="{% trans 'Delete' %}">
+    </form>
+{% endif %}

@@ -244,6 +244,10 @@ class Letter(AbstractRecord):
         super().delete(*args, **kwargs)
 
     @property
+    def is_delete_protected(self):
+        return self.llmletterrequest_set.count() != 0
+
+    @property
     def is_incoming(self):
         return not bool(self.author_user_id)
 
@@ -578,6 +582,31 @@ class Letter(AbstractRecord):
         ] = answer_category
         self.normalized_response = json.dumps(response_dict)
         self.save()
+
+    @property
+    def normalized_answer_created(self):
+        if not self.normalized_response:
+            return None
+
+        from feder.llm_evaluation.models import LlmLetterRequest
+
+        llm_request = (
+            LlmLetterRequest.objects.filter(name="get_normalized_answers", letter=self)
+            .order_by("created")
+            .last()
+        )
+        return llm_request.created if llm_request else None
+
+    @property
+    def normalized_answer_is_up_to_date(self):
+        if (
+            self.normalized_answer_created is not None
+            and self.case.monitoring.normalized_response_template_created is not None
+            and self.normalized_answer_created
+            > self.case.monitoring.normalized_response_template_created
+        ):
+            return True
+        return False
 
 
 class LetterEmailDomain(TimeStampedModel):
