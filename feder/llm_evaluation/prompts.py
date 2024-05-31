@@ -78,11 +78,13 @@ letter_response_normalization = PromptTemplate.from_template(
     Nie zmieniaj kluczy ani wartości pytań. Jeśli w pliku json z pytaniami istnieje już
     wartość odpowiedzi a tekst zawiera również informację dla odpowiedź na pytanie to
     uzupełnij wartość odpowiedzi w pliku json o brakujące informacje.
+    {prompt_instruction_extension}
 
     Tekst do analizy:
     ```{monitoring_response}```.
     """,
     template_format="f-string",
+    partial_variables={"prompt_instruction_extension": ""},
 )
 
 monitoring_response_normalized_template = PromptTemplate.from_template(
