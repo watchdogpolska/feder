@@ -28,7 +28,7 @@ repos:
           - --skip-glob
           - "**/migrations/*.py"
   - repo: https://github.com/sirosen/check-jsonschema
-    rev: 0.28.3
+    rev: 0.28.4
     hooks:
       - id: check-github-workflows
       - id: check-readthedocs
