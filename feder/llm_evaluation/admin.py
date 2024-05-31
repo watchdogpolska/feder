@@ -20,6 +20,7 @@ class LlmLetterRequestAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "name",
+        "args",
         "evaluated_letter",
         "letter_id",
         "engine_name",
@@ -29,6 +30,7 @@ class LlmLetterRequestAdmin(admin.ModelAdmin):
         "created",
     )
     list_filter = ("engine_name", "status", "name")
+    search_fields = ("args",)
     actions = []
 
     def has_delete_permission(self, request, obj=None):
@@ -60,6 +62,7 @@ class LlmMonitoringRequestAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "name",
+        "args",
         "evaluated_monitoring",
         "engine_name",
         "status",
@@ -68,6 +71,7 @@ class LlmMonitoringRequestAdmin(admin.ModelAdmin):
         "created",
     )
     list_filter = ("engine_name", "status", "name")
+    search_fields = ("args",)
     actions = []
 
     def has_delete_permission(self, request, obj=None):

@@ -94,6 +94,12 @@ def update_letter_normalized_answers(letter_pk):
         logger.warning(f"Letter with pk={letter_pk} not found.")
         return
 
+    if letter.normalized_answer_is_up_to_date:
+        logger.info(
+            f"Letter with pk={letter_pk} normalized answers are up to date - skipping."
+        )
+        return
+
     if EMAIL_IS_ANSWER in letter.ai_evaluation:
         LlmLetterRequest.get_normalized_answers(letter)
         logger.info(f"Letter with pk={letter_pk} answer normalization processed.")
@@ -185,7 +191,7 @@ def get_monitoring_normalized_response_template(monitoring_pk):
         len(monitoring_llm_requests) > 1
         and monitoring_llm_requests[0].response != monitoring_llm_requests[1].response
     ):
-        update_monitoring_responses_normalization(monitoring_pk)
+        update_monitoring_responses_categorization_and_normalization(monitoring_pk)
         logger.info(
             f"Monitoring (pk={monitoring_pk}) tasks to normalize responses generated."
         )
@@ -195,6 +201,26 @@ def get_monitoring_normalized_response_template(monitoring_pk):
             f"Monitoring (pk={monitoring_pk}) normalized response template not "
             + "changed - skipping normalization."
         )
+
+
+@background(schedule=120)
+def update_monitoring_responses_categorization_and_normalization(monitoring_pk):
+    from feder.letters.models import Letter
+
+    letters_to_normalize = (
+        Letter.objects.all()
+        .filter(record__case__monitoring__pk=monitoring_pk)
+        .filter(author_user__isnull=True)
+    )
+
+    if not letters_to_normalize:
+        logger.warning(
+            f"No letters to normalize for monitoring with pk={monitoring_pk}."
+        )
+        return
+
+    for letter in letters_to_normalize:
+        categorize_letter_in_background(letter.pk)
 
 
 @background(schedule=120)
@@ -214,4 +240,4 @@ def update_monitoring_responses_normalization(monitoring_pk):
         return
 
     for letter in letters_to_normalize:
-        categorize_letter_in_background(letter.pk)
+        update_letter_normalized_answers(letter.pk)

@@ -113,7 +113,7 @@ class LlmRequest(TimeStampedModel):
 class LlmLetterRequest(LlmRequest):
     evaluated_letter = models.ForeignKey(
         "letters.Letter",
-        on_delete=models.DO_NOTHING,
+        on_delete=models.PROTECT,
         verbose_name=_("Evaluated Letter"),
     )
 
@@ -453,7 +453,7 @@ class LlmLetterRequest(LlmRequest):
 class LlmMonitoringRequest(LlmRequest):
     evaluated_monitoring = models.ForeignKey(
         "monitorings.Monitoring",
-        on_delete=models.DO_NOTHING,
+        on_delete=models.PROTECT,
         verbose_name=_("Evaluated Monitoring"),
     )
     chat_request = models.BooleanField(
