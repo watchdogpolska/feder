@@ -68,29 +68,25 @@ class TestAzureChatOpenAI(TestCase):
 
     def test_azure_chat_openai_response_schema_format(self):
         model = AzureChatOpenAI(
-            openai_api_type="azure",
-            openai_api_key="YOUR_API_KEY",
-            openai_api_version="2023-05-15",
-            azure_endpoint="YOUR_ENDPOINT",
-            deployment_name="YOUR_DEPLOYMENT_NAME",
-            temperature=0.5,
+            openai_api_type=settings.OPENAI_API_TYPE,
+            openai_api_key=settings.OPENAI_API_KEY,
+            openai_api_version=settings.OPENAI_API_VERSION,
+            azure_endpoint=settings.AZURE_ENDPOINT,
+            deployment_name=settings.OPENAI_API_ENGINE_35,
+            temperature=settings.OPENAI_API_TEMPERATURE,
         )
 
         response_format = model.output_schema.schema()["definitions"]["AIMessage"][
             "properties"
         ]
-        print(response_format)
-        print(set(response_format.keys()))
-        print(set(EXPECTED_RESPONSE_DICT.keys()))
+        print("\n", 20 * "-", "\n", model)
+        print("\n", 20 * "-", "\n", response_format)
+        print("\n", 20 * "-", "\n", set(response_format.keys()))
+        print("\n", 20 * "-", "\n", set(EXPECTED_RESPONSE_DICT.keys()))
         self.assertEqual(
             set(response_format.keys()),
-            set(
-                EXPECTED_RESPONSE_DICT.keys()
-                + [
-                    "usage_metadata",
-                ]  # TODO: check schema changes
-            ),
-        )
+            set(EXPECTED_RESPONSE_DICT.keys()),
+        )  # TODO: check schema changes
 
 
 class TestLlmLetterRequest(TestCase):
@@ -98,12 +94,12 @@ class TestLlmLetterRequest(TestCase):
     @patch("feder.llm_evaluation.models.AzureChatOpenAI.invoke")
     def test_azure_chat_openai_response_format(self, mock_invoke):
         model = AzureChatOpenAI(
-            openai_api_type="azure",
-            openai_api_key="YOUR_API_KEY",
-            openai_api_version="2023-05-15",
-            azure_endpoint="YOUR_ENDPOINT",
-            deployment_name="YOUR_DEPLOYMENT_NAME",
-            temperature=0.5,
+            openai_api_type=settings.OPENAI_API_TYPE,
+            openai_api_key=settings.OPENAI_API_KEY,
+            openai_api_version=settings.OPENAI_API_VERSION,
+            azure_endpoint=settings.AZURE_ENDPOINT,
+            deployment_name=settings.OPENAI_API_ENGINE_35,
+            temperature=settings.OPENAI_API_TEMPERATURE,
         )
         chain = letter_categorization | model
         # Set the mock response to a valid Azure Chat OpenAI response
