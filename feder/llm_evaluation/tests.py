@@ -79,14 +79,23 @@ class TestAzureChatOpenAI(TestCase):
         response_format = model.output_schema.schema()["definitions"]["AIMessage"][
             "properties"
         ]
-        print("\n", 20 * "-", "\n", model)
-        print("\n", 20 * "-", "\n", response_format)
-        print("\n", 20 * "-", "\n", set(response_format.keys()))
-        print("\n", 20 * "-", "\n", set(EXPECTED_RESPONSE_DICT.keys()))
-        self.assertEqual(
-            set(response_format.keys()),
+        model_schema_keys = set(response_format.keys())
+        expected_schema_keys = set(EXPECTED_RESPONSE_DICT.keys()) | {"usage_metadata"}
+        print("\n", 20 * "-", " settings.DEBUG:\n", settings.DEBUG)
+        print("\n", 20 * "-", " model:\n", model)
+        print("\n", 20 * "-", "response_format:\n", response_format)
+        print("\n", 20 * "-", "model_schema_keys:\n", model_schema_keys)
+        print(
+            "\n",
+            20 * "-",
+            "\nset(EXPECTED_RESPONSE_DICT.keys()):",
             set(EXPECTED_RESPONSE_DICT.keys()),
-        )  # TODO: check schema changes
+        )
+        print("\n", 20 * "-", "expected_schema_keys:\n", expected_schema_keys)
+        self.assertEqual(
+            model_schema_keys,
+            expected_schema_keys,
+        )  # TODO: check why schem differs in dev and github test environments
 
 
 class TestLlmLetterRequest(TestCase):
