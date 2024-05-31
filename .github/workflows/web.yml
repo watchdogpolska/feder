@@ -35,7 +35,7 @@ jobs:
       - name: Show settings
         run: make settings
       - name: Show installed dependencies
-        run: pip list
+        run: docker-compose run web pip list
       - name: Build test
         run: make test
 #     - name: Send coverage report
