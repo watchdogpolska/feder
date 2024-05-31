@@ -19,6 +19,7 @@ settings.AZURE_ENDPOINT = "YOUR_ENDPOINT"
 settings.OPENAI_API_ENGINE_35 = "gpt-35-turbo-16k"
 settings.OPENAI_API_ENGINE_4 = "gpt-4"
 settings.OPENAI_API_TEMPERATURE = 0
+settings.DEBUG = False
 
 
 EXPECTED_RESPONSE_DICT = {
@@ -80,6 +81,8 @@ class TestAzureChatOpenAI(TestCase):
             "properties"
         ]
         model_schema_keys = set(response_format.keys())
+        # TODO: check why schem differs in dev and github test environments
+        # TEMP fix for the github tests to pass:
         expected_schema_keys = set(EXPECTED_RESPONSE_DICT.keys()) | {"usage_metadata"}
         print("\n", 20 * "-", " settings.DEBUG:\n", settings.DEBUG)
         print("\n", 20 * "-", " model:\n", model)
@@ -95,7 +98,7 @@ class TestAzureChatOpenAI(TestCase):
         self.assertEqual(
             model_schema_keys,
             expected_schema_keys,
-        )  # TODO: check why schem differs in dev and github test environments
+        )
 
 
 class TestLlmLetterRequest(TestCase):
