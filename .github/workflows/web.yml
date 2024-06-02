@@ -8,16 +8,16 @@ on:
   pull_request:
 
 jobs:
-  django:
+  django-build-and-test:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python:
-#          - 3.6
-          - "3.12"
-        django:
-#          - "==2.2.*"
-          - "==4.2"
+#     strategy:
+#       matrix:
+#         python:
+# #          - 3.6
+#           - "3.12"
+#         django:
+# #          - "==2.2.*"
+#           - "==4.2"
     steps:
       - uses: actions/checkout@v4
         with:
