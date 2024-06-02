@@ -81,7 +81,8 @@ virustotal-api==1.1.11
 https://github.com/ross/performant-pagination/archive/5b537da95728d622792031071ecc4cb5154ec86f.zip
 # not available on pypi - see https://github.com/ross/performant-pagination/issues/5
 
-django4-background-tasks==1.2.9
+# django4-background-tasks==1.2.9 - unmintained, using watchdog maintained fork py312, dj42 compatible
+git+https://github.com/watchdogpolska/django-background-tasks.git@master
 django-cors-headers==4.3.1
 
 django-rosetta==0.10.0
