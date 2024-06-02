@@ -8,16 +8,16 @@ on:
   pull_request:
 
 jobs:
-  django:
+  django_build_and_test:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python:
-#          - 3.6
-          - "3.10"
-        django:
-#          - "==2.2.*"
-          - "==4.2"
+#     strategy:
+#       matrix:
+#         python:
+# #          - 3.6
+#           - "3.12"
+#         django:
+# #          - "==2.2.*"
+#           - "==4.2"
     steps:
       - uses: actions/checkout@v4
         with:
@@ -35,7 +35,7 @@ jobs:
       - name: Show settings
         run: make settings
       - name: Show installed dependencies
-        run: pip list
+        run: docker-compose run web pip list
       - name: Build test
         run: make test
 #     - name: Send coverage report
