@@ -591,7 +591,9 @@ class Letter(AbstractRecord):
         from feder.llm_evaluation.models import LlmLetterRequest
 
         llm_request = (
-            LlmLetterRequest.objects.filter(name="get_normalized_answers", letter=self)
+            LlmLetterRequest.objects.filter(
+                name="get_normalized_answers", evaluated_letter=self
+            )
             .order_by("created")
             .last()
         )
