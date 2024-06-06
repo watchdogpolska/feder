@@ -235,6 +235,9 @@ class LlmLetterRequest(LlmRequest):
             normalized_questions_json = (
                 letter.case.monitoring.normalized_response_template
             )
+            instruction_extension = (
+                letter.case.monitoring.letter_normalization_prompt_extension or ""
+            )
         else:
             logger.warning(
                 f"Can not get normalised answer: letter {letter.pk}"
@@ -244,6 +247,7 @@ class LlmLetterRequest(LlmRequest):
         test_prompt = letter_response_normalization.format(
             institution=institution_name,
             normalized_questions=normalized_questions_json,
+            prompt_instruction_extension=instruction_extension,
             monitoring_response="",
         )
         llm_engine = settings.OPENAI_API_ENGINE_35
@@ -273,6 +277,7 @@ class LlmLetterRequest(LlmRequest):
             final_prompt = letter_response_normalization.format(
                 institution=institution_name,
                 normalized_questions=normalized_questions_json,
+                prompt_instruction_extension=instruction_extension,
                 monitoring_response=text,
             )
             letter_llm_request = cls.objects.create(

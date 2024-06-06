@@ -100,6 +100,14 @@ def update_letter_normalized_answers(letter_pk):
         )
         return
 
+    if not letter.ai_evaluation:
+        categorize_letter_in_background(letter_pk)
+        logger.info(
+            f"Letter with pk={letter_pk} has no AI evaluation. Task to update letter"
+            + " categorization and upadte normalized answers created."
+        )
+        return
+
     if EMAIL_IS_ANSWER in letter.ai_evaluation:
         LlmLetterRequest.get_normalized_answers(letter)
         logger.info(f"Letter with pk={letter_pk} answer normalization processed.")
