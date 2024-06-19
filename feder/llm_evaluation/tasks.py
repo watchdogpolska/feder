@@ -17,28 +17,30 @@ def categorize_letter_in_background(letter_pk):
     letter = Letter.objects.filter(pk=letter_pk).first()
 
     if not letter:
-        logger.warning(f"Letter with pk={letter_pk} not found.")
-        return
+        msg = f"Letter with pk={letter_pk} not found."
+        logger.warning(msg)
+        return msg
 
     if not letter.is_incoming:
-        logger.info(
+        msg = (
             f"Letter (pk={letter_pk}) categorisation skipped - letter is not incoming."
         )
-        return
+        logger.info(msg)
+        return msg
 
     if letter.is_spam in [Letter.SPAM.spam, Letter.SPAM.probable_spam]:
         message = _("AI categorisation skipped for spam or probable spam.")
         logger.info(f"Letter (pk={letter_pk}): {message}")
         letter.ai_evaluation = message
         letter.save()
-        return
+        return f"Letter (pk={letter_pk}): {message}"
 
     if letter.message_type in Letter.MESSAGE_TYPES_AUTO:
         message = _("AI categorisation skipped for auto reply letter.")
         logger.info(f"Letter (pk={letter_pk}): {message}")
         letter.ai_evaluation = message
         letter.save()
-        return
+        return f"Letter (pk={letter_pk}): {message}"
 
     the_same_content_evaluated = (
         Letter.objects.filter(
@@ -70,18 +72,21 @@ def categorize_letter_in_background(letter_pk):
             token_usage={},
         )
         letter_llm_request.save()
-        return
+        return f"Letter (pk={letter_pk}): {message}"
 
     LlmLetterRequest.categorize_letter(letter)
     logger.info(f"Letter with pk={letter_pk} categorized.")
     if EMAIL_IS_ANSWER in letter.ai_evaluation:
         LlmLetterRequest.get_normalized_answers(letter)
         logger.info(f"Letter with pk={letter_pk} answer normalization processed.")
+        return f"Letter with pk={letter_pk} answer normalization processed."
     else:
-        logger.info(
+        msg = (
             f"Letter with pk={letter_pk} is not a response - "
             + "skipping answers normalization."
         )
+        logger.info(msg)
+        return msg
 
 
 @background(schedule=120)
@@ -91,32 +96,39 @@ def update_letter_normalized_answers(letter_pk):
     letter = Letter.objects.filter(pk=letter_pk).first()
 
     if not letter:
-        logger.warning(f"Letter with pk={letter_pk} not found.")
-        return
+        msg = f"Letter with pk={letter_pk} not found."
+        logger.warning(msg)
+        return msg
 
     if letter.normalized_answer_is_up_to_date:
-        logger.info(
+        msg = (
             f"Letter with pk={letter_pk} normalized answers are up to date - skipping."
         )
-        return
+        logger.info(msg)
+        return msg
 
     if not letter.ai_evaluation:
         categorize_letter_in_background(letter_pk)
-        logger.info(
+        msg = (
             f"Letter with pk={letter_pk} has no AI evaluation. Task to update letter"
-            + " categorization and upadte normalized answers created."
+            + " categorization created."
         )
-        return
+        logger.info(msg)
+        return msg
 
     if EMAIL_IS_ANSWER in letter.ai_evaluation:
         LlmLetterRequest.get_normalized_answers(letter)
-        logger.info(f"Letter with pk={letter_pk} answer normalization processed.")
+        msg = f"Letter with pk={letter_pk} answer normalization processed."
+        logger.info(msg)
+        return msg
     else:
         letter.normalized_response = None
         letter.save()
-        logger.info(
-            f"Letter with pk={letter_pk} is not a response - skipping normalization."
+        msg = (
+            f"Letter pk={letter_pk} is not a response - skipping answers normalization."
         )
+        logger.info(msg)
+        return msg
 
 
 @background(schedule=120)
@@ -126,20 +138,25 @@ def categorize_letter_answer_to_monitoring_question(letter_pk, question_number):
     letter = Letter.objects.filter(pk=letter_pk).first()
 
     if not letter:
-        logger.warning(f"Letter with pk={letter_pk} not found.")
-        return
+        msg = f"Letter with pk={letter_pk} not found."
+        logger.warning(msg)
+        return msg
 
     if EMAIL_IS_ANSWER in letter.ai_evaluation:
         LlmLetterRequest.categorize_answer(letter, question_number)
-        logger.info(
+        msg = (
             f'Letter with pk={letter_pk} answer to question "{question_number}"'
             + " categorized."
         )
+        logger.info(msg)
+        return msg
     else:
-        logger.info(
+        msg = (
             f"Letter with pk={letter_pk} is not a response - "
             + f'skipping question "{question_number}" categorization.'
         )
+        logger.info(msg)
+        return msg
 
 
 @background(schedule=120)
@@ -155,10 +172,9 @@ def update_letter_answers_to_monitoring_questions_categorization(monitoring_pk):
     )
 
     if not letters_to_categorize:
-        logger.warning(
-            f"No letters to categorize answers for monitoring with pk={monitoring_pk}."
-        )
-        return
+        msg = f"No letters to categorize answers for monitoring pk={monitoring_pk}."
+        logger.warning(msg)
+        return msg
 
     monitoring = Monitoring.objects.filter(pk=monitoring_pk).first()
     response_answers_categories_dict = (
@@ -170,6 +186,11 @@ def update_letter_answers_to_monitoring_questions_categorization(monitoring_pk):
     for letter in letters_to_categorize:
         for question_number in questions_to_categorize_list:
             categorize_letter_answer_to_monitoring_question(letter.pk, question_number)
+    msg = (
+        "Tasks to categorize Letters answers to monitoring questions "
+        + f"generated for monitoring pk={monitoring_pk}."
+    )
+    return msg
 
 
 @background(schedule=120)
@@ -179,13 +200,13 @@ def get_monitoring_normalized_response_template(monitoring_pk):
     monitoring = Monitoring.objects.filter(pk=monitoring_pk).first()
 
     if not monitoring:
-        logger.warning(f"Monitoring with pk={monitoring_pk} not found.")
-        return
+        msg = f"Monitoring with pk={monitoring_pk} not found."
+        logger.warning(msg)
+        return msg
 
     LlmMonitoringRequest.get_response_normalized_template(monitoring)
-    logger.info(
-        f"Monitoring (pk={monitoring_pk}) updated with normalized response template."
-    )
+    msg = f"Monitoring with pk={monitoring_pk} normalized response template generated."
+    logger.info(msg)
 
     monitoring_llm_requests = (
         LlmMonitoringRequest.objects.filter(evaluated_monitoring=monitoring)
@@ -200,15 +221,16 @@ def get_monitoring_normalized_response_template(monitoring_pk):
         and monitoring_llm_requests[0].response != monitoring_llm_requests[1].response
     ):
         update_monitoring_responses_categorization_and_normalization(monitoring_pk)
-        logger.info(
-            f"Monitoring (pk={monitoring_pk}) tasks to normalize responses generated."
-        )
-        return
+        msg += " Tasks to categorize and normalize responses generated."
+        logger.info(msg)
+        return msg
     else:
-        logger.info(
-            f"Monitoring (pk={monitoring_pk}) normalized response template not "
-            + "changed - skipping normalization."
+        msg += (
+            " Template not changed - skipping responses categorization"
+            + " and normalization."
         )
+        logger.info(msg)
+        return msg
 
 
 @background(schedule=120)
@@ -222,13 +244,15 @@ def update_monitoring_responses_categorization_and_normalization(monitoring_pk):
     )
 
     if not letters_to_normalize:
-        logger.warning(
-            f"No letters to normalize for monitoring with pk={monitoring_pk}."
-        )
-        return
+        msg = f"No letters to normalize for monitoring with pk={monitoring_pk}."
+        logger.warning(msg)
+        return msg
 
     for letter in letters_to_normalize:
         categorize_letter_in_background(letter.pk)
+
+    msg = f"Tasks to categorize letters for monitoring pk={monitoring_pk} generated."
+    return msg
 
 
 @background(schedule=120)
@@ -242,10 +266,12 @@ def update_monitoring_responses_normalization(monitoring_pk):
     )
 
     if not letters_to_normalize:
-        logger.warning(
-            f"No letters to normalize for monitoring with pk={monitoring_pk}."
-        )
-        return
+        msg = f"No letters to normalize for monitoring with pk={monitoring_pk}."
+        logger.warning(msg)
+        return msg
 
     for letter in letters_to_normalize:
         update_letter_normalized_answers(letter.pk)
+
+    msg = f"Tasks to normalize letters for monitoring pk={monitoring_pk} generated."
+    return msg
