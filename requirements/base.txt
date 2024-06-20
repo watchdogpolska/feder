@@ -83,7 +83,7 @@ https://github.com/ross/performant-pagination/archive/5b537da95728d622792031071e
 
 # django4-background-tasks==1.2.9 - unmintained, using watchdog maintained fork py312, dj42 compatible
 git+https://github.com/watchdogpolska/django-background-tasks.git@master
-django-cors-headers==4.3.1
+django-cors-headers==4.4.0
 
 django-rosetta==0.10.0
 bleach==6.1.0
@@ -95,6 +95,6 @@ openpyxl==3.1.4
 langchain==0.2.5
 langchain-community==0.2.5
 #langchain[llms]==0.1.5
-openai==1.34.0
+openai==1.35.1
 langchain-openai==0.1.8
 tiktoken==0.7.0
