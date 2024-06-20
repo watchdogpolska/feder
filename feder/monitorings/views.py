@@ -720,6 +720,13 @@ class MonitoringResponsesReportView(View):
         monitoring_responses_data = monitoring.first().get_normalized_responses_data(
             self.request.user
         )
+        for r_data in monitoring_responses_data:
+            r_data["case_url"] = request.build_absolute_uri(
+                reverse("cases:details", kwargs={"slug": r_data["case_slug"]})
+            )
+            r_data["letter_url"] = request.build_absolute_uri(
+                reverse("letters:details", kwargs={"pk": r_data["letter_id"]})
+            )
         if not monitoring_responses_data:
             return Response(status=status.HTTP_204_NO_CONTENT)
         workbook = self.get_excel_workbook(monitoring_responses_data)
@@ -738,7 +745,16 @@ class MonitoringResponsesReportView(View):
         wb = openpyxl.Workbook()
         ws = wb.active
         ws.title = "Responses"
-        question_keys = ["question_no", "question", "answer", "answer_category"]
+        question_keys = [
+            "question_no",
+            "question",
+            "answer",
+            "manual_answer",
+            "final_answer",
+            "answer_category",
+            "manual_answer_category",
+            "final_answer_category",
+        ]
         info_keys = list(monitoring_responses_data[0].keys())[:-1]
         labels = [
             label.replace("_", " ").capitalize()
@@ -756,9 +772,13 @@ class MonitoringResponsesReportView(View):
                     r_data["answer"] = questions[key].get(
                         NORMALIZED_RESPONSE_ANSWER_KEY, ""
                     )
+                    r_data["manual_answer"] = ""
+                    r_data["final_answer"] = ""
                     r_data["answer_category"] = questions[key].get(
                         NORMALIZED_RESPONSE_ANSWER_CATEGORY_KEY, ""
                     )
+                    r_data["manual_answer_category"] = ""
+                    r_data["final_answer_category"] = ""
                     ws.append([r_data[k] for k in (info_keys + question_keys)])
             else:
                 r_data["question_no"] = ""
