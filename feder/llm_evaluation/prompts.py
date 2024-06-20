@@ -159,3 +159,5 @@ answer_categorization = PromptTemplate.from_template(
     """,
     template_format="f-string",
 )
+
+SOME_VARIABLE = "some_variable"

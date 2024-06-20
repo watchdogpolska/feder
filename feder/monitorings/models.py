@@ -301,9 +301,11 @@ class Monitoring(RenderBooleanFieldMixin, TimeStampedModel):
             .annotate(
                 case_name=models.F("record__case__name"),
                 case_id=models.F("record__case__id"),
+                case_slug=models.F("record__case__slug"),
                 institution_name=models.F("record__case__institution__name"),
                 institution_id=models.F("record__case__institution__id"),
                 institution_email=models.F("record__case__institution__email"),
+                institution_tags=models.F("record__case__institution__tags__name"),
                 jst=models.F("record__case__institution__jst__name"),
                 jst_category=models.F("record__case__institution__jst__category__name"),
                 jst_code=models.F("record__case__institution__jst__id"),
@@ -324,9 +326,12 @@ class Monitoring(RenderBooleanFieldMixin, TimeStampedModel):
             {
                 "case_name": x.case_name,
                 "case_id": x.case_id,
+                "case_slug": x.case_slug,
+                "case_url": "",  # url placeholder to add in view
                 "institution_name": x.institution_name,
                 "institution_id": x.institution_id,
                 "institution_email": x.institution_email,
+                "institution_tags": x.institution_tags,
                 "jst": x.jst,
                 "jst_category": x.jst_category,
                 "jst_code": x.jst_code,
@@ -346,6 +351,8 @@ class Monitoring(RenderBooleanFieldMixin, TimeStampedModel):
                     + (f"{x.jst_parent} / " if x.jst_parent else "")
                     + f"{x.jst} ({x.jst_code}, {x.jst_category})"
                 ),
+                "letter_id": x.id,
+                "letter_url": "",  # url placeholder to add in view
                 "received_on": x.created.astimezone(
                     timezone.get_default_timezone()
                 ).strftime("%Y-%m-%d %H:%M:%S"),
