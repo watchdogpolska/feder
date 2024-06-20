@@ -13,12 +13,14 @@ def handle_mass_assign(mass_assign):
         case.save()
     send_letter_for_mass_assign(mass_assign)
     update_sent_letter_status(schedule=(15 * 60))
+    return f"Mass assign {mass_assign} handled."
 
 
 @background
 def send_letter_for_mass_assign(mass_assign):
     for case in Case.objects.filter(mass_assign=mass_assign).all():
         Letter.send_new_case(case=case)
+    return f"Letters for mass assign {mass_assign} sent."
 
 
 @background
@@ -27,7 +29,7 @@ def send_mass_draft(mass_draft_pk):
     Generates letters from mass draft object, sends them and then deletes the draft.
     """
     if not Letter.objects.filter(pk=mass_draft_pk).exists():
-        return
+        return f"Mass draft with pk={mass_draft_pk} not found."
     with transaction.atomic():
         mass_draft = Letter.objects.get(pk=mass_draft_pk)
         letters = mass_draft.generate_mass_letters()
@@ -35,3 +37,4 @@ def send_mass_draft(mass_draft_pk):
             letter.send()
         mass_draft.delete()
     update_sent_letter_status(schedule=(15 * 60))
+    return f"Mass draft {mass_draft_pk} sent."

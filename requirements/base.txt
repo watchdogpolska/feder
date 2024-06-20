@@ -35,7 +35,7 @@ lxml==5.2.2
 
 
 # Your custom requirements go here
-cryptography==42.0.7
+cryptography==42.0.8
 django-filter==24.2
 django-autocomplete-light==3.11.0
 # django-ajax-datatable to be installed from github fork until
@@ -64,7 +64,7 @@ cached-property==1.5.2
 git+https://github.com/PiotrIw/django-bootstrap-pagination.git@master#egg=django-bootstrap-pagination
 
 django-reversion==5.0.12
-djangorestframework==3.15.1
+djangorestframework==3.15.2
 djangorestframework-csv==3.0.2
 unicodecsv==0.14.1
 tqdm==4.66.4
@@ -83,18 +83,18 @@ https://github.com/ross/performant-pagination/archive/5b537da95728d622792031071e
 
 # django4-background-tasks==1.2.9 - unmintained, using watchdog maintained fork py312, dj42 compatible
 git+https://github.com/watchdogpolska/django-background-tasks.git@master
-django-cors-headers==4.3.1
+django-cors-headers==4.4.0
 
 django-rosetta==0.10.0
 bleach==6.1.0
 beautifulsoup4==4.12.3
 html2text==2024.2.26
-openpyxl==3.1.3
+openpyxl==3.1.4
 
 # LLM exvaluation
-langchain==0.2.1
-langchain-community==0.2.1
+langchain==0.2.5
+langchain-community==0.2.5
 #langchain[llms]==0.1.5
-openai==1.30.5
+openai==1.35.1
 langchain-openai==0.1.8
 tiktoken==0.7.0
