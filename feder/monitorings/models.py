@@ -223,6 +223,12 @@ class Monitoring(RenderBooleanFieldMixin, TimeStampedModel):
         bold_end = "" if not self.is_public else "</b>"
         return f'{bold_start}<a href="{url}">{label}</a>{bold_end}'
 
+    def render_monitoring_id_link(self):
+        url = self.get_absolute_url()
+        bold_start = "" if not self.is_public else "<b>"
+        bold_end = "" if not self.is_public else "</b>"
+        return f'{bold_start}<a href="{url}">{self.pk}</a>{bold_end}'
+
     def get_monitoring_cases_table_url(self):
         return reverse(
             "monitorings:monitoring_cases_table",
