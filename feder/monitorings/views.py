@@ -235,6 +235,8 @@ class MonitoringsAjaxDatatableView(AjaxDatatableView):
                         if is_formatted_html(value)
                         else mark_safe(linebreaksbr(value.replace("\r", "")))
                     )
+                elif field == "id":
+                    value = mark_safe(obj.render_monitoring_id_link())
                 elif isinstance(value, datetime):
                     value = timezone.localtime(value).strftime("%Y-%m-%d %H:%M:%S")
                 elif field in ["hide_new_cases", "is_public", "notify_alert"]:
