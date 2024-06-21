@@ -22,6 +22,7 @@ from .llm_tools import get_serializable_dict, num_tokens_from_string
 from .prompts import (
     NORMALIZED_RESPONSE_ANSWER_KEY,
     NORMALIZED_RESPONSE_QUESTION_KEY,
+    EMAIL_CTEGORISATiON_REFUSED,
     answer_categorization,
     letter_categorization,
     letter_evaluation_intro,
@@ -190,13 +191,23 @@ class LlmLetterRequest(LlmRequest):
         chain = letter_categorization | model | StrOutputParser()
         start_time = time.time()
         with get_openai_callback() as cb:
-            resp = chain.invoke(
-                {
-                    "intro": intro,
-                    "institution": institution_name,
-                    "monitoring_response": texts[0],
-                }
-            )
+            try:
+                resp = chain.invoke(
+                    {
+                        "intro": intro,
+                        "institution": institution_name,
+                        "monitoring_response": texts[0],
+                    }
+                )
+            except ValueError as e:
+                if "content filter being triggered" in str(e):
+                    logger.error(
+                        f"Error in categorizing letter {letter.pk}: {e}."
+                        + " Content filter being triggered."
+                    )
+                    resp = EMAIL_CTEGORISATiON_REFUSED
+                else:
+                    raise e
         end_time = time.time()
         execution_time = end_time - start_time
         llm_info_dict = get_serializable_dict(cb)
