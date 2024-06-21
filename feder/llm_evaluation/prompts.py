@@ -43,6 +43,9 @@ letter_categories_list = [
 ]
 
 EMAIL_IS_ANSWER = letter_categories_list[0].template[:25]
+EMAIL_CTEGORISATiON_REFUSED = (
+    letter_categories_list[-1].template + " Odmowa kategoryzacji przez Azure GPT."
+)
 
 letter_categories_text = PromptTemplate.from_template(
     "\n".join(("  " + item.template) for item in letter_categories_list),
