@@ -95,6 +95,6 @@ openpyxl==3.1.4
 langchain==0.2.5
 langchain-community==0.2.5
 #langchain[llms]==0.1.5
-openai==1.35.1
+openai==1.35.3
 langchain-openai==0.1.8
 tiktoken==0.7.0
