@@ -38,6 +38,7 @@ class LLmRequestQuerySet(FormattedDatetimeMixin, models.QuerySet):
         return self.filter(status=self.model.STATUS.queued)
 
 
+# TODO: add LLM engine setup method for DRY code and  better tokens limits management
 class LlmRequest(TimeStampedModel):
     STATUS = Choices(
         (0, "created", _("Created")),
@@ -124,7 +125,10 @@ class LlmLetterRequest(LlmRequest):
         llm_engine = settings.OPENAI_API_ENGINE_4
         institution_name = ""
         monitoring_template = ""
-        max_engine_tokens = min(settings.OPENAI_API_ENGINE_4_MAX_TOKENS, 6000)
+        max_engine_tokens = min(
+            settings.OPENAI_API_ENGINE_4_MAX_TOKENS,
+            settings.LETTER_CATEGORIZATION_MAX_TOKENS,
+        )
         if letter.case and letter.case.monitoring:
             institution_name = letter.case.institution.name
             monitoring_template = html_to_text(letter.case.monitoring.template)
@@ -261,12 +265,19 @@ class LlmLetterRequest(LlmRequest):
             prompt_instruction_extension=instruction_extension,
             monitoring_response="",
         )
-        llm_engine = settings.OPENAI_API_ENGINE_35
+        # llm_engine = settings.OPENAI_API_ENGINE_35
+        llm_engine = settings.OPENAI_API_ENGINE_4
         q_tokens = num_tokens_from_string(test_prompt, llm_engine)
         # print(f"q_tokens: {q_tokens}")
 
         max_tokens = (
-            min(settings.OPENAI_API_ENGINE_35_MAX_TOKENS, 10000) - q_tokens - 500
+            min(
+                # settings.OPENAI_API_ENGINE_35_MAX_TOKENS,
+                settings.OPENAI_API_ENGINE_4_MAX_TOKENS,
+                settings.LETTER_NORMALIZATION_MAX_TOKENS,
+            )
+            - q_tokens
+            - 500
         )
         # print(f"max_tokens: {max_tokens}")
         text_splitter = TokenTextSplitter(chunk_size=max_tokens, chunk_overlap=100)
