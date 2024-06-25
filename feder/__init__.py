@@ -1,5 +1,5 @@
 # PEP 396: The __version__ attribute's value SHOULD be a string.
-__version__ = "1.5.15"
+__version__ = "1.5.16"
 
 
 # Compatibility to eg. django-rest-framework
