@@ -24,9 +24,9 @@ from .prompts import (
     NORMALIZED_RESPONSE_QUESTION_KEY,
     EMAIL_CTEGORISATiON_REFUSED,
     answer_categorization,
+    letter_categories_text,
     letter_categorization,
     letter_evaluation_intro,
-    letter_categories_text,
     letter_response_normalization,
     monitoring_response_normalized_template,
 )
