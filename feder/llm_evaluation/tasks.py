@@ -3,7 +3,7 @@ import logging
 from background_task import background
 from django.utils.translation import gettext_lazy as _
 
-from feder.llm_evaluation.prompts import EMAIL_IS_ANSWER
+from feder.llm_evaluation.prompts import EMAIL_IS_ANSWER, EMAIL_IS_SPAM
 
 from .models import LlmLetterRequest, LlmMonitoringRequest
 
@@ -44,20 +44,19 @@ def categorize_letter_in_background(letter_pk):
 
     the_same_content_evaluated = (
         Letter.objects.filter(
-            title=letter.title, body=letter.body, ai_evaluation__isnull=False
+            title=letter.title,
+            body=letter.body,
+            ai_evaluation__isnull=False,
+            ai_evaluation__icontains=EMAIL_IS_SPAM,
         )
         .exclude(pk=letter_pk)
         .first()
     )
 
-    if (
-        the_same_content_evaluated
-        and "F) email nie jest odpowiedzią" in the_same_content_evaluated.ai_evaluation
-        and "jest spamem" in the_same_content_evaluated.ai_evaluation
-    ):
+    if the_same_content_evaluated:
         message = _(
             "AI categorisation skipped for letter with the same content "
-            + "as already evaluated letter: "
+            + "as already evaluated spam letter: "
         ) + str(the_same_content_evaluated.pk)
         logger.info(f"Letter (pk={letter_pk}): {message}")
         letter.ai_evaluation = the_same_content_evaluated.ai_evaluation
