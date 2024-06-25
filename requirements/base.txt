@@ -92,7 +92,7 @@ html2text==2024.2.26
 openpyxl==3.1.3
 
 # LLM exvaluation
-langchain==0.2.5
+langchain==0.2.6
 langchain-community==0.2.5
 #langchain[llms]==0.1.5
 openai==1.35.3
