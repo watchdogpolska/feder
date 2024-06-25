@@ -26,6 +26,7 @@ from .prompts import (
     answer_categorization,
     letter_categorization,
     letter_evaluation_intro,
+    letter_categories_text,
     letter_response_normalization,
     monitoring_response_normalized_template,
 )
@@ -149,9 +150,11 @@ class LlmLetterRequest(LlmRequest):
             institution=institution_name,
             monitoring_question=monitoring_template,
         )
+        categories = letter_categories_text.format(institution=institution_name)
         test_prompt = letter_categorization.format(
             intro=intro,
             institution=institution_name,
+            letter_categories=categories,
             monitoring_response="",
         )
 
@@ -171,6 +174,7 @@ class LlmLetterRequest(LlmRequest):
         final_prompt = letter_categorization.format(
             intro=intro,
             institution=institution_name,
+            letter_categories=categories,
             monitoring_response=texts[0],
         )
         letter_llm_request = cls.objects.create(
@@ -201,6 +205,7 @@ class LlmLetterRequest(LlmRequest):
                         "intro": intro,
                         "institution": institution_name,
                         "monitoring_response": texts[0],
+                        "letter_categories": categories,
                     }
                 )
             except ValueError as e:
@@ -220,7 +225,7 @@ class LlmLetterRequest(LlmRequest):
         letter_llm_request.token_usage = llm_info_dict
         letter_llm_request.status = cls.STATUS.done
         letter_llm_request.save()
-        letter.ai_evaluation = resp
+        letter.ai_evaluation = resp.strip("`").strip()
         if "F) email nie jest odpowiedzią" in resp and "jest spamem" in resp:
             letter.is_spam = letter.SPAM.probable_spam
         letter.save()

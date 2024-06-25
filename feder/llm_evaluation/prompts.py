@@ -43,6 +43,7 @@ letter_categories_list = [
 ]
 
 EMAIL_IS_ANSWER = letter_categories_list[0].template[:25]
+EMAIL_IS_SPAM = letter_categories_list[-2].template[:29]
 EMAIL_CTEGORISATiON_REFUSED = (
     letter_categories_list[-1].template + " Odmowa kategoryzacji przez Azure GPT."
 )
@@ -66,7 +67,7 @@ letter_categorization = PromptTemplate.from_template(
     ```{monitoring_response}```.
     """,
     template_format="f-string",
-    partial_variables={"letter_categories": letter_categories_text},
+    partial_variables={"letter_categories": letter_categories_text.template},
 )
 
 letter_response_normalization = PromptTemplate.from_template(
