@@ -71,7 +71,7 @@ services:
       OPENAI_API_ENGINE_35_MAX_TOKENS: 16000
       OPENAI_API_ENGINE_4_MAX_TOKENS: 100000
       OPENAI_API_TEMPERATURE: 0.0
-      OPENAI_API_VERSION: "2023-07-01-preview"
+      OPENAI_API_VERSION: "2024-05-01-preview"
     ports:
       - "8000:8000"
     # Following allows to execute `docker attach feder_web_1`

@@ -293,6 +293,7 @@ class LlmLetterRequest(LlmRequest):
             azure_endpoint=settings.AZURE_ENDPOINT,
             deployment_name=llm_engine,
             temperature=settings.OPENAI_API_TEMPERATURE,
+            model_kwargs={"response_format": {"type": "json_object"}},
         )
         chain = letter_response_normalization | model | StrOutputParser()
         for text in texts:
@@ -516,6 +517,7 @@ class LlmMonitoringRequest(LlmRequest):
             azure_endpoint=settings.AZURE_ENDPOINT,
             deployment_name=llm_engine,
             temperature=settings.OPENAI_API_TEMPERATURE,
+            model_kwargs={"response_format": {"type": "json_object"}},
         )
         chain = monitoring_response_normalized_template | model | StrOutputParser()
         start_time = time.time()
