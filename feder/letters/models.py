@@ -592,7 +592,9 @@ class Letter(AbstractRecord):
 
         llm_request = (
             LlmLetterRequest.objects.filter(
-                name="get_normalized_answers", evaluated_letter=self
+                name="get_normalized_answers",
+                evaluated_letter=self,
+                status=LlmLetterRequest.STATUS.done,
             )
             .order_by("created")
             .last()
