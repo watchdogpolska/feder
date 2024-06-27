@@ -503,7 +503,8 @@ class LlmMonitoringRequest(LlmRequest):
         final_prompt = monitoring_response_normalized_template.format(
             monitoring_template=monitoring.template,
         )
-        llm_engine = settings.OPENAI_API_ENGINE_35
+        # llm_engine = settings.OPENAI_API_ENGINE_35
+        llm_engine = settings.OPENAI_API_ENGINE_4
         monitoring_llm_request = cls.objects.create(
             name=inspect.currentframe().f_code.co_name,
             args={"monitoring_pk": monitoring.pk},
