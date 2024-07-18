@@ -774,20 +774,12 @@ class MonitoringResponsesReportView(View):
                     r_data["answer"] = questions[key].get(
                         NORMALIZED_RESPONSE_ANSWER_KEY, ""
                     )
-                    r_data["manual_answer"] = ""
-                    r_data["final_answer"] = ""
                     r_data["answer_category"] = questions[key].get(
                         NORMALIZED_RESPONSE_ANSWER_CATEGORY_KEY, ""
                     )
-                    r_data["manual_answer_category"] = ""
-                    r_data["final_answer_category"] = ""
-                    ws.append([r_data[k] for k in (info_keys + question_keys)])
+                    ws.append([r_data.get(k, "") for k in (info_keys + question_keys)])
             else:
-                r_data["question_no"] = ""
-                r_data["question"] = ""
-                r_data["answer"] = ""
-                r_data["answer_category"] = ""
-                ws.append([r_data[k] for k in (info_keys + question_keys)])
+                ws.append([r_data.get(k, "") for k in (info_keys + question_keys)])
         ws.auto_filter.ref = ws.dimensions
         return wb
 

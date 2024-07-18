@@ -608,9 +608,14 @@ class Letter(AbstractRecord):
             and self.case.monitoring.normalized_response_template_created is not None
             and self.normalized_answer_created
             > self.case.monitoring.normalized_response_template_created
-            and self.normalized_answer_created
-            > self.case.monitoring.letter_normalization_prompt_extension_modified
         ):
+            if (
+                self.case.monitoring.letter_normalization_prompt_extension_modified
+                is not None
+                and self.case.monitoring.letter_normalization_prompt_extension_modified
+                > self.normalized_answer_created
+            ):
+                return False
             return True
         return False
 
