@@ -35,7 +35,7 @@ lxml==5.2.2
 
 
 # Your custom requirements go here
-cryptography==42.0.8
+cryptography==43.0.0
 django-filter==24.2
 django-autocomplete-light==3.11.0
 # django-ajax-datatable to be installed from github fork until
