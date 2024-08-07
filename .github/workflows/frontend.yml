@@ -15,9 +15,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Collect statics
-        run: docker-compose run web python manage.py collectstatic --noinput
+        run: docker compose run web python manage.py collectstatic --noinput
       - name: Build and run frontend
-        run: docker-compose up gulp
+        run: docker compose up gulp
       - name: Regenerate frontend
         run: make wait_web regenerate_frontend
       - name: Show git status
