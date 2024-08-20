@@ -19,6 +19,7 @@ from braces.views import (
     UserFormKwargsMixin,
 )
 from cached_property import cached_property
+from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.syndication.views import Feed
 from django.core.exceptions import PermissionDenied
@@ -147,6 +148,25 @@ class LetterDetailView(SelectRelatedMixin, LetterCommonMixin, DetailView):
     def get_queryset(self):
         qs = super().get_queryset().exclude_spam()
         return qs.for_user(self.request.user)
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if "refresh_attachment_text_content" in request.POST:
+            update_letter_attachments_text_content(
+                self.object.pk, schedule=60, remove_existing_tasks=True
+            )
+            categorize_letter_in_background(
+                self.object.pk, schedule=120, remove_existing_tasks=True
+            )
+            messages.success(
+                request,
+                _(
+                    "Tasks to refresh letter attachements text content and categorize"
+                    + " letter generated. It may take a while to get full update"
+                    + " - check task queue in admin panel."
+                ),
+            )
+        return self.get(request, *args, **kwargs)
 
 
 class LetterMessageXSendFileView(MixinGzipXSendFile, BaseXSendFileView):
