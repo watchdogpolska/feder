@@ -808,9 +808,12 @@ class Attachment(AttachmentBase):
                 headers={"Authorization": f"JWT {settings.FILE_TO_TEXT_TOKEN}"},
             )
             if response.status_code != 200:
-                self.text_content_update_result = (
-                    f"status_code: {response.status_code}, content: {response.content}"
+                msg = (
+                    f"File to text API response: {response.status_code},"
+                    + f" content: {response.content.decode('utf-8')}"
                 )
+                logger.error(msg)
+                self.text_content_update_result = msg
                 # save update_fields does not work with MySQL 5.7
                 # self.save(update_fields=["text_content_update_result"])
                 self.save()
