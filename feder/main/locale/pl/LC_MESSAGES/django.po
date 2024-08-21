@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: main 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-30 15:53+0200\n"
-"PO-Revision-Date: 2024-05-30 15:56+0200\n"
+"POT-Creation-Date: 2024-08-21 11:12+0200\n"
+"PO-Revision-Date: 2024-08-21 11:13+0200\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -35,8 +35,8 @@ msgstr "Prośba o list LLM"
 msgid "LLM Monitoring Request"
 msgstr "Pytanie do LLM o monitoring"
 
-#: feder/llm_evaluation/admin.py:97 feder/llm_evaluation/models.py:519
-#: feder/llm_evaluation/models.py:520
+#: feder/llm_evaluation/admin.py:97 feder/llm_evaluation/models.py:554
+#: feder/llm_evaluation/models.py:555
 msgid "LLM Monthly Cost"
 msgstr "Koszty LLM miesięcznie"
 
@@ -48,97 +48,100 @@ msgstr "Koszt LLM Monitoringu"
 msgid "LLM Evaluation"
 msgstr "Ocena LLM"
 
-#: feder/llm_evaluation/models.py:42
+#: feder/llm_evaluation/models.py:45
 msgid "Created"
 msgstr "Utworzono"
 
-#: feder/llm_evaluation/models.py:43
+#: feder/llm_evaluation/models.py:46
 msgid "Queued"
 msgstr "Skolejkowane"
 
-#: feder/llm_evaluation/models.py:44
+#: feder/llm_evaluation/models.py:47
 msgid "Done"
 msgstr "Wykonane"
 
-#: feder/llm_evaluation/models.py:45
+#: feder/llm_evaluation/models.py:48
 msgid "Failed"
 msgstr "Niepowodzenie"
 
-#: feder/llm_evaluation/models.py:48 feder/organisations/models.py:12
+#: feder/llm_evaluation/models.py:51 feder/organisations/models.py:12
 msgid "Name"
 msgstr "Nazwa"
 
-#: feder/llm_evaluation/models.py:50
+#: feder/llm_evaluation/models.py:53
 msgid "Arguments"
 msgstr "Argumenty"
 
-#: feder/llm_evaluation/models.py:52 feder/llm_evaluation/models.py:514
-#: feder/llm_evaluation/models.py:584
+#: feder/llm_evaluation/models.py:55 feder/llm_evaluation/models.py:549
+#: feder/llm_evaluation/models.py:619
 msgid "LLM Engine name"
 msgstr "Nazwa silnika LLM"
 
-#: feder/llm_evaluation/models.py:56
+#: feder/llm_evaluation/models.py:59
 msgid "LLM Engine request"
 msgstr "Żądanie do silnika LLM"
 
-#: feder/llm_evaluation/models.py:59
+#: feder/llm_evaluation/models.py:62
 msgid "LLM Engine response"
 msgstr "Odpowiedź silnika LLM"
 
-#: feder/llm_evaluation/models.py:62
+#: feder/llm_evaluation/models.py:65
 msgid "LLM Engine token usage"
 msgstr "Użycie tokenów LLM"
 
-#: feder/llm_evaluation/models.py:117
+#: feder/llm_evaluation/models.py:120
 msgid "Evaluated Letter"
 msgstr "Oceniany list"
 
-#: feder/llm_evaluation/models.py:457
+#: feder/llm_evaluation/models.py:490
 msgid "Evaluated Monitoring"
 msgstr "Oceniany monitoring"
 
-#: feder/llm_evaluation/models.py:460
+#: feder/llm_evaluation/models.py:493
 msgid "Chat Request"
 msgstr "Zapytanie czatu"
 
-#: feder/llm_evaluation/models.py:511
+#: feder/llm_evaluation/models.py:546
 msgid "Month"
 msgstr "Miesiąc"
 
-#: feder/llm_evaluation/models.py:516 feder/llm_evaluation/models.py:586
+#: feder/llm_evaluation/models.py:551 feder/llm_evaluation/models.py:621
 msgid "Cost"
 msgstr "Koszt"
 
-#: feder/llm_evaluation/models.py:579
+#: feder/llm_evaluation/models.py:614
 msgid "Monitoring ID"
 msgstr "Id Monitoringu"
 
-#: feder/llm_evaluation/models.py:581
+#: feder/llm_evaluation/models.py:616
 msgid "Monitoring Name"
 msgstr "Nazwa Monitoringu"
 
-#: feder/llm_evaluation/models.py:589
+#: feder/llm_evaluation/models.py:624
 msgid "LLM Cost Per Monitoring"
 msgstr "Koszt LLM per Monitoring"
 
-#: feder/llm_evaluation/models.py:590
+#: feder/llm_evaluation/models.py:625
 msgid "LLM Costs Per Monitoring"
 msgstr "Koszty LLM per Monitoring"
 
-#: feder/llm_evaluation/tasks.py:30
+#: feder/llm_evaluation/tasks.py:32
 msgid "AI categorisation skipped for spam or probable spam."
 msgstr ""
 "Kategoryzacja AI została pominięta dla spamu lub prawdopodobnego spamu."
 
-#: feder/llm_evaluation/tasks.py:37
+#: feder/llm_evaluation/tasks.py:39
 msgid "AI categorisation skipped for auto reply letter."
 msgstr ""
 "Kategoryzacja AI została pominięta dla listu z automatyczną odpowiedzią."
 
-#: feder/llm_evaluation/tasks.py:57
+#: feder/llm_evaluation/tasks.py:58
+#| msgid ""
+#| "AI categorisation skipped for letter with the same content as already "
+#| "evaluated letter: "
 msgid ""
 "AI categorisation skipped for letter with the same content as already "
-"evaluated letter: "
+"evaluated spam letter: "
 msgstr ""
 "Kategoryzacja AI pominięta dla listu o tej samej treści, co już oceniany "
 "list: "
