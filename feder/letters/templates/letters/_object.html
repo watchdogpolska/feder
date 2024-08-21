@@ -65,20 +65,22 @@
                                             <i class="fa fa-download"></i>
                                             {% trans 'Download' %}
                                         </a>
-                                        <form class="form" method="post">
-                                            {%csrf_token%}
-                                            <div class="input-group">
-                                                <input type="hidden" id="refresh_attachment_text_content" 
-                                                    name="refresh_attachment_text_content" value="true">
-                                                <div class="input-group-append">
-                                                    <button type="submit" id="refresh_attachment_text_content"
-                                                        class="btn btn-xs btn-primary">
-                                                        <i class="fa fa-refresh"></i>
-                                                        {% trans 'Refresh text content' %}
-                                                    </button>
+                                        {% if enable_refresh_attachment_text_content %}
+                                            <form class="form" method="post">
+                                                {%csrf_token%}
+                                                <div class="input-group">
+                                                    <input type="hidden" id="refresh_attachment_text_content" 
+                                                        name="refresh_attachment_text_content" value="true">
+                                                    <div class="input-group-append">
+                                                        <button type="submit" id="refresh_attachment_text_content"
+                                                            class="btn btn-xs btn-primary">
+                                                            <i class="fa fa-refresh"></i>
+                                                            {% trans 'Refresh text content' %}
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </form>                                        
+                                            </form>
+                                        {% endif %}                                        
                                     {% endif %}
                                 {% else %}
                                     (nieskanowany)
