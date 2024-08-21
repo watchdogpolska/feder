@@ -18,7 +18,7 @@ build:
 	docker compose build web
 
 start: wait_mysql
-	docker compose up
+	docker compose up --remove-orphans
 
 test:
 	docker compose run web coverage run manage.py test --keepdb --verbosity=2 ${TEST}

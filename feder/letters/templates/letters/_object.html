@@ -61,15 +61,29 @@
                                 {% if attachment.current_scan_request %}
                                     ({% include 'virus_scan/_request.html' with object=attachment.current_scan_request %})
                                     {% if not attachment.is_infected %}
-                                            <a class="btn btn-xs btn-primary" href="{{ attachment.get_absolute_url }}">
-                                                <i class="fa fa fa-download"></i>
-                                                {% trans 'Download' %}
-                                            </a>
+                                        <a class="btn btn-xs btn-primary" href="{{ attachment.get_absolute_url }}">
+                                            <i class="fa fa-download"></i>
+                                            {% trans 'Download' %}
+                                        </a>
+                                        <form class="form" method="post">
+                                            {%csrf_token%}
+                                            <div class="input-group">
+                                                <input type="hidden" id="refresh_attachment_text_content" 
+                                                    name="refresh_attachment_text_content" value="true">
+                                                <div class="input-group-append">
+                                                    <button type="submit" id="refresh_attachment_text_content"
+                                                        class="btn btn-xs btn-primary">
+                                                        <i class="fa fa-refresh"></i>
+                                                        {% trans 'Refresh text content' %}
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>                                        
                                     {% endif %}
                                 {% else %}
                                     (nieskanowany)
                                     <a class="btn btn-xs btn-default" href="{% url 'letters:scan' pk=attachment.pk letter_pk=object.pk %}">
-                                        <i class="fa fa fa-eye"></i>
+                                        <i class="fa fa-eye"></i>
                                         {% trans 'Scan' %}
                                     </a>
                                 {% endif %}
