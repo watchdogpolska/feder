@@ -2,7 +2,7 @@
 -r base.txt
 Sphinx==7.4.7
 sphinx-rtd-theme==2.0.0
-Werkzeug==3.0.3
+Werkzeug==3.0.4
 django-debug-toolbar==4.4.6
 ipdb==0.13.13
 factory-boy==3.3.1
