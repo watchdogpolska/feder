@@ -143,6 +143,7 @@ class LetterDetailView(SelectRelatedMixin, LetterCommonMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context["enable_refresh_attachment_text_content"] = True
         return context
 
     def get_queryset(self):
