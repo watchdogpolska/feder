@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-monitorings 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-30 15:53+0200\n"
-"PO-Revision-Date: 2024-05-30 16:06+0200\n"
+"POT-Creation-Date: 2024-08-21 11:12+0200\n"
+"PO-Revision-Date: 2024-08-21 11:17+0200\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -25,7 +25,7 @@ msgid "Creation date"
 msgstr "Data utworzenia"
 
 #: feder/monitorings/filters.py:23 feder/monitorings/models.py:107
-#: feder/monitorings/views.py:149 feder/monitorings/views.py:307
+#: feder/monitorings/views.py:149 feder/monitorings/views.py:309
 msgid "Name"
 msgstr "Nazwa"
 
@@ -307,7 +307,7 @@ msgstr "Może usuwać tagi"
 msgid "Can view report"
 msgstr "Może widzieć raport"
 
-#: feder/monitorings/models.py:433
+#: feder/monitorings/models.py:446
 msgid ""
 "Response categories have not been defined, so the LLM request for response "
 "categories will not be sent."
@@ -315,15 +315,15 @@ msgstr ""
 "Kategorie odpowiedzi nie zostały zdefiniowane, więc żądanie LLM dotyczące "
 "kategorii odpowiedzi nie zostanie wysłane."
 
-#: feder/monitorings/models.py:437 feder/monitorings/models.py:493
+#: feder/monitorings/models.py:450 feder/monitorings/models.py:506
 msgid "INSTITUTION"
 msgstr "INSTYTUCJA"
 
-#: feder/monitorings/models.py:439 feder/monitorings/models.py:495
+#: feder/monitorings/models.py:452 feder/monitorings/models.py:508
 msgid "INSTITUTION RESPONSE"
 msgstr "ODPOWIEDŹ INSTYTUCJI"
 
-#: feder/monitorings/models.py:444
+#: feder/monitorings/models.py:457
 #, python-brace-format
 msgid ""
 "There is no question \"{question_number}\", so the LLM query for answer "
@@ -332,20 +332,14 @@ msgstr ""
 "Nie ma pytania \"{question_number}\", więc zapytanie LLM o kategorie "
 "odpowiedzi nie zostanie wysłane."
 
-#: feder/monitorings/models.py:484
-#| msgid ""
-#| "Response categories have not been defined, so the LLM request for response "
-#| "categories will not be sent."
+#: feder/monitorings/models.py:497
 msgid ""
 "The LLM has not been enabled, so the LLM request for normalization will not "
 "be sent."
 msgstr ""
 "LLM nie został włączony, więc żądanie normalizacji LLM nie zostanie wysłane."
 
-#: feder/monitorings/models.py:489
-#| msgid ""
-#| "Response categories have not been defined, so the LLM request for response "
-#| "categories will not be sent."
+#: feder/monitorings/models.py:502
 msgid ""
 "The normalization template has not been defined, so the LLM request for "
 "normalization will not be sent."
@@ -353,7 +347,7 @@ msgstr ""
 "Szablon normalizacji nie został zdefiniowany, więc żądanie normalizacji LLM "
 "nie zostanie wysłane."
 
-#: feder/monitorings/models.py:497
+#: feder/monitorings/models.py:510
 msgid "PROMPT INSTRUCTION EXTENSION"
 msgstr "ROZSZERZENIE INSTRUKCJI"
 
@@ -643,14 +637,14 @@ msgstr "Otrzymano potwierdzenie? (kol. Potw.?)"
 #: feder/monitorings/templates/monitorings/monitoring_cases_table.html:70
 #: feder/monitorings/templates/monitorings/monitoring_cases_table.html:82
 #: feder/monitorings/templates/monitorings/monitoring_cases_table.html:94
-#: feder/monitorings/views.py:241
+#: feder/monitorings/views.py:243
 msgid "Yes"
 msgstr "Tak"
 
 #: feder/monitorings/templates/monitorings/monitoring_cases_table.html:74
 #: feder/monitorings/templates/monitorings/monitoring_cases_table.html:86
 #: feder/monitorings/templates/monitorings/monitoring_cases_table.html:98
-#: feder/monitorings/views.py:241
+#: feder/monitorings/views.py:243
 msgid "No"
 msgstr "Nie"
 
@@ -748,14 +742,12 @@ msgid "Download responses report .xlsx"
 msgstr "Pobierz raport odpowiedzi .xlsx"
 
 #: feder/monitorings/templates/monitorings/monitoring_template.html:37
-#| msgid "Created"
 msgid "Created: "
 msgstr "Utworzony: "
 
 #: feder/monitorings/templates/monitorings/monitoring_template.html:53
-#| msgid "Normalized response template"
 msgid "Update monitoring normalized response template"
-msgstr "Aktualizuj szablonu znormalizowanej odpowiedzi monitoringu"
+msgstr "Aktualizuj szablon znormalizowanej odpowiedzi monitoringu"
 
 #: feder/monitorings/templates/monitorings/monitoring_template.html:67
 msgid "Letter normalization prompt extension:"
@@ -775,7 +767,6 @@ msgid "Letter normalization prompt"
 msgstr "Prompt normalizacji odpowiedzi listów"
 
 #: feder/monitorings/templates/monitorings/monitoring_template.html:107
-#| msgid "Generate answers categorization tasks for cases"
 msgid "Generate monitoring responses normalization tasks for cases"
 msgstr "Wygeneruj zadania normalizacji odpowiedzi na monitoring w sprawach"
 
@@ -913,56 +904,55 @@ msgstr "Liczba otrzymanych potwierdzeń"
 msgid "Response received count"
 msgstr "Liczba otrzymanych odpowiedzi"
 
-#: feder/monitorings/views.py:269
+#: feder/monitorings/views.py:271
 msgid "Monitoring Cases table - "
 msgstr "Tabela Spraw Monitoringu - "
 
-#: feder/monitorings/views.py:287
+#: feder/monitorings/views.py:289
 msgid "Monitoring Cases"
 msgstr "Sprawy w Monitoringu"
 
-#: feder/monitorings/views.py:312
+#: feder/monitorings/views.py:314
 msgid "Institution"
 msgstr "Instytucja"
 
-#: feder/monitorings/views.py:318
+#: feder/monitorings/views.py:320
 msgid "JST"
 msgstr "JST"
 
-#: feder/monitorings/views.py:325
+#: feder/monitorings/views.py:327
 msgid "Application letter status"
 msgstr "Status wniosku"
 
-#: feder/monitorings/views.py:331
+#: feder/monitorings/views.py:333
 msgid "Last letter"
 msgstr "Ostatni List"
 
-#: feder/monitorings/views.py:338
+#: feder/monitorings/views.py:340
 msgid "Letters count"
 msgstr "Liczba listów"
 
-#: feder/monitorings/views.py:344
+#: feder/monitorings/views.py:346
 msgid "Tags"
 msgstr "Tagi"
 
-#: feder/monitorings/views.py:353
+#: feder/monitorings/views.py:355
 msgid "Conf."
 msgstr "Potw.?"
 
-#: feder/monitorings/views.py:359
+#: feder/monitorings/views.py:361
 msgid "Resp."
 msgstr "Odp.?"
 
-#: feder/monitorings/views.py:365
+#: feder/monitorings/views.py:367
 msgid "Quar."
 msgstr "Kwar.?"
 
-#: feder/monitorings/views.py:611
-#| msgid "Normalized response template"
+#: feder/monitorings/views.py:613
 msgid "Normalized response template is already up to date."
 msgstr "Znormalizowany szablon odpowiedzi jest aktualny."
 
-#: feder/monitorings/views.py:618
+#: feder/monitorings/views.py:620
 msgid ""
 "Normalized response template update task generated. Lerrter responses "
 "categorization and normalization tasks will follow. It may take a while to "
@@ -973,7 +963,7 @@ msgstr ""
 "normalizacji szablonu. Uzyskanie pełnej aktualizacji może chwilę potrwać - "
 "sprawdź kolejkę zadań w panelu administracyjnym."
 
-#: feder/monitorings/views.py:629
+#: feder/monitorings/views.py:631
 msgid ""
 "Letter responses categorization and normalization tasks generated. It may "
 "take a while to get full update - check task queue in admin panel."
@@ -982,42 +972,42 @@ msgstr ""
 " Uzyskanie pełnej aktualizacji może chwilę potrwać - sprawdź kolejkę zadań w"
 " panelu administracyjnym."
 
-#: feder/monitorings/views.py:788
+#: feder/monitorings/views.py:802
 #, python-brace-format
 msgid "{0} created!"
 msgstr "{0} utworzony!"
 
-#: feder/monitorings/views.py:883
+#: feder/monitorings/views.py:897
 #, python-brace-format
 msgid "Permissions to {monitoring} updated!"
 msgstr "Uprawnienia dla {monitoring} zaktualizowane!"
 
-#: feder/monitorings/views.py:939
+#: feder/monitorings/views.py:953
 #, python-brace-format
 msgid "Permissions to {monitoring} of {user} updated!"
 msgstr "Uprawnienia do {monitoring} dla {user} zaktualizowane!"
 
-#: feder/monitorings/views.py:992
+#: feder/monitorings/views.py:1006
 msgid "Assign all filtered institutions: "
 msgstr "Przypisz wszystkie odfiltrowane instytucje: "
 
-#: feder/monitorings/views.py:997
+#: feder/monitorings/views.py:1011
 msgid "For bulk assignment, filter less than "
 msgstr "W celu przypisania zbiorczo odfiltruj mniej niż "
 
-#: feder/monitorings/views.py:998
+#: feder/monitorings/views.py:1012
 msgid " (filtered: "
 msgstr " (odfiltrowane: "
 
-#: feder/monitorings/views.py:999
+#: feder/monitorings/views.py:1013
 msgid ") or select individual institutions from the list below."
 msgstr ") lub wybierz poszczególne instytucje z poniższej listy."
 
-#: feder/monitorings/views.py:1011
+#: feder/monitorings/views.py:1025
 msgid "You can not send letters without using filtering."
 msgstr "Nie możesz wysyłać listów bez używania filtrowania."
 
-#: feder/monitorings/views.py:1027
+#: feder/monitorings/views.py:1041
 #, python-format
 msgid ""
 "You can not send %(count)d letters at once. The maximum is %(limit)d. Use "
@@ -1026,30 +1016,30 @@ msgstr ""
 "Nie możesz wysłać %(count)d listów na raz. Maksimum to %(limit)d. Użyj "
 "filtrowania."
 
-#: feder/monitorings/views.py:1048
+#: feder/monitorings/views.py:1062
 #, python-format
 msgid "%(count)d institutions was assigned to %(monitoring)s. "
 msgstr "%(count)d instytucji zostało przypisanych do %(monitoring)s."
 
-#: feder/monitorings/views.py:1053
+#: feder/monitorings/views.py:1067
 msgid " Emails are scheduled to be sent."
 msgstr "Wysyłka wniosków została zaplanowana"
 
-#: feder/monitorings/views.py:1103
+#: feder/monitorings/views.py:1117
 #, python-brace-format
 msgid "Message \"{letter}\" has been scheduled for sending to {count} recipients!"
 msgstr "Wiadomość \"{letter}\" zaplanowana do wysyłki do {count} odbiorców!"
 
-#: feder/monitorings/views.py:1110
+#: feder/monitorings/views.py:1124
 #, python-brace-format
 msgid "Message {message} saved to review!"
 msgstr "Wiadomość {message} zapisana do przejrzenia!"
 
-#: feder/monitorings/views.py:1162
+#: feder/monitorings/views.py:1176
 msgid "Latest monitorings"
 msgstr "Ostatnie monitoringi"
 
-#: feder/monitorings/views.py:1164
+#: feder/monitorings/views.py:1178
 msgid "Updates on new monitorings on site"
 msgstr "Aktualizacje o nowych monitoringach na stronie"
 

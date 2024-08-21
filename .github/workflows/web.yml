@@ -23,7 +23,7 @@ jobs:
         with:
           lfs: true
       - name: Build application
-        run: docker-compose build web
+        run: docker compose build web
         env:
           PYTHON_VERSION: ${{ matrix.python }}
           DJANGO_VERSION: ${{ matrix.django }}
@@ -35,7 +35,7 @@ jobs:
       - name: Show settings
         run: make settings
       - name: Show installed dependencies
-        run: docker-compose run web pip list
+        run: docker compose run web pip list
       - name: Build test
         run: make test
 #     - name: Send coverage report
@@ -44,7 +44,7 @@ jobs:
 #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 #         COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
       - name: Show MySQL logs
-        run: docker-compose logs db
+        run: docker compose logs db
         if: failure()
       - name: Show docker process
         run: docker ps
