@@ -104,14 +104,14 @@ services:
   # mailbox secrets in imap-to-webhook-url.env
   #
   # imap-to-webhook-feder:
-  #   image: quay.io/watchdogpolska/imap-to-webhook:latest
+  #   image: siecobywatelska/imap-to-webhook:latest-prod
   #   environment:
   #     WEBHOOK_URL: "http://web:8000/listy/webhook?secret=dev_letter_rec_very_secret"
   #     SENTRY_DSN: ""
   #     SENTRY_ENVIRONMENT: "feder-dev"
   #     COMPRESS_EML: "True"
   #   env_file:
-  #     - secrets_imap-to-webhook-url.env:optional
+  #     - secrets_imap-to-webhook-url.env
 
 volumes:
   mysql-data:
