@@ -95,8 +95,8 @@ class LetterForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
         self.instance.body = html_to_text(self.cleaned_data["html_body"])
         if (
             not (
-                self.fields["html_body"].widget.attrs["readonly"]
-                or self.fields["title"].widget.attrs["readonly"]
+                self.fields["html_body"].widget.attrs.get("readonly", False)
+                or self.fields["title"].widget.attrs.get("readonly", False)
             )
             and ("title" in self.changed_data or "html_body" in self.changed_data)
             and not self.instance.author_institution
@@ -128,8 +128,9 @@ class LetterForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
                         + " categorization and upadte normalized answers created"
                     ),
                 )
+        if not hasattr(self.instance, "record"):
+            self.instance.record = Record.objects.create(case=self.cleaned_data["case"])
         self.instance.save()
-
         return super().save(*args, **kwargs)
 
 
