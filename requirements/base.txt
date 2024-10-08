@@ -85,7 +85,7 @@ https://github.com/ross/performant-pagination/archive/5b537da95728d622792031071e
 git+https://github.com/watchdogpolska/django-background-tasks.git@master
 django-cors-headers==4.4.0
 
-django-rosetta==0.10.0
+django-rosetta==0.10.1
 bleach==6.1.0
 beautifulsoup4==4.12.3
 html2text==2024.2.26
