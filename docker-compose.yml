@@ -74,7 +74,7 @@ services:
       OPENAI_API_ENGINE_35_MAX_TOKENS: 16000
       OPENAI_API_ENGINE_4_MAX_TOKENS: 100000
       OPENAI_API_TEMPERATURE: 0.0
-      OPENAI_API_VERSION: "2024-05-01-preview"
+      OPENAI_API_VERSION: "2024-09-01-preview"
     ports:
       - "8000:8000"
     networks:
