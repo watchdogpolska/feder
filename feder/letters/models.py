@@ -107,9 +107,10 @@ class LetterQuerySet(AbstractRecordQuerySet):
             return self.filter(
                 record__case__is_quarantined=False,
                 record__case__monitoring__is_public=True,
-            )
-        if user.is_superuser or user.is_authenticated:
+            ).exclude_spam()
+        if user.is_superuser:
             return self
+        return self.exclude_spam()
 
 
 class LetterManager(BaseManager.from_queryset(LetterQuerySet)):
@@ -743,9 +744,11 @@ class AttachmentQuerySet(models.QuerySet):
 
     def for_user(self, user):
         if not user.is_superuser:
-            return self.filter(
-                letter__is_spam__in=[Letter.SPAM.unknown, Letter.SPAM.non_spam]
-            )._enforce_quarantine(user)
+            # Align attachment visibility with letter visibility
+            # return self.exclude(letter__is_spam=Letter.SPAM.spam)._enforce_quarantine(
+            #     user
+            # )
+            return self.filter(letter__in=Letter.objects.for_user(user))
         return self
 
     def with_scan_result(self):
