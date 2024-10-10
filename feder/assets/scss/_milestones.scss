@@ -13,7 +13,7 @@ $milestone-icon-width: $milestone-icon-padding * 2 + $milestone-icon-font-size +
 
   // the <ul .milestones>
   list-style-type: none;
-  padding-left: $milestone-icon-width/2;
+  padding-left: calc($milestone-icon-width / 2);
 
   // the top and bottom borders
   // of the list
@@ -68,11 +68,11 @@ $milestone-icon-width: $milestone-icon-padding * 2 + $milestone-icon-font-size +
     // does the heavy lifting to the icons
     & > .fa:first-child,
     & > .glyphicon:first-child {
-      margin-left: -($milestone-offset-larger + ($milestone-icon-width - 2)/2 + 1);
+      margin-left: -($milestone-offset-larger +  calc(($milestone-icon-width - 2px) / 2) + 1);
       margin-top: -$milestone-offset-smaller;
       float:left;
       position: relative;
-      border-radius: $milestone-icon-width/2;
+      border-radius: calc($milestone-icon-width / 2);
       padding: $milestone-icon-padding;
       font-size: $milestone-icon-font-size;
       min-width: $milestone-icon-width;
