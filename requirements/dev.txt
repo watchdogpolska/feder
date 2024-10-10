@@ -1,7 +1,7 @@
 # Local development dependencies go here
 -r base.txt
 Sphinx==8.0.2
-sphinx-rtd-theme==3.0.0
+sphinx-rtd-theme==3.0.1
 Werkzeug==3.0.4
 django-debug-toolbar==4.4.6
 ipdb==0.13.13

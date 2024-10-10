@@ -8,7 +8,7 @@ mysqlclient==2.2.4
 django-environ==0.11.2
 
 # Forms
-django-braces==1.15.0
+django-braces==1.16.0
 django-crispy-forms==1.14.0
 
 # Models
@@ -70,7 +70,7 @@ unicodecsv==0.14.1
 tqdm==4.66.5
 django-github-revision==0.0.3
 django-extensions==3.2.3
-django-cleanup==8.1.0
+django-cleanup==9.0.0
 
 # Ping commit due missing cached object in <=4.7.1
 django-extra-views==0.13.0 
@@ -92,9 +92,9 @@ html2text==2024.2.26
 openpyxl==3.1.5
 
 # LLM exvaluation
-langchain==0.3.2
-langchain-community==0.3.1
+langchain==0.3.3
+langchain-community==0.3.2
 #langchain[llms]==0.1.5
 openai==1.51.2
 langchain-openai==0.2.2
-tiktoken==0.7.0
+tiktoken==0.8.0
