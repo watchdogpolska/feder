@@ -62,6 +62,20 @@ EXPECTED_RESPONSE_DICT = {
     "example": False,
     "tool_calls": [],
     "invalid_tool_calls": [],
+    "usage_metadata": {
+        "input_tokens": 350,
+        "output_tokens": 240,
+        "total_tokens": 590,
+        "input_token_details": {
+            "audio": 10,
+            "cache_creation": 200,
+            "cache_read": 100,
+        },
+        "output_token_details": {
+            "audio": 10,
+            "reasoning": 200,
+        },
+    },
 }
 
 
@@ -76,14 +90,15 @@ class TestAzureChatOpenAI(TestCase):
             deployment_name=settings.OPENAI_API_ENGINE_35,
             temperature=settings.OPENAI_API_TEMPERATURE,
         )
-
-        response_format = model.output_schema.schema()["definitions"]["AIMessage"][
+        # To debug schema format:
+        # schema = model.get_output_jsonschema()
+        response_format = model.get_output_jsonschema()["$defs"]["AIMessage"][
             "properties"
         ]
         model_schema_keys = set(response_format.keys())
         # TODO: check why schem differs in dev and github test environments
         # TEMP fix for the github tests to pass:
-        expected_schema_keys = set(EXPECTED_RESPONSE_DICT.keys()) | {"usage_metadata"}
+        expected_schema_keys = set(EXPECTED_RESPONSE_DICT.keys())
         print("\n", 20 * "-", " settings.DEBUG:\n", settings.DEBUG)
         print("\n", 20 * "-", " model:\n", model)
         print("\n", 20 * "-", "response_format:\n", response_format)

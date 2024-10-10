@@ -1,4 +1,5 @@
 import email
+import gzip
 import json
 import logging
 import uuid
@@ -107,9 +108,10 @@ class LetterQuerySet(AbstractRecordQuerySet):
             return self.filter(
                 record__case__is_quarantined=False,
                 record__case__monitoring__is_public=True,
-            )
-        if user.is_superuser or user.is_authenticated:
+            ).exclude_spam()
+        if user.is_superuser:
             return self
+        return self.exclude_spam()
 
 
 class LetterManager(BaseManager.from_queryset(LetterQuerySet)):
@@ -455,10 +457,20 @@ class Letter(AbstractRecord):
         Letter eml file.
         """
         if not self.eml:
+            if self.email_to:
+                return [self.email_to]
             return []
 
         with self.eml.open(mode="rb") as f:
-            msg = email.message_from_binary_file(f)
+            # Check if the file is a gzip file by reading its magic number
+            magic_number = f.read(2)
+            f.seek(0)  # Reset file pointer to the beginning
+
+            if magic_number == b"\x1f\x8b":
+                with gzip.open(f, mode="rb") as gz:
+                    msg = email.message_from_binary_file(gz)
+            else:
+                msg = email.message_from_binary_file(f)
 
         to_addrs = msg.get_all("To", [])
         cc_addrs = msg.get_all("Cc", [])
@@ -743,9 +755,11 @@ class AttachmentQuerySet(models.QuerySet):
 
     def for_user(self, user):
         if not user.is_superuser:
-            return self.filter(
-                letter__is_spam__in=[Letter.SPAM.unknown, Letter.SPAM.non_spam]
-            )._enforce_quarantine(user)
+            # Align attachment visibility with letter visibility
+            # return self.exclude(letter__is_spam=Letter.SPAM.spam)._enforce_quarantine(
+            #     user
+            # )
+            return self.filter(letter__in=Letter.objects.for_user(user))
         return self
 
     def with_scan_result(self):
