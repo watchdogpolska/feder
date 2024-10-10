@@ -70,7 +70,7 @@ unicodecsv==0.14.1
 tqdm==4.66.5
 django-github-revision==0.0.3
 django-extensions==3.2.3
-django-cleanup==8.1.0
+django-cleanup==9.0.0
 
 # Ping commit due missing cached object in <=4.7.1
 django-extra-views==0.13.0 
