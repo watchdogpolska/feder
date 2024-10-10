@@ -1,4 +1,5 @@
 import email
+import gzip
 import json
 import logging
 import uuid
@@ -456,10 +457,20 @@ class Letter(AbstractRecord):
         Letter eml file.
         """
         if not self.eml:
+            if self.email_to:
+                return [self.email_to]
             return []
 
         with self.eml.open(mode="rb") as f:
-            msg = email.message_from_binary_file(f)
+            # Check if the file is a gzip file by reading its magic number
+            magic_number = f.read(2)
+            f.seek(0)  # Reset file pointer to the beginning
+
+            if magic_number == b"\x1f\x8b":
+                with gzip.open(f, mode="rb") as gz:
+                    msg = email.message_from_binary_file(gz)
+            else:
+                msg = email.message_from_binary_file(f)
 
         to_addrs = msg.get_all("To", [])
         cc_addrs = msg.get_all("Cc", [])
