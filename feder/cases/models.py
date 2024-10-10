@@ -1,7 +1,7 @@
 import uuid
 from datetime import timedelta
 from email.headerregistry import Address
-from functools import lru_cache
+from functools import cache
 
 from autoslug.fields import AutoSlugField
 from django.apps import apps
@@ -41,7 +41,7 @@ def enforce_quarantined_queryset(queryset, user, path_case):
     return queryset.filter(**{f"{path_case}__in": Case.objects.for_user(user).all()})
 
 
-@lru_cache(maxsize=1)  # TODO: use @functools.cache on python>=3.9
+@cache
 def get_quarantined_perm():
     ctype = ContentType.objects.get_for_model(Monitoring)
     return Permission.objects.get(content_type=ctype, codename="view_quarantined_case")
