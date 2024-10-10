@@ -28,7 +28,7 @@
     "gulp-terser": "^2.1.0",
     "gulp-uglify": "^3.0.2",
     "gulp-watch": "^5.0.1",
-    "sass": "^1.69.7"
+    "sass": "^1.79.4"
   },
   "engines": {
     "node": ">=0.8.0"
