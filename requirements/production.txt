@@ -2,6 +2,6 @@
 #	production that isn't in development.
 -r base.txt
 # Django==3.2.23
-gevent==24.10.1
+gevent==24.10.3
 gunicorn==23.0.0
 sentry-sdk==2.16.0
