@@ -54,6 +54,7 @@ class NestedLetterSerializer(serializers.HyperlinkedModelSerializer):
             "html_quote",
             "email",
             "note",
+            "ai_evaluation",
             "is_spam",
             "is_draft",
             "is_incoming",
