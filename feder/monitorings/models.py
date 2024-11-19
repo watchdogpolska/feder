@@ -255,7 +255,8 @@ class Monitoring(RenderBooleanFieldMixin, TimeStampedModel):
             <tr>
                 <th>Województwo</th>
                 <th>Liczba spraw</th>
-                <th>Liczba spraw w kwarantannie</th>
+                <th>Liczba spraw z potw. odbioru</th>
+                <th>Liczba spraw z odpowiedzią</th>
             </tr>"""
         for voivodeship in voivodeship_list:
             table += (
@@ -265,10 +266,27 @@ class Monitoring(RenderBooleanFieldMixin, TimeStampedModel):
                 + str(self.case_set.area(voivodeship).count())
                 + "</td><td>"
                 + str(
-                    self.case_set.filter(is_quarantined=True).area(voivodeship).count()
+                    self.case_set.filter(confirmation_received=True)
+                    .area(voivodeship)
+                    .count()
+                )
+                + "</td><td>"
+                + str(
+                    self.case_set.filter(response_received=True)
+                    .area(voivodeship)
+                    .count()
                 )
                 + "</td></tr>"
             )
+        table += (
+            "<tr><td><b>Wszystkie</b></td><td><b>"
+            + str(str(self.case_set.all().count()))
+            + "</b></td><td><b>"
+            + str(self.case_set.filter(confirmation_received=True).all().count())
+            + "</b></td><td><b>"
+            + str(self.case_set.filter(response_received=True).all().count())
+            + "</b></td></tr>"
+        )
         table += "</table>"
         return table
 

@@ -2,20 +2,20 @@
 Django==4.2.16
 
 # Database adapter
-mysqlclient==2.2.4
+mysqlclient==2.2.6
 
 # Configuration
 django-environ==0.11.2
 
 # Forms
-django-braces==1.15.0
+django-braces==1.16.0
 django-crispy-forms==1.14.0
 
 # Models
 django-model-utils==5.0.0
 
 # Images
-Pillow==10.4.0
+Pillow==11.0.0
 
 # For user registration, either via email or social
 # Well-built with regular release cycles!
@@ -35,7 +35,7 @@ lxml==5.3.0
 
 
 # Your custom requirements go here
-cryptography==43.0.1
+cryptography==43.0.3
 django-filter==24.3
 django-autocomplete-light==3.11.0
 # django-ajax-datatable to be installed from github fork until
@@ -57,7 +57,7 @@ django-mptt==0.16.0
 jsonfield==3.1.0
 django-guardian==2.4.0
 django-teryt-tree==0.18.4
-cached-property==1.5.2
+cached-property==2.0.1
 
 # replacing unmaintained django-bootstrap-pagination with updated fork
 # django-bootstrap-pagination==1.7.1
@@ -67,14 +67,13 @@ django-reversion==5.1.0
 djangorestframework==3.15.2
 djangorestframework-csv==3.0.2
 unicodecsv==0.14.1
-tqdm==4.66.5
+tqdm==4.67.0
 django-github-revision==0.0.3
 django-extensions==3.2.3
-django-cleanup==8.1.0
+django-cleanup==9.0.0
 
 # Ping commit due missing cached object in <=4.7.1
-django-extra-views==0.13.0 
-# django-extra-views==0.14.0 -> py3.10 or dj3.2: cannot import name 'InlineFormSet' from 'extra_views'
+django-extra-views==0.15.0 
 django-sendfile2==0.7.1
 virustotal-api==1.1.11
 
@@ -83,18 +82,18 @@ https://github.com/ross/performant-pagination/archive/5b537da95728d622792031071e
 
 # django4-background-tasks==1.2.9 - unmintained, using watchdog maintained fork py312, dj42 compatible
 git+https://github.com/watchdogpolska/django-background-tasks.git@master
-django-cors-headers==4.4.0
+django-cors-headers==4.6.0
 
 django-rosetta==0.10.1
-bleach==6.1.0
+bleach==6.2.0
 beautifulsoup4==4.12.3
 html2text==2024.2.26
 openpyxl==3.1.5
 
 # LLM exvaluation
-langchain==0.3.2
-langchain-community==0.3.1
+langchain==0.3.7
+langchain-community==0.3.7
 #langchain[llms]==0.1.5
-openai==1.51.2
-langchain-openai==0.2.2
-tiktoken==0.7.0
+openai==1.54.4
+langchain-openai==0.2.9
+tiktoken==0.8.0
