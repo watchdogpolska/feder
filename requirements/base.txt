@@ -73,7 +73,7 @@ django-extensions==3.2.3
 django-cleanup==9.0.0
 
 # Ping commit due missing cached object in <=4.7.1
-django-extra-views==0.13.0 
+django-extra-views==0.15.0 
 # django-extra-views==0.14.0 -> py3.10 or dj3.2: cannot import name 'InlineFormSet' from 'extra_views'
 django-sendfile2==0.7.1
 virustotal-api==1.1.11
