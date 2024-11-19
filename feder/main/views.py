@@ -45,6 +45,13 @@ class HomeView(TemplateView):
                 + str(Institution.objects.area(voivodeship).count())
                 + "</td></tr>"
             )
+        table += (
+            "<tr><td><b>Wszystkie</b></td><td><b>"
+            + str(Case.objects.all().count())
+            + "</b></td><td><b>"
+            + str(Institution.objects.all().count())
+            + "</b></td></tr>"
+        )
         table += "</table>"
         return table
 
