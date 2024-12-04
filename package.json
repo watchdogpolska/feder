@@ -13,7 +13,7 @@
     "font-awesome": "^4.7.0",
     "jquery": "^3.7.0",
     "postcss": "8.4.49",
-    "caniuse-lite": "^1.0.30001600",
+    "caniuse-lite": "^1.0.30001600"
   },
   "devDependencies": {
     "gulp": "^4.0.0",
