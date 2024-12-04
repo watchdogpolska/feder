@@ -2,7 +2,8 @@
   "extends": [
     "config:recommended",
     "lockFileMaintenance": {
-      "enabled": true
+      "enabled": true,
+      "schedule": ["before 4am on monday"]
     }
   ],
   "enabledManagers": [
