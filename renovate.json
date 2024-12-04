@@ -1,7 +1,10 @@
 {
   "extends": [
     "config:recommended",
-    "stabilityDays": 7
+    "stabilityDays": 7,
+    "lockFileMaintenance": {
+      "enabled": true
+    }
   ],
   "enabledManagers": [
     "dockerfile",
