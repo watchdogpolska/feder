@@ -1,6 +1,9 @@
 {
   "extends": [
-    "config:recommended"
+    "config:recommended",
+    "lockFileMaintenance": {
+      "enabled": true
+    }
   ],
   "enabledManagers": [
     "dockerfile",
