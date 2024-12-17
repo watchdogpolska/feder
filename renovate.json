@@ -2,7 +2,7 @@
   "extends": [
     "config:recommended"
   ],
-  "baseBranch": "dev",
+  "baseBranch": "develop",
   "enabledManagers": [
     "dockerfile",
     "pip_requirements",
