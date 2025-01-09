@@ -26,7 +26,7 @@ repos:
       hooks:
           - id: pyupgrade
             args:
-            - --py310-plus
+                - --py310-plus
     - repo: https://github.com/pycqa/isort
       rev: 5.13.2
       hooks:
