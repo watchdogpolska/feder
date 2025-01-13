@@ -11,7 +11,7 @@ repos:
       - id: django-upgrade
         args: [--target-version, "4.2"]
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.19.0
+    rev: v3.19.1
     hooks:
       - id: pyupgrade
         args:
@@ -28,7 +28,7 @@ repos:
           - --skip-glob
           - "**/migrations/*.py"
   - repo: https://github.com/sirosen/check-jsonschema
-    rev: 0.30.0
+    rev: 0.31.0
     hooks:
       - id: check-github-workflows
       - id: check-readthedocs
