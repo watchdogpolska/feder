@@ -9,5 +9,5 @@ factory-boy==3.3.1
 django-coverage-plugin==3.1.0
 vcrpy==7.0.0
 sphinxcontrib-programoutput==0.18
-pre-commit==4.0.1
+pre-commit==4.1.0
 coveralls==4.0.1
