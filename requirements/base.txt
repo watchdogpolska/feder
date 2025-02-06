@@ -1,5 +1,5 @@
 # Production and staging Django
-Django==4.2.18
+Django==4.2.19
 
 # Database adapter
 mysqlclient==2.2.7
@@ -28,7 +28,7 @@ unicode-slugify==0.1.5
 django-autoslug==1.9.9
 
 # Time zones support
-pytz==2024.2
+pytz==2025.1
 
 # Commands
 lxml==5.3.0
@@ -86,14 +86,14 @@ django-cors-headers==4.6.0
 
 django-rosetta==0.10.1
 bleach==6.2.0
-beautifulsoup4==4.12.3
+beautifulsoup4==4.13.3
 html2text==2024.2.26
 openpyxl==3.1.5
 
 # LLM exvaluation
-langchain==0.3.15
-langchain-community==0.3.15
+langchain==0.3.17
+langchain-community==0.3.16
 #langchain[llms]==0.1.5
-openai==1.60.2
-langchain-openai==0.3.2
+openai==1.61.1
+langchain-openai==0.3.3
 tiktoken==0.8.0
