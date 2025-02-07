@@ -52,7 +52,7 @@ migrations: wait_mysql
 	docker compose run --remove-orphans web python manage.py makemigrations
 
 settings:
-	docker compose run --remove-orphans db python manage.py diffsettings
+	docker compose run --remove-orphans web python manage.py diffsettings
 
 docs:
 	docker compose run --remove-orphans web sphinx-build -b html -d docs/_build/doctrees docs docs/_build/html
