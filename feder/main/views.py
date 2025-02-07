@@ -39,17 +39,17 @@ class HomeView(TemplateView):
             table += (
                 "<tr><td>"
                 + voivodeship.name
-                + "</td><td>"
-                + str(Case.objects.area(voivodeship).count())
-                + "</td><td>"
+                + "</td><td class='text-right'>"
                 + str(Institution.objects.area(voivodeship).count())
+                + "</td><td class='text-right'>"
+                + str(Case.objects.area(voivodeship).count())
                 + "</td></tr>"
             )
         table += (
-            "<tr><td><b>Wszystkie</b></td><td><b>"
-            + str(Case.objects.all().count())
-            + "</b></td><td><b>"
+            "<tr><td><b>Wszystkie</b></td><td class='text-right'><b>"
             + str(Institution.objects.all().count())
+            + "</b></td><td class='text-right'><b>"
+            + str(Case.objects.all().count())
             + "</b></td></tr>"
         )
         table += "</table>"

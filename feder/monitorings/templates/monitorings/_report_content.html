@@ -80,19 +80,19 @@
                 <td class="centered centered_cell">{{ case.last_request.emaillog.status_verbose }}</td>
                 <td>
                     {% if case.confirmation_received %}
-                        <i class="fa fa-check-circle fa-lg color-success centered"
+                        <i class="fa-solid fa-circle-check fa-lg color-success centered"
                            title="{% trans 'yes' %}"></i>
                     {% else %}
-                        <i class="fa fa-times-circle fa-lg color-danger centered"
+                        <i class="fa-solid fa-circle-xmark fa-lg color-danger centered"
                            title="{% trans 'no' %}"></i>
                     {% endif %}
                 </td>
                 <td>
                     {% if case.response_received %}
-                        <i class="fa fa-check-circle fa-lg color-success centered"
+                        <i class="fa-solid fa-circle-check fa-lg color-success centered"
                            title="{% trans 'yes' %}"></i>
                     {% else %}
-                        <i class="fa fa-times-circle fa-lg color-danger centered"
+                        <i class="fa-solid fa-circle-xmark fa-lg color-danger centered"
                            title="{% trans 'no' %}"></i>
                     {% endif %}
                 </td>

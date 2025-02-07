@@ -97,8 +97,8 @@
                 <div class="footer-left">
                     silnik: <a href="http://jawne.info.pl">jawne.info.pl</a> |
                     v{% feder_version %} |
-                    <a href="https://github.com/watchdogpolska/feder"><i class="fa fa-github" aria-hidden="true"></i> GitHub</a> – {% github_link %} |
-                    <a href="{% url 'api-root' %}"><i class="fa fa-cloud-download" aria-hidden="true"></i> API</a>
+                    <a href="https://github.com/watchdogpolska/feder"><i class="fab fa-github" aria-hidden="true"></i> GitHub</a> – {% github_link %} |
+                    <a href="{% url 'api-root' %}"><i class="fa-solid fa-cloud-arrow-down" aria-hidden="true"></i> API</a>
                 </div>
                 <div class="footer-center">{% trans 'This site uses cookies.' %}</div>
 
@@ -123,10 +123,10 @@
     {% endif %}
     <script>
         $(function () {
-            var show_quote = '<i class="fa fa-plus-square"></i> {%trans "Show quote" %}';
-            var hide_quote = '<i class="fa fa-minus-square"></i> {%trans "Hide quote" %}';
-            var show_att_text = '<i class="fa fa-plus-square"></i> {%trans "Show att text" %}';
-            var hide_att_text = '<i class="fa fa-minus-square"></i> {%trans "Hide att text" %}';
+            var show_quote = '<i class="fa-solid fa-square-plus"></i> {%trans "Show quote" %}';
+            var hide_quote = '<i class="fa-solid fa-square-minus"></i> {%trans "Hide quote" %}';
+            var show_att_text = '<i class="fa-solid fa-square-plus"></i> {%trans "Show att text" %}';
+            var hide_att_text = '<i class="fa-solid fa-square-minus"></i> {%trans "Hide att text" %}';
             $('blockquote.expandable').each(function (index, value) {
                 var el = $(value).hide();
                 var show = el.attr('name') === 'attachment_text' ? show_att_text : show_quote;
