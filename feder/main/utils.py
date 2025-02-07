@@ -119,10 +119,10 @@ class RenderBooleanFieldMixin:
     def render_boolean_field(self, field):
         field_value = getattr(self, field)
         if field_value is None:
-            return '<span class="fa fa-question"></span>'
+            return '<span class="fas fa-question"></span>'
         elif field_value:
-            return '<span class="fa fa-check" style="color: green;"></span>'
-        return '<span class="fa fa-times" style="color: red;"></span>'
+            return '<span class="fas fa-check" style="color: green;"></span>'
+        return '<span class="fa-solid fa-xmark" style="color: red;"></span>'
 
 
 class FormValidLogEntryMixin:

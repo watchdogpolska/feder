@@ -24,12 +24,12 @@
             {% if not object.case.institution.archival %}
                 {% if object.is_draft %}
                     <a class="btn btn-primary" href="{% url 'letters:send' pk=object.pk %}">
-                        <i class="fa fa-send"></i>
+                        <i class="fa-solid fa-share-from-square"></i>
                         {% trans 'Send draft' %}
                     </a>
                 {% else %}
                     <a class="btn btn-primary" href="{% url 'letters:reply' pk=object.pk %}">
-                        <i class="fa fa-reply"></i>
+                        <i class="fas fa-reply"></i>
                         {% trans 'Reply' %}
                     </a>
                 {% endif %}
@@ -38,19 +38,19 @@
 
         {% if 'reply' in monitoring_perms and not object.author_institution_id and not object.case.institution.archival %}
             <a class="btn btn-primary" href="{% url 'letters:resend' pk=object.pk %}">
-                <i class="fa fa-reply"></i>
+                <i class="fas fa-reply"></i>
                 {% trans 'Resend' %}
             </a>
         {% endif %}
 
         {% if not object.is_spam_validated and object.is_incoming %}
             <a class="btn btn-primary" href="{% url 'letters:spam' pk=object.pk %}">
-                <i class="fa fa-bullhorn"></i>
+                <i class="fas fa-bullhorn"></i>
                 {% trans 'Report spam' %}
             </a>
             {% if 'spam_mark' in monitoring_perms %}
                 <a class="btn btn-primary" href="{% url 'letters:mark_spam' pk=object.pk %}">
-                    <i class="fa fa-bullhorn"></i>
+                    <i class="fas fa-bullhorn"></i>
                     {% trans 'Mark spam' %}
                 </a>
             {% endif %}

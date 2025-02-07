@@ -17,19 +17,19 @@
     <table class="table">
         <tbody>
             <tr>
-                <td class="col-md-3 col-xs-6 col-sm-5 metadata_desc"><i class="fa fa-address-book" aria-hidden="false"></i> {% trans 'Author' %}</td>
+                <td class="col-md-3 col-xs-6 col-sm-5 metadata_desc"><i class="fas fa-address-book" aria-hidden="false"></i> {% trans 'Author' %}</td>
                 <td class="col-md-9 col-xs-6 col-sm-7 metadata_value"><a href="{{ object.author_url }}"> {{ object.author }} </a> </td>
             </tr>
             <tr>
-                <td class="metadata_desc"><i class="fa fa-calendar-plus-o" aria-hidden="false"></i> {% trans 'Creation date' %}</td>
+                <td class="metadata_desc"><i class="fa-regular fa-calendar-plus" aria-hidden="false"></i> {% trans 'Creation date' %}</td>
                 <td class="metadata_value">{{ object.created }}</td>
             </tr>
             <tr>
-                <td class="metadata_desc"><i class="fa fa-calendar" aria-hidden="false"></i> {% trans 'Modification date' %}</td>
+                <td class="metadata_desc"><i class="far fa-calendar" aria-hidden="false"></i> {% trans 'Modification date' %}</td>
                 <td class="metadata_value">{{ object.modified }}</td>
             </tr>
             <tr>
-                <td class="metadata_desc"><i class="fa fa-check-square-o" aria-hidden="false"></i> {% trans 'Status' %}</td>
+                <td class="metadata_desc"><i class="fa-regular fa-square-check" aria-hidden="false"></i> {% trans 'Status' %}</td>
                 <td class="metadata_value">
                     {% if object.emaillog %}
                         {{ object.emaillog.status }}
@@ -40,7 +40,7 @@
             </tr>
             {% if 'view_email_address' in monitoring_perms %}
             <tr>
-                <td class="metadata_desc"><i class="fa fa-check-square-o" aria-hidden="false"></i> {% trans 'E-mail of case' %}</td>
+                <td class="metadata_desc"><i class="fa-regular fa-square-check" aria-hidden="false"></i> {% trans 'E-mail of case' %}</td>
                 <td class="metadata_value">
                     <code>{{ object.case.email }}</code>
                 </td>

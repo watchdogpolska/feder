@@ -42,7 +42,7 @@
 
 {% block content %}
     <div class="page-header">
-        <h2><i class="fa fa-home"></i>{{ object }}</h2>
+        <h2><i class="fas fa-house"></i>{{ object }}</h2>
     </div>
     <div class="row">
         <div class="col-md-4">
@@ -64,7 +64,7 @@
             {% for monitoring in case_list_grouped %}
                 <div class="gray">
                     <h3>
-                        <i class="fa fa-search"></i>
+                        <i class="fa-solid fa-magnifying-glass"></i>
                         <a href="{{ monitoring.grouper.get_absolute_url }}">{{ monitoring.grouper }}</a>
                     </h3>
                     {% for case in monitoring.list %}

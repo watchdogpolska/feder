@@ -1,51 +1,51 @@
 {% load i18n feder_tags %}
 <table>
     <tr>
-        <td><p><i class="fa fa-home"></i>&nbsp;{% trans 'Institution' %}:&nbsp;</p></td>
+        <td><p><i class="fas fa-house"></i>&nbsp;{% trans 'Institution' %}:&nbsp;</p></td>
         <td><p><a href="{{ object.institution.get_absolute_url }}">{{ object.institution }}</a></p></td>
     </tr>
     {% if request.user.is_authenticated %}
         <tr>
-            <td><p><i class="fa fa-envelope"></i>&nbsp;{% trans 'Institution email' %}:&nbsp;</p></td>
+            <td><p><i class="fas fa-envelope"></i>&nbsp;{% trans 'Institution email' %}:&nbsp;</p></td>
             <td><p>{{ object.institution.email }}</p></td>
         </tr>
     {% endif %}
     <tr>
-        <td><p><i class="fa fa-search"></i>&nbsp;{% trans 'Monitoring' %}:&nbsp;</p></td>
+        <td><p><i class="fa-solid fa-magnifying-glass"></i>&nbsp;{% trans 'Monitoring' %}:&nbsp;</p></td>
         <td><p><a href="{{ object.monitoring.get_absolute_url }}">{{ object.monitoring }}</p></a></td>
     </tr>
     {% if request.user.is_authenticated %}
         <tr>
-            <td><p><i class="fa fa-envelope"></i>&nbsp;{% trans 'Case email' %}:&nbsp;</p></td>
+            <td><p><i class="fas fa-envelope"></i>&nbsp;{% trans 'Case email' %}:&nbsp;</p></td>
             <td><p>{{ object.email }}</p></td>
         </tr>
     {% endif %}
     <tr>
-        <td><p><i class="fa fa-cubes"></i>&nbsp;{% trans 'Letter count' %}:&nbsp;</p></td>
+        <td><p><i class="fas fa-cubes"></i>&nbsp;{% trans 'Letter count' %}:&nbsp;</p></td>
         <td><p>{{ object.letter_count }}</p></td>
     </tr>
     <tr>
-        <td><p><i class="fa fa-cubes"></i>&nbsp;{% trans 'Spam count' %}:&nbsp;</p></td>
+        <td><p><i class="fas fa-cubes"></i>&nbsp;{% trans 'Spam count' %}:&nbsp;</p></td>
         <td><p>{{ object.spam_count }}</p></td>
     </tr>
     <tr>
-        <td><p><i class="fa fa-info-circle"></i>&nbsp;{% trans 'First request status' %}:&nbsp;</p></td>
+        <td><p><i class="fa-solid fa-circle-info"></i>&nbsp;{% trans 'First request status' %}:&nbsp;</p></td>
         <td><p>{{ object.first_request.emaillog.status_verbose }}</p></td>
     </tr>
     <tr>
-        <td><p><i class="fa fa-info-circle"></i>&nbsp;{% trans 'Last request status' %}:&nbsp;</p></td>
+        <td><p><i class="fa-solid fa-circle-info"></i>&nbsp;{% trans 'Last request status' %}:&nbsp;</p></td>
         <td><p>{{ object.last_request.emaillog.status_verbose }}</p></td>
     </tr>
     <tr>
-        <td><p><i class="fa fa-check-circle"></i>&nbsp;{% trans 'Confirmation received' %}:&nbsp;</p></td>
+        <td><p><i class="fa-solid fa-circle-check"></i>&nbsp;{% trans 'Confirmation received' %}:&nbsp;</p></td>
         <td><p>{{ object.confirmation_received|boolean_icon }}</p></td>
     </tr>
     <tr>
-        <td><p><i class="fa fa-reply"></i>&nbsp;{% trans 'Response received' %}:&nbsp;</p></td>
+        <td><p><i class="fas fa-reply"></i>&nbsp;{% trans 'Response received' %}:&nbsp;</p></td>
         <td><p>{{ object.response_received|boolean_icon }}</p></td>
     </tr>
     <tr>
-        <td><p><i class="fa fa-exclamation-triangle"></i>&nbsp;{% trans 'Quarantined' %}:&nbsp;</p></td>
+        <td><p><i class="fa-solid fa-triangle-exclamation"></i>&nbsp;{% trans 'Quarantined' %}:&nbsp;</p></td>
         <td><p>{{ object.is_quarantined|boolean_icon }}</p></td>
     </tr>
 </table>

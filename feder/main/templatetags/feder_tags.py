@@ -50,10 +50,10 @@ def app_main_style():
 @register.filter
 def boolean_icon(value):
     if value is None:
-        return mark_safe('<span class="fa fa-question" style="color: gray;"></span>')
+        return mark_safe('<span class="fas fa-question" style="color: gray;"></span>')
     elif value:
-        return mark_safe('<span class="fa fa-check" style="color: green;"></span>')
-    return mark_safe('<span class="fa fa-times" style="color: red;"></span>')
+        return mark_safe('<span class="fas fa-check" style="color: green;"></span>')
+    return mark_safe('<span class="fa-solid fa-xmark" style="color: red;"></span>')
 
 
 @register.filter
