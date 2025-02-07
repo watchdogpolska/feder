@@ -17,7 +17,7 @@
 
 {% block content %}
     <div class="page-header">
-        <h2><i class="fa fa-globe"></i> {{ object.name }}
+        <h2><i class="fa-solid fa-earth-europe"></i> {{ object.name }}
             <small>{{ object.category }}</small>
         </h2>
     </div>
@@ -45,7 +45,7 @@
         <div class="col-md-4">
             <div class="red">
                 <h3 class="title">
-                    <i class="fa fa-home"></i>
+                    <i class="fas fa-house"></i>
                     {% trans 'Institutions' %}: {{ institution_qs.count }}
                 </h3>
                 {% if institution_qs %}
@@ -58,7 +58,7 @@
         <div class="col-md-4">
             <div class="gray">
                 <h3 class="title">
-                    <i class="fa fa-search"></i>
+                    <i class="fa-solid fa-magnifying-glass"></i>
                     {% trans 'Cases' %}: {{ case_qs.count }}
                 </h3>
                 {% if case_qs %}

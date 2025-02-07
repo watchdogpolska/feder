@@ -33,7 +33,7 @@
                 <form method="POST">
                     {% if is_filtered %}
                     <button type="submit" class="btn btn-primary">
-                        <i class="fa fa-search-plus" aria-hidden="true"></i>
+                        <i class="fa-solid fa-magnifying-glass-plus" aria-hidden="true"></i>
                         {% blocktrans with monitoring=monitoring %}Assign selected institutions to "{{ monitoring }}" and
                             send request{% endblocktrans %}
                     </button>
@@ -82,7 +82,7 @@
                 <form method="GET">
                     {{ filter.form | crispy }}
                     <button type="submit" class="btn btn-primary">
-                        <i class="fa fa-search" aria-hidden="true"></i>
+                        <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
                         {% trans 'Filtr' %}
                     </button>
                 </form>

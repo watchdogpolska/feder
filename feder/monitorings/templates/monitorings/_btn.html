@@ -42,23 +42,23 @@
             {% endif %}
             {% if "view_log" in monitoring_perms %}
                 <a class="btn btn-default" href="{% url 'logs:list' monitoring_pk=object.pk %}">
-                    <i class="fa fa-inbox" aria-hidden="true"></i>
+                    <i class="fas fa-inbox" aria-hidden="true"></i>
                     {% trans 'View logs' %}
                 </a>
             {% endif %}
             {% if "view_tag" in monitoring_perms %}
                 <a class="btn btn-default" href="{% url 'cases_tags:list' monitoring=object.pk %}">
-                    <i class="fa fa-hashtag" aria-hidden="true"></i>
+                    <i class="fas fa-hashtag" aria-hidden="true"></i>
                     {% trans 'View tags' %}
                 </a>
             {% endif %}
             {% if "view_report" in monitoring_perms %}
                 <a class="btn btn-default" href="{% url 'monitorings:report' slug=object.slug %}">
-                    <i class="fa fa-file" aria-hidden="true"></i>
+                    <i class="fas fa-file" aria-hidden="true"></i>
                     {% trans 'View report' %}
                 </a>
                 <a class="btn btn-default" href="{{ object.get_monitoring_cases_table_url }}">
-                    <i class="fa fa-table" aria-hidden="true"></i>
+                    <i class="fas fa-table" aria-hidden="true"></i>
                     {% trans 'View cases table' %}
                 </a>
             {% endif %}

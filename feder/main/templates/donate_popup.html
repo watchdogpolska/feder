@@ -1,3 +1,5 @@
+{% load tinycontent_tags %}
+
 <style>
 #popup-container {
     display: none;
@@ -26,13 +28,15 @@
 </style>
 
 <div id="popup-container">
-    <h3>Przekaż 1,5% podatku na rozwój obywatelskiego fedrowania danych!</h3>
-    <a href="https://siecobywatelska.pl/dbamy-o-orla/">
-        <img src="https://siecobywatelska.pl/wp-content/uploads/2024/02/WD_Szklanka_750x200.png" 
-            alt="Wspieramy obywateli">
-    </a>
-    <h2>Numer KRS: 0000181348</h2>
-    <h3><a href="https://siecobywatelska.pl/1-5-procent/">Więcej informacji: 1,5%</a></h3>
+    {% tinycontent 'donate_popup:message' %}
+        <h3>Przekaż 1,5% podatku na rozwój obywatelskiego fedrowania danych!</h3>
+        <a href="https://siecobywatelska.pl/dbamy-o-orla/">
+            <img src="https://siecobywatelska.pl/wp-content/uploads/2024/02/WD_Szklanka_750x200.png" 
+                alt="Wspieramy obywateli">
+        </a>
+        <h2>Numer KRS: 0000181348</h2>
+        <h3><a href="https://siecobywatelska.pl/1-5-procent/">Więcej informacji: 1,5%</a></h3>
+    {% endtinycontent %}
     <!-- Add any other content or buttons as needed -->
     <p>&nbsp;</p>
     <input type="checkbox" id="alreadyDonated" name="alreadyDonated" value="donated">

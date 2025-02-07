@@ -7,13 +7,13 @@
             </li>
             <li class="block-list-item">
                 <a href="{% url 'home' %}">
-                    <i class="fa fa-home" aria-hidden="true"></i>
+                    <i class="fas fa-house" aria-hidden="true"></i>
                     {% trans 'Homepage' %}
                 </a>
             </li>
             <li class="block-list-item">
                 <a href="{% url 'about' %}">
-                    <i class="fa fa-question" title="{% trans 'Information about the site you are currently visiting'%}" aria-hidden="true"></i>
+                    <i class="fas fa-question" title="{% trans 'Information about the site you are currently visiting'%}" aria-hidden="true"></i>
                     {% trans 'About page' %}
                 </a>
             </li>
@@ -21,42 +21,42 @@
                 <p>&nbsp;</p>
             </li>
             <div class="block-list-header">
-                <i class="fa fa-search" aria-hidden="true"></i>
+                <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
                 {% trans 'Search' %}
             </div>
             <li class="block-list-item">
                 <a href="{% url 'cases:list' %}">
-                    <i class="fa fa-folder-open"></i>
+                    <i class="fas fa-folder-open"></i>
                     {% trans 'Cases' %}
                 </a>
             </li>
             <li class="block-list-item">
                 <a href="{% url 'monitorings:list' %}">
-                    <i class="fa fa-search" aria-hidden="true"></i>
+                    <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
                     {% trans 'Monitorings' %}
                 </a>
             </li>
             <li class="block-list-item">
                 <a href="{% url 'monitorings:table' %}">
-                    <i class="fa fa-table"></i> {% trans 'Monitorings table' %}</a>
+                    <i class="fas fa-table"></i> {% trans 'Monitorings table' %}</a>
             </li>
             <li class="block-list-item">
                 <a href="{% url 'letters:list' %}">
-                    <i class="fa fa-envelope" aria-hidden="true"></i>
+                    <i class="fas fa-envelope" aria-hidden="true"></i>
                     {% trans 'Letters assigned to cases' %}
                 </a>
             </li>
             {% if perms.letters.recognize_letter %}
                 <li class="block-list-item">
                     <a href="{% url 'letters:unrecognized_list' %}">
-                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                        <i class="fas fa-envelope" aria-hidden="true"></i>
                         {% trans 'Letters unassigned to cases' %}
                     </a>
                 </li>
             {% endif %}
             <li class="block-list-item">
                 <a href="{% url 'institutions:list' %}">
-                    <i class="fa fa-home" aria-hidden="true"></i>
+                    <i class="fas fa-house" aria-hidden="true"></i>
                     {% trans 'Institutions' %}</a>
             </li>
             <li class="block-list-item">
@@ -69,23 +69,23 @@
         {% if request.user.is_authenticated %}
             <li class="block-list-item">
                 <a href="{% url 'users:detail' request.user.username %}">
-                    <i class="fa fa-user"></i> {% trans "My Profile" %}</a>
+                    <i class="fas fa-user"></i> {% trans "My Profile" %}</a>
             </li>
             <li class="block-list-item">
-                <a href="{% url 'admin:index' %}"><i class="fa fa-gear"></i> {% trans "App admin" %}</a>
+                <a href="{% url 'admin:index' %}"><i class="fas fa-gear"></i> {% trans "App admin" %}</a>
             </li>
             <li class="block-list-item">
-                <a href="{% url 'account_logout' %}"><i class="fa fa-sign-out"></i> {% trans "Logout" %}</a>
+                <a href="{% url 'account_logout' %}"><i class="fa-solid fa-right-from-bracket"></i> {% trans "Logout" %}</a>
             </li>
 
         {% else %}
             {# Remove temporairly new user signup until more robust signup process is agreed #}
             {# <li class="block-list-item"> #}
-            {#     <a href="{% url 'account_signup' %}"><i class="fa fa-user"></i> {% trans "Sign Up" %}</a>  #}
+            {#     <a href="{% url 'account_signup' %}"><i class="fas fa-user"></i> {% trans "Sign Up" %}</a>  #}
             {# </li> #}
             <li class="block-list-item">
                 <a href="{% url 'account_login' %}?next={{ request.get_full_path }}">
-                    <i class="fa fa-sign-in"></i> {% trans "Log In" %}</a>
+                    <i class="fa-solid fa-right-to-bracket"></i> {% trans "Log In" %}</a>
             </li>
         {% endif %}
     </div>

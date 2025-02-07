@@ -13,7 +13,7 @@
             <div class="row">
                 <div class="col-lg-4 col-md-3">
                     <div class="red">
-                        <h2 class="title"><i class="fa fa-globe"></i> {% trans 'Voivodeships' %}</h2>
+                        <h2 class="title"><i class="fa-solid fa-earth-europe"></i> {% trans 'Voivodeships' %}</h2>
                             {% include 'teryt/_voivodeship_map.svg.html' %}
                     </div>
                 </div>
@@ -24,7 +24,7 @@
                 </div>
                 <div class="col-lg-4 col-md-3">
                     <div class="gray">
-                        <h2 class="title"><i class="fa fa-search"></i> {% trans 'Last monitorings' %}</h2>
+                        <h2 class="title"><i class="fa-solid fa-magnifying-glass"></i> {% trans 'Last monitorings' %}</h2>
                             {% if monitoring_list %}
                                 {% include '_select_list.html' with object_list=monitoring_list %}
                             {% else %}

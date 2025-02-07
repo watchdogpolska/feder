@@ -1,54 +1,65 @@
 ---
+ci:
+    autofix_commit_msg: |
+        [pre-commit.ci] auto fixes from pre-commit.com hooks
+
+        for more information, see https://pre-commit.ci
+    autofix_prs: true
+    autoupdate_branch: 'develop'
+    autoupdate_commit_msg: '[pre-commit.ci] pre-commit autoupdate'
+    autoupdate_schedule: weekly
+    skip: []
+    submodules: false
 default_stages: [pre-commit, pre-push]
 default_language_version:
-  # force all unspecified python hooks to run python3
-  python: python3
+    # force all unspecified python hooks to run python3
+    python: python3
 minimum_pre_commit_version: "1.20.0"
 repos:
-  - repo: https://github.com/adamchainz/django-upgrade
-    rev: 1.22.1
-    hooks:
-      - id: django-upgrade
-        args: [--target-version, "4.2"]
-  - repo: https://github.com/asottile/pyupgrade
-    rev: v3.19.0
-    hooks:
-      - id: pyupgrade
-        args:
-          - --py310-plus
-  - repo: https://github.com/pycqa/isort
-    rev: 5.13.2
-    hooks:
-      - id: isort
-        args:
-          - --profile
-          - black
-          - --line-length=88
-          - --filter-files
-          - --skip-glob
-          - "**/migrations/*.py"
-  - repo: https://github.com/sirosen/check-jsonschema
-    rev: 0.29.4
-    hooks:
-      - id: check-github-workflows
-      - id: check-readthedocs
-  - repo: https://github.com/adrienverge/yamllint
-    rev: v1.35.1
-    hooks:
-      - id: yamllint
-        args: [-c, .yamllint.yml]
-  #        exclude: (feder/letters/logs/cassettes/.*|docker-compose.yml)
-  - repo: https://github.com/psf/black
-    rev: 24.10.0
-    hooks:
-      - id: black
-        args:
-          - --config
-          - ./pyproject.toml
-        exclude: '.*/[^/]+/migrations/[^/]+\.py'
-  - repo: https://github.com/PyCQA/flake8
-    rev: 7.1.1
-    hooks:
-      - id: flake8
-        args:
-          - --config=./setup.cfg
+    - repo: https://github.com/adamchainz/django-upgrade
+      rev: 1.22.2
+      hooks:
+          - id: django-upgrade
+            args: [--target-version, "4.2"]
+    - repo: https://github.com/asottile/pyupgrade
+      rev: v3.19.1
+      hooks:
+          - id: pyupgrade
+            args:
+                - --py310-plus
+    - repo: https://github.com/pycqa/isort
+      rev: 6.0.0
+      hooks:
+          - id: isort
+            args:
+                - --profile
+                - black
+                - --line-length=88
+                - --filter-files
+                - --skip-glob
+                - "**/migrations/*.py"
+    - repo: https://github.com/sirosen/check-jsonschema
+      rev: 0.31.1
+      hooks:
+          - id: check-github-workflows
+          - id: check-readthedocs
+    - repo: https://github.com/adrienverge/yamllint
+      rev: v1.35.1
+      hooks:
+          - id: yamllint
+            args: [-c, .yamllint.yml]
+      #        exclude: (feder/letters/logs/cassettes/.*|docker-compose.yml)
+    - repo: https://github.com/psf/black
+      rev: 25.1.0
+      hooks:
+          - id: black
+            args:
+                - --config
+                - ./pyproject.toml
+            exclude: '.*/[^/]+/migrations/[^/]+\.py'
+    - repo: https://github.com/PyCQA/flake8
+      rev: 7.1.1
+      hooks:
+          - id: flake8
+            args:
+                - --config=./setup.cfg

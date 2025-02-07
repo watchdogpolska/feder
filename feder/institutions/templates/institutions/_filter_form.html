@@ -5,7 +5,7 @@
     {{ block.super }}
     <a href="{{ csv_url }}"
        class="btn btn-primary btn-block{% if not object_list %} disabled{% endif %}">
-        <i class="fa fa-download" aria-hidden="true"></i>
+        <i class="fas fa-download" aria-hidden="true"></i>
         {% trans 'Download as CSV' %}
     </a>
 {% endblock %}
