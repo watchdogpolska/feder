@@ -39,7 +39,7 @@ var config = (function () {
             ],
             include: [
                 './node_modules/bootstrap-sass/assets/stylesheets',
-                './node_modules/font-awesome/scss',
+                './node_modules/@fortawesome/fontawesome-free/scss',
                 path.assets + '/scss/'
             ],
             output: {
@@ -58,9 +58,9 @@ var config = (function () {
         },
         icons: {
             input: [
-                './node_modules/font-awesome/fonts/**.*'
+                './node_modules/@fortawesome/fontawesome-free/webfonts/**.*'
             ],
-            output: path.static + "/fonts"
+            output: path.static + "/webfonts"
         },
         script: {
             input: [

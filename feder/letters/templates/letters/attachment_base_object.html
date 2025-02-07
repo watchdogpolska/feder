@@ -61,7 +61,7 @@
 {% block content %}
     <div class="page-header">
         <h2>
-            <i class="fa fa-envelope"></i>
+            <i class="fas fa-envelope"></i>
             {% with object=object.letter object_url=object.letter.get_absolute_url author=object.letter.author author_url=object.letter.author.get_absolute_url created=object.created created_natural=object.created|naturaltime %}
                 <a href="{{ object_url }}">{{ object }}</a>
                 <small>

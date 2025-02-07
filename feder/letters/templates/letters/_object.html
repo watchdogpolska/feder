@@ -62,7 +62,7 @@
                                     ({% include 'virus_scan/_request.html' with object=attachment.current_scan_request %})
                                     {% if not attachment.is_infected %}
                                         <a class="btn btn-xs btn-primary" href="{{ attachment.get_absolute_url }}">
-                                            <i class="fa fa-download"></i>
+                                            <i class="fas fa-download"></i>
                                             {% trans 'Download' %}
                                         </a>
                                         {% if enable_refresh_attachment_text_content %}
@@ -74,7 +74,7 @@
                                                     <div class="input-group-append">
                                                         <button type="submit" id="refresh_attachment_text_content"
                                                             class="btn btn-xs btn-primary">
-                                                            <i class="fa fa-refresh"></i>
+                                                            <i class="fa-solid fa-arrows-rotate"></i>
                                                             {% trans 'Refresh text content' %}
                                                         </button>
                                                     </div>
@@ -85,12 +85,12 @@
                                 {% else %}
                                     (nieskanowany)
                                     <a class="btn btn-xs btn-default" href="{% url 'letters:scan' pk=attachment.pk letter_pk=object.pk %}">
-                                        <i class="fa fa-eye"></i>
+                                        <i class="fas fa-eye"></i>
                                         {% trans 'Scan' %}
                                     </a>
                                 {% endif %}
                             {% else %}
-                                <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="bottom"
+                                <i class="fa-solid fa-circle-question" data-toggle="tooltip" data-placement="bottom"
                                     title="Załączniki mogą być pobierane tylko przez uprawnionych użytkowników">
                                 </i>
                             {% endif %}     
@@ -98,7 +98,7 @@
                     </td>
                     <td>
                         {% if attachment.text_content %}
-                        <i class="fa fa-exclamation-triangle" data-toggle="tooltip" data-placement="bottom"
+                        <i class="fa-solid fa-triangle-exclamation" data-toggle="tooltip" data-placement="bottom"
                             title="{{attachment.text_content_warning}}">
                         </i>
                         <blockquote class="expandable" name="attachment_text">

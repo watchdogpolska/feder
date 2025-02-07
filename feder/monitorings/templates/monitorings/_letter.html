@@ -1,7 +1,7 @@
 {% load i18n humanize %}
 <div class="gray">
     <h3>
-        <i class="fa fa-envelope"></i>
+        <i class="fas fa-envelope"></i>
         <a href="{{ object.get_absolute_url }}">{{ object }}</a>
         <small>
             {% trans 'by' %}
@@ -9,7 +9,7 @@
             <a href="{{ object.author.get_absolute_url }}">{{ object.author }}</a>
             {% if object.case %}
                 {% trans 'in case of ' %}
-                <i class="fa fa-folder-open"></i>
+                <i class="fas fa-folder-open"></i>
                 <a href="{{ object.case.get_absolute_url }}">{{ object.case }}</a>
             {% endif %}
             <time datetime="{{ object.created }}" title="{{ object.created | naturaltime }}">{{ object.created }}</time>
@@ -17,7 +17,7 @@
         {% if object.ai_evaluation %}
             <br>
             <small>
-                <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="bottom"
+                <i class="fa-solid fa-circle-question" data-toggle="tooltip" data-placement="bottom"
                     title="{{ object.ai_prompt_help }}">
                 </i> {% trans 'LLM evaluation: ' %}
                 {{ object.ai_evaluation|linebreaksbr }}
@@ -65,7 +65,7 @@
     {% endif %}
     {% if object.attachment_count %}
         <span class="badge pull-right">
-            <i class="fa fa-download"></i>
+            <i class="fas fa-download"></i>
             {{ object.attachment_count }}
         </span>
     {% endif %}
