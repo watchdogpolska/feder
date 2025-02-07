@@ -1,3 +1,4 @@
+@use 'sass:color';
 @import 'variables';
 @import 'bootstrap';
 @import "layout";
@@ -28,7 +29,7 @@ $gray: #F0F0F0;
   position: absolute;
   top: 0;
   right: 0;
-  border: 20px solid darken($gray, 15%);
+  border: 20px solid color.scale($gray, $lightness: -15%);
   border-right-color: #fff;
   border-top-color: #fff;
 }
@@ -55,12 +56,12 @@ $gray: #F0F0F0;
 .red {
   @extend .block;
   background-color: $red;
-  color: lighten($gray, 15%);
+  color: color.scale($gray, $lightness: 15%);
   a {
-    color: darken(#fff, 10%);
+    color: color.scale(#fff, $lightness: -10%);
   }
-  a:hover{
-    color: darken(#fff, 20%);
+  a:hover {
+    color: color.scale(#fff, $lightness: -20%);
   }
 
   .page-title {
@@ -68,7 +69,7 @@ $gray: #F0F0F0;
   }
   .select-list {
     li:after {
-      background-color: darken($gray, 10%);
+      background-color: color.scale($gray, $lightness: -10%);
     }
   }
   .has-error .help-block, .has-error .control-label, .has-error .radio, .has-error .checkbox, .has-error .radio-inline, .has-error .checkbox-inline, .has-error.radio label, .has-error.checkbox label, .has-error.radio-inline label, .has-error.checkbox-inline label {
@@ -148,7 +149,7 @@ $gray: #F0F0F0;
     padding: 12px 6px;
     margin: 12px 0px;
     border-top: 1px solid #767676;
-    color: darken(#888, 15%);
+    color: color.scale(#888, $lightness: -15%);
     font-size: 10px;
 }
 .footer-right {

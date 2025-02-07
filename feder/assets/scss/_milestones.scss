@@ -1,3 +1,5 @@
+@use "sass:color";
+
 // Port http://jablon.me/bootstrap-milestones/ to SCSS
 $milestone-offset-smaller: 5px;
 $milestone-offset-small: 10px;
@@ -85,35 +87,35 @@ $milestone-icon-width: $milestone-icon-padding * 2 + $milestone-icon-font-size +
 .milestone-default {
   background-color: $gray-lighter;
   color: $gray-light;
-  border: 1px solid darken($gray-lighter, 5%);
+  border: 1px solid color.scale($gray-lighter, $lightness: -5%);
 }
 
 .milestone-primary {
   background-color: $brand-primary;
   color: #fff;
-  border: 1px solid darken($brand-primary, 5%);
+  border: 1px solid color.scale($brand-primary, $lightness: -5%);
 }
 
 .milestone-success {
   background-color: $brand-success;
   color: #fff;
-  border: 1px solid darken($brand-success, 5%);
+  border: 1px solid color.scale($brand-success, $lightness: -5%);
 }
 
 .milestone-info {
   background-color: $brand-info;
   color: #fff;
-  border: 1px solid darken($brand-info, 5%);
+  border: 1px solid color.scale($brand-info, $lightness: -5%);
 }
 
 .milestone-warning {
   background-color: $brand-warning;
   color: #fff;
-  border: 1px solid darken($brand-warning, 5%);
+  border: 1px solid color.scale($brand-warning, $lightness: -5%);
 }
 
 .milestone-danger, .milestone-error {
   background-color: $brand-danger;
   color: #fff;
-  border: 1px solid darken($brand-danger, 5%);
+  border: 1px solid color.scale($brand-danger, $lightness: -5%);
 }
