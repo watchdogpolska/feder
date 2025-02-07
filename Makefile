@@ -6,8 +6,9 @@ clean:
 	docker compose down
 
 regenerate_frontend:
-	docker compose run web python manage.py collectstatic --noinput
-	docker compose up --exit-code-from gulp
+	docker compose run --remove-orphans web python manage.py collectstatic --noinput
+	docker compose up gulp --exit-code-from gulp
+	docker compose run --remove-orphans web python manage.py collectstatic --noinput
 
 makemessages:
 	docker compose run web python manage.py  makemessages --ignore=htmlcov --all
