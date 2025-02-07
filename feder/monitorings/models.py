@@ -262,15 +262,15 @@ class Monitoring(RenderBooleanFieldMixin, TimeStampedModel):
             table += (
                 "<tr><td>"
                 + voivodeship.name
-                + "</td><td>"
+                + "</td><td class='text-right'>"
                 + str(self.case_set.area(voivodeship).count())
-                + "</td><td>"
+                + "</td><td class='text-right'>"
                 + str(
                     self.case_set.filter(confirmation_received=True)
                     .area(voivodeship)
                     .count()
                 )
-                + "</td><td>"
+                + "</td><td class='text-right'>"
                 + str(
                     self.case_set.filter(response_received=True)
                     .area(voivodeship)
@@ -279,11 +279,11 @@ class Monitoring(RenderBooleanFieldMixin, TimeStampedModel):
                 + "</td></tr>"
             )
         table += (
-            "<tr><td><b>Wszystkie</b></td><td><b>"
+            "<tr><td><b>Wszystkie</b></td><td class='text-right'><b>"
             + str(str(self.case_set.all().count()))
-            + "</b></td><td><b>"
+            + "</b></td><td class='text-right'><b>"
             + str(self.case_set.filter(confirmation_received=True).all().count())
-            + "</b></td><td><b>"
+            + "</b></td><td class='text-right'><b>"
             + str(self.case_set.filter(response_received=True).all().count())
             + "</b></td></tr>"
         )

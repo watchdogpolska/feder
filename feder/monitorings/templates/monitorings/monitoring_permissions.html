@@ -13,7 +13,7 @@
             <tr>
                 <th>{% trans perm.name %}</th>
                 {% for user, test in users %}
-                    <td><i class="fa fa-{{ test|yesno:'check,remove'}}"></i></td>
+                    <td><i class="fas fa-{{ test|yesno:'check,xmark'}}"></i></td>
                 {% endfor %}
             </tr>
         {% endfor %}

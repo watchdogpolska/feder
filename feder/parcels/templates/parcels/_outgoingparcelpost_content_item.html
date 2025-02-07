@@ -1,11 +1,11 @@
 {% load humanize %}
 <tr>
     <td>
-        <i class="fa fa fa-envelope-square"></i>
+        <i class="fa-solid fa-square-envelope"></i>
         <a href="{{ object.get_absolute_url }}">{{ object }}</a>
     </td>
     <td>
-        <i class="fa fa fa-user"></i>
+        <i class="fas fa-user"></i>
         <a href="{{ object.created_by.get_absolute_url }}">{{ object.created_by }}</a>
         <time datetime="{{ object.created }}" title="{{ object.created | naturaltime }}">{{ object.created }}</time>
     </td>

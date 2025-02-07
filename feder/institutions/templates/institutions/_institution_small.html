@@ -1,12 +1,12 @@
 {% load i18n %}
 <h2>
-    <i class="fa fa-home"></i>
+    <i class="fas fa-house"></i>
     <a href="{{ object.get_absolute_url }}">
         {{ object }}
     </a>
 </h2>
 <p>
-    <i class="fa fa-globe"></i> {% trans 'Unit of administrative division' %}:
+    <i class="fa-solid fa-earth-europe"></i> {% trans 'Unit of administrative division' %}:
     <a href="{{ object.jst.get_absolute_url }}">{{ object.jst.tree_name }}</a>
 </p>
 <p>

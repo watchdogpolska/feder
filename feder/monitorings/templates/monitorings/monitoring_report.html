@@ -48,14 +48,14 @@
                     {{ filter.form | crispy }}
                     {% block form_buttons %}
                         <button type="submit" class="btn btn-primary">
-                            <i class="fa fa-search" aria-hidden="true"></i>
+                            <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
                             {% trans 'Filter' %}
                         </button>
                         <a class="btn btn-primary" href="{{ csv_url }}">
-                            <i class="fa fa-download" aria-hidden></i> {% trans 'Download .csv' %}
+                            <i class="fas fa-download" aria-hidden></i> {% trans 'Download .csv' %}
                         </a>
                         <a class="btn btn-primary" href="{{ xlsx_url }}">
-                            <i class="fa fa-download" aria-hidden></i> {% trans 'Download .xlsx' %}
+                            <i class="fas fa-download" aria-hidden></i> {% trans 'Download .xlsx' %}
                         </a>
                     {% endblock %}
                 </form>
@@ -83,10 +83,10 @@
                 </div>
 
                 <button type="button" id="multi-case-tag-assign-btn" class="btn btn-primary">
-                    <i class="fa fa-tag"></i> {% trans "Add" %}
+                    <i class="fas fa-tag"></i> {% trans "Add" %}
                 </button>
                 <button type="button" id="multi-case-tag-remove-btn" class="btn btn-primary">
-                    <i class="fa fa-eraser"></i> {% trans "Remove" %}
+                    <i class="fas fa-eraser"></i> {% trans "Remove" %}
                 </button>
             </div>
 

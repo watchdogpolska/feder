@@ -16,14 +16,14 @@
             {% endif %}
             {% if "view_log" in monitoring_perms %}
                 <a class="btn btn-default" href="{% url 'logs:list' case_pk=object.pk %}">
-                    <i class="fa fa-inbox" aria-hidden="true"></i>
+                    <i class="fas fa-inbox" aria-hidden="true"></i>
                     {% trans 'View logs' %}
                 </a>
             {% endif %}
             {% if 'add_parcelpost' in monitoring_perms %}
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-envelope-square" aria-hidden="true"></i>
+                    <i class="fa-solid fa-square-envelope" aria-hidden="true"></i>
                     {% trans 'Add parcel post' %}
                     <span class="caret"></span>
                 </button>
@@ -42,7 +42,7 @@
             {% endif %}
             {% if 'add_letter' in monitoring_perms and not object.institution.archival %}
                 <a class="btn btn-default" href="{% url 'letters:create' case_pk=object.pk %}">
-                    <i class="fa fa-envelope-square" aria-hidden="true"></i>
+                    <i class="fa-solid fa-square-envelope" aria-hidden="true"></i>
                     {% trans 'Add letter' %}
                 </a>
             {% endif %}

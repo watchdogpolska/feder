@@ -75,7 +75,7 @@
         <div class="page-header">
             {% if object %}
                 <h2>
-                    <i class="fa fa-envelope"></i>
+                    <i class="fas fa-envelope"></i>
                     <a href="{{ object.get_absolute_url }}">{{ object }}</a>
                     <small>{% trans 'by' %} <a href="{{ object.author.get_absolute_url }}"> {{ object.author }}</a>
                         <time datetime="{{ created }}" title="{{ object.created|naturaltime }}">{{ object.created }}</time>
@@ -87,7 +87,7 @@
                     {% if object.ai_evaluation %}
                         <br>
                         <h4 class="text-muted">
-                            <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="bottom"
+                            <i class="fa-solid fa-circle-question" data-toggle="tooltip" data-placement="bottom"
                                 title="{{ object.ai_prompt_help }}">
                             </i> {% trans 'LLM evaluation: ' %}
                             {{ object.ai_evaluation|linebreaksbr }}
@@ -96,7 +96,7 @@
                 </h2>
             {% else %}
                 <h2>
-                    <i class="fa fa-envelope"></i>
+                    <i class="fas fa-envelope"></i>
                     <span>{% trans "New letter" %}</span>
                     <small>{% trans 'by' %} <a href="{{ user }}"> {{ user }}</a>
                         {% if case %}
