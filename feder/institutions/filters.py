@@ -52,4 +52,4 @@ class InstitutionFilter(django_filters.FilterSet):
 
     class Meta:
         model = Institution
-        fields = ["name", "regon", "tags"]
+        fields = ["name", "regon", "tags", "archival", "jst__active"]
