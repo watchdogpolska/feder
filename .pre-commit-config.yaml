@@ -17,7 +17,7 @@ default_language_version:
 minimum_pre_commit_version: "1.20.0"
 repos:
     - repo: https://github.com/adamchainz/django-upgrade
-      rev: 1.22.2
+      rev: 1.23.1
       hooks:
           - id: django-upgrade
             args: [--target-version, "4.2"]
@@ -28,7 +28,7 @@ repos:
             args:
                 - --py310-plus
     - repo: https://github.com/pycqa/isort
-      rev: 6.0.0
+      rev: 6.0.1
       hooks:
           - id: isort
             args:
@@ -39,7 +39,7 @@ repos:
                 - --skip-glob
                 - "**/migrations/*.py"
     - repo: https://github.com/sirosen/check-jsonschema
-      rev: 0.31.1
+      rev: 0.31.2
       hooks:
           - id: check-github-workflows
           - id: check-readthedocs
@@ -58,7 +58,7 @@ repos:
                 - ./pyproject.toml
             exclude: '.*/[^/]+/migrations/[^/]+\.py'
     - repo: https://github.com/PyCQA/flake8
-      rev: 7.1.1
+      rev: 7.1.2
       hooks:
           - id: flake8
             args:
