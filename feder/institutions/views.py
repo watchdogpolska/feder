@@ -60,13 +60,13 @@ class InstitutionDetailView(ExtraListMixin, PrefetchRelatedMixin, DetailView):
     prefetch_related = ["tags"]
     extra_list_context = "case_list"
 
-    @staticmethod
-    def get_object_list(obj):
+    def get_object_list(self, obj):
         return (
             Case.objects.filter(institution=obj)
             .select_related("monitoring")
-            .order_by("monitoring")
+            .order_by("monitoring__name")
             .all()
+            .for_user(self.request.user)
         )
 
 
