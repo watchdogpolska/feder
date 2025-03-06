@@ -46,8 +46,10 @@ class JSTAutocompleteMixin:
         additionally select_related "parent" and "parent__parent" has been added
         and filtered only the active records.
         """
-        return JST.objects.filter(active=True).select_related(
-            "category", "parent", "parent__parent"
+        return (
+            JST.objects.filter(active=True)
+            .select_related("category", "parent", "parent__parent")
+            .order_by("name")
         )
 
     def get_queryset(self):
@@ -63,7 +65,16 @@ class JSTAutocompleteMixin:
         return qs
 
     def get_result_label(self, result):
-        return result.get_full_name()
+        result_parent = f", {result.parent}" if result.parent else ""
+        result_parent_parent = (
+            f", {result.parent.parent}"
+            if result.parent and result.parent.parent
+            else ""
+        )
+        return (
+            f"{result.name} ({result.id}, {result.category}"
+            + f"{result_parent}{result_parent_parent})"
+        )
 
 
 class CustomCommunityAutocomplete(JSTAutocompleteMixin, CommunityAutocomplete):
