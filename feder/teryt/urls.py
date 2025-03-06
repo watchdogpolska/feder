@@ -9,22 +9,22 @@ urlpatterns = [
     re_path(_(r"^$"), views.JSTListView.as_view(), name="list"),
     re_path(_(r"^$"), views.JSTListView.as_view(), name="voivodeship"),
     re_path(
-        _(r"^voivodeship-autocomplete/$"),
+        r"^voivodeship-autocomplete/$",
         VoivodeshipAutocomplete.as_view(),
         name="voivodeship-autocomplete",
     ),
     re_path(
-        _(r"^county-autocomplete/$"),
+        r"^county-autocomplete/$",
         CountyAutocomplete.as_view(),
         name="county-autocomplete",
     ),
     re_path(
-        _(r"^community-autocomplete/$"),
+        r"^community-autocomplete/$",
         views.CustomCommunityAutocomplete.as_view(),
         name="community-autocomplete",
     ),
     re_path(
-        _(r"^jst-autocomplete/$"),
+        r"^jst-autocomplete/$",
         views.JSTAutocomplete.as_view(),
         name="jst-autocomplete",
     ),
