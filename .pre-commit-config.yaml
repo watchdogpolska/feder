@@ -39,12 +39,12 @@ repos:
                 - --skip-glob
                 - "**/migrations/*.py"
     - repo: https://github.com/sirosen/check-jsonschema
-      rev: 0.31.2
+      rev: 0.31.3
       hooks:
           - id: check-github-workflows
           - id: check-readthedocs
     - repo: https://github.com/adrienverge/yamllint
-      rev: v1.35.1
+      rev: v1.36.2
       hooks:
           - id: yamllint
             args: [-c, .yamllint.yml]
