@@ -21,7 +21,7 @@ Pillow==11.1.0
 # Well-built with regular release cycles!
 #django-allauth[socialaccount]==0.62.1
 # version 0.62 requires config change - reverting bot changes
-django-allauth==0.61.1
+django-allauth==65.6.0
 
 # Unicode slugification
 unicode-slugify==0.1.5
