@@ -74,7 +74,7 @@ django-cleanup==9.0.0
 
 # Ping commit due missing cached object in <=4.7.1
 django-extra-views==0.15.0 
-django-sendfile2==0.7.1
+django-sendfile2==0.7.2
 virustotal-api==1.1.11
 
 https://github.com/ross/performant-pagination/archive/5b537da95728d622792031071ecc4cb5154ec86f.zip
