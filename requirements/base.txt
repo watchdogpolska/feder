@@ -69,7 +69,7 @@ djangorestframework-csv==3.0.2
 unicodecsv==0.14.1
 tqdm==4.67.1
 django-github-revision==0.0.3
-django-extensions==3.2.3
+django-extensions==4.0
 django-cleanup==9.0.0
 
 # Ping commit due missing cached object in <=4.7.1
