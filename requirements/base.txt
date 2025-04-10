@@ -53,7 +53,7 @@ git+https://github.com/PiotrIw/django-atom.git@master#egg=django-atom
 git+https://github.com/watchdogpolska/django-tinycontent.git@master
 
 django-formtools==2.5.1
-django-mptt==0.16.0
+django-mptt==0.17.0
 jsonfield==3.1.0
 django-guardian==2.4.0
 django-teryt-tree==0.18.4
