@@ -1,10 +1,11 @@
 import logging
 
+from django.contrib.contenttypes.models import ContentType
 from django.core.management.base import BaseCommand
+
+from feder.letters.models import Attachment
 from feder.virus_scan.engine import get_engine
 from feder.virus_scan.models import Request
-from feder.letters.models import Attachment
-from django.contrib.contenttypes.models import ContentType
 
 logger = logging.getLogger(__name__)
 
