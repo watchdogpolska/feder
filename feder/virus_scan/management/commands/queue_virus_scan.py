@@ -28,6 +28,8 @@ class Command(BaseCommand):
             for att in (
                 Attachment.objects.annotate(req_count=Count("scan_request"))
                 .filter(req_count=0)
+                .exclude(letter__is_spam__in=[2, 3])
+                .order_by("-id")
                 .all()[: options["count"]]
             )
         )
