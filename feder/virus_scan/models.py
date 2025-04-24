@@ -1,9 +1,12 @@
+import logging
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from model_utils import Choices
 from model_utils.models import TimeStampedModel
+
+logger = logging.getLogger(__name__)
 
 
 class RequestQuerySet(models.QuerySet):
@@ -63,6 +66,9 @@ class Request(TimeStampedModel):
             result = current_engine.send_scan(f.file, f.name)
             self.engine_name = current_engine.name
         else:
+            logger.error(
+                f"File to scan is missing or 0 length: {self.content_object} - {self.field_name}"
+            )
             result = {
                 "status": self.STATUS.failed,
                 "engine_report": {

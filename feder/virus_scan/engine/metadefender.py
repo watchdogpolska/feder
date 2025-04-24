@@ -1,9 +1,12 @@
+import logging
 import requests
 from django.conf import settings
 
 from feder.virus_scan.models import Request
 
 from .base import BaseEngine
+
+logger = logging.getLogger(__name__)
 
 
 class MetaDefenderEngine(BaseEngine):
@@ -68,6 +71,7 @@ class MetaDefenderEngine(BaseEngine):
             }
         except requests.exceptions.RequestException as e:
             result["error"] = str(e)
+            logger.error(f"Failed to send request {filename}: {e}")
             return {
                 "status": Request.STATUS.failed,
                 "engine_report": result,
@@ -92,6 +96,7 @@ class MetaDefenderEngine(BaseEngine):
             }
         except requests.exceptions.RequestException as e:
             result["error"] = str(e)
+            logger.error(f"Failed to receive result {engine_id}: {e}")
             return {
                 "status": Request.STATUS.failed,
                 "engine_report": result,
