@@ -59,7 +59,7 @@ class MetaDefenderEngine(BaseEngine):
                 },
             )
             result = resp.json()
-            result["response_headers"] = resp.headers
+            result["response_headers"] = dict(resp.headers)
             resp.raise_for_status()
             return {
                 "engine_id": result["data_id"],
@@ -84,8 +84,8 @@ class MetaDefenderEngine(BaseEngine):
                 headers={"apikey": self.key},
             )
             resp.raise_for_status()
-            result = resp.json()
-            result["response_headers"] = resp.headers
+            result = dict(resp.json())
+            result["response_headers"] = dict(resp.headers)
             return {
                 "engine_id": result["data_id"],
                 "status": self.map_status(result),
