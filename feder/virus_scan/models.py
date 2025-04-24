@@ -2,7 +2,6 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from jsonfield import JSONField
 from model_utils import Choices
 from model_utils.models import TimeStampedModel
 
@@ -36,7 +35,7 @@ class Request(TimeStampedModel):
     engine_id = models.CharField(
         max_length=100, verbose_name=_("External ID"), blank=True
     )
-    engine_report = JSONField(verbose_name=_("Engine result"), blank=True)
+    engine_report = models.JSONField(verbose_name=_("Engine result"), blank=True)
     engine_link = models.CharField(
         max_length=150, verbose_name=_("Engine result URL"), blank=True
     )
