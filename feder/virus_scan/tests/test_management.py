@@ -12,6 +12,8 @@ from feder.letters.factories import AttachmentFactory
 from feder.virus_scan.engine import get_engine, is_available
 from feder.virus_scan.factories import AttachmentRequestFactory
 from feder.virus_scan.models import Request
+from django.core.files.base import ContentFile
+from django.core.files.storage import default_storage
 
 EICAR_TEST = r"X5O!P%@AP[4\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*"
 
@@ -32,8 +34,7 @@ class VirusScanCommandTestCase(TestCase):
         current_engine = get_engine()
 
         # Write the EICAR test string to a temporary file
-        with open("/code/feder/media_prod/eicar_test.txt", "w") as f:
-            f.write(EICAR_TEST)
+        file_path = default_storage.save("eicar_test.txt", ContentFile(EICAR_TEST))
 
         # Create an attachment object for the file
         attachment = AttachmentFactory(attachment="eicar_test.txt")
@@ -54,7 +55,7 @@ class VirusScanCommandTestCase(TestCase):
         self.assertEqual(request.engine_name, current_engine.name)
         self.assertNotEqual(request.engine_id, "")
         # Clean up the temporary file
-        os.remove("/code/feder/media_prod/eicar_test.txt")
+        default_storage.delete(file_path)
 
     @skipIfNoEngine
     def test_virus_scan_for_safe_file(self):
