@@ -5,7 +5,9 @@ from feder.virus_scan.models import Request
 
 @admin.register(Request)
 class ScanRequestAdmin(admin.ModelAdmin):
+    date_hierarchy = "created"
     list_display = (
+        "id",
         "content_type",
         "content_object",
         "field_name",
@@ -14,7 +16,8 @@ class ScanRequestAdmin(admin.ModelAdmin):
         "created",
         "modified",
     )
-    list_filter = ("engine_name", "status", "created", "modified")
+    ordering = ("-id",)
+    list_filter = ("engine_name", "status", "modified")
     actions = None
 
     def get_queryset(self, *args, **kwargs):

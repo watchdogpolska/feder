@@ -1,9 +1,12 @@
 from django.contrib import admin
 from django.db.models import Q
+from django.urls import reverse
 from django.utils import timezone
+from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 
 from feder.llm_evaluation.prompts import letter_categories_list
+from feder.virus_scan.models import Request
 
 from .models import Attachment, Letter, LetterEmailDomain, ReputableLetterEmailTLD
 
@@ -124,7 +127,7 @@ class LetterAdmin(admin.ModelAdmin):
         return False
 
     def has_delete_permission(self, request, obj=None):
-        return False
+        return request.user.is_superuser
 
     @admin.display(
         description=_("Record id"),
@@ -187,6 +190,86 @@ class LetterAdmin(admin.ModelAdmin):
     # def get_queryset(self, *args, **kwargs):
     #     qs = super().get_queryset(*args, **kwargs)
     #     return qs.with_author()
+
+
+class AttachmentLetterSpamFilter(admin.SimpleListFilter):
+    title = _("Letter is spam")  # Displayed in the admin sidebar
+    parameter_name = "letter_is_spam"  # The URL parameter name
+
+    def lookups(self, request, model_admin):
+        # Return the filter options as a list of tuples
+        return Letter.SPAM
+
+    def queryset(self, request, queryset):
+        # Apply the filter to the queryset based on the selected option
+        if self.value():
+            return queryset.filter(letter__is_spam=self.value())
+        return queryset
+
+
+class AttachmentVirusScanListFilter(admin.SimpleListFilter):
+    title = _("Virus Scan status")  # Displayed in the admin sidebar
+    parameter_name = "virus_scan_status"  # The URL parameter name
+
+    def lookups(self, request, model_admin):
+        # Return the filter options as a list of tuples
+        return Request.STATUS
+
+    def queryset(self, request, queryset):
+        # Apply the filter to the queryset based on the selected option
+        if self.value():
+            return queryset.filter(scan_request__status=self.value())
+        return queryset
+
+
+@admin.register(Attachment)
+class AttachmentAdmin(admin.ModelAdmin):
+    """
+    Admin View for Attachment
+    """
+
+    list_display = (
+        "id",
+        "get_letter_id",
+        "get_letter_is_spam",
+        "attachment",
+        "get_scan_status",
+    )
+    search_fields = (
+        "id",
+        "attachment",
+        "letter__id",
+    )
+    list_filter = (
+        AttachmentLetterSpamFilter,
+        AttachmentVirusScanListFilter,
+    )
+    ordering = ("-id",)
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    @admin.display(description=_("Virus Scan status"))
+    def get_scan_status(self, obj):
+        return obj.scan_status()
+
+    @admin.display(description=_("Letter is spam"))
+    def get_letter_is_spam(self, obj):
+        return obj.letter.is_spam
+
+    @admin.display(description=_("Letter id"))
+    def get_letter_id(self, obj):
+        if obj.letter:
+            # Generate a link to the Letter admin change page
+            url = reverse("admin:letters_letter_change", args=[obj.letter.id])
+            return format_html('<a href="{}">{}</a>', url, obj.letter.id)
+        return "-"
 
 
 class ReputableTLDListFilter(admin.SimpleListFilter):

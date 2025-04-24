@@ -116,8 +116,10 @@ class LlmRequest(TimeStampedModel):
 class LlmLetterRequest(LlmRequest):
     evaluated_letter = models.ForeignKey(
         "letters.Letter",
-        on_delete=models.PROTECT,
+        on_delete=models.SET_NULL,
         verbose_name=_("Evaluated Letter"),
+        null=True,
+        blank=True,
     )
 
     @classmethod

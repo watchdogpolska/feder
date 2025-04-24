@@ -5,6 +5,8 @@ import time
 from io import StringIO
 from unittest import skipIf
 
+from django.core.files.base import ContentFile
+from django.core.files.storage import default_storage
 from django.core.management import call_command
 from django.test import TestCase
 
@@ -31,10 +33,19 @@ class VirusScanCommandTestCase(TestCase):
     def test_virus_scan_for_eicar(self):
         current_engine = get_engine()
 
-        request = AttachmentRequestFactory(content_object__attachment__data=EICAR_TEST)
+        # Write the EICAR test string to a temporary file
+        file_path = default_storage.save("eicar_test.txt", ContentFile(EICAR_TEST))
+
+        # Create an attachment object for the file
+        attachment = AttachmentFactory(attachment="eicar_test.txt")
+
+        # Create a request for the attachment
+        request = AttachmentRequestFactory(content_object=attachment)
         stdout = StringIO()
         call_command(
             "virus_scan",
+            "--skip-receive",
+            "--skip-generate",
             stdout=stdout,
         )
         request.refresh_from_db()
@@ -43,6 +54,8 @@ class VirusScanCommandTestCase(TestCase):
         self.assertEqual(request.status, Request.STATUS.infected)
         self.assertEqual(request.engine_name, current_engine.name)
         self.assertNotEqual(request.engine_id, "")
+        # Clean up the temporary file
+        default_storage.delete(file_path)
 
     @skipIfNoEngine
     def test_virus_scan_for_safe_file(self):
@@ -69,6 +82,7 @@ class VirusScanCommandTestCase(TestCase):
             call_command(
                 "virus_scan",
                 "--skip-send",
+                "--skip-generate",
                 stdout=stdout,
             )
             obj.refresh_from_db()

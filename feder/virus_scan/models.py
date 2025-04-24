@@ -1,10 +1,13 @@
+import logging
+
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from jsonfield import JSONField
 from model_utils import Choices
 from model_utils.models import TimeStampedModel
+
+logger = logging.getLogger(__name__)
 
 
 class RequestQuerySet(models.QuerySet):
@@ -31,14 +34,16 @@ class Request(TimeStampedModel):
     content_object = GenericForeignKey("content_type", "object_id")
     field_name = models.CharField(max_length=50)
     engine_name = models.CharField(
-        verbose_name=_("Engine name"), max_length=20, blank=True
+        verbose_name=_("Engine name"), max_length=20, blank=True, null=True
     )
     engine_id = models.CharField(
-        max_length=100, verbose_name=_("External ID"), blank=True
+        max_length=100, verbose_name=_("External ID"), blank=True, null=True
     )
-    engine_report = JSONField(verbose_name=_("Engine result"), blank=True)
+    engine_report = models.JSONField(
+        verbose_name=_("Engine result"), blank=True, null=True
+    )
     engine_link = models.CharField(
-        max_length=150, verbose_name=_("Engine result URL"), blank=True
+        max_length=150, verbose_name=_("Engine result URL"), blank=True, null=True
     )
     status = models.IntegerField(choices=STATUS, default=STATUS.created)
     objects = RequestQuerySet.as_manager()
@@ -64,6 +69,11 @@ class Request(TimeStampedModel):
             result = current_engine.send_scan(f.file, f.name)
             self.engine_name = current_engine.name
         else:
+            logger.error(
+                "File to scan is missing or 0 length: {} - {}".format(
+                    self.content_object, self.field_name
+                )
+            )
             result = {
                 "status": self.STATUS.failed,
                 "engine_report": {
