@@ -70,7 +70,9 @@ class Request(TimeStampedModel):
             self.engine_name = current_engine.name
         else:
             logger.error(
-                f"File to scan is missing or 0 length: {self.content_object} - {self.field_name}"
+                "File to scan is missing or 0 length: {} - {}".format(
+                    self.content_object, self.field_name
+                )
             )
             result = {
                 "status": self.STATUS.failed,
