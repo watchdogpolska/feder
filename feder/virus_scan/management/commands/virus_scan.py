@@ -24,15 +24,12 @@ class Command(BaseCommand):
     def generate_requests(self):
         from ....letters.models import Attachment
 
-        logger.info("Generating requests to scan")
         attachments_to_scan = (
             Attachment.objects.annotate(req_count=Count("scan_request"))
             .filter(req_count=0)
             .exclude(letter__is_spam__in=[2, 3])
             .exclude(attachment__isnull=True)
             .exclude(attachment__exact="")
-            .exclude(attachment__size__isnull=True)
-            .exclude(attachment__size=0)
             .order_by("-id")
             .all()
         )
@@ -62,14 +59,20 @@ class Command(BaseCommand):
         ):
             logger.info("No requests to send for scanning.")
             return
-        for request in Request.objects.filter(
-            status__in=[Request.STATUS.created, Request.STATUS.failed]
-        ).all():
+        for request in (
+            Request.objects.filter(
+                status__in=[Request.STATUS.created, Request.STATUS.failed]
+            )
+            .all()
+            .order_by("-id")
+        ):
             logger.info(f"Send to scan: {request}")
             request.send_scan()
             request.save()
-            if request.status == Request.STATUS.failed and request.engine_report.get(
-                "error"
+            if (
+                request.status == Request.STATUS.failed
+                and request.engine_report.get("error")
+                and "429" in request.engine_report.get("error")
             ):
                 logger.error(
                     f"Failed to send request: {request} - "
@@ -94,7 +97,7 @@ class Command(BaseCommand):
         if not options["skip_receive"]:
             logger.info("Fetching scan request results not received on webhook")
             self.receive_result()
-        if not options["skip-generate"]:
+        if not options["skip_generate"]:
             logger.info("Generating requests to scan")
             self.generate_requests()
         if not options["skip_send"]:
