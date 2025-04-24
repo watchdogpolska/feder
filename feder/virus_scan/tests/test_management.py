@@ -31,10 +31,20 @@ class VirusScanCommandTestCase(TestCase):
     def test_virus_scan_for_eicar(self):
         current_engine = get_engine()
 
-        request = AttachmentRequestFactory(content_object__attachment__data=EICAR_TEST)
+        # Write the EICAR test string to a temporary file
+        with open("/code/feder/media_prod/eicar_test.txt", "w") as f:
+            f.write(EICAR_TEST)
+
+        # Create an attachment object for the file
+        attachment = AttachmentFactory(attachment="eicar_test.txt")
+
+        # Create a request for the attachment
+        request = AttachmentRequestFactory(content_object=attachment)
         stdout = StringIO()
         call_command(
             "virus_scan",
+            "--skip-receive",
+            "--skip-generate",
             stdout=stdout,
         )
         request.refresh_from_db()
@@ -43,6 +53,8 @@ class VirusScanCommandTestCase(TestCase):
         self.assertEqual(request.status, Request.STATUS.infected)
         self.assertEqual(request.engine_name, current_engine.name)
         self.assertNotEqual(request.engine_id, "")
+        # Clean up the temporary file
+        os.remove("/code/feder/media_prod/eicar_test.txt")
 
     @skipIfNoEngine
     def test_virus_scan_for_safe_file(self):
@@ -69,6 +81,7 @@ class VirusScanCommandTestCase(TestCase):
             call_command(
                 "virus_scan",
                 "--skip-send",
+                "--skip-generate",
                 stdout=stdout,
             )
             obj.refresh_from_db()
