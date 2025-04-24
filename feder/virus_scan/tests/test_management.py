@@ -5,6 +5,8 @@ import time
 from io import StringIO
 from unittest import skipIf
 
+from django.core.files.base import ContentFile
+from django.core.files.storage import default_storage
 from django.core.management import call_command
 from django.test import TestCase
 
@@ -12,8 +14,6 @@ from feder.letters.factories import AttachmentFactory
 from feder.virus_scan.engine import get_engine, is_available
 from feder.virus_scan.factories import AttachmentRequestFactory
 from feder.virus_scan.models import Request
-from django.core.files.base import ContentFile
-from django.core.files.storage import default_storage
 
 EICAR_TEST = r"X5O!P%@AP[4\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*"
 
