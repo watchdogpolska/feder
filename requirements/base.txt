@@ -1,5 +1,5 @@
 # Production and staging Django
-Django==4.2.19
+Django==4.2.20
 
 # Database adapter
 mysqlclient==2.2.7
@@ -8,14 +8,14 @@ mysqlclient==2.2.7
 django-environ==0.12.0
 
 # Forms
-django-braces==1.16.0
+django-braces==1.17.0
 django-crispy-forms==1.14.0
 
 # Models
 django-model-utils==5.0.0
 
 # Images
-Pillow==11.1.0
+Pillow==11.2.1
 
 # For user registration, either via email or social
 # Well-built with regular release cycles!
@@ -28,10 +28,10 @@ unicode-slugify==0.1.5
 django-autoslug==1.9.9
 
 # Time zones support
-pytz==2025.1
+pytz==2025.2
 
 # Commands
-lxml==5.3.1
+lxml==5.4.0
 
 
 # Your custom requirements go here
@@ -53,7 +53,7 @@ git+https://github.com/PiotrIw/django-atom.git@master#egg=django-atom
 git+https://github.com/watchdogpolska/django-tinycontent.git@master
 
 django-formtools==2.5.1
-django-mptt==0.16.0
+django-mptt==0.17.0
 jsonfield==3.1.0
 django-guardian==2.4.0
 django-teryt-tree==0.18.4
@@ -64,17 +64,17 @@ cached-property==2.0.1
 git+https://github.com/PiotrIw/django-bootstrap-pagination.git@master#egg=django-bootstrap-pagination
 
 django-reversion==5.1.0
-djangorestframework==3.15.2
+djangorestframework==3.16.0
 djangorestframework-csv==3.0.2
 unicodecsv==0.14.1
 tqdm==4.67.1
 django-github-revision==0.0.3
-django-extensions==3.2.3
+django-extensions==4.1
 django-cleanup==9.0.0
 
 # Ping commit due missing cached object in <=4.7.1
-django-extra-views==0.15.0 
-django-sendfile2==0.7.1
+django-extra-views==0.16.0 
+django-sendfile2==0.7.2
 virustotal-api==1.1.11
 
 https://github.com/ross/performant-pagination/archive/5b537da95728d622792031071ecc4cb5154ec86f.zip
@@ -84,16 +84,16 @@ https://github.com/ross/performant-pagination/archive/5b537da95728d622792031071e
 git+https://github.com/watchdogpolska/django-background-tasks.git@master
 django-cors-headers==4.7.0
 
-django-rosetta==0.10.1
+django-rosetta==0.10.2
 bleach==6.2.0
-beautifulsoup4==4.13.3
-html2text==2024.2.26
+beautifulsoup4==4.13.4
+html2text==2025.4.15
 openpyxl==3.1.5
 
 # LLM exvaluation
-langchain==0.3.20
-langchain-community==0.3.19
+langchain==0.3.24
+langchain-community==0.3.22
 #langchain[llms]==0.1.5
-openai==1.65.4
-langchain-openai==0.3.7
+openai==1.76.0
+langchain-openai==0.3.14
 tiktoken==0.9.0
