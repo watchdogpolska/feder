@@ -1,5 +1,6 @@
 from django.contrib import admin
-from django.db.models import Q
+from django.contrib.contenttypes.models import ContentType
+from django.db.models import Q, Subquery, OuterRef, IntegerField, Exists
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.html import format_html
@@ -216,9 +217,51 @@ class AttachmentVirusScanListFilter(admin.SimpleListFilter):
         return Request.STATUS
 
     def queryset(self, request, queryset):
-        # Apply the filter to the queryset based on the selected option
-        if self.value():
-            return queryset.filter(scan_request__status=self.value())
+        # Define the content_type for Attachment
+        attachment_ct = ContentType.objects.get_for_model(Attachment)
+
+        if self.value() is not None:
+            # Use a subquery to filter Attachments based on their related Request status
+            queryset = queryset.filter(
+                pk__in=Request.objects.filter(
+                    content_type=attachment_ct,
+                    object_id=OuterRef("pk"),
+                    status=self.value(),
+                ).values("object_id")
+            )
+        return queryset
+
+
+class AttachmentVirusScanExistsFilter(admin.SimpleListFilter):
+    title = _("Has Virus Scan Request")  # Displayed in the admin sidebar
+    parameter_name = "virus_scan_exists"  # The URL parameter name
+
+    def lookups(self, request, model_admin):
+        return (
+            ("True", _("Has scan request")),
+            ("False", _("No scan request")),
+        )
+
+    def queryset(self, request, queryset):
+        # Define the content_type for Attachment
+        attachment_ct = ContentType.objects.get_for_model(Attachment)
+
+        if self.value() == "True":
+            # Find Attachments that have at least one related ScanRequest
+            queryset = queryset.filter(
+                pk__in=Request.objects.filter(
+                    content_type=attachment_ct, object_id=OuterRef("pk")
+                ).values("object_id")
+            )
+
+        elif self.value() == "False":
+            # Find Attachments that have no related ScanRequest
+            queryset = queryset.exclude(
+                pk__in=Request.objects.filter(
+                    content_type=attachment_ct, object_id=OuterRef("pk")
+                ).values("object_id")
+            )
+
         return queryset
 
 
@@ -242,6 +285,7 @@ class AttachmentAdmin(admin.ModelAdmin):
     )
     list_filter = (
         AttachmentLetterSpamFilter,
+        AttachmentVirusScanExistsFilter,
         AttachmentVirusScanListFilter,
     )
     ordering = ("-id",)
@@ -253,11 +297,38 @@ class AttachmentAdmin(admin.ModelAdmin):
         return False
 
     def has_delete_permission(self, request, obj=None):
-        return False
+        return request.user.is_superuser
+
+    def get_queryset(self, request):
+        """
+        Override the default get_queryset method to annotate the queryset with
+        the latest scan_status from the related Request model.
+        """
+        queryset = super().get_queryset(request)
+
+        # Define the content_type for Attachment
+        attachment_ct = ContentType.objects.get_for_model(Attachment)
+
+        # Add an annotation that gets the latest scan_status from the related Request
+        latest_status_subquery = (
+            Request.objects.filter(content_type=attachment_ct, object_id=OuterRef("pk"))
+            .order_by("-created")
+            .values("status")[:1]
+        )  # Get the latest status
+
+        return queryset.annotate(
+            scan_status=Subquery(latest_status_subquery, output_field=IntegerField())
+        )
 
     @admin.display(description=_("Virus Scan status"))
     def get_scan_status(self, obj):
-        return obj.scan_status()
+        # Access the annotated scan_status field directly
+        scan_status = getattr(
+            obj, "scan_status", None
+        )  # Safe access in case annotation is missing
+        if scan_status is not None and scan_status in Request.STATUS._display_map:
+            return Request.STATUS._display_map[scan_status]
+        return "-"
 
     @admin.display(description=_("Letter is spam"))
     def get_letter_is_spam(self, obj):
