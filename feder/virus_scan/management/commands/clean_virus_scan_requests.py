@@ -32,7 +32,34 @@ class Command(BaseCommand):
         )
         logger.info(f"Deleting {requests_to_delete.count()} scan requests.")
         requests_to_delete.delete()
-        logger.info("Scan requests deleted.")
+        logger.info("Scan requests for spam attachments deleted.")
+
+        logger.info("Cleaning up scan requests for deleted attachments.")
+        requests_to_delete = Request.objects.exclude(
+            content_type=attachment_ct,
+            object_id__in=Attachment.objects.all().values_list("id", flat=True),
+        )
+        logger.info(f"Deleting {requests_to_delete.count()} scan requests.")
+        requests_to_delete.delete()
+        logger.info("Scan requests for deleted attachments deleted.")
+
+        logger.info("Cleaning up scan requests for attachments with file missing.")
+        no_file_requests_to_delete = [
+            req
+            for req in Request.objects.filter(
+                content_type=attachment_ct,
+                object_id__in=Attachment.objects.all().values_list("id", flat=True),
+            )
+            if not req.get_file().storage.exists(req.get_file().name)
+            or req.get_file().size == 0
+            or not bool(req.get_file().name)
+        ]
+        logger.info(f"Deleting {len(requests_to_delete)} scan requests.")
+        for req in no_file_requests_to_delete:
+            req.delete()
+            logger.info(f"Deleted scan request {req.id} with file missing.")
+        logger.info("Scan requests for missing files deleted.")
+
         logger.info("Updating scan request status from results registered in DB.")
         requests_to_update = (
             Request.objects.exclude(engine_report="")
