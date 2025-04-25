@@ -20,29 +20,31 @@ class MetaDefenderEngine(BaseEngine):
         super().__init__()
 
     def map_status(self, resp):
-        # TODO review metadefender response and and status mapping
-        if resp.get("status", None) == "inqueue":
+        status = resp.get("status")
+        scan_results = resp.get("scan_results", {})
+        process_info = resp.get("process_info", {})
+
+        if status == "inqueue":
             return Request.STATUS.queued
-        if (
-            resp.get("scan_results", None) is not None
-            and resp["scan_results"].get("scan_all_result_a", None) == "In queue"
-        ):
+
+        if scan_results.get("scan_all_result_a") == "In queue":
             return Request.STATUS.queued
-        if (
-            resp["process_info"].get("progress_percentage", None) is not None
-            and resp["process_info"].get("progress_percentage", None) != 100
-        ):
+
+        if process_info.get("progress_percentage") not in (None, 100):
             return Request.STATUS.queued
-        # Verbose scan result chaned in API - better to use numeric value
-        # if resp["scan_results"]["scan_all_result_a"] == "No Threat Detected":
-        if resp["scan_results"]["scan_all_result_i"] == 0:
+
+        scan_result_i = scan_results.get("scan_all_result_i")
+        scan_result_a = scan_results.get("scan_all_result_a")
+
+        if scan_result_i == 0:
             return Request.STATUS.not_detected
-        if resp["scan_results"]["scan_all_result_a"] == "Aborted":
+
+        if scan_result_a == "Aborted":
             return Request.STATUS.failed
-        # if resp["scan_results"]["total_avs"] < 10:
-        #     return Request.STATUS.failed
-        if resp["scan_results"]["scan_all_result_i"] > 0:
+
+        if scan_result_i and scan_result_i > 0:
             return Request.STATUS.infected
+
         return Request.STATUS.failed
 
     def get_result_url(self, engine_id):
