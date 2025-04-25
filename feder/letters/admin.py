@@ -1,9 +1,13 @@
 from django.contrib import admin
-from django.db.models import Q
+from django.contrib.contenttypes.models import ContentType
+from django.db.models import IntegerField, OuterRef, Q, Subquery
+from django.urls import reverse
 from django.utils import timezone
+from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 
 from feder.llm_evaluation.prompts import letter_categories_list
+from feder.virus_scan.models import Request
 
 from .models import Attachment, Letter, LetterEmailDomain, ReputableLetterEmailTLD
 
@@ -124,7 +128,7 @@ class LetterAdmin(admin.ModelAdmin):
         return False
 
     def has_delete_permission(self, request, obj=None):
-        return False
+        return request.user.is_superuser
 
     @admin.display(
         description=_("Record id"),
@@ -187,6 +191,156 @@ class LetterAdmin(admin.ModelAdmin):
     # def get_queryset(self, *args, **kwargs):
     #     qs = super().get_queryset(*args, **kwargs)
     #     return qs.with_author()
+
+
+class AttachmentLetterSpamFilter(admin.SimpleListFilter):
+    title = _("Letter is spam")  # Displayed in the admin sidebar
+    parameter_name = "letter_is_spam"  # The URL parameter name
+
+    def lookups(self, request, model_admin):
+        # Return the filter options as a list of tuples
+        return Letter.SPAM
+
+    def queryset(self, request, queryset):
+        # Apply the filter to the queryset based on the selected option
+        if self.value():
+            return queryset.filter(letter__is_spam=self.value())
+        return queryset
+
+
+class AttachmentVirusScanListFilter(admin.SimpleListFilter):
+    title = _("Virus Scan status")  # Displayed in the admin sidebar
+    parameter_name = "virus_scan_status"  # The URL parameter name
+
+    def lookups(self, request, model_admin):
+        # Return the filter options as a list of tuples
+        return Request.STATUS
+
+    def queryset(self, request, queryset):
+        # Define the content_type for Attachment
+        attachment_ct = ContentType.objects.get_for_model(Attachment)
+
+        if self.value() is not None:
+            # Use a subquery to filter Attachments based on their related Request status
+            queryset = queryset.filter(
+                pk__in=Request.objects.filter(
+                    content_type=attachment_ct,
+                    object_id=OuterRef("pk"),
+                    status=self.value(),
+                ).values("object_id")
+            )
+        return queryset
+
+
+class AttachmentVirusScanExistsFilter(admin.SimpleListFilter):
+    title = _("Has Virus Scan Request")  # Displayed in the admin sidebar
+    parameter_name = "virus_scan_exists"  # The URL parameter name
+
+    def lookups(self, request, model_admin):
+        return (
+            ("True", _("Has scan request")),
+            ("False", _("No scan request")),
+        )
+
+    def queryset(self, request, queryset):
+        # Define the content_type for Attachment
+        attachment_ct = ContentType.objects.get_for_model(Attachment)
+
+        if self.value() == "True":
+            # Find Attachments that have at least one related ScanRequest
+            queryset = queryset.filter(
+                pk__in=Request.objects.filter(
+                    content_type=attachment_ct, object_id=OuterRef("pk")
+                ).values("object_id")
+            )
+
+        elif self.value() == "False":
+            # Find Attachments that have no related ScanRequest
+            queryset = queryset.exclude(
+                pk__in=Request.objects.filter(
+                    content_type=attachment_ct, object_id=OuterRef("pk")
+                ).values("object_id")
+            )
+
+        return queryset
+
+
+@admin.register(Attachment)
+class AttachmentAdmin(admin.ModelAdmin):
+    """
+    Admin View for Attachment
+    """
+
+    list_display = (
+        "id",
+        "get_letter_id",
+        "get_letter_is_spam",
+        "attachment",
+        "get_scan_status",
+    )
+    search_fields = (
+        "id",
+        "attachment",
+        "letter__id",
+    )
+    list_filter = (
+        AttachmentLetterSpamFilter,
+        AttachmentVirusScanExistsFilter,
+        AttachmentVirusScanListFilter,
+    )
+    ordering = ("-id",)
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return request.user.is_superuser
+
+    def get_queryset(self, request):
+        """
+        Override the default get_queryset method to annotate the queryset with
+        the latest scan_status from the related Request model.
+        """
+        queryset = super().get_queryset(request)
+
+        # Define the content_type for Attachment
+        attachment_ct = ContentType.objects.get_for_model(Attachment)
+
+        # Add an annotation that gets the latest scan_status from the related Request
+        latest_status_subquery = (
+            Request.objects.filter(content_type=attachment_ct, object_id=OuterRef("pk"))
+            .order_by("-created")
+            .values("status")[:1]
+        )  # Get the latest status
+
+        return queryset.annotate(
+            scan_status=Subquery(latest_status_subquery, output_field=IntegerField())
+        )
+
+    @admin.display(description=_("Virus Scan status"))
+    def get_scan_status(self, obj):
+        # Access the annotated scan_status field directly
+        scan_status = getattr(
+            obj, "scan_status", None
+        )  # Safe access in case annotation is missing
+        if scan_status is not None and scan_status in Request.STATUS._display_map:
+            return Request.STATUS._display_map[scan_status]
+        return "-"
+
+    @admin.display(description=_("Letter is spam"))
+    def get_letter_is_spam(self, obj):
+        return obj.letter.is_spam
+
+    @admin.display(description=_("Letter id"))
+    def get_letter_id(self, obj):
+        if obj.letter:
+            # Generate a link to the Letter admin change page
+            url = reverse("admin:letters_letter_change", args=[obj.letter.id])
+            return format_html('<a href="{}">{}</a>', url, obj.letter.id)
+        return "-"
 
 
 class ReputableTLDListFilter(admin.SimpleListFilter):

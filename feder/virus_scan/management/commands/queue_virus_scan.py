@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
-    help = "Queue non-scanned files"
+    help = "USED ONLY IN TESTS!!!: Queue non-scanned files"
 
     def add_arguments(self, parser):
         parser.add_argument(

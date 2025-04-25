@@ -13,8 +13,7 @@ SHELL="/bin/bash"
 # or @reboot, @yearly, @annually, @monthly, @weekly, @daily, @midnight, @hourly
 UPDATE_EMAILLABS_SCHEDULE="${UPDATE_EMAILLABS_SCHEDULE:-0 */3 * * *}"
 CLEARSESSIONS_SCHEDULE="${CLEARSESSIONS_SCHEDULE:-@daily}"
-VIRUS_SCAN_SCHEDULE="${VIRUS_SCAN_SCHEDULE:-*/5 * * * *}"
-QUEUEVIRUS_SCAN_SCHEDULE="${QUEUEVIRUS_SCAN_SCHEDULE:-15 23 * * *}"
+VIRUS_SCAN_SCHEDULE="${VIRUS_SCAN_SCHEDULE:-*/15 * * * *}"
 
 # Set the crontab for the application
 echo "
@@ -27,9 +26,6 @@ $CLEARSESSIONS_SCHEDULE cd $APP_ROOT_DIR && $CRON_DIR/run_locked.sh feder_clears
 # $APP_NAME-virus_scan
 $VIRUS_SCAN_SCHEDULE cd $APP_ROOT_DIR && $CRON_DIR/run_locked.sh feder_virus_scan 3h \
     \"$PTYHON $APP_ROOT_DIR/manage.py virus_scan\" >> /var/log/cron.log 2>&1
-# $APP_NAME-queue_virus_scan
-$QUEUEVIRUS_SCAN_SCHEDULE cd $APP_ROOT_DIR && $CRON_DIR/run_locked.sh feder_queue_virus_scan 24h \
-    \"$PTYHON $APP_ROOT_DIR/manage.py queue_virus_scan --count 80\" >> /var/log/cron.log 2>&1
 " | crontab -
  
 # The  run_locked.sh  script is a simple wrapper around  flock  that ensures that only one 
