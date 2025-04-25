@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.contenttypes.models import ContentType
-from django.db.models import Exists, IntegerField, OuterRef, Q, Subquery
+from django.db.models import IntegerField, OuterRef, Q, Subquery
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.html import format_html
