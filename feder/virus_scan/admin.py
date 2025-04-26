@@ -1,5 +1,7 @@
 from django.contrib import admin
+from django.utils.translation import gettext_lazy as _
 
+from feder.letters.models import Letter
 from feder.virus_scan.models import Request
 
 
@@ -9,8 +11,8 @@ class ScanRequestAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "content_type",
-        "content_object",
-        "field_name",
+        "object_id",
+        "get_letter_is_spam",
         "engine_name",
         "status",
         "created",
@@ -23,6 +25,12 @@ class ScanRequestAdmin(admin.ModelAdmin):
     def get_queryset(self, *args, **kwargs):
         qs = super().get_queryset(*args, **kwargs)
         return qs.prefetch_related("content_object").select_related("content_type")
+
+    @admin.display(description=_("Letter is spam"))
+    def get_letter_is_spam(self, obj):
+        if hasattr(obj.content_object, "letter"):
+            return Letter.SPAM._display_map[obj.content_object.letter.is_spam]
+        return None
 
     def has_delete_permission(self, request, obj=None):
         return request.user.is_superuser
