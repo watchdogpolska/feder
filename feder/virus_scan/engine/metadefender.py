@@ -72,7 +72,23 @@ class MetaDefenderEngine(BaseEngine):
                     result["data_id"] if result["data_id"] is not None else None,
                 ),
             }
+
+        except requests.exceptions.HTTPError as e:
+            result["error"] = str(e)
+            status_code = e.response.status_code if e.response else None
+
+            if status_code == 429:
+                logger.warning(f"Rate limit hit for {filename}: {e}", exc_info=False)
+            else:
+                logger.error(f"HTTP error for {filename}: {e}", exc_info=False)
+
+            return {
+                "status": Request.STATUS.failed,
+                "engine_report": result,
+            }
+
         except requests.exceptions.RequestException as e:
+            result = result if isinstance(result, dict) else {}
             result["error"] = str(e)
             logger.error(f"Failed to send request {filename}: {e}")
             return {
