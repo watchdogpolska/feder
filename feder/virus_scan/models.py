@@ -29,8 +29,10 @@ class Request(TimeStampedModel):
         (3, "not_detected", _("Not detected")),
         (4, "failed", _("Failed")),
     )
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    object_id = models.PositiveIntegerField()
+    content_type = models.ForeignKey(
+        ContentType, verbose_name=_("Scan of"), on_delete=models.CASCADE
+    )
+    object_id = models.PositiveIntegerField(verbose_name=_("Scan object ID"))
     content_object = GenericForeignKey("content_type", "object_id")
     field_name = models.CharField(max_length=50)
     engine_name = models.CharField(
