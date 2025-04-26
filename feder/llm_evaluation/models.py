@@ -488,8 +488,10 @@ class LlmLetterRequest(LlmRequest):
 class LlmMonitoringRequest(LlmRequest):
     evaluated_monitoring = models.ForeignKey(
         "monitorings.Monitoring",
-        on_delete=models.PROTECT,
+        on_delete=models.SET_NULL,
         verbose_name=_("Evaluated Monitoring"),
+        null=True,
+        blank=True,
     )
     chat_request = models.BooleanField(
         verbose_name=_("Chat Request"), default=False, blank=True

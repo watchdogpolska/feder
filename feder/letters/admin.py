@@ -332,7 +332,7 @@ class AttachmentAdmin(admin.ModelAdmin):
 
     @admin.display(description=_("Letter is spam"))
     def get_letter_is_spam(self, obj):
-        return obj.letter.is_spam
+        return Letter.SPAM._display_map[obj.letter.is_spam] if obj.letter else "-"
 
     @admin.display(description=_("Letter id"))
     def get_letter_id(self, obj):
