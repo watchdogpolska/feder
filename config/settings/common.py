@@ -160,13 +160,11 @@ MANAGERS = ADMINS
 # DATABASE CONFIGURATION
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#databases
-DATABASES = {
-    # Raises ImproperlyConfigured exception if DATABASE_URL not in os.environ
-    "default": env.db("DATABASE_URL", default="mysql:///feder"),
-    "OPTIONS": {
-        "charset": "utf8mb4",
-        "init_command": "SET NAMES 'utf8mb4' COLLATE 'utf8mb4_polish_ci'",
-    },
+# Raises ImproperlyConfigured exception if DATABASE_URL not in os.environ
+DATABASES = {"default": env.db("DATABASE_URL")}
+DATABASES["default"]["OPTIONS"] = {
+    "charset": "utf8mb4",
+    "init_command": "SET NAMES 'utf8mb4' COLLATE 'utf8mb4_polish_ci'",
 }
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
