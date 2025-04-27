@@ -90,9 +90,10 @@ class MetaDefenderEngine(BaseEngine):
             result = result if isinstance(result, dict) else {}
             result["error"] = str(e)
             logger.error(
-                f"Failed to send request {filename}: {e}" + "Waiting 60 sec to retry"
+                f"Failed to send request {filename}: {e}"
+                + " - waiting 30 sec before sending next"
             )
-            time.sleep(60)
+            time.sleep(30)
             return {
                 "status": Request.STATUS.failed,
                 "engine_report": result,
