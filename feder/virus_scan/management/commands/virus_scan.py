@@ -30,7 +30,7 @@ class Command(BaseCommand):
             .exclude(letter__is_spam__in=[2, 3])
             .exclude(attachment__isnull=True)
             .exclude(attachment__exact="")
-            .order_by("-id")
+            .order_by("id")
             .all()
         )
         valid_attachments_to_scan = [
@@ -64,7 +64,7 @@ class Command(BaseCommand):
                 status__in=[Request.STATUS.created, Request.STATUS.failed]
             )
             .all()
-            .order_by("-id")
+            .order_by("-object_id")
         ):
             logger.info(f"Send to scan: {request}")
             request.send_scan()
@@ -74,11 +74,11 @@ class Command(BaseCommand):
                 and request.engine_report.get("error")
                 and "429" in request.engine_report.get("error")
             ):
-                logger.error(
-                    f"Failed to send request: {request} - "
+                logger.info(
+                    "Too many requests sent to engine. "
+                    + f"Stopping sending requests on: {request} - "
                     + request.engine_report["error"]
                 )
-                logger.info("Stopping sending requests.")
                 return
         logger.info("Requests sent.")
 
