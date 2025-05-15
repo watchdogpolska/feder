@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 
 from feder.letters.models import Letter
-from feder.virus_scan.models import Request
+from feder.virus_scan.models import Request, EngineApiKey
 
 
 @admin.register(Request)
@@ -40,3 +40,25 @@ class ScanRequestAdmin(admin.ModelAdmin):
 
     def has_add_permission(self, request, obj=None):
         return False
+
+
+@admin.register(EngineApiKey)
+class EngineApiKeyAdmin(admin.ModelAdmin):
+    list_display = (
+        "name",
+        "engine",
+        "prevention_limit",
+        "prevention_remaining",
+        "prevention_interval_sec",
+        "prevention_reset_at",
+        "last_used",
+    )
+    ordering = ("-id",)
+    list_filter = ("engine",)
+    readonly_fields = (
+        "prevention_limit",
+        "prevention_remaining",
+        "prevention_interval_sec",
+        "prevention_reset_at",
+        "last_used",
+    )
