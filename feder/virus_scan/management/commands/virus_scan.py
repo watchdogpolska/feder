@@ -1,4 +1,5 @@
 import logging
+import time
 
 from django.core.management.base import BaseCommand
 from django.db.models import Count
@@ -59,13 +60,9 @@ class Command(BaseCommand):
         ):
             logger.info("No requests to send for scanning.")
             return
-        for request in (
-            Request.objects.filter(
-                status__in=[Request.STATUS.created, Request.STATUS.failed]
-            )
-            .all()
-            .order_by("-object_id")
-        ):
+        for request in Request.objects.filter(
+            status__in=[Request.STATUS.created, Request.STATUS.failed]
+        ).order_by("-object_id")[:100]:
             logger.info(f"Send to scan: {request}")
             request.send_scan()
             request.save()
@@ -80,6 +77,8 @@ class Command(BaseCommand):
                     + request.engine_report["error"]
                 )
                 return
+            # wait 5 sec for next request
+            time.sleep(5)
         logger.info("Requests sent.")
 
     def receive_result(self):
