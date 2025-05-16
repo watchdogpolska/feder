@@ -1,4 +1,5 @@
 import logging
+import re
 import time
 
 import requests
@@ -149,23 +150,33 @@ class MetaDefenderEngine(BaseEngine):
     def update_api_key(self, response_headers):
         if (
             isinstance(response_headers, dict)
-            and response_headers.get("x-ratelimit-for") == "prevention_api"
+            and response_headers.get("X-RateLimit-For") == "prevention_api"
         ):
             key_to_update = EngineApiKey.objects.filter(
                 key=self.key, engine=self.name
             ).first()
             if key_to_update:
                 key_to_update.prevention_limit = int(
-                    response_headers.get("x-ratelimit-limit", 0)
+                    response_headers.get("X-RateLimit-Limit", 0)
                 )
                 key_to_update.prevention_interval_sec = int(
-                    response_headers.get("x-ratelimit-interval", 0)
+                    response_headers.get("X-RateLimit-Interval", 0)
                 )
                 key_to_update.prevention_remaining = int(
-                    response_headers.get("x-ratelimit-remaining", 0)
+                    response_headers.get("X-RateLimit-Remaining", 0)
                 )
                 key_to_update.prevention_reset_at = timezone.now() + timezone.timedelta(
-                    seconds=int(response_headers.get("x-ratelimit-reset-in", 0))
+                    seconds=int(
+                        re.match(
+                            r"(\d+)",
+                            str(response_headers.get("X-RateLimit-Reset-In", 0)),
+                        ).group(1)
+                        if re.match(
+                            r"(\d+)",
+                            str(response_headers.get("X-RateLimit-Reset-In", 0)),
+                        )
+                        else 0
+                    )
                 )
                 key_to_update.last_used = timezone.now()
                 key_to_update.save()
