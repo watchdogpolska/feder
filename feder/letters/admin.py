@@ -271,12 +271,14 @@ class AttachmentAdmin(admin.ModelAdmin):
     Admin View for Attachment
     """
 
+    date_hierarchy = "created"
     list_display = (
         "id",
         "get_letter_id",
         "get_letter_is_spam",
         "attachment",
         "get_scan_status",
+        "created",
     )
     search_fields = (
         "id",

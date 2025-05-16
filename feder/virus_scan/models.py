@@ -1,8 +1,10 @@
 import logging
 
+from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from model_utils import Choices
 from model_utils.models import TimeStampedModel
@@ -92,3 +94,57 @@ class Request(TimeStampedModel):
         indexes = [
             models.Index(fields=["content_type", "object_id"]),
         ]
+
+
+class EngineApiKey(TimeStampedModel):
+    ENGINES = Choices(
+        ("MetaDefender", "MetaDefender"),
+        ("Attachmentscanner", "Attachmentscanner"),
+        ("VirusTotal", "VirusTotal"),
+    )
+    name = models.CharField(
+        max_length=50,
+        blank=False,
+        null=False,
+        unique=True,
+    )
+    engine = models.CharField(
+        max_length=32,
+        choices=ENGINES,
+        default="MetaDefender",
+    )
+    key = models.CharField(
+        max_length=100,
+        blank=False,
+        null=False,
+        unique=True,
+    )
+    url = models.CharField(
+        max_length=200,
+        blank=False,
+        null=False,
+        default=settings.METADEFENDER_API_URL,
+    )
+    prevention_limit = models.IntegerField(
+        verbose_name=_("Prevention limit"),
+        default=100,
+    )
+    prevention_remaining = models.IntegerField(
+        default=0,
+        verbose_name=_("Prevention remaining"),
+    )
+    prevention_interval_sec = models.IntegerField(
+        default=86400,
+        verbose_name=_("Prevention interval in seconds"),
+    )
+    prevention_reset_at = models.DateTimeField(
+        verbose_name=_("Prevention reset at"),
+        default=timezone.now,
+    )
+    last_used = models.DateTimeField(
+        verbose_name=_("Last used"),
+        default=timezone.now,
+    )
+
+    def __str__(self):
+        return self.name

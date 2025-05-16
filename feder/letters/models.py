@@ -766,7 +766,7 @@ class AttachmentQuerySet(models.QuerySet):
         return self.prefetch_related("scan_request")
 
 
-class Attachment(AttachmentBase):
+class Attachment(TimeStampedModel, AttachmentBase):
     letter = models.ForeignKey(Letter, on_delete=models.CASCADE)
     objects = AttachmentQuerySet.as_manager()
     scan_request = GenericRelation(ScanRequest, verbose_name=_("Virus scan request"))

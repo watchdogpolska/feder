@@ -1,10 +1,13 @@
 import logging
+import re
 import time
 
 import requests
 from django.conf import settings
+from django.db.models import Q
+from django.utils import timezone
 
-from feder.virus_scan.models import Request
+from feder.virus_scan.models import EngineApiKey, Request
 
 from .base import BaseEngine
 
@@ -18,6 +21,7 @@ class MetaDefenderEngine(BaseEngine):
         self.key = settings.METADEFENDER_API_KEY
         self.url = settings.METADEFENDER_API_URL
         self.session = requests.Session()
+        self.get_api_key()
         super().__init__()
 
     def map_status(self, resp):
@@ -64,6 +68,7 @@ class MetaDefenderEngine(BaseEngine):
             )
             result = resp.json()
             result["response_headers"] = dict(resp.headers)
+            self.update_api_key(dict(resp.headers))
             resp.raise_for_status()
             return {
                 "engine_id": result["data_id"],
@@ -123,3 +128,60 @@ class MetaDefenderEngine(BaseEngine):
                 "status": Request.STATUS.failed,
                 "engine_report": result,
             }
+
+    def get_api_key(self):
+        available_keys = EngineApiKey.objects.filter(engine=self.name).filter(
+            Q(prevention_remaining__gt=0) | Q(prevention_reset_at__lt=timezone.now())
+        )
+        if available_keys.exists():
+            key_to_use = available_keys.first()
+            self.key = key_to_use.key
+            self.url = key_to_use.url
+            logger.info(
+                f"Using API key {key_to_use.name} for MetaDefender - "
+                + f"remaining: {key_to_use.prevention_remaining} - "
+                + f"available after: {key_to_use.prevention_reset_at}"
+            )
+        else:
+            logger.warning(
+                "No databse API key available for MetaDefender - using env settings."
+            )
+
+    def update_api_key(self, response_headers):
+        if (
+            isinstance(response_headers, dict)
+            and response_headers.get("X-RateLimit-For") == "prevention_api"
+        ):
+            key_to_update = EngineApiKey.objects.filter(
+                key=self.key, engine=self.name
+            ).first()
+            if key_to_update:
+                key_to_update.prevention_limit = int(
+                    response_headers.get("X-RateLimit-Limit", 0)
+                )
+                key_to_update.prevention_interval_sec = int(
+                    response_headers.get("X-RateLimit-Interval", 0)
+                )
+                key_to_update.prevention_remaining = int(
+                    response_headers.get("X-RateLimit-Remaining", 0)
+                )
+                key_to_update.prevention_reset_at = timezone.now() + timezone.timedelta(
+                    seconds=int(
+                        re.match(
+                            r"(\d+)",
+                            str(response_headers.get("X-RateLimit-Reset-In", 0)),
+                        ).group(1)
+                        if re.match(
+                            r"(\d+)",
+                            str(response_headers.get("X-RateLimit-Reset-In", 0)),
+                        )
+                        else 0
+                    )
+                )
+                key_to_update.last_used = timezone.now()
+                key_to_update.save()
+                logger.info(
+                    f"Updated API key {key_to_update.name} for MetaDefender - "
+                    + f"remaining: {key_to_update.prevention_remaining} - "
+                    + f"available after: {key_to_update.prevention_reset_at}"
+                )
