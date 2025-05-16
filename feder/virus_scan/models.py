@@ -1,5 +1,6 @@
 import logging
 
+from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
@@ -101,10 +102,29 @@ class EngineApiKey(TimeStampedModel):
         ("Attachmentscanner", "Attachmentscanner"),
         ("VirusTotal", "VirusTotal"),
     )
-    name = models.CharField(max_length=50, blank=False, null=False, unique=True)
-    engine = models.CharField(max_length=32, choices=ENGINES, default="MetaDefender")
-    key = models.CharField(max_length=100, blank=False, null=False, unique=True)
-    url = models.CharField(max_length=200, blank=False, null=False)
+    name = models.CharField(
+        max_length=50,
+        blank=False,
+        null=False,
+        unique=True,
+    )
+    engine = models.CharField(
+        max_length=32,
+        choices=ENGINES,
+        default="MetaDefender",
+    )
+    key = models.CharField(
+        max_length=100,
+        blank=False,
+        null=False,
+        unique=True,
+    )
+    url = models.CharField(
+        max_length=200,
+        blank=False,
+        null=False,
+        default=settings.METADEFENDER_API_URL,
+    )
     prevention_limit = models.IntegerField(
         verbose_name=_("Prevention limit"),
         default=100,
