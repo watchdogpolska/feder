@@ -3,10 +3,11 @@ import time
 
 import requests
 from django.conf import settings
-
-from feder.virus_scan.models import Request, EngineApiKey
-from django.utils import timezone
 from django.db.models import Q
+from django.utils import timezone
+
+from feder.virus_scan.models import EngineApiKey, Request
+
 from .base import BaseEngine
 
 logger = logging.getLogger(__name__)

@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 
 from feder.letters.models import Letter
-from feder.virus_scan.models import Request, EngineApiKey
+from feder.virus_scan.models import EngineApiKey, Request
 
 
 @admin.register(Request)
