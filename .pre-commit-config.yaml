@@ -39,7 +39,7 @@ repos:
                 - --skip-glob
                 - "**/migrations/*.py"
     - repo: https://github.com/sirosen/check-jsonschema
-      rev: 0.33.0
+      rev: 0.33.1
       hooks:
           - id: check-github-workflows
           - id: check-readthedocs
@@ -58,7 +58,7 @@ repos:
                 - ./pyproject.toml
             exclude: '.*/[^/]+/migrations/[^/]+\.py'
     - repo: https://github.com/PyCQA/flake8
-      rev: 7.2.0
+      rev: 7.3.0
       hooks:
           - id: flake8
             args:
