@@ -31,7 +31,7 @@ django-autoslug==1.9.9
 pytz==2025.2
 
 # Commands
-lxml==5.4.0
+lxml==6.0.0
 
 
 # Your custom requirements go here
