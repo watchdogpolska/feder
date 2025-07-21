@@ -81,6 +81,11 @@ class CaseCreateView(
         context["monitoring"] = self.monitoring
         return context
 
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        self.object.update_email()
+        return response
+
 
 class CaseUpdateView(
     RaisePermissionRequiredMixin,
@@ -99,6 +104,11 @@ class CaseUpdateView(
 
     def get_permission_object(self):
         return super().get_permission_object().monitoring
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        self.object.update_email()
+        return response
 
 
 class CaseDeleteView(
