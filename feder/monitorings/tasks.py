@@ -10,7 +10,6 @@ from feder.letters.models import Letter
 def handle_mass_assign(mass_assign):
     for case in Case.objects.filter(mass_assign=mass_assign).all():
         case.update_email()
-        case.save()
     send_letter_for_mass_assign(mass_assign)
     update_sent_letter_status(schedule=(15 * 60))
     return f"Mass assign {mass_assign} handled."
