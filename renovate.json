@@ -43,13 +43,13 @@
     }
   ],
   "pip_requirements": {
-    "fileMatch": [
-      "requirements/.+?.txt"
+    "managerFilePatterns": [
+      "/requirements/.+?.txt/"
     ]
   },
   "dockerfile": {
-    "fileMatch": [
-      "^.contrib/docker/Dockerfile\\..*$"
+    "managerFilePatterns": [
+      "/^.contrib/docker/Dockerfile\\..*$/"
     ]
   },
   "constraints": {
