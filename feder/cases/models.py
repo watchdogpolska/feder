@@ -288,8 +288,11 @@ class Case(RenderBooleanFieldMixin, TimeStampedModel):
         self.email = settings.CASE_EMAIL_TEMPLATE.format(
             pk=self.pk, domain=self.monitoring.domain.name
         )
+        self.save()
 
     def get_email_address(self):
+        if not self.email:
+            self.update_email()
         if not self.monitoring.domain.organisation_id:
             return Address(addr_spec=self.email)
         return Address(
