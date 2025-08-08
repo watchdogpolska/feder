@@ -1,6 +1,6 @@
 {% load i18n humanize %}
 <h3>
-    <i class="fas fa-envelope"></i>
+    <i class="fa-solid fa-envelope"></i>
     <a href="{{ object.get_absolute_url }}">{{ object }}</a>
     <small>
         {% trans 'by' %} <a href="{{ object.author.get_absolute_url }}">{{ object.author }}</a>
@@ -8,7 +8,7 @@
     </small>
     {% if object.attachment_count %}
         <span class="badge pull-right">
-        <i class="fas fa-download"></i> {{ object.attachment_count }}
+        <i class="fa-solid fa-download"></i> {{ object.attachment_count }}
     </span>
     {% endif %}
     {% if object.ai_evaluation %}

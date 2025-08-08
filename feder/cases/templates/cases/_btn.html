@@ -16,7 +16,7 @@
             {% endif %}
             {% if "view_log" in monitoring_perms %}
                 <a class="btn btn-default" href="{% url 'logs:list' case_pk=object.pk %}">
-                    <i class="fas fa-inbox" aria-hidden="true"></i>
+                    <i class="fa-solid fa-inbox" aria-hidden="true"></i>
                     {% trans 'View logs' %}
                 </a>
             {% endif %}
