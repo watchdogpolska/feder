@@ -33,7 +33,7 @@
     {% if "view_log" in monitoring_perms %}
         <div class="sub-menu">
             <a class="btn btn-primary" href="{% url 'logs:export' monitoring_pk=monitoring.pk %}">
-                <i class="fas fa-download" aria-hidden></i> {% trans 'Download .csv' %}</a>
+                <i class="fa-solid fa-download" aria-hidden></i> {% trans 'Download .csv' %}</a>
         </div>
     {% endif %}
 
