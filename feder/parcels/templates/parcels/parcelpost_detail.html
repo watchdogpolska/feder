@@ -11,12 +11,12 @@
             </tr>
 
             <tr>
-                <td class="metadata_desc"><i class="far fa-calendar" aria-hidden="false"></i> {% trans 'Modification date' %}</td>
+                <td class="metadata_desc"><i class="fa-regular fa-calendar" aria-hidden="false"></i> {% trans 'Modification date' %}</td>
                 <td class="metadata_value">{{ object.modified }}</td>
             </tr>
 
             <tr>
-                <td class="metadata_desc"><i class="fas fa-download" aria-hidden="false"></i> {% trans 'Content' %}</td>
+                <td class="metadata_desc"><i class="fa-solid fa-download" aria-hidden="false"></i> {% trans 'Content' %}</td>
                 <td class="metadata_value"><a href="{{ object.get_download_url }}">{% trans 'Download' %}</a></td>
             </tr>
 

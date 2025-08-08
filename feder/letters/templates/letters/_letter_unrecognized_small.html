@@ -1,7 +1,7 @@
 {% load i18n crispy_forms_tags humanize %}
 <div class="page-header">
     <h2>
-        <i class="fas fa-envelope"></i>
+        <i class="fa-solid fa-envelope"></i>
         {% blocktrans with object=object object_url=object.get_absolute_url author=object.author author_url=object.author.get_absolute_url case=object.case case_url=object.case.get_absolute_url institution=object.case.institution institution=object.case.institution created=object.created created_natural=object.created|naturaltime %}
             <a href="{{ object_url }}">{{ object }}</a>
             <small>
@@ -20,14 +20,14 @@
 
         {% if object.eml %}
             <a class="btn btn-default" href="{% url 'letters:download' pk=object.pk %}">
-                <i class="fas fa-download"></i>
+                <i class="fa-solid fa-download"></i>
                 {% trans 'Download letter' %}
             </a>
         {% endif %}
     </div>
     <div class="col-sm-2 col-xs-2">
             <a class="btn btn-primary" href="{% url 'letters:mark_spam' pk=object.pk %}">
-                <i class="fas fa-bullhorn"></i>
+                <i class="fa-solid fa-bullhorn"></i>
                 {% trans 'Mark spam' %}
             </a>
     </div>
