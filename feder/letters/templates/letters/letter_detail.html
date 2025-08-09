@@ -46,7 +46,7 @@
     {% if object.eml and not user.is_anonymous %}
         {% if user.is_superuser or user.can_download_attachment %}
             <a class="btn btn-default" href="{{ object.get_eml_url }}">
-                <i class="fas fa-download"></i>
+                <i class="fa-solid fa-download"></i>
                 {% trans 'Download letter' %}
             </a>
         {% endif %}

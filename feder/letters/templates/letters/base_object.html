@@ -75,7 +75,7 @@
         <div class="page-header">
             {% if object %}
                 <h2>
-                    <i class="fas fa-envelope"></i>
+                    <i class="fa-solid fa-envelope"></i>
                     <a href="{{ object.get_absolute_url }}">{{ object }}</a>
                     <small>{% trans 'by' %} <a href="{{ object.author.get_absolute_url }}"> {{ object.author }}</a>
                         <time datetime="{{ created }}" title="{{ object.created|naturaltime }}">{{ object.created }}</time>
@@ -96,7 +96,7 @@
                 </h2>
             {% else %}
                 <h2>
-                    <i class="fas fa-envelope"></i>
+                    <i class="fa-solid fa-envelope"></i>
                     <span>{% trans "New letter" %}</span>
                     <small>{% trans 'by' %} <a href="{{ user }}"> {{ user }}</a>
                         {% if case %}

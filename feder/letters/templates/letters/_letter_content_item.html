@@ -1,7 +1,7 @@
 {% load i18n humanize %}
 <tr>
     <td>
-        <i class="fas fa-envelope"></i>
+        <i class="fa-solid fa-envelope"></i>
         <a href="{{ object.get_absolute_url }}">{{ object }}</a>
         {% if object.ai_evaluation %}
             <p class="text-muted"><br>
@@ -13,13 +13,13 @@
         {% endif %}
     </td>
     <td>
-        <i class="fas fa-{{ object.author_user | yesno:'user,house' }}"></i>
+        <i class="fa-solid fa-{{ object.author_user | yesno:'user,house' }}"></i>
         <a href="{{ object.author.get_absolute_url }}">{{ object.author }}</a>
         <time datetime="{{ object.created }}" 
             title="{{ object.created | naturaltime }}">{{ object.created }}</time>
             {% if object.attachment_set.count > 0 %}
                 <p class="text-muted">
-                    <i class="fas fa-paperclip"></i>: {{ object.attachment_set.count }} 
+                    <i class="fa-solid fa-paperclip"></i>: {{ object.attachment_set.count }}
                 </p>
             {% endif %}
     </td>

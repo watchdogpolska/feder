@@ -1,12 +1,12 @@
 {% load i18n feder_tags %}
 <table>
     <tr>
-        <td><p><i class="fas fa-house"></i>&nbsp;{% trans 'Institution' %}:&nbsp;</p></td>
+        <td><p><i class="fa-solid fa-house"></i>&nbsp;{% trans 'Institution' %}:&nbsp;</p></td>
         <td><p><a href="{{ object.institution.get_absolute_url }}">{{ object.institution }}</a></p></td>
     </tr>
     {% if request.user.is_authenticated %}
         <tr>
-            <td><p><i class="fas fa-envelope"></i>&nbsp;{% trans 'Institution email' %}:&nbsp;</p></td>
+            <td><p><i class="fa-solid fa-envelope"></i>&nbsp;{% trans 'Institution email' %}:&nbsp;</p></td>
             <td><p>{{ object.institution.email }}</p></td>
         </tr>
     {% endif %}
@@ -16,16 +16,16 @@
     </tr>
     {% if request.user.is_authenticated %}
         <tr>
-            <td><p><i class="fas fa-envelope"></i>&nbsp;{% trans 'Case email' %}:&nbsp;</p></td>
+            <td><p><i class="fa-solid fa-envelope"></i>&nbsp;{% trans 'Case email' %}:&nbsp;</p></td>
             <td><p>{{ object.email }}</p></td>
         </tr>
     {% endif %}
     <tr>
-        <td><p><i class="fas fa-cubes"></i>&nbsp;{% trans 'Letter count' %}:&nbsp;</p></td>
+        <td><p><i class="fa-solid fa-cubes"></i>&nbsp;{% trans 'Letter count' %}:&nbsp;</p></td>
         <td><p>{{ object.letter_count }}</p></td>
     </tr>
     <tr>
-        <td><p><i class="fas fa-cubes"></i>&nbsp;{% trans 'Spam count' %}:&nbsp;</p></td>
+        <td><p><i class="fa-solid fa-cubes"></i>&nbsp;{% trans 'Spam count' %}:&nbsp;</p></td>
         <td><p>{{ object.spam_count }}</p></td>
     </tr>
     <tr>
@@ -41,7 +41,7 @@
         <td><p>{{ object.confirmation_received|boolean_icon }}</p></td>
     </tr>
     <tr>
-        <td><p><i class="fas fa-reply"></i>&nbsp;{% trans 'Response received' %}:&nbsp;</p></td>
+        <td><p><i class="fa-solid fa-reply"></i>&nbsp;{% trans 'Response received' %}:&nbsp;</p></td>
         <td><p>{{ object.response_received|boolean_icon }}</p></td>
     </tr>
     <tr>

@@ -1,5 +1,5 @@
 <li>
-    <i class="milestone-default fa {% if object.author_institution %}fa-home{% elif object.author_user %}fa-user{% else %}fa-envelope{% endif %}"></i>
+    <i class="milestone-default fa-solid {% if object.author_institution %}fa-home{% elif object.author_user %}fa-user{% else %}fa-envelope{% endif %}"></i>
     <div class="gray">
         {% include 'letters/_header.html' with object=object %}
         {% include 'letters/_object.html' with object=object %}
