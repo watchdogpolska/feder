@@ -1,6 +1,6 @@
 {% load i18n humanize %}
 <li>
-    <i class="milestone-default fas fa-house"></i>
+    <i class="milestone-default fa-solid fa-house"></i>
     <div class="gray">
         <h3>
             <i class="fa-solid fa-square-envelope"></i>
@@ -11,12 +11,12 @@
                       title="{{ object.receive_date }}">{% trans 'received' %} {{ object.receive_date }}</time>
             </small>
         </h3>
-        <p>{% trans 'Sender' %}: <i class="fas fa-house" aria-hidden="false"></i>
+        <p>{% trans 'Sender' %}: <i class="fa-solid fa-house" aria-hidden="false"></i>
             <a href="{{ object.sender.get_absolute_url }}">{{ object.sender }}</a>
         </p>
         <p>
 
-            {% trans 'Content' %}: <i class="fas fa-download" aria-hidden="false"></i>
+            {% trans 'Content' %}: <i class="fa-solid fa-download" aria-hidden="false"></i>
             <a href="{{ object.get_download_url }}">{% trans 'Download' %}</a>
         </p>
     </div>

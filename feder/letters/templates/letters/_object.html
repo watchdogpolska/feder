@@ -62,7 +62,7 @@
                                     ({% include 'virus_scan/_request.html' with object=attachment.current_scan_request %})
                                     {% if not attachment.is_infected %}
                                         <a class="btn btn-xs btn-primary" href="{{ attachment.get_absolute_url }}">
-                                            <i class="fas fa-download"></i>
+                                            <i class="fa-solid fa-download"></i>
                                             {% trans 'Download' %}
                                         </a>
                                         {% if enable_refresh_attachment_text_content %}
@@ -85,7 +85,7 @@
                                 {% else %}
                                     (nieskanowany)
                                     <a class="btn btn-xs btn-default" href="{% url 'letters:scan' pk=attachment.pk letter_pk=object.pk %}">
-                                        <i class="fas fa-eye"></i>
+                                        <i class="fa-solid fa-eye"></i>
                                         {% trans 'Scan' %}
                                     </a>
                                 {% endif %}

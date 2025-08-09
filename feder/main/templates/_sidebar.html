@@ -7,13 +7,13 @@
             </li>
             <li class="block-list-item">
                 <a href="{% url 'home' %}">
-                    <i class="fas fa-house" aria-hidden="true"></i>
+                    <i class="fa-solid fa-house" aria-hidden="true"></i>
                     {% trans 'Homepage' %}
                 </a>
             </li>
             <li class="block-list-item">
                 <a href="{% url 'about' %}">
-                    <i class="fas fa-question" title="{% trans 'Information about the site you are currently visiting'%}" aria-hidden="true"></i>
+                    <i class="fa-solid fa-question" title="{% trans 'Information about the site you are currently visiting'%}" aria-hidden="true"></i>
                     {% trans 'About page' %}
                 </a>
             </li>
@@ -26,7 +26,7 @@
             </div>
             <li class="block-list-item">
                 <a href="{% url 'cases:list' %}">
-                    <i class="fas fa-folder-open"></i>
+                    <i class="fa-solid fa-folder-open"></i>
                     {% trans 'Cases' %}
                 </a>
             </li>
@@ -38,25 +38,25 @@
             </li>
             <li class="block-list-item">
                 <a href="{% url 'monitorings:table' %}">
-                    <i class="fas fa-table"></i> {% trans 'Monitorings table' %}</a>
+                    <i class="fa-solid fa-table"></i> {% trans 'Monitorings table' %}</a>
             </li>
             <li class="block-list-item">
                 <a href="{% url 'letters:list' %}">
-                    <i class="fas fa-envelope" aria-hidden="true"></i>
+                    <i class="fa-solid fa-envelope" aria-hidden="true"></i>
                     {% trans 'Letters assigned to cases' %}
                 </a>
             </li>
             {% if perms.letters.recognize_letter %}
                 <li class="block-list-item">
                     <a href="{% url 'letters:unrecognized_list' %}">
-                        <i class="fas fa-envelope" aria-hidden="true"></i>
+                        <i class="fa-solid fa-envelope" aria-hidden="true"></i>
                         {% trans 'Letters unassigned to cases' %}
                     </a>
                 </li>
             {% endif %}
             <li class="block-list-item">
                 <a href="{% url 'institutions:list' %}">
-                    <i class="fas fa-house" aria-hidden="true"></i>
+                    <i class="fa-solid fa-house" aria-hidden="true"></i>
                     {% trans 'Institutions' %}</a>
             </li>
             <li class="block-list-item">
@@ -69,10 +69,10 @@
         {% if request.user.is_authenticated %}
             <li class="block-list-item">
                 <a href="{% url 'users:detail' request.user.username %}">
-                    <i class="fas fa-user"></i> {% trans "My Profile" %}</a>
+                    <i class="fa-solid fa-user"></i> {% trans "My Profile" %}</a>
             </li>
             <li class="block-list-item">
-                <a href="{% url 'admin:index' %}"><i class="fas fa-gear"></i> {% trans "App admin" %}</a>
+                <a href="{% url 'admin:index' %}"><i class="fa-solid fa-gear"></i> {% trans "App admin" %}</a>
             </li>
             <li class="block-list-item">
                 <a href="{% url 'account_logout' %}"><i class="fa-solid fa-right-from-bracket"></i> {% trans "Logout" %}</a>
@@ -81,7 +81,7 @@
         {% else %}
             {# Remove temporairly new user signup until more robust signup process is agreed #}
             {# <li class="block-list-item"> #}
-            {#     <a href="{% url 'account_signup' %}"><i class="fas fa-user"></i> {% trans "Sign Up" %}</a>  #}
+            {#     <a href="{% url 'account_signup' %}"><i class="fa-solid fa-user"></i> {% trans "Sign Up" %}</a>  #}
             {# </li> #}
             <li class="block-list-item">
                 <a href="{% url 'account_login' %}?next={{ request.get_full_path }}">

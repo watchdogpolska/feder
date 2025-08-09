@@ -1,5 +1,5 @@
 <li>
-    <i class="milestone-default fas fa-user"></i>
+    <i class="milestone-default fa-solid fa-user"></i>
     <div class="gray">
         {% load i18n humanize %}
         <h3>
@@ -12,11 +12,11 @@
             </small>
         </h3>
         <p>
-            {% trans 'Recipient' %}: <i class="fas fa-house" aria-hidden="false"></i>
+            {% trans 'Recipient' %}: <i class="fa-solid fa-house" aria-hidden="false"></i>
             <a href="{{ object.recipient.get_absolute_url }}">{{ object.recipient }}</a>
         </p>
         <p>{% trans 'Content' %}:
-            <i class="fas fa-download" aria-hidden="false"></i>
+            <i class="fa-solid fa-download" aria-hidden="false"></i>
             <a href="{{ object.get_download_url }}">{% trans 'Download' %}</a>
         </p>
     </div>
