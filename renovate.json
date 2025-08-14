@@ -40,7 +40,12 @@
         "pytz"
       ],
       "automerge": true
-    }
+    },
+    {
+      "matchPackageNames": ["caniuse-lite"],
+      "automerge": true,
+      "automergeType": "branch"
+    }    
   ],
   "pip_requirements": {
     "managerFilePatterns": [
