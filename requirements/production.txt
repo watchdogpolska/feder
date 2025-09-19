@@ -4,4 +4,4 @@
 # Django==3.2.23
 gevent==25.8.2
 gunicorn==23.0.0
-sentry-sdk==2.35.2
+sentry-sdk==2.38.0
