@@ -39,7 +39,7 @@ repos:
                 - --skip-glob
                 - "**/migrations/*.py"
     - repo: https://github.com/sirosen/check-jsonschema
-      rev: 0.33.3
+      rev: 0.34.0
       hooks:
           - id: check-github-workflows
           - id: check-readthedocs
@@ -50,7 +50,7 @@ repos:
             args: [-c, .yamllint.yml]
       #        exclude: (feder/letters/logs/cassettes/.*|docker-compose.yml)
     - repo: https://github.com/psf/black
-      rev: 25.1.0
+      rev: 25.9.0
       hooks:
           - id: black
             args:
