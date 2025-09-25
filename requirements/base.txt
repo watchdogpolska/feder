@@ -9,7 +9,7 @@ django-environ==0.12.0
 
 # Forms
 django-braces==1.17.0
-django-crispy-forms==1.14.0
+django-crispy-forms==2.4
 
 # Models
 django-model-utils==5.0.0
