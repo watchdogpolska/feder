@@ -1,4 +1,5 @@
 from django.template.response import TemplateResponse
+from django.utils.safestring import mark_safe
 from django.views.generic import TemplateView
 
 from feder.cases.models import Case
@@ -53,7 +54,7 @@ class HomeView(TemplateView):
             + "</b></td></tr>"
         )
         table += "</table>"
-        return table
+        return mark_safe(table)
 
 
 def handler500(request):
