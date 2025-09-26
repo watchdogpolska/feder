@@ -91,11 +91,9 @@ sitemaps = {
 }
 
 urlpatterns += [
-    re_path(
-        r"^sitemap\.xml$", index, {"sitemaps": sitemaps, "sitemap_url_name": "sitemaps"}
-    ),
-    re_path(
-        r"^sitemap-(?P<section>.+)\.xml$",
+    path("sitemap.xml", index, {"sitemaps": sitemaps, "sitemap_url_name": "sitemaps"}),
+    path(
+        "sitemap-<path:section>.xml",
         sitemap,
         {"sitemaps": sitemaps},
         name="sitemaps",

@@ -1,10 +1,10 @@
-from atom.ext.crispy_forms.forms import BaseTableFormSet
 from extra_views import InlineFormSetFactory
 
 from feder.letters.models import Attachment
+from feder.main.forms import BaseTableFormSetB3
 
 
 class AttachmentInline(InlineFormSetFactory):
     model = Attachment
-    formset_class = BaseTableFormSet
+    formset_class = BaseTableFormSetB3
     fields = ["attachment"]

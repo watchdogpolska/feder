@@ -9,6 +9,7 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 from guardian.models import GroupObjectPermissionBase, UserObjectPermissionBase
 from jsonfield import JSONField
@@ -288,7 +289,7 @@ class Monitoring(RenderBooleanFieldMixin, TimeStampedModel):
             + "</b></td></tr>"
         )
         table += "</table>"
-        return table
+        return mark_safe(table)
 
     def permission_map(self):
         dataset = (

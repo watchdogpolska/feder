@@ -48,6 +48,7 @@ from feder.main.mixins import (
     BaseXSendFileView,
     RaisePermissionRequiredMixin,
 )
+from feder.main.utils import DeleteViewLogEntryMixin
 from feder.monitorings.models import Monitoring
 from feder.monitorings.tasks import send_mass_draft
 from feder.records.models import Record
@@ -328,7 +329,11 @@ class LetterUpdateView(
 
 
 class LetterDeleteView(
-    LetterCommonMixin, AttrPermissionRequiredMixin, DeleteMessageMixin, DeleteView
+    LetterCommonMixin,
+    AttrPermissionRequiredMixin,
+    DeleteMessageMixin,
+    DeleteViewLogEntryMixin,
+    DeleteView,
 ):
     model = Letter
     permission_required = "monitorings.delete_letter"
@@ -597,7 +602,10 @@ class UnrecognizedLetterListView(
 
 
 class AssignLetterFormView(
-    PrefetchRelatedMixin, RaisePermissionRequiredMixin, SuccessMessageMixin, FormView
+    PrefetchRelatedMixin,
+    RaisePermissionRequiredMixin,
+    SuccessMessageMixin,
+    FormView,
 ):
     model = Letter
     form_class = AssignLetterForm
