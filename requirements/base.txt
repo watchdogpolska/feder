@@ -1,5 +1,5 @@
 # Production and staging Django
-Django==4.2.23
+Django==4.2.24
 
 # Database adapter
 mysqlclient==2.2.7
@@ -9,7 +9,8 @@ django-environ==0.12.0
 
 # Forms
 django-braces==1.17.0
-django-crispy-forms==1.14.0
+django-crispy-forms==2.4
+crispy-bootstrap3==2024.1
 
 # Models
 django-model-utils==5.0.0
@@ -19,9 +20,8 @@ Pillow==11.3.0
 
 # For user registration, either via email or social
 # Well-built with regular release cycles!
-#django-allauth[socialaccount]==0.62.1
-# version 0.62 requires config change - reverting bot changes
-django-allauth==0.61.1
+django-allauth==65.11.2
+jwt==1.4.0
 
 # Unicode slugification
 unicode-slugify==0.1.5
@@ -31,11 +31,11 @@ django-autoslug==1.9.9
 pytz==2025.2
 
 # Commands
-lxml==6.0.0
+lxml==6.0.2
 
 
 # Your custom requirements go here
-cryptography==45.0.6
+cryptography==46.0.1
 django-filter==25.1
 django-autocomplete-light==3.12.1
 # django-ajax-datatable to be installed from github fork until
@@ -53,9 +53,9 @@ git+https://github.com/PiotrIw/django-atom.git@master#egg=django-atom
 git+https://github.com/watchdogpolska/django-tinycontent.git@master
 
 django-formtools==2.5.1
-django-mptt==0.17.0
+django-mptt==0.18.0
 jsonfield==3.2.0
-django-guardian==3.0.3
+django-guardian==3.2.0
 django-teryt-tree==0.18.4
 cached-property==2.0.1
 
@@ -63,7 +63,7 @@ cached-property==2.0.1
 # django-bootstrap-pagination==1.7.1
 git+https://github.com/PiotrIw/django-bootstrap-pagination.git@master#egg=django-bootstrap-pagination
 
-django-reversion==5.1.0
+django-reversion==6.0.0
 djangorestframework==3.16.1
 djangorestframework-csv==3.0.2
 unicodecsv==0.14.1
@@ -82,18 +82,18 @@ https://github.com/ross/performant-pagination/archive/5b537da95728d622792031071e
 
 # django4-background-tasks==1.2.9 - unmintained, using watchdog maintained fork py312, dj42 compatible
 git+https://github.com/watchdogpolska/django-background-tasks.git@master
-django-cors-headers==4.7.0
+django-cors-headers==4.9.0
 
 django-rosetta==0.10.2
 bleach==6.2.0
-beautifulsoup4==4.13.4
+beautifulsoup4==4.13.5
 html2text==2025.4.15
 openpyxl==3.1.5
 
 # LLM exvaluation
 langchain==0.3.27
-langchain-community==0.3.27
+langchain-community==0.3.30
 #langchain[llms]==0.1.5
-openai==1.99.5
-langchain-openai==0.3.29
+openai==1.109.1
+langchain-openai==0.3.33
 tiktoken==0.11.0
