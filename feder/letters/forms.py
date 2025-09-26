@@ -325,6 +325,20 @@ class AssignLetterForm(SingleButtonMixin, forms.Form):
         self.letter.case = self.cleaned_data["case"]
         self.letter.record.save()
         self.letter.case.save()
+        chang_dict = {
+            "changed": ["case"],
+            "new_case": self.cleaned_data["case"].pk,
+            "previous_case": None,
+            "letter": self.letter.pk,
+        }
+        LogEntry.objects.log_action(
+            user_id=self.request.user.id,
+            content_type_id=ContentType.objects.get_for_model(self.letter.record).pk,
+            object_id=self.letter.record.pk,
+            object_repr=force_str(self.letter.record),
+            action_flag=CHANGE,
+            change_message=f"{chang_dict}",
+        )
         categorize_letter_in_background(self.letter.pk)
         messages.success(
             self.request,

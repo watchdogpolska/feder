@@ -48,7 +48,7 @@ from feder.main.mixins import (
     BaseXSendFileView,
     RaisePermissionRequiredMixin,
 )
-from feder.main.utils import DeleteViewLogEntryMixin, FormValidLogEntryMixin
+from feder.main.utils import DeleteViewLogEntryMixin
 from feder.monitorings.models import Monitoring
 from feder.monitorings.tasks import send_mass_draft
 from feder.records.models import Record
@@ -186,7 +186,6 @@ class LetterCreateView(
     UserFormKwargsMixin,
     CreateMessageMixin,
     FormValidMessageMixin,
-    FormValidLogEntryMixin,
     CreateView,
 ):
     model = Letter
@@ -219,7 +218,6 @@ class LetterReplyView(
     RaisePermissionRequiredMixin,
     UserFormKwargsMixin,
     FormValidMessageMixin,
-    FormValidLogEntryMixin,
     CreateWithInlinesView,
 ):
     template_name = "letters/letter_reply.html"
@@ -314,7 +312,6 @@ class LetterUpdateView(
     UserFormKwargsMixin,
     UpdateMessageMixin,
     FormValidMessageMixin,
-    FormValidLogEntryMixin,
     UpdateWithInlinesView,
 ):
     model = Letter
@@ -608,7 +605,6 @@ class AssignLetterFormView(
     PrefetchRelatedMixin,
     RaisePermissionRequiredMixin,
     SuccessMessageMixin,
-    FormValidLogEntryMixin,
     FormView,
 ):
     model = Letter
