@@ -5,7 +5,10 @@ from dal import autocomplete
 from django import forms
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.admin.models import ADDITION, CHANGE, DELETION, LogEntry
+from django.contrib.contenttypes.models import ContentType
 from django.template.loader import render_to_string
+from django.utils.encoding import force_str
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 from tinymce.widgets import TinyMCE
@@ -103,6 +106,19 @@ class LetterForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
         ):
             self.instance.author_user = self.user
         if not self.instance.is_mass_draft() and "ai_evaluation" in self.changed_data:
+            change_dict = {
+                "changed": self.changed_data,
+                "ai_evaluation_previous": self.initial.get("ai_evaluation", None),
+                "ai_evaluation_new": self.cleaned_data.get("ai_evaluation", None),
+            }
+            LogEntry.objects.log_action(
+                user_id=self.request.user.id,
+                content_type_id=ContentType.objects.get_for_model(self.instance).pk,
+                object_id=self.instance.pk,
+                object_repr=force_str(self.instance),
+                action_flag=CHANGE,
+                change_message=f"{change_dict}",
+            )
             update_letter_normalized_answers(self.instance.pk)
             messages.success(
                 self.request,
@@ -119,6 +135,22 @@ class LetterForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
                     case=self.cleaned_data["case"]
                 )
             self.instance.record.save()
+            change_dict = {
+                "changed": self.changed_data,
+                "new_case": self.cleaned_data["case"].pk,
+                "previous_case": self.initial["case"].pk,
+                "letter": self.instance.pk,
+            }
+            LogEntry.objects.log_action(
+                user_id=self.request.user.id,
+                content_type_id=ContentType.objects.get_for_model(
+                    self.instance.record
+                ).pk,
+                object_id=self.instance.record.pk,
+                object_repr=force_str(self.instance.record),
+                action_flag=CHANGE,
+                change_message=f"{change_dict}",
+            )
             if "ai_evaluation" not in self.changed_data:
                 categorize_letter_in_background(self.instance.pk)
                 messages.success(
@@ -130,6 +162,21 @@ class LetterForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
                 )
         if not hasattr(self.instance, "record"):
             self.instance.record = Record.objects.create(case=self.cleaned_data["case"])
+            change_dict = {
+                "changed": self.changed_data,
+                "new_case": self.cleaned_data["case"].pk,
+                "letter": self.instance.pk,
+            }
+            LogEntry.objects.log_action(
+                user_id=self.request.user.id,
+                content_type_id=ContentType.objects.get_for_model(
+                    self.instance.record
+                ).pk,
+                object_id=self.instance.record.pk,
+                object_repr=force_str(self.instance.record),
+                action_flag=ADDITION,
+                change_message=f"{change_dict}",
+            )
         self.instance.save()
         return super().save(*args, **kwargs)
 
