@@ -5,7 +5,7 @@ from dal import autocomplete
 from django import forms
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.admin.models import ADDITION, CHANGE, DELETION, LogEntry
+from django.contrib.admin.models import ADDITION, CHANGE, LogEntry
 from django.contrib.contenttypes.models import ContentType
 from django.template.loader import render_to_string
 from django.utils.encoding import force_str
