@@ -231,8 +231,11 @@ TEMPLATES = [
 ]
 
 # See: http://django-crispy-forms.readthedocs.org/en/latest/install.html#template-packs
-CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap3"
+CRISPY_ALLOWED_TEMPLATE_PACKS = [
+    "bootstrap3",
+]
 CRISPY_TEMPLATE_PACK = "bootstrap3"
+CRISPY_FAIL_SILENTLY = False
 
 # STATIC FILE CONFIGURATION
 # ------------------------------------------------------------------------------

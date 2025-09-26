@@ -28,49 +28,75 @@ from .models import Monitoring
 class MonitoringForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        if not self.instance.pk:  # disable fields for create
-            del self.fields["notify_alert"]
+
+        # ===== delete/adjust fields first =====
+        if not self.instance.pk:  # create: remove notify_alert
+            self.fields.pop("notify_alert", None)
+
+        # If user is not superuser, remove use_llm before any references to it
+        if not self.user.is_superuser:
+            self.fields.pop("use_llm", None)
+
+        # ===== set initial/helps/widgets guarded by presence =====
         if self.instance.template and not is_formatted_html(self.instance.template):
             self.initial["template"] = mark_safe(text_to_html(self.instance.template))
+
         self.instance.user = self.user
-        if not self.instance.use_llm:
+
+        # help text for use_llm only if field still exists
+        if "use_llm" in self.fields and not self.instance.use_llm:
             self.fields["use_llm"].help_text = _(
                 "Before enabling, make sure that the content of the application will no"
-                + " longer be changed. You can always go back to edit and enable later."
+                " longer be changed. You can always go back to edit and enable later."
             )
-        if not self.user.is_superuser:
-            del self.fields["use_llm"]
+
+        # template initial & widget (these fields always exist per Meta)
         self.fields["template"].initial = BODY_REPLY_TPL
         self.fields["template"].widget = TinyMCE(attrs={"cols": 80, "rows": 20})
+
         if self.instance.use_llm:
             self.fields["template"].help_text = _(
                 "Use {{EMAIL}} for insert reply address. \n"
-                + "NOTE: LLM use is enabled. This means that any interference with the"
-                + " application template may significantly disturb the credibility of"
-                + " the results. If applications have already been sent to some"
-                + " institutions during this monitoring period and you still need to"
-                + " change the application template, consider setting up a new"
-                + " monitoring query."
+                "NOTE: LLM use is enabled. This means that any interference with the"
+                " application template may significantly disturb the credibility of"
+                " the results. If applications have already been sent to some"
+                " institutions during this monitoring period and you still need to"
+                " change the application template, consider setting up a new"
+                " monitoring query."
             )
+
         self.fields["email_footer"].widget = TinyMCE(attrs={"cols": 80, "rows": 5})
+
+        # ===== build crispy layout from actually-present fields =====
+        # (crispy ≥2 is strict; never reference missing fields)
+        left_order = [
+            "name",
+            "description",
+            "notify_alert",
+            "is_public",
+            "hide_new_cases",
+            "use_llm",
+        ]
+        right_order = ["subject", "template", "email_footer", "domain"]
+
+        left_fields = [f for f in left_order if f in self.fields]
+        right_fields = [f for f in right_order if f in self.fields]
+
+        # ensure helper exists & uses bootstrap3 (if your mixin doesn’t set it)
+        if not hasattr(self, "helper"):
+            from crispy_forms.helper import FormHelper
+
+            self.helper = FormHelper()
+        self.helper.template_pack = "bootstrap3"
+
         self.helper.layout = Layout(
             Row(
                 Column(
-                    Fieldset(
-                        _("Monitoring"),
-                        "name",
-                        "description",
-                        "notify_alert",
-                        "is_public",
-                        "hide_new_cases",
-                        "use_llm",
-                    ),
+                    Fieldset(_("Monitoring"), *left_fields),
                     css_class="form-group col-md-5 mb-0",
                 ),
                 Column(
-                    Fieldset(
-                        _("Template"), "subject", "template", "email_footer", "domain"
-                    ),
+                    Fieldset(_("Template"), *right_fields),
                     css_class="form-group col-md-7 mb-0",
                 ),
             ),
