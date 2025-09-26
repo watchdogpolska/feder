@@ -1,5 +1,5 @@
-from django.forms.models import BaseInlineFormSet
 from crispy_forms.helper import FormHelper
+from django.forms.models import BaseInlineFormSet
 
 
 class BaseTableFormSetB3(BaseInlineFormSet):
