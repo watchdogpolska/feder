@@ -37,6 +37,7 @@ DJANGO_APPS = (
 )
 THIRD_PARTY_APPS = (
     "crispy_forms",  # Form layouts
+    "crispy_bootstrap3",  # Bootstrap 3 theme for crispy forms
     "allauth",  # registration
     "allauth.account",  # registration
     "allauth.socialaccount",  # registration
@@ -230,7 +231,11 @@ TEMPLATES = [
 ]
 
 # See: http://django-crispy-forms.readthedocs.org/en/latest/install.html#template-packs
+CRISPY_ALLOWED_TEMPLATE_PACKS = [
+    "bootstrap3",
+]
 CRISPY_TEMPLATE_PACK = "bootstrap3"
+CRISPY_FAIL_SILENTLY = False
 
 # STATIC FILE CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -273,8 +278,8 @@ AUTHENTICATION_BACKENDS = (
 )
 
 # Some really nice defaults
-ACCOUNT_AUTHENTICATION_METHOD = "username_email"
-ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_LOGIN_METHODS = {"email", "username"}
+ACCOUNT_SIGNUP_FIELDS = ["email*", "username*", "password1*", "password2*"]
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 # NoSignupAdapter disables the signup functionality - new users to be
 # manually added by admins
@@ -282,7 +287,7 @@ ACCOUNT_ADAPTER = "feder.main.adapters.NoSignupAdapter"
 SOCIALACCOUNT_EMAIL_VERIFICATION = "optional"
 SOCIALACCOUNT_PROVIDERS = {
     "github": {"SCOPE": ["user"]},
-    "gilab": {"SCOPE": ["read_user", "openid"]},
+    "gitlab": {"SCOPE": ["read_user", "openid"]},
 }
 # Custom user app defaults
 # Select the correct user model
