@@ -86,13 +86,13 @@ django-cors-headers==4.9.0
 
 django-rosetta==0.10.2
 bleach==6.2.0
-beautifulsoup4==4.13.5
+beautifulsoup4==4.14.2
 html2text==2025.4.15
 openpyxl==3.1.5
 
 # LLM exvaluation
 langchain==0.3.27
-langchain-community==0.3.29
+langchain-community==0.3.30
 #langchain[llms]==0.1.5
 openai==1.109.1
 langchain-openai==0.3.33
