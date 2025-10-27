@@ -17,18 +17,18 @@ default_language_version:
 minimum_pre_commit_version: "1.20.0"
 repos:
     - repo: https://github.com/adamchainz/django-upgrade
-      rev: 1.28.0
+      rev: 1.29.1
       hooks:
           - id: django-upgrade
             args: [--target-version, "4.2"]
     - repo: https://github.com/asottile/pyupgrade
-      rev: v3.20.0
+      rev: v3.21.0
       hooks:
           - id: pyupgrade
             args:
                 - --py310-plus
     - repo: https://github.com/pycqa/isort
-      rev: 6.0.1
+      rev: 7.0.0
       hooks:
           - id: isort
             args:
@@ -39,7 +39,7 @@ repos:
                 - --skip-glob
                 - "**/migrations/*.py"
     - repo: https://github.com/sirosen/check-jsonschema
-      rev: 0.34.0
+      rev: 0.34.1
       hooks:
           - id: check-github-workflows
           - id: check-readthedocs
@@ -49,7 +49,7 @@ repos:
           - id: yamllint
             args: [-c, .yamllint.yml]
       #        exclude: (feder/letters/logs/cassettes/.*|docker-compose.yml)
-    - repo: https://github.com/psf/black
+    - repo: https://github.com/psf/black-pre-commit-mirror
       rev: 25.9.0
       hooks:
           - id: black
