@@ -96,4 +96,4 @@ langchain-community==0.3.30
 #langchain[llms]==0.1.5
 openai==2.3.0
 langchain-openai==0.3.35
-tiktoken==0.11.0
+tiktoken==0.12.0
