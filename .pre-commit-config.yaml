@@ -22,7 +22,7 @@ repos:
           - id: django-upgrade
             args: [--target-version, "4.2"]
     - repo: https://github.com/asottile/pyupgrade
-      rev: v3.21.0
+      rev: v3.21.1
       hooks:
           - id: pyupgrade
             args:
@@ -50,7 +50,7 @@ repos:
             args: [-c, .yamllint.yml]
       #        exclude: (feder/letters/logs/cassettes/.*|docker-compose.yml)
     - repo: https://github.com/psf/black-pre-commit-mirror
-      rev: 25.9.0
+      rev: 25.11.0
       hooks:
           - id: black
             args:
