@@ -92,7 +92,7 @@ openpyxl==3.1.5
 
 # LLM exvaluation
 langchain==0.3.27
-langchain-community==0.3.30
+langchain-community==0.4.1
 #langchain[llms]==0.1.5
 openai==2.7.2
 langchain-openai==0.3.35
