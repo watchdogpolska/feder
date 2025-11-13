@@ -2,4 +2,4 @@ FROM node:24
 WORKDIR /app
 VOLUME /app
 CMD ["bash","-c", "npm install && npx update-browserslist-db@latest && npx gulp build"]
-#CMD ["bash","-c", " npm install ; npx gulp build ; sleep infinity "]
+# CMD ["bash","-c", " npm install ; npx gulp build ; sleep infinity "]
