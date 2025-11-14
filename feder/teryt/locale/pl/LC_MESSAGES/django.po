@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-13 19:23+0100\n"
+"POT-Creation-Date: 2025-11-14 18:12+0100\n"
 "PO-Revision-Date: 2023-05-16 13:02+0000\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: \n"
@@ -20,6 +20,14 @@ msgstr ""
 "n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
 "X-Generator: Poedit 1.8.7.1\n"
 "X-Translated-Using: django-rosetta 0.9.9\n"
+
+#: feder/teryt/admin.py:17 feder/teryt/admin.py:21
+msgid "Activate selected JSTs"
+msgstr ""
+
+#: feder/teryt/admin.py:23 feder/teryt/admin.py:27
+msgid "Deactivate selected JSTs"
+msgstr ""
 
 #: feder/teryt/filters.py:26
 msgid "County"
@@ -130,18 +138,14 @@ msgstr "^(?P<slug>[\\w-]+)$"
 msgid "^$"
 msgstr "^$"
 
-#: feder/teryt/urls.py:12
-msgid "^voivodeship-autocomplete/$"
-msgstr "^wojewodztwo-autouzupelnianie/$"
+#~ msgid "^voivodeship-autocomplete/$"
+#~ msgstr "^wojewodztwo-autouzupelnianie/$"
 
-#: feder/teryt/urls.py:17
-msgid "^county-autocomplete/$"
-msgstr "^powiat-autouzupelnianie/$"
+#~ msgid "^county-autocomplete/$"
+#~ msgstr "^powiat-autouzupelnianie/$"
 
-#: feder/teryt/urls.py:22
-msgid "^community-autocomplete/$"
-msgstr "^gminy-autouzupelnianie/$"
+#~ msgid "^community-autocomplete/$"
+#~ msgstr "^gminy-autouzupelnianie/$"
 
-#: feder/teryt/urls.py:27
-msgid "^jst-autocomplete/$"
-msgstr "^powiat-autouzupelnianie/$"
+#~ msgid "^jst-autocomplete/$"
+#~ msgstr "^powiat-autouzupelnianie/$"

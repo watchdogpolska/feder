@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cases 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-13 19:23+0100\n"
+"POT-Creation-Date: 2025-11-14 18:12+0100\n"
 "PO-Revision-Date: 2023-10-30 18:16+0124\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -93,7 +93,7 @@ msgid "Last request"
 msgstr "Ostatni wniosek"
 
 #: feder/cases/models.py:266 feder/cases/models.py:267
-#: feder/cases/models.py:356
+#: feder/cases/models.py:359
 msgid "Case"
 msgstr "Sprawa"
 
