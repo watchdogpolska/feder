@@ -332,14 +332,18 @@ class Letter(AbstractRecord):
         return letter
 
     def _email_context(self):
-        body = self.body.replace("{{EMAIL}}", self.case.email)
-        body = self.body.replace("{{ADRESAT}}", self.case.institution.name)
-        html_body = self.html_body.replace("{{EMAIL}}", self.case.email)
-        html_body = self.html_body.replace("{{ADRESAT}}", self.case.institution.name)
-        quote = self.quote.replace("{{EMAIL}}", self.case.email)
-        quote = quote.replace("{{ADRESAT}}", self.case.institution.name)
-        html_quote = self.html_quote.replace("{{EMAIL}}", self.case.email)
-        html_quote = self.html_quote.replace("{{ADRESAT}}", self.case.institution.name)
+        body = self.body.replace("{{EMAIL}}", self.case.email).replace(
+            "{{ADRESAT}}", self.case.institution.name
+        )
+        html_body = self.html_body.replace("{{EMAIL}}", self.case.email).replace(
+            "{{ADRESAT}}", self.case.institution.name
+        )
+        quote = self.quote.replace("{{EMAIL}}", self.case.email).replace(
+            "{{ADRESAT}}", self.case.institution.name
+        )
+        html_quote = self.html_quote.replace("{{EMAIL}}", self.case.email).replace(
+            "{{ADRESAT}}", self.case.institution.name
+        )
         context = {
             "html_body": mark_safe(html_body),
             "text_body": mark_safe(body),
