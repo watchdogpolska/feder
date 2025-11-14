@@ -4,8 +4,8 @@ import time
 
 import tiktoken
 from django.conf import settings
-from langchain_core.output_parsers import StrOutputParser
 from langchain_community.callbacks import get_openai_callback
+from langchain_core.output_parsers import StrOutputParser
 from langchain_openai import AzureChatOpenAI
 
 logger = logging.getLogger(__name__)
