@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-monitorings 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-21 11:12+0200\n"
-"PO-Revision-Date: 2024-08-21 11:17+0200\n"
+"POT-Creation-Date: 2025-11-14 18:12+0100\n"
+"PO-Revision-Date: 2025-11-14 18:19+0100\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language: pl_PL\n"
@@ -17,19 +17,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.8.7.1\n"
-"X-Translated-Using: django-rosetta 0.10.0\n"
+"X-Translated-Using: django-rosetta 0.10.2\n"
 
 #: feder/monitorings/filters.py:15
 #: feder/monitorings/templates/monitorings/_monitoring_small.html:12
 msgid "Creation date"
 msgstr "Data utworzenia"
 
-#: feder/monitorings/filters.py:23 feder/monitorings/models.py:107
+#: feder/monitorings/filters.py:23 feder/monitorings/models.py:108
 #: feder/monitorings/views.py:149 feder/monitorings/views.py:309
 msgid "Name"
 msgstr "Nazwa"
 
-#: feder/monitorings/forms.py:38
+#: feder/monitorings/forms.py:49
 msgid ""
 "Before enabling, make sure that the content of the application will no "
 "longer be changed. You can always go back to edit and enable later."
@@ -37,277 +37,288 @@ msgstr ""
 "Przed włączeniem upewnij się, że treść wniosku nie będzie już zmieniana. "
 "Zawsze możesz wrócić do edycji i włączyć później."
 
-#: feder/monitorings/forms.py:47
+#: feder/monitorings/forms.py:59
+#| msgid ""
+#| "Use {{EMAIL}} for insert reply address. \n"
+#| "NOTE: LLM use is enabled. This means that any interference with the application template may significantly disturb the credibility of the results. If applications have already been sent to some institutions during this monitoring period and you still need to change the application template, consider setting up a new monitoring query."
 msgid ""
-"Use {{EMAIL}} for insert reply address. \n"
+"Use: {{EMAIL}} for insert reply address. \n"
+"Use: {{ADRESAT}} to insert addressee name. \n"
 "NOTE: LLM use is enabled. This means that any interference with the application template may significantly disturb the credibility of the results. If applications have already been sent to some institutions during this monitoring period and you still need to change the application template, consider setting up a new monitoring query."
 msgstr ""
-"Użyj {{EMAIL}} aby umieścić adres odpowiedzi. UWAGA: Włączone jest "
-"korzystanie z LLM. Oznacza to, że wszelkie ingerencje w szablon wniosku mogą"
-" silnie zaburzyć wiarygodność wyników. Jeśli w tym monitoringu do części "
-"instytucji wysłano już wnioski a mimo to koniecznie musisz zmienić szablon "
-"wniosku, to rozważ założenie nowego monitoringu."
+"Użyj {{EMAIL}} aby umieścić adres odpowiedzi. \n"
+"Użyj {{ADRESAT}} aby umieścić nazwę adressata.\n"
+"UWAGA: Włączone jest korzystanie z LLM. Oznacza to, że wszelkie ingerencje w szablon wniosku mogą silnie zaburzyć wiarygodność wyników. Jeśli w tym monitoringu do części instytucji wysłano już wnioski a mimo to koniecznie musisz zmienić szablon wniosku, to rozważ założenie nowego monitoringu."
 
-#: feder/monitorings/forms.py:60 feder/monitorings/models.py:176
-#: feder/monitorings/models.py:177
+#: feder/monitorings/forms.py:96 feder/monitorings/models.py:180
+#: feder/monitorings/models.py:181
 msgid "Monitoring"
 msgstr "Monitoring"
 
-#: feder/monitorings/forms.py:71 feder/monitorings/models.py:120
+#: feder/monitorings/forms.py:100 feder/monitorings/models.py:121
 #: feder/monitorings/templates/monitorings/_tabs.html:25
 #: feder/monitorings/templates/monitorings/monitoring_template.html:12
 #: feder/monitorings/templates/monitorings/monitoring_template.html:19
 msgid "Template"
 msgstr "Szablon"
 
-#: feder/monitorings/forms.py:107
+#: feder/monitorings/forms.py:136
 msgid "Monitoring info"
 msgstr "Informacje o monitoringu"
 
-#: feder/monitorings/forms.py:114
+#: feder/monitorings/forms.py:143
 msgid "Monitoring results"
 msgstr "Wyniki monitoringu"
 
-#: feder/monitorings/forms.py:134 feder/monitorings/models.py:112
+#: feder/monitorings/forms.py:163 feder/monitorings/models.py:113
 #: feder/monitorings/templates/monitorings/_monitoring_small.html:8
 #: feder/monitorings/views.py:160
 msgid "User"
 msgstr "Użytkownik"
 
-#: feder/monitorings/forms.py:163
+#: feder/monitorings/forms.py:192
 #: feder/monitorings/templates/monitorings/_letter.html:30
 msgid "Recipient's tags"
 msgstr "Tagi odbiorców"
 
-#: feder/monitorings/forms.py:187
-msgid "Use {{EMAIL}} to insert reply address."
-msgstr "Użyj {{EMAIL}} aby umieścić adres odpowiedzi."
+#: feder/monitorings/forms.py:217
+#| msgid "Use {{EMAIL}} to insert reply address."
+msgid ""
+"Use: {{EMAIL}} to insert reply address, {{ADRESAT}} to insert addressee "
+"name."
+msgstr ""
+"Użyj: {{EMAIL}} aby umieścić adres odpowiedzi, {{ADRESAT}} aby umieścić "
+"nazwę adressata."
 
-#: feder/monitorings/forms.py:195
+#: feder/monitorings/forms.py:227
 msgid "Message"
 msgstr "Wiadomość"
 
-#: feder/monitorings/forms.py:199
+#: feder/monitorings/forms.py:231
 msgid "Message continued"
 msgstr "Wiadomość cd."
 
-#: feder/monitorings/forms.py:227
+#: feder/monitorings/forms.py:259
 msgid "Save draft"
 msgstr "Zapisz szkic"
 
-#: feder/monitorings/forms.py:231
+#: feder/monitorings/forms.py:263
 msgid "Send message"
 msgstr "Wyślij wiadomość"
 
-#: feder/monitorings/forms.py:277
+#: feder/monitorings/forms.py:309
 msgid "You do not have permission to send messages."
 msgstr "Nie posiadasz uprawnień do wysyłki wiadomości."
 
-#: feder/monitorings/forms.py:280
+#: feder/monitorings/forms.py:312
 msgid "You do not have permission to save draft."
 msgstr "Nie posiadasz uprawnień aby zapisać szkic."
 
-#: feder/monitorings/models.py:33
+#: feder/monitorings/models.py:34
 msgid "Monitorings index"
 msgstr "Wykaz monitoringów"
 
-#: feder/monitorings/models.py:34
+#: feder/monitorings/models.py:35
 msgid "Can add Monitoring"
 msgstr "Może dodać monitoring"
 
-#: feder/monitorings/models.py:35
+#: feder/monitorings/models.py:36
 msgid "Can change Monitoring"
 msgstr "Może zmieniać monitoring"
 
-#: feder/monitorings/models.py:36
+#: feder/monitorings/models.py:37
 msgid "Can delete Monitoring"
 msgstr "Może usunąć monitoring"
 
-#: feder/monitorings/models.py:38
+#: feder/monitorings/models.py:39
 msgid "Notify about new alerts person who can view alerts"
 msgstr "Powiadom o nowych alertach osoby, które mogą je widzieć"
 
-#: feder/monitorings/models.py:109
+#: feder/monitorings/models.py:110
 msgid "Slug"
 msgstr "Identyfikator redakcyjny"
 
-#: feder/monitorings/models.py:114
+#: feder/monitorings/models.py:115
 #: feder/monitorings/templates/monitorings/base_monitoring_detail.html:30
 #: feder/monitorings/views.py:155
 msgid "Description"
 msgstr "Opis"
 
-#: feder/monitorings/models.py:115
+#: feder/monitorings/models.py:116
 msgid "Subject"
 msgstr "Temat"
 
-#: feder/monitorings/models.py:117 feder/monitorings/views.py:190
+#: feder/monitorings/models.py:118 feder/monitorings/views.py:190
 msgid "Hide new cases when assigning?"
 msgstr "Czy ukrywać nowe sprawy przy przypisywaniu?"
 
-#: feder/monitorings/models.py:121
-msgid "Use {{EMAIL}} for insert reply address"
-msgstr "Użyj {{EMAIL}} aby umieścić adres odpowiedzi"
+#: feder/monitorings/models.py:123
+#| msgid "Use {{EMAIL}} to insert reply address."
+msgid ""
+"Use: {{EMAIL}} to insert reply address, {{ADRESAT}} to insert addressee name"
+msgstr ""
+"Użyj: {{EMAIL}} aby umieścić adres odpowiedzi, {{ADRESAT}} aby umieścić "
+"nazwę adressata."
 
-#: feder/monitorings/models.py:126
+#: feder/monitorings/models.py:130
 msgid "Use LLM"
 msgstr "Korzystaj z LLM"
 
-#: feder/monitorings/models.py:127
+#: feder/monitorings/models.py:131
 msgid "Use LLM to evaluate responses"
 msgstr "Użyj LLM do oceny odpowiedzi"
 
-#: feder/monitorings/models.py:130
+#: feder/monitorings/models.py:134
 msgid "Responses chat context"
 msgstr "Kontekst odpowiedzi dla czatu"
 
-#: feder/monitorings/models.py:133
+#: feder/monitorings/models.py:137
 msgid "Monitoring responses context for AI chat"
 msgstr "Kontekst odpowiedzi  w monitoringu dla czatu AI"
 
-#: feder/monitorings/models.py:136
+#: feder/monitorings/models.py:140
 #: feder/monitorings/templates/monitorings/monitoring_template.html:34
 msgid "Normalized response template"
 msgstr "Znormalizowany szablon odpowiedzi"
 
-#: feder/monitorings/models.py:141
+#: feder/monitorings/models.py:145
 msgid "Normalized response answers categories"
 msgstr "Znormalizowane kategorie odpowiedzi"
 
-#: feder/monitorings/models.py:146
+#: feder/monitorings/models.py:150
 msgid "Letter normalization prompt extension"
 msgstr "Dodatkowa instrukcja w prompcie  normalizacji odpowiedzi listów"
 
-#: feder/monitorings/models.py:151
+#: feder/monitorings/models.py:155
 msgid "Letter normalization prompt extension modified"
 msgstr ""
 "Zmodyfikowano dodatkową instrukcję w prompcie  normalizacji odpowiedzi "
 "listów"
 
-#: feder/monitorings/models.py:157
+#: feder/monitorings/models.py:161
 #: feder/monitorings/templates/monitorings/_tabs.html:30
 #: feder/monitorings/templates/monitorings/monitoring_results.html:12
 msgid "Results"
 msgstr "Wyniki"
 
-#: feder/monitorings/models.py:158
+#: feder/monitorings/models.py:162
 msgid "Resulrs of monitoring and received responses"
 msgstr "Wyniki monitoringu i otrzymanych odpowiedzi"
 
-#: feder/monitorings/models.py:163
+#: feder/monitorings/models.py:167
 #: feder/monitorings/templates/monitorings/monitoring_template.html:24
 msgid "Email footer"
 msgstr "Podpis w e-mail"
 
-#: feder/monitorings/models.py:164
+#: feder/monitorings/models.py:168
 msgid "Footer for sent mail and replies"
 msgstr "Podpis w stopce e-maili, w tym w odpowiedziach na e-maile"
 
-#: feder/monitorings/models.py:167 feder/monitorings/views.py:202
+#: feder/monitorings/models.py:171 feder/monitorings/views.py:202
 msgid "Notify about alerts"
 msgstr "Powiadamiaj o alertach"
 
-#: feder/monitorings/models.py:170 feder/monitorings/views.py:196
+#: feder/monitorings/models.py:174 feder/monitorings/views.py:196
 msgid "Is public visible?"
 msgstr "Czy publicznie widoczny?"
 
-#: feder/monitorings/models.py:172
+#: feder/monitorings/models.py:176
 msgid "Domain used to sends emails"
 msgstr "Domena użyta do wysłania wiadomości"
 
-#: feder/monitorings/models.py:180
+#: feder/monitorings/models.py:184
 msgid "Can add case"
 msgstr "Może tworzyć sprawę"
 
-#: feder/monitorings/models.py:181
+#: feder/monitorings/models.py:185
 msgid "Can change case"
 msgstr "Może zmieniać sprawę"
 
-#: feder/monitorings/models.py:182
+#: feder/monitorings/models.py:186
 msgid "Can delete case"
 msgstr "Może usuwać sprawę"
 
-#: feder/monitorings/models.py:183
+#: feder/monitorings/models.py:187
 msgid "Can view quarantine cases"
 msgstr "Może wyświetlać sprawy poddane kwarantannie"
 
-#: feder/monitorings/models.py:184
+#: feder/monitorings/models.py:188
 msgid "Can add letter"
 msgstr "Może dodawać list"
 
-#: feder/monitorings/models.py:185
+#: feder/monitorings/models.py:189
 msgid "Can reply"
 msgstr "Może odpowiadać"
 
-#: feder/monitorings/models.py:186
+#: feder/monitorings/models.py:190
 msgid "Add reply draft"
 msgstr "Dodaj szkic odpowiedzi"
 
-#: feder/monitorings/models.py:187
+#: feder/monitorings/models.py:191
 msgid "Can change letter"
 msgstr "Może zmieniać list"
 
-#: feder/monitorings/models.py:188
+#: feder/monitorings/models.py:192
 msgid "Can delete letter"
 msgstr "Może usuwać list"
 
-#: feder/monitorings/models.py:189
+#: feder/monitorings/models.py:193
 msgid "Can view alert"
 msgstr "Może dodawać alert"
 
-#: feder/monitorings/models.py:190
+#: feder/monitorings/models.py:194
 msgid "Can change alert"
 msgstr "Może zmieniać alert"
 
-#: feder/monitorings/models.py:191
+#: feder/monitorings/models.py:195
 msgid "Can delete alert"
 msgstr "Może usuwać alert"
 
-#: feder/monitorings/models.py:192
+#: feder/monitorings/models.py:196
 msgid "Can manage perms"
 msgstr "Może zarządzać uprawnieniami"
 
-#: feder/monitorings/models.py:193
+#: feder/monitorings/models.py:197
 msgid "Can view logs"
 msgstr "Może widzieć dzienniki"
 
-#: feder/monitorings/models.py:194
+#: feder/monitorings/models.py:198
 msgid "Can mark spam"
 msgstr "Może oznaczyć spam"
 
-#: feder/monitorings/models.py:195
+#: feder/monitorings/models.py:199
 msgid "Can add parcel post"
 msgstr "Może dodać przesyłkę pocztową"
 
-#: feder/monitorings/models.py:196
+#: feder/monitorings/models.py:200
 msgid "Can change parcel post"
 msgstr "Może zmieniać przesyłkę pocztową"
 
-#: feder/monitorings/models.py:197
+#: feder/monitorings/models.py:201
 msgid "Can delete parcel post"
 msgstr "Może usuwać przesyłkę pocztową"
 
-#: feder/monitorings/models.py:198
+#: feder/monitorings/models.py:202
 msgid "Can view e-mail address"
 msgstr "Może wyświetlać adres e-mail"
 
-#: feder/monitorings/models.py:199
+#: feder/monitorings/models.py:203
 msgid "Can view tag"
 msgstr "Może widzieć tagi"
 
-#: feder/monitorings/models.py:200
+#: feder/monitorings/models.py:204
 msgid "Can change tag"
 msgstr "Może zmieniać tagi"
 
-#: feder/monitorings/models.py:201
+#: feder/monitorings/models.py:205
 msgid "Can delete tag"
 msgstr "Może usuwać tagi"
 
-#: feder/monitorings/models.py:202
+#: feder/monitorings/models.py:206
 msgid "Can view report"
 msgstr "Może widzieć raport"
 
-#: feder/monitorings/models.py:446
+#: feder/monitorings/models.py:468
 msgid ""
 "Response categories have not been defined, so the LLM request for response "
 "categories will not be sent."
@@ -315,31 +326,28 @@ msgstr ""
 "Kategorie odpowiedzi nie zostały zdefiniowane, więc żądanie LLM dotyczące "
 "kategorii odpowiedzi nie zostanie wysłane."
 
-#: feder/monitorings/models.py:450 feder/monitorings/models.py:506
+#: feder/monitorings/models.py:472 feder/monitorings/models.py:528
 msgid "INSTITUTION"
 msgstr "INSTYTUCJA"
 
-#: feder/monitorings/models.py:452 feder/monitorings/models.py:508
+#: feder/monitorings/models.py:474 feder/monitorings/models.py:530
 msgid "INSTITUTION RESPONSE"
 msgstr "ODPOWIEDŹ INSTYTUCJI"
 
-#: feder/monitorings/models.py:457
-#, python-brace-format
-msgid ""
-"There is no question \"{question_number}\", so the LLM query for answer "
-"categories will not be sent."
-msgstr ""
-"Nie ma pytania \"{question_number}\", więc zapytanie LLM o kategorie "
-"odpowiedzi nie zostanie wysłane."
+#: feder/monitorings/models.py:480
+#, fuzzy
+#| msgid "Update answer categories"
+msgid " answer categories will not be sent."
+msgstr "Zaktualizuj kategorie odpowiedzi"
 
-#: feder/monitorings/models.py:497
+#: feder/monitorings/models.py:519
 msgid ""
 "The LLM has not been enabled, so the LLM request for normalization will not "
 "be sent."
 msgstr ""
 "LLM nie został włączony, więc żądanie normalizacji LLM nie zostanie wysłane."
 
-#: feder/monitorings/models.py:502
+#: feder/monitorings/models.py:524
 msgid ""
 "The normalization template has not been defined, so the LLM request for "
 "normalization will not be sent."
@@ -347,7 +355,7 @@ msgstr ""
 "Szablon normalizacji nie został zdefiniowany, więc żądanie normalizacji LLM "
 "nie zostanie wysłane."
 
-#: feder/monitorings/models.py:510
+#: feder/monitorings/models.py:532
 msgid "PROMPT INSTRUCTION EXTENSION"
 msgstr "ROZSZERZENIE INSTRUKCJI"
 
@@ -1042,6 +1050,17 @@ msgstr "Ostatnie monitoringi"
 #: feder/monitorings/views.py:1178
 msgid "Updates on new monitorings on site"
 msgstr "Aktualizacje o nowych monitoringach na stronie"
+
+#~ msgid "Use {{EMAIL}} for insert reply address"
+#~ msgstr "Użyj {{EMAIL}} aby umieścić adres odpowiedzi"
+
+#, python-brace-format
+#~ msgid ""
+#~ "There is no question \"{question_number}\", so the LLM query for answer "
+#~ "categories will not be sent."
+#~ msgstr ""
+#~ "Nie ma pytania \"{question_number}\", więc zapytanie LLM o kategorie "
+#~ "odpowiedzi nie zostanie wysłane."
 
 #~ msgid ""
 #~ "\n"

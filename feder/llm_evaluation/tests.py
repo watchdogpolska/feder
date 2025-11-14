@@ -59,7 +59,6 @@ EXPECTED_RESPONSE_DICT = {
     "type": "ai",
     "name": None,
     "id": "run-e98a1d1b-a086-4013-9f25-64997f03f703-0",
-    "example": False,
     "tool_calls": [],
     "invalid_tool_calls": [],
     "usage_metadata": {
@@ -148,7 +147,6 @@ class TestLlmLetterRequest(TestCase):
         self.assertIn("type", resp)
         self.assertIn("name", resp)
         self.assertIn("id", resp)
-        self.assertIn("example", resp)
         self.assertIn("tool_calls", resp)
         self.assertIn("invalid_tool_calls", resp)
 
