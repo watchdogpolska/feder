@@ -1,8 +1,11 @@
 @use 'sass:color';
-@use 'fontawesome';
-@use 'brands';
-@use 'regular';
-@use 'solid';
+// @use "variables" with (
+//   $font-path: "../webfonts"
+// );
+// @use 'fontawesome';
+// @use 'solid';
+// @use 'brands';
+// @use 'regular';
 @import 'variables';
 @import 'bootstrap';
 @import "layout";

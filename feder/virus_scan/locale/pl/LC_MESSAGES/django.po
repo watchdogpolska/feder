@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-13 19:23+0100\n"
+"POT-Creation-Date: 2025-11-14 18:12+0100\n"
 "PO-Revision-Date: 2020-07-11 23:53+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -20,49 +20,81 @@ msgstr ""
 "n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
 "X-Generator: Poedit 1.8.7.1\n"
 
-#: feder/virus_scan/models.py:23
+#: feder/virus_scan/admin.py:29
+msgid "Letter is spam"
+msgstr ""
+
+#: feder/virus_scan/models.py:28
 msgid "Created"
 msgstr "Utworzone"
 
-#: feder/virus_scan/models.py:24
+#: feder/virus_scan/models.py:29
 msgid "Queued"
 msgstr "Zakolejkowane"
 
-#: feder/virus_scan/models.py:25
+#: feder/virus_scan/models.py:30
 msgid "Infected"
 msgstr "Zainfekowane"
 
-#: feder/virus_scan/models.py:26
+#: feder/virus_scan/models.py:31
 msgid "Not detected"
 msgstr "Nie wykryte"
 
-#: feder/virus_scan/models.py:27
+#: feder/virus_scan/models.py:32
 msgid "Failed"
 msgstr "Niepowodzenie"
 
-#: feder/virus_scan/models.py:34
+#: feder/virus_scan/models.py:35
+msgid "Scan of"
+msgstr ""
+
+#: feder/virus_scan/models.py:37
+msgid "Scan object ID"
+msgstr ""
+
+#: feder/virus_scan/models.py:41
 msgid "Engine name"
 msgstr "Nazwa silnika"
 
-#: feder/virus_scan/models.py:37
+#: feder/virus_scan/models.py:44
 msgid "External ID"
 msgstr "Zewnętrzny identyfikator"
 
-#: feder/virus_scan/models.py:39
+#: feder/virus_scan/models.py:47
 msgid "Engine result"
 msgstr "Wynik silnika"
 
-#: feder/virus_scan/models.py:41
+#: feder/virus_scan/models.py:50
 msgid "Engine result URL"
 msgstr "Link do wyniku silnika"
 
-#: feder/virus_scan/models.py:77
+#: feder/virus_scan/models.py:91
 msgid "Request of virus scan"
 msgstr "Żądanie skanowania antywirusowego"
 
-#: feder/virus_scan/models.py:78
+#: feder/virus_scan/models.py:92
 msgid "Requests of virus scan"
 msgstr "Żądania skanowania antywirusowego"
+
+#: feder/virus_scan/models.py:129
+msgid "Prevention limit"
+msgstr ""
+
+#: feder/virus_scan/models.py:134
+msgid "Prevention remaining"
+msgstr ""
+
+#: feder/virus_scan/models.py:138
+msgid "Prevention interval in seconds"
+msgstr ""
+
+#: feder/virus_scan/models.py:141
+msgid "Prevention reset at"
+msgstr ""
+
+#: feder/virus_scan/models.py:145
+msgid "Last used"
+msgstr ""
 
 #: feder/virus_scan/urls.py:10
 msgid "^webhook/$"
