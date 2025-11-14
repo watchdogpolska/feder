@@ -119,7 +119,10 @@ class Monitoring(RenderBooleanFieldMixin, TimeStampedModel):
     )
     template = models.TextField(
         verbose_name=_("Template"),
-        help_text=_("Use {{EMAIL}} for insert reply address"),
+        help_text=_(
+            "Use: {{EMAIL}} to insert reply address,"
+            " {{ADRESAT}} to insert addressee name"
+        ),
         validators=[validate_template_syntax, validate_nested_lists],
     )
     use_llm = models.BooleanField(

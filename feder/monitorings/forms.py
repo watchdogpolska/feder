@@ -56,7 +56,8 @@ class MonitoringForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm
 
         if self.instance.use_llm:
             self.fields["template"].help_text = _(
-                "Use {{EMAIL}} for insert reply address. \n"
+                "Use: {{EMAIL}} for insert reply address. \n"
+                "Use: {{ADRESAT}} to insert addressee name. \n"
                 "NOTE: LLM use is enabled. This means that any interference with the"
                 " application template may significantly disturb the credibility of"
                 " the results. If applications have already been sent to some"
@@ -212,7 +213,10 @@ class MassMessageForm(HelperMixin, UserKwargModelFormMixin, forms.ModelForm):
         self.fields["recipients_tags"].label_from_instance = (
             recipients_tags_label_from_instance
         )
-        self.fields["html_body"].help_text = _("Use {{EMAIL}} to insert reply address.")
+        self.fields["html_body"].help_text = _(
+            "Use: {{EMAIL}} to insert reply address,"
+            " {{ADRESAT}} to insert addressee name."
+        )
 
         self.helper.form_tag = False
         self.fields["html_body"].widget = TinyMCE(attrs={"cols": 80, "rows": 20})

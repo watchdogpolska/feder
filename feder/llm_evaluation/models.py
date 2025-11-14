@@ -8,10 +8,10 @@ from django.db import models
 from django.db.models.functions import Substr
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from langchain.schema.output_parser import StrOutputParser
-from langchain.text_splitter import TokenTextSplitter
 from langchain_community.callbacks import get_openai_callback
+from langchain_core.output_parsers import StrOutputParser
 from langchain_openai import AzureChatOpenAI
+from langchain_text_splitters import TokenTextSplitter
 from model_utils import Choices
 from model_utils.models import TimeStampedModel
 
