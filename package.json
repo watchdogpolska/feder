@@ -17,7 +17,7 @@
   "devDependencies": {
     "gulp": "^5.0.0",
     "gulp-postcss": "^10.0.0",
-    "autoprefixer": "^10.4.14",
+    "autoprefixer": "^10.4.22",
     "gulp-clean-css": "^4.3.0",
     "gulp-concat": "^2.6.0",
     "gulp-csslint": "^1.0.1",
@@ -27,7 +27,7 @@
     "gulp-sass": "^5.1.0",
     "gulp-terser": "^2.1.0",
     "sass": "^1.94.0",
-    "caniuse-lite": "^1.0.30001754"
+    "caniuse-lite": "^1.0.30001755"
   },
   "engines": { 
     "node": ">=24.0.0", 
