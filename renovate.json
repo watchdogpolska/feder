@@ -7,9 +7,9 @@
   ],
   "enabledManagers": [
     "dockerfile",
+    "github-actions",
     "pip_requirements",
     "pip_setup",
-    "github-actions",
     "npm"
   ],
   "packageRules": [
