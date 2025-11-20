@@ -13,7 +13,7 @@ jobs:
   regenerate_frontend:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Collect statics
         run: docker compose run web python manage.py collectstatic --noinput
       - name: Build and run frontend
