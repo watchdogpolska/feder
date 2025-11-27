@@ -91,7 +91,7 @@ html2text==2025.4.15
 openpyxl==3.1.5
 
 # LLM exvaluation
-langchain==1.0.8
+langchain==1.1.0
 langchain-core==1.1.0
 langchain-community==0.4.1
 #langchain[llms]==0.1.5
