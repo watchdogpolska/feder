@@ -96,5 +96,5 @@ langchain-core==1.1.2
 langchain-community==0.4.1
 #langchain[llms]==0.1.5
 openai==2.9.0
-langchain-openai==1.1.0
+langchain-openai==1.1.1
 tiktoken==0.12.0
