@@ -1,5 +1,5 @@
 # Production and staging Django
-Django==4.2.26
+Django==4.2.27
 
 # Database adapter
 mysqlclient==2.2.7
