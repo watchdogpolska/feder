@@ -63,7 +63,7 @@ cached-property==2.0.1
 # django-bootstrap-pagination==1.7.1
 git+https://github.com/PiotrIw/django-bootstrap-pagination.git@master#egg=django-bootstrap-pagination
 
-django-reversion==6.0.0
+django-reversion==6.1.0
 djangorestframework==3.16.1
 djangorestframework-csv==3.0.2
 unicodecsv==0.14.1
