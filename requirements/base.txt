@@ -1,5 +1,5 @@
 # Production and staging Django
-Django==4.2.27
+Django==5.2.9
 
 # Database adapter
 mysqlclient==2.2.7
@@ -36,7 +36,7 @@ lxml==6.0.2
 
 # Your custom requirements go here
 cryptography==46.0.3
-django-filter==25.1
+django-filter==25.2
 django-autocomplete-light==3.12.1
 # django-ajax-datatable to be installed from github fork until
 # https://github.com/morlandi/django-ajax-datatable/pull/111 is merged
