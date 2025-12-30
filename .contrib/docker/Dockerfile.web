@@ -23,7 +23,7 @@ RUN pip install --upgrade pip
 RUN pip --version
 COPY requirements/*.txt ./requirements/
 # left for github actions reference:
-ARG DJANGO_VERSION='==3.2.23'
+ARG DJANGO_VERSION='==5.2'
 RUN pip install --no-cache-dir -r requirements/dev.txt
 # CMD ["bash", "-c", "python manage.py collectstatic --no-input && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
 # to allow VScode run and debug django app:
