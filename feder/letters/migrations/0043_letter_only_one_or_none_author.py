@@ -12,6 +12,6 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AddConstraint(
             model_name='letter',
-            constraint=models.CheckConstraint(check=models.Q(models.Q(('author_institution__isnull', True), ('author_user__isnull', False)), models.Q(('author_institution__isnull', False), ('author_user__isnull', True)), models.Q(('author_institution__isnull', True), ('author_user__isnull', True)), _connector='OR'), name='only_one_or_none_author'),
+            constraint=models.CheckConstraint(condition=models.Q(models.Q(('author_institution__isnull', True), ('author_user__isnull', False)), models.Q(('author_institution__isnull', False), ('author_user__isnull', True)), models.Q(('author_institution__isnull', True), ('author_user__isnull', True)), _connector='OR'), name='only_one_or_none_author'),
         ),
     ]

@@ -87,7 +87,7 @@ msgstr "Kujawsko-pomorskie"
 
 #: feder/teryt/templates/teryt/_voivodeship_map.svg.html:92
 msgid "Podlaskie"
-msgstr "Pomorskie"
+msgstr "Podlaskie"
 
 #: feder/teryt/templates/teryt/_voivodeship_map.svg.html:98
 msgid "West Pomeranian"
@@ -95,7 +95,7 @@ msgstr "Zachodniopomorskie"
 
 #: feder/teryt/templates/teryt/_voivodeship_map.svg.html:104
 msgid "Warmian-Masurian"
-msgstr "Warmińskomazurskie"
+msgstr "Warmińsko-mazurskie"
 
 #: feder/teryt/templates/teryt/_voivodeship_map.svg.html:110
 msgid "Pomeranian"
