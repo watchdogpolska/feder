@@ -2,36 +2,36 @@
   "name": "feder",
   "version": "1.1.0",
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^7.1.0",
     "bootstrap-sass": "^3.4.3",
-    "datatables.net-dt": ">=1.13.4 <2.0.0",
-    "datatables.net-bs4": ">=1.13.4 <2.0.0",
     "datatables.net-bs": ">=1.13.4 <2.0.0",
+    "datatables.net-bs4": ">=1.13.4 <2.0.0",
     "datatables.net-buttons": ">=2.3.6 <3.0.0",
     "datatables.net-buttons-bs": ">=2.3.6 <3.0.0",
     "datatables.net-buttons-dt": ">=2.3.6 <3.0.0",
+    "datatables.net-dt": ">=1.13.4 <2.0.0",
     "datatables.net-plugins": ">=1.13.6 <2.0.0",
-    "@fortawesome/fontawesome-free": "^7.1.0",
     "jquery": "^3.7.0",
     "postcss": "8.5.6"
   },
   "devDependencies": {
-    "gulp": "^5.0.0",
-    "gulp-postcss": "^10.0.0",
     "autoprefixer": "^10.4.22",
+    "caniuse-lite": "^1.0.30001755",
+    "gulp": "^5.0.0",
     "gulp-clean-css": "^4.3.0",
     "gulp-concat": "^2.6.0",
     "gulp-csslint": "^1.0.1",
     "gulp-livereload": "^4.0.2",
     "gulp-notify": "^5.0.0",
+    "gulp-postcss": "^10.0.0",
     "gulp-rename": "^2.0.0",
     "gulp-sass": "^5.1.0",
     "gulp-terser": "^2.1.0",
-    "sass": "^1.94.0",
-    "caniuse-lite": "^1.0.30001755"
+    "sass": "^1.94.0"
   },
   "engines": { 
-    "node": ">=24.0.0", 
-    "npm": ">=10.0.0" 
+    "node": ">=24.0.0",
+    "npm": ">=10.0.0"
   },
   "browserslist": [
     "> 1%",

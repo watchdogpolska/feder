@@ -1,5 +1,5 @@
 # Production and staging Django
-Django==4.2.26
+Django==5.2.9
 
 # Database adapter
 mysqlclient==2.2.7
@@ -20,7 +20,7 @@ Pillow==12.0.0
 
 # For user registration, either via email or social
 # Well-built with regular release cycles!
-django-allauth==65.13.0
+django-allauth==65.13.1
 jwt==1.4.0
 
 # Unicode slugification
@@ -36,7 +36,7 @@ lxml==6.0.2
 
 # Your custom requirements go here
 cryptography==46.0.3
-django-filter==25.1
+django-filter==25.2
 django-autocomplete-light==3.12.1
 # django-ajax-datatable to be installed from github fork until
 # https://github.com/morlandi/django-ajax-datatable/pull/111 is merged
@@ -63,7 +63,7 @@ cached-property==2.0.1
 # django-bootstrap-pagination==1.7.1
 git+https://github.com/PiotrIw/django-bootstrap-pagination.git@master#egg=django-bootstrap-pagination
 
-django-reversion==6.0.0
+django-reversion==6.1.0
 djangorestframework==3.16.1
 djangorestframework-csv==3.0.2
 unicodecsv==0.14.1
@@ -84,17 +84,17 @@ https://github.com/ross/performant-pagination/archive/5b537da95728d622792031071e
 git+https://github.com/watchdogpolska/django-background-tasks.git@master
 django-cors-headers==4.9.0
 
-django-rosetta==0.10.2
+django-rosetta==0.10.3
 bleach==6.3.0
-beautifulsoup4==4.14.2
+beautifulsoup4==4.14.3
 html2text==2025.4.15
 openpyxl==3.1.5
 
 # LLM exvaluation
-langchain==1.0.7
-langchain-core==1.0.5
+langchain==1.2.0
+langchain-core==1.2.5
 langchain-community==0.4.1
 #langchain[llms]==0.1.5
-openai==2.8.0
-langchain-openai==1.0.3
+openai==2.14.0
+langchain-openai==1.1.6
 tiktoken==0.12.0

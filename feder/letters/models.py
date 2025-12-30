@@ -222,7 +222,7 @@ class Letter(AbstractRecord):
         )
         constraints = [
             models.CheckConstraint(
-                check=(
+                condition=(
                     models.Q(author_user__isnull=False, author_institution__isnull=True)
                     | models.Q(
                         author_user__isnull=True, author_institution__isnull=False
