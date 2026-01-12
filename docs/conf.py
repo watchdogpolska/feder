@@ -311,15 +311,26 @@ def process_django_model(app, what, name, obj, options, lines):
             if isinstance(
                 field, (models.ForeignKey, models.OneToOneField, models.ManyToManyField)
             ):
-                lines.append(
-                    ":type %s: %s to :class:`%s.%s`"
-                    % (
-                        field.attname,
-                        type(field).__name__,
-                        field.related_model.__module__,
-                        field.related_model.__name__,
+                rel = getattr(field, "related_model", None)
+
+                # On docs builds, relations can remain unresolved and be a string
+                # (lazy reference).
+                if isinstance(rel, str):
+                    lines.append(
+                        f":type {field.attname}: {type(field).__name__} to ``{rel}``"
                     )
-                )
+                elif rel is None:
+                    lines.append(f":type {field.attname}: {type(field).__name__}")
+                else:
+                    lines.append(
+                        ":type %s: %s to :class:`%s.%s`"
+                        % (
+                            field.attname,
+                            type(field).__name__,
+                            rel.__module__,
+                            rel.__name__,
+                        )
+                    )
             else:
                 lines.append(f":type {field.attname}: {type(field).__name__}")
     # Return the extended docstring
