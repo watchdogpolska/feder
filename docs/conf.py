@@ -313,7 +313,8 @@ def process_django_model(app, what, name, obj, options, lines):
             ):
                 rel = getattr(field, "related_model", None)
 
-                # On docs builds, relations can remain unresolved and be a string (lazy reference).
+                # On docs builds, relations can remain unresolved and be a string 
+                # (lazy reference).
                 if isinstance(rel, str):
                     lines.append(
                         f":type {field.attname}: {type(field).__name__} to ``{rel}``"
