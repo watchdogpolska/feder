@@ -4,9 +4,9 @@ import json
 import logging
 import uuid
 from email.utils import getaddresses
+from os.path import basename
 
 import requests
-from atom.models import AttachmentBase
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.fields import GenericRelation
@@ -774,7 +774,10 @@ class AttachmentQuerySet(models.QuerySet):
         return self.prefetch_related("scan_request")
 
 
-class Attachment(TimeStampedModel, AttachmentBase):
+class Attachment(TimeStampedModel):
+    attachment = models.FileField(
+        upload_to="letters/%Y/%m/%d", verbose_name=_("File"), max_length=500
+    )
     letter = models.ForeignKey(Letter, on_delete=models.CASCADE)
     objects = AttachmentQuerySet.as_manager()
     scan_request = GenericRelation(ScanRequest, verbose_name=_("Virus scan request"))
@@ -784,6 +787,14 @@ class Attachment(TimeStampedModel, AttachmentBase):
     text_content_update_result = models.TextField(
         verbose_name=_("Text content update result"), blank=True, null=True
     )
+
+    class Meta:
+        verbose_name = _("Attachment")
+        verbose_name_plural = _("Attachments")
+
+    @property
+    def filename(self):
+        return basename(self.attachment.name)
 
     def current_scan_request(self):
         scans = self.scan_request.all()

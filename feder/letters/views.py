@@ -749,7 +749,11 @@ class ReceiveEmail(View):
     def get_letter(self, headers, eml_manifest, text, eml_data, **kwargs):
         case = self.get_case(headers["to+"])
         eml_file = self.get_eml_file(eml_manifest, eml_data)
-        from_email = headers["from"][0] if headers["from"][0] else "unknown@domain.gov"
+        from_email = (
+            headers["from"][0]
+            if headers["from"] and headers["from"][0]
+            else "unknown@domain.gov"
+        )
 
         auto_reply = headers.get("auto_reply_type")
         if auto_reply is not None:
