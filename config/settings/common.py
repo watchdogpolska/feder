@@ -464,11 +464,12 @@ AZURE_CLIENT_SECRET = env.str("ROSETTA_AZURE_CLIENT_SECRET", "")
 
 TINYMCE_DEFAULT_CONFIG = {
     "theme": "silver",
+    "promotion": False,
     # "height": 500,
     "menubar": True,
     "lineheight": 1,
-    "plugins": "autolink,lists,link,image,charmap,print,preview,anchor,"
-    "searchreplace,visualblocks,code,fullscreen,insertdatetime,media,table,paste,"
+    "plugins": "autolink,lists,link,image,charmap,preview,anchor,"
+    "searchreplace,visualblocks,code,fullscreen,insertdatetime,media,table,"
     "code,help,wordcount",
     "toolbar": "undo redo | formatselect | lineheight | fontsizeselect |"
     "bold italic backcolor | alignleft aligncenter "
