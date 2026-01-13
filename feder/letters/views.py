@@ -764,17 +764,20 @@ class ReceiveEmail(View):
         else:
             message_type = Letter.MESSAGE_TYPES.regular
 
+        # Truncate subject to fit the title field max_length (200 characters)
+        subject = headers["subject"][:200] if headers.get("subject") else ""
+
         if Letter.objects.filter(
             email_from=headers["from"][0] if headers.get("from") else None,
             email_to=headers["to"][0] if headers.get("to") else None,
             message_id_header=headers["message_id"],
-            title=headers["subject"],
+            title=subject,
         ).exists():
             letter_to_add = Letter.objects.filter(
                 email_from=headers["from"][0] if headers.get("from") else None,
                 email_to=headers["to"][0] if headers.get("to") else None,
                 message_id_header=headers["message_id"],
-                title=headers["subject"],
+                title=subject,
             ).first()
             letter_to_add.spam_check()
             logger.info(f"Request skipped, letter exists: {letter_to_add.pk}")
@@ -788,7 +791,7 @@ class ReceiveEmail(View):
             message_id_header=headers["message_id"],
             record=Record.objects.create(case=case),
             message_type=message_type,
-            title=headers["subject"],
+            title=subject,
             body=text["content"],
             html_body=text.get("html_content", ""),
             quote=text["quote"],
