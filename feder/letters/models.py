@@ -155,7 +155,7 @@ class Letter(AbstractRecord):
         null=True,
         blank=True,
     )
-    title = models.CharField(verbose_name=_("Subject"), max_length=200)
+    title = models.CharField(verbose_name=_("Subject"), max_length=300)
     body = models.TextField(verbose_name=_("Text"))
     html_body = models.TextField(verbose_name=_("Text in HTML"), blank=True)
     quote = models.TextField(verbose_name=_("Quote"), blank=True)
