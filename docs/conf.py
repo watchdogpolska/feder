@@ -51,7 +51,7 @@ intersphinx_mapping = {
     "python": ("https://docs.python.org/3/", None),
     "django": (
         "https://docs.djangoproject.com/en/dev/",
-        "http://docs.djangoproject.com/en/dev/_objects/",
+        "https://docs.djangoproject.com/en/dev/_objects/",
     ),
     "sphinx": ("https://sphinx.readthedocs.io/en/master/", None),
     "grappelli": ("https://django-grappelli.readthedocs.io/en/latest/", None),
@@ -127,7 +127,6 @@ try:
 
     html_theme = "sphinx_rtd_theme"
 
-    html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 except ImportError:
     html_theme = "default"
 
