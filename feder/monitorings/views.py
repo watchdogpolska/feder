@@ -1004,17 +1004,13 @@ class MonitoringAssignView(RaisePermissionRequiredMixin, FilterView):
         filtered_count = len(self.object_list)
         if filtered_count <= self.get_limit_simultaneously():
             label = _("Assign all filtered institutions: ") + str(filtered_count)
-            return mark_safe(
-                f"""<label><input type="checkbox" name="all"
-                    value="yes" /> {label}</label>"""
-            )
+            return mark_safe(f"""<label><input type="checkbox" name="all"
+                    value="yes" /> {label}</label>""")
         label = _("For bulk assignment, filter less than ") + str(self.LIMIT)
         label += _(" (filtered: ") + str(filtered_count)
         label += _(") or select individual institutions from the list below.")
-        return mark_safe(
-            f"""<label><input type="checkbox" name="all"
-                value="yes" disabled /> {label}</label>"""
-        )
+        return mark_safe(f"""<label><input type="checkbox" name="all"
+                value="yes" disabled /> {label}</label>""")
 
     def get_filterset_kwargs(self, filterset_class):
         kw = super().get_filterset_kwargs(filterset_class)
