@@ -1,5 +1,14 @@
 FROM node:24
 WORKDIR /app
 VOLUME /app
+
+# Install jq just for reading engines.npm, then remove it
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends jq \
+ && NPMV=$(jq -r '.engines.npm' package.json) \
+ && npm install -g "npm@${NPMV}" \
+ && apt-get purge -y jq \
+ && rm -rf /var/lib/apt/lists/*
+
 CMD ["bash","-c", "npm install && npx gulp build"]
 # CMD ["bash","-c", " npm install ; npx gulp build ; sleep infinity "]
