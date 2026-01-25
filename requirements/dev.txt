@@ -3,7 +3,7 @@
 Sphinx==9.1.0
 sphinx-rtd-theme==3.1.0
 Werkzeug==3.1.5
-django-debug-toolbar==6.1.0
+django-debug-toolbar==6.2.0
 ipdb==0.13.13
 factory-boy==3.3.3
 django-coverage-plugin==3.2.0

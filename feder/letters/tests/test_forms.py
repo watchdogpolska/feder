@@ -23,12 +23,10 @@ class ReplyFormTestCase(TestCase):
         self.letter = IncomingLetterFactory()
 
     def render_form(self, form):
-        template = get_template_from_string(
-            """
+        template = get_template_from_string("""
             {% load crispy_forms_tags %}
             {% crispy form %}
-        """
-        )
+        """)
         c = Context({"form": form})
         return template.render(c)
 

@@ -44,13 +44,13 @@ repos:
           - id: check-github-workflows
           - id: check-readthedocs
     - repo: https://github.com/adrienverge/yamllint
-      rev: v1.37.1
+      rev: v1.38.0
       hooks:
           - id: yamllint
             args: [-c, .yamllint.yml]
       #        exclude: (feder/letters/logs/cassettes/.*|docker-compose.yml)
     - repo: https://github.com/psf/black-pre-commit-mirror
-      rev: 25.12.0
+      rev: 26.1.0
       hooks:
           - id: black
             args:
