@@ -16,7 +16,7 @@ makemessages:
 gulp: regenerate_frontend
 
 build:
-	docker compose build web
+	docker compose build web gulp
 
 start: wait_mysql
 	docker compose up --remove-orphans
