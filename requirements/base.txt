@@ -20,7 +20,7 @@ Pillow==12.1.0
 
 # For user registration, either via email or social
 # Well-built with regular release cycles!
-django-allauth==65.13.1
+django-allauth==65.14.0
 jwt==1.4.0
 
 # Unicode slugification
@@ -91,7 +91,7 @@ html2text==2025.4.15
 openpyxl==3.1.5
 
 # LLM exvaluation
-langchain==1.2.3
+langchain==1.2.7
 langchain-core==1.2.7
 langchain-community==0.4.1
 #langchain[llms]==0.1.5
