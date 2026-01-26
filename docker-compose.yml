@@ -43,7 +43,7 @@ services:
     volumes: &webVolumes
       - .:/code
     environment: &webEnvironment
-      DATABASE_URL: mysql://root:password@db/feder  # feder3_copy_mb4
+      DATABASE_URL: mysql://root:password@db/feder # feder3_copy_mb4
       MEDIA_ROOT_ENV: "media_prod"
       DJANGO_EMAIL_BACKEND: "django.core.mail.backends.smtp.EmailBackend"
       DJANGO_EMAIL_HOST: "maildump"
@@ -68,13 +68,13 @@ services:
       EMAILLABS_SECRET_KEY: ${EMAILLABS_SECRET_KEY}
       OPENAI_API_KEY: ${OPENAI_API_KEY}
       AZURE_ENDPOINT: ${OPENAI_API_BASE}
-      OPENAI_API_ENGINE_35: "gpt-4o-mini"
-      OPENAI_API_ENGINE_4: "gpt-4o"
+      OPENAI_API_ENGINE_35: "gpt-5-mini"
+      OPENAI_API_ENGINE_4: "gpt-5-mini"
       OPENAI_API_TYPE: "azure"
       OPENAI_API_ENGINE_35_MAX_TOKENS: 100000
       OPENAI_API_ENGINE_4_MAX_TOKENS: 100000
-      OPENAI_API_TEMPERATURE: 0.0
-      OPENAI_API_VERSION: "2025-02-01-preview"
+      OPENAI_API_TEMPERATURE: 1.0
+      OPENAI_API_VERSION: "2025-01-01-preview"
     ports:
       - "8000:8000"
     networks:
@@ -92,7 +92,6 @@ services:
   #    build: *webBuild
   #    volumes: *webVolumes
   #    environment: *webEnvironment
-
 
   maildump:
     build:
@@ -122,7 +121,6 @@ services:
   #   networks:
   #     - feder-app-network
 
-
   # ### To test webhook receiving uncomment below section and set proper django site url in DB
   # ngrok:
   #   image: ngrok/ngrok:latest
@@ -136,7 +134,6 @@ services:
   #   depends_on:
   #     - web
 
-
 volumes:
   mysql-data:
   maildump_data:
@@ -144,4 +141,3 @@ volumes:
 networks:
   feder-app-network:
     driver: bridge
-
