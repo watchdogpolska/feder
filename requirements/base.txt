@@ -67,7 +67,7 @@ django-reversion==6.1.0
 djangorestframework==3.16.1
 djangorestframework-csv==3.0.2
 unicodecsv==0.14.1
-tqdm==4.67.1
+tqdm==4.67.2
 django-github-revision==0.0.3
 django-extensions==4.1
 django-cleanup==9.0.0
