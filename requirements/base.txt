@@ -2,7 +2,7 @@
 Django==5.2.11
 
 # Database adapter
-mysqlclient==2.2.7
+mysqlclient==2.2.8
 
 # Configuration
 django-environ==0.12.0
