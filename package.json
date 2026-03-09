@@ -2,7 +2,7 @@
   "name": "feder",
   "version": "1.1.0",
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^7.1.0",
+    "@fortawesome/fontawesome-free": "^7.2.0",
     "bootstrap-sass": "^3.4.3",
     "datatables.net-bs": ">=1.13.4 <2.0.0",
     "datatables.net-bs4": ">=1.13.4 <2.0.0",
