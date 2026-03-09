@@ -1,3 +1,4 @@
+import re
 from datetime import datetime
 
 import openpyxl
@@ -42,6 +43,7 @@ from extra_views import CreateWithInlinesView
 from formtools.wizard.views import SessionWizardView
 from guardian.shortcuts import assign_perm
 from guardian.utils import get_anonymous_user
+from openpyxl.cell.cell import ILLEGAL_CHARACTERS_RE
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -86,6 +88,33 @@ from .models import Monitoring
 from .permissions import MultiCaseTagManagementPerm
 from .serializers import MultiCaseTagSerializer
 from .tasks import handle_mass_assign, send_mass_draft
+
+# Matches literal escaped JSON control chars like \u0000, \u0001, ..., \u001F
+# excluding \u0009 (TAB), \u000A (LF), \u000D (CR), which Excel allows.
+ESCAPED_EXCEL_ILLEGAL_RE = re.compile(r"\\u00(?:0[0-8BCEFbcef]|1[0-9A-Fa-f])")
+
+
+def _excel_safe(value):
+    """Return a value safe for writing to an Excel cell with openpyxl."""
+    if value is None:
+        return ""
+
+    if isinstance(value, str):
+        # Remove real illegal control chars (e.g. \x00, \x0b, ...)
+        value = ILLEGAL_CHARACTERS_RE.sub("", value)
+        # Also remove literal escaped control chars stored as text (e.g. "\\u0000")
+        value = ESCAPED_EXCEL_ILLEGAL_RE.sub("", value)
+        return value
+
+    # Leave Excel-friendly scalar types unchanged
+    if isinstance(value, (int, float, bool)):
+        return value
+
+    # Fallback for anything unexpected
+    text = str(value)
+    text = ILLEGAL_CHARACTERS_RE.sub("", text)
+    text = ESCAPED_EXCEL_ILLEGAL_RE.sub("", text)
+    return text
 
 
 class MonitoringListView(SelectRelatedMixin, FilterView):
@@ -762,24 +791,28 @@ class MonitoringResponsesReportView(View):
             label.replace("_", " ").capitalize()
             for label in (info_keys + question_keys)
         ]
-        ws.append(labels)
-        for r_data in monitoring_responses_data:
-            questions = r_data.pop("normalized_response", {})
-            if len(questions.keys()) > 0:
-                for key in questions.keys():
-                    r_data["question_no"] = key
-                    r_data["question"] = questions[key].get(
+        ws.append([_excel_safe(v) for v in labels])
+        all_keys = info_keys + question_keys
+        for source_row in monitoring_responses_data:
+            # Do not mutate the original input dict
+            base_row = dict(source_row)
+            questions = base_row.pop("normalized_response", {}) or {}
+            if questions:
+                for key, question_data in questions.items():
+                    row_data = dict(base_row)
+                    row_data["question_no"] = key
+                    row_data["question"] = question_data.get(
                         NORMALIZED_RESPONSE_QUESTION_KEY, ""
                     )
-                    r_data["answer"] = questions[key].get(
+                    row_data["answer"] = question_data.get(
                         NORMALIZED_RESPONSE_ANSWER_KEY, ""
                     )
-                    r_data["answer_category"] = questions[key].get(
+                    row_data["answer_category"] = question_data.get(
                         NORMALIZED_RESPONSE_ANSWER_CATEGORY_KEY, ""
                     )
-                    ws.append([r_data.get(k, "") for k in (info_keys + question_keys)])
+                    ws.append([_excel_safe(row_data.get(k, "")) for k in all_keys])
             else:
-                ws.append([r_data.get(k, "") for k in (info_keys + question_keys)])
+                ws.append([_excel_safe(base_row.get(k, "")) for k in all_keys])
         ws.auto_filter.ref = ws.dimensions
         return wb
 
