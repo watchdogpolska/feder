@@ -1,26 +1,26 @@
 # Production and staging Django
-Django==5.2.10
+Django==5.2.12
 
 # Database adapter
-mysqlclient==2.2.7
+mysqlclient==2.2.8
 
 # Configuration
-django-environ==0.12.0
+django-environ==0.13.0
 
 # Forms
 django-braces==1.17.0
-django-crispy-forms==2.5
+django-crispy-forms==2.6
 crispy-bootstrap3==2024.1
 
 # Models
 django-model-utils==5.0.0
 
 # Images
-Pillow==12.1.0
+Pillow==12.1.1
 
 # For user registration, either via email or social
 # Well-built with regular release cycles!
-django-allauth==65.14.0
+django-allauth==65.15.0
 jwt==1.4.0
 
 # Unicode slugification
@@ -28,14 +28,14 @@ unicode-slugify==0.1.5
 django-autoslug==1.9.9
 
 # Time zones support
-pytz==2025.2
+pytz==2026.1.post1
 
 # Commands
 lxml==6.0.2
 
 
 # Your custom requirements go here
-cryptography==46.0.3
+cryptography==46.0.5
 django-filter==25.2
 django-autocomplete-light==3.12.1
 # django-ajax-datatable to be installed from github fork until
@@ -55,7 +55,7 @@ git+https://github.com/watchdogpolska/django-tinycontent.git@master
 django-formtools==2.5.1
 django-mptt==0.18.0
 jsonfield==3.2.0
-django-guardian==3.2.0
+django-guardian==3.3.0
 django-teryt-tree==0.18.4
 cached-property==2.0.1
 
@@ -67,7 +67,7 @@ django-reversion==6.1.0
 djangorestframework==3.16.1
 djangorestframework-csv==3.0.2
 unicodecsv==0.14.1
-tqdm==4.67.1
+tqdm==4.67.3
 django-github-revision==0.0.3
 django-extensions==4.1
 django-cleanup==9.0.0
@@ -91,10 +91,10 @@ html2text==2025.4.15
 openpyxl==3.1.5
 
 # LLM exvaluation
-langchain==1.2.7
-langchain-core==1.2.7
+langchain==1.2.10
+langchain-core==1.2.17
 langchain-community==0.4.1
 #langchain[llms]==0.1.5
-openai==2.15.0
-langchain-openai==1.1.7
+openai==2.26.0
+langchain-openai==1.1.10
 tiktoken==0.12.0

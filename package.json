@@ -2,7 +2,7 @@
   "name": "feder",
   "version": "1.1.0",
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^7.1.0",
+    "@fortawesome/fontawesome-free": "^7.2.0",
     "bootstrap-sass": "^3.4.3",
     "datatables.net-bs": ">=1.13.4 <2.0.0",
     "datatables.net-bs4": ">=1.13.4 <2.0.0",
@@ -12,7 +12,7 @@
     "datatables.net-dt": ">=1.13.4 <2.0.0",
     "datatables.net-plugins": ">=1.13.6 <2.0.0",
     "jquery": "^3.7.0",
-    "postcss": "8.5.6"
+    "postcss": "8.5.8"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.22",
@@ -31,7 +31,7 @@
   },
   "engines": { 
     "node": ">=24.0.0",
-    "npm": "11.8.0"
+    "npm": "11.11.0"
   },
   "browserslist": [
     "> 1%",
