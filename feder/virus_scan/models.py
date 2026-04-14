@@ -92,7 +92,13 @@ class Request(TimeStampedModel):
         verbose_name_plural = _("Requests of virus scan")
         ordering = ["created"]
         indexes = [
-            models.Index(fields=["content_type", "object_id"]),
+            models.Index(
+                fields=["content_type", "object_id"], name="scanreq_ct_obj_idx"
+            ),
+            models.Index(
+                fields=["status", "engine_name", "created"],
+                name="scanreq_stat_eng_created_idx",
+            ),
         ]
 
 

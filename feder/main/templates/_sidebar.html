@@ -40,12 +40,14 @@
                 <a href="{% url 'monitorings:table' %}">
                     <i class="fa-solid fa-table"></i> {% trans 'Monitorings table' %}</a>
             </li>
-            <li class="block-list-item">
-                <a href="{% url 'letters:list' %}">
-                    <i class="fa-solid fa-envelope" aria-hidden="true"></i>
-                    {% trans 'Letters assigned to cases' %}
-                </a>
-            </li>
+            {% if request.user.is_authenticated %}
+                <li class="block-list-item">
+                    <a href="{% url 'letters:list' %}">
+                        <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+                        {% trans 'Letters assigned to cases' %}
+                    </a>
+                </li>
+            {% endif %}
             {% if perms.letters.recognize_letter %}
                 <li class="block-list-item">
                     <a href="{% url 'letters:unrecognized_list' %}">
