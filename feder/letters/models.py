@@ -215,7 +215,18 @@ class Letter(AbstractRecord):
         verbose_name = _("Letter")
         verbose_name_plural = _("Letters")
         ordering = ["created"]
-        indexes = AbstractRecord.Meta.indexes
+        indexes = [
+            *AbstractRecord.Meta.indexes,
+            models.Index(fields=["created"], name="letter_created_idx"),
+            models.Index(fields=["is_spam", "created"], name="letter_spam_created_idx"),
+            models.Index(
+                fields=["record", "created"], name="letter_record_created_idx"
+            ),
+            models.Index(
+                fields=["email_from", "email_to", "title"],
+                name="letter_from_to_title_idx",
+            ),
+        ]
         permissions = (
             ("can_filter_eml", _("Can filter eml")),
             ("recognize_letter", _("Can recognize letter")),
