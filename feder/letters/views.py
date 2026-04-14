@@ -13,6 +13,7 @@ from atom.views import (
 )
 from braces.views import (
     FormValidMessageMixin,
+    LoginRequiredMixin,
     MessageMixin,
     PrefetchRelatedMixin,
     SelectRelatedMixin,
@@ -110,6 +111,7 @@ class LetterCommonMixin:
 
 
 class LetterListView(
+    LoginRequiredMixin,
     LetterCommonMixin,
     UserKwargFilterSetMixin,
     PrefetchRelatedMixin,
@@ -138,7 +140,9 @@ class LetterListView(
         return context
 
 
-class LetterDetailView(SelectRelatedMixin, LetterCommonMixin, DetailView):
+class LetterDetailView(
+    LoginRequiredMixin, SelectRelatedMixin, LetterCommonMixin, DetailView
+):
     model = Letter
     select_related = ["author_institution", "author_user", "record__case__monitoring"]
 
