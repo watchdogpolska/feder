@@ -12,7 +12,7 @@
     "datatables.net-dt": ">=1.13.4 <2.0.0",
     "datatables.net-plugins": ">=1.13.6 <2.0.0",
     "jquery": "^3.7.0",
-    "postcss": "8.5.9"
+    "postcss": "8.5.10"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.22",
