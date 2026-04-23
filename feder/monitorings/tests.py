@@ -1,4 +1,4 @@
-from unittest import expectedFailure, skip
+from unittest import skip
 from unittest.mock import Mock, patch
 
 from django.core import mail
@@ -164,12 +164,7 @@ class MonitoringListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
         listed_pks = [m.pk for m in response.context["object_list"]]
         self.assertEqual(listed_pks.count(monitoring.pk), 1)
 
-    @expectedFailure
     def test_filter_by_voivodship_preserves_case_count(self):
-        # Documents regression: annotate(Count('case')) combined with
-        # filter(case__institution__jst__...) produces a cartesian product
-        # and inflates case_count. Expected to pass once area() is rewritten
-        # to use Exists() instead of a join.
         monitoring = MonitoringFactory()
         inside_institution = InstitutionFactory()
         outside_institution = InstitutionFactory()
