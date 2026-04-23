@@ -22,7 +22,8 @@ from feder.main.tests import PermissionStatusMixin
 from feder.monitorings.filters import MonitoringFilter
 from feder.parcels.factories import IncomingParcelPostFactory, OutgoingParcelPostFactory
 from feder.records.factories import RecordFactory
-from feder.teryt.factories import JSTFactory
+from feder.teryt.factories import CommunityJSTFactory, JSTFactory
+from feder.teryt.models import JST
 from feder.users.factories import UserFactory
 
 from .factories import MonitoringFactory
@@ -147,6 +148,50 @@ class MonitoringListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
             reverse("monitorings:list") + f"?voivodeship={self.case.institution.jst.id}"
         )
         self.assertContains(response, self.case.monitoring)
+        self.assertNotContains(response, self.monitoring)
+
+    def test_filter_by_voivodship_no_duplicates(self):
+        monitoring = MonitoringFactory()
+        institution = InstitutionFactory()
+        CaseFactory(monitoring=monitoring, institution=institution)
+        CaseFactory(monitoring=monitoring, institution=institution)
+        CaseFactory(monitoring=monitoring, institution=institution)
+
+        response = self.client.get(
+            reverse("monitorings:list") + f"?voivodeship={institution.jst.id}"
+        )
+        self.assertEqual(response.status_code, 200)
+        listed_pks = [m.pk for m in response.context["object_list"]]
+        self.assertEqual(listed_pks.count(monitoring.pk), 1)
+
+    def test_filter_by_voivodship_preserves_case_count(self):
+        monitoring = MonitoringFactory()
+        inside_institution = InstitutionFactory()
+        outside_institution = InstitutionFactory()
+        CaseFactory(monitoring=monitoring, institution=inside_institution)
+        CaseFactory(monitoring=monitoring, institution=inside_institution)
+        CaseFactory(monitoring=monitoring, institution=outside_institution)
+
+        response = self.client.get(
+            reverse("monitorings:list") + f"?voivodeship={inside_institution.jst.id}"
+        )
+        self.assertEqual(response.status_code, 200)
+        listed = next(
+            m for m in response.context["object_list"] if m.pk == monitoring.pk
+        )
+        self.assertEqual(listed.case_count, 3)
+
+    def test_filter_by_community(self):
+        community = CommunityJSTFactory()
+        JST.objects.rebuild()
+        community.refresh_from_db()
+        institution = InstitutionFactory(jst=community)
+        case = CaseFactory(institution=institution)
+
+        response = self.client.get(
+            reverse("monitorings:list") + f"?community={community.id}"
+        )
+        self.assertContains(response, case.monitoring)
         self.assertNotContains(response, self.monitoring)
 
 

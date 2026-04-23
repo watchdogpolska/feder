@@ -84,9 +84,21 @@ class MonitoringQuerySet(FormattedDatetimeMixin, models.QuerySet):
         )
 
     def area(self, jst):
+        # Using Exists() instead of a join avoids a cartesian product with
+        # annotate(Count('case')) in with_case_count() and removes the need
+        # for .distinct() to deduplicate the multiplied rows.
+        from django.db.models import Exists, OuterRef
+
+        from feder.cases.models import Case
+
         return self.filter(
-            case__institution__jst__tree_id=jst.tree_id,
-            case__institution__jst__lft__range=(jst.lft, jst.rght),
+            Exists(
+                Case.objects.filter(
+                    monitoring=OuterRef("pk"),
+                    institution__jst__tree_id=jst.tree_id,
+                    institution__jst__lft__range=(jst.lft, jst.rght),
+                )
+            )
         )
 
     def with_feed_item(self):
