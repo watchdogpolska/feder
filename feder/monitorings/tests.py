@@ -173,8 +173,7 @@ class MonitoringListViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
         CaseFactory(monitoring=monitoring, institution=outside_institution)
 
         response = self.client.get(
-            reverse("monitorings:list")
-            + f"?voivodeship={inside_institution.jst.id}"
+            reverse("monitorings:list") + f"?voivodeship={inside_institution.jst.id}"
         )
         self.assertEqual(response.status_code, 200)
         listed = next(
