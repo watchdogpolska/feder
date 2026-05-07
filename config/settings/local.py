@@ -45,8 +45,9 @@ if "test" not in sys.argv:
     DEBUG_TOOLBAR_CONFIG = {
         "DISABLE_PANELS": ["debug_toolbar.panels.redirects.RedirectsPanel"],
         "SHOW_TEMPLATE_CONTEXT": True,
-        "SHOW_TOOLBAR_CALLBACK": lambda x: "test" not in sys.argv,
+        "SHOW_TOOLBAR_CALLBACK": lambda x: "test" not in sys.argv and not env("TEST", default=False),
     }
+ACCOUNT_EMAIL_VERIFICATION = env("ACCOUNT_EMAIL_VERIFICATION", default="mandatory")
 MY_INTERNAL_IP = env("MY_INTERNAL_IP", default="")
 INTERNAL_IPS = ("127.0.0.1", "10.0.2.2", MY_INTERNAL_IP)
 

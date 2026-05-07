@@ -1,0 +1,48 @@
+# Service definitions for e2e testing.
+# Run the tests with
+# ```
+# docker-compose --file docker-compose.yml --file docker-compose.test.yml up --build --exit-code-from tests db web tests
+# ```
+---
+services:
+  web:
+    build:
+      context: .
+      dockerfile: .contrib/docker/Dockerfile.web
+    # Rebuilding web container to run django app server for cypress e2e tests
+    command: bash -c "python manage.py collectstatic --no-input && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    environment:
+      # Use a test database.
+      DATABASE_URL: mysql://root:password@db/test_feder
+      TEST: 1
+      # Console email backend needed for cypress user authentication
+      DJANGO_EMAIL_BACKEND: django.core.mail.backends.console.EmailBackend
+      DJANGO_DEFAULT_FROM_EMAIL: "feder_dev <noreply@dev.fedrowanie.siecobywatelska.pl>"
+      ACCOUNT_EMAIL_VERIFICATION: none
+    networks:
+      - feder-app-network
+
+  tests:
+    depends_on:
+      - db
+      - web
+    build:
+      context: ./tests/
+      dockerfile: Dockerfile
+    environment:
+      # Use the same test database as the web container.
+      DATABASE_URL: mysql://root:password@db/test_feder
+      # Cypress needs to know where the web server is.
+      CYPRESS_BASE_URL: http://web:8000
+    volumes:
+      - ./tests:/e2e
+      - /e2e/node_modules # un-shadow node_modules
+    networks:
+      - feder-app-network
+    working_dir: /e2e
+    entrypoint: []
+    command: sh -c "npx wait-on http://web:8000 && npx cypress run --e2e --config video=true"
+
+networks:
+  feder-app-network:
+    driver: bridge
