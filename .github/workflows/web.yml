@@ -39,7 +39,12 @@ jobs:
       - name: Build test
         run: make test
       - name: Run e2e tests
-        run: make e2e
+        run: |
+          # Create a user for tests.
+          docker compose --file docker-compose.yml --file docker-compose.test.yml \
+            run web python manage.py createsuperuserwithpassword \
+            --username e2e --email e2e@example.com --password e2e --noinput
+          make e2e
 #     - name: Send coverage report
 #       run: make coverage_send
 #       env:

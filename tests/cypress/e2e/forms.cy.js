@@ -31,10 +31,10 @@ const login = (username, password) => {
 it("should login and use the app forms", () => {
   // The test assumes the user already exists.
   // You can create a user with
-  // `docker compose --file docker-compose.yml --file docker-compose.test.yml run web python manage.py createsuperuserwithpassword --username root --email root@example.com --password root --noinput`
+  // `docker compose --file docker-compose.yml --file docker-compose.test.yml run web python manage.py createsuperuserwithpassword --username e2e --email e2e@example.com --password e2e --noinput`
 
-  const username = Cypress.env("USERNAME") || "root";
-  const password = Cypress.env("PASSWORD") || "root";
+  const username = Cypress.env("USERNAME") || "e2e";
+  const password = Cypress.env("PASSWORD") || "e2e";
 
   cy.viewport(1920, 1080);
   cy.task("db:clear");
