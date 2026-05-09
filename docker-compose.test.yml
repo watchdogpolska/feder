@@ -1,7 +1,8 @@
 # Service definitions for e2e testing.
 # Run the tests with
 # ```
-# docker-compose --file docker-compose.yml --file docker-compose.test.yml up --build --exit-code-from tests db web tests
+# docker-compose --file docker-compose.yml --file docker-compose.test.yml up --build \
+# --exit-code-from tests db web tests
 # ```
 ---
 services:
@@ -10,7 +11,12 @@ services:
       context: .
       dockerfile: .contrib/docker/Dockerfile.web
     # Rebuilding web container to run django app server for cypress e2e tests
-    command: bash -c "python manage.py collectstatic --no-input && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    command: >
+      bash -c "
+      python manage.py collectstatic --no-input &&
+      python manage.py migrate &&
+      python manage.py runserver 0.0.0.0:8000
+      "
     environment:
       # Use a test database.
       DATABASE_URL: mysql://root:password@db/test_feder
@@ -36,12 +42,16 @@ services:
       CYPRESS_BASE_URL: http://web:8000
     volumes:
       - ./tests:/e2e
-      - /e2e/node_modules # un-shadow node_modules
+      - /e2e/node_modules  # un-shadow node_modules
     networks:
       - feder-app-network
     working_dir: /e2e
     entrypoint: []
-    command: sh -c "npx wait-on http://web:8000 && npx cypress run --e2e --config video=true"
+    command: >
+      sh -c "
+      npx wait-on http://web:8000 &&
+      npx cypress run --e2e --config video=true
+      "
 
 networks:
   feder-app-network:
