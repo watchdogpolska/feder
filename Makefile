@@ -24,6 +24,9 @@ start: wait_mysql
 test:
 	docker compose run web coverage run manage.py test --keepdb --verbosity=2 ${TEST}
 
+e2e: wait_mysql
+	docker compose --file docker-compose.yml --file docker-compose.test.yml up --build --exit-code-from tests db web tests
+
 coverage_html:
 	docker compose run web coverage html
 

@@ -169,6 +169,14 @@ DATABASES["default"]["OPTIONS"] = {
 }
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
+DATABASES["default"]["TEST"] = {
+    "NAME": "test_feder",
+    "OPTIONS": {
+        "charset": "utf8mb4",
+        "init_command": "SET NAMES 'utf8mb4' COLLATE 'utf8mb4_polish_ci'",
+    },
+}
+
 # GENERAL CONFIGURATION
 # ------------------------------------------------------------------------------
 # Local time zone for this installation. Choices can be found here:

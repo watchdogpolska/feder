@@ -40,6 +40,12 @@ należy wywołać komendę
 
     docker-compose up
 
+Alternatywnie, do testowania można korzystać z definicji compose dedykowanej testom e2e
+
+.. code-block:: bash
+
+    docker compose --file docker-compose.yml --file docker-compose.test.yml up
+
 Statyczna kontrola kodu
 -----------------------
 

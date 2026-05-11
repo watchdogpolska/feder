@@ -16,9 +16,12 @@
                         or <a href="{{ signup_url }}">sign&nbsp;up</a>
                         for an account and sign in below.{% endblocktrans %}</p>
 
-                    {% include 'account/_social.html' %}
+                    {% get_providers as socialaccount_providers %}
+                    {% if socialaccount_providers %}
+                        {% include 'account/_social.html' %}
 
-                    {% include "socialaccount/snippets/login_extra.html" %}
+                        {% include "socialaccount/snippets/login_extra.html" %}
+                    {% endif %}
 
                     <h2 class="login-or">{% trans 'Alternatively use user account' %}</h2>
 
