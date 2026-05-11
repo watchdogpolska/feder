@@ -1,11 +1,8 @@
-from base64 import b64encode
-
 import django_filters
 from braces.views import LoginRequiredMixin
 from django.core.exceptions import ImproperlyConfigured
-from django.core.paginator import EmptyPage, InvalidPage, Paginator
+from django.core.paginator import EmptyPage, Paginator
 from django.db import models
-from django.http import Http404
 from django.utils.translation import gettext as _
 from django.views.generic.detail import BaseDetailView
 from django_sendfile import sendfile
