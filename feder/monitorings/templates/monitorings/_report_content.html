@@ -107,10 +107,6 @@
 
     <div class="text-center">
         {# bootstrap_paginate object_list url_view_name='monitorings:report' url_extra_kwargs=url_extra_kwargs #}
-        {% if pager == 'performant' %}
-            {% bootstrap_pager page_obj %}
-        {% else %}
-            {% bootstrap_paginate page_obj %}
-        {% endif %}
+        {% bootstrap_paginate page_obj %}
     </div>
 </div>

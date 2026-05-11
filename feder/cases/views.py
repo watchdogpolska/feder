@@ -16,7 +16,6 @@ from django_filters.views import FilterView
 
 from feder.main.mixins import (
     DisableOrderingListViewMixin,
-    PerformantPagintorMixin,
     RaisePermissionRequiredMixin,
 )
 from feder.main.utils import DeleteViewLogEntryMixin, FormValidLogEntryMixin
@@ -32,7 +31,6 @@ _("Case index")
 class CaseListView(
     SelectRelatedMixin,
     DisableOrderingListViewMixin,
-    PerformantPagintorMixin,
     FilterView,
 ):
     filterset_class = CaseFilter
