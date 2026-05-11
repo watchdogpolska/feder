@@ -1,18 +1,13 @@
-from base64 import b64encode
-
 import django_filters
 from braces.views import LoginRequiredMixin
 from django.core.exceptions import ImproperlyConfigured
-from django.core.paginator import EmptyPage, InvalidPage, Paginator
+from django.core.paginator import EmptyPage, Paginator
 from django.db import models
-from django.http import Http404
 from django.utils.translation import gettext as _
 from django.views.generic.detail import BaseDetailView
 from django_sendfile import sendfile
 from guardian.mixins import PermissionRequiredMixin
 from rest_framework_csv.renderers import CSVRenderer
-
-from .paginator import ModernPerformantPaginator
 
 
 class ExtraListMixin:
@@ -107,22 +102,6 @@ class AttrPermissionRequiredMixin(RaisePermissionRequiredMixin):
         return self.object
 
 
-class AutocompletePerformanceMixin:
-    """A mixin to improve autocomplete to limit SELECTed fields
-
-    Attributes:
-        select_only (list): List of fields to select
-    """
-
-    select_only = None
-
-    def choices_for_request(self, *args, **kwargs):
-        qs = super().choices_for_request(*args, **kwargs)
-        if self.select_only:
-            qs = qs.only(*self.select_only)
-        return qs
-
-
 class DisabledWhenFilterSetMixin(django_filters.filterset.BaseFilterSet):
     def filter_queryset(self, queryset):
         for name, value in self.form.cleaned_data.items():
@@ -176,47 +155,6 @@ class BaseXSendFileView(BaseDetailView):
 class DisableOrderingListViewMixin:
     def get_queryset(self):
         return super().get_queryset().order_by("pk")
-
-
-class PerformantPagintorMixin:
-    paginator_class = ModernPerformantPaginator
-    first_page = b64encode(b"0").decode("utf-8")
-
-    def paginate_queryset(self, queryset, page_size):
-        """
-        Overwrite pagination for support non-number paginator
-        See https://github.com/django/django/pull/12429 for details
-        """
-        paginator = self.get_paginator(
-            queryset,
-            page_size,
-            orphans=self.get_paginate_orphans(),
-            allow_empty_first_page=self.get_allow_empty(),
-        )
-        page_kwarg = self.page_kwarg
-        page = (
-            self.kwargs.get(page_kwarg)
-            or self.request.GET.get(page_kwarg)
-            or self.first_page
-        )
-        try:
-            page_number = paginator.validate_number(page)
-        except (ValueError, InvalidPage):
-            raise Http404(_("Page number is not valid."))
-        try:
-            page = paginator.page(page_number)
-            return (paginator, page, page.object_list, page.has_other_pages())
-        except InvalidPage as e:
-            raise Http404(
-                _("Invalid page (%(page_number)s): %(message)s")
-                % {"page_number": page_number, "message": str(e)}
-            )
-
-    def get_context_data(self, **kwargs):
-        """Insert the single object into the context dict."""
-        context = {"pager": "performant"}
-        context.update(kwargs)
-        return super().get_context_data(**context)
 
 
 class CsvRendererViewMixin:
