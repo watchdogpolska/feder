@@ -2,5 +2,5 @@
 #	production that isn't in development.
 -r base.txt
 gevent==26.4.0
-gunicorn==25.3.0
+gunicorn==26.0.0
 sentry-sdk==2.59.0
