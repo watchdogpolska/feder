@@ -12,6 +12,7 @@
     "pip_setup",
     "npm"
   ],
+  "minimumReleaseAge": "7 days",
   "packageRules": [
     {
       "matchManagers": [
@@ -44,7 +45,11 @@
         "datatables.net-buttons-dt"
       ],
       "allowedVersions": "< 3.0.0"
-    }    
+    },
+    {
+      "matchPackageNames": ["caniuse-lite"],
+      "minimumReleaseAge": null
+    }
   ],
   "pip_requirements": {
     "managerFilePatterns": [
