@@ -432,6 +432,9 @@ CORS_URLS_REGEX = r"^/api/.*$"
 
 FILE_TO_TEXT_URL = env("FILE_TO_TEXT_URL", default="http://localhost:9980/")
 FILE_TO_TEXT_TOKEN = env("FILE_TO_TEXT_TOKEN", default="")
+FILE_TO_TEXT_REQUEST_TIMEOUTS = env.json(
+    "FILE_TO_TEXT_REQUEST_TIMEOUTS", default=[30, 300]
+)
 
 # To avoid unwanted migrations when upgrading to Django 3.2
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"

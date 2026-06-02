@@ -15,7 +15,7 @@ from django.core.exceptions import ValidationError
 from django.core.files.base import ContentFile
 from django.core.mail.message import EmailMultiAlternatives, make_msgid
 from django.core.validators import validate_email
-from django.db import models
+from django.db import close_old_connections, models
 from django.db.models.manager import BaseManager
 from django.template.loader import render_to_string
 from django.urls import reverse
@@ -540,12 +540,7 @@ class Letter(AbstractRecord):
 
     def get_full_content(self):
         attachments_text_content_list = [
-            (
-                attachment.text_content
-                if attachment.text_content_update_result == "Processed"
-                and attachment.text_content
-                else ""
-            )
+            attachment.text_content if attachment.text_content else ""
             for attachment in self.attachment_set.all()
         ]
         attachments_text_content = "\n".join(attachments_text_content_list)
@@ -837,49 +832,75 @@ class Attachment(TimeStampedModel):
         )
 
     def update_text_content(self):
+        close_old_connections()
         try:
             logger.info(
-                f"Updating text content for att. {self.pk}: {self.attachment.name}"
+                "Updating text content for attachment pk=%s file=%s",
+                self.pk,
+                self.attachment.name,
             )
-            response = requests.post(
-                settings.FILE_TO_TEXT_URL,
-                files={
-                    "file": (
-                        self.attachment.name.split("/")[-1],
-                        self.attachment.read(),
-                    )
-                },
-                headers={"Authorization": f"JWT {settings.FILE_TO_TEXT_TOKEN}"},
-            )
+
+            self.attachment.open("rb")
+            try:
+                response = requests.post(
+                    settings.FILE_TO_TEXT_URL,
+                    files={
+                        "file": (
+                            self.attachment.name.split("/")[-1],
+                            self.attachment.read(),
+                        )
+                    },
+                    headers={"Authorization": f"JWT {settings.FILE_TO_TEXT_TOKEN}"},
+                    timeout=settings.FILE_TO_TEXT_REQUEST_TIMEOUTS,
+                )
+            finally:
+                self.attachment.close()
+
+            close_old_connections()
+
             if response.status_code != 200:
                 msg = (
-                    f"File to text API response: {response.status_code},"
-                    + f" content: {response.content.decode('utf-8')}"
+                    f"File to text API response: {response.status_code}, "
+                    f"content: {response.text}"
                 )
                 logger.error(msg)
                 self.text_content_update_result = msg
-                # save update_fields does not work with MySQL 5.7
-                # self.save(update_fields=["text_content_update_result"])
-                self.save()
+                self.save(update_fields=["text_content_update_result"])
                 return False
-            log_message_dict = response.json().copy()
-            _ = log_message_dict.pop("text")
+
+            payload = response.json()
+            log_payload = payload.copy()
+            log_payload.pop("text", None)
+
             logger.info(
-                f"File to text API response:{response.status_code}, {log_message_dict}"
+                "File to text API response: %s, %s",
+                response.status_code,
+                log_payload,
             )
-            self.text_content = response.json()["text"]
-            self.text_content_update_result = response.json()["message"]
-            # save update_fields does not work with MySQL 5.7
-            # self.save(update_fields=["text_content", "text_content_update_result"])
-            self.save()
+
+            self.text_content = payload.get("text")
+            self.text_content_update_result = payload.get("message", "")
+            self.save(update_fields=["text_content", "text_content_update_result"])
             return True
-        except Exception as e:
-            logger.error(e)
-            self.text_content_update_result = str(e)
-            # save update_fields does not work with MySQL 5.7
-            # self.save(update_fields=["text_content_update_result"])
-            self.save()
+
+        except Exception as exc:
+            logger.exception(
+                "Attachment pk=%s text content update failed: %s",
+                self.pk,
+                exc,
+            )
+            try:
+                close_old_connections()
+                self.text_content_update_result = str(exc)
+                self.save(update_fields=["text_content_update_result"])
+            except Exception:
+                logger.exception(
+                    "Attachment pk=%s failed to persist failure status",
+                    self.pk,
+                )
             return False
+        finally:
+            close_old_connections()
 
     @property
     def text_content_warning(self):

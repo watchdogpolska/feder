@@ -3,6 +3,16 @@ import inspect
 import json
 import os
 
+# vcrpy 8.1.1 tries to subclass aiohttp.streams.AsyncStreamReaderMixin which was
+# removed in aiohttp 3.10. Restore it as a no-op mixin so the import doesn't blow up.
+try:
+    import aiohttp.streams as _aiohttp_streams
+
+    if not hasattr(_aiohttp_streams, "AsyncStreamReaderMixin"):
+        _aiohttp_streams.AsyncStreamReaderMixin = object
+except ImportError:
+    pass
+
 from django.test import TestCase
 from django.urls import reverse
 from django.utils.encoding import force_str

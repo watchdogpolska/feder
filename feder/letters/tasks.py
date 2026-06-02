@@ -28,3 +28,20 @@ def update_letter_attachments_text_content(letter_pk):
         logger.info(f"Letter {letter_pk} - attachment pk={attachment.pk} updated.")
     logger.info(f"Letter {letter_pk} - attachments text content updated.")
     return msg
+
+
+@background(schedule=120)
+def update_attachment_text_content(attachment_pk):
+    from feder.letters.models import Attachment
+
+    attachment = Attachment.objects.filter(pk=attachment_pk).first()
+
+    if not attachment:
+        msg = f"Attachment with pk={attachment_pk} not found."
+        logger.warning(msg)
+        return msg
+
+    attachment.update_text_content()
+    msg = f"Attachment {attachment_pk} text content updated."
+    logger.info(msg)
+    return msg
