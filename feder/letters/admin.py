@@ -10,6 +10,7 @@ from feder.llm_evaluation.prompts import letter_categories_list
 from feder.virus_scan.models import Request
 
 from .models import Attachment, Letter, LetterEmailDomain, ReputableLetterEmailTLD
+from .tasks import update_attachment_text_content
 
 
 class LetterDirectionListFilter(admin.SimpleListFilter):
@@ -278,19 +279,36 @@ class AttachmentAdmin(admin.ModelAdmin):
         "get_letter_is_spam",
         "attachment",
         "get_scan_status",
+        "text_content_update_result",
         "created",
     )
     search_fields = (
         "id",
         "attachment",
         "letter__id",
+        "text_content_update_result",
     )
     list_filter = (
         AttachmentLetterSpamFilter,
         AttachmentVirusScanExistsFilter,
         AttachmentVirusScanListFilter,
+        "text_content_update_result",
     )
     ordering = ("-id",)
+    actions = ["schedule_update_text_content"]
+
+    @admin.action(
+        description=_("Schedule text content update for selected attachments")
+    )
+    def schedule_update_text_content(self, request, queryset):
+        count = queryset.count()
+        for pk in queryset.values_list("pk", flat=True):
+            update_attachment_text_content(pk)
+        self.message_user(
+            request,
+            _("Scheduled text content update for %(count)d attachment(s).")
+            % {"count": count},
+        )
 
     def has_add_permission(self, request):
         return False
