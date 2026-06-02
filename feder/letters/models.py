@@ -851,7 +851,7 @@ class Attachment(TimeStampedModel):
                         )
                     },
                     headers={"Authorization": f"JWT {settings.FILE_TO_TEXT_TOKEN}"},
-                    timeout=settings.FILE_TO_TEXT_REQUEST_TIMEOUTS,
+                    timeout=tuple(settings.FILE_TO_TEXT_REQUEST_TIMEOUTS),
                 )
             finally:
                 self.attachment.close()
