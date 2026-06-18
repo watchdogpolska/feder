@@ -37,7 +37,11 @@ lxml==6.1.1
 # Your custom requirements go here
 cryptography==48.0.0
 django-filter==25.2
-django-autocomplete-light==4.0.1
+# django-autocomplete-light v4.0.1 disappeared from pypi
+# fix to git source until v5.0.0 is proprly released and tested
+# django-autocomplete-light==4.0.1
+git+https://github.com/yourlabs/django-autocomplete-light@v4.0.1
+
 # django-ajax-datatable to be installed from github fork until
 # https://github.com/morlandi/django-ajax-datatable/pull/111 is merged
 # django-ajax-datatable==4.4.5
