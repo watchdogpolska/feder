@@ -17,7 +17,7 @@
         {% if object.ai_evaluation %}
             <br>
             <small>
-                <i class="fa-solid fa-circle-question" data-toggle="tooltip" data-placement="bottom"
+                <i class="fa-solid fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="bottom"
                     title="{{ object.ai_prompt_help }}">
                 </i> {% trans 'LLM evaluation: ' %}
                 {{ object.ai_evaluation|linebreaksbr }}
@@ -64,7 +64,7 @@
         <div class="alert alert-warning mt-1">{{ object.note }}</div>
     {% endif %}
     {% if object.attachment_count %}
-        <span class="badge pull-right">
+        <span class="badge bg-secondary float-end">
             <i class="fa-solid fa-download"></i>
             {{ object.attachment_count }}
         </span>

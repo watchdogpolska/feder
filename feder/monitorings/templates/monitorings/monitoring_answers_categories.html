@@ -89,7 +89,7 @@
                     {% trans "Updated: " %}{{value.update_time|slice:":19"}}
                 </div>
                 <div class="col-md-1">
-                    <a class="btn btn-default showPromptButton"
+                    <a class="btn btn-secondary showPromptButton"
                     id="showPromptButton-{{ key|urlencode }}"
                     href="{% url 'monitorings:answer-categories-prompt' slug=object.slug %}?question_number={{ key|urlencode }}">
                         {% trans 'Show prompt' %}
@@ -105,10 +105,8 @@
                         name="answer_categories" class="form-control message-input" 
                         placeholder="{% trans 'Type your answer categories' %}..."
                         >{{value.answer_categories}}</textarea>
-                    <div class="input-group-append">
-                        <button type="submit" id="{{key|spaces_to_underscores}}"
-                            class="btn btn-primary btn-send">{% trans 'Update answer categories' %}</button>
-                    </div>
+                    <button type="submit" id="{{key|spaces_to_underscores}}"
+                        class="btn btn-primary btn-send">{% trans 'Update answer categories' %}</button>
                 </div>
             </form>
             <br><br>
@@ -119,10 +117,8 @@
             <div class="input-group">
                 <input type="hidden" id="categorize_answers" 
                     name="categorize_answers" value="true">
-                <div class="input-group-append">
-                    <button type="submit" id="categorize_answers"
-                        class="btn btn-primary">{% trans 'Generate answers categorization tasks for cases' %}</button>
-                </div>
+                <button type="submit" id="categorize_answers"
+                    class="btn btn-primary">{% trans 'Generate answers categorization tasks for cases' %}</button>
             </div>
         </form>
     </div>

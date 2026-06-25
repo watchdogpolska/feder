@@ -61,7 +61,7 @@
                                 {% if attachment.current_scan_request %}
                                     ({% include 'virus_scan/_request.html' with object=attachment.current_scan_request %})
                                     {% if not attachment.is_infected %}
-                                        <a class="btn btn-xs btn-primary" href="{{ attachment.get_absolute_url }}">
+                                        <a class="btn btn-sm btn-primary" href="{{ attachment.get_absolute_url }}">
                                             <i class="fa-solid fa-download"></i>
                                             {% trans 'Download' %}
                                         </a>
@@ -71,26 +71,24 @@
                                                 <div class="input-group">
                                                     <input type="hidden" id="refresh_attachment_text_content" 
                                                         name="refresh_attachment_text_content" value="true">
-                                                    <div class="input-group-append">
-                                                        <button type="submit" id="refresh_attachment_text_content"
-                                                            class="btn btn-xs btn-primary">
-                                                            <i class="fa-solid fa-arrows-rotate"></i>
-                                                            {% trans 'Refresh text content' %}
-                                                        </button>
-                                                    </div>
+                                                    <button type="submit" id="refresh_attachment_text_content"
+                                                        class="btn btn-sm btn-primary">
+                                                        <i class="fa-solid fa-arrows-rotate"></i>
+                                                        {% trans 'Refresh text content' %}
+                                                    </button>
                                                 </div>
                                             </form>
                                         {% endif %}                                        
                                     {% endif %}
                                 {% else %}
                                     (nieskanowany)
-                                    <a class="btn btn-xs btn-default" href="{% url 'letters:scan' pk=attachment.pk letter_pk=object.pk %}">
+                                    <a class="btn btn-sm btn-secondary" href="{% url 'letters:scan' pk=attachment.pk letter_pk=object.pk %}">
                                         <i class="fa-solid fa-eye"></i>
                                         {% trans 'Scan' %}
                                     </a>
                                 {% endif %}
                             {% else %}
-                                <i class="fa-solid fa-circle-question" data-toggle="tooltip" data-placement="bottom"
+                                <i class="fa-solid fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="bottom"
                                     title="Załączniki mogą być pobierane tylko przez uprawnionych użytkowników">
                                 </i>
                             {% endif %}     
@@ -98,7 +96,7 @@
                     </td>
                     <td>
                         {% if attachment.text_content %}
-                        <i class="fa-solid fa-triangle-exclamation" data-toggle="tooltip" data-placement="bottom"
+                        <i class="fa-solid fa-triangle-exclamation" data-bs-toggle="tooltip" data-bs-placement="bottom"
                             title="{{attachment.text_content_warning}}">
                         </i>
                         <blockquote class="expandable" name="attachment_text">

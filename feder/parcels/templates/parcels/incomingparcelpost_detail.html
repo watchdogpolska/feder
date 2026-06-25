@@ -3,11 +3,11 @@
 {% block custom_content_object %}
 
     <tr>
-        <td class="col-md-3 col-xs-6 col-sm-5 metadata_desc">
+        <td class="col-md-3 col-6 col-sm-5 metadata_desc">
             <i class="fa-solid fa-house" aria-hidden="false"></i>
             {% trans 'Sender' %}
         </td>
-        <td class="col-md-9 col-xs-6 col-sm-7 metadata_value">
+        <td class="col-md-9 col-6 col-sm-7 metadata_value">
             <a href="{{ object.sender.get_absolute_url }}">
                 {{ object.sender }}
             </a>

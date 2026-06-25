@@ -3,7 +3,8 @@
   "version": "1.1.0",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^7.2.0",
-    "bootstrap-sass": "^3.4.3",
+    "@popperjs/core": "^2.11.8",
+    "bootstrap": "^5.3.3",
     "datatables.net-bs": ">=1.13.4 <2.0.0",
     "datatables.net-bs4": ">=1.13.4 <2.0.0",
     "datatables.net-buttons": ">=2.3.6 <3.0.0",

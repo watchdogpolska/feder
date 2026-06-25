@@ -39,7 +39,7 @@ const config = (() => {
       ],
       include: [
         path.npm,
-        "./node_modules/bootstrap-sass/assets/stylesheets",
+        "./node_modules/bootstrap/scss",
         "./node_modules/@fortawesome/fontawesome-free/scss",
         path.assets + "/scss/",
         path.staticfiles,
@@ -61,11 +61,7 @@ const config = (() => {
     script: {
       input: [
         "./node_modules/jquery/dist/jquery.js",
-        "./node_modules/bootstrap-sass/assets/javascripts/bootstrap/tab.js",
-        "./node_modules/bootstrap-sass/assets/javascripts/bootstrap/transition.js",
-        "./node_modules/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js",
-        "./node_modules/bootstrap-sass/assets/javascripts/bootstrap/tooltip.js",
-        "./node_modules/bootstrap-sass/assets/javascripts/bootstrap/collapse.js",
+        "./node_modules/bootstrap/dist/js/bootstrap.bundle.js",
         // Core DataTables (ensure datatables.net is installed)
         path.npm + "/datatables.net/js/jquery.dataTables.js",
         // DataTables styling + extras

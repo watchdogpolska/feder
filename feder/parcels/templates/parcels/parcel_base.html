@@ -19,7 +19,7 @@
                 class="breadcrumb"
                 itemscope
                 itemtype="http://schema.org/BreadcrumbList">
-            <li
+            <li class="breadcrumb-item"
                     itemprop="itemListElement"
                     itemscope
                     itemtype="http://schema.org/ListItem">
@@ -27,7 +27,7 @@
                     <span itemprop="name">{{ object.case.monitoring }}</span>
                 </a>
             </li>
-            <li
+            <li class="breadcrumb-item"
                     itemprop="itemListElement"
                     itemscope
                     itemtype="http://schema.org/ListItem">
@@ -36,7 +36,7 @@
                 </a>
             </li>
             {% if headline %}
-                <li
+                <li class="breadcrumb-item"
                         itemprop="itemListElement"
                         itemscope
                         itemtype="http://schema.org/ListItem">
@@ -44,19 +44,17 @@
                         <span itemprop="name">{{ object }}</span>
                     </a>
                 </li>
-                <li
+                <li class="breadcrumb-item active" aria-current="page"
                         itemprop="itemListElement"
                         itemscope
-                        itemtype="http://schema.org/ListItem"
-                        class="active">
+                        itemtype="http://schema.org/ListItem">
                     <span itemprop="name">{{ headline }}</span>
                 </li>
             {% else %}
-                <li
+                <li class="breadcrumb-item active" aria-current="page"
                         itemprop="itemListElement"
                         itemscope
-                        itemtype="http://schema.org/ListItem"
-                        class="active">
+                        itemtype="http://schema.org/ListItem">
                     <span itemprop="name">{{ object }}</span>
                 </li>
             {% endif %}
@@ -66,7 +64,7 @@
                 class="breadcrumb"
                 itemscope
                 itemtype="http://schema.org/BreadcrumbList">
-            <li
+            <li class="breadcrumb-item"
                     itemprop="itemListElement"
                     itemscope
                     itemtype="http://schema.org/ListItem">
@@ -74,7 +72,7 @@
                     <span itemprop="name">{{ case.monitoring }}</span>
                 </a>
             </li>
-            <li
+            <li class="breadcrumb-item"
                     itemprop="itemListElement"
                     itemscope
                     itemtype="http://schema.org/ListItem">
@@ -82,11 +80,10 @@
                     <span itemprop="name">{{ case }}</span>
                 </a>
             </li>
-            <li
+            <li class="breadcrumb-item active" aria-current="page"
                     itemprop="itemListElement"
                     itemscope
-                    itemtype="http://schema.org/ListItem"
-                    class="active">
+                    itemtype="http://schema.org/ListItem">
                 <span itemprop="name">{{ headline }}</span>
             </li>
         </ol>

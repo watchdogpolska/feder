@@ -7,6 +7,7 @@
         itemscope
         itemtype="http://schema.org/BreadcrumbList">
         <li
+            class="breadcrumb-item"
             itemprop="itemListElement"
             itemscope
             itemtype="http://schema.org/ListItem">
@@ -22,6 +23,7 @@
         </li>
         {% if object.case is not None %}
             <li
+                class="breadcrumb-item"
                 itemprop="itemListElement"
                 itemscope
                 itemtype="http://schema.org/ListItem">
@@ -31,6 +33,7 @@
             </li>
         {% else %}
             <li
+                class="breadcrumb-item"
                 itemprop="itemListElement"
                 itemscope
                 itemtype="http://schema.org/ListItem">
@@ -38,6 +41,7 @@
             </li>
         {% endif %}
         <li
+            class="breadcrumb-item"
             itemprop="itemListElement"
             itemscope
             itemtype="http://schema.org/ListItem">
@@ -50,7 +54,7 @@
                 itemprop="itemListElement"
                 itemscope
                 itemtype="http://schema.org/ListItem"
-                class="active">
+                class="breadcrumb-item active">
                 <span itemprop="name">{% if headline %}{{ headline }}{% else %}{% trans 'Edit' %}{% endif %}</span>
             </li>
         {% endblock %}
@@ -60,7 +64,7 @@
 {% block buttons %}
     {% if not reply %}
         <div class="row">
-            <div class="col-lg-8 col-md-10 col-sm-12 col-xs-12 col-lg-offset-2 col-md-offset-1">
+            <div class="col-lg-8 col-md-10 col-sm-12 col-12 offset-lg-2 offset-md-1">
                 {% if object %}
                     {% include 'letters/_btn.html' with object=object %}
                 {% endif %}
@@ -71,7 +75,7 @@
 
 {% block content %}
 <div class="row">
-    <div class="col-lg-8 col-md-10 col-sm-12 col-xs-12 col-lg-offset-2 col-md-offset-1">
+    <div class="col-lg-8 col-md-10 col-sm-12 col-12 offset-lg-2 offset-md-1">
         <div class="page-header">
             {% if object %}
                 <h2>
@@ -87,7 +91,7 @@
                     {% if object.ai_evaluation %}
                         <br>
                         <h4 class="text-muted">
-                            <i class="fa-solid fa-circle-question" data-toggle="tooltip" data-placement="bottom"
+                            <i class="fa-solid fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="bottom"
                                 title="{{ object.ai_prompt_help }}">
                             </i> {% trans 'LLM evaluation: ' %}
                             {{ object.ai_evaluation|linebreaksbr }}
