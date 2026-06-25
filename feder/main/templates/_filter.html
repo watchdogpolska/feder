@@ -31,7 +31,7 @@
                 {% endblock %}
             </form>
         </div>
-        {% if user.is_authenticated  %}
+        {% if user.is_authenticated and summary_table %}
             <div class="gray" >
                 {{ summary_table}} 
             </div>
