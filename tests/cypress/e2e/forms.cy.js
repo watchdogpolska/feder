@@ -58,12 +58,14 @@ it("should login and use the app forms", () => {
   });
 
   login(username, password);
-  cy.wait(1000);
+  cy.wait(2000);
 
   // Create a monitoring.
   cy.visit("/monitoringi/");
   cy.contains("a", "Dodaj monitoring").click();
-  cy.wait(1000);
+  cy.wait(2000);
+
+  cy.screenshot("monitoring_form", {capture: "viewport"});
 
   cy.get('input[name="name"]').type("test");
   cy.get('input[name="subject"]').type("test subject");
@@ -75,13 +77,21 @@ it("should login and use the app forms", () => {
     '"test footer"'
   );
 
-  cy.wait(1000);
+  cy.wait(2000);
   cy.get('input[type="submit"][value="Zapisz"]').click();
+
+  // Visit the created monitoring.
+  cy.visit("/monitoringi/test");
+  cy.contains("test description").should('exist');
+
+  cy.screenshot("monitoring_detail", {capture: "viewport"});
 
   // Create an institution
   cy.visit("/instytucje/");
   cy.contains("a", "Dodaj instytucj").click();
-  cy.wait(1000);
+  cy.wait(2000);
+
+  cy.screenshot("institution_form", {capture: "viewport"});
 
   cy.get('input[name="name"]').type("Testowa Instytucja");
   cy.contains("div", "Jednostka podziału terytorialnego").within(($div) => {
@@ -89,25 +99,36 @@ it("should login and use the app forms", () => {
   });
   cy.get('input[name="email"]').type("test@example.com");
   cy.get('input[type="submit"][value="Zapisz"]').click();
-  cy.wait(1000);
+  cy.wait(2000);
+
+  // Visit the created institution.
+  cy.visit("/instytucje/testowa-instytucja");
+  cy.contains("test@example.com").should('exist');
+
+  cy.screenshot("institution_detail", {capture: "viewport"});
 
   // Create a case
   cy.visit("/monitoringi/");
   cy.contains("a", "test").click(); // go to the monitoring detail page
-  cy.wait(1000);
+  cy.wait(2000);
   cy.contains("a", "Utwórz sprawę").click();
-  cy.wait(1000);
+  cy.wait(2000);
 
   cy.get('input[name="name"]').type("test-case");
   cy.contains("div", "Instytucja").within(($div) => {
     selectAutocompleteOptionContaining(cy.get(".selection"), "Testowa Instytucja");
   });
   cy.get('input[type="submit"][value="Zapisz"]').click();
-  cy.wait(1000);
+  cy.wait(2000);
 
-  cy.visit("/sprawy/");
+  // Visit the created case.
+  cy.visit("/sprawy/test-case");
+  cy.contains("test-case").should('exist');
+
+  cy.screenshot("case_detail", {capture: "viewport"});
 
   // Filter cases.
+  cy.visit("/sprawy/");
   cy.get('form').first().within(() => {
 
     cy.contains("div", "Monitoring").within(($div) => {
@@ -124,7 +145,7 @@ it("should login and use the app forms", () => {
       );
     });
 
-    cy.wait(1000);
+    cy.wait(2000);
 
     // Submit the form
     cy.get('button[type="submit"]').click();
@@ -134,14 +155,18 @@ it("should login and use the app forms", () => {
   // Look for a link rather than a name, because the name is also present in the filters form.
   cy.get('body a[href="/sprawy/test-case"]').should('exist');
 
+  cy.screenshot("case_list", {capture: "viewport"});
+
   // Filter using the datatable view.
   cy.visit("/monitoringi/table/");
-  cy.wait(1000);
+  cy.wait(2000);
   cy.contains("td", "test description").should('exist');
+
+  cy.screenshot("monitoring_table", {capture: "viewport"});
 
   // Fill a column filter with random input. It should no longer find any rows.
   cy.get("table thead input[type='text']").first().type("does-not-exist");
-  cy.wait(1000);
+  cy.wait(2000);
   cy.contains("td", "test description").should('not.exist');
   
 });
