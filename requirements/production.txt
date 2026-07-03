@@ -3,4 +3,4 @@
 -r base.txt
 gevent==26.5.0
 gunicorn==26.0.0
-sentry-sdk==2.62.0
+sentry-sdk==2.63.0
