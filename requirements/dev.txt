@@ -7,7 +7,7 @@ django-debug-toolbar==6.3.0
 ipdb==0.13.13
 factory-boy==3.3.3
 django-coverage-plugin==3.2.2
-vcrpy==8.1.1
+vcrpy==8.2.1
 sphinxcontrib-programoutput==0.19
 pre-commit==4.6.0
 coveralls==4.1.0
