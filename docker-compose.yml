@@ -58,6 +58,7 @@ services:
       DJANGO_DEFAULT_FROM_EMAIL: "feder_dev <noreply@dev.fedrowanie.siecobywatelska.pl>"
       LETTER_RECEIVE_SECRET: "dev_letter_rec_very_secret"
       APP_MODE: "DEV"
+      USE_DEBUG_TOOLBAR: ${USE_DEBUG_TOOLBAR}
       ROSETTA_AZURE_CLIENT_SECRET: ${ROSETTA_AZURE_CLIENT_SECRET}
       MY_INTERNAL_IP: ${MY_INTERNAL_IP}
       VIRUSTOTAL_API_KEY: ""
