@@ -5,7 +5,7 @@ Django==5.2.15
 mysqlclient==2.2.8
 
 # Configuration
-django-environ==0.13.0
+django-environ==0.14.0
 
 # Forms
 django-braces==1.17.0
@@ -16,7 +16,7 @@ crispy-bootstrap5==2024.2
 django-model-utils==5.0.0
 
 # Images
-Pillow==12.2.0
+Pillow==12.3.0
 
 # For user registration, either via email or social
 # Well-built with regular release cycles!
@@ -35,7 +35,7 @@ lxml==6.1.1
 
 
 # Your custom requirements go here
-cryptography==48.0.1
+cryptography==49.0.0
 django-filter==25.2
 # django-autocomplete-light v4.0.1 disappeared from pypi
 # fix to git source until v5.0.0 is proprly released and tested
@@ -71,7 +71,7 @@ django-reversion==6.3.0
 djangorestframework==3.17.1
 djangorestframework-csv==3.0.2
 unicodecsv==0.14.1
-tqdm==4.68.2
+tqdm==4.68.3
 django-github-revision==0.0.3
 django-extensions==4.1
 django-cleanup==9.0.0
@@ -92,10 +92,10 @@ html2text==2025.4.15
 openpyxl==3.1.5
 
 # LLM exvaluation
-langchain==1.3.9
-langchain-core==1.4.7
+langchain==1.3.11
+langchain-core==1.4.8
 langchain-community==0.4.2
 #langchain[llms]==0.1.5
-openai==2.41.1
-langchain-openai==1.3.0
+openai==2.44.0
+langchain-openai==1.3.3
 tiktoken==0.13.0
