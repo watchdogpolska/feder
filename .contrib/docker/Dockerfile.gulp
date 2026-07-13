@@ -1,4 +1,8 @@
 FROM node:24
+
+ARG UID=1000
+ARG GID=1000
+
 WORKDIR /app
 VOLUME /app
 
@@ -9,7 +13,10 @@ RUN apt-get update \
  && NPMV=$(jq -r '.engines.npm' package.json) \
  && npm install -g "npm@${NPMV}" \
  && apt-get purge -y jq \
- && rm -rf /var/lib/apt/lists/*
+ && rm -rf /var/lib/apt/lists/* \
+ && chown -R ${UID}:${GID} /app
+
+USER node
 
 CMD ["bash","-c", "npm install && npx gulp build"]
 # CMD ["bash","-c", " npm install ; npx gulp build ; sleep infinity "]

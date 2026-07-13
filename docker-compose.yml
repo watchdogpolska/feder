@@ -25,6 +25,9 @@ services:
     build:
       context: .
       dockerfile: .contrib/docker/Dockerfile.gulp
+      args:
+        UID: "${UID:-1000}"
+        GID: "${GID:-1000}"
     ports:
       - "35729:35729"
     networks:
@@ -36,10 +39,9 @@ services:
     build: &webBuild
       context: .
       dockerfile: .contrib/docker/Dockerfile.web
-      # args:
-      # PYTHON_VERSION: '${PYTHON_VERSION:-3.6.9}' # Match to production environment
-      # PYTHON_VERSION: '${PYTHON_VERSION:-3.10.6}' # Match to staging environment
-      # DJANGO_VERSION: '${DJANGO_VERSION:-==3.1.5}'
+      args:
+        UID: "${UID:-1000}"
+        GID: "${GID:-1000}"
     volumes: &webVolumes
       - .:/code
     environment: &webEnvironment

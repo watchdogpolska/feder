@@ -1,4 +1,6 @@
 TEST?=feder
+export UID := $(shell id -u)
+export GID := $(shell id -g)
 
 .PHONY: docs
 
