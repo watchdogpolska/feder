@@ -5,7 +5,7 @@
     {% get_obj_perms request.user for object.case.monitoring as "monitoring_perms" %}
 {% endif %}
 <div class="metadata-button-container">
-    <button type="button" class="btn btn-primary metadata-toggle" aria-expanded="false" data-toggle="collapse" data-target=".email_metadata">
+    <button type="button" class="btn btn-primary metadata-toggle" aria-expanded="false" data-bs-toggle="collapse" data-bs-target=".email_metadata">
         <span class="sr-only">{% trans 'Toggle metadata' %}</span>
         <span class="decoration">M</span>
         <span class="icon-bar first"></span>
@@ -17,8 +17,8 @@
     <table class="table">
         <tbody>
             <tr>
-                <td class="col-md-3 col-xs-6 col-sm-5 metadata_desc"><i class="fa-solid fa-address-book" aria-hidden="false"></i> {% trans 'Author' %}</td>
-                <td class="col-md-9 col-xs-6 col-sm-7 metadata_value"><a href="{{ object.author_url }}"> {{ object.author }} </a> </td>
+                <td class="col-md-3 col-6 col-sm-5 metadata_desc"><i class="fa-solid fa-address-book" aria-hidden="false"></i> {% trans 'Author' %}</td>
+                <td class="col-md-9 col-6 col-sm-7 metadata_value"><a href="{{ object.author_url }}"> {{ object.author }} </a> </td>
             </tr>
             <tr>
                 <td class="metadata_desc"><i class="fa-regular fa-calendar-plus" aria-hidden="false"></i> {% trans 'Creation date' %}</td>

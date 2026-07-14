@@ -47,12 +47,10 @@
                 <div class="input-group">
                     <input type="hidden" id="update_normalized_response_template" 
                         name="update_normalized_response_template" value="true">
-                    <div class="input-group-append">
-                        <button type="submit" id="update_normalized_response_template"
-                            class="btn btn-primary">
-                            {% trans 'Update monitoring normalized response template' %}
-                        </button>
-                    </div>
+                    <button type="submit" id="update_normalized_response_template"
+                        class="btn btn-primary">
+                        {% trans 'Update monitoring normalized response template' %}
+                    </button>
                 </div>
             </form>
         {% endif %}
@@ -80,11 +78,9 @@
                         name="letter_normalization_prompt_extension" class="form-control message-input" 
                         placeholder="{% trans 'Type your letter normalization prompt extension' %}..."
                         >{{object.letter_normalization_prompt_extension|default_if_none:""}}</textarea>
-                    <div class="input-group-append">
-                        <button type="submit" id="object.pk"
-                            class="btn btn-primary btn-send">
-                            {% trans 'Update letter normalization prompt extension' %}</button>
-                    </div>
+                    <button type="submit" id="object.pk"
+                        class="btn btn-primary btn-send">
+                        {% trans 'Update letter normalization prompt extension' %}</button>
                 </div>
             </form>
         </div>
@@ -101,12 +97,10 @@
                 <div class="input-group">
                     <input type="hidden" id="normalize_monitoring_responses" 
                         name="normalize_monitoring_responses" value="true">
-                    <div class="input-group-append">
-                        <button type="submit" id="normalize_monitoring_responses"
-                            class="btn btn-primary">
-                            {% trans 'Generate monitoring responses normalization tasks for cases' %}
-                        </button>
-                    </div>
+                    <button type="submit" id="normalize_monitoring_responses"
+                        class="btn btn-primary">
+                        {% trans 'Generate monitoring responses normalization tasks for cases' %}
+                    </button>
                 </div>
             </form>
         {% endif %}

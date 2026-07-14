@@ -2,24 +2,24 @@
 {% load i18n %}
 {% block breadcrumbs %}
 <ol class="breadcrumb" itemscope itemtype="http://schema.org/BreadcrumbList">
-    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+    <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
         <a itemprop="item" href="{{ monitoring.get_absolute_url }}">
             <span itemprop="name">{{ monitoring }}</span>
         </a>
     </li>
     {% if object %}
-    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+    <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
         <a itemprop="item" href="{% url 'cases_tags:list' monitoring=monitoring.pk %}">
             <span itemprop="name">{% trans 'Tags index' %}</span>
         </a>
     </li>
-    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+    <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
         <a itemprop="item" href="{{ object.get_absolute_url }}">
             <span itemprop="name">{{ object }}</span>
         </a>
     </li>
     {% else %}
-    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+    <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
         <a itemprop="item" href="{% url 'cases_tags:list' monitoring=monitoring.pk %}">
             <span itemprop="name">{% trans 'Tags index' %}</span>
         </a>

@@ -20,7 +20,7 @@
             <div class="col-md-6">
                 <h5><b>{% trans "Results summary"  %}</b></h5>
             </div>
-            <div class="col-md-6 text-right">
+            <div class="col-md-6 text-end">
                 {% if request.user.is_superuser and xlsx_url %}
                 <a class="btn btn-primary" href="{{ xlsx_url }}">
                     <i class="fa-solid fa-download" aria-hidden></i> {% trans 'Download responses report .xlsx' %}

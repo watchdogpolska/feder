@@ -9,7 +9,7 @@
 {% block content %}
     <div class="container">
         <div class="row">
-            <div class="col-md-4 col-md-offset-4">
+            <div class="col-md-4 offset-md-4">
                 <div class="gray">
                     <h2>{% trans "Sign In using Social Media" %}</h2>
                     <p>{% blocktrans %}Please sign in with Google account,
@@ -32,7 +32,7 @@
                             <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
                         {% endif %}
                         <button class="btn btn-primary" type="submit">{% trans "Sign In" %}</button>
-                        <a class="btn btn-default"
+                        <a class="btn btn-secondary"
                            href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
 
                         <p class="mt-1">{% blocktrans %}If you do not have a user account,

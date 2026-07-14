@@ -16,6 +16,7 @@
         itemscope
         itemtype="http://schema.org/BreadcrumbList">
         <li
+            class="breadcrumb-item"
             itemprop="itemListElement"
             itemscope
             itemtype="http://schema.org/ListItem">
@@ -27,7 +28,7 @@
             itemprop="itemListElement"
             itemscope
             itemtype="http://schema.org/ListItem"
-            class="active">
+            class="breadcrumb-item active">
             <span itemprop="name">{% trans 'Report' %}</span>
         </li>
     </ol>
@@ -41,7 +42,7 @@
     {% get_obj_perms request.user for monitoring as "monitoring_perms" %}
     {% include 'monitorings/_header.html' with object=monitoring %}
     <div class="row">
-        <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+        <div class="col-lg-4 col-md-6 col-sm-12 col-12">
             <div class="block block_gray">
                 <h2 class="block__title">{% trans "Filters" %}</h2>
                 <form method="GET">
@@ -66,7 +67,7 @@
 
                 <p class="pb-1">{% trans "Select tags to add or remove, select cases from the list below and then confirm by clicking selected action button." %}</p>
 
-                <div id="multi-case-tags" class="form-group">
+                <div id="multi-case-tags" class="mb-3">
                     <div class="controls">
                         {% for tag in tags %}
                             <div class="checkbox">
@@ -91,7 +92,7 @@
             </div>
 
         </div>
-        <div class="col-lg-8 col-md-6 col-sm-12 col-xs-12">
+        <div class="col-lg-8 col-md-6 col-sm-12 col-12">
             {% include 'monitorings/_report_content.html' %}
         </div>
     </div>

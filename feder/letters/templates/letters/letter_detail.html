@@ -7,6 +7,7 @@
         itemscope
         itemtype="http://schema.org/BreadcrumbList">
         <li
+            class="breadcrumb-item"
             itemprop="itemListElement"
             itemscope
             itemtype="http://schema.org/ListItem">
@@ -22,6 +23,7 @@
         </li>
         {% if object.case %}
             <li
+                class="breadcrumb-item"
                 itemprop="itemListElement"
                 itemscope
                 itemtype="http://schema.org/ListItem">
@@ -34,7 +36,7 @@
             itemprop="itemListElement"
             itemscope
             itemtype="http://schema.org/ListItem"
-            class="active">
+            class="breadcrumb-item active">
             <span itemprop="name">{{ object }}</span>
         </li>
     </ol>
@@ -45,7 +47,7 @@
     {% include 'letters/_object.html' with object=object %}
     {% if object.eml and not user.is_anonymous %}
         {% if user.is_superuser or user.can_download_attachment %}
-            <a class="btn btn-default" href="{{ object.get_eml_url }}">
+            <a class="btn btn-secondary" href="{{ object.get_eml_url }}">
                 <i class="fa-solid fa-download"></i>
                 {% trans 'Download letter' %}
             </a>

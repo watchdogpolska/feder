@@ -4,7 +4,26 @@
 </div>
 
 <div class="row">
-    <div class="col-sm-8 col-sm-push-4">
+    <div class="col-sm-4">
+        <div class="red">
+            <form method="GET">
+                {{ filter.form | crispy }}
+                {% block form_buttons %}
+                <button type="submit" class="btn btn-primary btn-block">
+                    <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                    {% trans 'Filter' %}
+                </button>
+                {% endblock %}
+            </form>
+        </div>
+        {% if user.is_authenticated and summary_table %}
+            <div class="gray" >
+                {{ summary_table}} 
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="col-sm-8">
         {% for object in object_list %}
             <div class="gray">
                 {% include object_template with object=object %}
@@ -17,24 +36,5 @@
             </div>
         {% endfor %}
         {% bootstrap_paginate page_obj %}
-    </div>
-
-    <div class="col-sm-4 col-sm-pull-8">
-        <div class="red">
-            <form method="GET">
-                {{ filter.form | crispy }}
-                {% block form_buttons %}
-                <button type="submit" class="btn btn-primary btn-block">
-                    <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
-                    {% trans 'Filter' %}
-                </button>
-                {% endblock %}
-            </form>
-        </div>
-        {% if user.is_authenticated  %}
-            <div class="gray" >
-                {{ summary_table}} 
-            </div>
-        {% endif %}
     </div>
 </div>

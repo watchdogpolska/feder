@@ -5,7 +5,7 @@
         <a href="{{ object.get_absolute_url }}">{{ object }}</a>
         {% if object.ai_evaluation %}
             <p class="text-muted"><br>
-                <i class="fa-solid fa-circle-question" data-toggle="tooltip" data-placement="bottom"
+                <i class="fa-solid fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="bottom"
                     title="{{ object.ai_prompt_help }}">
                 </i> {% trans 'LLM evaluation: ' %}
                 {{ object.ai_evaluation|linebreaksbr }}

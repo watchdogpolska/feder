@@ -7,6 +7,7 @@
         itemscope
         itemtype="http://schema.org/BreadcrumbList">
         <li
+            class="breadcrumb-item"
             itemprop="itemListElement"
             itemscope
             itemtype="http://schema.org/ListItem">
@@ -18,7 +19,7 @@
             itemprop="itemListElement"
             itemscope
             itemtype="http://schema.org/ListItem"
-            class="active">
+            class="breadcrumb-item active">
             <span itemprop="name">{% trans 'Assign institutions' %}</span>
         </li>
     </ol>
@@ -29,7 +30,19 @@
         <h1>{% trans 'Assign institutions' %}</h1>
     </div>
     <div class="row">
-        <div class="col-sm-8 col-sm-push-4">
+        <div class="col-sm-4">
+            <div class="red">
+                <form method="GET">
+                    {{ filter.form | crispy }}
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                        {% trans 'Filtr' %}
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-sm-8">
                 <form method="POST">
                     {% if is_filtered %}
                     <button type="submit" class="btn btn-primary">
@@ -75,18 +88,6 @@
                 <!-- paginator disabled in view -->
                 {# {% bootstrap_paginate page_obj %} #} 
 
-        </div>
-
-        <div class="col-sm-4 col-sm-pull-8">
-            <div class="red">
-                <form method="GET">
-                    {{ filter.form | crispy }}
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
-                        {% trans 'Filtr' %}
-                    </button>
-                </form>
-            </div>
         </div>
 
     </div>

@@ -8,6 +8,7 @@
         itemtype="http://schema.org/BreadcrumbList">
         {% if object.letter.case %}
             <li
+                class="breadcrumb-item"
                 itemprop="itemListElement"
                 itemscope
                 itemtype="http://schema.org/ListItem">
@@ -16,6 +17,7 @@
                 </a>
             </li>
             <li
+                class="breadcrumb-item"
                 itemprop="itemListElement"
                 itemscope
                 itemtype="http://schema.org/ListItem">
@@ -25,6 +27,7 @@
             </li>
         {% endif %}
         <li
+            class="breadcrumb-item"
             itemprop="itemListElement"
             itemscope
             itemtype="http://schema.org/ListItem">
@@ -33,6 +36,7 @@
             </a>
         </li>
         <li
+            class="breadcrumb-item"
             itemprop="itemListElement"
             itemscope
             itemtype="http://schema.org/ListItem">
@@ -45,7 +49,7 @@
                 itemprop="itemListElement"
                 itemscope
                 itemtype="http://schema.org/ListItem"
-                class="active">
+                class="breadcrumb-item active">
                 <span itemprop="name">{% if headline %}{{ headline }}{% else %}{% trans 'Edit' %}{% endif %}</span>
             </li>
         {% endblock %}

@@ -228,22 +228,25 @@ iframe.letter-quote {
 }
 
 
-/* generic padding and margin classes */
+/* generic padding and margin classes replaced by standard Bootstrap 5 utility classes */
 
-@each $propLong, $propShort in ("margin": "m", "padding": "p") {
-    @each $sideLong, $sideShort in ("top": "t", "right": "r", "bottom": "b", "left": "l") {
-        @for $val from 0 through 5 {
-            .#{$propShort}#{$sideShort}-#{$val} {
-                #{$propLong}-#{$sideLong}: #{$val}em !important;
-            }
-        }
-    }
+
+/* breadcrumbs */
+
+.breadcrumb {
+  background-color: #f5f5f5;
+  padding: 8px 15px;
+  border-radius: $border-radius-base;
+  margin-bottom: 20px;
 }
 
 
 /* tables */
 
 .table {
+  --bs-table-bg: #fff;
+  background-color: #fff;
+
   &__col_narrow {
     max-width: 120px;
   }
@@ -281,4 +284,9 @@ iframe.letter-quote {
 /* select2 fix */
 .select2-selection__rendered {
     line-height: 20px !important;
+}
+
+// Fix double arrows.
+.select2-selection__arrow {
+    display: none;
 }

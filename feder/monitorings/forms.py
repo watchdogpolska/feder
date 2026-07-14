@@ -83,12 +83,12 @@ class MonitoringForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm
         left_fields = [f for f in left_order if f in self.fields]
         right_fields = [f for f in right_order if f in self.fields]
 
-        # ensure helper exists & uses bootstrap3 (if your mixin doesn’t set it)
+        # ensure helper exists & uses bootstrap5 (if your mixin doesn’t set it)
         if not hasattr(self, "helper"):
             from crispy_forms.helper import FormHelper
 
             self.helper = FormHelper()
-        self.helper.template_pack = "bootstrap3"
+        self.helper.template_pack = "bootstrap5"
 
         self.helper.layout = Layout(
             Row(
