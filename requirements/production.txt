@@ -1,6 +1,6 @@
 # Pro-tip: Try not to put anything here. There should be no dependency in
 #	production that isn't in development.
 -r base.txt
-gevent==26.5.0
+gevent==26.7.0
 gunicorn==26.0.0
 sentry-sdk==2.66.1
