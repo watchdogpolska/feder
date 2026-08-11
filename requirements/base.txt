@@ -35,7 +35,7 @@ lxml==6.1.1
 
 
 # Your custom requirements go here
-cryptography==49.0.0
+cryptography==50.0.0
 django-filter==26.1
 # django-autocomplete-light v4.0.1 disappeared from pypi
 # fix to git source until v5.0.0 is proprly released and tested
