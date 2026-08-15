@@ -5,6 +5,10 @@
   "baseBranchPatterns": [
     "develop"
   ],
+    "ignorePaths": [
+      "**/node_modules/**",
+      "**/bower_components/**"
+  ],
   "enabledManagers": [
     "dockerfile",
     "github-actions",
