@@ -3,61 +3,61 @@
 {% get_obj_perms request.user for object as "monitoring_perms" %}
 {% if "change_monitoring" in monitoring_perms or "delete_monitoring" in monitoring_perms or "view_log" in monitorings_perms or "view_alert" in monitorings_perms or "manage_perm" in monitorings_perms or "view_tag" in monitorings_perms %}
     <div class="clearfix">
-        <div class="float-end btn-group-sm">
+        <div class="float-end btn-group btn-group-sm">
             {% if "change_monitoring" in monitoring_perms %}
-                <a class="btn btn-outline-secondary" href="{% url 'monitorings:update' slug=object.slug %}">
+                <a class="btn btn-secondary" href="{% url 'monitorings:update' slug=object.slug %}">
                     {% trans 'Edit' %}
                 </a>
-                <a class="btn btn-outline-secondary" href="{% url 'monitorings:results_update' slug=object.slug %}">
+                <a class="btn btn-secondary" href="{% url 'monitorings:results_update' slug=object.slug %}">
                     {% trans 'Update results' %}
                 </a>
-                <a class="btn btn-outline-secondary" href="{% url 'monitorings:assign' slug=object.slug %}">
+                <a class="btn btn-secondary" href="{% url 'monitorings:assign' slug=object.slug %}">
                     {% trans 'Assign' %}
                 </a>
             {% endif %}
             {% if "delete_monitoring" in monitoring_perms %}
-                <a class="btn btn-warning" href="{% url 'monitorings:delete' slug=object.slug %}">
+                <a class="btn btn-primary" href="{% url 'monitorings:delete' slug=object.slug %}">
                     {% trans 'Delete' %}
                 </a>
             {% endif %}
             {% if "add_case" in monitoring_perms %}
-                <a class="btn btn-outline-secondary" href="{% url 'cases:create' monitoring=object.pk %}">
+                <a class="btn btn-secondary" href="{% url 'cases:create' monitoring=object.pk %}">
                     {% trans 'Add case' %}
                 </a>
             {% endif %}
             {% if "add_letter" in monitoring_perms %}
-                <a class="btn btn-outline-secondary" href="{% url 'monitorings:mass-message' slug=object.slug %}">
+                <a class="btn btn-secondary" href="{% url 'monitorings:mass-message' slug=object.slug %}">
                     {% trans 'Mass message' %}
                 </a>
             {% endif %}
             {% if "manage_perm" in monitoring_perms %}
-                <a class="btn btn-outline-secondary" href="{% url 'monitorings:perm' slug=object.slug %}">
+                <a class="btn btn-secondary" href="{% url 'monitorings:perm' slug=object.slug %}">
                     {% trans 'Permissions' %}
                 </a>
             {% endif %}
             {% if "view_alert" in monitoring_perms %}
-                <a class="btn btn-outline-secondary" href="{% url 'alerts:list' monitoring=object.pk %}">
+                <a class="btn btn-secondary" href="{% url 'alerts:list' monitoring=object.pk %}">
                     {% trans 'Alerts list' %}
                 </a>
             {% endif %}
             {% if "view_log" in monitoring_perms %}
-                <a class="btn btn-outline-secondary" href="{% url 'logs:list' monitoring_pk=object.pk %}">
+                <a class="btn btn-secondary" href="{% url 'logs:list' monitoring_pk=object.pk %}">
                     <i class="fa-solid fa-inbox" aria-hidden="true"></i>
                     {% trans 'View logs' %}
                 </a>
             {% endif %}
             {% if "view_tag" in monitoring_perms %}
-                <a class="btn btn-outline-secondary" href="{% url 'cases_tags:list' monitoring=object.pk %}">
+                <a class="btn btn-secondary" href="{% url 'cases_tags:list' monitoring=object.pk %}">
                     <i class="fa-solid fa-hashtag" aria-hidden="true"></i>
                     {% trans 'View tags' %}
                 </a>
             {% endif %}
             {% if "view_report" in monitoring_perms %}
-                <a class="btn btn-outline-secondary" href="{% url 'monitorings:report' slug=object.slug %}">
+                <a class="btn btn-secondary" href="{% url 'monitorings:report' slug=object.slug %}">
                     <i class="fa-solid fa-file" aria-hidden="true"></i>
                     {% trans 'View report' %}
                 </a>
-                <a class="btn btn-outline-secondary" href="{{ object.get_monitoring_cases_table_url }}">
+                <a class="btn btn-secondary" href="{{ object.get_monitoring_cases_table_url }}">
                     <i class="fa-solid fa-table" aria-hidden="true"></i>
                     {% trans 'View cases table' %}
                 </a>
