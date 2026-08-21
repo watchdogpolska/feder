@@ -48,6 +48,11 @@ urlpatterns = [
         name="attachment",
     ),
     re_path(
+        _(r"^attachment/(?P<pk>[\d-]+)/(?P<letter_pk>[\d-]+)/~text-content$"),
+        views.AttachmentTextContentView.as_view(),
+        name="attachment_text_content",
+    ),
+    re_path(
         r"^attachment/(?P<pk>[\d-]+)/(?P<letter_pk>[\d-]+)$",
         views.AttachmentXSendFileView.as_view(),
     ),  # no translation for back-ward compatibility

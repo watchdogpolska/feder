@@ -1,9 +1,9 @@
 import json
 import logging
 import uuid
+from functools import cached_property
 from os import path
 
-from cached_property import cached_property
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
@@ -202,6 +202,7 @@ class LetterCreateView(
     def get_form_kwargs(self):
         kw = super().get_form_kwargs()
         kw["case"] = self.case
+        kw["request"] = self.request
         return kw
 
     def get_context_data(self, **kwargs):
@@ -672,6 +673,14 @@ class AttachmentXSendFileView(MixinGzipXSendFile, BaseXSendFileView):
         ):
             raise PermissionDenied(_("You do not have permission to view that file."))
         return super().render_to_response(context)
+
+
+class AttachmentTextContentView(DetailView):
+    model = Attachment
+    template_name = "letters/_attachment_text_content.html"
+
+    def get_queryset(self):
+        return super().get_queryset().for_user(self.request.user)
 
 
 class AttachmentRequestCreateView(ActionMessageMixin, ActionView):

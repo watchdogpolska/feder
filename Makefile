@@ -23,11 +23,21 @@ build:
 start: wait_mysql
 	docker compose up --remove-orphans
 
-test:
+stop:
+	docker compose stop
+
+test: wait_mysql
+	docker compose exec -t db mysql --user=root --password=password -e "DROP DATABASE IF EXISTS test_feder;"
 	docker compose run web coverage run manage.py test --keepdb --verbosity=2 ${TEST}
 
 e2e: wait_mysql
+	# Create a user for tests.
+	docker compose --file docker-compose.yml --file docker-compose.test.yml \
+		run --rm web python manage.py createsuperuserwithpassword \
+		--username e2e --email e2e@example.com --password e2e --noinput
 	docker compose --file docker-compose.yml --file docker-compose.test.yml up --build --exit-code-from tests db web tests
+
+fulltest: check test e2e
 
 coverage_html:
 	docker compose run web coverage html
@@ -45,10 +55,10 @@ migrate:
 	docker compose run --remove-orphans web python manage.py migrate
 
 lint: # lint currently staged files
-	pre-commit run
+	docker compose run --remove-orphans web pre-commit run
 
 lint-all: # lint all files in repository
-	pre-commit run --all-files
+	docker compose run --remove-orphans web pre-commit run --all-files
 
 check: wait_mysql
 	docker compose run --remove-orphans web python manage.py makemigrations --check

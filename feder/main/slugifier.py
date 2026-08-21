@@ -1,5 +1,5 @@
 from functools import partial
 
-from slugify import slugify
+from django.utils.text import slugify
 
-ascii_slugify = partial(slugify, only_ascii=True)
+unicode_slugify = partial(slugify, allow_unicode=True)

@@ -5,7 +5,6 @@ A tool to insert institutions from CSV files.
 Requirements:
  - requests
  - gusregon
- - unicodecsv
  - tqdm
 
 Example usage:
@@ -15,13 +14,13 @@ $ python insert_court.py -h
 """
 
 import argparse
+import csv
 import os
 import sys
 from urllib.parse import urljoin
 
 import requests
 import requests_cache
-import unicodecsv as csv
 from gusregon import GUS
 from insert_institution import normalize_jst
 from tqdm import trange

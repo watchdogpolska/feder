@@ -23,7 +23,6 @@ django-allauth==65.19.1
 jwt==1.4.0
 
 # Unicode slugification
-unicode-slugify==0.1.5
 django-autoslug==1.9.9
 
 # Time zones support
@@ -56,7 +55,6 @@ django-mptt==0.18.0
 jsonfield==3.2.0
 django-guardian==3.3.3
 django-teryt-tree==0.18.4
-cached-property==2.0.1
 
 # replacing unmaintained django-bootstrap-pagination with updated fork
 # django-bootstrap-pagination==1.7.1
@@ -65,7 +63,6 @@ git+https://github.com/PiotrIw/django-bootstrap-pagination.git@master#egg=django
 django-reversion==6.3.0
 djangorestframework==3.18.0
 djangorestframework-csv==3.0.2
-unicodecsv==0.14.1
 tqdm==4.70.0
 django-github-revision==0.0.3
 django-extensions==4.1

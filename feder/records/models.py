@@ -1,6 +1,6 @@
 import warnings
+from functools import cached_property
 
-from cached_property import cached_property
 from django.db import models
 
 # Create your models here.
