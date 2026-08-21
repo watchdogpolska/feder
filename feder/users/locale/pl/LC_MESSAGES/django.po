@@ -3,11 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#: feder/users/urls.py:8
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-13 19:23+0100\n"
+"POT-Creation-Date: 2026-08-21 12:48+0200\n"
 "PO-Revision-Date: 2024-03-13 19:27+0124\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: \n"
@@ -15,7 +16,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.8.7.1\n"
 "X-Translated-Using: django-rosetta 0.9.9\n"
 
@@ -45,21 +47,21 @@ msgstr ""
 msgid "Connect a Google account"
 msgstr "Połącz konto Google"
 
-#: feder/users/templates/users/user_detail.html:4
+#: feder/users/templates/users/user_detail.html:5
 #: feder/users/templates/users/user_form.html:5
 #: feder/users/templates/users/user_form.html:12
 msgid "User"
 msgstr "Użytkownik / użytkowniczka"
 
-#: feder/users/templates/users/user_detail.html:20
+#: feder/users/templates/users/user_detail.html:21
 msgid "My Info"
 msgstr "O mnie"
 
-#: feder/users/templates/users/user_detail.html:21
+#: feder/users/templates/users/user_detail.html:22
 msgid "E-Mail"
 msgstr "E-mail"
 
-#: feder/users/templates/users/user_detail.html:22
+#: feder/users/templates/users/user_detail.html:23
 msgid "Password change"
 msgstr "Zmień hasło"
 
@@ -74,10 +76,6 @@ msgstr "Członkowie"
 #: feder/users/templates/users/user_list.html:11
 msgid "Users"
 msgstr "Użytkownicy / użytkowniczki"
-
-#: feder/users/urls.py:8
-msgid "^$"
-msgstr "^$"
 
 #: feder/users/urls.py:10
 msgid "^~redirect/$"
@@ -94,6 +92,9 @@ msgstr "^~aktualizuj/$"
 #: feder/users/urls.py:21
 msgid "^~autocomplete$"
 msgstr "^~autocomplete$"
+
+#~ msgid "^$"
+#~ msgstr "^$"
 
 #~ msgid "Connect a Facebook account"
 #~ msgstr "Połącz konto Facebook"
@@ -196,10 +197,16 @@ msgstr "^~autocomplete$"
 
 #~ msgid ""
 #~ "<a href=\"%(object_url)s\">%(object)s</a>\n"
-#~ "        <small>by <a href=\"%(author_url)s\"> %(author)s </a> <time datetime=\"%(created)s\" title=\"%(created)s\">%(created_natural)s</time> in case  <a href=\"%(case_url)s\">%(case)s</a> with <a href=\"%(institution_url)s\">%(institution)s</a></small>"
+#~ "        <small>by <a href=\"%(author_url)s\"> %(author)s </a> <time "
+#~ "datetime=\"%(created)s\" title=\"%(created)s\">%(created_natural)s</time> "
+#~ "in case  <a href=\"%(case_url)s\">%(case)s</a> with <a href=\"%"
+#~ "(institution_url)s\">%(institution)s</a></small>"
 #~ msgstr ""
 #~ "<a href=\"%(object_url)s\">%(object)s</a>\n"
-#~ "        <small>przez <a href=\"%(author_url)s\"> %(author)s </a><time datetime=\"%(created)s\" title=\"%(created)s\">%(created_natural)s</time> w sprawie  <a href=\"%(case_url)s\">%(case)s</a> z <a href=\"%(institution_url)s\">%(institution)s</a></small>"
+#~ "        <small>przez <a href=\"%(author_url)s\"> %(author)s </a><time "
+#~ "datetime=\"%(created)s\" title=\"%(created)s\">%(created_natural)s</time> "
+#~ "w sprawie  <a href=\"%(case_url)s\">%(case)s</a> z <a href=\"%"
+#~ "(institution_url)s\">%(institution)s</a></small>"
 
 #~ msgid "Confirm delete"
 #~ msgstr "Potwierdź usuwanie"

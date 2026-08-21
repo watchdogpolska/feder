@@ -61,6 +61,7 @@ const config = (() => {
     script: {
       input: [
         "./node_modules/jquery/dist/jquery.js",
+        "./node_modules/htmx.org/dist/htmx.js",
         "./node_modules/bootstrap-sass/assets/javascripts/bootstrap/tab.js",
         "./node_modules/bootstrap-sass/assets/javascripts/bootstrap/transition.js",
         "./node_modules/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js",

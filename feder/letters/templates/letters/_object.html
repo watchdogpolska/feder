@@ -98,17 +98,35 @@
                     </td>
                     <td>
                         {% if attachment.text_content %}
-                        <i class="fa-solid fa-triangle-exclamation" data-toggle="tooltip" data-placement="bottom"
-                            title="{{attachment.text_content_warning}}">
-                        </i>
-                        <blockquote class="expandable" name="attachment_text">
-                            <p>{{ attachment.text_content|linebreaksbr }}</p>
-                        </blockquote>
+                        <button type="button"
+                                class="btn btn-primary btn-xs js-attachment-text-btn"
+                                data-modal-title="{{ attachment.filename }}"
+                                hx-get="{% url 'letters:attachment_text_content' pk=attachment.pk letter_pk=object.pk %}"
+                                hx-target="#attachmentTextModalBody"
+                                hx-swap="innerHTML">
+                            <i class="fa-solid fa-square-plus"></i> {% trans 'Show att text' %}
+                        </button>
                         {% endif %}
                     </td>
                 </tr>
             {% endfor %}
-            </table>    
+            </table>
         </ul>
+    </div>
+
+    <div class="modal fade" id="attachmentTextModal" tabindex="-1" role="dialog"
+         aria-labelledby="attachmentTextModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close js-attachment-text-modal-close"
+                            aria-label="{% trans 'Close' %}">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="attachmentTextModalLabel"></h4>
+                </div>
+                <div class="modal-body" id="attachmentTextModalBody"></div>
+            </div>
+        </div>
     </div>
 {% endif %}

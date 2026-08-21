@@ -8,7 +8,6 @@ mysqlclient==2.2.8
 django-environ==0.14.0
 
 # Forms
-django-braces==1.17.0
 django-crispy-forms==2.7
 crispy-bootstrap3==2024.1
 
@@ -24,7 +23,6 @@ django-allauth==65.19.1
 jwt==1.4.0
 
 # Unicode slugification
-unicode-slugify==0.1.5
 django-autoslug==1.9.9
 
 # Time zones support
@@ -49,10 +47,6 @@ git+https://github.com/PiotrIw/django-ajax-datatable.git@05afe42
 
 django-tinymce==5.0.0
 
-# replacing unmaintained django-atom with updated fork
-# django-atom==0.16.3
-git+https://github.com/PiotrIw/django-atom.git@master#egg=django-atom
-
 # django-tinycontent is not supported anymore so watchdog maintained fork is used
 git+https://github.com/watchdogpolska/django-tinycontent.git@v1.0.1
 
@@ -61,7 +55,6 @@ django-mptt==0.18.0
 jsonfield==3.2.0
 django-guardian==3.3.3
 django-teryt-tree==0.18.4
-cached-property==2.0.1
 
 # replacing unmaintained django-bootstrap-pagination with updated fork
 # django-bootstrap-pagination==1.7.1
@@ -70,7 +63,6 @@ git+https://github.com/PiotrIw/django-bootstrap-pagination.git@master#egg=django
 django-reversion==6.3.0
 djangorestframework==3.18.0
 djangorestframework-csv==3.0.2
-unicodecsv==0.14.1
 tqdm==4.70.0
 django-github-revision==0.0.3
 django-extensions==4.1

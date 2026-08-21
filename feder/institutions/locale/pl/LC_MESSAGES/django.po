@@ -3,11 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#: feder/institutions/urls.py:7
 msgid ""
 msgstr ""
 "Project-Id-Version: django-institutions 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-13 19:23+0100\n"
+"POT-Creation-Date: 2026-08-21 12:48+0200\n"
 "PO-Revision-Date: 2024-02-09 18:25+0124\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -163,10 +164,6 @@ msgstr "Strona %(no)s z %(total)s"
 msgid "next"
 msgstr "następna"
 
-#: feder/institutions/urls.py:7
-msgid "^$"
-msgstr "^$"
-
 #: feder/institutions/urls.py:8
 msgid "^~create$"
 msgstr "^~utworz$"
@@ -195,7 +192,7 @@ msgstr "^~autocomplete$"
 msgid "^~autocomplete-tag$"
 msgstr "^~autocomplete-tag$"
 
-#: feder/institutions/views.py:27
+#: feder/institutions/views.py:29
 msgid "Institutions index"
 msgstr "Wykaz instytucji"
 
@@ -234,6 +231,9 @@ msgstr "Nazwy tagów"
 #: feder/institutions/viewsets.py:79
 msgid "institutions"
 msgstr "instytucje"
+
+#~ msgid "^$"
+#~ msgstr "^$"
 
 #~ msgid "Primary key"
 #~ msgstr "Klucz główny"

@@ -125,18 +125,13 @@
         $(function () {
             var show_quote = '<i class="fa-solid fa-square-plus"></i> {%trans "Show quote" %}';
             var hide_quote = '<i class="fa-solid fa-square-minus"></i> {%trans "Hide quote" %}';
-            var show_att_text = '<i class="fa-solid fa-square-plus"></i> {%trans "Show att text" %}';
-            var hide_att_text = '<i class="fa-solid fa-square-minus"></i> {%trans "Hide att text" %}';
             $('blockquote.expandable').each(function (index, value) {
                 var el = $(value).hide();
-                var show = el.attr('name') === 'attachment_text' ? show_att_text : show_quote;
-                var hide = el.attr('name') === 'attachment_text' ? hide_att_text : hide_quote;
-                var new_el = $("<button class='btn btn-primary'>" + show + "</a>");
+                var new_el = $("<button class='btn btn-primary'>" + show_quote + "</a>");
                 new_el.click(function (event) {
                     event.preventDefault();
                     el.slideToggle();
-                    console.log(this.innerHTML);
-                    this.innerHTML = this.innerHTML == show ? hide : show;
+                    this.innerHTML = this.innerHTML == show_quote ? hide_quote : show_quote;
                 });
                 el.before(new_el);
             });

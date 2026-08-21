@@ -5,7 +5,6 @@ A tool to insert institutions from CSV files.
 Requirements:
  - requests
  - gusregon
- - unicodecsv
  - jmespath
 
 Example usage:
@@ -15,6 +14,7 @@ $ python insert_institution_csv.py -h
 """
 
 import argparse
+import csv
 import itertools
 import sys
 
@@ -22,7 +22,6 @@ import jmespath
 import requests
 import requests_cache
 import tqdm
-import unicodecsv as csv
 from Queue import Queue
 
 

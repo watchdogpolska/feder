@@ -20,10 +20,10 @@ $ (cat /tmp/wojewodowie.csv | grep -E 'Wojewoda|TERC') | python insert_instituti
 """
 
 import argparse
+import csv
 import sys
 
 import requests
-import unicodecsv as csv
 
 # TODO: Load community and voivodeship
 
