@@ -304,7 +304,7 @@ LOGIN_URL = "account_login"
 MIN_FILTER_YEAR = 2016
 
 # SLUGLIFIER
-AUTOSLUG_SLUGIFY_FUNCTION = "feder.main.slugifier.ascii_slugify"
+AUTOSLUG_SLUGIFY_FUNCTION = "feder.main.slugifier.unicode_slugify"
 
 # LOGGING CONFIGURATION
 # ------------------------------------------------------------------------------

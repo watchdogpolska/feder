@@ -23,7 +23,6 @@ django-allauth==65.19.1
 jwt==1.4.0
 
 # Unicode slugification
-unicode-slugify==0.1.5
 django-autoslug==1.9.9
 
 # Time zones support
