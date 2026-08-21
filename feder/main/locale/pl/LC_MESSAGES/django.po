@@ -3,11 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#: feder/main/urls.py:36
 msgid ""
 msgstr ""
 "Project-Id-Version: main 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-14 18:12+0100\n"
+"POT-Creation-Date: 2026-08-21 12:48+0200\n"
 "PO-Revision-Date: 2024-08-21 11:13+0200\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -20,11 +21,11 @@ msgstr ""
 "X-Generator: Poedit 2.4.1\n"
 "X-Translated-Using: django-rosetta 0.10.0\n"
 
-#: config/settings/common.py:182
+#: config/settings/common.py:189
 msgid "Polish"
 msgstr "Polski"
 
-#: config/settings/common.py:182
+#: config/settings/common.py:189
 msgid "English"
 msgstr "Angielski"
 
@@ -144,18 +145,32 @@ msgstr ""
 "Kategoryzacja AI pominięta dla listu o tej samej treści, co już oceniany "
 "list: "
 
-#: feder/main/mixins.py:205
-msgid "Page number is not valid."
-msgstr "Numer strony jest nieprawidłowy."
+#: feder/main/forms.py:25
+msgid "Update"
+msgstr "Aktualizuj"
 
-#: feder/main/mixins.py:211
-#, python-format
-msgid "Invalid page (%(page_number)s): %(message)s"
-msgstr "Nieprawidłowa strona (%(page_number)s): %(message)s"
+#: feder/main/forms.py:25
+msgid "Save"
+msgstr "Zapisz"
 
-#: feder/main/mixins.py:228
+#: feder/main/mixins.py:235
 msgid "data"
 msgstr "dane"
+
+#: feder/main/mixins.py:353
+#, python-brace-format
+msgid "{verbose_name} {object} deleted!"
+msgstr "{verbose_name} {object} usunięty!"
+
+#: feder/main/mixins.py:414
+#, python-brace-format
+msgid "{verbose_name} {object} created!"
+msgstr "{verbose_name} {object} utworzony!"
+
+#: feder/main/mixins.py:423
+#, python-brace-format
+msgid "{verbose_name} {object} updated!"
+msgstr "{verbose_name} {object} zaktualizowany!"
 
 #: feder/main/templates/_confirm_delete.html:4
 msgid ""
@@ -182,7 +197,7 @@ msgstr "Usuń"
 msgid "No rows."
 msgstr "Brak wierszy."
 
-#: feder/main/templates/_filter.html:33
+#: feder/main/templates/_filter.html:29
 msgid "Filter"
 msgstr "Filtruj"
 
@@ -222,35 +237,35 @@ msgstr "Monitoringi"
 msgid "Monitorings table"
 msgstr "Tabela monitoringów"
 
-#: feder/main/templates/_sidebar.html:46
+#: feder/main/templates/_sidebar.html:47
 msgid "Letters assigned to cases"
 msgstr "Listy przypisane do spraw"
 
-#: feder/main/templates/_sidebar.html:53
+#: feder/main/templates/_sidebar.html:55
 msgid "Letters unassigned to cases"
 msgstr "Listy nieprzypisane do spraw"
 
-#: feder/main/templates/_sidebar.html:60
+#: feder/main/templates/_sidebar.html:62
 msgid "Institutions"
 msgstr "Instytucje"
 
-#: feder/main/templates/_sidebar.html:68
+#: feder/main/templates/_sidebar.html:70
 msgid "User"
 msgstr "Użytkownik / użytkowniczka"
 
-#: feder/main/templates/_sidebar.html:72
+#: feder/main/templates/_sidebar.html:74
 msgid "My Profile"
 msgstr "Mój profil"
 
-#: feder/main/templates/_sidebar.html:75
+#: feder/main/templates/_sidebar.html:77
 msgid "App admin"
 msgstr "Panel administracyjny"
 
-#: feder/main/templates/_sidebar.html:78
+#: feder/main/templates/_sidebar.html:80
 msgid "Logout"
 msgstr "Wyloguj"
 
-#: feder/main/templates/_sidebar.html:88
+#: feder/main/templates/_sidebar.html:90
 msgid "Log In"
 msgstr "Zaloguj"
 
@@ -365,7 +380,7 @@ msgstr ""
 "adresem e-mail użytkownika %(user_display)s."
 
 #: feder/main/templates/account/login.html:7
-#: feder/main/templates/account/login.html:31
+#: feder/main/templates/account/login.html:34
 msgid "Sign In"
 msgstr "Zaloguj"
 
@@ -384,15 +399,15 @@ msgstr ""
 "href=\"%(signup_url)s\">zarejestruj się</a> \n"
 "na stronie i zaloguj poniżej."
 
-#: feder/main/templates/account/login.html:23
+#: feder/main/templates/account/login.html:26
 msgid "Alternatively use user account"
 msgstr "Możesz też użyć konta użytkownika"
 
-#: feder/main/templates/account/login.html:33
+#: feder/main/templates/account/login.html:36
 msgid "Forgot Password?"
 msgstr "Zapomniałeś hasła?"
 
-#: feder/main/templates/account/login.html:35
+#: feder/main/templates/account/login.html:38
 #, python-format
 msgid ""
 "If you do not have a user account,\n"
@@ -654,57 +669,53 @@ msgstr ""
 "(Kontent niezdefiniowany: <a href=\"%(add_url)s?name=%(name_url)s\" "
 "title=\"Dodaj kontent\">Dodaj nowy</a>)"
 
-#: feder/main/urls.py:36
-msgid "^$"
-msgstr "^$"
-
 #: feder/main/urls.py:40
-msgid "^about/$"
-msgstr "^o-stronie/"
+msgid "about/"
+msgstr "o-stronie/"
 
 #: feder/main/urls.py:47
-msgid "^users/"
-msgstr "^uzytkownik/"
+msgid "users/"
+msgstr "uzytkownik/"
 
 #: feder/main/urls.py:51
-msgid "^institutions/"
-msgstr "^instytucje/"
+msgid "institutions/"
+msgstr "instytucje/"
+
+#: feder/main/urls.py:54
+msgid "monitorings/"
+msgstr "monitoringi/"
 
 #: feder/main/urls.py:55
-msgid "^monitorings/"
-msgstr "^monitoringi/"
+msgid "cases/"
+msgstr "sprawy/"
+
+#: feder/main/urls.py:56
+msgid "cases/tags/"
+msgstr "sprawy/tagi/"
 
 #: feder/main/urls.py:57
-msgid "^cases/"
-msgstr "^sprawy/"
+msgid "alerts/"
+msgstr "alerty/"
+
+#: feder/main/urls.py:58
+msgid "letters/"
+msgstr "listy/"
 
 #: feder/main/urls.py:59
-msgid "^cases/tags/"
-msgstr "^sprawy/tagi/"
+msgid "teryt/"
+msgstr "jst/"
+
+#: feder/main/urls.py:60
+msgid "letters/logs/"
+msgstr "listy/logi/"
 
 #: feder/main/urls.py:61
-msgid "^alerts/"
-msgstr "^alerty/"
+msgid "parcels/"
+msgstr "przesylki/"
 
 #: feder/main/urls.py:62
-msgid "^letters/"
-msgstr "^listy/"
-
-#: feder/main/urls.py:63
-msgid "^teryt/"
-msgstr "^jst/"
-
-#: feder/main/urls.py:64
-msgid "^letters/logs/"
-msgstr "^listy/logi/"
-
-#: feder/main/urls.py:65
-msgid "^parcels/"
-msgstr "^przesylki/"
-
-#: feder/main/urls.py:67
-msgid "^virus_scan/"
-msgstr "^virus_scan/"
+msgid "virus_scan/"
+msgstr "virus_scan/"
 
 #: feder/main/utils.py:93
 msgid "<p>Normalized response is not valid JSON.</p>"
@@ -745,6 +756,16 @@ msgstr "Wpis"
 #: feder/records/models.py:124
 msgid "Records"
 msgstr "Wpisy"
+
+#~ msgid "Page number is not valid."
+#~ msgstr "Numer strony jest nieprawidłowy."
+
+#, python-format
+#~ msgid "Invalid page (%(page_number)s): %(message)s"
+#~ msgstr "Nieprawidłowa strona (%(page_number)s): %(message)s"
+
+#~ msgid "^$"
+#~ msgstr "^$"
 
 #, python-brace-format
 #~ msgid "Prompt of {token_count} is too long."
@@ -831,10 +852,6 @@ msgstr "Wpisy"
 #, fuzzy
 #~ msgid "Letter count:"
 #~ msgstr "Id Listu"
-
-#, fuzzy
-#~ msgid "Update case"
-#~ msgstr "Aktualizuj"
 
 #, fuzzy
 #~ msgid "Parcel post"

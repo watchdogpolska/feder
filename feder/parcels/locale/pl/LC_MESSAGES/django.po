@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-13 19:23+0100\n"
+"POT-Creation-Date: 2026-08-21 12:48+0200\n"
 "PO-Revision-Date: 2023-06-02 14:27+0000\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: \n"
@@ -134,33 +134,33 @@ msgstr "Data utworzenia"
 msgid "Modification date"
 msgstr "Data modyfikacji"
 
-#: feder/parcels/views.py:63
+#: feder/parcels/views.py:64
 #, python-brace-format
 msgid "{0} created!"
 msgstr "{0} utworzony!"
 
-#: feder/parcels/views.py:93
+#: feder/parcels/views.py:94
 #, python-brace-format
 msgid "{0} updated!"
 msgstr "{0} zaktualizowany!"
 
-#: feder/parcels/views.py:119
+#: feder/parcels/views.py:120
 #, python-brace-format
 msgid "{0} deleted!"
 msgstr "{0} usunięty!"
 
-#: feder/parcels/views.py:129
+#: feder/parcels/views.py:130
 msgid "Add incoming parcel post"
 msgstr "Dodaj przychodzącą przesyłkę pocztową"
 
-#: feder/parcels/views.py:135
+#: feder/parcels/views.py:136
 msgid "Update incoming parcel post"
 msgstr "Zaktualizuj przychodzącą przesyłkę pocztową"
 
-#: feder/parcels/views.py:150
+#: feder/parcels/views.py:151
 msgid "Add outgoing parcel post"
 msgstr "Dodaj wychodzącą przesyłkę pocztową"
 
-#: feder/parcels/views.py:156
+#: feder/parcels/views.py:157
 msgid "Update outgoing parcel post"
 msgstr "Zaktualizujs wychodzącą przesyłkę pocztową"
