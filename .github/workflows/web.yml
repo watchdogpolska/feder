@@ -22,10 +22,13 @@ jobs:
       - uses: actions/checkout@v7
         with:
           lfs: true
-      - name: Build container images as the runner's own user
+      - name: Align container user with runner UID/GID
+        # docker-compose.yml defaults UID/GID to 1000, which only matches the
+        # checked-out file ownership by coincidence. Without this, containers
+        # can't write to the bind-mounted repo (logs/, staticfiles/, etc).
         run: |
-          echo "UID=$(id -u)" >> "$GITHUB_ENV"
-          echo "GID=$(id -g)" >> "$GITHUB_ENV"
+          echo "UID=$(id -u)" >> .env
+          echo "GID=$(id -g)" >> .env
       - name: Build application
         run: docker compose build web
         env:

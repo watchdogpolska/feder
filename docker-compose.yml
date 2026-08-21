@@ -28,6 +28,7 @@ services:
       args:
         UID: "${UID:-1000}"
         GID: "${GID:-1000}"
+    user: "${UID:-1000}:${GID:-1000}"
     ports:
       - "35729:35729"
     networks:
@@ -42,6 +43,7 @@ services:
       args:
         UID: "${UID:-1000}"
         GID: "${GID:-1000}"
+    user: "${UID:-1000}:${GID:-1000}"
     volumes: &webVolumes
       - .:/code
     environment: &webEnvironment
