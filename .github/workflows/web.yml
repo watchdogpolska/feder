@@ -10,14 +10,6 @@ on:
 jobs:
   django_build_and_test:
     runs-on: ubuntu-latest
-    env:
-      # Pin the container UID/GID explicitly so every docker compose
-      # invocation in this job (including the docker-compose.test.yml
-      # override used for e2e) builds the same non-root user, matching
-      # the chown below. Without this, UID/GID resolution has been
-      # observed to differ between invocations within the same job.
-      UID: "1000"
-      GID: "1000"
 #     strategy:
 #       matrix:
 #         python:
@@ -30,10 +22,10 @@ jobs:
       - uses: actions/checkout@v7
         with:
           lfs: true
-      - name: Allow non-root container user to write to the checkout
+      - name: Build container images as the runner's own user
         run: |
-          sudo chown -R 1000:1000 .
-          sudo chown -R "$(id -u):$(id -g)" .git
+          echo "UID=$(id -u)" >> "$GITHUB_ENV"
+          echo "GID=$(id -g)" >> "$GITHUB_ENV"
       - name: Build application
         run: docker compose build web
         env:

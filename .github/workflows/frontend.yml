@@ -14,10 +14,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - name: Allow non-root container user to write to the checkout
+      - name: Build container images as the runner's own user
         run: |
-          sudo chown -R 1000:1000 .
-          sudo chown -R "$(id -u):$(id -g)" .git
+          echo "UID=$(id -u)" >> "$GITHUB_ENV"
+          echo "GID=$(id -g)" >> "$GITHUB_ENV"
       - name: Collect statics
         run: docker compose run web python manage.py collectstatic --noinput
       - name: Build and run frontend
