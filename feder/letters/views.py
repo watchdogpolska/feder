@@ -202,6 +202,7 @@ class LetterCreateView(
     def get_form_kwargs(self):
         kw = super().get_form_kwargs()
         kw["case"] = self.case
+        kw["request"] = self.request
         return kw
 
     def get_context_data(self, **kwargs):
