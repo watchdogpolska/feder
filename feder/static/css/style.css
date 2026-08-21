@@ -18593,6 +18593,16 @@ button.close {
   }
 }
 
+.attachment-text-content {
+  max-height: 70vh;
+  overflow-y: auto;
+  word-break: break-word;
+  padding: 10px 15px;
+  background-color: #f5f5f5;
+  border: 1px solid #e3e3e3;
+  border-radius: 4px;
+}
+
 .footer:before, .footer:after {
   display: table;
   content: " ";

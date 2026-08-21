@@ -674,6 +674,14 @@ class AttachmentXSendFileView(MixinGzipXSendFile, BaseXSendFileView):
         return super().render_to_response(context)
 
 
+class AttachmentTextContentView(DetailView):
+    model = Attachment
+    template_name = "letters/_attachment_text_content.html"
+
+    def get_queryset(self):
+        return super().get_queryset().for_user(self.request.user)
+
+
 class AttachmentRequestCreateView(ActionMessageMixin, ActionView):
     template_name_suffix = "_request_scan"
     model = Attachment
