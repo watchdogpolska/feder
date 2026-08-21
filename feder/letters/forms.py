@@ -1,5 +1,4 @@
 from atom.ext.crispy_forms.forms import HelperMixin, SingleButtonMixin
-from braces.forms import UserKwargModelFormMixin
 from crispy_forms.layout import Column, Fieldset, Layout, Row, Submit
 from dal import autocomplete
 from django import forms
@@ -19,6 +18,7 @@ from feder.llm_evaluation.tasks import (
     categorize_letter_in_background,
     update_letter_normalized_answers,
 )
+from feder.main.forms import UserKwargModelFormMixin
 from feder.records.models import Record
 
 from .models import Letter

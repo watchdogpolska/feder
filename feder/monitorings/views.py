@@ -4,18 +4,11 @@ from datetime import datetime
 import openpyxl
 from ajax_datatable import AjaxDatatableView
 from atom.views import DeleteMessageMixin, UpdateMessageMixin
-from braces.views import (
-    FormValidMessageMixin,
-    LoginRequiredMixin,
-    MessageMixin,
-    PermissionRequiredMixin,
-    SelectRelatedMixin,
-    UserFormKwargsMixin,
-)
 from cached_property import cached_property
 from dal import autocomplete
 from django.contrib import messages
 from django.contrib.auth import get_user_model
+from django.contrib.auth.mixins import LoginRequiredMixin as DjangoLoginRequiredMixin
 from django.contrib.syndication.views import Feed
 from django.core.exceptions import PermissionDenied
 from django.db.models import Count, Q
@@ -68,7 +61,15 @@ from feder.llm_evaluation.tasks import (
     update_letter_answers_to_monitoring_questions_categorization,
     update_monitoring_responses_normalization,
 )
-from feder.main.mixins import ExtraListMixin, RaisePermissionRequiredMixin
+from feder.main.mixins import (
+    ExtraListMixin,
+    FormValidMessageMixin,
+    LoginRequiredMixin,
+    PermissionRequiredMixin,
+    RaisePermissionRequiredMixin,
+    SelectRelatedMixin,
+    UserFormKwargsMixin,
+)
 from feder.main.utils import DeleteViewLogEntryMixin, FormValidLogEntryMixin
 
 from .filters import (
@@ -899,7 +900,7 @@ class MonitoringDeleteView(
     permission_required = "monitorings.delete_monitoring"
 
 
-class PermissionWizard(LoginRequiredMixin, SessionWizardView):
+class PermissionWizard(DjangoLoginRequiredMixin, SessionWizardView):
     form_list = [SelectUserForm, CheckboxTranslatedUserObjectPermissionsForm]
     template_name = "monitorings/permission_wizard.html"
 
@@ -1103,7 +1104,6 @@ class MassMessageView(
     LetterCommonMixin,
     RaisePermissionRequiredMixin,
     UserFormKwargsMixin,
-    MessageMixin,
     CreateWithInlinesView,
 ):
     template_name = "monitorings/mass_message.html"
@@ -1141,7 +1141,8 @@ class MassMessageView(
         if "send" in self.request.POST:
             cases_count = self.object.mass_draft.determine_cases().count()
             send_mass_draft(self.object.pk)
-            self.messages.success(
+            messages.success(
+                self.request,
                 _(
                     'Message "{letter}" has been scheduled for sending '
                     "to {count} recipients!"
@@ -1149,7 +1150,8 @@ class MassMessageView(
                 fail_silently=True,
             )
         else:
-            self.messages.success(
+            messages.success(
+                self.request,
                 _("Message {message} saved to review!").format(message=self.object),
                 fail_silently=True,
             )

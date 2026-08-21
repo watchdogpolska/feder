@@ -1,12 +1,16 @@
 import django_filters
-from braces.views import LoginRequiredMixin
-from django.core.exceptions import ImproperlyConfigured
+from django.conf import settings
+from django.contrib import messages
+from django.contrib.auth import REDIRECT_FIELD_NAME
+from django.contrib.auth.views import redirect_to_login
+from django.core.exceptions import ImproperlyConfigured, PermissionDenied
 from django.core.paginator import EmptyPage, Paginator
 from django.db import models
+from django.utils.encoding import force_str
 from django.utils.translation import gettext as _
 from django.views.generic.detail import BaseDetailView
 from django_sendfile import sendfile
-from guardian.mixins import PermissionRequiredMixin
+from guardian.mixins import PermissionRequiredMixin as GuardianPermissionRequiredMixin
 from rest_framework_csv.renderers import CSVRenderer
 
 
@@ -60,7 +64,68 @@ class ExtraListMixin:
         return context
 
 
-class RaisePermissionRequiredMixin(LoginRequiredMixin, PermissionRequiredMixin):
+class AccessMixin:
+    """Base for LoginRequiredMixin/PermissionRequiredMixin below (ported from the
+    unmaintained django-braces, trimmed to what this project actually uses)."""
+
+    raise_exception = False
+    redirect_unauthenticated_users = False
+
+    def handle_no_permission(self, request):
+        if self.raise_exception:
+            if (
+                self.redirect_unauthenticated_users
+                and not request.user.is_authenticated
+            ):
+                return self._redirect_to_login(request)
+            raise PermissionDenied
+        return self._redirect_to_login(request)
+
+    @staticmethod
+    def _redirect_to_login(request):
+        return redirect_to_login(
+            request.get_full_path(), settings.LOGIN_URL, REDIRECT_FIELD_NAME
+        )
+
+
+class LoginRequiredMixin(AccessMixin):
+    """Requires the user to be authenticated (ported from django-braces)."""
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return self.handle_no_permission(request)
+        return super().dispatch(request, *args, **kwargs)
+
+
+class PermissionRequiredMixin(AccessMixin):
+    """Requires request.user to have `permission_required` (ported from django-braces).
+
+    Attributes:
+        object_level_permissions (bool): check the permission against
+            self.get_object() instead of globally.
+    """
+
+    permission_required = None
+    object_level_permissions = False
+
+    def check_permissions(self, request):
+        if self.permission_required is None:
+            raise ImproperlyConfigured(
+                f'{self.__class__.__name__} requires the "permission_required" '
+                "attribute to be set."
+            )
+        if self.object_level_permissions:
+            obj = self.get_object() if hasattr(self, "get_object") else None
+            return request.user.has_perm(self.permission_required, obj)
+        return request.user.has_perm(self.permission_required)
+
+    def dispatch(self, request, *args, **kwargs):
+        if not self.check_permissions(request):
+            return self.handle_no_permission(request)
+        return super().dispatch(request, *args, **kwargs)
+
+
+class RaisePermissionRequiredMixin(LoginRequiredMixin, GuardianPermissionRequiredMixin):
     """Mixin to verify object permission with preserve correct status code in view"""
 
     raise_exception = True
@@ -179,3 +244,84 @@ class CsvRendererViewMixin:
                 self.csv_file_name
             )
         return response
+
+
+class SelectRelatedMixin:
+    """Applies select_related for a list of relations (ported from django-braces)."""
+
+    select_related = None
+
+    def get_queryset(self):
+        if self.select_related is None:
+            raise ImproperlyConfigured(
+                f"{self.__class__.__name__} is missing the select_related attribute."
+            )
+        return super().get_queryset().select_related(*self.select_related)
+
+
+class PrefetchRelatedMixin:
+    """Applies prefetch_related for a list of relations (ported from django-braces)."""
+
+    prefetch_related = None
+
+    def get_queryset(self):
+        if self.prefetch_related is None:
+            raise ImproperlyConfigured(
+                f"{self.__class__.__name__} is missing the prefetch_related attribute."
+            )
+        return super().get_queryset().prefetch_related(*self.prefetch_related)
+
+
+class UserFormKwargsMixin:
+    """Includes request.user in the form kwargs (ported from django-braces)."""
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["user"] = self.request.user
+        return kwargs
+
+
+class FormValidMessageMixin:
+    """Sends a success message via django.contrib.messages on valid form/delete
+    (ported from django-braces)."""
+
+    form_valid_message = None
+
+    def get_form_valid_message(self):
+        if self.form_valid_message is None:
+            raise ImproperlyConfigured(
+                f"{self.__class__.__name__}.form_valid_message is not set. Define "
+                f"{self.__class__.__name__}.form_valid_message, or override "
+                f"{self.__class__.__name__}.get_form_valid_message()."
+            )
+        return force_str(self.form_valid_message)
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(
+            self.request, self.get_form_valid_message(), fail_silently=True
+        )
+        return response
+
+    def delete(self, *args, **kwargs):
+        response = super().delete(*args, **kwargs)
+        messages.success(
+            self.request, self.get_form_valid_message(), fail_silently=True
+        )
+        return response
+
+
+class SetHeadlineMixin:
+    """Adds a `headline` context item from a view attribute (ported from
+    django-braces)."""
+
+    headline = None
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.headline is None:
+            raise ImproperlyConfigured(
+                f"{self.__class__.__name__} is missing the headline attribute."
+            )
+        context["headline"] = force_str(self.headline)
+        return context

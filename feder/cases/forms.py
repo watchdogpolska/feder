@@ -1,10 +1,10 @@
 from atom.ext.crispy_forms.forms import SingleButtonMixin
-from braces.forms import UserKwargModelFormMixin
 from dal import autocomplete
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
 from feder.cases_tags.models import Tag
+from feder.main.forms import UserKwargModelFormMixin
 
 from .models import Case
 
