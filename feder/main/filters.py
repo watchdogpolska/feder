@@ -3,6 +3,15 @@ from django.utils.timezone import now
 from django_filters import DateRangeFilter, FilterSet
 
 
+class UserKwargFilterSetMixin:
+    """Pops `user` out of the FilterSet kwargs and attaches it to the
+    instance (ported from django-atom)."""
+
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        super().__init__(*args, **kwargs)
+
+
 class InitialFilterSet(FilterSet):
     def __init__(self, data=None, *args, **kwargs):
         initial = kwargs.pop("initial", {})

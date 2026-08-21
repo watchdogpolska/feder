@@ -1,12 +1,3 @@
-from atom.views import CreateMessageMixin, DeleteMessageMixin, UpdateMessageMixin
-from braces.views import (
-    FormValidMessageMixin,
-    LoginRequiredMixin,
-    PermissionRequiredMixin,
-    PrefetchRelatedMixin,
-    SelectRelatedMixin,
-    UserFormKwargsMixin,
-)
 from dal import autocomplete
 from django.db.models import Count
 from django.urls import reverse_lazy
@@ -16,7 +7,18 @@ from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
 from django_filters.views import FilterView
 
 from feder.cases.models import Case
-from feder.main.mixins import ExtraListMixin
+from feder.main.mixins import (
+    CreateMessageMixin,
+    DeleteMessageMixin,
+    ExtraListMixin,
+    FormValidMessageMixin,
+    LoginRequiredMixin,
+    PermissionRequiredMixin,
+    PrefetchRelatedMixin,
+    SelectRelatedMixin,
+    UpdateMessageMixin,
+    UserFormKwargsMixin,
+)
 from feder.main.paginator import DefaultPagination
 from feder.main.utils import DeleteViewLogEntryMixin, FormValidLogEntryMixin
 

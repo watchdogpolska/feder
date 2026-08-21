@@ -1,13 +1,13 @@
-from django.urls import re_path
+from django.urls import path, re_path
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.csrf import csrf_exempt
 
 from . import views
 
 urlpatterns = [
-    re_path(_(r"^$"), views.LetterListView.as_view(), name="list"),
-    re_path(_(r"^feed$"), views.LetterRssFeed(), name="rss"),
-    re_path(_(r"^feed/atom$"), views.LetterAtomFeed(), name="atom"),
+    path(_(""), views.LetterListView.as_view(), name="list"),
+    path(_("feed"), views.LetterRssFeed(), name="rss"),
+    path(_("feed/atom"), views.LetterAtomFeed(), name="atom"),
     re_path(
         _(r"^feed/monitoring-(?P<monitoring_pk>[\d-]+)/$"),
         views.LetterMonitoringRssFeed(),
@@ -48,6 +48,11 @@ urlpatterns = [
         name="attachment",
     ),
     re_path(
+        _(r"^attachment/(?P<pk>[\d-]+)/(?P<letter_pk>[\d-]+)/~text-content$"),
+        views.AttachmentTextContentView.as_view(),
+        name="attachment_text_content",
+    ),
+    re_path(
         r"^attachment/(?P<pk>[\d-]+)/(?P<letter_pk>[\d-]+)$",
         views.AttachmentXSendFileView.as_view(),
     ),  # no translation for back-ward compatibility
@@ -72,8 +77,8 @@ urlpatterns = [
         views.LetterMarkSpamView.as_view(),
         name="mark_spam",
     ),
-    re_path(
-        _(r"^assign$"),
+    path(
+        _("assign"),
         views.UnrecognizedLetterListView.as_view(),
         name="unrecognized_list",
     ),
@@ -82,7 +87,7 @@ urlpatterns = [
         views.AssignLetterFormView.as_view(),
         name="assign",
     ),
-    re_path(_(r"^webhook$"), csrf_exempt(views.ReceiveEmail.as_view()), name="webhook"),
+    path(_("webhook"), csrf_exempt(views.ReceiveEmail.as_view()), name="webhook"),
 ]
 
 app_name = "feder.letters"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-14 18:12+0100\n"
+"POT-Creation-Date: 2026-08-21 12:48+0200\n"
 "PO-Revision-Date: 2020-07-11 23:53+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -76,26 +76,26 @@ msgstr "Żądanie skanowania antywirusowego"
 msgid "Requests of virus scan"
 msgstr "Żądania skanowania antywirusowego"
 
-#: feder/virus_scan/models.py:129
+#: feder/virus_scan/models.py:135
 msgid "Prevention limit"
 msgstr ""
 
-#: feder/virus_scan/models.py:134
+#: feder/virus_scan/models.py:140
 msgid "Prevention remaining"
 msgstr ""
 
-#: feder/virus_scan/models.py:138
+#: feder/virus_scan/models.py:144
 msgid "Prevention interval in seconds"
 msgstr ""
 
-#: feder/virus_scan/models.py:141
+#: feder/virus_scan/models.py:147
 msgid "Prevention reset at"
 msgstr ""
 
-#: feder/virus_scan/models.py:145
+#: feder/virus_scan/models.py:151
 msgid "Last used"
 msgstr ""
 
 #: feder/virus_scan/urls.py:10
-msgid "^webhook/$"
-msgstr "^webhook/$"
+msgid "webhook/"
+msgstr "webhook/"
