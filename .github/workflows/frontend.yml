@@ -15,7 +15,9 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - name: Allow non-root container user to write to the checkout
-        run: sudo chown -R 1000:1000 .
+        run: |
+          sudo chown -R 1000:1000 .
+          sudo chown -R "$(id -u):$(id -g)" .git
       - name: Collect statics
         run: docker compose run web python manage.py collectstatic --noinput
       - name: Build and run frontend

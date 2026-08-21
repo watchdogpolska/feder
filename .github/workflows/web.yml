@@ -23,7 +23,9 @@ jobs:
         with:
           lfs: true
       - name: Allow non-root container user to write to the checkout
-        run: sudo chown -R 1000:1000 .
+        run: |
+          sudo chown -R 1000:1000 .
+          sudo chown -R "$(id -u):$(id -g)" .git
       - name: Build application
         run: docker compose build web
         env:
