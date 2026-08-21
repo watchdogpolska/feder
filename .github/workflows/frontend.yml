@@ -34,8 +34,8 @@ jobs:
           changes=$(git status --porcelain feder/static/ package*.json)
           if [[ -n "$changes" ]]; then
             echo "Pending changes in the front-end have been detected."
-            echo "Use 'make regenerate_frontend' to regenerate front-end and commit changes."
-            echo "Following changes pending:"
+            echo "Use 'make regenerate_frontend' to regenerate front-end"
+            echo "and commit changes. Following changes pending:"
             git diff
             git status
             exit 1
