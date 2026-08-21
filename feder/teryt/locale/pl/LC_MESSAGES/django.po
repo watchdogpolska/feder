@@ -3,11 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#: feder/teryt/urls.py:9 feder/teryt/urls.py:10
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-14 18:12+0100\n"
+"POT-Creation-Date: 2026-08-21 12:48+0200\n"
 "PO-Revision-Date: 2023-05-16 13:02+0000\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: \n"
@@ -134,9 +135,8 @@ msgstr "Wybierz województwo"
 msgid "^(?P<slug>[\\w-]+)$"
 msgstr "^(?P<slug>[\\w-]+)$"
 
-#: feder/teryt/urls.py:9 feder/teryt/urls.py:10
-msgid "^$"
-msgstr "^$"
+#~ msgid "^$"
+#~ msgstr "^$"
 
 #~ msgid "^voivodeship-autocomplete/$"
 #~ msgstr "^wojewodztwo-autouzupelnianie/$"

@@ -38,7 +38,8 @@ CACHES = {
 
 # django-debug-toolbar
 # ------------------------------------------------------------------------------
-if "test" not in sys.argv:
+USE_DEBUG_TOOLBAR = env.bool("USE_DEBUG_TOOLBAR", default=False)
+if USE_DEBUG_TOOLBAR and "test" not in sys.argv:
     MIDDLEWARE += ("debug_toolbar.middleware.DebugToolbarMiddleware",)
     INSTALLED_APPS += ("debug_toolbar",)
     ROSETTA_EXCLUDED_APPLICATIONS += ("debug_toolbar",)

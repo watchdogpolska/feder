@@ -3,24 +3,9 @@ import logging
 import uuid
 from os import path
 
-from atom.ext.django_filters.views import UserKwargFilterSetMixin
-from atom.views import (
-    ActionMessageMixin,
-    ActionView,
-    CreateMessageMixin,
-    DeleteMessageMixin,
-    UpdateMessageMixin,
-)
-from braces.views import (
-    FormValidMessageMixin,
-    LoginRequiredMixin,
-    MessageMixin,
-    PrefetchRelatedMixin,
-    SelectRelatedMixin,
-    UserFormKwargsMixin,
-)
 from cached_property import cached_property
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.syndication.views import Feed
 from django.core.exceptions import PermissionDenied
@@ -45,9 +30,19 @@ from feder.letters.formsets import AttachmentInline
 from feder.letters.settings import LETTER_RECEIVE_SECRET
 from feder.llm_evaluation.tasks import categorize_letter_in_background
 from feder.main.mixins import (
+    ActionMessageMixin,
+    ActionView,
     AttrPermissionRequiredMixin,
     BaseXSendFileView,
+    CreateMessageMixin,
+    DeleteMessageMixin,
+    FormValidMessageMixin,
+    PrefetchRelatedMixin,
     RaisePermissionRequiredMixin,
+    SelectRelatedMixin,
+    UpdateMessageMixin,
+    UserFormKwargsMixin,
+    UserKwargFilterSetMixin,
 )
 from feder.main.utils import DeleteViewLogEntryMixin
 from feder.monitorings.models import Monitoring
@@ -270,9 +265,7 @@ class LetterReplyView(
         )
 
 
-class LetterSendView(
-    LetterCommonMixin, AttrPermissionRequiredMixin, MessageMixin, ActionView
-):
+class LetterSendView(LetterCommonMixin, AttrPermissionRequiredMixin, ActionView):
     model = Letter
     permission_required = "monitorings.reply"
     template_name_suffix = "_send"
@@ -281,7 +274,8 @@ class LetterSendView(
         if self.object.is_mass_draft():
             cases_count = self.object.mass_draft.determine_cases().count()
             send_mass_draft(self.object.pk)
-            self.messages.success(
+            messages.success(
+                self.request,
                 _(
                     'Message "{letter}" has been scheduled for sending '
                     "to {count} recipients!"
@@ -290,7 +284,8 @@ class LetterSendView(
             )
         else:
             self.object.send()
-            self.messages.success(
+            messages.success(
+                self.request,
                 _('Reply "{letter}" has been sent to {institution}!').format(
                     letter=self.object, institution=self.object.case.institution
                 ),

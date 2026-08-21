@@ -8,7 +8,6 @@ mysqlclient==2.2.8
 django-environ==0.14.0
 
 # Forms
-django-braces==1.17.0
 django-crispy-forms==2.7
 crispy-bootstrap3==2024.1
 
@@ -48,10 +47,6 @@ git+https://github.com/yourlabs/django-autocomplete-light@v4.0.1
 git+https://github.com/PiotrIw/django-ajax-datatable.git@05afe42
 
 django-tinymce==5.0.0
-
-# replacing unmaintained django-atom with updated fork
-# django-atom==0.16.3
-git+https://github.com/PiotrIw/django-atom.git@master#egg=django-atom
 
 # django-tinycontent is not supported anymore so watchdog maintained fork is used
 git+https://github.com/watchdogpolska/django-tinycontent.git@v1.0.1

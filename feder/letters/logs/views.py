@@ -1,5 +1,4 @@
 import unicodecsv as csv
-from braces.views import PrefetchRelatedMixin, SelectRelatedMixin
 from cached_property import cached_property
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
@@ -9,7 +8,11 @@ from django.views.generic.list import ListView
 
 from feder.cases.models import Case
 from feder.letters.logs.models import EmailLog
-from feder.main.mixins import AttrPermissionRequiredMixin
+from feder.main.mixins import (
+    AttrPermissionRequiredMixin,
+    PrefetchRelatedMixin,
+    SelectRelatedMixin,
+)
 from feder.monitorings.models import Monitoring
 
 

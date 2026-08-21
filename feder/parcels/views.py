@@ -1,17 +1,18 @@
-from atom.views import DeleteMessageMixin
-from braces.views import (
-    FormValidMessageMixin,
-    SelectRelatedMixin,
-    SetHeadlineMixin,
-    UserFormKwargsMixin,
-)
 from cached_property import cached_property
 from django.shortcuts import get_object_or_404
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
 
 from feder.cases.models import Case
-from feder.main.mixins import BaseXSendFileView, RaisePermissionRequiredMixin
+from feder.main.mixins import (
+    BaseXSendFileView,
+    DeleteMessageMixin,
+    FormValidMessageMixin,
+    RaisePermissionRequiredMixin,
+    SelectRelatedMixin,
+    SetHeadlineMixin,
+    UserFormKwargsMixin,
+)
 from feder.main.utils import DeleteViewLogEntryMixin, FormValidLogEntryMixin
 from feder.parcels.forms import IncomingParcelPostForm, OutgoingParcelPostForm
 from feder.parcels.models import IncomingParcelPost, OutgoingParcelPost

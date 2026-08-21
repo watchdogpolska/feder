@@ -14,6 +14,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+      - name: Align container user with runner UID/GID
+        # docker-compose.yml defaults UID/GID to 1000, which only matches the
+        # checked-out file ownership by coincidence. Without this, containers
+        # can't write to the bind-mounted repo (logs/, staticfiles/, etc).
+        run: |
+          echo "UID=$(id -u)" >> .env
+          echo "GID=$(id -g)" >> .env
       - name: Collect statics
         run: docker compose run web python manage.py collectstatic --noinput
       - name: Build and run frontend
@@ -23,11 +30,15 @@ jobs:
       - name: Show git status
         run: git status
       - name: Require rebuild content
-        run: >
-          git diff-index --quiet HEAD -- feder/static/ package*.json || (
-            echo "Pending changes in the front-end have been detected.";
-            echo "Use 'make regenerate_frontend' to regenerate front-end ";
-            echo "and commit changes. Following changes pending:";
-            git diff;
-            exit 1;
-          )
+        run: |
+          changes=$(git status --porcelain feder/static/ package*.json)
+          if [[ -n "$changes" ]]; then
+            echo "Pending changes in the front-end have been detected."
+            echo "Use 'make regenerate_frontend' to regenerate front-end"
+            echo "and commit changes. Following changes pending:"
+            git diff
+            git status
+            exit 1
+          else
+            echo "No pending front-end changes detected."
+          fi

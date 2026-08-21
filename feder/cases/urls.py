@@ -1,10 +1,10 @@
-from django.urls import re_path
+from django.urls import path, re_path
 from django.utils.translation import gettext_lazy as _
 
 from . import views
 
 urlpatterns = [
-    re_path(_(r"^$"), views.CaseListView.as_view(), name="list"),
+    path(_(""), views.CaseListView.as_view(), name="list"),
     re_path(
         _(r"^~create-(?P<monitoring>[\d]+)$"),
         views.CaseCreateView.as_view(),

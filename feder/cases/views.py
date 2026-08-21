@@ -1,10 +1,3 @@
-from atom.views import CreateMessageMixin, DeleteMessageMixin, UpdateMessageMixin
-from braces.views import (
-    FormValidMessageMixin,
-    PrefetchRelatedMixin,
-    SelectRelatedMixin,
-    UserFormKwargsMixin,
-)
 from cached_property import cached_property
 from dal import autocomplete
 from django.db.models import Q
@@ -15,8 +8,15 @@ from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
 from django_filters.views import FilterView
 
 from feder.main.mixins import (
+    CreateMessageMixin,
+    DeleteMessageMixin,
     DisableOrderingListViewMixin,
+    FormValidMessageMixin,
+    PrefetchRelatedMixin,
     RaisePermissionRequiredMixin,
+    SelectRelatedMixin,
+    UpdateMessageMixin,
+    UserFormKwargsMixin,
 )
 from feder.main.utils import DeleteViewLogEntryMixin, FormValidLogEntryMixin
 from feder.monitorings.models import Monitoring
