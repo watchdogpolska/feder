@@ -33,39 +33,33 @@ router.register(r"cases/report", CaseReportViewSet, basename="case-report")
 router.register(r"cases", CaseViewSet)
 router.register(r"monitorings", MonitoringViewSet)
 
-urlpatterns = [re_path(_(r"^$"), views.HomeView.as_view(), name="home")]
+urlpatterns = [path(_(""), views.HomeView.as_view(), name="home")]
 
 urlpatterns += [
-    re_path(
-        _(r"^about/$"),
+    path(
+        _("about/"),
         TemplateView.as_view(template_name="pages/about.html"),
         name="about",
     ),
     # Django Admin
     re_path(r"^admin/", admin.site.urls),
     # User management
-    re_path(_(r"^users/"), include("feder.users.urls", namespace="users")),
+    path(_("users/"), include("feder.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here
-    re_path(
-        _(r"^institutions/"),
+    path(
+        _("institutions/"),
         include("feder.institutions.urls", namespace="institutions"),
     ),
-    re_path(
-        _(r"^monitorings/"), include("feder.monitorings.urls", namespace="monitorings")
-    ),
-    re_path(_(r"^cases/"), include("feder.cases.urls", namespace="cases")),
-    re_path(
-        _(r"^cases/tags/"), include("feder.cases_tags.urls", namespace="cases_tags")
-    ),
-    re_path(_(r"^alerts/"), include("feder.alerts.urls", namespace="alerts")),
-    re_path(_(r"^letters/"), include("feder.letters.urls", namespace="letters")),
-    re_path(_(r"^teryt/"), include("feder.teryt.urls", namespace="teryt")),
-    re_path(_(r"^letters/logs/"), include("feder.letters.logs.urls", namespace="logs")),
-    re_path(_(r"^parcels/"), include("feder.parcels.urls", namespace="parcels")),
-    re_path(
-        _(r"^virus_scan/"), include("feder.virus_scan.urls", namespace="virus_scan")
-    ),
+    path(_("monitorings/"), include("feder.monitorings.urls", namespace="monitorings")),
+    path(_("cases/"), include("feder.cases.urls", namespace="cases")),
+    path(_("cases/tags/"), include("feder.cases_tags.urls", namespace="cases_tags")),
+    path(_("alerts/"), include("feder.alerts.urls", namespace="alerts")),
+    path(_("letters/"), include("feder.letters.urls", namespace="letters")),
+    path(_("teryt/"), include("feder.teryt.urls", namespace="teryt")),
+    path(_("letters/logs/"), include("feder.letters.logs.urls", namespace="logs")),
+    path(_("parcels/"), include("feder.parcels.urls", namespace="parcels")),
+    path(_("virus_scan/"), include("feder.virus_scan.urls", namespace="virus_scan")),
     path(
         "api/monitorings/<int:monitoring_pk>/case-tags/update/",
         MultiCaseTagManagement.as_view(),
