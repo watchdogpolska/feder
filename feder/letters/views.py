@@ -1,9 +1,9 @@
 import json
 import logging
 import uuid
+from functools import cached_property
 from os import path
 
-from cached_property import cached_property
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin

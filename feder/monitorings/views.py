@@ -1,9 +1,9 @@
 import re
 from datetime import datetime
+from functools import cached_property
 
 import openpyxl
 from ajax_datatable import AjaxDatatableView
-from cached_property import cached_property
 from dal import autocomplete
 from django.contrib import messages
 from django.contrib.auth import get_user_model
