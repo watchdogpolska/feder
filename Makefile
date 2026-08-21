@@ -23,6 +23,9 @@ build:
 start: wait_mysql
 	docker compose up --remove-orphans
 
+stop:
+	docker compose stop
+
 test: wait_mysql
 	docker compose exec -t db mysql --user=root --password=password -e "DROP DATABASE IF EXISTS test_feder;"
 	docker compose run web coverage run manage.py test --keepdb --verbosity=2 ${TEST}
