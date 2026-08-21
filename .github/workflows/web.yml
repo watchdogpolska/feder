@@ -10,6 +10,14 @@ on:
 jobs:
   django_build_and_test:
     runs-on: ubuntu-latest
+    env:
+      # Pin the container UID/GID explicitly so every docker compose
+      # invocation in this job (including the docker-compose.test.yml
+      # override used for e2e) builds the same non-root user, matching
+      # the chown below. Without this, UID/GID resolution has been
+      # observed to differ between invocations within the same job.
+      UID: "1000"
+      GID: "1000"
 #     strategy:
 #       matrix:
 #         python:
