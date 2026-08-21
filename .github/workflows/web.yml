@@ -19,9 +19,16 @@ jobs:
 # #          - "==2.2.*"
 #           - "==4.2"
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           lfs: true
+      - name: Align container user with runner UID/GID
+        # docker-compose.yml defaults UID/GID to 1000, which only matches the
+        # checked-out file ownership by coincidence. Without this, containers
+        # can't write to the bind-mounted repo (logs/, staticfiles/, etc).
+        run: |
+          echo "UID=$(id -u)" >> .env
+          echo "GID=$(id -g)" >> .env
       - name: Build application
         run: docker compose build web
         env:
@@ -39,12 +46,7 @@ jobs:
       - name: Build test
         run: make test
       - name: Run e2e tests
-        run: |
-          # Create a user for tests.
-          docker compose --file docker-compose.yml --file docker-compose.test.yml \
-            run web python manage.py createsuperuserwithpassword \
-            --username e2e --email e2e@example.com --password e2e --noinput
-          make e2e
+        run: make e2e
 #     - name: Send coverage report
 #       run: make coverage_send
 #       env:

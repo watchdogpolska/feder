@@ -20,10 +20,10 @@ urlpatterns = [
         views.MonitoringCasesAjaxDatatableView.as_view(),
         name="monitoring_cases_table_ajax_data",
     ),
-    re_path(_(r"^$"), views.MonitoringListView.as_view(), name="list"),
+    path(_(""), views.MonitoringListView.as_view(), name="list"),
     re_path(_(r"^~create$"), views.MonitoringCreateView.as_view(), name="create"),
-    re_path(_(r"^feed$"), views.MonitoringRssFeed(), name="rss"),
-    re_path(_(r"^feed/atom$"), views.MonitoringAtomFeed(), name="atom"),
+    path(_("feed"), views.MonitoringRssFeed(), name="rss"),
+    path(_("feed/atom"), views.MonitoringAtomFeed(), name="atom"),
     re_path(
         _(r"^~autocomplete$"),
         views.MonitoringAutocomplete.as_view(),

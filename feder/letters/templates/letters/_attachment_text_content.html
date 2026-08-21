@@ -1,0 +1,7 @@
+{% load i18n %}
+{% if object.text_content %}
+    <p class="small text-muted"><em>{{ object.text_content_warning }}</em></p>
+    <div class="attachment-text-content">{{ object.text_content|linebreaksbr }}</div>
+{% else %}
+    <em>{% trans 'No extracted text available.' %}</em>
+{% endif %}

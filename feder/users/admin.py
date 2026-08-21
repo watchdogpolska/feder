@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as AuthUserAdmin
-from django.contrib.auth.forms import UserChangeForm, UserCreationForm
+from django.contrib.auth.forms import AdminUserCreationForm, UserChangeForm
 from django.utils.translation import gettext_lazy as _
 
 from .models import User
@@ -12,8 +12,8 @@ class MyUserChangeForm(UserChangeForm):
         model = User
 
 
-class MyUserCreationForm(UserCreationForm):
-    class Meta(UserCreationForm.Meta):
+class MyUserCreationForm(AdminUserCreationForm):
+    class Meta(AdminUserCreationForm.Meta):
         model = User
 
     def clean_username(self):

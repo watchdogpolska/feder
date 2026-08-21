@@ -905,11 +905,12 @@ class Attachment(TimeStampedModel):
     @property
     def text_content_warning(self):
         warning = """
-            Uwaga: treść załączników została odczytana maszynowo, więc może
-            zawierać błędy związane z nieprawidłowym odczytaniem znaków,
-            a także błędną interpretacji układu tekstu na stronie.
-            Jeśli nie masz stosownych uprawnień i potrzebujesz dostępu
-            do oryginału, skontaktuj się z biurem SOWP.
+            Uwaga: Treść załącznika została odczytana automatycznie przez program,
+            który rozpoznaje tekst np. na skanach dokumentów. Program może
+            popełniać błędy, np. mylić znaki, pomijać fragmenty albo nieprawidłowo
+            odczytywać układ tekstu na stronie. Dlatego warto zachować ostrożność
+            przy korzystaniu z tej wersji dokumentu.
+            Jeśli potrzebujesz dostępu do oryginału, skontaktuj się z biurem Watchdoga.
 
         """
         return warning  # " ".join(warning.split())

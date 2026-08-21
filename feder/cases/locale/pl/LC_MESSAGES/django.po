@@ -3,11 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#: feder/cases/urls.py:7
 msgid ""
 msgstr ""
 "Project-Id-Version: cases 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-14 18:12+0100\n"
+"POT-Creation-Date: 2026-08-21 12:48+0200\n"
 "PO-Revision-Date: 2023-10-30 18:16+0124\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -33,7 +34,7 @@ msgstr "Nazwa"
 msgid "Institution name"
 msgstr "Nazwa instytucji"
 
-#: feder/cases/filters.py:72 feder/cases/forms.py:45 feder/cases/models.py:233
+#: feder/cases/filters.py:72 feder/cases/forms.py:44 feder/cases/models.py:233
 #: feder/cases/viewsets.py:49
 msgid "Tags"
 msgstr "Tagi"
@@ -206,10 +207,6 @@ msgstr "Zaktualizuj sprawę"
 msgid "Add case"
 msgstr "Utwórz sprawę"
 
-#: feder/cases/urls.py:7
-msgid "^$"
-msgstr "^$"
-
 #: feder/cases/urls.py:9
 msgid "^~create-(?P<monitoring>[\\d]+)$"
 msgstr "^~utworz-(?P<monitoring>[\\d]+)$"
@@ -234,7 +231,7 @@ msgstr "^~autocomplete$"
 msgid "^~autocomplete/~find$"
 msgstr "^~autocomplete-szukaj$"
 
-#: feder/cases/views.py:29
+#: feder/cases/views.py:28
 msgid "Case index"
 msgstr "Wykaz spraw"
 
@@ -273,6 +270,9 @@ msgstr "URL"
 #: feder/cases/viewsets.py:96
 msgid "case_report"
 msgstr "raport_spraw"
+
+#~ msgid "^$"
+#~ msgstr "^$"
 
 #~ msgid "Application letter sending date"
 #~ msgstr "Data wysyłki wniosku"

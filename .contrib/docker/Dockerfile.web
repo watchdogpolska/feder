@@ -1,6 +1,10 @@
 # This is Dockerfile for development purposes only.
 ARG PYTHON_VERSION='3.12'
 FROM python:${PYTHON_VERSION}-slim
+
+ARG UID=1000
+ARG GID=1000
+
 RUN python --version
 RUN mkdir /code /code/production
 WORKDIR /code
@@ -18,13 +22,18 @@ RUN apt-get update \
    nano \
    htop \
    gettext libgettextpo-dev wait-for-it
-RUN git config --global --add safe.directory /code
 RUN pip install --upgrade pip
 RUN pip --version
 COPY requirements/*.txt ./requirements/
 # left for github actions reference:
 ARG DJANGO_VERSION='==5.2'
 RUN pip install --no-cache-dir -r requirements/dev.txt
+
+RUN groupadd --gid ${GID} appuser \
+    && useradd --uid ${UID} --gid ${GID} --create-home --shell /bin/bash appuser
+
+USER appuser
+
 # CMD ["bash", "-c", "python manage.py collectstatic --no-input && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
 # to allow VScode run and debug django app:
 CMD ["bash", "-c", "python manage.py collectstatic --no-input && python manage.py migrate && sleep infinity"]
