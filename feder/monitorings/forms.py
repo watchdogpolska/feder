@@ -1,5 +1,3 @@
-from atom.ext.crispy_forms.forms import HelperMixin, SingleButtonMixin
-from atom.ext.guardian.forms import TranslatedUserObjectPermissionsForm
 from crispy_forms.layout import Column, Fieldset, Layout, Row, Submit
 from dal import autocomplete
 from django import forms
@@ -19,7 +17,12 @@ from feder.letters.utils import (
     text_email_wrapper,
     text_to_html,
 )
-from feder.main.forms import UserKwargModelFormMixin
+from feder.main.forms import (
+    HelperMixin,
+    SingleButtonMixin,
+    TranslatedUserObjectPermissionsForm,
+    UserKwargModelFormMixin,
+)
 from feder.users.models import User
 
 from .models import Monitoring

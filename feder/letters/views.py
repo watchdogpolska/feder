@@ -3,14 +3,6 @@ import logging
 import uuid
 from os import path
 
-from atom.ext.django_filters.views import UserKwargFilterSetMixin
-from atom.views import (
-    ActionMessageMixin,
-    ActionView,
-    CreateMessageMixin,
-    DeleteMessageMixin,
-    UpdateMessageMixin,
-)
 from cached_property import cached_property
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -38,13 +30,19 @@ from feder.letters.formsets import AttachmentInline
 from feder.letters.settings import LETTER_RECEIVE_SECRET
 from feder.llm_evaluation.tasks import categorize_letter_in_background
 from feder.main.mixins import (
+    ActionMessageMixin,
+    ActionView,
     AttrPermissionRequiredMixin,
     BaseXSendFileView,
+    CreateMessageMixin,
+    DeleteMessageMixin,
     FormValidMessageMixin,
     PrefetchRelatedMixin,
     RaisePermissionRequiredMixin,
     SelectRelatedMixin,
+    UpdateMessageMixin,
     UserFormKwargsMixin,
+    UserKwargFilterSetMixin,
 )
 from feder.main.utils import DeleteViewLogEntryMixin
 from feder.monitorings.models import Monitoring

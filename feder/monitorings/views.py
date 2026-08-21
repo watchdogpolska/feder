@@ -3,7 +3,6 @@ from datetime import datetime
 
 import openpyxl
 from ajax_datatable import AjaxDatatableView
-from atom.views import DeleteMessageMixin, UpdateMessageMixin
 from cached_property import cached_property
 from dal import autocomplete
 from django.contrib import messages
@@ -62,12 +61,14 @@ from feder.llm_evaluation.tasks import (
     update_monitoring_responses_normalization,
 )
 from feder.main.mixins import (
+    DeleteMessageMixin,
     ExtraListMixin,
     FormValidMessageMixin,
     LoginRequiredMixin,
     PermissionRequiredMixin,
     RaisePermissionRequiredMixin,
     SelectRelatedMixin,
+    UpdateMessageMixin,
     UserFormKwargsMixin,
 )
 from feder.main.utils import DeleteViewLogEntryMixin, FormValidLogEntryMixin

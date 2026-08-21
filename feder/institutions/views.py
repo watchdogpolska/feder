@@ -1,4 +1,3 @@
-from atom.views import CreateMessageMixin, DeleteMessageMixin, UpdateMessageMixin
 from dal import autocomplete
 from django.db.models import Count
 from django.urls import reverse_lazy
@@ -9,12 +8,15 @@ from django_filters.views import FilterView
 
 from feder.cases.models import Case
 from feder.main.mixins import (
+    CreateMessageMixin,
+    DeleteMessageMixin,
     ExtraListMixin,
     FormValidMessageMixin,
     LoginRequiredMixin,
     PermissionRequiredMixin,
     PrefetchRelatedMixin,
     SelectRelatedMixin,
+    UpdateMessageMixin,
     UserFormKwargsMixin,
 )
 from feder.main.paginator import DefaultPagination

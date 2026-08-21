@@ -1,8 +1,7 @@
-from atom.ext.crispy_forms.forms import SingleButtonMixin
 from dal import autocomplete
 from django import forms
 
-from feder.main.forms import UserKwargModelFormMixin
+from feder.main.forms import SingleButtonMixin, UserKwargModelFormMixin
 from feder.parcels.models import IncomingParcelPost, OutgoingParcelPost
 from feder.records.models import Record
 

@@ -1,9 +1,8 @@
-from atom.ext.crispy_forms.forms import SingleButtonMixin
 from crispy_forms.layout import Fieldset, Layout
 from dal import autocomplete
 from django import forms
 
-from feder.main.forms import UserKwargModelFormMixin
+from feder.main.forms import SingleButtonMixin, UserKwargModelFormMixin
 
 from .models import Institution
 

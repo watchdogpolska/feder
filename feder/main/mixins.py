@@ -6,9 +6,13 @@ from django.contrib.auth.views import redirect_to_login
 from django.core.exceptions import ImproperlyConfigured, PermissionDenied
 from django.core.paginator import EmptyPage, Paginator
 from django.db import models
+from django.http import HttpResponseRedirect
 from django.utils.encoding import force_str
 from django.utils.translation import gettext as _
-from django.views.generic.detail import BaseDetailView
+from django.views.generic.detail import (
+    BaseDetailView,
+    SingleObjectTemplateResponseMixin,
+)
 from django_sendfile import sendfile
 from guardian.mixins import PermissionRequiredMixin as GuardianPermissionRequiredMixin
 from rest_framework_csv.renderers import CSVRenderer
@@ -325,3 +329,105 @@ class SetHeadlineMixin:
             )
         context["headline"] = force_str(self.headline)
         return context
+
+
+class MessageMixin:
+    """Adds a `success_message` sent via django.contrib.messages (ported from
+    django-atom)."""
+
+    success_message = None
+
+    def get_success_message(self):
+        if self.success_message is None:
+            raise NotImplementedError("Provide success_message or get_success_message")
+        return self.success_message.format(**self.object.__dict__)
+
+
+class DeleteMessageMixin:
+    """Sends a success message on delete (ported from django-atom)."""
+
+    hide_field = None
+
+    def get_success_message(self):
+        template = dict(object=self.object, verbose_name=self.model._meta.verbose_name)
+        return _("{verbose_name} {object} deleted!").format(**template)
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        if self.hide_field:
+            setattr(self.object, self.hide_field, False)
+            self.object.save()
+        else:
+            self.object.delete()
+        messages.add_message(request, messages.SUCCESS, self.get_success_message())
+        return HttpResponseRedirect(success_url)
+
+
+class ActionMixin:
+    """Runs `action()` on POST and redirects to `success_url` (ported from
+    django-atom)."""
+
+    success_url = None
+
+    def action(self):
+        raise ImproperlyConfigured("No action to do. Provide a action body.")
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        self.action()
+        return HttpResponseRedirect(success_url)
+
+    def get_success_url(self):
+        if not self.success_url:
+            raise ImproperlyConfigured("No URL to redirect to. Provide a success_url.")
+        return force_str(self.success_url).format(**self.object.__dict__)
+
+
+class BaseActionView(ActionMixin, BaseDetailView):
+    """Base view for an action on an object (ported from django-atom)."""
+
+
+class ActionView(SingleObjectTemplateResponseMixin, BaseActionView):
+    """ActionMixin with a `_action` template suffix (ported from django-atom)."""
+
+    template_name_suffix = "_action"
+
+
+class ActionMessageMixin(MessageMixin):
+    """Sends a success message after ActionMixin.post() (ported from
+    django-atom)."""
+
+    def post(self, request, *args, **kwargs):
+        response = super().post(request, *args, **kwargs)
+        messages.add_message(request, messages.SUCCESS, self.get_success_message())
+        return response
+
+
+class CreateMessageMixin:
+    """Provides the "created" message text for FormValidMessageMixin (ported
+    from django-atom)."""
+
+    def get_form_valid_message(self):
+        template = dict(object=self.object, verbose_name=self.model._meta.verbose_name)
+        return _("{verbose_name} {object} created!").format(**template)
+
+
+class UpdateMessageMixin:
+    """Provides the "updated" message text for FormValidMessageMixin (ported
+    from django-atom)."""
+
+    def get_form_valid_message(self):
+        template = dict(object=self.object, verbose_name=self.model._meta.verbose_name)
+        return _("{verbose_name} {object} updated!").format(**template)
+
+
+class UserKwargFilterSetMixin:
+    """Includes request.user in the filterset kwargs (ported from
+    django-atom)."""
+
+    def get_filterset_kwargs(self, *args, **kwargs):
+        kwargs = super().get_filterset_kwargs(*args, **kwargs)
+        kwargs["user"] = self.request.user
+        return kwargs
