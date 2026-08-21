@@ -5,7 +5,6 @@ A tool to insert institutions from CSV files.
 Requirements:
  - requests
  - gusregon
- - unicodecsv
  - tqdm
 
 Example usage:

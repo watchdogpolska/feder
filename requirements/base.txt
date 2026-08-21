@@ -65,7 +65,6 @@ git+https://github.com/PiotrIw/django-bootstrap-pagination.git@master#egg=django
 django-reversion==6.3.0
 djangorestframework==3.18.0
 djangorestframework-csv==3.0.2
-unicodecsv==0.14.1
 tqdm==4.70.0
 django-github-revision==0.0.3
 django-extensions==4.1

@@ -1,4 +1,5 @@
-import unicodecsv as csv
+import csv
+
 from cached_property import cached_property
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
