@@ -4,7 +4,7 @@
   "description": "E2E tests for feder",
   "license": "MIT",
   "devDependencies": {
-    "cypress": "^15.0.0",
+    "cypress": "^16.0.0",
     "mysql2": "^3.9.2",
     "wait-on": "^9.0.0"
   },
