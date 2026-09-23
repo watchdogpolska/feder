@@ -33,9 +33,6 @@ it("should login and use the app forms", () => {
   // You can create a user with
   // `docker compose --file docker-compose.yml --file docker-compose.test.yml run web python manage.py createsuperuserwithpassword --username e2e --email e2e@example.com --password e2e --noinput`
 
-  const username = Cypress.env("USERNAME") || "e2e";
-  const password = Cypress.env("PASSWORD") || "e2e";
-
   cy.viewport(1920, 1080);
   cy.task("db:clear");
 
@@ -57,7 +54,12 @@ it("should login and use the app forms", () => {
     active: true,
   });
 
-  login(username, password);
+  // cy.env() (the chainable command) replaces Cypress.env() in v16. It only
+  // accepts an array of keys and resolves to an object, available inside a
+  // .then() callback.
+  cy.env(["USERNAME", "PASSWORD"]).then(({ USERNAME, PASSWORD }) => {
+    login(USERNAME || "e2e", PASSWORD || "e2e");
+  });
   cy.wait(1000);
 
   // Create a monitoring.

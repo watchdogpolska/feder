@@ -1,0 +1,41 @@
+{% load i18n pagination_tags %}
+{% if page_obj.paginator.num_pages > 1 %}
+<nav aria-label="{% trans 'Pagination' %}">
+    <ul class="pagination">
+        {% if page_obj.has_previous %}
+            <li>
+                <a href="{% if url_view_name %}{% url url_view_name slug=url_extra_kwargs.slug page=page_obj.previous_page_number %}{% else %}{% querystring page=page_obj.previous_page_number %}{% endif %}" aria-label="{% trans 'Previous' %}">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+        {% else %}
+            <li class="disabled"><span aria-hidden="true">&laquo;</span></li>
+        {% endif %}
+
+        {% elided_page_range page_obj.paginator page_obj.number as pages %}
+        {% for num in pages %}
+            {% if num == page_obj.paginator.ELLIPSIS %}
+                <li class="disabled"><span>&hellip;</span></li>
+            {% elif num == page_obj.number %}
+                <li class="active">
+                    <span>{{ num }}<span class="sr-only"> ({% trans "current" %})</span></span>
+                </li>
+            {% else %}
+                <li>
+                    <a href="{% if url_view_name %}{% url url_view_name slug=url_extra_kwargs.slug page=num %}{% else %}{% querystring page=num %}{% endif %}">{{ num }}</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <li>
+                <a href="{% if url_view_name %}{% url url_view_name slug=url_extra_kwargs.slug page=page_obj.next_page_number %}{% else %}{% querystring page=page_obj.next_page_number %}{% endif %}" aria-label="{% trans 'Next' %}">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        {% else %}
+            <li class="disabled"><span aria-hidden="true">&raquo;</span></li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}

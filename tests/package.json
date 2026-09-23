@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "description": "E2E tests for feder",
   "license": "MIT",
+  "//": "cypress is intentionally not a devDependency here; it is pinned via tests/Dockerfile's base image",
   "devDependencies": {
-    "cypress": "^15.0.0",
     "mysql2": "^3.9.2",
-    "wait-on": "^7.0.0"
+    "wait-on": "^9.0.0"
   },
   "scripts": {
     "cy:run": "cypress run --e2e"
