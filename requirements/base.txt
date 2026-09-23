@@ -20,13 +20,9 @@ Pillow==12.3.0
 # For user registration, either via email or social
 # Well-built with regular release cycles!
 django-allauth==65.19.3
-jwt==1.4.0
 
 # Unicode slugification
 django-autoslug==1.9.9
-
-# Time zones support
-pytz==2026.3.post1
 
 # Commands
 lxml==6.1.3
