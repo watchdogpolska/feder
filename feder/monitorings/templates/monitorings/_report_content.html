@@ -1,4 +1,4 @@
-{% load i18n bootstrap_pagination %}
+{% load i18n %}
 <div class="monitoring-report-content">
     <h3 class="sr-only">{% trans 'Report' %}</h3>
 
@@ -106,7 +106,6 @@
     </table>
 
     <div class="text-center">
-        {# bootstrap_paginate object_list url_view_name='monitorings:report' url_extra_kwargs=url_extra_kwargs #}
-        {% bootstrap_paginate page_obj %}
+        {% include 'main/_pagination.html' with page_obj=page_obj %}
     </div>
 </div>
