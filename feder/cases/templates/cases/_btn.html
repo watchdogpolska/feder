@@ -3,14 +3,14 @@
 {% get_obj_perms request.user for object.monitoring as "monitoring_perms" %}
 {% if "change_case" in monitoring_perms or "delete_case" in monitoring_perms or "view_log" in monitoring_perms or "add_parcelpost" in monitoring_perms %}
     <div class="clearfix">
-        <div class="float-end btn-group-sm">
+        <div class="float-end btn-group btn-group-sm">
             {% if "change_case" in monitoring_perms %}
                 <a class="btn btn-secondary" href="{% url 'cases:update' slug=object.slug %}">
                     {% trans 'Edit' %}
                 </a>
             {% endif %}
             {% if "delete_case" in monitoring_perms %}
-                <a class="btn btn-warning" href="{% url 'cases:delete' slug=object.slug %}">
+                <a class="btn btn-primary" href="{% url 'cases:delete' slug=object.slug %}">
                     {% trans 'Delete' %}
                 </a>
             {% endif %}
