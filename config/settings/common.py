@@ -203,6 +203,12 @@ STRFTIME_FORMAT = "%Y-%m-%d %H:%M:%S"
 STRFTIME_DATE_FORMAT = "%Y-%m-%d"
 DATETIME_FORMAT = "Y-m-d H:i:s"
 DATE_FORMAT = "Y-m-d"
+SHORT_DATE_FORMAT = "Y-m-d"
+
+# Render/parse ajax_datatable's date-range filter (e.g. monitoring cases
+# table) in the neutral SHORT_DATE_FORMAT above instead of the active
+# locale's format.
+AJAX_DATATABLE_USE_L10N = False
 
 # TEMPLATE CONFIGURATION
 # ------------------------------------------------------------------------------
