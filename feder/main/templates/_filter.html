@@ -1,4 +1,4 @@
-{% load i18n crispy_forms_tags bootstrap_pagination %}
+{% load i18n crispy_forms_tags %}
 <div class="page-header">
     <h2>{% trans title %}</h2>
 </div>
@@ -16,7 +16,7 @@
                 </p>
             </div>
         {% endfor %}
-        {% bootstrap_paginate page_obj %}
+        {% include 'main/_pagination.html' with page_obj=page_obj %}
     </div>
 
     <div class="col-sm-4 col-sm-pull-8">

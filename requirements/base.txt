@@ -55,10 +55,6 @@ jsonfield==3.2.0
 django-guardian==3.5.0
 django-teryt-tree==0.18.4
 
-# replacing unmaintained django-bootstrap-pagination with updated fork
-# django-bootstrap-pagination==1.7.1
-git+https://github.com/PiotrIw/django-bootstrap-pagination.git@master#egg=django-bootstrap-pagination
-
 django-reversion==6.3.0
 djangorestframework==3.18.1
 djangorestframework-csv==3.0.2

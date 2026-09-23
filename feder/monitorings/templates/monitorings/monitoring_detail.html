@@ -1,5 +1,5 @@
 {% extends 'monitorings/base_monitoring_detail.html' %}
-{% load i18n humanize bootstrap_pagination %}
+{% load i18n humanize %}
 {% block content_object %}
     {% include 'monitorings/_tabs.html' with tab='general' %}
     <h3 class="sr-only">{% trans 'Institutions and cases' %}</h3>
@@ -38,7 +38,7 @@
             </div>
         {% endfor %}
         <div class="text-center">
-            {% bootstrap_paginate object_list url_view_name='monitorings:details' url_extra_kwargs=url_extra_kwargs %}
+            {% include 'main/_pagination.html' with page_obj=object_list url_view_name='monitorings:details' url_extra_kwargs=url_extra_kwargs %}
         </div>
     {% elif monitoring_all_cases_count == 0 %}
         <div class="gray">

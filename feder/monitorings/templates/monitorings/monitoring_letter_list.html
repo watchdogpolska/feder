@@ -1,5 +1,5 @@
 {% extends 'monitorings/base_monitoring_detail.html' %}
-{% load i18n humanize bootstrap_pagination %}
+{% load i18n humanize %}
 {% block content_object %}
     {% include 'monitorings/_tabs.html' with tab='letters' %}
     <h3 class="sr-only">{% trans 'Letters' %}</h3>
@@ -8,7 +8,7 @@
             {% include 'monitorings/_letter.html' with object=object %}
         {% endfor %}
         <div class="text-center">
-            {% bootstrap_paginate object_list url_view_name='monitorings:letters' url_extra_kwargs=url_extra_kwargs %}
+            {% include 'main/_pagination.html' with page_obj=object_list url_view_name='monitorings:letters' url_extra_kwargs=url_extra_kwargs %}
         </div>
 
     {% else %}
