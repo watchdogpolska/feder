@@ -81,10 +81,11 @@
             </li>
 
         {% else %}
-            {# Remove temporairly new user signup until more robust signup process is agreed #}
-            {# <li class="block-list-item"> #}
-            {#     <a href="{% url 'account_signup' %}"><i class="fa-solid fa-user"></i> {% trans "Sign Up" %}</a>  #}
-            {# </li> #}
+            {% if signup_open %}
+                <li class="block-list-item">
+                    <a href="{% url 'account_signup' %}"><i class="fa-solid fa-user"></i> {% trans "Sign Up" %}</a>
+                </li>
+            {% endif %}
             <li class="block-list-item">
                 <a href="{% url 'account_login' %}?next={{ request.get_full_path }}">
                     <i class="fa-solid fa-right-to-bracket"></i> {% trans "Log In" %}</a>
