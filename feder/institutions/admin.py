@@ -20,6 +20,9 @@ class InstitutionAdmin(VersionAdmin):
         "get_teryt",
         "email",
         "regon",
+        "bip_url",
+        "latitude",
+        "longitude",
         "get_tags",
     )
     search_fields = ["name", "tags__name", "jst__name", "jst__id", "email", "regon"]
