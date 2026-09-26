@@ -70,14 +70,14 @@ chmod +x /usr/local/bin/feder-mysql-start
 /usr/local/bin/feder-mysql-start
 
 # root/password over TCP, as expected by DATABASE_URL and tests/cypress.
-mysql -uroot <<'SQL' 2>/dev/null || mysql -uroot -ppassword <<'SQL'
+MYSQL_INIT="
 ALTER USER 'root'@'localhost' IDENTIFIED WITH caching_sha2_password BY 'password';
 CREATE USER IF NOT EXISTS 'root'@'127.0.0.1' IDENTIFIED BY 'password';
 GRANT ALL PRIVILEGES ON *.* TO 'root'@'127.0.0.1' WITH GRANT OPTION;
 CREATE DATABASE IF NOT EXISTS feder CHARACTER SET utf8mb4 COLLATE utf8mb4_polish_ci;
-FLUSH PRIVILEGES;
-SQL
-SQL
+FLUSH PRIVILEGES;"
+# Fresh install uses auth_socket for root; on re-runs the password is already set.
+mysql -uroot -e "$MYSQL_INIT" 2>/dev/null || mysql -uroot -ppassword -e "$MYSQL_INIT"
 
 # Host aliases used by docker-compose service names (e2e tests use db/web).
 grep -qE '\sdb(\s|$)' /etc/hosts || echo "127.0.0.1 db web maildump" >> /etc/hosts
