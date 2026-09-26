@@ -8,10 +8,13 @@
 #   * MySQL 8.0 server configured like the `db` service in docker-compose.yml,
 #   * Python 3.12 virtualenv in /opt/feder-venv with requirements/dev.txt,
 #   * Cypress + Xvfb for e2e tests (tests/),
-#   * helper `feder-env` which starts MySQL and prints env variables.
+#   * helper `feder-env` which starts MySQL and prints env variables,
+#   * /etc/profile.d/feder.sh, sourced from /root/.bashrc, which exports the
+#     environment and starts MySQL in the background.
 #
-# The environment snapshot keeps files, not running processes, so MySQL is
-# started per session by the SessionStart hook in .claude/settings.json.
+# The environment snapshot keeps files, not running processes. Claude Code
+# builds its shell from /root/.bashrc at session start, so MySQL is started
+# there, without any extra session start configuration.
 set -euo pipefail
 
 REPO_URL="https://github.com/watchdogpolska/feder.git"
@@ -88,7 +91,7 @@ python3.12 -m venv "$VENV"
 "$VENV/bin/pip" install -r "$REQ_DIR/requirements/dev.txt"
 
 # --- Cypress (e2e) -----------------------------------------------------------
-# tests/ deps are installed to /opt/feder-e2e; the SessionStart hook links
+# tests/ deps are installed to /opt/feder-e2e; .claude/run-e2e.sh links
 # tests/node_modules to it. The Cypress binary is downloaded with resume and
 # retries because a single large download may be cut off by the proxy.
 mkdir -p /opt/feder-e2e
@@ -123,11 +126,19 @@ ENV
 SH
 chmod +x /usr/local/bin/feder-env
 
-# Make the environment available to interactive/login shells as well.
+# Environment for every shell. Claude Code sources /root/.bashrc when a session
+# starts, so this also brings MySQL up (in the background, not to block it).
 cat > /etc/profile.d/feder.sh <<'SH'
 export VIRTUAL_ENV=/opt/feder-venv
-export PATH=/opt/feder-venv/bin:$PATH
+case ":$PATH:" in *":/opt/feder-venv/bin:"*) ;; *) export PATH=/opt/feder-venv/bin:$PATH ;; esac
+export DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE:-config.settings.local}
 export DATABASE_URL=${DATABASE_URL:-mysql://root:password@127.0.0.1/feder}
+export DJANGO_EMAIL_BACKEND=${DJANGO_EMAIL_BACKEND:-django.core.mail.backends.console.EmailBackend}
+export MEDIA_ROOT_ENV=${MEDIA_ROOT_ENV:-media_dev}
+export APP_MODE=${APP_MODE:-DEV}
+if ! pgrep -x mysqld >/dev/null 2>&1; then
+  (setsid /usr/local/bin/feder-mysql-start >/tmp/feder-mysql-start.log 2>&1 &)
+fi
 SH
 grep -q feder.sh /root/.bashrc 2>/dev/null || echo '. /etc/profile.d/feder.sh' >> /root/.bashrc
 

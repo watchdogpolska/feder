@@ -4,9 +4,12 @@
 
 No Docker daemon is available there, so the project runs natively. The
 environment is provisioned by `.claude/cloud-setup.sh` – paste its contents
-into the cloud environment's **Setup script** field. On every session start
-`.claude/hooks/session-start.sh` starts MySQL and exports the environment
-(virtualenv `/opt/feder-venv`, `DATABASE_URL=mysql://root:password@127.0.0.1/feder`).
+into the cloud environment's **Setup script** field. It also installs
+`/etc/profile.d/feder.sh` (sourced from `/root/.bashrc`), which exports the
+environment (virtualenv `/opt/feder-venv`,
+`DATABASE_URL=mysql://root:password@127.0.0.1/feder`) and starts MySQL in the
+background when the session's shell is initialized. If MySQL is not up yet,
+run `feder-mysql-start` (waits until it accepts connections).
 
 - Unit tests (equivalent of `make test`):
   `python manage.py test --keepdb --parallel 4 feder`
