@@ -145,3 +145,17 @@ class SitemapTestCase(TestCase):
     def test_main(self):
         url = reverse("sitemaps", kwargs={"section": "main"})
         self.assertEqual(self.client.get(url).status_code, 200)
+
+
+class SignupClosedTestCase(TestCase):
+    def test_signup_page_does_not_suggest_temporary_closure(self):
+        response = self.client.get(reverse("account_signup"))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "account/signup_closed.html")
+        self.assertNotContains(response, "currently closed")
+        self.assertContains(response, reverse("account_login"))
+
+    def test_login_page_has_no_signup_link(self):
+        response = self.client.get(reverse("account_login"))
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, reverse("account_signup"))

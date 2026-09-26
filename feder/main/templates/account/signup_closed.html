@@ -10,8 +10,10 @@
             <div class="col-md-5 gray">
                 <h2>{% trans "Sign Up Closed" %}</h2>
                 {% tinycontent 'account:signup_closed' %}
-                <p>{% trans "We are sorry, but the sign up is currently closed." %}</p>
+                <p>{% trans "Self-registration is not available in this service. User accounts are created by the administrators." %}</p>
+                <p>{% trans "If you need an account, please contact the service administrators." %}</p>
                 {% endtinycontent %}
+                <p>{% url 'account_login' as login_url %}{% blocktrans %}If you already have an account, <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
             </div>
         </div>
     </div>
