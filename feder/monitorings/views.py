@@ -629,11 +629,15 @@ class MonitoringTemplateView(DetailView):
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         if "letter_normalization_prompt_extension" in request.POST:
-            self.object.letter_normalization_prompt_extension = request.POST[
-                "letter_normalization_prompt_extension"
-            ]
-            self.object.letter_normalization_prompt_extension_modified = timezone.now()
-            self.object.save()
+            new_prompt_extension = request.POST["letter_normalization_prompt_extension"]
+            if new_prompt_extension != (
+                self.object.letter_normalization_prompt_extension or ""
+            ):
+                self.object.letter_normalization_prompt_extension = new_prompt_extension
+                self.object.letter_normalization_prompt_extension_modified = (
+                    timezone.now()
+                )
+                self.object.save()
         if (
             "update_normalized_response_template" in request.POST
             and self.object.use_llm
