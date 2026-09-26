@@ -70,6 +70,7 @@ class MonitoringForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm
             )
 
         self.fields["email_footer"].widget = TinyMCE(attrs={"cols": 80, "rows": 5})
+        self.fields["internal_notes"].widget = forms.Textarea(attrs={"rows": 6})
 
         # ===== build crispy layout from actually-present fields =====
         # (crispy ≥2 is strict; never reference missing fields)
@@ -104,6 +105,14 @@ class MonitoringForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm
                     css_class="form-group col-md-7 mb-0",
                 ),
             ),
+            Row(
+                Column(
+                    Fieldset(
+                        _("Internal notes (not shown publicly)"), "internal_notes"
+                    ),
+                    css_class="form-group col-md-12 mb-0",
+                ),
+            ),
         )
 
     class Meta:
@@ -119,6 +128,7 @@ class MonitoringForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm
             "template",
             "email_footer",
             "domain",
+            "internal_notes",
         ]
 
 

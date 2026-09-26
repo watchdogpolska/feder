@@ -62,6 +62,17 @@ class MonitoringFormTestCase(TestCase):
         self.assertFalse(form.is_valid())
         self.assertIn("template", form.errors)
 
+    def test_form_save_internal_notes(self):
+        data = {
+            **EXAMPLE_DATA.copy(),
+            "domain": DomainFactory().pk,
+            "internal_notes": "Started because of X, inspired by Y.",
+        }
+        form = MonitoringForm(data, user=self.user)
+        self.assertTrue(form.is_valid(), msg=form.errors)
+        obj = form.save()
+        self.assertEqual(obj.internal_notes, "Started because of X, inspired by Y.")
+
 
 class MonitoringFilterTestCase(TestCase):
     @skip("Need to discovery way to mock QuerySet")
@@ -266,6 +277,15 @@ class MonitoringDetailViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
             reverse("cases_tags:list", kwargs={"monitoring": self.monitoring.pk}),
         )
 
+    def test_internal_notes_not_displayed(self):
+        self.monitoring.internal_notes = "SECRET-INTERNAL-NOTE"
+        self.monitoring.save()
+        assign_perm("monitorings.change_monitoring", self.user, self.monitoring)
+        self.login_permitted_user()
+        response = self.client.get(self.get_url())
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, "SECRET-INTERNAL-NOTE")
+
 
 class LetterListMonitoringViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     status_anonymous = 200
@@ -335,6 +355,37 @@ class MonitoringUpdateViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
         self.login_permitted_user()
         response = self.client.get(self.get_url())
         self.assertTemplateUsed(response, "monitorings/monitoring_form.html")
+
+    def test_internal_notes_field_present_for_permitted_user(self):
+        assign_perm("monitorings.change_monitoring", self.user, self.monitoring)
+        self.login_permitted_user()
+        response = self.client.get(self.get_url())
+        self.assertIn("internal_notes", response.context["form"].fields)
+
+    def test_internal_notes_can_be_updated(self):
+        assign_perm("monitorings.change_monitoring", self.user, self.monitoring)
+        self.login_permitted_user()
+        data = {
+            **EXAMPLE_DATA.copy(),
+            "domain": self.monitoring.domain_id,
+            "hide_new_cases": False,
+            "is_public": True,
+            "internal_notes": "Updated internal note",
+        }
+        response = self.client.post(self.get_url(), data=data)
+        self.assertEqual(response.status_code, 302, msg=response.context)
+        self.monitoring.refresh_from_db()
+        self.assertEqual(self.monitoring.internal_notes, "Updated internal note")
+
+
+class MonitoringApiTestCase(ObjectMixin, TestCase):
+    def test_internal_notes_not_exposed_in_api(self):
+        self.monitoring.internal_notes = "SECRET-INTERNAL-NOTE"
+        self.monitoring.save()
+        response = self.client.get(reverse("monitoring-list"))
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, "SECRET-INTERNAL-NOTE")
+        self.assertNotIn("internal_notes", response.json()["results"][0])
 
 
 class MonitoringDeleteViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
