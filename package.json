@@ -3,6 +3,7 @@
   "version": "1.1.0",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^7.3.0",
+    "@sentry/browser": "^11.0.0",
     "bootstrap-sass": "^3.4.3",
     "datatables.net-bs": ">=1.13.4 <2.0.0",
     "datatables.net-bs4": ">=1.13.4 <2.0.0",
@@ -18,6 +19,7 @@
   "devDependencies": {
     "autoprefixer": "^10.4.22",
     "caniuse-lite": "^1.0.30001755",
+    "esbuild": "^0.28.2",
     "gulp": "^5.0.0",
     "gulp-clean-css": "^4.3.0",
     "gulp-concat": "^2.6.0",
