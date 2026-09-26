@@ -66,7 +66,7 @@ PRIORITY_LOCAL_APPS = ("feder.main",)
 
 # Apps specific for this project go here.
 LOCAL_APPS = (
-    "feder.teryt",
+    "feder.teryt.apps.TerytConfig",
     "feder.users",
     "feder.institutions",
     "feder.monitorings",
