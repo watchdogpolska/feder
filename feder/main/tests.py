@@ -1,6 +1,6 @@
 from django.contrib.auth.models import Permission
 from django.core.exceptions import ImproperlyConfigured
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.urls import reverse
 from guardian.shortcuts import assign_perm
 
@@ -145,3 +145,23 @@ class SitemapTestCase(TestCase):
     def test_main(self):
         url = reverse("sitemaps", kwargs={"section": "main"})
         self.assertEqual(self.client.get(url).status_code, 200)
+
+
+class SignupClosedTestCase(TestCase):
+    def test_signup_page_explains_that_accounts_are_created_by_admins(self):
+        resp = self.client.get(reverse("account_signup"))
+        self.assertTemplateUsed(resp, "account/signup_closed.html")
+        self.assertContains(resp, "Konta użytkowników zakładają administratorzy")
+        self.assertNotContains(resp, "w tej chwili rejestracja jest zamknięta")
+        self.assertContains(resp, reverse("account_login"))
+
+    def test_login_page_has_no_signup_link_when_signup_closed(self):
+        resp = self.client.get(reverse("account_login"))
+        self.assertNotContains(resp, 'href="%s"' % reverse("account_signup"))
+        self.assertContains(resp, "nie jest publicznie dostępna")
+
+    @override_settings(ACCOUNT_ADAPTER="allauth.account.adapter.DefaultAccountAdapter")
+    def test_login_page_has_signup_link_when_signup_open(self):
+        resp = self.client.get(reverse("account_login"))
+        self.assertContains(resp, reverse("account_signup"))
+        self.assertNotContains(resp, "nie jest publicznie dostępna")

@@ -388,33 +388,42 @@ msgstr "Zaloguj"
 msgid "Sign In using Social Media"
 msgstr "Zaloguj poprzez media społecznościowe"
 
-#: feder/main/templates/account/login.html:15
+#: feder/main/templates/account/login.html:18
 #, python-format
 msgid ""
 "Please sign in with Google account,\n"
-"                        or <a href=\"%(signup_url)s\">sign&nbsp;up</a>\n"
-"                        for an account and sign in below."
+"                            or <a href=\"%(signup_url)s\">sign&nbsp;up</a>\n"
+"                            for an account and sign in below."
 msgstr ""
 "Proszę zaloguj się za pomocą konta Google, lub <a "
 "href=\"%(signup_url)s\">zarejestruj się</a> \n"
 "na stronie i zaloguj poniżej."
 
-#: feder/main/templates/account/login.html:26
+#: feder/main/templates/account/login.html:30
 msgid "Alternatively use user account"
 msgstr "Możesz też użyć konta użytkownika"
 
-#: feder/main/templates/account/login.html:36
+#: feder/main/templates/account/login.html:40
 msgid "Forgot Password?"
 msgstr "Zapomniałeś hasła?"
 
-#: feder/main/templates/account/login.html:38
+#: feder/main/templates/account/login.html:43
 #, python-format
 msgid ""
 "If you do not have a user account,\n"
-"                            <a href=\"%(signup_url)s\">sign up</a>"
+"                                <a href=\"%(signup_url)s\">sign up</a>"
 msgstr ""
 "Jeżeli nie masz jeszcze konta, to proszę <a "
 "href=\"%(signup_url)s\">zarejestruj się</a>"
+
+#: feder/main/templates/account/login.html:46
+msgid ""
+"Public sign up is not available.\n"
+"                                User accounts are created by the service "
+"administrators."
+msgstr ""
+"Rejestracja nowych użytkowników nie jest publicznie dostępna. Konta "
+"użytkowników zakładają administratorzy serwisu."
 
 #: feder/main/templates/account/logout.html:5
 #: feder/main/templates/account/logout.html:12
@@ -533,9 +542,22 @@ msgstr ""
 msgid "Sign Up Closed"
 msgstr "Rejestracja zamknięta"
 
-#: feder/main/templates/account/signup_closed.html:13
-msgid "We are sorry, but the sign up is currently closed."
-msgstr "Przepraszamy, ale w tej chwili rejestracja jest zamknięta."
+#: feder/main/templates/account/signup_closed.html:14
+msgid ""
+"Public sign up is not available. User accounts are created\n"
+"                    by the service administrators. If you need an account, "
+"please contact us."
+msgstr ""
+"Rejestracja nowych użytkowników nie jest publicznie dostępna. Konta "
+"użytkowników zakładają administratorzy serwisu. Jeżeli potrzebujesz konta, "
+"skontaktuj się z nami."
+
+#: feder/main/templates/account/signup_closed.html:16
+#, python-format
+msgid ""
+"If you already have an account,\n"
+"                    <a href=\"%(login_url)s\">sign in</a>."
+msgstr "Jeżeli masz już konto, <a href=\"%(login_url)s\">zaloguj się</a>."
 
 #: feder/main/templates/account/verification_sent.html:5
 #: feder/main/templates/account/verification_sent.html:11

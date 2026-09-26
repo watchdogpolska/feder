@@ -5,12 +5,16 @@
 {% block head_title %}{% trans "Sign Up Closed" %}{% endblock %}
 
 {% block content %}
+    {% url 'account_login' as login_url %}
     <div class="container">
         <div class="row">
             <div class="col-md-5 gray">
                 <h2>{% trans "Sign Up Closed" %}</h2>
                 {% tinycontent 'account:signup_closed' %}
-                <p>{% trans "We are sorry, but the sign up is currently closed." %}</p>
+                <p>{% blocktrans %}Public sign up is not available. User accounts are created
+                    by the service administrators. If you need an account, please contact us.{% endblocktrans %}</p>
+                <p>{% blocktrans %}If you already have an account,
+                    <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
                 {% endtinycontent %}
             </div>
         </div>

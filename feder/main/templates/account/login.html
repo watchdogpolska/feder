@@ -3,18 +3,22 @@
 {% load i18n %}
 {% load socialaccount %}
 {% load crispy_forms_tags %}
+{% load feder_tags %}
 
 {% block head_title %}{% trans "Sign In" %}{% endblock %}
 
 {% block content %}
+    {% is_signup_open as signup_open %}
     <div class="container">
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
                 <div class="gray">
                     <h2>{% trans "Sign In using Social Media" %}</h2>
-                    <p>{% blocktrans %}Please sign in with Google account,
-                        or <a href="{{ signup_url }}">sign&nbsp;up</a>
-                        for an account and sign in below.{% endblocktrans %}</p>
+                    {% if signup_open %}
+                        <p>{% blocktrans %}Please sign in with Google account,
+                            or <a href="{{ signup_url }}">sign&nbsp;up</a>
+                            for an account and sign in below.{% endblocktrans %}</p>
+                    {% endif %}
 
                     {% get_providers as socialaccount_providers %}
                     {% if socialaccount_providers %}
@@ -35,8 +39,13 @@
                         <a class="btn btn-default"
                            href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
 
-                        <p class="mt-1">{% blocktrans %}If you do not have a user account,
-                            <a href="{{ signup_url }}">sign up</a>{% endblocktrans %}.</p>
+                        {% if signup_open %}
+                            <p class="mt-1">{% blocktrans %}If you do not have a user account,
+                                <a href="{{ signup_url }}">sign up</a>{% endblocktrans %}.</p>
+                        {% else %}
+                            <p class="mt-1">{% blocktrans %}Public sign up is not available.
+                                User accounts are created by the service administrators.{% endblocktrans %}</p>
+                        {% endif %}
                     </form>
                 </div>
             </div>

@@ -83,3 +83,15 @@ def underscores_to_spaces(value):
 @register.filter
 def spaces_to_underscores(value):
     return value.replace(" ", "_")
+
+
+@register.simple_tag(takes_context=True)
+def is_signup_open(context):
+    """
+    Returns True if new users are allowed to sign up, according to
+    the configured allauth account adapter.
+    """
+    from allauth.account.adapter import get_adapter
+
+    request = context.get("request")
+    return get_adapter(request).is_open_for_signup(request)
