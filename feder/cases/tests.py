@@ -92,6 +92,23 @@ class CaseDetailViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
         response = self.client.get(self.get_url())
         self.assertNotContains(response, letter.body)
 
+    def test_not_contains_normalized_answer_of_spam_letter(self):
+        IncomingLetterFactory(
+            record__case=self.case,
+            is_spam=Letter.SPAM.spam,
+            normalized_response='{"1": {"Pytanie": "Q?", "Odpowiedź": "A!"}}',
+        )
+        response = self.client.get(self.get_url())
+        self.assertNotContains(response, "A!")
+
+    def test_contains_normalized_answer(self):
+        IncomingLetterFactory(
+            record__case=self.case,
+            normalized_response='{"1": {"Pytanie": "Q?", "Odpowiedź": "A!"}}',
+        )
+        response = self.client.get(self.get_url())
+        self.assertContains(response, "A!")
+
     def test_contains_letter(self):
         letter = IncomingLetterFactory(record__case=self.case)
         response = self.client.get(self.get_url())

@@ -412,6 +412,16 @@ class LetterMarkSpamViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
         )
         self.assertEqual(self.from_institution.is_spam, Letter.SPAM.spam)
 
+    def test_clears_normalized_response(self):
+        self.from_institution.normalized_response = (
+            '{"1": {"Pytanie": "Q?", "Odpowiedź": "A!"}}'
+        )
+        self.from_institution.save(update_fields=["normalized_response"])
+        self.login_permitted_user()
+        self.client.post(self.get_url())
+        self.from_institution.refresh_from_db()
+        self.assertIsNone(self.from_institution.normalized_response)
+
     def test_mark_as_valid(self):
         self.login_permitted_user()
         response = self.client.post(self.get_url(), data={"valid": "x"})
