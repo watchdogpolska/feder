@@ -10,6 +10,7 @@ const sass = require("gulp-sass")(require("sass"));
 const postcss = require("gulp-postcss");
 const autoprefixer = require("autoprefixer");
 const terser = require("gulp-terser");
+const esbuild = require("esbuild");
 
 const json = JSON.parse(fs.readFileSync("./package.json"));
 
@@ -85,6 +86,17 @@ const config = (() => {
       },
       watch: [path.assets + "/js/*.js"],
     },
+    sentry: {
+      // Kept out of `script.input` and bundled on its own: @sentry/browser
+      // only ships ESM/CJS builds (no npm-published UMD bundle), so it needs
+      // module resolution that gulp-concat can't provide.
+      entry: path.assets + "/js/sentry/sentry-init.js",
+      output: {
+        dir: path.static + "/js",
+        filename: "sentry.min.js",
+      },
+      watch: [path.assets + "/js/sentry/*.js"],
+    },
   };
 })();
 
@@ -128,19 +140,31 @@ function scss() {
     .pipe(livereload());
 }
 
+function sentry() {
+  return esbuild.build({
+    entryPoints: [config.sentry.entry],
+    bundle: true,
+    minify: true,
+    format: "iife",
+    outfile: config.sentry.output.dir + "/" + config.sentry.output.filename,
+  });
+}
+
 function watcher() {
   livereload.listen();
   config.scss.watch.forEach((p) => watch(p, scss));
   config.script.watch.forEach((p) => watch(p, js));
+  config.sentry.watch.forEach((p) => watch(p, sentry));
 }
 
 // Public task compositions
-const build = series(images, icons, js, scss);
+const build = series(images, icons, js, scss, sentry);
 
 exports.icons = icons;
 exports.images = images;
 exports.js = js;
 exports.scss = scss;
+exports.sentry = sentry;
 exports.watch = watcher;
 exports.build = build;
 exports.default = build;

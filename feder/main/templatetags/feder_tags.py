@@ -24,6 +24,21 @@ def feder_version():
 
 
 @register.simple_tag
+def sentry_dsn():
+    """
+    Exposes the same SENTRY_DSN used by the backend (config/settings/production.py)
+    to the frontend, so @sentry/browser only activates where the server-side
+    Sentry integration is already configured.
+    """
+    return getattr(settings, "SENTRY_DSN", "")
+
+
+@register.simple_tag
+def app_mode_value():
+    return settings.APP_MODE
+
+
+@register.simple_tag
 def app_mode():
     """
     app_mode tag used to differentiate dev, demo and production environments
