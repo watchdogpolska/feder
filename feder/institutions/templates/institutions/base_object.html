@@ -9,7 +9,7 @@
             {% with obj_jst=object.jst %}
                 {% include "institutions/_jst_breadcrumbs.html" %}
             {% endwith %}
-            <li
+            <li class="breadcrumb-item"
                 itemprop="itemListElement"
                 itemscope
                 itemtype="http://schema.org/ListItem">
@@ -19,11 +19,10 @@
             </li>
         {% endif %}
         {% block breadcrumb_row %}
-            <li
+            <li class="breadcrumb-item active" aria-current="page"
                 itemprop="itemListElement"
                 itemscope
-                itemtype="http://schema.org/ListItem"
-                class="active">
+                itemtype="http://schema.org/ListItem">
                 <span itemprop="name">{% if headline %}{{ headline }}
                     {% elif object %}{% trans 'Edit' %}
                     {% else %}{% trans 'Add institution' %}
@@ -37,7 +36,7 @@
 
     {% if object %}
         {% include 'institutions/_btn.html' with object=object %}
-        <div class="page-header">
+        <div class="pb-2 mb-4 border-bottom">
             <h2><i class="fa-solid fa-house"></i> <a href="{{ object.get_absolute_url }}">{{ object }}</a></h2>
         </div>
 

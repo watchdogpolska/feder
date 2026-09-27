@@ -10,13 +10,11 @@
         <div class="row">
             <div class="col-lg-12 gray">
                 <h1>{% block header %}{% trans 'User' %}: {{ user.username }}{% endblock %}</h1>
-                <form class="form-horizontal" method="post" action="{% url 'users:update' %}">
+                <form method="post" action="{% url 'users:update' %}">
                     {% csrf_token %}
                     {{ form|crispy }}
-                    <div class="control-group">
-                        <div class="controls">
-                            <button type="submit" class="btn btn-primary">{% trans 'Update' %}</button>
-                        </div>
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-primary">{% trans 'Update' %}</button>
                     </div>
                 </form>
             </div>
