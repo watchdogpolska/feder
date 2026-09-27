@@ -17,18 +17,15 @@
                     <form action="{% url 'account_email' %}" class="email_list"
                           method="post">
                         {% csrf_token %}
-                        <fieldset class="blockLabels">
+                        <fieldset>
 
                             {% for emailaddress in user.emailaddress_set.all %}
-                                <div class="ctrlHolder">
-                                    <label for="email_radio_{{ forloop.counter }}"
-                                           class="{% if emailaddress.primary %}primary_email{% endif %}">
-
-                                        <input id="email_radio_{{ forloop.counter }}"
-                                               type="radio" name="email"
-                                               {% if emailaddress.primary %}checked="checked"{% endif %}
-                                               value="{{ emailaddress.email }}"/>
-
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" id="email_radio_{{ forloop.counter }}"
+                                           type="radio" name="email"
+                                           {% if emailaddress.primary %}checked="checked"{% endif %}
+                                           value="{{ emailaddress.email }}"/>
+                                    <label class="form-check-label" for="email_radio_{{ forloop.counter }}">
                                         {{ emailaddress.email }}
                                         {% if emailaddress.verified %}
                                             <span class="verified">{% trans "Verified" %}</span>
@@ -41,12 +38,12 @@
                                 </div>
                             {% endfor %}
 
-                            <div class="buttonHolder">
+                            <div class="mt-3 d-flex gap-2">
                                 <button class="btn btn-primary" type="submit"
                                         name="action_primary">{% trans 'Make Primary' %}</button>
-                                <button class="btn btn-default" type="submit"
+                                <button class="btn btn-secondary" type="submit"
                                         name="action_send">{% trans 'Re-send Verification' %}</button>
-                                <button class="btn btn-default" type="submit"
+                                <button class="btn btn-secondary" type="submit"
                                         name="action_remove">{% trans 'Remove' %}</button>
                             </div>
 

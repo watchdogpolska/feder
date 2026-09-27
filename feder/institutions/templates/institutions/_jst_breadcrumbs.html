@@ -1,5 +1,5 @@
 {% for jst in obj_jst.get_ancestors.all %}
-    <li
+    <li class="breadcrumb-item"
         itemprop="itemListElement"
         itemscope
         itemtype="http://schema.org/ListItem">
@@ -8,7 +8,7 @@
         </a>
     </li>
 {% endfor %}
-<li
+<li class="breadcrumb-item active" aria-current="page"
     itemprop="itemListElement"
     itemscope
     itemtype="http://schema.org/ListItem">

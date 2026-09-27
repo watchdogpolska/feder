@@ -2,7 +2,7 @@
 {% load i18n humanize %}
 {% block content_object %}
     {% include 'monitorings/_tabs.html' with tab='general' %}
-    <h3 class="sr-only">{% trans 'Institutions and cases' %}</h3>
+    <h3 class="visually-hidden">{% trans 'Institutions and cases' %}</h3>
     {% if object_list %}
         {% for case in object_list %}
             <div class="gray">
@@ -21,8 +21,8 @@
                 </h4>
 
                 {% if case.record_set.all %}
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
+                    <div class="card">
+                        <div class="card-header">
                             {% trans 'Contents' %}
                         </div>
                         <table class="table">
