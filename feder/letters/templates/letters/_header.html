@@ -7,14 +7,14 @@
         <time datetime="{{ object.created }}" title="{{ object.created | naturaltime }}">{{ object.created }}</time>
     </small>
     {% if object.attachment_count %}
-        <span class="badge pull-right">
+        <span class="badge bg-secondary float-end">
         <i class="fa-solid fa-download"></i> {{ object.attachment_count }}
     </span>
     {% endif %}
     {% if object.ai_evaluation %}
         <br>
         <small>
-            <i class="fa-solid fa-circle-question" data-toggle="tooltip" data-placement="bottom"
+            <i class="fa-solid fa-circle-question" data-bs-toggle="tooltip" data-bs-placement="bottom"
                 title="{{ object.ai_prompt_help }}">
             </i> {% trans 'LLM evaluation: ' %}
             {{ object.ai_evaluation|linebreaksbr }}

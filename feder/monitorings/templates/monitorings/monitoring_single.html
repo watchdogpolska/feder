@@ -18,6 +18,7 @@
         itemtype="http://schema.org/BreadcrumbList">
         {% if object %}
             <li
+                class="breadcrumb-item"
                 itemprop="itemListElement"
                 itemscope
                 itemtype="http://schema.org/ListItem">
@@ -37,7 +38,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class="page-header">
+    <div class="pb-2 mb-4 border-bottom">
         <h2>
             <i class="fa-solid fa-magnifying-glass"></i>
             {% if object %}
