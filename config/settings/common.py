@@ -37,7 +37,7 @@ DJANGO_APPS = (
 )
 THIRD_PARTY_APPS = (
     "crispy_forms",  # Form layouts
-    "crispy_bootstrap3",  # Bootstrap 3 theme for crispy forms
+    "crispy_bootstrap5",  # Bootstrap 5 theme for crispy forms
     "allauth",  # registration
     "allauth.account",  # registration
     "allauth.socialaccount",  # registration
@@ -51,7 +51,6 @@ THIRD_PARTY_APPS = (
     "mptt",
     "guardian",
     "teryt_tree",
-    "bootstrap_pagination",
     "rest_framework",
     "reversion",
     "django_filters",
@@ -203,6 +202,12 @@ STRFTIME_FORMAT = "%Y-%m-%d %H:%M:%S"
 STRFTIME_DATE_FORMAT = "%Y-%m-%d"
 DATETIME_FORMAT = "Y-m-d H:i:s"
 DATE_FORMAT = "Y-m-d"
+SHORT_DATE_FORMAT = "Y-m-d"
+
+# Render/parse ajax_datatable's date-range filter (e.g. monitoring cases
+# table) in the neutral SHORT_DATE_FORMAT above instead of the active
+# locale's format.
+AJAX_DATATABLE_USE_L10N = False
 
 # TEMPLATE CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -240,9 +245,9 @@ TEMPLATES = [
 
 # See: http://django-crispy-forms.readthedocs.org/en/latest/install.html#template-packs
 CRISPY_ALLOWED_TEMPLATE_PACKS = [
-    "bootstrap3",
+    "bootstrap5",
 ]
-CRISPY_TEMPLATE_PACK = "bootstrap3"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 CRISPY_FAIL_SILENTLY = False
 
 # STATIC FILE CONFIGURATION
@@ -463,7 +468,6 @@ ROSETTA_EXCLUDED_APPLICATIONS = (
     "mptt",
     "guardian",
     "teryt_tree",
-    "bootstrap_pagination",
     "rest_framework",
     "reversion",
     "django_filters",

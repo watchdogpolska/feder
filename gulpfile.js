@@ -39,7 +39,7 @@ const config = (() => {
       ],
       include: [
         path.npm,
-        "./node_modules/bootstrap-sass/assets/stylesheets",
+        "./node_modules/bootstrap/scss",
         "./node_modules/@fortawesome/fontawesome-free/scss",
         path.assets + "/scss/",
         path.staticfiles,
@@ -62,11 +62,7 @@ const config = (() => {
       input: [
         "./node_modules/jquery/dist/jquery.js",
         "./node_modules/htmx.org/dist/htmx.js",
-        "./node_modules/bootstrap-sass/assets/javascripts/bootstrap/tab.js",
-        "./node_modules/bootstrap-sass/assets/javascripts/bootstrap/transition.js",
-        "./node_modules/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js",
-        "./node_modules/bootstrap-sass/assets/javascripts/bootstrap/tooltip.js",
-        "./node_modules/bootstrap-sass/assets/javascripts/bootstrap/collapse.js",
+        "./node_modules/bootstrap/dist/js/bootstrap.bundle.js",
         // Core DataTables (ensure datatables.net is installed)
         path.npm + "/datatables.net/js/jquery.dataTables.js",
         // DataTables styling + extras
@@ -101,7 +97,10 @@ function images() {
 
 function js() {
   return src(config.script.input, { allowEmpty: false })
-    .pipe(concat(config.script.output.filename))
+    // Some vendor bundles (e.g. htmx.js) omit a trailing semicolon on their
+    // final statement; without a ";" join separator, ASI can misparse the
+    // next concatenated file's leading "(" as a call on the previous one.
+    .pipe(concat(config.script.output.filename, { newLine: ";\n" }))
     .pipe(dest(config.script.output.dir))
     .pipe(livereload())
     .pipe(terser())
