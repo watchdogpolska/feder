@@ -1,6 +1,6 @@
 {% load i18n %}
 <div class="monitoring-report-content">
-    <h3 class="visually-hidden">{% trans 'Report' %}</h3>
+    <h3 >{% trans 'Report' %}</h3>
 
     <table class="table">
         <thead>
@@ -78,21 +78,21 @@
                 <td class="centered centered_cell">{{ case.first_request.emaillog.status_verbose }}</td>
                 <td class="centered centered_cell">{{ case.last_request.created|date }}</td>
                 <td class="centered centered_cell">{{ case.last_request.emaillog.status_verbose }}</td>
-                <td>
+                <td class="centered centered_cell">
                     {% if case.confirmation_received %}
-                        <i class="fa-solid fa-circle-check fa-lg color-success centered"
+                        <i class="fa-solid fa-circle-check fa-lg color-success"
                            title="{% trans 'yes' %}"></i>
                     {% else %}
-                        <i class="fa-solid fa-circle-xmark fa-lg color-danger centered"
+                        <i class="fa-solid fa-circle-xmark fa-lg color-danger"
                            title="{% trans 'no' %}"></i>
                     {% endif %}
                 </td>
-                <td>
+                <td class="centered centered_cell">
                     {% if case.response_received %}
-                        <i class="fa-solid fa-circle-check fa-lg color-success centered"
+                        <i class="fa-solid fa-circle-check fa-lg color-success"
                            title="{% trans 'yes' %}"></i>
                     {% else %}
-                        <i class="fa-solid fa-circle-xmark fa-lg color-danger centered"
+                        <i class="fa-solid fa-circle-xmark fa-lg color-danger"
                            title="{% trans 'no' %}"></i>
                     {% endif %}
                 </td>
