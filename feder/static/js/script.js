@@ -35397,27 +35397,34 @@ return DataTable;
  * Adds additional utility buttons to form groups having "checkbox-utils" class
  * which allows user to select unselect all options in CheckboxSelectMultiple widgets.
  */
-$(function () {
-    var $inputs = $('.checkbox-utils');
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.checkbox-utils').forEach(function (elem) {
+        var legend = elem.querySelector('legend.form-label');
+        if (!legend) {
+            return;
+        }
 
-    $inputs.each(function (index) {
-        var $elem = $(this),
-            $label = $elem.find('label.control-label:first-child');
+        var unselectBtn = document.createElement('button');
+        unselectBtn.type = 'button';
+        unselectBtn.className = 'btn btn-primary unselect-all-btn';
+        unselectBtn.textContent = 'Odznacz wszystkie';
 
-        $label.after(
-            '<button class="btn btn-primary unselect-all-btn" type="button">' +
-                'Odznacz wszystkie' +
-            '</button>' +
-            '<button class="btn btn-primary select-all-btn" type="button">' +
-                'Zaznacz wszystkie' +
-            '</button>'
-        );
+        var selectBtn = document.createElement('button');
+        selectBtn.type = 'button';
+        selectBtn.className = 'btn btn-primary select-all-btn';
+        selectBtn.textContent = 'Zaznacz wszystkie';
 
-        $('.checkbox-utils .select-all-btn').click(function (event) {
-            $elem.find('input[type="checkbox"]').prop("checked", true);
+        legend.after(unselectBtn, selectBtn);
+
+        selectBtn.addEventListener('click', function () {
+            elem.querySelectorAll('input[type="checkbox"]').forEach(function (cb) {
+                cb.checked = true;
+            });
         });
-        $('.checkbox-utils .unselect-all-btn').click(function (event) {
-            $elem.find('input[type="checkbox"]').prop("checked", false);
+        unselectBtn.addEventListener('click', function () {
+            elem.querySelectorAll('input[type="checkbox"]').forEach(function (cb) {
+                cb.checked = false;
+            });
         });
     });
 });
@@ -36231,11 +36238,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 ;
-;(function($) {
-    $(document).ready(function() {
-      $('input[name="to_assign"]').on('click', function() {
-        var selectedCount = $('input[name="to_assign"]:checked').length;
-        $('span[name="selected_count"]').text(selectedCount);
-      });
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('input[name="to_assign"]').forEach(function (input) {
+        input.addEventListener('click', function () {
+            var selectedCount = document.querySelectorAll('input[name="to_assign"]:checked').length;
+            document.querySelectorAll('span[name="selected_count"]').forEach(function (span) {
+                span.textContent = selectedCount;
+            });
+        });
     });
-  })(jQuery);
+});
