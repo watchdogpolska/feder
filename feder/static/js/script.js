@@ -36140,6 +36140,28 @@ document.addEventListener('DOMContentLoaded', function() {
                     select.style.width = "100%";
                 });
             });
+            // The scrollY passed at init time (maxHeight - TableHeightMargin) was only
+            // a guess made before any of the table's own chrome had actually rendered -
+            // in particular the date-range toolbar (populated because this view has
+            // get_latest_by set), which monitorings_table doesn't have and no fixed
+            // margin constant accounts for. Now that the chrome above/below the
+            // scrollable body is real DOM, measure it and resize the body to whatever
+            // space is actually left, so the info/pagination row stays inside the
+            // viewport instead of being pushed past it.
+            var scrollBody = tableWrapper.querySelector(".dt-scroll-body");
+            var controlsRows = tableWrapper.querySelectorAll(".datatable-controls-row");
+            var bottomRow = controlsRows[controlsRows.length - 1];
+            if (scrollBody && bottomRow) {
+                var scrollBodyRectBefore = scrollBody.getBoundingClientRect();
+                var chromeAboveBody = scrollBodyRectBefore.top - tableTop;
+                // Distance from the body's (still unadjusted) bottom edge to the end of
+                // the info/pagination row - covers the empty ".dt-scroll-foot" spacer
+                // too, not just the row's own height.
+                var chromeBelowBody = bottomRow.getBoundingClientRect().bottom - scrollBodyRectBefore.bottom;
+                var available = maxHeight - chromeAboveBody - chromeBelowBody;
+                scrollBody.style.height = available + "px";
+                scrollBody.style.maxHeight = available + "px";
+            }
         });
         // Initialize table
         AjaxDatatableViewUtils.initialize_table(
