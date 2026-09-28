@@ -41,8 +41,13 @@
     .right-column {
       flex: 1;
       margin-left: 3px;
-      overflow-x: auto;
       /* or use "flex-grow: 1" for older browser support */
+      overflow-x: auto; /* lets this flex item shrink to fit the table instead of
+        forcing the page wider - DataTables' own scrollX handles the table's
+        actual horizontal scrollbar, this is just the flexbox shrink hack */
+      overflow-y: hidden; /* pinned explicitly: leaving this "visible" would make
+        it compute to "auto" too (CSS quirk for a lone overflow-x), showing a
+        spurious vertical scrollbar beside the table's own */
     }
 </style>
 

@@ -8,7 +8,7 @@ class AlertFilter(django_filters.FilterSet):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.filters["reason"].lookup_expr = "icontains"
-        self.filters["author"].widget = autocomplete.ModelSelect2(
+        self.filters["author"].widget = autocomplete.ModelAlight(
             url="users:autocomplete"
         )
 

@@ -42,7 +42,7 @@ THIRD_PARTY_APPS = (
     "allauth.account",  # registration
     "allauth.socialaccount",  # registration
     "dal",
-    "dal_select2",
+    "dal_alight",
     "tinycontent",
     "django_extensions",
     "tinymce",
@@ -461,7 +461,7 @@ ROSETTA_EXCLUDED_APPLICATIONS = (
     "allauth.account",  # registration
     "allauth.socialaccount",  # registration
     "dal",
-    "dal_select2",
+    "dal_alight",
     "tinymce",
     "ajax_datatable",
     "formtools",

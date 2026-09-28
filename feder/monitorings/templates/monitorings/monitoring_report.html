@@ -42,7 +42,7 @@
     {% get_obj_perms request.user for monitoring as "monitoring_perms" %}
     {% include 'monitorings/_header.html' with object=monitoring %}
     <div class="row">
-        <div class="col-lg-4 col-md-6 col-sm-12 col-12">
+        <div class="col-lg-3 col-md-4 col-sm-12 col-12">
             <div class="block block_gray">
                 <h2 class="block__title">{% trans "Filters" %}</h2>
                 <form method="GET">
@@ -90,7 +90,7 @@
             </div>
 
         </div>
-        <div class="col-lg-8 col-md-6 col-sm-12 col-12">
+        <div class="col-lg-9 col-md-8 col-sm-12 col-12">
             {% include 'monitorings/_report_content.html' %}
         </div>
     </div>

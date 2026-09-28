@@ -8,7 +8,7 @@ from feder.main.mixins import DisabledWhenFilterMixin
 class DisabledWhenVoivodeshipFilter(DisabledWhenFilterMixin, VoivodeshipFilter):
     def __init__(self, *args, **kwargs):
         kwargs.setdefault(
-            "widget", autocomplete.ModelSelect2(url="teryt:voivodeship-autocomplete")
+            "widget", autocomplete.ModelAlight(url="teryt:voivodeship-autocomplete")
         )
         kwargs.setdefault("disabled_when", ["county", "community"])
         super().__init__(*args, **kwargs)
@@ -18,7 +18,7 @@ class DisabledWhenCountyFilter(DisabledWhenFilterMixin, CountyFilter):
     def __init__(self, *args, **kwargs):
         kwargs.setdefault(
             "widget",
-            autocomplete.ModelSelect2(
+            autocomplete.ModelAlight(
                 url="teryt:county-autocomplete", forward=["voivodeship"]
             ),
         )
@@ -31,7 +31,7 @@ class DisabledWhenCommunityFilter(DisabledWhenFilterMixin, CommunityFilter):
     def __init__(self, *args, **kwargs):
         kwargs.setdefault(
             "widget",
-            autocomplete.ModelSelect2(
+            autocomplete.ModelAlight(
                 url="teryt:community-autocomplete", forward=["county"]
             ),
         )

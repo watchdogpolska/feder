@@ -2,16 +2,13 @@
   "name": "feder",
   "version": "1.1.0",
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^7.3.0",
+    "@fortawesome/fontawesome-free": "^7.3.1",
     "@popperjs/core": "^2.11.8",
     "@sentry/browser": "^11.0.0",
     "bootstrap": "^5.3.3",
-    "datatables.net-buttons": ">=2.3.6 <3.0.0",
-    "datatables.net-buttons-dt": ">=2.3.6 <3.0.0",
-    "datatables.net-dt": ">=1.13.4 <2.0.0",
-    "datatables.net-plugins": ">=1.13.6 <2.0.0",
+    "datatables.net": "^3.1.2",
+    "datatables.net-dt": "^3.1.2",
     "htmx.org": "^2.0.4",
-    "jquery": "^3.7.0",
     "postcss": "8.5.28"
   },
   "devDependencies": {
