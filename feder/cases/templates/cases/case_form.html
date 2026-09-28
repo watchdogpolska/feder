@@ -6,7 +6,7 @@
         itemscope
         itemtype="http://schema.org/BreadcrumbList">
         {% if monitoring %}
-            <li
+            <li class="breadcrumb-item"
             itemprop="itemListElement"
             itemscope
             itemtype="http://schema.org/ListItem">
@@ -15,7 +15,7 @@
                 </a>
             </li>
         {% elif object %}
-            <li
+            <li class="breadcrumb-item"
             itemprop="itemListElement"
             itemscope
             itemtype="http://schema.org/ListItem">
@@ -24,11 +24,10 @@
                 </a>
             </li>
         {% endif %}
-        <li
+        <li class="breadcrumb-item active" aria-current="page"
             itemprop="itemListElement"
             itemscope
-            itemtype="http://schema.org/ListItem"
-            class="active">
+            itemtype="http://schema.org/ListItem">
             <span itemprop="name">{% if headline %}{{ headline }}
                     {% elif object %}{% trans 'Update case' %}
                     {% else %}{% trans 'Add case' %}
