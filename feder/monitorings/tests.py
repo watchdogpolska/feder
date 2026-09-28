@@ -1,3 +1,4 @@
+from datetime import timedelta
 from unittest import skip
 from unittest.mock import Mock, patch
 
@@ -5,6 +6,7 @@ from django.core import mail
 from django.db.models import Count
 from django.test import TestCase
 from django.urls import reverse
+from django.utils import timezone
 from guardian.shortcuts import assign_perm, get_user_perms
 
 from feder.cases.factories import CaseFactory
@@ -322,6 +324,48 @@ class DraftListMonitoringViewTestCase(ObjectMixin, PermissionStatusMixin, TestCa
 
         self.assertContains(response, draft_letter.body)
         self.assertContains(response, draft_letter.note)
+
+
+class MonitoringTemplateViewTestCase(ObjectMixin, TestCase):
+    def get_url(self):
+        return reverse("monitorings:template", kwargs={"slug": self.monitoring.slug})
+
+    def test_prompt_extension_modified_updated_on_change(self):
+        self.monitoring.letter_normalization_prompt_extension = "old instruction"
+        self.monitoring.letter_normalization_prompt_extension_modified = None
+        self.monitoring.save()
+
+        response = self.client.post(
+            self.get_url(),
+            data={"letter_normalization_prompt_extension": "new instruction"},
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.monitoring.refresh_from_db()
+        self.assertEqual(
+            self.monitoring.letter_normalization_prompt_extension, "new instruction"
+        )
+        self.assertIsNotNone(
+            self.monitoring.letter_normalization_prompt_extension_modified
+        )
+
+    def test_prompt_extension_modified_not_touched_when_content_unchanged(self):
+        self.monitoring.letter_normalization_prompt_extension = "same instruction"
+        fixed_modified = timezone.now() - timedelta(days=1)
+        self.monitoring.letter_normalization_prompt_extension_modified = fixed_modified
+        self.monitoring.save()
+
+        response = self.client.post(
+            self.get_url(),
+            data={"letter_normalization_prompt_extension": "same instruction"},
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.monitoring.refresh_from_db()
+        self.assertEqual(
+            self.monitoring.letter_normalization_prompt_extension_modified,
+            fixed_modified,
+        )
 
 
 class MonitoringUpdateViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
