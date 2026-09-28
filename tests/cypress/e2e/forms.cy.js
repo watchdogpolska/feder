@@ -4,12 +4,20 @@ const {
   createDomain,
 } = require("../testing/management");
 
-// Expected to be invoked inside a div containing one autocomplete field.
-// Waits a bit before pressing enter to give the async operation some time
-// to complete.
+// Expected to be invoked inside a div containing one autocomplete field
+// (a django-autocomplete-light `dal_alight` widget). Waits a bit before
+// pressing down+enter to give the async search request some time to
+// complete; the down arrow highlights the top result, since dal_alight
+// (unlike the old select2 widget) requires an option to be explicitly
+// highlighted before enter will confirm it.
 // If flaky, consider increasing the timeout.
 const selectAutocompleteOptionContaining = (selectionElement, text) => {
-  selectionElement.click().focused().type(text).wait(1000).type("{enter}");
+  selectionElement
+    .click()
+    .focused()
+    .type(text)
+    .wait(1000)
+    .type("{downarrow}{enter}");
 };
 
 // Fill a TinyMCE editor form.
@@ -97,7 +105,7 @@ it("should login and use the app forms", () => {
 
   cy.get('input[name="name"]').type("Testowa Instytucja");
   cy.contains("div", "Jednostka podziału terytorialnego").within(($div) => {
-    selectAutocompleteOptionContaining(cy.get(".selection"), "Małopolskie");
+    selectAutocompleteOptionContaining(cy.get('input[slot="input"]'), "Małopolskie");
   });
   cy.get('input[name="email"]').type("test@example.com");
   cy.get('input[type="submit"][value="Zapisz"]').click();
@@ -118,7 +126,7 @@ it("should login and use the app forms", () => {
 
   cy.get('input[name="name"]').type("test-case");
   cy.contains("div", "Instytucja").within(($div) => {
-    selectAutocompleteOptionContaining(cy.get(".selection"), "Testowa Instytucja");
+    selectAutocompleteOptionContaining(cy.get('input[slot="input"]'), "Testowa Instytucja");
   });
   cy.get('input[type="submit"][value="Zapisz"]').click();
   cy.wait(2000);
@@ -135,14 +143,14 @@ it("should login and use the app forms", () => {
 
     cy.contains("div", "Monitoring").within(($div) => {
       selectAutocompleteOptionContaining(
-        cy.get(".selection"),
+        cy.get('input[slot="input"]'),
         "test"
       );
     });
 
     cy.contains("div", "Województwa").within(($div) => {
       selectAutocompleteOptionContaining(
-        cy.get(".selection"),
+        cy.get('input[slot="input"]'),
         "Małopolskie"
       );
     });
