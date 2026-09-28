@@ -36,23 +36,6 @@
       "allowedVersions": "^5.2"
     },
     {
-      "matchPackageNames": [
-        "datatables.net-plugins",
-        "datatables.net-bs",
-        "datatables.net-bs4",
-        "datatables.net-dt"
-      ],
-      "allowedVersions": "< 2.0.0"
-    },
-    {
-      "matchPackageNames": [
-        "datatables.net-buttons",
-        "datatables.net-buttons-bs",
-        "datatables.net-buttons-dt"
-      ],
-      "allowedVersions": "< 3.0.0"
-    },
-    {
       "matchPackageNames": ["caniuse-lite"],
       "minimumReleaseAge": null
     }
