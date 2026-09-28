@@ -56,7 +56,6 @@ const config = (() => {
     },
     script: {
       input: [
-        "./node_modules/jquery/dist/jquery.js",
         "./node_modules/htmx.org/dist/htmx.js",
         "./node_modules/bootstrap/dist/js/bootstrap.bundle.js",
         // Core DataTables (jQuery-free v3 build; ensure datatables.net is installed)
