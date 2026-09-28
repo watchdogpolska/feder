@@ -25,7 +25,7 @@ AjaxDatatableViewUtils.init({
 
 ;(function($) {
     $(function() {
-        const table1 = document.getElementById(DataTablesTableId);
+        const table1 = typeof DataTablesTableId !== 'undefined' ? document.getElementById(DataTablesTableId) : null;
         if (table1) {
             var tableTop = $("#tableWrapper")[0].getBoundingClientRect().top;
             var viewportHeight = $(window).innerHeight();

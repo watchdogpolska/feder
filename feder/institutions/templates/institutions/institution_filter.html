@@ -4,8 +4,8 @@
 {% block buttons %}
     {% if perms.institutions.add_institution %}
         <div class="clearfix">
-            <div class="pull-right btn-group">
-                <a class="btn btn-default" href="{% url 'institutions:create' %}">
+            <div class="float-end btn-group">
+                <a class="btn btn-secondary" href="{% url 'institutions:create' %}">
                     {% trans 'Add institution' %}
                 </a>
             </div>

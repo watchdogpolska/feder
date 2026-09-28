@@ -1,4 +1,4 @@
-{% load i18n bootstrap_pagination %}
+{% load i18n %}
 <div class="row gray">
     <table class="table table-striped">
         <thead>
@@ -23,6 +23,6 @@
         </tbody>
     </table>
 
-    {% bootstrap_paginate page_obj %}
+    {% include 'main/_pagination.html' with page_obj=page_obj %}
 
 </div>

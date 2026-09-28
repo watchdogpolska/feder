@@ -17,21 +17,6 @@ $milestone-icon-width: $milestone-icon-padding * 2 + $milestone-icon-font-size +
   list-style-type: none;
   padding-left: calc($milestone-icon-width / 2);
 
-  // the top and bottom borders
-  // of the list
-  &.milestones-bordered {
-    border-bottom: 2px solid $gray-light;
-    border-top: 2px solid $gray-light;
-  }
-
-  &.milestones-bordered-top {
-    border-top: 2px solid $gray-light;
-  }
-
-  &.milestones-bordered-bottom {
-    border-bottom: 2px solid $gray-light;
-  }
-
   // every <li> item
   & > li {
     // each milestone
@@ -51,8 +36,6 @@ $milestone-icon-width: $milestone-icon-padding * 2 + $milestone-icon-font-size +
     // reduces the bottom margin for bs elements
     // that add a margin beneath them
     .list-group:last-child,
-    .panel:last-child,
-    .well:last-child,
     .table:last-child,
     .alert:last-child,
     .progress:last-child,
@@ -68,8 +51,7 @@ $milestone-icon-width: $milestone-icon-padding * 2 + $milestone-icon-font-size +
     }
 
     // does the heavy lifting to the icons
-    & > .fa:first-child,
-    & > .glyphicon:first-child {
+    & > .fa:first-child {
       margin-left: -($milestone-offset-larger +  calc(($milestone-icon-width - 2px) / 2) + 1);
       margin-top: -$milestone-offset-smaller;
       float:left;
@@ -88,34 +70,4 @@ $milestone-icon-width: $milestone-icon-padding * 2 + $milestone-icon-font-size +
   background-color: $gray-lighter;
   color: $gray-light;
   border: 1px solid color.scale($gray-lighter, $lightness: -5%);
-}
-
-.milestone-primary {
-  background-color: $brand-primary;
-  color: #fff;
-  border: 1px solid color.scale($brand-primary, $lightness: -5%);
-}
-
-.milestone-success {
-  background-color: $brand-success;
-  color: #fff;
-  border: 1px solid color.scale($brand-success, $lightness: -5%);
-}
-
-.milestone-info {
-  background-color: $brand-info;
-  color: #fff;
-  border: 1px solid color.scale($brand-info, $lightness: -5%);
-}
-
-.milestone-warning {
-  background-color: $brand-warning;
-  color: #fff;
-  border: 1px solid color.scale($brand-warning, $lightness: -5%);
-}
-
-.milestone-danger, .milestone-error {
-  background-color: $brand-danger;
-  color: #fff;
-  border: 1px solid color.scale($brand-danger, $lightness: -5%);
 }
