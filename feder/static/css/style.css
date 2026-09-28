@@ -14922,7 +14922,7 @@ progress {
   color: var(--bs-secondary-color);
 }
 
-.form-control {
+.form-control, autocomplete-select [slot=deck]:not(:empty), autocomplete-select-input input[slot=input] {
   display: block;
   width: 100%;
   padding: 0.375rem 0.75rem;
@@ -14943,18 +14943,18 @@ progress {
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
 }
 @media (prefers-reduced-motion: reduce) {
-  .form-control {
+  .form-control, autocomplete-select [slot=deck]:not(:empty), autocomplete-select-input input[slot=input] {
     -webkit-transition: none;
     transition: none;
   }
 }
-.form-control[type=file] {
+.form-control[type=file], autocomplete-select [type=file][slot=deck]:not(:empty), autocomplete-select-input input[type=file][slot=input] {
   overflow: hidden;
 }
-.form-control[type=file]:not(:disabled):not([readonly]) {
+.form-control[type=file]:not(:disabled):not([readonly]), autocomplete-select [type=file][slot=deck]:not(:disabled):not([readonly]):not(:empty), autocomplete-select-input input[type=file][slot=input]:not(:disabled):not([readonly]) {
   cursor: pointer;
 }
-.form-control:focus {
+.form-control:focus, autocomplete-select [slot=deck]:focus:not(:empty), autocomplete-select-input input[slot=input]:focus {
   color: var(--bs-body-color);
   background-color: var(--bs-body-bg);
   border-color: rgb(89.4166666667%, 56.9666666667%, 56.9666666667%);
@@ -14962,40 +14962,40 @@ progress {
   -webkit-box-shadow: 0 0 0 0.25rem rgba(78.8333333333%, 13.9333333333%, 13.9333333333%, 0.25);
           box-shadow: 0 0 0 0.25rem rgba(78.8333333333%, 13.9333333333%, 13.9333333333%, 0.25);
 }
-.form-control::-webkit-date-and-time-value {
+.form-control::-webkit-date-and-time-value, autocomplete-select [slot=deck]:not(:empty)::-webkit-date-and-time-value, autocomplete-select-input input[slot=input]::-webkit-date-and-time-value {
   min-width: 85px;
   height: 1.5em;
   margin: 0;
 }
-.form-control::-webkit-datetime-edit {
+.form-control::-webkit-datetime-edit, autocomplete-select [slot=deck]:not(:empty)::-webkit-datetime-edit, autocomplete-select-input input[slot=input]::-webkit-datetime-edit {
   display: block;
   padding: 0;
 }
-.form-control::-webkit-input-placeholder {
+.form-control::-webkit-input-placeholder, autocomplete-select [slot=deck]:not(:empty)::-webkit-input-placeholder, autocomplete-select-input input[slot=input]::-webkit-input-placeholder {
   color: var(--bs-secondary-color);
   opacity: 1;
 }
-.form-control::-moz-placeholder {
+.form-control::-moz-placeholder, autocomplete-select [slot=deck]:not(:empty)::-moz-placeholder, autocomplete-select-input input[slot=input]::-moz-placeholder {
   color: var(--bs-secondary-color);
   opacity: 1;
 }
-.form-control:-ms-input-placeholder {
+.form-control:-ms-input-placeholder, autocomplete-select [slot=deck]:not(:empty):-ms-input-placeholder, autocomplete-select-input input[slot=input]:-ms-input-placeholder {
   color: var(--bs-secondary-color);
   opacity: 1;
 }
-.form-control::-ms-input-placeholder {
+.form-control::-ms-input-placeholder, autocomplete-select [slot=deck]:not(:empty)::-ms-input-placeholder, autocomplete-select-input input[slot=input]::-ms-input-placeholder {
   color: var(--bs-secondary-color);
   opacity: 1;
 }
-.form-control::placeholder {
+.form-control::placeholder, autocomplete-select [slot=deck]:not(:empty)::placeholder, autocomplete-select-input input[slot=input]::placeholder {
   color: var(--bs-secondary-color);
   opacity: 1;
 }
-.form-control:disabled {
+.form-control:disabled, autocomplete-select [slot=deck]:disabled:not(:empty), autocomplete-select-input input[slot=input]:disabled {
   background-color: var(--bs-secondary-bg);
   opacity: 1;
 }
-.form-control::-webkit-file-upload-button {
+.form-control::-webkit-file-upload-button, autocomplete-select [slot=deck]:not(:empty)::-webkit-file-upload-button, autocomplete-select-input input[slot=input]::-webkit-file-upload-button {
   padding: 0.375rem 0.75rem;
   margin: -0.375rem -0.75rem;
   -webkit-margin-end: 0.75rem;
@@ -15013,7 +15013,7 @@ progress {
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
 }
-.form-control::file-selector-button {
+.form-control::file-selector-button, autocomplete-select [slot=deck]:not(:empty)::file-selector-button, autocomplete-select-input input[slot=input]::file-selector-button {
   padding: 0.375rem 0.75rem;
   margin: -0.375rem -0.75rem;
   -webkit-margin-end: 0.75rem;
@@ -15032,19 +15032,19 @@ progress {
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
 }
 @media (prefers-reduced-motion: reduce) {
-  .form-control::-webkit-file-upload-button {
+  .form-control::-webkit-file-upload-button, autocomplete-select [slot=deck]:not(:empty)::-webkit-file-upload-button, autocomplete-select-input input[slot=input]::-webkit-file-upload-button {
     -webkit-transition: none;
     transition: none;
   }
-  .form-control::file-selector-button {
+  .form-control::file-selector-button, autocomplete-select [slot=deck]:not(:empty)::file-selector-button, autocomplete-select-input input[slot=input]::file-selector-button {
     -webkit-transition: none;
     transition: none;
   }
 }
-.form-control:hover:not(:disabled):not([readonly])::-webkit-file-upload-button {
+.form-control:hover:not(:disabled):not([readonly])::-webkit-file-upload-button, autocomplete-select [slot=deck]:hover:not(:disabled):not([readonly]):not(:empty)::-webkit-file-upload-button, autocomplete-select-input input[slot=input]:hover:not(:disabled):not([readonly])::-webkit-file-upload-button {
   background-color: var(--bs-secondary-bg);
 }
-.form-control:hover:not(:disabled):not([readonly])::file-selector-button {
+.form-control:hover:not(:disabled):not([readonly])::file-selector-button, autocomplete-select [slot=deck]:hover:not(:disabled):not([readonly]):not(:empty)::file-selector-button, autocomplete-select-input input[slot=input]:hover:not(:disabled):not([readonly])::file-selector-button {
   background-color: var(--bs-secondary-bg);
 }
 
@@ -15105,7 +15105,7 @@ progress {
           margin-inline-end: 1rem;
 }
 
-textarea.form-control {
+textarea.form-control, autocomplete-select textarea[slot=deck]:not(:empty) {
   min-height: calc(1.5em + 0.75rem + calc(var(--bs-border-width) * 2));
 }
 textarea.form-control-sm {
@@ -15442,7 +15442,7 @@ textarea.form-control-lg {
 .form-floating {
   position: relative;
 }
-.form-floating > .form-control,
+.form-floating > .form-control, autocomplete-select .form-floating > [slot=deck]:not(:empty), autocomplete-select-input .form-floating > input[slot=input],
 .form-floating > .form-control-plaintext,
 .form-floating > .form-select {
   height: calc(3.5rem + calc(var(--bs-border-width) * 2));
@@ -15477,41 +15477,41 @@ textarea.form-control-lg {
     transition: none;
   }
 }
-.form-floating > .form-control,
+.form-floating > .form-control, autocomplete-select .form-floating > [slot=deck]:not(:empty), autocomplete-select-input .form-floating > input[slot=input],
 .form-floating > .form-control-plaintext {
   padding: 1rem 0.75rem;
 }
-.form-floating > .form-control::-webkit-input-placeholder, .form-floating > .form-control-plaintext::-webkit-input-placeholder {
+.form-floating > .form-control::-webkit-input-placeholder, autocomplete-select .form-floating > [slot=deck]:not(:empty)::-webkit-input-placeholder, autocomplete-select-input .form-floating > input[slot=input]::-webkit-input-placeholder, .form-floating > .form-control-plaintext::-webkit-input-placeholder {
   color: transparent;
 }
-.form-floating > .form-control::-moz-placeholder, .form-floating > .form-control-plaintext::-moz-placeholder {
+.form-floating > .form-control::-moz-placeholder, autocomplete-select .form-floating > [slot=deck]:not(:empty)::-moz-placeholder, autocomplete-select-input .form-floating > input[slot=input]::-moz-placeholder, .form-floating > .form-control-plaintext::-moz-placeholder {
   color: transparent;
 }
-.form-floating > .form-control:-ms-input-placeholder, .form-floating > .form-control-plaintext:-ms-input-placeholder {
+.form-floating > .form-control:-ms-input-placeholder, autocomplete-select .form-floating > [slot=deck]:not(:empty):-ms-input-placeholder, autocomplete-select-input .form-floating > input[slot=input]:-ms-input-placeholder, .form-floating > .form-control-plaintext:-ms-input-placeholder {
   color: transparent;
 }
-.form-floating > .form-control::-ms-input-placeholder, .form-floating > .form-control-plaintext::-ms-input-placeholder {
+.form-floating > .form-control::-ms-input-placeholder, autocomplete-select .form-floating > [slot=deck]:not(:empty)::-ms-input-placeholder, autocomplete-select-input .form-floating > input[slot=input]::-ms-input-placeholder, .form-floating > .form-control-plaintext::-ms-input-placeholder {
   color: transparent;
 }
-.form-floating > .form-control::placeholder,
+.form-floating > .form-control::placeholder, autocomplete-select .form-floating > [slot=deck]:not(:empty)::placeholder, autocomplete-select-input .form-floating > input[slot=input]::placeholder,
 .form-floating > .form-control-plaintext::placeholder {
   color: transparent;
 }
-.form-floating > .form-control:not(:-moz-placeholder), .form-floating > .form-control-plaintext:not(:-moz-placeholder) {
+.form-floating > .form-control:not(:-moz-placeholder), autocomplete-select .form-floating > [slot=deck]:not(:-moz-placeholder):not(:empty), autocomplete-select-input .form-floating > input[slot=input]:not(:-moz-placeholder), .form-floating > .form-control-plaintext:not(:-moz-placeholder) {
   padding-top: 1.625rem;
   padding-bottom: 0.625rem;
 }
-.form-floating > .form-control:not(:-ms-input-placeholder), .form-floating > .form-control-plaintext:not(:-ms-input-placeholder) {
+.form-floating > .form-control:not(:-ms-input-placeholder), autocomplete-select .form-floating > [slot=deck]:not(:-ms-input-placeholder):not(:empty), autocomplete-select-input .form-floating > input[slot=input]:not(:-ms-input-placeholder), .form-floating > .form-control-plaintext:not(:-ms-input-placeholder) {
   padding-top: 1.625rem;
   padding-bottom: 0.625rem;
 }
-.form-floating > .form-control:focus, .form-floating > .form-control:not(:placeholder-shown),
+.form-floating > .form-control:focus, autocomplete-select .form-floating > [slot=deck]:focus:not(:empty), autocomplete-select-input .form-floating > input[slot=input]:focus, .form-floating > .form-control:not(:placeholder-shown), autocomplete-select .form-floating > [slot=deck]:not(:placeholder-shown):not(:empty), autocomplete-select-input .form-floating > input[slot=input]:not(:placeholder-shown),
 .form-floating > .form-control-plaintext:focus,
 .form-floating > .form-control-plaintext:not(:placeholder-shown) {
   padding-top: 1.625rem;
   padding-bottom: 0.625rem;
 }
-.form-floating > .form-control:-webkit-autofill,
+.form-floating > .form-control:-webkit-autofill, autocomplete-select .form-floating > [slot=deck]:-webkit-autofill:not(:empty), autocomplete-select-input .form-floating > input[slot=input]:-webkit-autofill,
 .form-floating > .form-control-plaintext:-webkit-autofill {
   padding-top: 1.625rem;
   padding-bottom: 0.625rem;
@@ -15521,20 +15521,22 @@ textarea.form-control-lg {
   padding-bottom: 0.625rem;
   padding-left: 0.75rem;
 }
-.form-floating > .form-control:not(:-moz-placeholder) ~ label {
+.form-floating > .form-control:not(:-moz-placeholder) ~ label, autocomplete-select .form-floating > [slot=deck]:not(:-moz-placeholder):not(:empty) ~ label, autocomplete-select-input .form-floating > input[slot=input]:not(:-moz-placeholder) ~ label {
   transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
 }
-.form-floating > .form-control:not(:-ms-input-placeholder) ~ label {
+.form-floating > .form-control:not(:-ms-input-placeholder) ~ label, autocomplete-select .form-floating > [slot=deck]:not(:-ms-input-placeholder):not(:empty) ~ label, autocomplete-select-input .form-floating > input[slot=input]:not(:-ms-input-placeholder) ~ label {
   transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
 }
-.form-floating > .form-control:focus ~ label,
+.form-floating > .form-control:focus ~ label, autocomplete-select .form-floating > [slot=deck]:focus:not(:empty) ~ label, autocomplete-select-input .form-floating > input[slot=input]:focus ~ label,
 .form-floating > .form-control:not(:placeholder-shown) ~ label,
+autocomplete-select .form-floating > [slot=deck]:not(:placeholder-shown):not(:empty) ~ label,
+autocomplete-select-input .form-floating > input[slot=input]:not(:placeholder-shown) ~ label,
 .form-floating > .form-control-plaintext ~ label,
 .form-floating > .form-select ~ label {
   -webkit-transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
           transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
 }
-.form-floating > .form-control:-webkit-autofill ~ label {
+.form-floating > .form-control:-webkit-autofill ~ label, autocomplete-select .form-floating > [slot=deck]:-webkit-autofill:not(:empty) ~ label, autocomplete-select-input .form-floating > input[slot=input]:-webkit-autofill ~ label {
   -webkit-transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
           transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
 }
@@ -15589,7 +15591,7 @@ textarea.form-control-lg {
           align-items: stretch;
   width: 100%;
 }
-.input-group > .form-control,
+.input-group > .form-control, autocomplete-select .input-group > [slot=deck]:not(:empty), autocomplete-select-input .input-group > input[slot=input],
 .input-group > .form-select,
 .input-group > .form-floating {
   position: relative;
@@ -15599,7 +15601,7 @@ textarea.form-control-lg {
   width: 1%;
   min-width: 0;
 }
-.input-group > .form-control:focus,
+.input-group > .form-control:focus, autocomplete-select .input-group > [slot=deck]:focus:not(:empty), autocomplete-select-input .input-group > input[slot=input]:focus,
 .input-group > .form-select:focus,
 .input-group > .form-floating:focus-within {
   z-index: 5;
@@ -15631,7 +15633,7 @@ textarea.form-control-lg {
   border-radius: var(--bs-border-radius);
 }
 
-.input-group-lg > .form-control,
+.input-group-lg > .form-control, autocomplete-select .input-group-lg > [slot=deck]:not(:empty), autocomplete-select-input .input-group-lg > input[slot=input],
 .input-group-lg > .form-select,
 .input-group-lg > .input-group-text,
 .input-group-lg > .btn {
@@ -15640,7 +15642,7 @@ textarea.form-control-lg {
   border-radius: var(--bs-border-radius-lg);
 }
 
-.input-group-sm > .form-control,
+.input-group-sm > .form-control, autocomplete-select .input-group-sm > [slot=deck]:not(:empty), autocomplete-select-input .input-group-sm > input[slot=input],
 .input-group-sm > .form-select,
 .input-group-sm > .input-group-text,
 .input-group-sm > .btn {
@@ -15657,6 +15659,8 @@ textarea.form-control-lg {
 .input-group:not(.has-validation) > :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu):not(.form-floating),
 .input-group:not(.has-validation) > .dropdown-toggle:nth-last-child(n+3),
 .input-group:not(.has-validation) > .form-floating:not(:last-child) > .form-control,
+autocomplete-select .input-group:not(.has-validation) > .form-floating:not(:last-child) > [slot=deck]:not(:empty),
+autocomplete-select-input .input-group:not(.has-validation) > .form-floating:not(:last-child) > input[slot=input],
 .input-group:not(.has-validation) > .form-floating:not(:last-child) > .form-select {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
@@ -15664,6 +15668,8 @@ textarea.form-control-lg {
 .input-group.has-validation > :nth-last-child(n+3):not(.dropdown-toggle):not(.dropdown-menu):not(.form-floating),
 .input-group.has-validation > .dropdown-toggle:nth-last-child(n+4),
 .input-group.has-validation > .form-floating:nth-last-child(n+3) > .form-control,
+autocomplete-select .input-group.has-validation > .form-floating:nth-last-child(n+3) > [slot=deck]:not(:empty),
+autocomplete-select-input .input-group.has-validation > .form-floating:nth-last-child(n+3) > input[slot=input],
 .input-group.has-validation > .form-floating:nth-last-child(n+3) > .form-select {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
@@ -15673,7 +15679,7 @@ textarea.form-control-lg {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
-.input-group > .form-floating:not(:first-child) > .form-control,
+.input-group > .form-floating:not(:first-child) > .form-control, autocomplete-select .input-group > .form-floating:not(:first-child) > [slot=deck]:not(:empty), autocomplete-select-input .input-group > .form-floating:not(:first-child) > input[slot=input],
 .input-group > .form-floating:not(:first-child) > .form-select {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
@@ -15708,7 +15714,7 @@ textarea.form-control-lg {
   display: block;
 }
 
-.was-validated .form-control:valid, .form-control.is-valid {
+.was-validated .form-control:valid, .was-validated autocomplete-select [slot=deck]:valid:not(:empty), autocomplete-select .was-validated [slot=deck]:valid:not(:empty), .was-validated autocomplete-select-input input[slot=input]:valid, autocomplete-select-input .was-validated input[slot=input]:valid, .form-control.is-valid, autocomplete-select .is-valid[slot=deck]:not(:empty), autocomplete-select-input input.is-valid[slot=input] {
   border-color: var(--bs-form-valid-border-color);
   padding-right: calc(1.5em + 0.75rem);
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%235cb85c' d='M2.3 6.73.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1'/%3e%3c/svg%3e");
@@ -15716,13 +15722,13 @@ textarea.form-control-lg {
   background-position: right calc(0.375em + 0.1875rem) center;
   background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
 }
-.was-validated .form-control:valid:focus, .form-control.is-valid:focus {
+.was-validated .form-control:valid:focus, .was-validated autocomplete-select [slot=deck]:valid:focus:not(:empty), autocomplete-select .was-validated [slot=deck]:valid:focus:not(:empty), .was-validated autocomplete-select-input input[slot=input]:valid:focus, autocomplete-select-input .was-validated input[slot=input]:valid:focus, .form-control.is-valid:focus, autocomplete-select .is-valid[slot=deck]:focus:not(:empty), autocomplete-select-input input.is-valid[slot=input]:focus {
   border-color: var(--bs-form-valid-border-color);
   -webkit-box-shadow: 0 0 0 0.25rem rgba(var(--bs-success-rgb), 0.25);
           box-shadow: 0 0 0 0.25rem rgba(var(--bs-success-rgb), 0.25);
 }
 
-.was-validated textarea.form-control:valid, textarea.form-control.is-valid {
+.was-validated textarea.form-control:valid, .was-validated autocomplete-select textarea[slot=deck]:valid:not(:empty), autocomplete-select .was-validated textarea[slot=deck]:valid:not(:empty), textarea.form-control.is-valid, autocomplete-select textarea.is-valid[slot=deck]:not(:empty) {
   padding-right: calc(1.5em + 0.75rem);
   background-position: top calc(0.375em + 0.1875rem) right calc(0.375em + 0.1875rem);
 }
@@ -15764,7 +15770,7 @@ textarea.form-control-lg {
   margin-left: 0.5em;
 }
 
-.was-validated .input-group > .form-control:not(:focus):valid, .input-group > .form-control:not(:focus).is-valid,
+.was-validated .input-group > .form-control:not(:focus):valid, .was-validated autocomplete-select .input-group > [slot=deck]:not(:focus):valid:not(:empty), autocomplete-select .was-validated .input-group > [slot=deck]:not(:focus):valid:not(:empty), .was-validated autocomplete-select-input .input-group > input[slot=input]:not(:focus):valid, autocomplete-select-input .was-validated .input-group > input[slot=input]:not(:focus):valid, .input-group > .form-control:not(:focus).is-valid, autocomplete-select .input-group > [slot=deck]:not(:focus).is-valid:not(:empty), autocomplete-select-input .input-group > input[slot=input]:not(:focus).is-valid,
 .was-validated .input-group > .form-select:not(:focus):valid,
 .input-group > .form-select:not(:focus).is-valid,
 .was-validated .input-group > .form-floating:not(:focus-within):valid,
@@ -15801,7 +15807,7 @@ textarea.form-control-lg {
   display: block;
 }
 
-.was-validated .form-control:invalid, .form-control.is-invalid {
+.was-validated .form-control:invalid, .was-validated autocomplete-select [slot=deck]:invalid:not(:empty), autocomplete-select .was-validated [slot=deck]:invalid:not(:empty), .was-validated autocomplete-select-input input[slot=input]:invalid, autocomplete-select-input .was-validated input[slot=input]:invalid, .form-control.is-invalid, autocomplete-select .is-invalid[slot=deck]:not(:empty), autocomplete-select-input input.is-invalid[slot=input] {
   border-color: var(--bs-form-invalid-border-color);
   padding-right: calc(1.5em + 0.75rem);
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23d9534f'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23d9534f' stroke='none'/%3e%3c/svg%3e");
@@ -15809,13 +15815,13 @@ textarea.form-control-lg {
   background-position: right calc(0.375em + 0.1875rem) center;
   background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
 }
-.was-validated .form-control:invalid:focus, .form-control.is-invalid:focus {
+.was-validated .form-control:invalid:focus, .was-validated autocomplete-select [slot=deck]:invalid:focus:not(:empty), autocomplete-select .was-validated [slot=deck]:invalid:focus:not(:empty), .was-validated autocomplete-select-input input[slot=input]:invalid:focus, autocomplete-select-input .was-validated input[slot=input]:invalid:focus, .form-control.is-invalid:focus, autocomplete-select .is-invalid[slot=deck]:focus:not(:empty), autocomplete-select-input input.is-invalid[slot=input]:focus {
   border-color: var(--bs-form-invalid-border-color);
   -webkit-box-shadow: 0 0 0 0.25rem rgba(var(--bs-danger-rgb), 0.25);
           box-shadow: 0 0 0 0.25rem rgba(var(--bs-danger-rgb), 0.25);
 }
 
-.was-validated textarea.form-control:invalid, textarea.form-control.is-invalid {
+.was-validated textarea.form-control:invalid, .was-validated autocomplete-select textarea[slot=deck]:invalid:not(:empty), autocomplete-select .was-validated textarea[slot=deck]:invalid:not(:empty), textarea.form-control.is-invalid, autocomplete-select textarea.is-invalid[slot=deck]:not(:empty) {
   padding-right: calc(1.5em + 0.75rem);
   background-position: top calc(0.375em + 0.1875rem) right calc(0.375em + 0.1875rem);
 }
@@ -15857,7 +15863,7 @@ textarea.form-control-lg {
   margin-left: 0.5em;
 }
 
-.was-validated .input-group > .form-control:not(:focus):invalid, .input-group > .form-control:not(:focus).is-invalid,
+.was-validated .input-group > .form-control:not(:focus):invalid, .was-validated autocomplete-select .input-group > [slot=deck]:not(:focus):invalid:not(:empty), autocomplete-select .was-validated .input-group > [slot=deck]:not(:focus):invalid:not(:empty), .was-validated autocomplete-select-input .input-group > input[slot=input]:not(:focus):invalid, autocomplete-select-input .was-validated .input-group > input[slot=input]:not(:focus):invalid, .input-group > .form-control:not(:focus).is-invalid, autocomplete-select .input-group > [slot=deck]:not(:focus).is-invalid:not(:empty), autocomplete-select-input .input-group > input[slot=input]:not(:focus).is-invalid,
 .was-validated .input-group > .form-select:not(:focus):invalid,
 .input-group > .form-select:not(:focus).is-invalid,
 .was-validated .input-group > .form-floating:not(:focus-within):invalid,
@@ -26384,13 +26390,44 @@ h4 small, h4 .small, h5 small, h5 .small, h6 small, h6 .small,
   color: #5cb85c !important;
 }
 
-/* select2 fix */
-.select2-selection__rendered {
-  line-height: 20px !important;
+/* dal_alight autocomplete widget fix.
+   The real <select> is visually hidden; the visible search box is a plain
+   <input class="vTextField"> (django-admin styling, unused on this site),
+   so give it the same sizing as the other Bootstrap fields on the form. */
+autocomplete-select {
+  display: block;
+  width: 100%;
 }
 
-.select2-selection__arrow {
-  display: none;
+autocomplete-select [slot=deck]:not(:empty) {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: auto;
+  gap: 0.25rem;
+}
+
+autocomplete-select [slot=deck] [data-value] {
+  height: auto !important;
+  min-height: 32px;
+  padding: 4px 8px !important;
+  white-space: normal !important;
+  word-break: break-word;
+  max-width: 100%;
+}
+
+.autocomplete-light-box [data-value] {
+  height: auto !important;
+  min-height: 42px;
+  line-height: 1.3 !important;
+  padding: 10px 22px !important;
+  white-space: normal !important;
+  word-break: break-word;
 }
 :root {
   --dt_background-selected: 13, 110, 253;
