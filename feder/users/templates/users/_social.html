@@ -2,7 +2,7 @@
 {% get_social_accounts user as accounts %}
 
 {% if not accounts.google %}
-<a class="btn btn-default" href="{% provider_login_url "google" process="connect"%}">
+<a class="btn btn-secondary" href="{% provider_login_url "google" process="connect"%}">
     <i class="fa-brands fa-google" aria-hidden="true"></i>
     {% trans 'Connect a Google account' %}
 </a>

@@ -10,6 +10,7 @@ const sass = require("gulp-sass")(require("sass"));
 const postcss = require("gulp-postcss");
 const autoprefixer = require("autoprefixer");
 const terser = require("gulp-terser");
+const esbuild = require("esbuild");
 
 const json = JSON.parse(fs.readFileSync("./package.json"));
 
@@ -39,7 +40,7 @@ const config = (() => {
       ],
       include: [
         path.npm,
-        "./node_modules/bootstrap-sass/assets/stylesheets",
+        "./node_modules/bootstrap/scss",
         "./node_modules/@fortawesome/fontawesome-free/scss",
         path.assets + "/scss/",
         path.staticfiles,
@@ -62,11 +63,7 @@ const config = (() => {
       input: [
         "./node_modules/jquery/dist/jquery.js",
         "./node_modules/htmx.org/dist/htmx.js",
-        "./node_modules/bootstrap-sass/assets/javascripts/bootstrap/tab.js",
-        "./node_modules/bootstrap-sass/assets/javascripts/bootstrap/transition.js",
-        "./node_modules/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js",
-        "./node_modules/bootstrap-sass/assets/javascripts/bootstrap/tooltip.js",
-        "./node_modules/bootstrap-sass/assets/javascripts/bootstrap/collapse.js",
+        "./node_modules/bootstrap/dist/js/bootstrap.bundle.js",
         // Core DataTables (ensure datatables.net is installed)
         path.npm + "/datatables.net/js/jquery.dataTables.js",
         // DataTables styling + extras
@@ -85,6 +82,17 @@ const config = (() => {
       },
       watch: [path.assets + "/js/*.js"],
     },
+    sentry: {
+      // Kept out of `script.input` and bundled on its own: @sentry/browser
+      // only ships ESM/CJS builds (no npm-published UMD bundle), so it needs
+      // module resolution that gulp-concat can't provide.
+      entry: path.assets + "/js/sentry/sentry-init.js",
+      output: {
+        dir: path.static + "/js",
+        filename: "sentry.min.js",
+      },
+      watch: [path.assets + "/js/sentry/*.js"],
+    },
   };
 })();
 
@@ -101,7 +109,10 @@ function images() {
 
 function js() {
   return src(config.script.input, { allowEmpty: false })
-    .pipe(concat(config.script.output.filename))
+    // Some vendor bundles (e.g. htmx.js) omit a trailing semicolon on their
+    // final statement; without a ";" join separator, ASI can misparse the
+    // next concatenated file's leading "(" as a call on the previous one.
+    .pipe(concat(config.script.output.filename, { newLine: ";\n" }))
     .pipe(dest(config.script.output.dir))
     .pipe(livereload())
     .pipe(terser())
@@ -128,19 +139,31 @@ function scss() {
     .pipe(livereload());
 }
 
+function sentry() {
+  return esbuild.build({
+    entryPoints: [config.sentry.entry],
+    bundle: true,
+    minify: true,
+    format: "iife",
+    outfile: config.sentry.output.dir + "/" + config.sentry.output.filename,
+  });
+}
+
 function watcher() {
   livereload.listen();
   config.scss.watch.forEach((p) => watch(p, scss));
   config.script.watch.forEach((p) => watch(p, js));
+  config.sentry.watch.forEach((p) => watch(p, sentry));
 }
 
 // Public task compositions
-const build = series(images, icons, js, scss);
+const build = series(images, icons, js, scss, sentry);
 
 exports.icons = icons;
 exports.images = images;
 exports.js = js;
 exports.scss = scss;
+exports.sentry = sentry;
 exports.watch = watcher;
 exports.build = build;
 exports.default = build;
