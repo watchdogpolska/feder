@@ -1,13 +1,13 @@
-{% load i18n bootstrap_pagination %}
+{% load i18n %}
 <div class="monitoring-report-content">
-    <h3 class="sr-only">{% trans 'Report' %}</h3>
+    <h3 class="visually-hidden">{% trans 'Report' %}</h3>
 
     <table class="table">
         <thead>
             <tr>
-                <th class="table__col_checkbox table__col_bottom">
+                <th class="centered centered_cell">
                     <label for="multi-case-tag-select-all">
-                        <span class="sr-only">{% trans "select or unselect all" %}</span>
+                        <span class="visually-hidden">{% trans "select or unselect all" %}</span>
                         <input type="checkbox"
                                id="multi-case-tag-select-all"
                                name="select-all-cases">
@@ -45,7 +45,7 @@
                 <td class="table__col_checkbox centered centered_cell">
                     {% if not case.institution.archival %}
                     <label for="select-case-{{ case.id }}">
-                        <span class="sr-only">{% trans "case" %} {{ case.slug }}</span>
+                        <span class="visually-hidden">{% trans "case" %} {{ case.slug }}</span>
                         <input type="checkbox"
                                id="select-case-{{ case.id }}"
                                name="select-case-{{ case.id }}"
@@ -106,7 +106,6 @@
     </table>
 
     <div class="text-center">
-        {# bootstrap_paginate object_list url_view_name='monitorings:report' url_extra_kwargs=url_extra_kwargs #}
-        {% bootstrap_paginate page_obj %}
+        {% include 'main/_pagination.html' with page_obj=page_obj %}
     </div>
 </div>

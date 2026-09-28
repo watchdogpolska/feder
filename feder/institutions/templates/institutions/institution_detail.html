@@ -7,7 +7,7 @@
         itemscope
         itemtype="http://schema.org/BreadcrumbList">
         {% for jst in object.jst.get_ancestors.all %}
-            <li
+            <li class="breadcrumb-item"
                 itemprop="itemListElement"
                 itemscope
                 itemtype="http://schema.org/ListItem">
@@ -16,7 +16,7 @@
                 </a>
             </li>
         {% endfor %}
-        <li
+        <li class="breadcrumb-item"
             itemprop="itemListElement"
             itemscope
             itemtype="http://schema.org/ListItem">
@@ -24,11 +24,10 @@
                 <span itemprop="name">{{ object.jst.name }}</span>
             </a>
         </li>
-        <li
+        <li class="breadcrumb-item active" aria-current="page"
             itemprop="itemListElement"
             itemscope
-            itemtype="http://schema.org/ListItem"
-            class="active">
+            itemtype="http://schema.org/ListItem">
             <span itemprop="name">{{ object }}</span>
         </li>
     </ol>
@@ -41,7 +40,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class="page-header">
+    <div class="pb-2 mb-4 border-bottom">
         <h2><i class="fa-solid fa-house"></i>{{ object }}</h2>
     </div>
     <div class="row">
@@ -78,19 +77,19 @@
             {% endfor %}
 
             {% if case_list.has_previous or case_list.has_next %}
-                <ul class="pager">
+                <ul class="pagination justify-content-center">
                     {% if case_list.has_previous %}
-                        <li>
-                            <a href="{% url 'institutions:details' slug=object.slug page=case_list.previous_page_number %}" rel="prev">&laquo; {% trans 'previous' %}</a>
+                        <li class="page-item">
+                            <a class="page-link" href="{% url 'institutions:details' slug=object.slug page=case_list.previous_page_number %}" rel="prev">&laquo; {% trans 'previous' %}</a>
                         </li>
                     {% endif %}
 
-                    <li>{% blocktrans with no=case_list.number total=case_list.paginator.num_pages %}Page {{ no }} of
-                        {{ total }}{% endblocktrans %}</li>
+                    <li class="page-item disabled"><span class="page-link">{% blocktrans with no=case_list.number total=case_list.paginator.num_pages %}Page {{ no }} of
+                        {{ total }}{% endblocktrans %}</span></li>
 
                     {% if case_list.has_next %}
-                        <li>
-                            <a href="{% url 'institutions:details' slug=object.slug page=case_list.next_page_number %}" rel="next">{% trans 'next' %}
+                        <li class="page-item">
+                            <a class="page-link" href="{% url 'institutions:details' slug=object.slug page=case_list.next_page_number %}" rel="next">{% trans 'next' %}
                                 &raquo; </a></li>
                     {% endif %}
                 </ul>

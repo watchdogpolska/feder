@@ -1,25 +1,10 @@
-{% load i18n crispy_forms_tags bootstrap_pagination %}
-<div class="page-header">
+{% load i18n crispy_forms_tags %}
+<div class="pb-2 mb-4 border-bottom">
     <h2>{% trans title %}</h2>
 </div>
 
 <div class="row">
-    <div class="col-sm-8 col-sm-push-4">
-        {% for object in object_list %}
-            <div class="gray">
-                {% include object_template with object=object %}
-            </div>
-            {% empty %}
-            <div class="gray">
-                <p>
-                    {% trans 'No rows.' %}
-                </p>
-            </div>
-        {% endfor %}
-        {% bootstrap_paginate page_obj %}
-    </div>
-
-    <div class="col-sm-4 col-sm-pull-8">
+    <div class="col-sm-4">
         <div class="red">
             <form method="GET">
                 {{ filter.form | crispy }}
@@ -31,10 +16,25 @@
                 {% endblock %}
             </form>
         </div>
-        {% if user.is_authenticated  %}
+        {% if user.is_authenticated and summary_table %}
             <div class="gray" >
                 {{ summary_table}} 
             </div>
         {% endif %}
+    </div>
+
+    <div class="col-sm-8">
+        {% for object in object_list %}
+            <div class="gray">
+                {% include object_template with object=object %}
+            </div>
+            {% empty %}
+            <div class="gray">
+                <p>
+                    {% trans 'No rows.' %}
+                </p>
+            </div>
+        {% endfor %}
+        {% include 'main/_pagination.html' with page_obj=page_obj %}
     </div>
 </div>
