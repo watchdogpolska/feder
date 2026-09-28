@@ -43,7 +43,7 @@ class UserListView(LoginRequiredMixin, ListView):
     slug_url_kwarg = "username"
 
 
-class UserAutocomplete(autocomplete.Select2QuerySetView):
+class UserAutocomplete(autocomplete.AlightQuerySetView):
     def get_queryset(self):
         qs = User.objects.all()
 
