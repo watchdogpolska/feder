@@ -10,7 +10,9 @@
             <div class="col-md-5 gray">
                 <h2>{% trans "Sign Up Closed" %}</h2>
                 {% tinycontent 'account:signup_closed' %}
-                <p>{% trans "We are sorry, but the sign up is currently closed." %}</p>
+                <p>{% trans "Public sign up is not available. User accounts are created by the administrators." %}</p>
+                <p>{% trans "If you already have an account, you can sign in." %}</p>
+                <p><a class="btn btn-primary" href="{% url 'account_login' %}">{% trans "Sign In" %}</a></p>
                 {% endtinycontent %}
             </div>
         </div>

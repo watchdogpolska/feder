@@ -392,8 +392,8 @@ msgstr "Zaloguj poprzez media społecznościowe"
 #, python-format
 msgid ""
 "Please sign in with Google account,\n"
-"                        or <a href=\"%(signup_url)s\">sign&nbsp;up</a>\n"
-"                        for an account and sign in below."
+"                            or <a href=\"%(signup_url)s\">sign&nbsp;up</a>\n"
+"                            for an account and sign in below."
 msgstr ""
 "Proszę zaloguj się za pomocą konta Google, lub <a "
 "href=\"%(signup_url)s\">zarejestruj się</a> \n"
@@ -411,7 +411,7 @@ msgstr "Zapomniałeś hasła?"
 #, python-format
 msgid ""
 "If you do not have a user account,\n"
-"                            <a href=\"%(signup_url)s\">sign up</a>"
+"                                <a href=\"%(signup_url)s\">sign up</a>"
 msgstr ""
 "Jeżeli nie masz jeszcze konta, to proszę <a "
 "href=\"%(signup_url)s\">zarejestruj się</a>"
@@ -534,8 +534,21 @@ msgid "Sign Up Closed"
 msgstr "Rejestracja zamknięta"
 
 #: feder/main/templates/account/signup_closed.html:13
-msgid "We are sorry, but the sign up is currently closed."
-msgstr "Przepraszamy, ale w tej chwili rejestracja jest zamknięta."
+msgid ""
+"Public sign up is not available. User accounts are created by the "
+"administrators."
+msgstr ""
+"Samodzielna rejestracja nie jest dostępna. Konta użytkowników zakładają "
+"administratorzy."
+
+#: feder/main/templates/account/signup_closed.html:14
+msgid "If you already have an account, you can sign in."
+msgstr "Jeżeli masz już konto, możesz się zalogować."
+
+#: feder/main/templates/account/login.html:20
+msgid "Please sign in with Google account or with your user account below."
+msgstr ""
+"Zaloguj się za pomocą konta Google lub za pomocą konta użytkownika poniżej."
 
 #: feder/main/templates/account/verification_sent.html:5
 #: feder/main/templates/account/verification_sent.html:11
