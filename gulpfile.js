@@ -10,6 +10,7 @@ const sass = require("gulp-sass")(require("sass"));
 const postcss = require("gulp-postcss");
 const autoprefixer = require("autoprefixer");
 const terser = require("gulp-terser");
+const esbuild = require("esbuild");
 
 const json = JSON.parse(fs.readFileSync("./package.json"));
 
@@ -34,8 +35,7 @@ const config = (() => {
         // path.npm + "/@fortawesome/fontawesome-free/css/brands.css",
         path.npm + "/@fortawesome/fontawesome-free/css/all.css",
         path.assets + "/scss/style.scss",
-        path.npm + "/datatables.net-buttons-dt/css/buttons.dataTables.css",
-        path.npm + "/datatables.net-dt/css/jquery.dataTables.css",
+        path.npm + "/datatables.net-dt/css/dataTables.dataTables.css",
       ],
       include: [
         path.npm,
@@ -50,24 +50,18 @@ const config = (() => {
       },
       watch: [path.assets + "/scss/**.scss"],
     },
-    images: {
-      input: [path.npm + "/datatables.net-dt/images/sort*.*"],
-      output: path.static + "/images",
-    },
     icons: {
       input: ["./node_modules/@fortawesome/fontawesome-free/webfonts/**.*"],
       output: path.static + "/webfonts",
     },
     script: {
       input: [
-        "./node_modules/jquery/dist/jquery.js",
         "./node_modules/htmx.org/dist/htmx.js",
         "./node_modules/bootstrap/dist/js/bootstrap.bundle.js",
-        // Core DataTables (ensure datatables.net is installed)
-        path.npm + "/datatables.net/js/jquery.dataTables.js",
-        // DataTables styling + extras
+        // Core DataTables (jQuery-free v3 build; ensure datatables.net is installed)
+        path.npm + "/datatables.net/js/dataTables.js",
+        // DataTables styling
         path.npm + "/datatables.net-dt/js/dataTables.dataTables.js",
-        path.npm + "/datatables.net-buttons/js/dataTables.buttons.js",
         // Project JS
         path.assets + "/js/*.js",
         path.staticfiles + "/ajax_datatable/js/utils.js",
@@ -81,6 +75,17 @@ const config = (() => {
       },
       watch: [path.assets + "/js/*.js"],
     },
+    sentry: {
+      // Kept out of `script.input` and bundled on its own: @sentry/browser
+      // only ships ESM/CJS builds (no npm-published UMD bundle), so it needs
+      // module resolution that gulp-concat can't provide.
+      entry: path.assets + "/js/sentry/sentry-init.js",
+      output: {
+        dir: path.static + "/js",
+        filename: "sentry.min.js",
+      },
+      watch: [path.assets + "/js/sentry/*.js"],
+    },
   };
 })();
 
@@ -88,11 +93,6 @@ const config = (() => {
 function icons() {
   return src(config.icons.input, { encoding: false })
     .pipe(dest(config.icons.output));
-}
-
-function images() {
-  return src(config.images.input, { encoding: false })
-    .pipe(dest(config.images.output));
 }
 
 function js() {
@@ -127,19 +127,30 @@ function scss() {
     .pipe(livereload());
 }
 
+function sentry() {
+  return esbuild.build({
+    entryPoints: [config.sentry.entry],
+    bundle: true,
+    minify: true,
+    format: "iife",
+    outfile: config.sentry.output.dir + "/" + config.sentry.output.filename,
+  });
+}
+
 function watcher() {
   livereload.listen();
   config.scss.watch.forEach((p) => watch(p, scss));
   config.script.watch.forEach((p) => watch(p, js));
+  config.sentry.watch.forEach((p) => watch(p, sentry));
 }
 
 // Public task compositions
-const build = series(images, icons, js, scss);
+const build = series(icons, js, scss, sentry);
 
 exports.icons = icons;
-exports.images = images;
 exports.js = js;
 exports.scss = scss;
+exports.sentry = sentry;
 exports.watch = watcher;
 exports.build = build;
 exports.default = build;
