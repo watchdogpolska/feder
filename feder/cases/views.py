@@ -127,7 +127,7 @@ class CaseDeleteView(
         return super().get_queryset().for_user(self.request.user)
 
 
-class CaseAutocomplete(autocomplete.Select2QuerySetView):
+class CaseAutocomplete(autocomplete.AlightQuerySetView):
     def get_queryset(self):
         qs = Case.objects.all().order_by().for_user(self.request.user)
 
@@ -137,7 +137,7 @@ class CaseAutocomplete(autocomplete.Select2QuerySetView):
         return qs
 
 
-class CaseFindAutocomplete(autocomplete.Select2QuerySetView):
+class CaseFindAutocomplete(autocomplete.AlightQuerySetView):
     def get_queryset(self):
         qs = Case.objects.all().order_by().for_user(self.request.user)
 

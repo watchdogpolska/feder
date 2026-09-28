@@ -1,6 +1,8 @@
+from allauth.socialaccount.models import SocialApp
 from django.contrib.auth.models import Permission
+from django.contrib.sites.models import Site
 from django.core.exceptions import ImproperlyConfigured
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.urls import reverse
 from guardian.shortcuts import assign_perm
 
@@ -145,3 +147,35 @@ class SitemapTestCase(TestCase):
     def test_main(self):
         url = reverse("sitemaps", kwargs={"section": "main"})
         self.assertEqual(self.client.get(url).status_code, 200)
+
+
+class SignupTestCase(TestCase):
+    def setUp(self):
+        app = SocialApp.objects.create(
+            provider="google", name="Google", client_id="id", secret="secret"
+        )
+        app.sites.add(Site.objects.get_current())
+
+    @override_settings(ACCOUNT_ALLOW_SIGNUP=False)
+    def test_signup_closed(self):
+        response = self.client.get(reverse("account_signup"))
+        self.assertTemplateUsed(response, "account/signup_closed.html")
+        self.assertContains(response, reverse("account_login"))
+        self.assertNotContains(response, "currently closed")
+
+    @override_settings(ACCOUNT_ALLOW_SIGNUP=False)
+    def test_login_hides_signup_links_when_closed(self):
+        response = self.client.get(reverse("account_login"))
+        self.assertFalse(response.context["signup_open"])
+        self.assertNotContains(response, reverse("account_signup"))
+
+    @override_settings(ACCOUNT_ALLOW_SIGNUP=True)
+    def test_signup_open(self):
+        response = self.client.get(reverse("account_signup"))
+        self.assertTemplateUsed(response, "account/signup.html")
+
+    @override_settings(ACCOUNT_ALLOW_SIGNUP=True)
+    def test_login_shows_signup_links_when_open(self):
+        response = self.client.get(reverse("account_login"))
+        self.assertTrue(response.context["signup_open"])
+        self.assertContains(response, reverse("account_signup"))

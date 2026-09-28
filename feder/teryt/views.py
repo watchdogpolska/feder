@@ -1,5 +1,5 @@
+from dal import autocomplete
 from django.views.generic import DetailView, ListView
-from teryt_tree.dal_ext.views import CommunityAutocomplete
 from teryt_tree.models import JednostkaAdministracyjna
 from teryt_tree.rest_framework_ext.serializers import JednostkaAdministracyjnaSerializer
 from teryt_tree.rest_framework_ext.viewsets import JednostkaAdministracyjnaFilter
@@ -36,6 +36,57 @@ class JSTListView(ListView):
     def get_queryset(self):
         qs = super().get_queryset()
         return qs.voivodeship()
+
+
+class VoivodeshipAutocomplete(autocomplete.AlightQuerySetView):
+    """
+    Reimplemented from teryt_tree.dal_ext.views to drop the select2/jQuery
+    backend that package hardcodes; behavior is otherwise unchanged.
+    """
+
+    def get_queryset(self):
+        qs = JednostkaAdministracyjna.objects.voivodeship().all()
+
+        if self.q:
+            qs = qs.filter(name__istartswith=self.q)
+        return qs
+
+
+class CountyAutocomplete(autocomplete.AlightQuerySetView):
+    """Reimplemented from teryt_tree.dal_ext.views, see VoivodeshipAutocomplete."""
+
+    def get_queryset(self):
+        qs = JednostkaAdministracyjna.objects.county().all()
+
+        if self.q:
+            qs = qs.filter(name__istartswith=self.q)
+
+        voivodeship = self.forwarded.get("voivodeship", None)
+        if voivodeship:
+            return qs.filter(parent=voivodeship)
+        return qs
+
+
+class CommunityAutocomplete(autocomplete.AlightQuerySetView):
+    """Reimplemented from teryt_tree.dal_ext.views, see VoivodeshipAutocomplete."""
+
+    def get_result_label(self, result):
+        return f"{str(result)} ({str(result.category)})"
+
+    def get_queryset(self):
+        qs = (
+            JednostkaAdministracyjna.objects.community()
+            .select_related("category")
+            .all()
+        )
+
+        if self.q:
+            qs = qs.filter(name__istartswith=self.q)
+
+        county = self.forwarded.get("county", None)
+        if county:
+            return qs.filter(parent=county)
+        return qs
 
 
 class JSTAutocompleteMixin:

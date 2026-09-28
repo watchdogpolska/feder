@@ -162,7 +162,7 @@ class MonitoringResultsForm(
 class SelectUserForm(forms.Form):
     user = forms.ModelChoiceField(
         queryset=User.objects.all(),
-        widget=autocomplete.ModelSelect2(url="users:autocomplete"),
+        widget=autocomplete.ModelAlight(url="users:autocomplete"),
         label=_("User"),
     )
 
