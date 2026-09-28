@@ -6,7 +6,7 @@
         class="breadcrumb"
         itemscope
         itemtype="http://schema.org/BreadcrumbList">
-        <li
+        <li class="breadcrumb-item"
             itemprop="itemListElement"
             itemscope
             itemtype="http://schema.org/ListItem">
@@ -14,11 +14,10 @@
                 <span itemprop="name">{{ object.monitoring }}</span>
             </a>
         </li>
-        <li
+        <li class="breadcrumb-item active" aria-current="page"
             itemprop="itemListElement"
             itemscope
-            itemtype="http://schema.org/ListItem"
-            class="active">
+            itemtype="http://schema.org/ListItem">
             <span itemprop="name">{{ object }}</span>
         </li>
     </ol>
@@ -47,10 +46,10 @@
         </div>
 
         <div class="col-sm-7">
-            <h2>
+            <h4>
                 <i class="fa-solid fa-envelope"></i>
                 {% trans 'Content' %}
-            </h2>
+            </h4>
 
             {% if object.milestone %}
                 {% include 'records/_milestone_list.html' with object_list=object.milestone %}

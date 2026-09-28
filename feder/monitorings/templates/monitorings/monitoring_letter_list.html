@@ -2,7 +2,7 @@
 {% load i18n humanize %}
 {% block content_object %}
     {% include 'monitorings/_tabs.html' with tab='letters' %}
-    <h3 class="sr-only">{% trans 'Letters' %}</h3>
+    <h3 class="visually-hidden">{% trans 'Letters' %}</h3>
     {% if object_list %}
         {% for object in object_list %}
             {% include 'monitorings/_letter.html' with object=object %}

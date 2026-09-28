@@ -9,7 +9,7 @@ django-environ==0.14.0
 
 # Forms
 django-crispy-forms==2.7
-crispy-bootstrap3==2024.1
+crispy-bootstrap5==2026.9
 
 # Models
 django-model-utils==5.0.0
@@ -19,7 +19,7 @@ Pillow==12.3.0
 
 # For user registration, either via email or social
 # Well-built with regular release cycles!
-django-allauth==65.19.3
+django-allauth==65.19.4
 
 # Unicode slugification
 django-autoslug==1.9.9
@@ -74,10 +74,10 @@ html2text==2025.4.15
 openpyxl==3.1.5
 
 # LLM exvaluation
-langchain==1.4.0
+langchain==1.4.2
 langchain-core==1.6.3
 langchain-community==0.4.2
 #langchain[llms]==0.1.5
-openai==3.14.1
+openai==3.16.2
 langchain-openai==1.6.2
 tiktoken==0.14.0
