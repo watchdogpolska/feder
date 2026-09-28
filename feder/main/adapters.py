@@ -1,10 +1,11 @@
 from allauth.account.adapter import DefaultAccountAdapter
+from django.conf import settings
 
 
-# This adapter is used to disable the signup functionality
-# and only allow users to sign in if they already have an account
-# Until more robust signup process is agreed new users will be manually
-# added by admins
+# This adapter controls the signup functionality. By default, signup is
+# disabled and users can only sign in if they already have an account -
+# new users are manually added by admins. Signup can be enabled with
+# the ACCOUNT_ALLOW_SIGNUP setting (DJANGO_ACCOUNT_ALLOW_SIGNUP env variable).
 class NoSignupAdapter(DefaultAccountAdapter):
     def is_open_for_signup(self, request):
-        return False
+        return getattr(settings, "ACCOUNT_ALLOW_SIGNUP", False)
