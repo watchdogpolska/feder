@@ -2,6 +2,7 @@
 <div class="monitoring-report-content">
     <h3 >{% trans 'Report' %}</h3>
 
+    <div class="table-responsive">
     <table class="table">
         <thead>
             <tr>
@@ -29,12 +30,12 @@
                 </th>
                 <th class="table__col_narrow centered centered_cell">
                     {% trans 'last request status' %}
+                </th>
                 <th class="table__col_narrow centered centered_cell">
                     {% trans 'request confirmed' %}
                 </th>
                 <th class="table__col_narrow centered centered_cell">
                     {% trans 'response received' %}
-                </th>
                 </th>
             </tr>
         </thead>
@@ -104,6 +105,7 @@
             {% endfor %}
         </tbody>
     </table>
+    </div>
 
     <div class="text-center">
         {% include 'main/_pagination.html' with page_obj=page_obj %}
