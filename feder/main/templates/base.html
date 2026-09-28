@@ -9,6 +9,15 @@
     <meta name="description" content="">
     <meta name="author" content="">
     {% block meta %}{% endblock %}
+    {% sentry_dsn as feder_sentry_dsn %}
+    {% if feder_sentry_dsn %}
+        <script>
+            window.SENTRY_DSN = "{{ feder_sentry_dsn|escapejs }}";
+            window.SENTRY_ENVIRONMENT = "{% app_mode_value %}";
+            window.SENTRY_RELEASE = "{% feder_version %}";
+        </script>
+        <script src="{% static 'js/sentry.min.js' %}"></script>
+    {% endif %}
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
