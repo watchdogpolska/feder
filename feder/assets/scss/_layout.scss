@@ -32,6 +32,22 @@
 	border-radius: 4px;
 }
 
+.datatable-controls-row{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	margin: 0.75em 0;
+}
+
+// DataTables' own :root sort-arrow-size vars load after this file in the compiled
+// bundle (datatables.dataTables.css is concatenated last); "html:root" outranks
+// their plain ":root" on specificity so this override survives regardless of order.
+html:root{
+	--dt-order-arrow-height: 9px; // ~30% bigger than DataTables' default 7px
+	--dt-order-arrow-width: 10px; // ~30% bigger than DataTables' default 8px
+}
+
 .footer{
 	@include clearfix;
 	padding: 12px 6px;

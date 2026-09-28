@@ -1164,7 +1164,7 @@ class MassMessageView(
         return result
 
 
-class MonitoringAutocomplete(autocomplete.Select2QuerySetView):
+class MonitoringAutocomplete(autocomplete.AlightQuerySetView):
     def get_queryset(self):
         qs = Monitoring.objects
         if self.q:
@@ -1173,7 +1173,7 @@ class MonitoringAutocomplete(autocomplete.Select2QuerySetView):
         return qs.all()
 
 
-class UserMonitoringAutocomplete(autocomplete.Select2QuerySetView):
+class UserMonitoringAutocomplete(autocomplete.AlightQuerySetView):
     def get_queryset(self):
         qs = (
             get_user_model()
