@@ -4,6 +4,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^7.3.0",
     "@popperjs/core": "^2.11.8",
+    "@sentry/browser": "^11.0.0",
     "bootstrap": "^5.3.3",
     "datatables.net-buttons": ">=2.3.6 <3.0.0",
     "datatables.net-buttons-dt": ">=2.3.6 <3.0.0",
@@ -16,6 +17,7 @@
   "devDependencies": {
     "autoprefixer": "^10.4.22",
     "caniuse-lite": "^1.0.30001755",
+    "esbuild": "^0.28.2",
     "gulp": "^5.0.0",
     "gulp-clean-css": "^4.3.0",
     "gulp-concat": "^2.6.0",
