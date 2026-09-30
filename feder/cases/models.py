@@ -334,6 +334,7 @@ class Case(RenderBooleanFieldMixin, TimeStampedModel):
             apps.get_model("letters", "Letter")
             .objects.filter(record__case=self, author_user_id__isnull=True)
             .exclude_automatic()
+            .exclude_spam()
             .exclude(normalized_response="")
             .exclude(normalized_response__isnull=True)
         )

@@ -535,13 +535,20 @@ class LetterMarkSpamView(RaisePermissionRequiredMixin, ActionMessageMixin, Actio
         )
 
     def action(self):
+        update_fields = ["is_spam", "mark_spam_by", "mark_spam_at"]
         if "valid" in self.request.POST:
             self.object.is_spam = Letter.SPAM.non_spam
         else:
             self.object.is_spam = Letter.SPAM.spam
+            # Marking a letter as spam is the only way to remove a letter
+            # protected from deletion (e.g. one already used for LLM answer
+            # normalization). Clear its normalized response so it stops
+            # being displayed as the case's answer.
+            self.object.normalized_response = None
+            update_fields.append("normalized_response")
         self.object.mark_spam_by = self.request.user
         self.object.mark_spam_at = timezone.now()
-        self.object.save(update_fields=["is_spam", "mark_spam_by", "mark_spam_at"])
+        self.object.save(update_fields=update_fields)
         Alert.objects.link_object(self.object).update(
             solver=self.request.user, status=True
         )
