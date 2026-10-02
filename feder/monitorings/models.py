@@ -174,6 +174,16 @@ class Monitoring(RenderBooleanFieldMixin, TimeStampedModel):
         help_text=_("Resulrs of monitoring and received responses"),
         blank=True,
     )
+    internal_notes = models.TextField(
+        default="",
+        verbose_name=_("Internal notes"),
+        help_text=_(
+            "Internal notes about this monitoring (e.g. why it was started, "
+            "inspiration links, why these institutions were chosen). Never "
+            "shown publicly - visible only to users who can edit this monitoring."
+        ),
+        blank=True,
+    )
     email_footer = models.TextField(
         default="",
         verbose_name=_("Email footer"),
