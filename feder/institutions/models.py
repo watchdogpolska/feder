@@ -61,6 +61,24 @@ class Institution(TimeStampedModel):
             "Archival institution can't be assigned to monitoring or mass mailing."
         ),
     )
+    bip_url = models.URLField(
+        verbose_name=_("BIP address"),
+        blank=True,
+    )
+    latitude = models.DecimalField(
+        verbose_name=_("Latitude"),
+        max_digits=9,
+        decimal_places=6,
+        blank=True,
+        null=True,
+    )
+    longitude = models.DecimalField(
+        verbose_name=_("Longitude"),
+        max_digits=9,
+        decimal_places=6,
+        blank=True,
+        null=True,
+    )
     objects = InstitutionQuerySet.as_manager()
 
     class Meta:
