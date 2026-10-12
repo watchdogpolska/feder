@@ -8,6 +8,7 @@ from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.formats import date_format
+from django.utils.translation import gettext
 from guardian.shortcuts import assign_perm, get_user_perms
 
 from feder.cases.factories import CaseFactory
@@ -214,7 +215,7 @@ class MonitoringReportTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
         case = CaseFactory(monitoring=self.monitoring)
         letter = IncomingLetterFactory(record__case=case)
         response = self.client.get(self.get_url())
-        self.assertContains(response, "last received letter date")
+        self.assertContains(response, gettext("last received letter date"))
         self.assertContains(response, date_format(letter.created))
 
 

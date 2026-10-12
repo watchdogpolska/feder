@@ -1,6 +1,7 @@
 from django.test import RequestFactory, TestCase
 from django.urls import reverse
 from django.utils.http import urlencode
+from django.utils.translation import gettext
 
 from feder.cases.models import Case
 from feder.institutions.factories import InstitutionFactory
@@ -217,5 +218,5 @@ class CaseReportViewSetTestCase(TestCase):
         response = self.client.get(
             "{}?{}".format(reverse("case-report-list"), urlencode({"format": "csv"}))
         )
-        self.assertContains(response, "Last received letter date")
+        self.assertContains(response, gettext("Last received letter date"))
         self.assertContains(response, letter.created.strftime("%Y-%m-%d"))

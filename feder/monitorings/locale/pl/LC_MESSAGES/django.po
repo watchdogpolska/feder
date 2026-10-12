@@ -486,6 +486,10 @@ msgstr "potwierdzenie dostarczenia wniosku"
 msgid "response received"
 msgstr "otrzymano odpowiedź"
 
+#: feder/monitorings/templates/monitorings/_report_content.html:40
+msgid "last received letter date"
+msgstr "data otrzymania ostatniego listu"
+
 #: feder/monitorings/templates/monitorings/_report_content.html:48
 msgid "case"
 msgstr "sprawa"
