@@ -164,6 +164,13 @@ class SignupTestCase(TestCase):
         self.assertNotContains(response, "currently closed")
 
     @override_settings(ACCOUNT_ALLOW_SIGNUP=False)
+    def test_signup_closed_is_noindex(self):
+        response = self.client.get(reverse("account_signup"))
+        self.assertContains(
+            response, '<meta name="robots" content="noindex, nofollow">'
+        )
+
+    @override_settings(ACCOUNT_ALLOW_SIGNUP=False)
     def test_login_hides_signup_links_when_closed(self):
         response = self.client.get(reverse("account_login"))
         self.assertFalse(response.context["signup_open"])
