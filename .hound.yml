@@ -1,0 +1,10 @@
+# scss-lint's bundled Sass parser predates the `@use`/`@forward` module
+# system we migrated to, so it hard-fails on namespaced calls like
+# `bootstrap.clearfix` with a bogus "Invalid CSS" error on every file.
+# There's no config knob for that -- the gem is unmaintained -- so the
+# linter is disabled outright rather than producing permanent noise.
+scss:
+  enabled: false
+
+jshint:
+  config_file: .jshintrc
