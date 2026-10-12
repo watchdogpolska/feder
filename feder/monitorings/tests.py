@@ -7,6 +7,7 @@ from django.db.models import Count
 from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.formats import date_format
 from guardian.shortcuts import assign_perm, get_user_perms
 
 from feder.cases.factories import CaseFactory
@@ -207,6 +208,14 @@ class MonitoringReportTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
         self.login_permitted_user()
         response = self.client.get(self.get_url())
         self.assertTemplateUsed(response, "monitorings/monitoring_report.html")
+
+    def test_shows_last_received_letter_date(self):
+        self.login_permitted_user()
+        case = CaseFactory(monitoring=self.monitoring)
+        letter = IncomingLetterFactory(record__case=case)
+        response = self.client.get(self.get_url())
+        self.assertContains(response, "last received letter date")
+        self.assertContains(response, date_format(letter.created))
 
 
 class IncomingParcelFactory:
