@@ -14,7 +14,8 @@ class AttachmentScannerEngine(BaseEngine):
         self.url = settings.ATTACHMENTSCANNER_API_URL
         self.session = requests.Session()
 
-    def map_status(self, status):
+    def map_status(self, response):
+        status = response.get("status")
         if status == "found":
             return Request.STATUS.infected
         # "warning" is a softer, ambiguous signal (e.g. a password-protected
@@ -39,7 +40,7 @@ class AttachmentScannerEngine(BaseEngine):
         result = resp.json()
         return {
             "engine_id": result["id"],
-            "status": self.map_status(result["status"]),
+            "status": self.map_status(result),
             "engine_report": result,
         }
 
@@ -52,6 +53,6 @@ class AttachmentScannerEngine(BaseEngine):
         result = resp.json()
         return {
             "engine_id": result["id"],
-            "status": self.map_status(result["status"]),
+            "status": self.map_status(result),
             "engine_report": result,
         }

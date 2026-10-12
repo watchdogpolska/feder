@@ -39,6 +39,25 @@ class VirusTotalEngine(BaseEngine):
             "status": Request.STATUS.queued,
         }
 
+    def map_status(self, results):
+        """Classify an already-fetched VirusTotal `results` dict (the same
+        shape stored in Request.engine_report) without contacting the API.
+        """
+        if results.get("response_code") == -2:
+            return Request.STATUS.queued
+        if results.get("positives") == 0:
+            return Request.STATUS.not_detected
+        detected_names = [
+            scan.get("result")
+            for scan in (results.get("scans") or {}).values()
+            if scan.get("detected") and scan.get("result")
+        ]
+        if detected_names and all(
+            _is_encryption_heuristic(name) for name in detected_names
+        ):
+            return Request.STATUS.password_protected
+        return Request.STATUS.infected
+
     def receive_result(self, engine_id):
         resp = self.client.get_file_report(engine_id)
         sleep(self.delay)
@@ -53,25 +72,9 @@ class VirusTotalEngine(BaseEngine):
             )
         result = {
             "engine_id": results["resource"],
+            "status": self.map_status(results),
         }
-        if results["response_code"] == -2:
-            result["status"] = Request.STATUS.queued
-        elif results["positives"] == 0:
-            result["status"] = Request.STATUS.not_detected
-            result["engine_report"] = results
-            result["engine_link"] = results["permalink"]
-        else:
-            detected_names = [
-                scan.get("result")
-                for scan in (results.get("scans") or {}).values()
-                if scan.get("detected") and scan.get("result")
-            ]
-            if detected_names and all(
-                _is_encryption_heuristic(name) for name in detected_names
-            ):
-                result["status"] = Request.STATUS.password_protected
-            else:
-                result["status"] = Request.STATUS.infected
+        if result["status"] != Request.STATUS.queued:
             result["engine_report"] = results
             result["engine_link"] = results["permalink"]
 

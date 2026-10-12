@@ -213,10 +213,16 @@ class AttachmentScannerMapStatusTestCase(TestCase):
         self.engine = AttachmentScannerEngine()
 
     def test_found_is_infected(self):
-        self.assertEqual(self.engine.map_status("found"), Request.STATUS.infected)
+        self.assertEqual(
+            self.engine.map_status({"status": "found"}), Request.STATUS.infected
+        )
 
     def test_warning_is_suspicious_not_infected(self):
-        self.assertEqual(self.engine.map_status("warning"), Request.STATUS.suspicious)
+        self.assertEqual(
+            self.engine.map_status({"status": "warning"}), Request.STATUS.suspicious
+        )
 
     def test_ok_is_not_detected(self):
-        self.assertEqual(self.engine.map_status("ok"), Request.STATUS.not_detected)
+        self.assertEqual(
+            self.engine.map_status({"status": "ok"}), Request.STATUS.not_detected
+        )
