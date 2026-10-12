@@ -556,6 +556,7 @@ class MonitoringReportView(LoginRequiredMixin, PermissionRequiredMixin, FilterVi
             .filter(monitoring__slug=self.kwargs["slug"])
             .with_institution()
             .with_tags_string()
+            .with_last_received_letter_date()
             .order_by(
                 "institution__jst__parent__parent__name",
                 "institution__jst__parent__name",

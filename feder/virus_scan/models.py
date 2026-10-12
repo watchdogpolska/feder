@@ -30,6 +30,8 @@ class Request(TimeStampedModel):
         (2, "infected", _("Infected")),
         (3, "not_detected", _("Not detected")),
         (4, "failed", _("Failed")),
+        (5, "suspicious", _("Suspicious (not confirmed malicious)")),
+        (6, "password_protected", _("Password protected / encrypted")),
     )
     content_type = models.ForeignKey(
         ContentType, verbose_name=_("Scan of"), on_delete=models.CASCADE

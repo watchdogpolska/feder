@@ -236,7 +236,7 @@ var htmx = (function() {
       /**
        * If set to true, disables htmx-based requests to non-origin hosts.
        * @type boolean
-       * @default false
+       * @default true
        */
       selfRequestsOnly: true,
       /**
@@ -296,7 +296,7 @@ var htmx = (function() {
     location,
     /** @type {typeof internalEval} */
     _: null,
-    version: '2.0.10'
+    version: '2.0.11'
   }
   // Tsc madness part 2
   htmx.onLoad = onLoadHelper
@@ -575,6 +575,11 @@ var htmx = (function() {
    * @param {DocumentFragment} fragment
    */
   function normalizeScriptTags(fragment) {
+    if (!htmx.config.allowScriptTags) {
+      // remove all script tags if scripts are disabled
+      fragment.querySelectorAll('script').forEach((script) => script.remove())
+      return
+    }
     Array.from(fragment.querySelectorAll('script')).forEach(/** @param {HTMLScriptElement} script */ (script) => {
       if (isJavaScriptScriptNode(script)) {
         const newScript = duplicateScript(script)
@@ -601,6 +606,8 @@ var htmx = (function() {
    * @returns {DocumentFragmentWithTitle}
    */
   function makeFragment(response) {
+    // convert <hx-*> custom tags to <template hx type="*"> so they survive HTML parsing
+    response = response.replace(/<hx-([a-z]+)((?:\s[^>]*)?)>/gi, '<template hx type="$1"$2>').replace(/<\/hx-[a-z]+>/gi, '</template>')
     // strip head tag to determine shape of response we are dealing with
     const responseWithNoHead = response.replace(/<head(\s[^>]*)?>[\s\S]*?<\/head>/i, '')
     const startTag = getStartTag(responseWithNoHead)
@@ -633,12 +640,7 @@ var htmx = (function() {
       }
     }
     if (fragment) {
-      if (htmx.config.allowScriptTags) {
-        normalizeScriptTags(fragment)
-      } else {
-        // remove all script tags if scripts are disabled
-        fragment.querySelectorAll('script').forEach((script) => script.remove())
-      }
+      normalizeScriptTags(fragment)
     }
     return fragment
   }
@@ -802,14 +804,7 @@ var htmx = (function() {
    * @returns {T1 & T2}
    */
   function mergeObjects(obj1, obj2) {
-    for (const key in obj2) {
-      if (obj2.hasOwnProperty(key)) {
-        // @ts-ignore tsc doesn't seem to properly handle types merging
-        obj1[key] = obj2[key]
-      }
-    }
-    // @ts-ignore tsc doesn't seem to properly handle types merging
-    return obj1
+    return Object.assign({}, obj1, obj2)
   }
 
   /**
@@ -908,7 +903,7 @@ var htmx = (function() {
    *
    * @see https://htmx.org/api/#find
    *
-   * @param {ParentNode|string} eltOrSelector  the root element to find the matching element in, inclusive | the selector to match
+   * @param {ParentNode|string} eltOrSelector  the root element to search inside of, not including the root itself | the selector to match
    * @param {string} [selector] the selector to match
    * @returns {Element|null}
    */
@@ -925,7 +920,7 @@ var htmx = (function() {
    *
    * @see https://htmx.org/api/#findAll
    *
-   * @param {ParentNode|string} eltOrSelector the root element to find the matching elements in, inclusive | the selector to match
+   * @param {ParentNode|string} eltOrSelector  the root element to search inside of, not including the root itself | the selector to match
    * @param {string} [selector] the selector to match
    * @returns {NodeListOf<Element>}
    */
@@ -1849,6 +1844,55 @@ var htmx = (function() {
   }
 
   /**
+   * @param {DocumentFragment|ParentNode} fragment
+   * @param {HtmxSettleInfo} settleInfo
+   * @param {Element} sourceElement
+   * @returns {boolean}
+   */
+  function findAndSwapPartials(fragment, settleInfo, sourceElement) {
+    var hxTemplates = findAll(fragment, 'template[hx]')
+    forEach(hxTemplates, function(template) {
+      var type = getRawAttribute(template, 'type')
+      if (type === 'partial') {
+        var targetSelector = getAttributeValue(template, 'hx-target') ||
+          (template.id ? '#' + CSS.escape(template.id) : null)
+        if (targetSelector) {
+          var swapOverride = getAttributeValue(template, 'hx-swap')
+          var swapSpec = getSwapSpecification(template, swapOverride)
+          var targets = querySelectorAllExt(sourceElement || getDocument().body, targetSelector, false)
+          if (targets.length === 0) {
+            triggerErrorEvent(getDocument().body, 'htmx:partialErrorNoTarget', { template, targetSelector, sourceElement })
+          }
+          forEach(targets, function(target) {
+            target = asElement(target)
+            if (target) {
+              var fragment = template.content.cloneNode(true)
+              normalizeScriptTags(fragment)
+              var beforeSwapDetails = { shouldSwap: true, target, fragment }
+              if (!triggerEvent(target, 'htmx:partialBeforeSwap', beforeSwapDetails)) return
+              target = beforeSwapDetails.target
+              if (beforeSwapDetails.shouldSwap) {
+                swap(target, beforeSwapDetails.fragment, swapSpec, {
+                  contextElement: target,
+                  afterSwapCallback: function() {
+                    forEach(settleInfo.elts, function(elt) {
+                      triggerEvent(elt, 'htmx:partialAfterSwap', beforeSwapDetails)
+                    })
+                  }
+                })
+              }
+            }
+          })
+        }
+      } else {
+        triggerEvent(getDocument().body, 'htmx:processTemplate', { type, template, settleInfo, sourceElement })
+      }
+      template.parentNode.removeChild(template)
+    })
+    return hxTemplates.length > 0
+  }
+
+  /**
    * @param {DocumentFragment} fragment
    * @param {HtmxSettleInfo} settleInfo
    * @param {Node|Document} [rootNode]
@@ -1889,7 +1933,12 @@ var htmx = (function() {
       maybeCall(swapOptions.beforeSwapCallback)
 
       target = resolveTarget(target)
-      const rootNode = swapOptions.contextElement ? getRootNode(swapOptions.contextElement, false) : getDocument()
+      // A detached contextElement's own getRootNode() is its orphaned subtree, not
+      // the document, so OOB targets that are still live in the document would be
+      // unreachable through it - fall back to the document in that case.
+      const rootNode = (swapOptions.contextElement && swapOptions.contextElement.isConnected)
+        ? getRootNode(swapOptions.contextElement, false)
+        : getDocument()
 
       // preserve focus and selection
       const activeElt = document.activeElement
@@ -1908,7 +1957,7 @@ var htmx = (function() {
         target.textContent = content
       // Otherwise, make the fragment and process it
       } else {
-        let fragment = makeFragment(content)
+        let fragment = typeof content === 'string' ? makeFragment(content) : content
 
         settleInfo.title = swapOptions.title || fragment.title
         if (swapOptions.historyRequest) {
@@ -1940,6 +1989,8 @@ var htmx = (function() {
             template.remove()
           }
         })
+        // partial swaps — after oob, before main swap
+        var hasPartials = findAndSwapPartials(fragment, settleInfo, swapOptions.contextElement || asElement(target))
 
         // normal swap
         if (swapOptions.select) {
@@ -1950,7 +2001,12 @@ var htmx = (function() {
           fragment = newFragment
         }
         handlePreservedElements(fragment)
-        swapWithStyle(swapSpec.swapStyle, swapOptions.contextElement, target, fragment, settleInfo)
+        // if the response contained only <hx-partial> tags and nothing else, skip the main swap
+        if (hasPartials && !fragment.childElementCount && !fragment.textContent.trim()) {
+          settleInfo.elts = [asElement(target)]
+        } else {
+          swapWithStyle(swapSpec.swapStyle, swapOptions.contextElement, target, fragment, settleInfo)
+        }
         restorePreservedElements()
       }
 
@@ -2066,18 +2122,16 @@ var htmx = (function() {
   function handleTriggerHeader(xhr, header, elt) {
     const triggerBody = xhr.getResponseHeader(header)
     if (triggerBody.indexOf('{') === 0) {
-      const triggers = parseJSON(triggerBody)
-      for (const eventName in triggers) {
-        if (triggers.hasOwnProperty(eventName)) {
-          let detail = triggers[eventName]
-          if (isRawObject(detail)) {
-            // @ts-ignore
-            elt = detail.target !== undefined ? detail.target : elt
-          } else {
-            detail = { value: detail }
-          }
-          triggerEvent(elt, eventName, detail)
+      const triggers = parseJSON(triggerBody) || {}
+      for (const eventName of Object.keys(triggers)) {
+        let detail = triggers[eventName]
+        if (isRawObject(detail)) {
+          // @ts-ignore
+          elt = detail.target !== undefined ? detail.target : elt
+        } else {
+          detail = { value: detail }
         }
+        triggerEvent(elt, eventName, detail)
       }
     } else {
       const eventNames = triggerBody.split(',')
@@ -2796,7 +2850,7 @@ var htmx = (function() {
       const boostedSelector = ', [hx-boost] a, [data-hx-boost] a, a[hx-boost], a[data-hx-boost]'
 
       const extensionSelectors = []
-      for (const e in extensions) {
+      for (const e of Object.keys(extensions)) {
         const extension = extensions[e]
         if (extension.getSelectors) {
           var selectors = extension.getSelectors()
@@ -3950,11 +4004,9 @@ var htmx = (function() {
       } else {
         varsValues = parseJSON(str)
       }
-      for (const key in varsValues) {
-        if (varsValues.hasOwnProperty(key)) {
-          if (values[key] == null) {
-            values[key] = varsValues[key]
-          }
+      for (const key of Object.keys(varsValues)) {
+        if (values[key] == null) {
+          values[key] = varsValues[key]
         }
       }
     }
@@ -4039,11 +4091,11 @@ var htmx = (function() {
 
   /**
    * @param {XMLHttpRequest} xhr
-   * @param {RegExp} regexp
+   * @param {string} name
    * @return {boolean}
    */
-  function hasHeader(xhr, regexp) {
-    return regexp.test(xhr.getAllResponseHeaders())
+  function hasHeader(xhr, name) {
+    return xhr.getResponseHeader(name) !== null
   }
 
   /**
@@ -4131,15 +4183,13 @@ var htmx = (function() {
   function formDataFromObject(obj) {
     if (obj instanceof FormData) return obj
     const formData = new FormData()
-    for (const key in obj) {
-      if (obj.hasOwnProperty(key)) {
-        if (obj[key] && typeof obj[key].forEach === 'function') {
-          obj[key].forEach(function(v) { formData.append(key, v) })
-        } else if (typeof obj[key] === 'object' && !(obj[key] instanceof Blob)) {
-          formData.append(key, JSON.stringify(obj[key]))
-        } else {
-          formData.append(key, obj[key])
-        }
+    for (const key of Object.keys(obj)) {
+      if (obj[key] && typeof obj[key].forEach === 'function') {
+        obj[key].forEach(function(v) { formData.append(key, v) })
+      } else if (typeof obj[key] === 'object' && !(obj[key] instanceof Blob)) {
+        formData.append(key, JSON.stringify(obj[key]))
+      } else {
+        formData.append(key, obj[key])
       }
     }
     return formData
@@ -4546,11 +4596,8 @@ var htmx = (function() {
     if (requestAttrValues.noHeaders) {
     // ignore all headers
     } else {
-      for (const header in headers) {
-        if (headers.hasOwnProperty(header)) {
-          const headerValue = headers[header]
-          safelySetHeaderValue(xhr, header, headerValue)
-        }
+      for (const header of Object.keys(headers)) {
+        safelySetHeaderValue(xhr, header, headers[header])
       }
     }
 
@@ -4668,13 +4715,13 @@ var htmx = (function() {
     //= ==========================================
     let pathFromHeaders = null
     let typeFromHeaders = null
-    if (hasHeader(xhr, /HX-Push:/i)) {
+    if (hasHeader(xhr, 'HX-Push')) {
       pathFromHeaders = xhr.getResponseHeader('HX-Push')
       typeFromHeaders = 'push'
-    } else if (hasHeader(xhr, /HX-Push-Url:/i)) {
+    } else if (hasHeader(xhr, 'HX-Push-Url')) {
       pathFromHeaders = xhr.getResponseHeader('HX-Push-Url')
       typeFromHeaders = 'push'
-    } else if (hasHeader(xhr, /HX-Replace-Url:/i)) {
+    } else if (hasHeader(xhr, 'HX-Replace-Url')) {
       pathFromHeaders = xhr.getResponseHeader('HX-Replace-Url')
       typeFromHeaders = 'replace'
     }
@@ -4697,9 +4744,8 @@ var htmx = (function() {
     const requestPath = responseInfo.pathInfo.finalRequestPath
     const responsePath = responseInfo.pathInfo.responsePath
 
-    let pushUrl = responseInfo.etc.push || getClosestAttributeValue(elt, 'hx-push-url')
+    const pushUrl = responseInfo.etc.push || getClosestAttributeValue(elt, 'hx-push-url')
     let replaceUrl = responseInfo.etc.replace || getClosestAttributeValue(elt, 'hx-replace-url')
-    if (pushUrl === 'false') pushUrl = null
     if (replaceUrl === 'false') replaceUrl = null
     const elementIsBoosted = getInternalData(elt).boosted
 
@@ -4718,6 +4764,11 @@ var htmx = (function() {
     }
 
     if (path) {
+      // false indicates no push, return empty object
+      if (path === 'false') {
+        return {}
+      }
+
       // true indicates we want to follow wherever the server ended up sending us
       if (path === 'true') {
         path = responsePath || requestPath // if there is no response path, go with the original request path
@@ -4809,11 +4860,11 @@ var htmx = (function() {
 
     if (!triggerEvent(elt, 'htmx:beforeOnLoad', responseInfo)) return
 
-    if (hasHeader(xhr, /HX-Trigger:/i)) {
+    if (hasHeader(xhr, 'HX-Trigger')) {
       handleTriggerHeader(xhr, 'HX-Trigger', elt)
     }
 
-    if (hasHeader(xhr, /HX-Location:/i)) {
+    if (hasHeader(xhr, 'HX-Location')) {
       let redirectPath = xhr.getResponseHeader('HX-Location')
       /** @type {HtmxAjaxHelperContext&{path?:string}} */
       var redirectSwapSpec = {}
@@ -4828,9 +4879,9 @@ var htmx = (function() {
       return
     }
 
-    const shouldRefresh = hasHeader(xhr, /HX-Refresh:/i) && xhr.getResponseHeader('HX-Refresh') === 'true'
+    const shouldRefresh = hasHeader(xhr, 'HX-Refresh') && xhr.getResponseHeader('HX-Refresh') === 'true'
 
-    if (hasHeader(xhr, /HX-Redirect:/i)) {
+    if (hasHeader(xhr, 'HX-Redirect')) {
       responseInfo.keepIndicators = true
       htmx.location.href = xhr.getResponseHeader('HX-Redirect')
       shouldRefresh && htmx.location.reload()
@@ -4859,11 +4910,11 @@ var htmx = (function() {
     }
 
     // response headers override response handling config
-    if (hasHeader(xhr, /HX-Retarget:/i)) {
+    if (hasHeader(xhr, 'HX-Retarget')) {
       responseInfo.target = resolveRetarget(elt, xhr.getResponseHeader('HX-Retarget'))
     }
 
-    if (hasHeader(xhr, /HX-Reswap:/i)) {
+    if (hasHeader(xhr, 'HX-Reswap')) {
       swapOverride = xhr.getResponseHeader('HX-Reswap')
     }
 
@@ -4919,7 +4970,7 @@ var htmx = (function() {
         selectOverride = responseInfoSelect
       }
 
-      if (hasHeader(xhr, /HX-Reselect:/i)) {
+      if (hasHeader(xhr, 'HX-Reselect')) {
         selectOverride = xhr.getResponseHeader('HX-Reselect')
       }
 
@@ -4933,7 +4984,7 @@ var htmx = (function() {
         anchor: responseInfo.pathInfo.anchor,
         contextElement: elt,
         afterSwapCallback: function() {
-          if (hasHeader(xhr, /HX-Trigger-After-Swap:/i)) {
+          if (hasHeader(xhr, 'HX-Trigger-After-Swap')) {
             let finalElt = elt
             if (!bodyContains(elt)) {
               finalElt = getDocument().body
@@ -4942,7 +4993,7 @@ var htmx = (function() {
           }
         },
         afterSettleCallback: function() {
-          if (hasHeader(xhr, /HX-Trigger-After-Settle:/i)) {
+          if (hasHeader(xhr, 'HX-Trigger-After-Settle')) {
             let finalElt = elt
             if (!bodyContains(elt)) {
               finalElt = getDocument().body
@@ -11654,7 +11705,7 @@ var htmx = (function() {
 }));
 //# sourceMappingURL=bootstrap.bundle.js.map
 ;
-/*! DataTables 3.1.2
+/*! DataTables 3.1.3
  * Copyright (c) SpryMedia Ltd - datatables.net/license
  */
 
@@ -15179,7 +15230,7 @@ function invalidateRow(settings, rowIdx, src, colIdx) {
     else {
         // Reading from data object, update the DOM
         var cells = row.cells;
-        var display = getRowDisplay(settings, rowIdx);
+        var display = getDisplay(settings, rowIdx);
         if (cells.length) {
             if (colIdx !== undefined) {
                 writeCell(cells[colIdx], display[colIdx]);
@@ -15438,8 +15489,7 @@ function calculateColumnWidths(settings) {
     // Construct a worst case table with the widest, assign any user defined
     // widths, then insert it into  the DOM and allow the browser to do all
     // the hard work of calculating table widths
-    var tmpTable = Dom
-        .s(table.cloneNode())
+    var tmpTable = Dom.s(table.cloneNode())
         .css('visibility', 'hidden')
         .css('margin', '0')
         .attrRemove('id');
@@ -15493,8 +15543,7 @@ function calculateColumnWidths(settings) {
                 var autoClass = ext.type.className[column.type];
                 var padding = column.contentPadding || (scrollX ? '-' : '');
                 var text = longest + padding;
-                var cell = Dom
-                    .c('td')
+                var cell = Dom.c('td')
                     .classAdd(autoClass)
                     .classAdd(column.className)
                     .appendTo(tr);
@@ -15516,8 +15565,7 @@ function calculateColumnWidths(settings) {
     // with minimal height, so it has no effect on if the container scrolls
     // or not. Otherwise it might trigger scrolling when it actually isn't
     // needed
-    var holder = Dom
-        .c('div')
+    var holder = Dom.c('div')
         .css(scrollX || scrollY
         ? {
             position: 'absolute',
@@ -15587,8 +15635,7 @@ function calculateColumnWidths(settings) {
             // This flag allows the above to be satisfied.
             var first = Dom.s(settings.tableWrapper).isVisible();
             // Use an empty div to attach the observer so it isn't impacted by height changes
-            var resizer = Dom
-                .c('div')
+            var resizer = Dom.c('div')
                 .css({
                 width: '100%',
                 height: '0'
@@ -15641,14 +15688,19 @@ function wrapperWidth(settings) {
  */
 function getWideStrings(settings, colIdx) {
     var column = settings.columns[colIdx];
-    // Do we need to recalculate (i.e. was invalidated), or just use the cached data?
-    if (!column.wideStrings) {
+    // Do we need to recalculate (i.e. was invalidated), or just use the cached
+    // data? Recalculate if display based for the column.
+    if (!column.wideStrings || column.widthCalc === 'display') {
         var allStrings = [];
         var collection = [];
+        let rows = settings.displayMaster;
+        if (column.widthCalc === 'display') {
+            rows = settings.display.slice(settings.displayStart, settings.displayStart + settings.pageLength);
+        }
         // Create an array with the string information for the column
-        for (var i = 0, iLen = settings.displayMaster.length; i < iLen; i++) {
-            var rowIdx = settings.displayMaster[i];
-            var data = getRowDisplay(settings, rowIdx)[colIdx];
+        for (var i = 0, len = rows.length; i < len; i++) {
+            var rowIdx = rows[i];
+            var data = getDisplay(settings, rowIdx, colIdx);
             var cellString = data && typeof data === 'object' && data.nodeType
                 ? data.innerHTML
                 : data + '';
@@ -15827,20 +15879,20 @@ function featureTable(settings) {
     let scrollBody = children.eq(1);
     let scrollFoot = children.eq(2);
     // When the body is scrolled, then we also want to scroll the header and
-    // footer. Note that each element has its own scroll listener, and that in
-    // turn sets the scroll for the other elements. However this doesn't lead to
-    // an infinite loop as `scroll` is only triggered if the value changes.
+    // footer. Equally we want changes in the header / footer to transition the
+    // body. The header and footer are `overflow: hidden`, so the user can't
+    // scroll those elements other than triggering a focus action in them.
     scrollBody.on('scroll.DT', () => {
         let scrollLeft = scrollBody.scrollLeft();
         scrollHead.scrollLeft(scrollLeft);
         scrollFoot.scrollLeft(scrollLeft);
     });
-    scrollHead.on('scroll.DT', () => {
+    scrollHead.on('focusin.DT', () => {
         let scrollLeft = scrollHead.scrollLeft();
         scrollBody.scrollLeft(scrollLeft);
         scrollFoot.scrollLeft(scrollLeft);
     });
-    scrollFoot.on('scroll.DT', () => {
+    scrollFoot.on('focusin.DT', () => {
         let scrollLeft = scrollFoot.scrollLeft();
         scrollHead.scrollLeft(scrollLeft);
         scrollBody.scrollLeft(scrollLeft);
@@ -16014,7 +16066,9 @@ function scrollDraw(settings) {
         .find('[role]')
         .attrRemove('role');
     table.find('tbody tr:not([role])').attr('role', 'row');
-    table.find('tbody td:not([role]), tbody th:not([role])').attr('role', 'cell');
+    table
+        .find('tbody td:not([role]), tbody th:not([role])')
+        .attr('role', 'cell');
     scrollAria(headerCopy);
     scrollAria(footerCopy);
     // Adjust the position of the header in case we loose the y-scrollbar
@@ -17702,14 +17756,7 @@ function filterData(settings) {
     return wasInvalidated;
 }
 
-/**
- * Render and cache a row's display data for the columns, if required
- *
- * @param settings DataTables settings object
- * @param rowIdx Row index
- * @returns Array with display information
- */
-function getRowDisplay(settings, rowIdx) {
+function getDisplay(settings, rowIdx, colIdx = null) {
     var rowModal = settings.data[rowIdx];
     var columns = settings.columns;
     if (!rowModal) {
@@ -17718,11 +17765,29 @@ function getRowDisplay(settings, rowIdx) {
     if (!rowModal.displayData) {
         // Need to render and cache
         rowModal.displayData = [];
-        for (var colIdx = 0, len = columns.length; colIdx < len; colIdx++) {
-            rowModal.displayData.push(getCellData(settings, rowIdx, colIdx, 'display'));
+    }
+    const displayData = rowModal.displayData;
+    // Check if we need to actually perform the render to get the display data
+    if (!displayData._complete) {
+        if (colIdx !== null) {
+            // Single cell
+            if (!displayData[colIdx]) {
+                displayData[colIdx] = getCellData(settings, rowIdx, colIdx, 'display');
+            }
+        }
+        else {
+            // Whole row
+            for (var i = 0, len = columns.length; i < len; i++) {
+                if (!displayData[i]) {
+                    displayData[i] = getCellData(settings, rowIdx, i, 'display');
+                    displayData._complete = true;
+                }
+            }
         }
     }
-    return rowModal.displayData;
+    // At this point the item(s) we want will have been created - possibly all,
+    // but that doesn't matter, as long as we've got the one we want.
+    return colIdx !== null ? displayData[colIdx] : displayData;
 }
 /**
  * Create a new TR element (and it's TD children) for a row
@@ -17762,7 +17827,7 @@ function createTr(settings, rowIdx, trIn, tds) {
                 column: i
             };
             cells.push(td);
-            var display = getRowDisplay(settings, rowIdx);
+            var display = getDisplay(settings, rowIdx);
             // Need to create the HTML if new, or if a rendering function is
             // defined
             if (create ||
@@ -18155,10 +18220,8 @@ function _emptyRow(settings) {
     else if (lang.emptyTable && recordsTotal(settings) === 0) {
         zero = lang.emptyTable;
     }
-    return Dom
-        .c('tr')
-        .append(Dom
-        .c('td')
+    return Dom.c('tr')
+        .append(Dom.c('td')
         .attr('colSpan', visibleColumns(settings))
         .classAdd(settings.classes.empty.row)
         .html(zero))
@@ -18285,15 +18348,12 @@ function detectHeader(settings, thead, write) {
                         cell.parent(':not([data-dt-order=disable])').count() !==
                             0 &&
                         cell.find('div.dt-column-order').count() === 0) {
-                        Dom.c('div')
-                            .classAdd('dt-column-order')
-                            .appendTo(cell);
+                        Dom.c('div').classAdd('dt-column-order').appendTo(cell);
                     }
                     // We need to wrap the elements in the header in another
                     // element to use flexbox layout for those elements
                     var headerFooter = isHeader ? 'header' : 'footer';
-                    if (cell.find('div.dt-column-' + headerFooter).count() ===
-                        0) {
+                    if (cell.find('div.dt-column-' + headerFooter).count() === 0) {
                         Dom.c('div')
                             .classAdd('dt-column-' + headerFooter)
                             .append(Array.from(cell.get(0).childNodes))
@@ -19281,7 +19341,8 @@ const defaults$2 = {
     title: null,
     type: null,
     visible: true,
-    width: null
+    width: null,
+    widthCalc: 'all'
 };
 
 /**
@@ -19382,6 +19443,10 @@ class Settings {
          * Width of the column
          */
         this.width = null;
+        /**
+         * Which cells to use when calculating the column width
+         */
+        this.widthCalc = 'all';
         /**
          * Width of the column when it was first "encountered"
          */
@@ -19593,9 +19658,7 @@ function addColumn(settings) {
         data: defaults$2.data ? defaults$2.data : columnIdx,
         idx: columnIdx,
         searchFixed: {},
-        colEl: Dom
-            .c('col')
-            .attr('data-dt-column', columnIdx)
+        colEl: Dom.c('col').attr('data-dt-column', columnIdx)
     });
     settings.columns.push(column);
     // Legacy support for `searchCols` property. If set, and there is a value
@@ -19603,9 +19666,7 @@ function addColumn(settings) {
     // specific `search` option is applied in `columnOptions`, but we always
     // want the search object for the column to exist.
     let searchCols = settings.searchCols;
-    settings.searches[columnIdx] = create$1(searchCols[columnIdx]
-        ? hungarianToCamel(searchCols[columnIdx])
-        : {});
+    settings.searches[columnIdx] = create$1(searchCols[columnIdx] ? hungarianToCamel(searchCols[columnIdx]) : {});
     settings.searches[columnIdx].columns = [columnIdx];
 }
 /**
@@ -20095,12 +20156,18 @@ function columnsFromHeader(cell) {
  */
 function columnCells(header, row = null, column = null) {
     var out = [];
+    var included = [];
     for (var i = 0; i < header.length; i++) {
         if (row === null || row === i) {
             for (var j = 0; j < header[i].length; j++) {
                 var cell = header[i][j].cell;
-                if ((column === null || column === j) && !out.includes(cell)) {
-                    out.push(cell);
+                if ((column === null || column === j) &&
+                    !included.includes(cell)) {
+                    included.push(cell);
+                    out.push({
+                        cell,
+                        row: header[i].row
+                    });
                 }
             }
         }
@@ -20115,31 +20182,35 @@ function columnCells(header, row = null, column = null) {
  * @returns Array of selected elements
  */
 function columnOrderingCells(settings, notSelector) {
-    var cells = [];
-    var titleRow = settings.titleRow;
+    let combined = [];
+    let titleRow = settings.titleRow;
     if (titleRow === true) {
         // Top row (legacy `orderCellsTop`)
-        cells = columnCells(settings.header, 0);
+        combined = columnCells(settings.header, 0);
     }
     else if (titleRow === false) {
         // Bottom row (legacy `orderCellsTop`)
-        cells = columnCells(settings.header, settings.header.length - 1);
+        combined = columnCells(settings.header, settings.header.length - 1);
     }
     else if (titleRow !== null) {
         // Specific row
-        cells = columnCells(settings.header, titleRow);
+        combined = columnCells(settings.header, titleRow);
     }
     else {
         // All
-        cells = columnCells(settings.header);
+        combined = columnCells(settings.header);
     }
+    let cells = combined.map(c => c.cell);
+    let rows = combined.map(c => c.row);
     return Dom.s(cells)
         .filter('th' + notSelector + ', td' + notSelector)
         .filter(el => {
-        return (Dom.s(el)
-            .parent()
-            .filter(notSelector)
-            .length !== 0);
+        let idx = cells.indexOf(el);
+        if (idx >= 0) {
+            return Dom.s(rows[idx]).filter(notSelector).length !== 0;
+        }
+        // Shouldn't be able to get here!
+        return true;
     });
 }
 
@@ -20484,7 +20555,7 @@ const ext = {
      * Software version
      *  @type string
      */
-    version: '3.1.2'
+    version: '3.1.3'
 };
 //
 // Backwards compatibility. Alias to pre 1.10 Hungarian notation counter parts
@@ -21680,7 +21751,7 @@ function selectColumns(settings, selector, opts) {
                         }
                         // Selector
                         if (match && match[1]) {
-                            let columnElements = columnCells(settings.header, null, col.idx);
+                            let columnElements = columnCells(settings.header, null, col.idx).map(c => c.cell);
                             return Dom.s(columnElements)
                                 .filter(match[1])
                                 .count() > 0
@@ -21717,7 +21788,7 @@ function selectColumns(settings, selector, opts) {
             return [s._DT_CellIndex.column];
         }
         // Selector on the TH elements for the columns
-        var result = Dom.s(columnCells(settings.header))
+        var result = Dom.s(columnCells(settings.header).map(c => c.cell))
             .filter(s)
             .mapTo(el => {
             return columnsFromHeader(el);
@@ -21927,11 +21998,14 @@ registerPlural('columns().widths()', 'column().width()', function () {
     // Injects a fake row into the table for just a moment so the widths can
     // be read, regardless of colspan in the header and rows being present
     // in the body
-    var columns = this.columns(':visible');
-    var row = Dom.c('tr').html('<td>' + Array(columns.count()).join('</td><td>') + '</td>');
+    let columns = this.columns(':visible');
+    let row = Dom.c('tr');
+    for (let i = 0; i < columns.count(); i++) {
+        Dom.c('td').appendTo(row);
+    }
     Dom.s(this.table().body()).append(row);
-    var widths = [];
-    var indexes = columns.indexes();
+    let widths = [];
+    let indexes = columns.indexes();
     row.children().each((el, idx) => {
         widths[indexes[idx]] = Dom.s(el).width('outer');
     });

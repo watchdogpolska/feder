@@ -26,6 +26,12 @@ start: wait_mysql
 stop:
 	docker compose stop
 
+runserver: run-background
+	docker compose exec web python manage.py runserver 0.0.0.0:8000
+
+run-background: wait_mysql
+	docker compose up -d
+
 test: wait_mysql
 	docker compose exec -t db mysql --user=root --password=password -e "DROP DATABASE IF EXISTS test_feder;"
 	docker compose run web coverage run manage.py test --keepdb --verbosity=2 ${TEST}

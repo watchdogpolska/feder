@@ -1,10 +1,11 @@
 from django.test import RequestFactory, TestCase
 from django.urls import reverse
 from django.utils.http import urlencode
+from django.utils.translation import gettext
 
 from feder.cases.models import Case
 from feder.institutions.factories import InstitutionFactory
-from feder.letters.factories import IncomingLetterFactory
+from feder.letters.factories import IncomingLetterFactory, OutgoingLetterFactory
 from feder.letters.models import Letter
 from feder.main.tests import PermissionStatusMixin
 from feder.parcels.factories import IncomingParcelPostFactory
@@ -166,6 +167,31 @@ class CaseQuerySetTestCase(TestCase):
             Case.objects.by_addresses(["alias-123@example.com"]).get(), case
         )
 
+    def test_with_last_received_letter_date_no_letter(self):
+        case = CaseFactory()
+        annotated = Case.objects.with_last_received_letter_date().get(pk=case.pk)
+        self.assertIsNone(annotated.last_received_letter_date)
+
+    def test_with_last_received_letter_date_with_incoming_letter(self):
+        case = CaseFactory()
+        letter = IncomingLetterFactory(record__case=case)
+        annotated = Case.objects.with_last_received_letter_date().get(pk=case.pk)
+        self.assertEqual(annotated.last_received_letter_date, letter.created)
+
+    def test_with_last_received_letter_date_excludes_automatic(self):
+        case = CaseFactory()
+        IncomingLetterFactory(
+            record__case=case, message_type=Letter.MESSAGE_TYPES.vacation_reply
+        )
+        annotated = Case.objects.with_last_received_letter_date().get(pk=case.pk)
+        self.assertIsNone(annotated.last_received_letter_date)
+
+    def test_with_last_received_letter_date_ignores_outgoing(self):
+        case = CaseFactory()
+        OutgoingLetterFactory(record__case=case)
+        annotated = Case.objects.with_last_received_letter_date().get(pk=case.pk)
+        self.assertIsNone(annotated.last_received_letter_date)
+
 
 class CaseReportViewSetTestCase(TestCase):
     # TODO: Tests for other available filters could be added here
@@ -185,3 +211,12 @@ class CaseReportViewSetTestCase(TestCase):
         )
         self.assertEqual(response.status_code, 200)
         self.assertIn("text/csv", response["content-type"])
+
+    def test_csv_contains_last_received_letter_date(self):
+        case = CaseFactory()
+        letter = IncomingLetterFactory(record__case=case)
+        response = self.client.get(
+            "{}?{}".format(reverse("case-report-list"), urlencode({"format": "csv"}))
+        )
+        self.assertContains(response, gettext("Last received letter date"))
+        self.assertContains(response, letter.created.strftime("%Y-%m-%d"))

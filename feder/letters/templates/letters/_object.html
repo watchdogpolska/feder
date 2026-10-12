@@ -61,6 +61,15 @@
                                 {% if attachment.current_scan_request %}
                                     ({% include 'virus_scan/_request.html' with object=attachment.current_scan_request %})
                                     {% if not attachment.is_infected %}
+                                        {% if attachment.is_password_protected %}
+                                            <i class="fa-solid fa-lock text-warning" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                                title="{% trans 'This file appears to be password-protected or encrypted, so it could not be scanned. Download only if you trust the sender.' %}">
+                                            </i>
+                                        {% elif attachment.is_suspicious %}
+                                            <i class="fa-solid fa-triangle-exclamation text-warning" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                                title="{% trans 'The scan returned an ambiguous result that was not confirmed as malicious. Download only if you trust the sender.' %}">
+                                            </i>
+                                        {% endif %}
                                         <a class="btn btn-sm btn-primary" href="{{ attachment.get_absolute_url }}">
                                             <i class="fa-solid fa-download"></i>
                                             {% trans 'Download' %}

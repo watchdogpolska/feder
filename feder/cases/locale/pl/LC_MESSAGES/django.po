@@ -57,6 +57,10 @@ msgstr "Data ostatniego wniosku"
 msgid "Last request status"
 msgstr "Status ostatniego wniosku"
 
+#: feder/cases/viewsets.py:57
+msgid "Last received letter date"
+msgstr "Data ostatnio otrzymanego listu"
+
 #: feder/cases/models.py:217
 msgid "Slug"
 msgstr "Identyfikator redakcyjny"
