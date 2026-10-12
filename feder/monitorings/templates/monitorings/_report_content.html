@@ -36,6 +36,9 @@
                 <th class="table__col_narrow centered centered_cell">
                     {% trans 'response received' %}
                 </th>
+                <th class="table__col_narrow centered centered_cell">
+                    {% trans 'last received letter date' %}
+                </th>
             </tr>
         </thead>
 
@@ -96,6 +99,7 @@
                            title="{% trans 'no' %}"></i>
                     {% endif %}
                 </td>
+                <td class="centered centered_cell">{{ case.last_received_letter_date|date }}</td>
             </tr>
             {% empty %}
             <tr>

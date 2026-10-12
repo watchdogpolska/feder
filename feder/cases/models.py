@@ -113,6 +113,24 @@ class CaseQuerySet(FormattedDatetimeMixin, models.QuerySet):
             )
         )
 
+    @staticmethod
+    def _get_received_letter_subquery():
+        from feder.letters.models import Letter
+
+        return (
+            Letter.objects.filter(record__case=OuterRef("pk"))
+            .is_incoming()
+            .exclude_automatic()
+            .order_by("-created")
+        )
+
+    def with_last_received_letter_date(self):
+        return self.annotate(
+            last_received_letter_date=Subquery(
+                self._get_received_letter_subquery().values("created")[:1]
+            )
+        )
+
     def with_institution(self):
         return self.select_related(
             "institution",

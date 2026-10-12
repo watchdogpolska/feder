@@ -1,1 +1,29 @@
-@import "bootstrap/scss/bootstrap";
+@use "sass:color";
+@use "variables";
+
+@forward "bootstrap/scss/bootstrap" with (
+  $font-size-base: variables.$font-size-base,
+
+  $primary: variables.$brand-primary,
+  $success: variables.$brand-success,
+  $info: variables.$brand-info,
+  $warning: variables.$brand-warning,
+  $danger: variables.$brand-danger,
+
+  $border-radius: variables.$border-radius-base,
+  $border-radius-sm: variables.$border-radius-small,
+  $border-radius-lg: variables.$border-radius-large,
+
+  $link-decoration: none,
+  $link-hover-decoration: underline,
+
+  $gray-100: color.scale(variables.$gray-base, $lightness: 96.5%),
+  $gray-200: variables.$gray-lighter,
+  $gray-300: color.scale(variables.$gray-base, $lightness: 86.5%),
+  $gray-400: color.scale(variables.$gray-base, $lightness: 76.5%),
+  $gray-500: variables.$gray-light,
+  $gray-600: variables.$gray,
+  $gray-700: variables.$gray-dark,
+  $gray-800: variables.$gray-darker,
+  $gray-900: variables.$gray-base
+);

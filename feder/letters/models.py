@@ -803,9 +803,7 @@ class Attachment(TimeStampedModel):
         return basename(self.attachment.name)
 
     def current_scan_request(self):
-        scans = self.scan_request.all()
-        if scans:
-            return scans[0]
+        return self.scan_request.order_by("-created").first()
 
     def scan_status(self):
         scan = self.current_scan_request()
@@ -815,6 +813,14 @@ class Attachment(TimeStampedModel):
     def is_infected(self):
         scan = self.scan_status()
         return scan == ScanRequest.STATUS.infected
+
+    def is_suspicious(self):
+        scan = self.scan_status()
+        return scan == ScanRequest.STATUS.suspicious
+
+    def is_password_protected(self):
+        scan = self.scan_status()
+        return scan == ScanRequest.STATUS.password_protected
 
     def __str__(self):
         if self.attachment:

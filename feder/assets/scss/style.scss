@@ -6,11 +6,11 @@
 // @use 'solid';
 // @use 'brands';
 // @use 'regular';
-@import 'variables';
-@import 'bootstrap';
-@import "layout";
-@import "sidebar";
-@import 'milestones';
+@use 'variables';
+@use 'bootstrap';
+@use 'layout';
+@use 'sidebar';
+@use 'milestones';
 
 $red: #D72626;
 $gray: #F0F0F0;
@@ -89,16 +89,16 @@ $gray: #F0F0F0;
 .metadata-toggle {
   background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
   border: 1px solid transparent;
-  border-radius: $border-radius-base;
+  border-radius: variables.$border-radius-base;
   padding-top: 0px;
   padding-bottom: 2px;
   display: inline-block; // e.g.  display regardless of screen size
 
   .toggle-bar {
-    background-color: $btn-primary-color;
+    background-color: variables.$btn-primary-color;
     :hover, :focus {
 
-      background-color: $btn-primary-color;
+      background-color: variables.$btn-primary-color;
     }
     + .toggle-bar {
       margin-top: 1px;
@@ -254,17 +254,17 @@ iframe.letter-quote {
 // Restore BS3's .btn-default look (white/bordered) for secondary buttons.
 // .btn-primary (red) is left untouched, keeping red as the danger/emphasis color.
 .btn-secondary {
-  --bs-btn-color: #{$gray-dark};
+  --bs-btn-color: #{variables.$gray-dark};
   --bs-btn-bg: #fff;
   --bs-btn-border-color: #ccc;
-  --bs-btn-hover-color: #{$gray-dark};
+  --bs-btn-hover-color: #{variables.$gray-dark};
   --bs-btn-hover-bg: #e6e6e6;
   --bs-btn-hover-border-color: #adadad;
   --bs-btn-focus-shadow-rgb: 130, 130, 130;
-  --bs-btn-active-color: #{$gray-dark};
+  --bs-btn-active-color: #{variables.$gray-dark};
   --bs-btn-active-bg: #e6e6e6;
   --bs-btn-active-border-color: #adadad;
-  --bs-btn-disabled-color: #{$gray-dark};
+  --bs-btn-disabled-color: #{variables.$gray-dark};
   --bs-btn-disabled-bg: #fff;
   --bs-btn-disabled-border-color: #ccc;
 }
@@ -284,7 +284,7 @@ h1, h2, h3,
     font-size: 65%;
     font-weight: normal;
     line-height: 1;
-    color: $gray-light;
+    color: variables.$gray-light;
   }
 }
 
@@ -294,7 +294,7 @@ h4, h5, h6,
     font-size: 75%;
     font-weight: normal;
     line-height: 1;
-    color: $gray-light;
+    color: variables.$gray-light;
   }
 }
 
@@ -304,7 +304,7 @@ h4, h5, h6,
 .breadcrumb {
   background-color: #f5f5f5;
   padding: 8px 15px;
-  border-radius: $border-radius-base;
+  border-radius: variables.$border-radius-base;
   margin-bottom: 20px;
 }
 
@@ -336,11 +336,11 @@ h4, h5, h6,
 /* colors */
 
 .color-danger {
-  color: $brand-danger !important;
+  color: variables.$brand-danger !important;
 }
 
 .color-success {
-  color: $brand-success !important;
+  color: variables.$brand-success !important;
 }
 
 

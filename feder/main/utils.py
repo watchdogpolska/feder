@@ -1,12 +1,15 @@
 import json
 import logging
+from urllib.parse import parse_qs, urlparse
 
 from django.contrib.admin.models import ADDITION, CHANGE, DELETION, LogEntry
+from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.sites.shortcuts import get_current_site
 from django.db.models.expressions import RawSQL
 from django.forms.models import model_to_dict
 from django.utils.encoding import force_str
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 from rest_framework_csv.renderers import CSVStreamingRenderer
@@ -37,6 +40,40 @@ def get_param(request, key):
         value = request.POST.get(key)
     except (TypeError, ValueError):
         pass
+    return value
+
+
+def next_param_is_nested(value):
+    """True if a `next` value itself embeds another `next=` param.
+
+    Used to detect the self-referential `?next=/accounts/login/?next=...`
+    chains that django-allauth's login/signup views would otherwise keep
+    growing by one level on every crawl.
+    """
+    if not value:
+        return False
+    return bool(parse_qs(urlparse(value).query).get(REDIRECT_FIELD_NAME))
+
+
+def collapse_next_url(value, request):
+    """Collapse a (possibly repeatedly) self-nested `next` value down to its
+    innermost real target, e.g. `/accounts/login/?next=/accounts/login/
+    ?next=/listy/123` becomes `/listy/123`. Returns None if nothing safe
+    can be extracted.
+    """
+    if not value:
+        return None
+    seen = set()
+    while value not in seen:
+        seen.add(value)
+        inner = parse_qs(urlparse(value).query).get(REDIRECT_FIELD_NAME, [None])[0]
+        if not inner:
+            break
+        value = inner
+    if not url_has_allowed_host_and_scheme(
+        value, allowed_hosts={request.get_host()}, require_https=request.is_secure()
+    ):
+        return None
     return value
 
 

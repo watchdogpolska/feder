@@ -1,9 +1,14 @@
+from urllib.parse import quote
+
 from bleach.sanitizer import Cleaner
 from django import template
 from django.conf import settings
+from django.contrib.auth import REDIRECT_FIELD_NAME
+from django.urls import reverse
 from django.utils.safestring import mark_safe
 
 from feder import get_version
+from feder.main.utils import collapse_next_url
 
 BODY_REPLY_TPL = "\n\nProsimy o odpowiedź na adres {{EMAIL}}"
 BODY_FOOTER_SEPERATOR = "\n\n--\n"
@@ -98,3 +103,24 @@ def underscores_to_spaces(value):
 @register.filter
 def spaces_to_underscores(value):
     return value.replace(" ", "_")
+
+
+@register.simple_tag(takes_context=True)
+def login_url_with_next(context):
+    """
+    Safe login URL for the sitewide "Log In" link. On the login/signup
+    pages themselves, reuse (and collapse) their own `next` instead of
+    wrapping a brand-new layer around the current, already-`next`-carrying
+    URL -- that re-wrapping is what produced self-referential, ever-deepening
+    `?next=` chains for crawlers.
+    """
+    request = context["request"]
+    url_name = request.resolver_match.url_name if request.resolver_match else None
+    if url_name in ("account_login", "account_signup"):
+        target = collapse_next_url(request.GET.get(REDIRECT_FIELD_NAME), request)
+    else:
+        target = request.get_full_path()
+    login_url = reverse("account_login")
+    if not target:
+        return login_url
+    return f"{login_url}?{REDIRECT_FIELD_NAME}={quote(target, safe='')}"
