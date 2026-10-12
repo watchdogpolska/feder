@@ -1,4 +1,5 @@
 @use "sass:color";
+@use "variables";
 
 // Port http://jablon.me/bootstrap-milestones/ to SCSS
 $milestone-offset-smaller: 5px;
@@ -20,8 +21,8 @@ $milestone-icon-width: $milestone-icon-padding * 2 + $milestone-icon-font-size +
   // every <li> item
   & > li {
     // each milestone
-    border-left: 1px dotted $gray-light;
-    border-bottom: 1px dotted $gray-light;
+    border-left: 1px dotted variables.$gray-light;
+    border-bottom: 1px dotted variables.$gray-light;
     padding-top: $milestone-offset;
     padding-bottom: $milestone-offset;
     padding-left: $milestone-offset-larger;
@@ -67,7 +68,7 @@ $milestone-icon-width: $milestone-icon-padding * 2 + $milestone-icon-font-size +
 
 // all the icon colors
 .milestone-default {
-  background-color: $gray-lighter;
-  color: $gray-light;
-  border: 1px solid color.scale($gray-lighter, $lightness: -5%);
+  background-color: variables.$gray-lighter;
+  color: variables.$gray-light;
+  border: 1px solid color.scale(variables.$gray-lighter, $lightness: -5%);
 }
