@@ -1,3 +1,4 @@
+import re
 from time import sleep
 
 from django.conf import settings
@@ -6,6 +7,20 @@ from virus_total_apis import PublicApi
 from feder.virus_scan.models import Request
 
 from .base import BaseEngine
+
+# Several AV engines (e.g. ClamAV's "Heuristics.Encrypted.*") flag
+# password-protected/encrypted files they cannot look inside, rather than
+# detecting actual malware. Treat a positive result as "password_protected"
+# rather than "infected" when every detecting engine only reported this
+# kind of heuristic.
+ENCRYPTED_RESULT_RE = re.compile(
+    r"encrypt|password[-_. ]?protect|protected[-_. ]?(doc|file|archive)",
+    re.IGNORECASE,
+)
+
+
+def _is_encryption_heuristic(result_name):
+    return bool(result_name) and bool(ENCRYPTED_RESULT_RE.search(result_name))
 
 
 class VirusTotalEngine(BaseEngine):
@@ -24,6 +39,25 @@ class VirusTotalEngine(BaseEngine):
             "status": Request.STATUS.queued,
         }
 
+    def map_status(self, results):
+        """Classify an already-fetched VirusTotal `results` dict (the same
+        shape stored in Request.engine_report) without contacting the API.
+        """
+        if results.get("response_code") == -2:
+            return Request.STATUS.queued
+        if results.get("positives") == 0:
+            return Request.STATUS.not_detected
+        detected_names = [
+            scan.get("result")
+            for scan in (results.get("scans") or {}).values()
+            if scan.get("detected") and scan.get("result")
+        ]
+        if detected_names and all(
+            _is_encryption_heuristic(name) for name in detected_names
+        ):
+            return Request.STATUS.password_protected
+        return Request.STATUS.infected
+
     def receive_result(self, engine_id):
         resp = self.client.get_file_report(engine_id)
         sleep(self.delay)
@@ -38,15 +72,9 @@ class VirusTotalEngine(BaseEngine):
             )
         result = {
             "engine_id": results["resource"],
+            "status": self.map_status(results),
         }
-        if results["response_code"] == -2:
-            result["status"] = Request.STATUS.queued
-        elif results["positives"] == 0:
-            result["status"] = Request.STATUS.not_detected
-            result["engine_report"] = results
-            result["engine_link"] = results["permalink"]
-        else:
-            result["status"] = Request.STATUS.infected
+        if result["status"] != Request.STATUS.queued:
             result["engine_report"] = results
             result["engine_link"] = results["permalink"]
 

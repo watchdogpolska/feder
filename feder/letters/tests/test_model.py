@@ -9,8 +9,11 @@ from feder.institutions.factories import InstitutionFactory
 from feder.letters.utils import normalize_msg_id
 from feder.monitorings.factories import MonitoringFactory
 from feder.users.factories import UserFactory
+from feder.virus_scan.factories import AttachmentRequestFactory
+from feder.virus_scan.models import Request as ScanRequest
 
 from ..factories import (
+    AttachmentFactory,
     IncomingLetterFactory,
     LetterFactory,
     OutgoingLetterFactory,
@@ -114,3 +117,33 @@ class ModelTestCase(TestCase):
             mail.outbox[0].body,
             "Email for a new case should contain footer text from monitoring",
         )
+
+
+class AttachmentScanStatusTestCase(TestCase):
+    def test_current_scan_request_returns_latest(self):
+        attachment = AttachmentFactory()
+        AttachmentRequestFactory(
+            content_object=attachment, status=ScanRequest.STATUS.infected
+        )
+        latest = AttachmentRequestFactory(
+            content_object=attachment, status=ScanRequest.STATUS.not_detected
+        )
+        self.assertEqual(attachment.current_scan_request(), latest)
+        self.assertFalse(attachment.is_infected())
+
+    def test_is_suspicious_not_treated_as_infected(self):
+        attachment = AttachmentFactory()
+        AttachmentRequestFactory(
+            content_object=attachment, status=ScanRequest.STATUS.suspicious
+        )
+        self.assertTrue(attachment.is_suspicious())
+        self.assertFalse(attachment.is_infected())
+
+    def test_is_password_protected_not_treated_as_infected(self):
+        attachment = AttachmentFactory()
+        AttachmentRequestFactory(
+            content_object=attachment, status=ScanRequest.STATUS.password_protected
+        )
+        self.assertTrue(attachment.is_password_protected())
+        self.assertFalse(attachment.is_suspicious())
+        self.assertFalse(attachment.is_infected())

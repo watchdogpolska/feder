@@ -1,4 +1,5 @@
 @use 'sass:color';
+@use 'variables';
 
 $block-list-item-hover-bg: color.scale(#4C4C4C, $lightness: 10%) !default;
 $block-list-item-selected-bg: color.scale(#4C4C4C, $lightness: -10%) !default;
@@ -56,17 +57,17 @@ $block-list-inidicator-color: $block-list-link-color !default;
 
 .sidebar{
 	position: fixed;
-	top: $navbar-height;
+	top: variables.$navbar-height;
 	height: 100%;
 	overflow-x: hidden;
 	overflow-y: auto;
 	width: 90%;
-	z-index: #{ $zindex-navbar - 1};
+	z-index: #{ variables.$zindex-navbar - 1};
 	background: #4C4C4C;
 	// min-height: 100vh;
 	transform: translateX(-100%);
 	transition: transform 0.5s;
-	@media(min-width: $grid-float-breakpoint) {
+	@media(min-width: variables.$grid-float-breakpoint) {
 		width: auto;
 		transform: none;
 		height: 100%;

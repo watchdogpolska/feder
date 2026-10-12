@@ -516,6 +516,22 @@ class StandardAttachmentXSendFileViewTestCase(PermissionStatusMixin, TestCase):
         resp = self.client.get(self.get_url())
         self.assertEqual(resp.status_code, 403)
 
+    def test_allow_access_for_suspicious(self):
+        AttachmentRequestFactory(
+            content_object=self.object, status=ScanRequest.STATUS.suspicious
+        )
+        self.login_permitted_user()
+        resp = self.client.get(self.get_url())
+        self.assertEqual(resp.status_code, 200)
+
+    def test_allow_access_for_password_protected(self):
+        AttachmentRequestFactory(
+            content_object=self.object, status=ScanRequest.STATUS.password_protected
+        )
+        self.login_permitted_user()
+        resp = self.client.get(self.get_url())
+        self.assertEqual(resp.status_code, 200)
+
     def test_forbid_access_for_unpriviliged(self):
         self.unpriviliged_user = getattr(
             self, "user", UserFactory(username="mary", password="pass")
