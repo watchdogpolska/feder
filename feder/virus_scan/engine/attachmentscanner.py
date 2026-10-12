@@ -14,9 +14,15 @@ class AttachmentScannerEngine(BaseEngine):
         self.url = settings.ATTACHMENTSCANNER_API_URL
         self.session = requests.Session()
 
-    def map_status(self, status):
-        if status in ["found", "warning"]:
+    def map_status(self, response):
+        status = response.get("status")
+        if status == "found":
             return Request.STATUS.infected
+        # "warning" is a softer, ambiguous signal (e.g. a password-protected
+        # archive the engine could not inspect) rather than a confirmed
+        # malware match, so it should not block access the same way.
+        if status == "warning":
+            return Request.STATUS.suspicious
         if status == "ok":
             return Request.STATUS.not_detected
         if status == "pending":
@@ -34,7 +40,7 @@ class AttachmentScannerEngine(BaseEngine):
         result = resp.json()
         return {
             "engine_id": result["id"],
-            "status": self.map_status(result["status"]),
+            "status": self.map_status(result),
             "engine_report": result,
         }
 
@@ -47,6 +53,6 @@ class AttachmentScannerEngine(BaseEngine):
         result = resp.json()
         return {
             "engine_id": result["id"],
-            "status": self.map_status(result["status"]),
+            "status": self.map_status(result),
             "engine_report": result,
         }

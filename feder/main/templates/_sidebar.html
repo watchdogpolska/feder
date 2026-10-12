@@ -87,7 +87,7 @@
                 </li>
             {% endif %}
             <li class="block-list-item">
-                <a href="{% url 'account_login' %}?next={{ request.get_full_path }}">
+                <a href="{% login_url_with_next %}">
                     <i class="fa-solid fa-right-to-bracket"></i> {% trans "Log In" %}</a>
             </li>
         {% endif %}

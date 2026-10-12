@@ -565,6 +565,24 @@ msgstr "odbiorców"
 
 #: feder/letters/templates/letters/_object.html:66
 #: feder/letters/templates/letters/letter_form.html:33
+msgid ""
+"This file appears to be password-protected or encrypted, so it could not "
+"be scanned. Download only if you trust the sender."
+msgstr ""
+"Ten plik wydaje się być zabezpieczony hasłem lub zaszyfrowany, dlatego nie "
+"mógł zostać przeskanowany. Pobierz tylko jeśli ufasz nadawcy."
+
+#: feder/letters/templates/letters/_object.html:70
+#: feder/letters/templates/letters/letter_form.html:37
+msgid ""
+"The scan returned an ambiguous result that was not confirmed as "
+"malicious. Download only if you trust the sender."
+msgstr ""
+"Skanowanie zwróciło niejednoznaczny wynik, który nie został potwierdzony "
+"jako złośliwy. Pobierz tylko jeśli ufasz nadawcy."
+
+#: feder/letters/templates/letters/_object.html:75
+#: feder/letters/templates/letters/letter_form.html:42
 msgid "Download"
 msgstr "Pobierz"
 
