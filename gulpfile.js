@@ -114,7 +114,7 @@ function scss() {
     .pipe(
       sass({
         style: "expanded",
-        includePaths: config.scss.include,
+        loadPaths: config.scss.include,
       }).on("error", sass.logError)
     )
     .pipe(postcss([autoprefixer()]))
