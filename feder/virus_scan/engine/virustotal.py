@@ -1,3 +1,4 @@
+import re
 from time import sleep
 
 from django.conf import settings
@@ -6,6 +7,20 @@ from virus_total_apis import PublicApi
 from feder.virus_scan.models import Request
 
 from .base import BaseEngine
+
+# Several AV engines (e.g. ClamAV's "Heuristics.Encrypted.*") flag
+# password-protected/encrypted files they cannot look inside, rather than
+# detecting actual malware. Treat a positive result as "password_protected"
+# rather than "infected" when every detecting engine only reported this
+# kind of heuristic.
+ENCRYPTED_RESULT_RE = re.compile(
+    r"encrypt|password[-_. ]?protect|protected[-_. ]?(doc|file|archive)",
+    re.IGNORECASE,
+)
+
+
+def _is_encryption_heuristic(result_name):
+    return bool(result_name) and bool(ENCRYPTED_RESULT_RE.search(result_name))
 
 
 class VirusTotalEngine(BaseEngine):
@@ -46,7 +61,17 @@ class VirusTotalEngine(BaseEngine):
             result["engine_report"] = results
             result["engine_link"] = results["permalink"]
         else:
-            result["status"] = Request.STATUS.infected
+            detected_names = [
+                scan.get("result")
+                for scan in (results.get("scans") or {}).values()
+                if scan.get("detected") and scan.get("result")
+            ]
+            if detected_names and all(
+                _is_encryption_heuristic(name) for name in detected_names
+            ):
+                result["status"] = Request.STATUS.password_protected
+            else:
+                result["status"] = Request.STATUS.infected
             result["engine_report"] = results
             result["engine_link"] = results["permalink"]
 
