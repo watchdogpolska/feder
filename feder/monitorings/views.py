@@ -532,7 +532,7 @@ class MonitoringReportView(LoginRequiredMixin, PermissionRequiredMixin, FilterVi
         context = super().get_context_data(**kwargs)
         context["monitoring"] = self.get_object()
         context["tags"] = Tag.objects.for_monitoring(context["monitoring"])
-        get_params = {key: value for key, value in context["filter"].data.items()}
+        get_params = {**context["filter"].data}
         get_params["format"] = "csv"
         get_params["page"] = 1
         get_params["page_size"] = 10000
