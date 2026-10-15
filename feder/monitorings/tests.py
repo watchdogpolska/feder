@@ -66,16 +66,13 @@ class MonitoringFormTestCase(TestCase):
         self.assertFalse(form.is_valid())
         self.assertIn("template", form.errors)
 
-    def test_form_save_internal_notes(self):
+    def test_form_does_not_expose_internal_notes(self):
         data = {
             **EXAMPLE_DATA.copy(),
             "domain": DomainFactory().pk,
-            "internal_notes": "Started because of X, inspired by Y.",
         }
         form = MonitoringForm(data, user=self.user)
-        self.assertTrue(form.is_valid(), msg=form.errors)
-        obj = form.save()
-        self.assertEqual(obj.internal_notes, "Started because of X, inspired by Y.")
+        self.assertNotIn("internal_notes", form.fields)
 
 
 class MonitoringFilterTestCase(TestCase):
@@ -410,26 +407,47 @@ class MonitoringUpdateViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
         response = self.client.get(self.get_url())
         self.assertTemplateUsed(response, "monitorings/monitoring_form.html")
 
-    def test_internal_notes_field_present_for_permitted_user(self):
+    def test_internal_notes_field_not_present(self):
         assign_perm("monitorings.change_monitoring", self.user, self.monitoring)
         self.login_permitted_user()
         response = self.client.get(self.get_url())
-        self.assertIn("internal_notes", response.context["form"].fields)
+        self.assertNotIn("internal_notes", response.context["form"].fields)
+
+
+class MonitoringInternalNotesViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
+    permission = ["monitorings.change_monitoring"]
+
+    def get_url(self):
+        return reverse(
+            "monitorings:internal-notes", kwargs={"slug": self.monitoring.slug}
+        )
+
+    def test_template_used(self):
+        assign_perm("monitorings.change_monitoring", self.user, self.monitoring)
+        self.login_permitted_user()
+        response = self.client.get(self.get_url())
+        self.assertTemplateUsed(response, "monitorings/monitoring_internal_notes.html")
+
+    def test_tab_hidden_without_permission(self):
+        response = self.client.get(self.monitoring.get_absolute_url())
+        self.assertNotContains(response, self.get_url())
+
+    def test_tab_shown_with_permission(self):
+        assign_perm("monitorings.change_monitoring", self.user, self.monitoring)
+        self.login_permitted_user()
+        response = self.client.get(self.monitoring.get_absolute_url())
+        self.assertContains(response, self.get_url())
 
     def test_internal_notes_can_be_updated(self):
         assign_perm("monitorings.change_monitoring", self.user, self.monitoring)
         self.login_permitted_user()
-        data = {
-            **EXAMPLE_DATA.copy(),
-            "domain": self.monitoring.domain_id,
-            "hide_new_cases": False,
-            "is_public": True,
-            "internal_notes": "Updated internal note",
-        }
-        response = self.client.post(self.get_url(), data=data)
-        self.assertEqual(response.status_code, 302, msg=response.context)
+        response = self.client.post(
+            self.get_url(), data={"internal_notes": "Updated internal note"}
+        )
+        self.assertEqual(response.status_code, 200, msg=response.context)
         self.monitoring.refresh_from_db()
         self.assertEqual(self.monitoring.internal_notes, "Updated internal note")
+        self.assertContains(response, "Updated internal note")
 
 
 class MonitoringApiTestCase(ObjectMixin, TestCase):

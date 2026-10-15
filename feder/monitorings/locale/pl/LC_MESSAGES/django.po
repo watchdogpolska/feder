@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-monitorings 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-28 11:46+0200\n"
+"POT-Creation-Date: 2026-10-15 13:46+0200\n"
 "PO-Revision-Date: 2025-11-14 18:19+0100\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -54,65 +54,61 @@ msgstr ""
 "monitoringu do części instytucji wysłano już wnioski a mimo to koniecznie "
 "musisz zmienić szablon wniosku, to rozważ założenie nowego monitoringu."
 
-#: forms.py:100 models.py:202 models.py:203
+#: forms.py:99 models.py:202 models.py:203
 msgid "Monitoring"
 msgstr "Monitoring"
 
-#: forms.py:104 models.py:133 templates/monitorings/_tabs.html:25
+#: forms.py:103 models.py:133 templates/monitorings/_tabs.html:25
 #: templates/monitorings/monitoring_template.html:12
 #: templates/monitorings/monitoring_template.html:19
 msgid "Template"
 msgstr "Szablon"
 
-#: forms.py:111
-msgid "Internal notes (not shown publicly)"
-msgstr "Notatki wewnętrzne (niepokazywane publicznie)"
-
-#: forms.py:149
+#: forms.py:139
 msgid "Monitoring info"
 msgstr "Informacje o monitoringu"
 
-#: forms.py:156
+#: forms.py:146
 msgid "Monitoring results"
 msgstr "Wyniki monitoringu"
 
-#: forms.py:176 models.py:125 templates/monitorings/_monitoring_small.html:8
+#: forms.py:166 models.py:125 templates/monitorings/_monitoring_small.html:8
 #: views.py:191
 msgid "User"
 msgstr "Użytkownik"
 
-#: forms.py:205 templates/monitorings/_letter.html:30
+#: forms.py:195 templates/monitorings/_letter.html:30
 msgid "Recipient's tags"
 msgstr "Tagi odbiorców"
 
-#: forms.py:230
+#: forms.py:220
 msgid ""
 "Use: {{EMAIL}} to insert reply address, {{ADRESAT}} to insert addressee name."
 msgstr ""
 "Użyj: {{EMAIL}} aby umieścić adres odpowiedzi, {{ADRESAT}} aby umieścić "
 "nazwę adressata."
 
-#: forms.py:240
+#: forms.py:230
 msgid "Message"
 msgstr "Wiadomość"
 
-#: forms.py:244
+#: forms.py:234
 msgid "Message continued"
 msgstr "Wiadomość cd."
 
-#: forms.py:272
+#: forms.py:262
 msgid "Save draft"
 msgstr "Zapisz szkic"
 
-#: forms.py:276
+#: forms.py:266
 msgid "Send message"
 msgstr "Wyślij wiadomość"
 
-#: forms.py:322
+#: forms.py:312
 msgid "You do not have permission to send messages."
 msgstr "Nie posiadasz uprawnień do wysyłki wiadomości."
 
-#: forms.py:325
+#: forms.py:315
 msgid "You do not have permission to save draft."
 msgstr "Nie posiadasz uprawnień aby zapisać szkic."
 
@@ -202,7 +198,9 @@ msgstr "Wyniki"
 msgid "Resulrs of monitoring and received responses"
 msgstr "Wyniki monitoringu i otrzymanych odpowiedzi"
 
-#: models.py:179
+#: models.py:179 templates/monitorings/_tabs.html:36
+#: templates/monitorings/monitoring_internal_notes.html:31
+#: templates/monitorings/monitoring_internal_notes.html:35
 msgid "Internal notes"
 msgstr "Notatki wewnętrzne"
 
@@ -373,15 +371,16 @@ msgstr ""
 msgid "PROMPT INSTRUCTION EXTENSION"
 msgstr "ROZSZERZENIE INSTRUKCJI"
 
-#: serializers.py:40 templates/monitorings/monitoring_report.html:86
+#: serializers.py:40 templates/monitorings/monitoring_report.html:85
 msgid "Add"
 msgstr "Dodaj"
 
-#: serializers.py:40 templates/monitorings/monitoring_report.html:89
+#: serializers.py:40 templates/monitorings/monitoring_report.html:88
 msgid "Remove"
 msgstr "Usuń"
 
 #: templates/monitorings/_btn.html:9
+#: templates/monitorings/monitoring_internal_notes.html:39
 msgid "Edit"
 msgstr "Edycja"
 
@@ -450,11 +449,11 @@ msgid "Case count"
 msgstr "Liczba spraw"
 
 #: templates/monitorings/_report_content.html:3
-#: templates/monitorings/monitoring_report.html:31
+#: templates/monitorings/monitoring_report.html:32
 msgid "Report"
 msgstr "Raport"
 
-#: templates/monitorings/_report_content.html:10
+#: templates/monitorings/_report_content.html:13
 msgid "select or unselect all"
 msgstr "zaznacz lub odznacz wszystkie"
 
@@ -486,29 +485,35 @@ msgstr "data wysłania ostatniego wniosku"
 msgid "last request status"
 msgstr "status ostatniego wniosku"
 
-#: templates/monitorings/_report_content.html:33
+#: templates/monitorings/_report_content.html:34
 msgid "request confirmed"
 msgstr "potwierdzenie dostarczenia wniosku"
 
-#: templates/monitorings/_report_content.html:36
+#: templates/monitorings/_report_content.html:37
 msgid "response received"
 msgstr "otrzymano odpowiedź"
 
-#: templates/monitorings/_report_content.html:48
+#: templates/monitorings/_report_content.html:40 tests.py:226
+#, fuzzy
+#| msgid "last request sending date"
+msgid "last received letter date"
+msgstr "data wysłania ostatniego wniosku"
+
+#: templates/monitorings/_report_content.html:51
 msgid "case"
 msgstr "sprawa"
 
-#: templates/monitorings/_report_content.html:84
-#: templates/monitorings/_report_content.html:93
+#: templates/monitorings/_report_content.html:87
+#: templates/monitorings/_report_content.html:96
 msgid "yes"
 msgstr "tak"
 
-#: templates/monitorings/_report_content.html:87
-#: templates/monitorings/_report_content.html:96
+#: templates/monitorings/_report_content.html:90
+#: templates/monitorings/_report_content.html:99
 msgid "no"
 msgstr "nie"
 
-#: templates/monitorings/_report_content.html:102
+#: templates/monitorings/_report_content.html:106
 #: templates/monitorings/monitoring_draft_list.html:17
 #: templates/monitorings/monitoring_letter_list.html:17
 msgid "No rows."
@@ -529,7 +534,7 @@ msgstr "Listy"
 msgid "Drafts"
 msgstr "Projekty"
 
-#: templates/monitorings/_tabs.html:36
+#: templates/monitorings/_tabs.html:43
 #: templates/monitorings/monitoring_answers_categories.html:60
 msgid "Answers categories"
 msgstr "Kategorie odpowiedzi"
@@ -539,12 +544,16 @@ msgstr "Kategorie odpowiedzi"
 msgid "Monitorings"
 msgstr "Monitoringi"
 
-#: templates/monitorings/institution_assign.html:22
-#: templates/monitorings/institution_assign.html:29
+#: templates/monitorings/institution_assign.html:23
+#: templates/monitorings/institution_assign.html:30
 msgid "Assign institutions"
 msgstr "Przypisz instytucje"
 
-#: templates/monitorings/institution_assign.html:37
+#: templates/monitorings/institution_assign.html:39
+msgid "Filtr"
+msgstr "Filtruj"
+
+#: templates/monitorings/institution_assign.html:50
 #, python-format
 msgid ""
 "Assign selected institutions to \"%(monitoring)s\" and\n"
@@ -553,21 +562,17 @@ msgstr ""
 "Przypisz wybrane instytucje do \"%(monitoring)s\" i\n"
 "                            wyślij wniosek"
 
-#: templates/monitorings/institution_assign.html:43
+#: templates/monitorings/institution_assign.html:56
 msgid "Apply a filter to assign and send letters to institutions."
 msgstr "Zastosuj filtr, aby przypisać i wysłać listy do instytucji."
 
-#: templates/monitorings/institution_assign.html:50
+#: templates/monitorings/institution_assign.html:63
 msgid "Name, selected"
 msgstr "Nazwa, wybrane"
 
-#: templates/monitorings/institution_assign.html:51
+#: templates/monitorings/institution_assign.html:64
 msgid "Region"
 msgstr "Region"
-
-#: templates/monitorings/institution_assign.html:86
-msgid "Filtr"
-msgstr "Filtruj"
 
 #: templates/monitorings/mass_message.html:27
 msgid "Send mass message for "
@@ -616,7 +621,7 @@ msgid "Answes categories with prompt support instruction:"
 msgstr "Kategorie odpowiedzi z dodatkową instrukcją dla LLM:"
 
 #: templates/monitorings/monitoring_answers_categories.html:89
-#: templates/monitorings/monitoring_template.html:70
+#: templates/monitorings/monitoring_template.html:68
 msgid "Updated: "
 msgstr "Aktualizowano: "
 
@@ -628,61 +633,61 @@ msgstr "Pokaż prompt"
 msgid "Type your answer categories"
 msgstr "Wpisz kategorie odpowiedzi"
 
-#: templates/monitorings/monitoring_answers_categories.html:110
+#: templates/monitorings/monitoring_answers_categories.html:109
 msgid "Update answer categories"
 msgstr "Zaktualizuj kategorie odpowiedzi"
 
-#: templates/monitorings/monitoring_answers_categories.html:124
+#: templates/monitorings/monitoring_answers_categories.html:121
 msgid "Generate answers categorization tasks for cases"
 msgstr "Wygeneruj zadania kategoryzacji odpowiedzi w sprawach"
 
-#: templates/monitorings/monitoring_answers_categories.html:137
+#: templates/monitorings/monitoring_answers_categories.html:133
 msgid "Prompt example:"
 msgstr "Przykład promptu LLM:"
 
-#: templates/monitorings/monitoring_answers_categories.html:146
+#: templates/monitorings/monitoring_answers_categories.html:142
 msgid "Close"
 msgstr "Zamknij"
 
-#: templates/monitorings/monitoring_answers_categories.html:226
+#: templates/monitorings/monitoring_answers_categories.html:222
 msgid "Invalid answer categories - please follow instruction."
 msgstr ""
 "Nieprawidłowe kategorie odpowiedzi - zmień aby były  zgodne z instrukcją."
 
-#: templates/monitorings/monitoring_cases_table.html:66
-#: templates/monitorings/monitoring_report.html:46
+#: templates/monitorings/monitoring_cases_table.html:71
+#: templates/monitorings/monitoring_report.html:47
 msgid "Filters"
 msgstr "Filtry"
 
-#: templates/monitorings/monitoring_cases_table.html:68
+#: templates/monitorings/monitoring_cases_table.html:73
 msgid "Confirmation received? (col. Conf?)"
 msgstr "Otrzymano potwierdzenie? (kol. Potw.?)"
 
-#: templates/monitorings/monitoring_cases_table.html:70
-#: templates/monitorings/monitoring_cases_table.html:82
-#: templates/monitorings/monitoring_cases_table.html:94 views.py:274
+#: templates/monitorings/monitoring_cases_table.html:75
+#: templates/monitorings/monitoring_cases_table.html:87
+#: templates/monitorings/monitoring_cases_table.html:99 views.py:274
 msgid "Yes"
 msgstr "Tak"
 
-#: templates/monitorings/monitoring_cases_table.html:74
-#: templates/monitorings/monitoring_cases_table.html:86
-#: templates/monitorings/monitoring_cases_table.html:98 views.py:274
+#: templates/monitorings/monitoring_cases_table.html:79
+#: templates/monitorings/monitoring_cases_table.html:91
+#: templates/monitorings/monitoring_cases_table.html:103 views.py:274
 msgid "No"
 msgstr "Nie"
 
-#: templates/monitorings/monitoring_cases_table.html:80
+#: templates/monitorings/monitoring_cases_table.html:85
 msgid "Response received? (col. Resp.?)"
 msgstr "Otrzymano odpowiedź? (kol. Odp.?)"
 
-#: templates/monitorings/monitoring_cases_table.html:92
+#: templates/monitorings/monitoring_cases_table.html:97
 msgid "Quarantined? (col. Quar.?)"
 msgstr "Kwarantanna? (kol. Kwar.?)"
 
-#: templates/monitorings/monitoring_cases_table.html:106
+#: templates/monitorings/monitoring_cases_table.html:111
 msgid "Filter area and tags"
 msgstr "Filtruj obszar i tagi"
 
-#: templates/monitorings/monitoring_confirm_delete.html:9
+#: templates/monitorings/monitoring_confirm_delete.html:8
 msgid "Confirm delete"
 msgstr "Potwierdz usuwanie"
 
@@ -714,7 +719,7 @@ msgstr ""
 
 #: templates/monitorings/monitoring_filter.html:7
 #: templates/monitorings/monitoring_form.html:11
-#: templates/monitorings/monitoring_single.html:46
+#: templates/monitorings/monitoring_single.html:47
 msgid "Add monitoring"
 msgstr "Dodaj monitoring"
 
@@ -722,27 +727,43 @@ msgstr "Dodaj monitoring"
 msgid "Update monitoring"
 msgstr "Zaktualizuj monitoring"
 
+#: templates/monitorings/monitoring_internal_notes.html:47
+msgid "No internal notes yet."
+msgstr "Brak notatek wewnętrznych."
+
+#: templates/monitorings/monitoring_internal_notes.html:60
+msgid "Edit internal notes"
+msgstr "Edytuj notatki wewnętrzne"
+
+#: templates/monitorings/monitoring_internal_notes.html:68
+msgid "Save"
+msgstr "Zapisz"
+
+#: templates/monitorings/monitoring_internal_notes.html:70
+msgid "Cancel"
+msgstr "Anuluj"
+
 #: templates/monitorings/monitoring_permissions.html:7
 msgid "Add user"
 msgstr "Dodaj użytkownika"
 
-#: templates/monitorings/monitoring_report.html:52
+#: templates/monitorings/monitoring_report.html:53
 msgid "Filter"
 msgstr "Filtruj"
 
-#: templates/monitorings/monitoring_report.html:55
+#: templates/monitorings/monitoring_report.html:56
 msgid "Download .csv"
 msgstr "Pobierz .csv"
 
-#: templates/monitorings/monitoring_report.html:58
+#: templates/monitorings/monitoring_report.html:59
 msgid "Download .xlsx"
 msgstr "Pobierz .xlsx"
 
-#: templates/monitorings/monitoring_report.html:65
+#: templates/monitorings/monitoring_report.html:66
 msgid "Tag assignment"
 msgstr "Zarządzanie tagami"
 
-#: templates/monitorings/monitoring_report.html:67
+#: templates/monitorings/monitoring_report.html:68
 msgid ""
 "Select tags to add or remove, select cases from the list below and then "
 "confirm by clicking selected action button."
@@ -767,28 +788,28 @@ msgstr "Pobierz raport odpowiedzi .xlsx"
 msgid "Created: "
 msgstr "Utworzony: "
 
-#: templates/monitorings/monitoring_template.html:53
+#: templates/monitorings/monitoring_template.html:52
 msgid "Update monitoring normalized response template"
 msgstr "Aktualizuj szablon znormalizowanej odpowiedzi monitoringu"
 
-#: templates/monitorings/monitoring_template.html:67
+#: templates/monitorings/monitoring_template.html:65
 msgid "Letter normalization prompt extension:"
 msgstr "Dodatkowa instrukcja w prompcie normalizacji odpowiedzi listów:"
 
-#: templates/monitorings/monitoring_template.html:81
+#: templates/monitorings/monitoring_template.html:79
 msgid "Type your letter normalization prompt extension"
 msgstr "Wpisz dodatkową instrukcję dla promptu normalizacji odpowiedzi listów"
 
-#: templates/monitorings/monitoring_template.html:86
+#: templates/monitorings/monitoring_template.html:83
 msgid "Update letter normalization prompt extension"
 msgstr ""
 "Aktualizuj dodatkową instrukcję w prompcie normalizacji odpowiedzi listów"
 
-#: templates/monitorings/monitoring_template.html:94
+#: templates/monitorings/monitoring_template.html:90
 msgid "Letter normalization prompt"
 msgstr "Prompt normalizacji odpowiedzi listów"
 
-#: templates/monitorings/monitoring_template.html:107
+#: templates/monitorings/monitoring_template.html:102
 msgid "Generate monitoring responses normalization tasks for cases"
 msgstr "Wygeneruj zadania normalizacji odpowiedzi na monitoring w sprawach"
 
@@ -863,31 +884,31 @@ msgstr "^(?P<slug>[\\w-]+)/projekty$"
 msgid "^(?P<slug>[\\w-]+)/drafts/page-(?P<page>[\\d]+)$"
 msgstr "^(?P<slug>[\\w-]+)/projekty/strona-(?P<page>[\\d]+)$"
 
-#: urls.py:101
+#: urls.py:106
 msgid "^(?P<slug>[\\w-]+)/~update$"
 msgstr "^(?P<slug>[\\w-]+)/~edytuj$"
 
-#: urls.py:111
+#: urls.py:116
 msgid "^(?P<slug>[\\w-]+)/~delete$"
 msgstr "^(?P<slug>[\\w-]+)/~usun$"
 
-#: urls.py:116
+#: urls.py:121
 msgid "^(?P<slug>[\\w-]+)/~permission/~add$"
 msgstr "^(?P<slug>[\\w-]+)/~uprawnienia/~dodaj$"
 
-#: urls.py:121
+#: urls.py:126
 msgid "^(?P<slug>[\\w-]+)/~permission-(?P<user_pk>[\\d]+)$"
 msgstr "^(?P<slug>[\\w-]+)/~uprawnienia-(?P<user_pk>[\\d]+)$"
 
-#: urls.py:126
+#: urls.py:131
 msgid "^(?P<slug>[\\w-]+)/~permission$"
 msgstr "^(?P<slug>[\\w-]+)/~uprawnienia$"
 
-#: urls.py:131
+#: urls.py:136
 msgid "^(?P<slug>[\\w-]+)/~assign$"
 msgstr "^(?P<slug>[\\w-]+)/~przypisz$"
 
-#: urls.py:136
+#: urls.py:141
 msgid "^(?P<slug>[\\w-]+)/~mass-message$"
 msgstr "^(?P<slug>[\\w-]+)/~wiadomosc-masowa$"
 
@@ -966,11 +987,11 @@ msgstr "Odp.?"
 msgid "Quar."
 msgstr "Kwar.?"
 
-#: views.py:644
+#: views.py:649
 msgid "Normalized response template is already up to date."
 msgstr "Znormalizowany szablon odpowiedzi jest aktualny."
 
-#: views.py:651
+#: views.py:656
 msgid ""
 "Normalized response template update task generated. Lerrter responses "
 "categorization and normalization tasks will follow. It may take a while to "
@@ -981,7 +1002,7 @@ msgstr ""
 "normalizacji szablonu. Uzyskanie pełnej aktualizacji może chwilę potrwać - "
 "sprawdź kolejkę zadań w panelu administracyjnym."
 
-#: views.py:662
+#: views.py:667
 msgid ""
 "Letter responses categorization and normalization tasks generated. It may "
 "take a while to get full update - check task queue in admin panel."
@@ -990,42 +1011,46 @@ msgstr ""
 "Uzyskanie pełnej aktualizacji może chwilę potrwać - sprawdź kolejkę zadań w "
 "panelu administracyjnym."
 
-#: views.py:837
+#: views.py:726
+msgid "Internal notes updated."
+msgstr "Notatki wewnętrzne zostały zaktualizowane."
+
+#: views.py:870
 #, python-brace-format
 msgid "{0} created!"
 msgstr "{0} utworzony!"
 
-#: views.py:932
+#: views.py:965
 #, python-brace-format
 msgid "Permissions to {monitoring} updated!"
 msgstr "Uprawnienia dla {monitoring} zaktualizowane!"
 
-#: views.py:988
+#: views.py:1021
 #, python-brace-format
 msgid "Permissions to {monitoring} of {user} updated!"
 msgstr "Uprawnienia do {monitoring} dla {user} zaktualizowane!"
 
-#: views.py:1041
+#: views.py:1074
 msgid "Assign all filtered institutions: "
 msgstr "Przypisz wszystkie odfiltrowane instytucje: "
 
-#: views.py:1044
+#: views.py:1077
 msgid "For bulk assignment, filter less than "
 msgstr "W celu przypisania zbiorczo odfiltruj mniej niż "
 
-#: views.py:1045
+#: views.py:1078
 msgid " (filtered: "
 msgstr " (odfiltrowane: "
 
-#: views.py:1046
+#: views.py:1079
 msgid ") or select individual institutions from the list below."
 msgstr ") lub wybierz poszczególne instytucje z poniższej listy."
 
-#: views.py:1056
+#: views.py:1089
 msgid "You can not send letters without using filtering."
 msgstr "Nie możesz wysyłać listów bez używania filtrowania."
 
-#: views.py:1072
+#: views.py:1105
 #, python-format
 msgid ""
 "You can not send %(count)d letters at once. The maximum is %(limit)d. Use "
@@ -1034,33 +1059,36 @@ msgstr ""
 "Nie możesz wysłać %(count)d listów na raz. Maksimum to %(limit)d. Użyj "
 "filtrowania."
 
-#: views.py:1093
+#: views.py:1126
 #, python-format
 msgid "%(count)d institutions was assigned to %(monitoring)s. "
 msgstr "%(count)d instytucji zostało przypisanych do %(monitoring)s."
 
-#: views.py:1098
+#: views.py:1131
 msgid " Emails are scheduled to be sent."
 msgstr "Wysyłka wniosków została zaplanowana"
 
-#: views.py:1148
+#: views.py:1181
 #, python-brace-format
 msgid ""
 "Message \"{letter}\" has been scheduled for sending to {count} recipients!"
 msgstr "Wiadomość \"{letter}\" zaplanowana do wysyłki do {count} odbiorców!"
 
-#: views.py:1156
+#: views.py:1189
 #, python-brace-format
 msgid "Message {message} saved to review!"
 msgstr "Wiadomość {message} zapisana do przejrzenia!"
 
-#: views.py:1208
+#: views.py:1241
 msgid "Latest monitorings"
 msgstr "Ostatnie monitoringi"
 
-#: views.py:1210
+#: views.py:1243
 msgid "Updates on new monitorings on site"
 msgstr "Aktualizacje o nowych monitoringach na stronie"
+
+#~ msgid "Internal notes (not shown publicly)"
+#~ msgstr "Notatki wewnętrzne (niepokazywane publicznie)"
 
 #, fuzzy
 #~| msgid "Update answer categories"
