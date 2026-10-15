@@ -83,6 +83,11 @@ urlpatterns = [
         name="results",
     ),
     re_path(
+        r"^(?P<slug>[\w-]+)/internal-notes",
+        views.MonitoringInternalNotesView.as_view(),
+        name="internal-notes",
+    ),
+    re_path(
         r"^(?P<slug>[\w-]+)/answers-categories",
         views.MonitoringAnswersCategoriesView.as_view(),
         name="answers-categories",
