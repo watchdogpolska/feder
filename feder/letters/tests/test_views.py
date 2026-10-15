@@ -254,13 +254,17 @@ class LetterReplyViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
                 "attachment_set-0-attachment": simple_file,
             },
             format="multipart",
+            follow=True,
         )
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 200)
         self.assertEqual(len(mail.outbox), 1)
         new_letter = Letter.objects.filter(title="Lorem").get()
         new_attachment = new_letter.attachment_set.get()
         self.assertEqual(mail.outbox[0].attachments[0][0], new_attachment.filename)
         self.assertEqual(Record.objects.count(), 3)
+        messages = [str(m) for m in response.context["messages"]]
+        self.assertTrue(any("zapisana i wysłana" in m for m in messages))
+        self.assertFalse(any("zapisana do przejrzenia" in m for m in messages))
 
     def test_no_send_drafts(self):
         self.login_permitted_user()
@@ -273,9 +277,13 @@ class LetterReplyViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
                 "attachment_set-INITIAL_FORMS": 0,
                 "attachment_set-MAX_NUM_FORMS": 1,
             },
+            follow=True,
         )
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 200)
         self.assertEqual(len(mail.outbox), 0)
+        messages = [str(m) for m in response.context["messages"]]
+        self.assertTrue(any("zapisana do przejrzenia" in m for m in messages))
+        self.assertFalse(any("zapisana i wysłana" in m for m in messages))
 
 
 class LetterSendViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
@@ -507,6 +515,22 @@ class StandardAttachmentXSendFileViewTestCase(PermissionStatusMixin, TestCase):
         self.login_permitted_user()
         resp = self.client.get(self.get_url())
         self.assertEqual(resp.status_code, 403)
+
+    def test_allow_access_for_suspicious(self):
+        AttachmentRequestFactory(
+            content_object=self.object, status=ScanRequest.STATUS.suspicious
+        )
+        self.login_permitted_user()
+        resp = self.client.get(self.get_url())
+        self.assertEqual(resp.status_code, 200)
+
+    def test_allow_access_for_password_protected(self):
+        AttachmentRequestFactory(
+            content_object=self.object, status=ScanRequest.STATUS.password_protected
+        )
+        self.login_permitted_user()
+        resp = self.client.get(self.get_url())
+        self.assertEqual(resp.status_code, 200)
 
     def test_forbid_access_for_unpriviliged(self):
         self.unpriviliged_user = getattr(

@@ -1,6 +1,8 @@
+from allauth.socialaccount.models import SocialApp
 from django.contrib.auth.models import Permission
+from django.contrib.sites.models import Site
 from django.core.exceptions import ImproperlyConfigured
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.urls import reverse
 from guardian.shortcuts import assign_perm
 
@@ -145,3 +147,108 @@ class SitemapTestCase(TestCase):
     def test_main(self):
         url = reverse("sitemaps", kwargs={"section": "main"})
         self.assertEqual(self.client.get(url).status_code, 200)
+
+
+class SignupTestCase(TestCase):
+    def setUp(self):
+        app = SocialApp.objects.create(
+            provider="google", name="Google", client_id="id", secret="secret"
+        )
+        app.sites.add(Site.objects.get_current())
+
+    @override_settings(ACCOUNT_ALLOW_SIGNUP=False)
+    def test_signup_closed(self):
+        response = self.client.get(reverse("account_signup"))
+        self.assertTemplateUsed(response, "account/signup_closed.html")
+        self.assertContains(response, reverse("account_login"))
+        self.assertNotContains(response, "currently closed")
+
+    @override_settings(ACCOUNT_ALLOW_SIGNUP=False)
+    def test_signup_closed_is_noindex(self):
+        response = self.client.get(reverse("account_signup"))
+        self.assertContains(
+            response, '<meta name="robots" content="noindex, nofollow">'
+        )
+
+    @override_settings(ACCOUNT_ALLOW_SIGNUP=False)
+    def test_login_hides_signup_links_when_closed(self):
+        response = self.client.get(reverse("account_login"))
+        self.assertFalse(response.context["signup_open"])
+        self.assertNotContains(response, reverse("account_signup"))
+
+    @override_settings(ACCOUNT_ALLOW_SIGNUP=True)
+    def test_signup_open(self):
+        response = self.client.get(reverse("account_signup"))
+        self.assertTemplateUsed(response, "account/signup.html")
+
+    @override_settings(ACCOUNT_ALLOW_SIGNUP=True)
+    def test_login_shows_signup_links_when_open(self):
+        response = self.client.get(reverse("account_login"))
+        self.assertTrue(response.context["signup_open"])
+        self.assertContains(response, reverse("account_signup"))
+
+
+class NestedNextRedirectChainTestCase(TestCase):
+    """Regression tests for the self-referential `?next=` chain that used
+    to compound on every crawl of the login/signup pages (nesting observed
+    up to 9 levels deep in production traffic)."""
+
+    def assertNoNestedNext(self, response):
+        content = response.content.decode()
+        self.assertNotIn("next=/accounts/login", content)
+        self.assertNotIn("next=/accounts/signup", content)
+        self.assertNotIn("next=%2Faccounts%2Flogin", content)
+        self.assertNotIn("next=%2Faccounts%2Fsignup", content)
+
+    def test_login_collapses_nested_next_with_301(self):
+        nested = "/accounts/login/?next=/listy/123"
+        response = self.client.get(reverse("account_login"), {"next": nested})
+        self.assertEqual(response.status_code, 301)
+        self.assertEqual(
+            response.headers["Location"],
+            f"{reverse('account_login')}?next=%2Flisty%2F123",
+        )
+
+    @override_settings(ACCOUNT_ALLOW_SIGNUP=True)
+    def test_signup_collapses_nested_next_with_301(self):
+        nested = "/accounts/signup/?next=/listy/123"
+        response = self.client.get(reverse("account_signup"), {"next": nested})
+        self.assertEqual(response.status_code, 301)
+        self.assertEqual(
+            response.headers["Location"],
+            f"{reverse('account_signup')}?next=%2Flisty%2F123",
+        )
+
+    def test_login_collapses_deeply_nested_next(self):
+        nested = "/accounts/login/?next=/accounts/login/?next=/listy/123"
+        response = self.client.get(reverse("account_login"), {"next": nested})
+        self.assertEqual(response.status_code, 301)
+        self.assertEqual(
+            response.headers["Location"],
+            f"{reverse('account_login')}?next=%2Flisty%2F123",
+        )
+
+    def test_login_with_flat_next_renders_without_redirect(self):
+        response = self.client.get(reverse("account_login"), {"next": "/listy/123"})
+        self.assertEqual(response.status_code, 200)
+        self.assertNoNestedNext(response)
+
+    def test_login_sidebar_link_does_not_nest_next(self):
+        response = self.client.get(reverse("account_login"), {"next": "/listy/123"})
+        self.assertContains(response, f"{reverse('account_login')}?next=%2Flisty%2F123")
+        self.assertNoNestedNext(response)
+
+    def test_login_sidebar_link_has_no_next_without_one(self):
+        response = self.client.get(reverse("account_login"))
+        self.assertNotContains(response, f"{reverse('account_login')}?next=")
+
+    def test_home_sidebar_login_link_points_to_current_page(self):
+        response = self.client.get(reverse("home"))
+        self.assertContains(response, f"{reverse('account_login')}?next=%2F")
+
+    def test_robots_txt_disallows_login_and_signup(self):
+        response = self.client.get("/robots.txt")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.headers["Content-Type"], "text/plain")
+        self.assertContains(response, "Disallow: /accounts/login")
+        self.assertContains(response, "Disallow: /accounts/signup")

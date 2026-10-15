@@ -26,7 +26,7 @@ class IncomingParcelPostForm(ParcelPostForm):
     class Meta:
         model = IncomingParcelPost
         fields = ["title", "content", "sender", "receive_date"]
-        widgets = {"sender": autocomplete.ModelSelect2(url="institutions:autocomplete")}
+        widgets = {"sender": autocomplete.ModelAlight(url="institutions:autocomplete")}
 
 
 class OutgoingParcelPostForm(ParcelPostForm):
@@ -38,5 +38,5 @@ class OutgoingParcelPostForm(ParcelPostForm):
         model = OutgoingParcelPost
         fields = ["title", "content", "recipient", "post_date"]
         widgets = {
-            "recipient": autocomplete.ModelSelect2(url="institutions:autocomplete")
+            "recipient": autocomplete.ModelAlight(url="institutions:autocomplete")
         }

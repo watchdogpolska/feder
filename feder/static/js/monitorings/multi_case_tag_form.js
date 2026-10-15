@@ -1,4 +1,4 @@
-$(function () {
+document.addEventListener('DOMContentLoaded', function () {
     var OPERATION_ADD = 1,
         OPERATION_REMOVE = 2;
 
@@ -9,50 +9,55 @@ $(function () {
            operation: operation
         };
 
-        $('#multi-case-tag-assign-btn').prop('disabled', 'disabled');
-        $('#multi-case-tag-remove-btn').prop('disabled', 'disabled');
+        document.getElementById('multi-case-tag-assign-btn').disabled = true;
+        document.getElementById('multi-case-tag-remove-btn').disabled = true;
 
-        $('input[name^=select-case-]:checked').each(function (index) {
-            payload.cases.push(parseInt($(this).val()));
+        document.querySelectorAll('input[name^="select-case-"]:checked').forEach(function (input) {
+            payload.cases.push(parseInt(input.value, 10));
         });
-        $('input[name^=multi-case-tag-]:checked').each(function (index) {
-            payload.tags.push(parseInt($(this).val()));
+        document.querySelectorAll('input[name^="multi-case-tag-"]:checked').forEach(function (input) {
+            payload.tags.push(parseInt(input.value, 10));
         });
 
-        $.ajax({
-            url: monitoringCaseTagsUpdateUrl,
-            type: 'post',
-            data: JSON.stringify(payload),
+        fetch(monitoringCaseTagsUpdateUrl, {
+            method: 'POST',
             headers: {
                 'X-CSRFToken': csrfToken,
                 'Content-Type': 'application/json'
             },
-            success: function (data, status, xhr) {
-                if (xhr.status == 202) {
+            body: JSON.stringify(payload)
+        }).then(function (response) {
+            if (!response.ok) {
+                return;
+            }
+            return response.json().catch(function () {
+                return null;
+            }).then(function (data) {
+                if (response.status == 202) {
                     window.location.reload(true);
                 } else {
-                    alert('Something went wrong. Status code: ' + xhr.status + '.')
-                    console.log(data, status, xhr);
+                    alert('Something went wrong. Status code: ' + response.status + '.');
+                    console.log(data, response.status, response);
                 }
-            }
-        });
+            });
+        }).catch(function () {});
     }
 
-    $('#multi-case-tag-assign-btn').on('click', function (event) {
+    document.getElementById('multi-case-tag-assign-btn').addEventListener('click', function (event) {
         event.preventDefault();
         submitMultiTagForm(OPERATION_ADD);
     });
 
-    $('#multi-case-tag-remove-btn').on('click', function (event) {
+    document.getElementById('multi-case-tag-remove-btn').addEventListener('click', function (event) {
         event.preventDefault();
         submitMultiTagForm(OPERATION_REMOVE);
     });
 
-    $('#multi-case-tag-select-all').change(function () {
-        var checked = ($(this).is(':checked'));
+    document.getElementById('multi-case-tag-select-all').addEventListener('change', function () {
+        var checked = this.checked;
 
-        $('input[name^=select-case-]').each(function () {
-            $(this).prop('checked', checked);
+        document.querySelectorAll('input[name^="select-case-"]').forEach(function (input) {
+            input.checked = checked;
         });
     });
 });

@@ -13,6 +13,22 @@ from .base import BaseEngine
 
 logger = logging.getLogger(__name__)
 
+# scan_all_result_i is an opaque internal aggregate code, not a count of
+# engines that detected malware - it can be a large nonzero number (e.g. from
+# MetaDefender Cloud's separate AI-generated-content/fraud add-on features)
+# even when zero AV engines found anything and MetaDefender's own policy
+# engine allowed the file through. total_detected_avs and process_info.result
+# ("Blocked"/"Allowed") are MetaDefender's own, reliable verdict fields and
+# take priority over scan_all_result_i wherever they're present.
+ENCRYPTED_RESULT_RE = re.compile(
+    r"encrypt|password[-_. ]?protect|protected[-_. ]?(doc|file|archive)",
+    re.IGNORECASE,
+)
+
+
+def _is_encryption_heuristic(text):
+    return bool(text) and bool(ENCRYPTED_RESULT_RE.search(text))
+
 
 class MetaDefenderEngine(BaseEngine):
     name = "MetaDefender"
@@ -28,26 +44,53 @@ class MetaDefenderEngine(BaseEngine):
         status = resp.get("status")
         scan_results = resp.get("scan_results", {})
         process_info = resp.get("process_info", {})
+        scan_result_a = scan_results.get("scan_all_result_a")
 
-        if status == "inqueue":
-            return Request.STATUS.queued
-
-        if scan_results.get("scan_all_result_a") == "In queue":
+        if status == "inqueue" or scan_result_a == "In queue":
             return Request.STATUS.queued
 
         if process_info.get("progress_percentage") not in (None, 100):
             return Request.STATUS.queued
 
+        if scan_result_a == "Aborted":
+            return Request.STATUS.failed
+
+        result_decision = process_info.get("result")
+
+        if result_decision == "Allowed":
+            # MetaDefender's own policy engine let the file through: no
+            # confirmed malware, regardless of what scan_all_result_i says
+            # (e.g. a separate AI-content/fraud add-on can still flag it).
+            return Request.STATUS.not_detected
+
+        if result_decision == "Blocked":
+            return self._classify_blocked(scan_results, process_info, scan_result_a)
+
+        # Older/on-prem MetaDefender response shapes don't include
+        # process_info.result - fall back to the classic aggregate field.
+        return self._classify_legacy(scan_results, scan_result_a)
+
+    def _classify_blocked(self, scan_results, process_info, scan_result_a):
+        if scan_results.get("total_detected_avs"):
+            return Request.STATUS.infected
+        reason = " ".join(
+            filter(None, [scan_result_a, process_info.get("blocked_reason")])
+        )
+        if _is_encryption_heuristic(reason):
+            return Request.STATUS.password_protected
+        # Blocked for some other non-malware policy reason (e.g. file type
+        # restriction, DLP rule) - not confirmed malicious.
+        return Request.STATUS.suspicious
+
+    def _classify_legacy(self, scan_results, scan_result_a):
         scan_result_i = scan_results.get("scan_all_result_i")
-        scan_result_a = scan_results.get("scan_all_result_a")
 
         if scan_result_i == 0:
             return Request.STATUS.not_detected
 
-        if scan_result_a == "Aborted":
-            return Request.STATUS.failed
-
         if scan_result_i and scan_result_i > 0:
+            if _is_encryption_heuristic(scan_result_a):
+                return Request.STATUS.password_protected
             return Request.STATUS.infected
 
         return Request.STATUS.failed

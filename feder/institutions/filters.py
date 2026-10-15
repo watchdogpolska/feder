@@ -21,15 +21,15 @@ class InstitutionFilter(django_filters.FilterSet):
         empty_label=None,
     )
     voivodeship = VoivodeshipFilter(
-        widget=autocomplete.ModelSelect2(url="teryt:voivodeship-autocomplete")
+        widget=autocomplete.ModelAlight(url="teryt:voivodeship-autocomplete")
     )
     county = CountyFilter(
-        widget=autocomplete.ModelSelect2(
+        widget=autocomplete.ModelAlight(
             url="teryt:county-autocomplete", forward=["voivodeship"]
         )
     )
     community = CommunityFilter(
-        widget=autocomplete.ModelSelect2(
+        widget=autocomplete.ModelAlight(
             url="teryt:community-autocomplete", forward=["county"]
         )
     )
@@ -38,7 +38,7 @@ class InstitutionFilter(django_filters.FilterSet):
         super().__init__(*args, **kwargs)
         self.filters["name"].lookup_expr = "icontains"
         # TODO: Verify below on django-filter 2.2.0
-        self.filters["tags"].field.widget = autocomplete.Select2Multiple(
+        self.filters["tags"].field.widget = autocomplete.ModelAlightMultiple(
             url="institutions:tag_autocomplete"
         )
 

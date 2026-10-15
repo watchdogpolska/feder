@@ -42,7 +42,7 @@ THIRD_PARTY_APPS = (
     "allauth.account",  # registration
     "allauth.socialaccount",  # registration
     "dal",
-    "dal_select2",
+    "dal_alight",
     "tinycontent",
     "django_extensions",
     "tinymce",
@@ -237,6 +237,7 @@ TEMPLATES = [
                 "django.template.context_processors.tz",
                 "django.contrib.messages.context_processors.messages",
                 # Your stuff: custom template context processors go here
+                "feder.main.context_processors.signup",
             ],
         },
     }
@@ -293,9 +294,10 @@ AUTHENTICATION_BACKENDS = (
 ACCOUNT_LOGIN_METHODS = {"email", "username"}
 ACCOUNT_SIGNUP_FIELDS = ["email*", "username*", "password1*", "password2*"]
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
-# NoSignupAdapter disables the signup functionality - new users to be
-# manually added by admins
+# NoSignupAdapter disables the signup functionality unless ACCOUNT_ALLOW_SIGNUP
+# is enabled - by default new users are manually added by admins
 ACCOUNT_ADAPTER = "feder.main.adapters.NoSignupAdapter"
+ACCOUNT_ALLOW_SIGNUP = env.bool("DJANGO_ACCOUNT_ALLOW_SIGNUP", False)
 SOCIALACCOUNT_EMAIL_VERIFICATION = "optional"
 SOCIALACCOUNT_PROVIDERS = {
     "github": {"SCOPE": ["user"]},
@@ -459,7 +461,7 @@ ROSETTA_EXCLUDED_APPLICATIONS = (
     "allauth.account",  # registration
     "allauth.socialaccount",  # registration
     "dal",
-    "dal_select2",
+    "dal_alight",
     "tinymce",
     "ajax_datatable",
     "formtools",

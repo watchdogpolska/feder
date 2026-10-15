@@ -36,7 +36,7 @@ class LetterForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
     case = forms.ModelChoiceField(
         queryset=Case.objects.all(),
         label=_("Case"),
-        widget=autocomplete.ModelSelect2(url="cases:autocomplete-find"),
+        widget=autocomplete.ModelAlight(url="cases:autocomplete-find"),
     )
     ai_evaluation = forms.ChoiceField(
         choices=[],
@@ -306,13 +306,17 @@ class AssignLetterForm(SingleButtonMixin, forms.Form):
         self.letter = kwargs.pop("letter")
         self.request = kwargs.pop("request", None)
         super().__init__(*args, **kwargs)
+        # Rendered once per row on list pages (see message_filter.html), so
+        # let the page include the autocomplete widget's media exactly once
+        # instead of once per instance.
+        self.helper.include_media = False
         # Field creation moved to init as multiple autocomplete widgets
         # on the same page need different ids to be identified properly
         # by autocomplete js functions
         self.fields["case"] = forms.ModelChoiceField(
             queryset=Case.objects.all(),
             label=_("Case number"),
-            widget=autocomplete.ModelSelect2(
+            widget=autocomplete.ModelAlight(
                 url="cases:autocomplete-find",
                 attrs={
                     "id": f"id_case_{self.letter.pk}",
@@ -354,7 +358,7 @@ class ReassignLetterForm(SingleButtonMixin, forms.ModelForm):
     case = forms.ModelChoiceField(
         queryset=Case.objects.all(),
         label=_("Case number"),
-        widget=autocomplete.ModelSelect2(url="cases:autocomplete-find"),
+        widget=autocomplete.ModelAlight(url="cases:autocomplete-find"),
     )
 
     def save(self, commit=True):

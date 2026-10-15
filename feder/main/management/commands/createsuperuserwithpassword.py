@@ -27,11 +27,16 @@ class Command(createsuperuser.Command):
         if password and not username:
             raise CommandError("--username is required if specifying --password")
 
-        super().handle(*args, **options)
+        manager = self.UserModel._default_manager.db_manager(database)
+        user = manager.filter(username=username).first() if username else None
+
+        if user is None:
+            super().handle(*args, **options)
+            user = manager.get(username=username)
+        else:
+            user.is_superuser = True
+            user.is_staff = True
 
         if password:
-            user = self.UserModel._default_manager.db_manager(database).get(
-                username=username
-            )
             user.set_password(password)
             user.save()

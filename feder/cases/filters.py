@@ -29,10 +29,10 @@ class CaseFilter(DisabledWhenFilterSetMixin, InitialFilterSet):
         super().__init__(*args, **kwargs)
         self.filters["name"].lookup_expr = "icontains"
         self.filters["name"].label = _("Name")
-        self.filters["monitoring"].field.widget = autocomplete.ModelSelect2(
+        self.filters["monitoring"].field.widget = autocomplete.ModelAlight(
             url="monitorings:autocomplete"
         )
-        self.filters["institution"].field.widget = autocomplete.ModelSelect2(
+        self.filters["institution"].field.widget = autocomplete.ModelAlight(
             url="institutions:autocomplete"
         )
 
@@ -56,15 +56,15 @@ class CaseReportFilter(django_filters.FilterSet):
         lookup_expr="icontains",
     )
     voivodeship = VoivodeshipFilter(
-        widget=autocomplete.ModelSelect2(url="teryt:voivodeship-autocomplete")
+        widget=autocomplete.ModelAlight(url="teryt:voivodeship-autocomplete")
     )
     county = CountyFilter(
-        widget=autocomplete.ModelSelect2(
+        widget=autocomplete.ModelAlight(
             url="teryt:county-autocomplete", forward=["voivodeship"]
         )
     )
     community = CommunityFilter(
-        widget=autocomplete.ModelSelect2(
+        widget=autocomplete.ModelAlight(
             url="teryt:community-autocomplete", forward=["county"]
         )
     )

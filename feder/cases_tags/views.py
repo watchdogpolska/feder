@@ -99,7 +99,7 @@ class TagDeleteView(MonitoringPermissionMixin, DeleteMessageMixin, DeleteView):
         return _("{object} deleted!").format(object=self.object)
 
 
-class TagAutocomplete(autocomplete.Select2QuerySetView):
+class TagAutocomplete(autocomplete.AlightQuerySetView):
     def get_monitoring(self, pk):
         return get_object_or_404(Monitoring.objects.for_user(self.request.user), pk=pk)
 
