@@ -20,8 +20,8 @@
             border: 1px solid #000000;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
             z-index: 10000;
-            max-height: 90vh;
-            max-width: 90vw;
+            width: 50vw;
+            max-height: 80vh;
             overflow: auto;
         }
         #internalNotesPopup textarea {
@@ -63,12 +63,13 @@
                 <textarea name="internal_notes" class="form-control" rows="12"
                     >{{ object.internal_notes }}</textarea>
             </div>
-            <div class="row">
-                <br>
-                <button type="submit" class="btn btn-primary">{% trans 'Save' %}</button>
-                <button type="button" id="cancelInternalNotesButton" class="btn btn-secondary">
-                    {% trans 'Cancel' %}
-                </button>
+            <div class="row mt-3">
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">{% trans 'Save' %}</button>
+                    <button type="button" id="cancelInternalNotesButton" class="btn btn-secondary">
+                        {% trans 'Cancel' %}
+                    </button>
+                </div>
             </div>
         </form>
     </div>
