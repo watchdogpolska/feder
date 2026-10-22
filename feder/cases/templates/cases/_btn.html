@@ -45,6 +45,19 @@
                     {% trans 'Add letter' %}
                 </a>
             {% endif %}
+            {% if "change_case" in monitoring_perms %}
+                <button type="submit" form="categorize_normalize_case_responses_form"
+                        class="btn btn-secondary">
+                    {% trans 'Categorize and Normalize Case Answers' %}
+                </button>
+            {% endif %}
         </div>
     </div>
+    {% if "change_case" in monitoring_perms %}
+        {# kept outside .btn-group so the button above stays a direct child and keeps its grouped border styling #}
+        <form id="categorize_normalize_case_responses_form" method="post" class="d-none">
+            {% csrf_token %}
+            <input type="hidden" name="categorize_normalize_case_responses" value="true">
+        </form>
+    {% endif %}
 {% endif %}

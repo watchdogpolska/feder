@@ -1,6 +1,8 @@
 from functools import cached_property
 
 from dal import autocomplete
+from django.contrib import messages
+from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
@@ -8,6 +10,9 @@ from django.utils.translation import gettext_lazy as _
 from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
 from django_filters.views import FilterView
 
+from feder.llm_evaluation.tasks import (
+    update_case_responses_categorization_and_normalization,
+)
 from feder.main.mixins import (
     CreateMessageMixin,
     DeleteMessageMixin,
@@ -50,6 +55,24 @@ class CaseDetailView(SelectRelatedMixin, PrefetchRelatedMixin, DetailView):
 
     def get_queryset(self):
         return super().get_queryset().with_milestone().for_user(self.request.user)
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if "categorize_normalize_case_responses" in request.POST:
+            if not request.user.has_perm(
+                "monitorings.change_case", self.object.monitoring
+            ):
+                raise PermissionDenied
+            update_case_responses_categorization_and_normalization(self.object.pk)
+            messages.success(
+                request,
+                _(
+                    "Letter responses categorization and normalization tasks generated."
+                    + " It may take a while to get full update - check task queue in"
+                    + " admin panel."
+                ),
+            )
+        return self.get(request, *args, **kwargs)
 
 
 class CaseCreateView(
