@@ -1,5 +1,5 @@
 # Production and staging Django
-Django==5.2.17
+Django==5.2.18
 
 # Database adapter
 mysqlclient==2.3.0
@@ -50,7 +50,7 @@ django-guardian==3.5.0
 django-teryt-tree==0.18.4
 
 django-reversion==6.3.0
-djangorestframework==3.18.1
+djangorestframework==3.18.3
 djangorestframework-csv==3.0.2
 tqdm==4.70.1
 django-github-revision==0.0.3
@@ -72,10 +72,10 @@ html2text==2025.4.15
 openpyxl==3.1.5
 
 # LLM exvaluation
-langchain==1.4.3
-langchain-core==1.6.6
+langchain==1.4.6
+langchain-core==1.6.10
 langchain-community==0.4.2
 #langchain[llms]==0.1.5
-openai==3.24.0
-langchain-openai==1.6.7
+openai==3.31.0
+langchain-openai==1.7.2
 tiktoken==0.14.0
