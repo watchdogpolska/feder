@@ -699,6 +699,34 @@ class MonitoringResultsView(DetailView):
         return context
 
 
+class MonitoringInternalNotesView(RaisePermissionRequiredMixin, DetailView):
+    model = Monitoring
+    template_name_suffix = "_internal_notes"
+    select_related = ["user"]
+    permission_required = "monitorings.change_monitoring"
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        qs = qs.for_user(self.request.user)
+        return qs
+
+    def get_context_data(self, **kwargs):
+        kwargs["url_extra_kwargs"] = {"slug": self.object.slug}
+        context = super().get_context_data(**kwargs)
+        context["voivodeship_table"] = mark_safe(
+            self.object.generate_voivodeship_table()
+        )
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if "internal_notes" in request.POST:
+            self.object.internal_notes = request.POST["internal_notes"]
+            self.object.save()
+            messages.success(request, _("Internal notes updated."))
+        return self.get(request, *args, **kwargs)
+
+
 class MonitoringAnswersCategoriesView(DetailView):
     model = Monitoring
     template_name_suffix = "_answers_categories"
