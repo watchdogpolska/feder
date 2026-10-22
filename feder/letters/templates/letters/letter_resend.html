@@ -7,12 +7,11 @@
 {% endblock %}
 
 {% block breadcrumb_row %}
-    <li
+    <li class="breadcrumb-item active" aria-current="page"
         itemprop="itemListElement"
         itemscope
-        itemtype="http://schema.org/ListItem"
-        class="active">
-        <span itmeprop="name">{% trans 'Resend letter' %}</span>
+        itemtype="http://schema.org/ListItem">
+        <span itemprop="name">{% trans 'Resend letter' %}</span>
     </li>
 {% endblock %}
 

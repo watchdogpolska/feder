@@ -9,6 +9,15 @@
     <meta name="description" content="">
     <meta name="author" content="">
     {% block meta %}{% endblock %}
+    {% sentry_dsn as feder_sentry_dsn %}
+    {% if feder_sentry_dsn %}
+        <script>
+            window.SENTRY_DSN = "{{ feder_sentry_dsn|escapejs }}";
+            window.SENTRY_ENVIRONMENT = "{% app_mode_value %}";
+            window.SENTRY_RELEASE = "{% feder_version %}";
+        </script>
+        <script src="{% static 'js/sentry.min.js' %}"></script>
+    {% endif %}
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -122,18 +131,45 @@
     <script src="https://cdn.rawgit.com/Khan/tota11y/ce0d19ed/build/tota11y.min.js"></script>
     {% endif %}
     <script>
-        $(function () {
-            var show_quote = '<i class="fa-solid fa-square-plus"></i> {%trans "Show quote" %}';
-            var hide_quote = '<i class="fa-solid fa-square-minus"></i> {%trans "Hide quote" %}';
-            $('blockquote.expandable').each(function (index, value) {
-                var el = $(value).hide();
-                var new_el = $("<button class='btn btn-primary'>" + show_quote + "</a>");
-                new_el.click(function (event) {
-                    event.preventDefault();
-                    el.slideToggle();
-                    this.innerHTML = this.innerHTML == show_quote ? hide_quote : show_quote;
+        function slideToggle(el) {
+            el.style.overflow = "hidden";
+            el.style.transition = "height 0.4s ease";
+            if (getComputedStyle(el).display === "none") {
+                el.style.display = "";
+                var height = el.scrollHeight;
+                el.style.height = "0px";
+                requestAnimationFrame(function () {
+                    el.style.height = height + "px";
                 });
-                el.before(new_el);
+                window.setTimeout(function () {
+                    el.style.height = el.style.overflow = el.style.transition = "";
+                }, 400);
+            } else {
+                el.style.height = el.scrollHeight + "px";
+                requestAnimationFrame(function () {
+                    el.style.height = "0px";
+                });
+                window.setTimeout(function () {
+                    el.style.display = "none";
+                    el.style.height = el.style.overflow = el.style.transition = "";
+                }, 400);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var show_quote = '<i class="fa-solid fa-square-plus"></i> {% trans "Show quote" %}';
+            var hide_quote = '<i class="fa-solid fa-square-minus"></i> {% trans "Hide quote" %}';
+            document.querySelectorAll('blockquote.expandable').forEach(function (el) {
+                el.style.display = "none";
+                var button = document.createElement("button");
+                button.className = "btn btn-primary";
+                button.innerHTML = show_quote;
+                button.addEventListener("click", function (event) {
+                    event.preventDefault();
+                    slideToggle(el);
+                    button.innerHTML = button.innerHTML == show_quote ? hide_quote : show_quote;
+                });
+                el.before(button);
             });
         });
     </script>

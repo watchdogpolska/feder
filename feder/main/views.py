@@ -1,9 +1,13 @@
+from allauth.account.views import LoginView, SignupView
+from django.contrib.auth import REDIRECT_FIELD_NAME
+from django.http import HttpResponsePermanentRedirect
 from django.template.response import TemplateResponse
 from django.utils.safestring import mark_safe
 from django.views.generic import TemplateView
 
 from feder.cases.models import Case
 from feder.institutions.models import Institution
+from feder.main.utils import collapse_next_url, next_param_is_nested
 from feder.monitorings.models import Monitoring
 from feder.teryt.models import JST
 
@@ -55,6 +59,44 @@ class HomeView(TemplateView):
         )
         table += "</table>"
         return mark_safe(table)
+
+
+class CollapseNestedNextMixin:
+    """
+    Defends the login/signup views against self-referential `?next=` chains:
+    already-crawled/cached deep links, or anyone crafting a chain by hand.
+    If the incoming `next` is itself nested, 301-redirect to the same page
+    with the chain collapsed down to its innermost real target, instead of
+    rendering (and thereby propagating) more nested links.
+    """
+
+    def get(self, request, *args, **kwargs):
+        raw_next = request.GET.get(REDIRECT_FIELD_NAME)
+        if next_param_is_nested(raw_next):
+            query = request.GET.copy()
+            collapsed = collapse_next_url(raw_next, request)
+            if collapsed:
+                query[REDIRECT_FIELD_NAME] = collapsed
+            else:
+                query.pop(REDIRECT_FIELD_NAME, None)
+            url = request.path
+            if query:
+                url = f"{url}?{query.urlencode()}"
+            return HttpResponsePermanentRedirect(url)
+        return super().get(request, *args, **kwargs)
+
+
+class CleanLoginView(CollapseNestedNextMixin, LoginView):
+    pass
+
+
+class CleanSignupView(CollapseNestedNextMixin, SignupView):
+    pass
+
+
+class RobotsTxtView(TemplateView):
+    template_name = "robots.txt"
+    content_type = "text/plain"
 
 
 def handler500(request):

@@ -7,9 +7,9 @@
     {% endif %}
 {% endif %}
 <div class="clearfix">
-    <div class="pull-right btn-group">
+    <div class="float-end btn-group">
         {% if 'change_letter' in monitoring_perms %}
-            <a class="btn btn-default" href="{% url 'letters:update' pk=object.pk %}">
+            <a class="btn btn-secondary" href="{% url 'letters:update' pk=object.pk %}">
                 {% trans 'Edit' %}
             </a>
         {% endif %}

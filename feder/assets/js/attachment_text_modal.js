@@ -14,7 +14,7 @@
         var body = document.getElementById("attachmentTextModalBody");
         if (body) body.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
 
-        modal.classList.add("in");
+        modal.classList.add("show");
         modal.style.display = "block";
         modal.removeAttribute("aria-hidden");
         document.body.classList.add("modal-open");
@@ -22,7 +22,7 @@
         if (!document.getElementById(BACKDROP_ID)) {
             var backdrop = document.createElement("div");
             backdrop.id = BACKDROP_ID;
-            backdrop.className = "modal-backdrop fade in";
+            backdrop.className = "modal-backdrop fade show";
             document.body.appendChild(backdrop);
         }
     }
@@ -31,7 +31,7 @@
         var modal = document.getElementById(MODAL_ID);
         if (!modal) return;
 
-        modal.classList.remove("in");
+        modal.classList.remove("show");
         modal.style.display = "none";
         modal.setAttribute("aria-hidden", "true");
         document.body.classList.remove("modal-open");

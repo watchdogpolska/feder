@@ -118,7 +118,7 @@ class InstitutionDeleteView(
     redirect_unauthenticated_users = True
 
 
-class InstitutionAutocomplete(autocomplete.Select2QuerySetView):
+class InstitutionAutocomplete(autocomplete.AlightQuerySetView):
     def get_queryset(self):
         qs = Institution.objects
         if self.q:
@@ -129,7 +129,7 @@ class InstitutionAutocomplete(autocomplete.Select2QuerySetView):
         return f"{result.name_with_jst}"
 
 
-class TagAutocomplete(autocomplete.Select2QuerySetView):
+class TagAutocomplete(autocomplete.AlightQuerySetView):
     def get_queryset(self):
         qs = Tag.objects.annotate(institution_count=Count("institution"))
         if self.q:

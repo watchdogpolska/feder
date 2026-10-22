@@ -6,11 +6,11 @@
 // @use 'solid';
 // @use 'brands';
 // @use 'regular';
-@import 'variables';
-@import 'bootstrap';
-@import "layout";
-@import "sidebar";
-@import 'milestones';
+@use 'variables';
+@use 'bootstrap';
+@use 'layout';
+@use 'sidebar';
+@use 'milestones';
 
 $red: #D72626;
 $gray: #F0F0F0;
@@ -67,16 +67,10 @@ $gray: #F0F0F0;
     color: color.scale(#fff, $lightness: -20%);
   }
 
-  .page-title {
-    color: #fff;
-  }
   .select-list {
     li:after {
       background-color: color.scale($gray, $lightness: -10%);
     }
-  }
-  .has-error .help-block, .has-error .control-label, .has-error .radio, .has-error .checkbox, .has-error .radio-inline, .has-error .checkbox-inline, .has-error.radio label, .has-error.checkbox label, .has-error.radio-inline label, .has-error.checkbox-inline label {
-    color: #FFF643;
   }
 }
 
@@ -95,18 +89,18 @@ $gray: #F0F0F0;
 .metadata-toggle {
   background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
   border: 1px solid transparent;
-  border-radius: $border-radius-base;
+  border-radius: variables.$border-radius-base;
   padding-top: 0px;
   padding-bottom: 2px;
   display: inline-block; // e.g.  display regardless of screen size
 
-  .icon-bar {
-    background-color: $btn-primary-color;
+  .toggle-bar {
+    background-color: variables.$btn-primary-color;
     :hover, :focus {
 
-      background-color: $btn-primary-color;
+      background-color: variables.$btn-primary-color;
     }
-    + .icon-bar {
+    + .toggle-bar {
       margin-top: 1px;
     }
   }
@@ -114,7 +108,7 @@ $gray: #F0F0F0;
     line-height:75%;
   }
   // Bars
-  .icon-bar {
+  .toggle-bar {
     display: block;
     width: 22px;
     height: 2px;
@@ -137,9 +131,6 @@ $gray: #F0F0F0;
     li:after {
       background-color: $red;
     }
-  }
-  .page-title {
-    color: $red;
   }
   .metadata-button-container {
     text-align: right;
@@ -167,9 +158,6 @@ $gray: #F0F0F0;
     text-align: center;
 }
 
-.progress-bar {
-  color: #000;
-}
 .link-tag {
   border: 1px solid rgb(230, 230, 230);
   border-radius: 15px;
@@ -208,19 +196,20 @@ iframe.letter-quote {
   border: 0;
 }
 
+// BS3's .close class no longer exists in BS5, so this modal's close button
+// (which still uses it) has no default styling or positioning and was
+// rendering at the top-left of the header instead of the top-right.
+.js-attachment-text-modal-close {
+  margin-left: auto;
+  background-color: #f8d7da;
+  border: none;
+}
+
 /* utility classes */
 
 .centered {
   display: block;
   text-align: center;
-
-  &_inline {
-    display: inline;
-  }
-
-  &_block {
-    display: block;
-  }
 
   &_cell {
     display: table-cell;
@@ -228,22 +217,104 @@ iframe.letter-quote {
 }
 
 
-/* generic padding and margin classes */
+/* generic padding and margin classes replaced by standard Bootstrap 5 utility classes */
 
-@each $propLong, $propShort in ("margin": "m", "padding": "p") {
-    @each $sideLong, $sideShort in ("top": "t", "right": "r", "bottom": "b", "left": "l") {
-        @for $val from 0 through 5 {
-            .#{$propShort}#{$sideShort}-#{$val} {
-                #{$propLong}-#{$sideLong}: #{$val}em !important;
-            }
-        }
-    }
+
+/* pagination */
+
+// BS3's .pagination was display:inline-block with inline <li>s, so it wrapped
+// onto multiple lines naturally. BS5's .pagination is display:flex with no
+// wrap, so paginators with many page-number links (e.g. institutions list
+// with thousands of pages) overflow the viewport in one unbroken row instead
+// of wrapping like they used to.
+.pagination {
+  flex-wrap: wrap;
+}
+
+
+/* button groups */
+
+// Same issue as .pagination: BS3's .btn-group was display:inline-block with
+// inline-block .btns, so a toolbar with many buttons reflowed onto multiple
+// lines on narrow screens. BS5's .btn-group is display:inline-flex with no
+// wrap and flex: 1 1 auto buttons, so on mobile a long toolbar (e.g. the
+// monitoring detail action buttons) is stuck in one row and either overflows
+// or requires horizontal scrolling instead of wrapping like it used to.
+.btn-group {
+  flex-wrap: wrap;
+
+  > .btn {
+    flex: 0 1 auto;
+  }
+}
+
+
+/* buttons */
+
+// Restore BS3's .btn-default look (white/bordered) for secondary buttons.
+// .btn-primary (red) is left untouched, keeping red as the danger/emphasis color.
+.btn-secondary {
+  --bs-btn-color: #{variables.$gray-dark};
+  --bs-btn-bg: #fff;
+  --bs-btn-border-color: #ccc;
+  --bs-btn-hover-color: #{variables.$gray-dark};
+  --bs-btn-hover-bg: #e6e6e6;
+  --bs-btn-hover-border-color: #adadad;
+  --bs-btn-focus-shadow-rgb: 130, 130, 130;
+  --bs-btn-active-color: #{variables.$gray-dark};
+  --bs-btn-active-bg: #e6e6e6;
+  --bs-btn-active-border-color: #adadad;
+  --bs-btn-disabled-color: #{variables.$gray-dark};
+  --bs-btn-disabled-bg: #fff;
+  --bs-btn-disabled-border-color: #ccc;
+}
+
+
+/* headings */
+
+// BS3 shrank <small>/.small nested inside headings further than the base
+// 87.5% (65% inside h1-h3, 75% inside h4-h6) and colored it a muted gray.
+// BS5 dropped that heading-context styling entirely, so subtitles like the
+// "by <author> <date>" bylines under the letter/monitoring headers (see
+// letters/_header.html, monitorings/_header.html) now render larger and in
+// the heading's own color instead of muted.
+h1, h2, h3,
+.h1, .h2, .h3 {
+  small, .small {
+    font-size: 65%;
+    font-weight: normal;
+    line-height: 1;
+    color: variables.$gray-light;
+  }
+}
+
+h4, h5, h6,
+.h4, .h5, .h6 {
+  small, .small {
+    font-size: 75%;
+    font-weight: normal;
+    line-height: 1;
+    color: variables.$gray-light;
+  }
+}
+
+
+/* breadcrumbs */
+
+.breadcrumb {
+  background-color: #f5f5f5;
+  padding: 8px 15px;
+  border-radius: variables.$border-radius-base;
+  margin-bottom: 20px;
 }
 
 
 /* tables */
 
 .table {
+  --bs-table-bg: #fff;
+  background-color: #fff;
+
   &__col_narrow {
     max-width: 120px;
   }
@@ -259,26 +330,67 @@ iframe.letter-quote {
       font-size: 16px;
     }
   }
-
-  &__col_bottom {
-    vertical-align: bottom !important;
-    padding-bottom: 4px !important;
-  }
 }
 
 
 /* colors */
 
 .color-danger {
-  color: $brand-danger !important;
+  color: variables.$brand-danger !important;
 }
 
 .color-success {
-  color: $brand-success !important;
+  color: variables.$brand-success !important;
 }
 
 
-/* select2 fix */
-.select2-selection__rendered {
-    line-height: 20px !important;
+/* dal_alight autocomplete widget fix.
+   The real <select> is visually hidden; the visible search box is a plain
+   <input class="vTextField"> (django-admin styling, unused on this site),
+   so give it the same sizing as the other Bootstrap fields on the form. */
+autocomplete-select {
+  display: block;
+  width: 100%;
+}
+
+autocomplete-select-input input[slot="input"] {
+  @extend .form-control;
+}
+
+// Once a choice is picked, the input above hides and this "deck" of chips
+// becomes the visible part of the field — give it the same box so the
+// field doesn't shrink down to the chip's own size after selection.
+autocomplete-select [slot="deck"]:not(:empty) {
+  @extend .form-control;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  height: auto;
+  gap: 0.25rem;
+}
+
+// The chip itself is fixed at height:32px with no wrapping in dal_alight's
+// CSS, so a long label (e.g. a long gmina name) overflows it instead of
+// wrapping. !important for the same later-load-order reason as above.
+autocomplete-select [slot="deck"] [data-value] {
+  height: auto !important;
+  min-height: 32px;
+  padding: 4px 8px !important;
+  white-space: normal !important;
+  word-break: break-word;
+  max-width: 100%;
+}
+
+// Long option labels (e.g. gmina names) should wrap within the results box
+// instead of overflowing past its edge, since the box is only as wide as
+// the search input. dal_alight's own CSS loads after ours (via
+// {{ form.media }} near the end of <body>), so !important is needed to
+// win the equal-specificity conflict.
+.autocomplete-light-box [data-value] {
+  height: auto !important;
+  min-height: 42px;
+  line-height: 1.3 !important;
+  padding: 10px 22px !important;
+  white-space: normal !important;
+  word-break: break-word;
 }

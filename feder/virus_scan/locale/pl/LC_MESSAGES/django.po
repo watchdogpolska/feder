@@ -44,55 +44,63 @@ msgstr "Nie wykryte"
 msgid "Failed"
 msgstr "Niepowodzenie"
 
-#: feder/virus_scan/models.py:35
+#: feder/virus_scan/models.py:33
+msgid "Suspicious (not confirmed malicious)"
+msgstr "Podejrzane (niepotwierdzone jako złośliwe)"
+
+#: feder/virus_scan/models.py:34
+msgid "Password protected / encrypted"
+msgstr "Zabezpieczone hasłem / zaszyfrowane"
+
+#: feder/virus_scan/models.py:37
 msgid "Scan of"
 msgstr ""
 
-#: feder/virus_scan/models.py:37
+#: feder/virus_scan/models.py:39
 msgid "Scan object ID"
 msgstr ""
 
-#: feder/virus_scan/models.py:41
+#: feder/virus_scan/models.py:43
 msgid "Engine name"
 msgstr "Nazwa silnika"
 
-#: feder/virus_scan/models.py:44
+#: feder/virus_scan/models.py:46
 msgid "External ID"
 msgstr "Zewnętrzny identyfikator"
 
-#: feder/virus_scan/models.py:47
+#: feder/virus_scan/models.py:49
 msgid "Engine result"
 msgstr "Wynik silnika"
 
-#: feder/virus_scan/models.py:50
+#: feder/virus_scan/models.py:52
 msgid "Engine result URL"
 msgstr "Link do wyniku silnika"
 
-#: feder/virus_scan/models.py:91
+#: feder/virus_scan/models.py:93
 msgid "Request of virus scan"
 msgstr "Żądanie skanowania antywirusowego"
 
-#: feder/virus_scan/models.py:92
+#: feder/virus_scan/models.py:94
 msgid "Requests of virus scan"
 msgstr "Żądania skanowania antywirusowego"
 
-#: feder/virus_scan/models.py:135
+#: feder/virus_scan/models.py:137
 msgid "Prevention limit"
 msgstr ""
 
-#: feder/virus_scan/models.py:140
+#: feder/virus_scan/models.py:142
 msgid "Prevention remaining"
 msgstr ""
 
-#: feder/virus_scan/models.py:144
+#: feder/virus_scan/models.py:146
 msgid "Prevention interval in seconds"
 msgstr ""
 
-#: feder/virus_scan/models.py:147
+#: feder/virus_scan/models.py:149
 msgid "Prevention reset at"
 msgstr ""
 
-#: feder/virus_scan/models.py:151
+#: feder/virus_scan/models.py:153
 msgid "Last used"
 msgstr ""
 

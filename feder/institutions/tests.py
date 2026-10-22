@@ -1,4 +1,4 @@
-import json
+import re
 
 from django.test import RequestFactory, TestCase
 from django.urls import reverse
@@ -250,11 +250,11 @@ class TagAutocompleteTestCase(TestCase):
         ]
         request = self.factory.get("/customer/details")
         response = TagAutocomplete.as_view()(request)
-        body = json.loads(response.content)
+        result_names = re.findall(
+            r'<div data-value="\d+">([^\s(]+)', response.content.decode()
+        )
 
         expected_names = sorted(source_names)
-        result_names = [x["text"].split(" ")[0] for x in body["results"]]
-
         self.assertListEqual(expected_names, result_names)
 
 

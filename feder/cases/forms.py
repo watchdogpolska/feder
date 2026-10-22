@@ -31,7 +31,7 @@ class CaseForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
             "tags",
         ]
         widgets = {
-            "institution": autocomplete.ModelSelect2(url="institutions:autocomplete"),
+            "institution": autocomplete.ModelAlight(url="institutions:autocomplete"),
             "tags": forms.CheckboxSelectMultiple,
         }
 
@@ -39,7 +39,7 @@ class CaseForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
 class CaseTagFilterForm(forms.Form):
     tags = forms.ModelMultipleChoiceField(
         queryset=Tag.objects.all(),
-        widget=autocomplete.Select2Multiple(),
+        widget=autocomplete.ModelAlightMultiple(),
         required=False,
         label=_("Tags"),
     )

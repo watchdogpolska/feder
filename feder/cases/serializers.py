@@ -44,6 +44,7 @@ class CaseReportSerializer(serializers.HyperlinkedModelSerializer):
         label=_("last request status")
     )
     url = serializers.SerializerMethodField()
+    last_received_letter_date = serializers.SerializerMethodField()
 
     class Meta:
         model = Case
@@ -64,6 +65,7 @@ class CaseReportSerializer(serializers.HyperlinkedModelSerializer):
             "last_request_date",
             "last_request_status",
             "url",
+            "last_received_letter_date",
         )
 
     def __init__(self, *args, **kwargs):
@@ -118,3 +120,10 @@ class CaseReportSerializer(serializers.HyperlinkedModelSerializer):
     def get_url(self, obj):
         request = self.context.get("request")
         return request.build_absolute_uri(obj.get_absolute_url())
+
+    def get_last_received_letter_date(self, obj):
+        return (
+            formats.date_format(obj.last_received_letter_date, format="Y-m-d")
+            if obj.last_received_letter_date
+            else None
+        )

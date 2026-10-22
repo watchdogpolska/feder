@@ -37,12 +37,12 @@ DJANGO_APPS = (
 )
 THIRD_PARTY_APPS = (
     "crispy_forms",  # Form layouts
-    "crispy_bootstrap3",  # Bootstrap 3 theme for crispy forms
+    "crispy_bootstrap5",  # Bootstrap 5 theme for crispy forms
     "allauth",  # registration
     "allauth.account",  # registration
     "allauth.socialaccount",  # registration
     "dal",
-    "dal_select2",
+    "dal_alight",
     "tinycontent",
     "django_extensions",
     "tinymce",
@@ -51,7 +51,6 @@ THIRD_PARTY_APPS = (
     "mptt",
     "guardian",
     "teryt_tree",
-    "bootstrap_pagination",
     "rest_framework",
     "reversion",
     "django_filters",
@@ -203,6 +202,12 @@ STRFTIME_FORMAT = "%Y-%m-%d %H:%M:%S"
 STRFTIME_DATE_FORMAT = "%Y-%m-%d"
 DATETIME_FORMAT = "Y-m-d H:i:s"
 DATE_FORMAT = "Y-m-d"
+SHORT_DATE_FORMAT = "Y-m-d"
+
+# Render/parse ajax_datatable's date-range filter (e.g. monitoring cases
+# table) in the neutral SHORT_DATE_FORMAT above instead of the active
+# locale's format.
+AJAX_DATATABLE_USE_L10N = False
 
 # TEMPLATE CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -232,6 +237,7 @@ TEMPLATES = [
                 "django.template.context_processors.tz",
                 "django.contrib.messages.context_processors.messages",
                 # Your stuff: custom template context processors go here
+                "feder.main.context_processors.signup",
             ],
         },
     }
@@ -239,9 +245,9 @@ TEMPLATES = [
 
 # See: http://django-crispy-forms.readthedocs.org/en/latest/install.html#template-packs
 CRISPY_ALLOWED_TEMPLATE_PACKS = [
-    "bootstrap3",
+    "bootstrap5",
 ]
-CRISPY_TEMPLATE_PACK = "bootstrap3"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 CRISPY_FAIL_SILENTLY = False
 
 # STATIC FILE CONFIGURATION
@@ -288,9 +294,10 @@ AUTHENTICATION_BACKENDS = (
 ACCOUNT_LOGIN_METHODS = {"email", "username"}
 ACCOUNT_SIGNUP_FIELDS = ["email*", "username*", "password1*", "password2*"]
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
-# NoSignupAdapter disables the signup functionality - new users to be
-# manually added by admins
+# NoSignupAdapter disables the signup functionality unless ACCOUNT_ALLOW_SIGNUP
+# is enabled - by default new users are manually added by admins
 ACCOUNT_ADAPTER = "feder.main.adapters.NoSignupAdapter"
+ACCOUNT_ALLOW_SIGNUP = env.bool("DJANGO_ACCOUNT_ALLOW_SIGNUP", False)
 SOCIALACCOUNT_EMAIL_VERIFICATION = "optional"
 SOCIALACCOUNT_PROVIDERS = {
     "github": {"SCOPE": ["user"]},
@@ -454,14 +461,13 @@ ROSETTA_EXCLUDED_APPLICATIONS = (
     "allauth.account",  # registration
     "allauth.socialaccount",  # registration
     "dal",
-    "dal_select2",
+    "dal_alight",
     "tinymce",
     "ajax_datatable",
     "formtools",
     "mptt",
     "guardian",
     "teryt_tree",
-    "bootstrap_pagination",
     "rest_framework",
     "reversion",
     "django_filters",

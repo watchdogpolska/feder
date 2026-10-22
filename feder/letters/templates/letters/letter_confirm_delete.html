@@ -2,11 +2,11 @@
 
 {% load i18n %}
 {% block breadcrumb_row %}
-    <li
+    <li class="breadcrumb-item active" aria-current="page"
         itemprop="itemListElement"
         itemscope
-        itemtype="http://schema.org/ListItem" class="active">
-        <span itmeprop="name">{% trans 'Confirm delete' %}</span>
+        itemtype="http://schema.org/ListItem">
+        <span itemprop="name">{% trans 'Confirm delete' %}</span>
     </li>
 {% endblock %}
 {% block content_object %}

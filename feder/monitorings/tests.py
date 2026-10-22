@@ -1,3 +1,4 @@
+from datetime import timedelta
 from unittest import skip
 from unittest.mock import Mock, patch
 
@@ -5,6 +6,9 @@ from django.core import mail
 from django.db.models import Count
 from django.test import TestCase
 from django.urls import reverse
+from django.utils import timezone
+from django.utils.formats import date_format
+from django.utils.translation import gettext
 from guardian.shortcuts import assign_perm, get_user_perms
 
 from feder.cases.factories import CaseFactory
@@ -61,6 +65,14 @@ class MonitoringFormTestCase(TestCase):
         form = MonitoringForm(data, user=self.user)
         self.assertFalse(form.is_valid())
         self.assertIn("template", form.errors)
+
+    def test_form_does_not_expose_internal_notes(self):
+        data = {
+            **EXAMPLE_DATA.copy(),
+            "domain": DomainFactory().pk,
+        }
+        form = MonitoringForm(data, user=self.user)
+        self.assertNotIn("internal_notes", form.fields)
 
 
 class MonitoringFilterTestCase(TestCase):
@@ -206,6 +218,14 @@ class MonitoringReportTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
         response = self.client.get(self.get_url())
         self.assertTemplateUsed(response, "monitorings/monitoring_report.html")
 
+    def test_shows_last_received_letter_date(self):
+        self.login_permitted_user()
+        case = CaseFactory(monitoring=self.monitoring)
+        letter = IncomingLetterFactory(record__case=case)
+        response = self.client.get(self.get_url())
+        self.assertContains(response, gettext("last received letter date"))
+        self.assertContains(response, date_format(letter.created))
+
 
 class IncomingParcelFactory:
     pass
@@ -266,6 +286,15 @@ class MonitoringDetailViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
             reverse("cases_tags:list", kwargs={"monitoring": self.monitoring.pk}),
         )
 
+    def test_internal_notes_not_displayed(self):
+        self.monitoring.internal_notes = "SECRET-INTERNAL-NOTE"
+        self.monitoring.save()
+        assign_perm("monitorings.change_monitoring", self.user, self.monitoring)
+        self.login_permitted_user()
+        response = self.client.get(self.get_url())
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, "SECRET-INTERNAL-NOTE")
+
 
 class LetterListMonitoringViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     status_anonymous = 200
@@ -324,6 +353,48 @@ class DraftListMonitoringViewTestCase(ObjectMixin, PermissionStatusMixin, TestCa
         self.assertContains(response, draft_letter.note)
 
 
+class MonitoringTemplateViewTestCase(ObjectMixin, TestCase):
+    def get_url(self):
+        return reverse("monitorings:template", kwargs={"slug": self.monitoring.slug})
+
+    def test_prompt_extension_modified_updated_on_change(self):
+        self.monitoring.letter_normalization_prompt_extension = "old instruction"
+        self.monitoring.letter_normalization_prompt_extension_modified = None
+        self.monitoring.save()
+
+        response = self.client.post(
+            self.get_url(),
+            data={"letter_normalization_prompt_extension": "new instruction"},
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.monitoring.refresh_from_db()
+        self.assertEqual(
+            self.monitoring.letter_normalization_prompt_extension, "new instruction"
+        )
+        self.assertIsNotNone(
+            self.monitoring.letter_normalization_prompt_extension_modified
+        )
+
+    def test_prompt_extension_modified_not_touched_when_content_unchanged(self):
+        self.monitoring.letter_normalization_prompt_extension = "same instruction"
+        fixed_modified = timezone.now() - timedelta(days=1)
+        self.monitoring.letter_normalization_prompt_extension_modified = fixed_modified
+        self.monitoring.save()
+
+        response = self.client.post(
+            self.get_url(),
+            data={"letter_normalization_prompt_extension": "same instruction"},
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.monitoring.refresh_from_db()
+        self.assertEqual(
+            self.monitoring.letter_normalization_prompt_extension_modified,
+            fixed_modified,
+        )
+
+
 class MonitoringUpdateViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
     permission = ["monitorings.change_monitoring"]
 
@@ -335,6 +406,58 @@ class MonitoringUpdateViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
         self.login_permitted_user()
         response = self.client.get(self.get_url())
         self.assertTemplateUsed(response, "monitorings/monitoring_form.html")
+
+    def test_internal_notes_field_not_present(self):
+        assign_perm("monitorings.change_monitoring", self.user, self.monitoring)
+        self.login_permitted_user()
+        response = self.client.get(self.get_url())
+        self.assertNotIn("internal_notes", response.context["form"].fields)
+
+
+class MonitoringInternalNotesViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
+    permission = ["monitorings.change_monitoring"]
+
+    def get_url(self):
+        return reverse(
+            "monitorings:internal-notes", kwargs={"slug": self.monitoring.slug}
+        )
+
+    def test_template_used(self):
+        assign_perm("monitorings.change_monitoring", self.user, self.monitoring)
+        self.login_permitted_user()
+        response = self.client.get(self.get_url())
+        self.assertTemplateUsed(response, "monitorings/monitoring_internal_notes.html")
+
+    def test_tab_hidden_without_permission(self):
+        response = self.client.get(self.monitoring.get_absolute_url())
+        self.assertNotContains(response, self.get_url())
+
+    def test_tab_shown_with_permission(self):
+        assign_perm("monitorings.change_monitoring", self.user, self.monitoring)
+        self.login_permitted_user()
+        response = self.client.get(self.monitoring.get_absolute_url())
+        self.assertContains(response, self.get_url())
+
+    def test_internal_notes_can_be_updated(self):
+        assign_perm("monitorings.change_monitoring", self.user, self.monitoring)
+        self.login_permitted_user()
+        response = self.client.post(
+            self.get_url(), data={"internal_notes": "Updated internal note"}
+        )
+        self.assertEqual(response.status_code, 200, msg=response.context)
+        self.monitoring.refresh_from_db()
+        self.assertEqual(self.monitoring.internal_notes, "Updated internal note")
+        self.assertContains(response, "Updated internal note")
+
+
+class MonitoringApiTestCase(ObjectMixin, TestCase):
+    def test_internal_notes_not_exposed_in_api(self):
+        self.monitoring.internal_notes = "SECRET-INTERNAL-NOTE"
+        self.monitoring.save()
+        response = self.client.get(reverse("monitoring-list"))
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, "SECRET-INTERNAL-NOTE")
+        self.assertNotIn("internal_notes", response.json()["results"][0])
 
 
 class MonitoringDeleteViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase):
@@ -426,8 +549,7 @@ class MonitoringAssignViewTestCase(ObjectMixin, PermissionStatusMixin, TestCase)
     def send_all_pending(self):
         ids = list(
             {
-                x
-                for x in Case.objects.annotate(count=Count("record"))
+                *Case.objects.annotate(count=Count("record"))
                 .filter(count=0)
                 .all()
                 .values_list("mass_assign", flat=True)

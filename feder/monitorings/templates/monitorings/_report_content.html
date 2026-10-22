@@ -1,16 +1,16 @@
-{% load i18n bootstrap_pagination %}
+{% load i18n %}
 <div class="monitoring-report-content">
-    <h3 class="sr-only">{% trans 'Report' %}</h3>
+    <h3 >{% trans 'Report' %}</h3>
 
     <table class="table">
         <thead>
             <tr>
-                <th class="table__col_checkbox table__col_bottom">
+                <th class="centered centered_cell">
                     <label for="multi-case-tag-select-all">
-                        <span class="sr-only">{% trans "select or unselect all" %}</span>
                         <input type="checkbox"
                                id="multi-case-tag-select-all"
-                               name="select-all-cases">
+                               name="select-all-cases"
+                               title="{% trans 'select or unselect all' %}">
                     </label>
                 </th>
                 <th>{% trans 'institution' %}</th>
@@ -29,12 +29,15 @@
                 </th>
                 <th class="table__col_narrow centered centered_cell">
                     {% trans 'last request status' %}
+                </th>
                 <th class="table__col_narrow centered centered_cell">
                     {% trans 'request confirmed' %}
                 </th>
                 <th class="table__col_narrow centered centered_cell">
                     {% trans 'response received' %}
                 </th>
+                <th class="table__col_narrow centered centered_cell">
+                    {% trans 'last received letter date' %}
                 </th>
             </tr>
         </thead>
@@ -45,7 +48,7 @@
                 <td class="table__col_checkbox centered centered_cell">
                     {% if not case.institution.archival %}
                     <label for="select-case-{{ case.id }}">
-                        <span class="sr-only">{% trans "case" %} {{ case.slug }}</span>
+                        <span class="visually-hidden">{% trans "case" %} {{ case.slug }}</span>
                         <input type="checkbox"
                                id="select-case-{{ case.id }}"
                                name="select-case-{{ case.id }}"
@@ -78,24 +81,25 @@
                 <td class="centered centered_cell">{{ case.first_request.emaillog.status_verbose }}</td>
                 <td class="centered centered_cell">{{ case.last_request.created|date }}</td>
                 <td class="centered centered_cell">{{ case.last_request.emaillog.status_verbose }}</td>
-                <td>
+                <td class="centered centered_cell">
                     {% if case.confirmation_received %}
-                        <i class="fa-solid fa-circle-check fa-lg color-success centered"
+                        <i class="fa-solid fa-circle-check fa-lg color-success"
                            title="{% trans 'yes' %}"></i>
                     {% else %}
-                        <i class="fa-solid fa-circle-xmark fa-lg color-danger centered"
+                        <i class="fa-solid fa-circle-xmark fa-lg color-danger"
                            title="{% trans 'no' %}"></i>
                     {% endif %}
                 </td>
-                <td>
+                <td class="centered centered_cell">
                     {% if case.response_received %}
-                        <i class="fa-solid fa-circle-check fa-lg color-success centered"
+                        <i class="fa-solid fa-circle-check fa-lg color-success"
                            title="{% trans 'yes' %}"></i>
                     {% else %}
-                        <i class="fa-solid fa-circle-xmark fa-lg color-danger centered"
+                        <i class="fa-solid fa-circle-xmark fa-lg color-danger"
                            title="{% trans 'no' %}"></i>
                     {% endif %}
                 </td>
+                <td class="centered centered_cell">{{ case.last_received_letter_date|date }}</td>
             </tr>
             {% empty %}
             <tr>
@@ -106,7 +110,6 @@
     </table>
 
     <div class="text-center">
-        {# bootstrap_paginate object_list url_view_name='monitorings:report' url_extra_kwargs=url_extra_kwargs #}
-        {% bootstrap_paginate page_obj %}
+        {% include 'main/_pagination.html' with page_obj=page_obj %}
     </div>
 </div>

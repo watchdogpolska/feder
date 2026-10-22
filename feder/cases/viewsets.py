@@ -54,6 +54,7 @@ class CaseCSVRenderer(PaginatedCSVStreamingRenderer):
         "last_request_date": _("Last request date"),
         "last_request_status": _("Last request status"),
         "url": _("URL"),
+        "last_received_letter_date": _("Last received letter date"),
     }
     results_field = "results"
 
@@ -103,6 +104,7 @@ class CaseReportViewSet(viewsets.ReadOnlyModelViewSet):
             .select_related("last_request", "last_request__emaillog")
             .with_institution()
             .with_tags_string()
+            .with_last_received_letter_date()
             .for_user(self.request.user)
             .order_by(
                 "institution__jst__parent__parent__name",

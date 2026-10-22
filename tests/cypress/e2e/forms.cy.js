@@ -4,12 +4,20 @@ const {
   createDomain,
 } = require("../testing/management");
 
-// Expected to be invoked inside a div containing one autocomplete field.
-// Waits a bit before pressing enter to give the async operation some time
-// to complete.
+// Expected to be invoked inside a div containing one autocomplete field
+// (a django-autocomplete-light `dal_alight` widget). Waits a bit before
+// pressing down+enter to give the async search request some time to
+// complete; the down arrow highlights the top result, since dal_alight
+// (unlike the old select2 widget) requires an option to be explicitly
+// highlighted before enter will confirm it.
 // If flaky, consider increasing the timeout.
 const selectAutocompleteOptionContaining = (selectionElement, text) => {
-  selectionElement.click().focused().type(text).wait(1000).type("{enter}");
+  selectionElement
+    .click()
+    .focused()
+    .type(text)
+    .wait(1000)
+    .type("{downarrow}{enter}");
 };
 
 // Fill a TinyMCE editor form.
@@ -33,9 +41,6 @@ it("should login and use the app forms", () => {
   // You can create a user with
   // `docker compose --file docker-compose.yml --file docker-compose.test.yml run web python manage.py createsuperuserwithpassword --username e2e --email e2e@example.com --password e2e --noinput`
 
-  const username = Cypress.env("USERNAME") || "e2e";
-  const password = Cypress.env("PASSWORD") || "e2e";
-
   cy.viewport(1920, 1080);
   cy.task("db:clear");
 
@@ -57,13 +62,20 @@ it("should login and use the app forms", () => {
     active: true,
   });
 
-  login(username, password);
-  cy.wait(1000);
+  // cy.env() (the chainable command) replaces Cypress.env() in v16. It only
+  // accepts an array of keys and resolves to an object, available inside a
+  // .then() callback.
+  cy.env(["USERNAME", "PASSWORD"]).then(({ USERNAME, PASSWORD }) => {
+    login(USERNAME || "e2e", PASSWORD || "e2e");
+  });
+  cy.wait(2000);
 
   // Create a monitoring.
   cy.visit("/monitoringi/");
   cy.contains("a", "Dodaj monitoring").click();
-  cy.wait(1000);
+  cy.wait(2000);
+
+  cy.screenshot("monitoring_form", {capture: "viewport"});
 
   cy.get('input[name="name"]').type("test");
   cy.get('input[name="subject"]').type("test subject");
@@ -75,56 +87,75 @@ it("should login and use the app forms", () => {
     '"test footer"'
   );
 
-  cy.wait(1000);
+  cy.wait(2000);
   cy.get('input[type="submit"][value="Zapisz"]').click();
+
+  // Visit the created monitoring.
+  cy.visit("/monitoringi/test");
+  cy.contains("test description").should('exist');
+
+  cy.screenshot("monitoring_detail", {capture: "viewport"});
 
   // Create an institution
   cy.visit("/instytucje/");
   cy.contains("a", "Dodaj instytucj").click();
-  cy.wait(1000);
+  cy.wait(2000);
+
+  cy.screenshot("institution_form", {capture: "viewport"});
 
   cy.get('input[name="name"]').type("Testowa Instytucja");
   cy.contains("div", "Jednostka podziału terytorialnego").within(($div) => {
-    selectAutocompleteOptionContaining(cy.get(".selection"), "Małopolskie");
+    selectAutocompleteOptionContaining(cy.get('input[slot="input"]'), "Małopolskie");
   });
   cy.get('input[name="email"]').type("test@example.com");
   cy.get('input[type="submit"][value="Zapisz"]').click();
-  cy.wait(1000);
+  cy.wait(2000);
+
+  // Visit the created institution.
+  cy.visit("/instytucje/testowa-instytucja");
+  cy.contains("test@example.com").should('exist');
+
+  cy.screenshot("institution_detail", {capture: "viewport"});
 
   // Create a case
   cy.visit("/monitoringi/");
   cy.contains("a", "test").click(); // go to the monitoring detail page
-  cy.wait(1000);
+  cy.wait(2000);
   cy.contains("a", "Utwórz sprawę").click();
-  cy.wait(1000);
+  cy.wait(2000);
 
   cy.get('input[name="name"]').type("test-case");
   cy.contains("div", "Instytucja").within(($div) => {
-    selectAutocompleteOptionContaining(cy.get(".selection"), "Testowa Instytucja");
+    selectAutocompleteOptionContaining(cy.get('input[slot="input"]'), "Testowa Instytucja");
   });
   cy.get('input[type="submit"][value="Zapisz"]').click();
-  cy.wait(1000);
+  cy.wait(2000);
 
-  cy.visit("/sprawy/");
+  // Visit the created case.
+  cy.visit("/sprawy/test-case");
+  cy.contains("test-case").should('exist');
+
+  cy.screenshot("case_detail", {capture: "viewport"});
 
   // Filter cases.
+  cy.visit("/sprawy/");
   cy.get('form').first().within(() => {
 
     cy.contains("div", "Monitoring").within(($div) => {
       selectAutocompleteOptionContaining(
-        cy.get(".selection"),
+        cy.get('input[slot="input"]'),
         "test"
       );
     });
 
     cy.contains("div", "Województwa").within(($div) => {
       selectAutocompleteOptionContaining(
-        cy.get(".selection"),
+        cy.get('input[slot="input"]'),
         "Małopolskie"
       );
     });
 
-    cy.wait(1000);
+    cy.wait(2000);
 
     // Submit the form
     cy.get('button[type="submit"]').click();
@@ -134,14 +165,18 @@ it("should login and use the app forms", () => {
   // Look for a link rather than a name, because the name is also present in the filters form.
   cy.get('body a[href="/sprawy/test-case"]').should('exist');
 
+  cy.screenshot("case_list", {capture: "viewport"});
+
   // Filter using the datatable view.
   cy.visit("/monitoringi/table/");
-  cy.wait(1000);
+  cy.wait(2000);
   cy.contains("td", "test description").should('exist');
+
+  cy.screenshot("monitoring_table", {capture: "viewport"});
 
   // Fill a column filter with random input. It should no longer find any rows.
   cy.get("table thead input[type='text']").first().type("does-not-exist");
-  cy.wait(1000);
+  cy.wait(2000);
   cy.contains("td", "test description").should('not.exist');
   
 });

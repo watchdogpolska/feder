@@ -5,7 +5,7 @@
         {% endif %}
         {% include "django/forms/widgets/attrs.html" %} 
     />
-    <label for="{{ widget.name }}_iframe" class="control-label  requiredField">
+    <label for="{{ widget.name }}_iframe" class="form-label requiredField">
         {{ widget.label }}<span class="asteriskField">*</span> </label>
     <iframe id="{{ widget.name }}_iframe" srcdoc="{{ widget.iframe_src }}"
         sandbox="allow-top-navigation">

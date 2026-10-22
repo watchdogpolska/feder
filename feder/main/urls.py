@@ -45,7 +45,10 @@ urlpatterns += [
     re_path(r"^admin/", admin.site.urls),
     # User management
     path(_("users/"), include("feder.users.urls", namespace="users")),
+    path("accounts/login/", views.CleanLoginView.as_view(), name="account_login"),
+    path("accounts/signup/", views.CleanSignupView.as_view(), name="account_signup"),
     path("accounts/", include("allauth.urls")),
+    path("robots.txt", views.RobotsTxtView.as_view(), name="robots_txt"),
     # Your stuff: custom urls includes go here
     path(
         _("institutions/"),

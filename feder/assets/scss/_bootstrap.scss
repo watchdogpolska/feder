@@ -1,56 +1,29 @@
-/*!
- * Bootstrap v3.3.5 (http://getbootstrap.com)
- * Copyright 2011-2015 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- */
+@use "sass:color";
+@use "variables";
 
-// Core variables and mixins
-@import "bootstrap/variables";
-@import "bootstrap/mixins";
+@forward "bootstrap/scss/bootstrap" with (
+  $font-size-base: variables.$font-size-base,
 
-// Reset and dependencies
-@import "bootstrap/normalize";
-@import "bootstrap/print";
-// @import "bootstrap/glyphicons";
+  $primary: variables.$brand-primary,
+  $success: variables.$brand-success,
+  $info: variables.$brand-info,
+  $warning: variables.$brand-warning,
+  $danger: variables.$brand-danger,
 
-// Core CSS
-@import "bootstrap/scaffolding";
-@import "bootstrap/type";
-@import "bootstrap/code";
-@import "bootstrap/grid";
-@import "bootstrap/tables";
-@import "bootstrap/forms";
-@import "bootstrap/buttons";
+  $border-radius: variables.$border-radius-base,
+  $border-radius-sm: variables.$border-radius-small,
+  $border-radius-lg: variables.$border-radius-large,
 
-// // Components
-@import "bootstrap/component-animations";
-@import "bootstrap/dropdowns";
-@import "bootstrap/button-groups";
-@import "bootstrap/input-groups";
-@import "bootstrap/navs";
-@import "bootstrap/navbar";
-@import "bootstrap/breadcrumbs";
-@import "bootstrap/pagination";
-@import "bootstrap/pager";
-@import "bootstrap/labels";
-@import "bootstrap/badges";
-@import "bootstrap/jumbotron";
-@import "bootstrap/thumbnails";
-@import "bootstrap/alerts";
-@import "bootstrap/progress-bars";
-@import "bootstrap/media";
-@import "bootstrap/list-group";
-@import "bootstrap/panels";
-@import "bootstrap/responsive-embed";
-@import "bootstrap/wells";
-@import "bootstrap/close";
+  $link-decoration: none,
+  $link-hover-decoration: underline,
 
-// Components w/ JavaScript
-@import "bootstrap/modals";
-@import "bootstrap/tooltip";
-@import "bootstrap/popovers";
-@import "bootstrap/carousel";
-
-// Utility classes
-@import "bootstrap/utilities";
-@import "bootstrap/responsive-utilities";
+  $gray-100: color.scale(variables.$gray-base, $lightness: 96.5%),
+  $gray-200: variables.$gray-lighter,
+  $gray-300: color.scale(variables.$gray-base, $lightness: 86.5%),
+  $gray-400: color.scale(variables.$gray-base, $lightness: 76.5%),
+  $gray-500: variables.$gray-light,
+  $gray-600: variables.$gray,
+  $gray-700: variables.$gray-dark,
+  $gray-800: variables.$gray-darker,
+  $gray-900: variables.$gray-base
+);

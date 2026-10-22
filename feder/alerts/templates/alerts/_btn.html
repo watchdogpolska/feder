@@ -3,9 +3,9 @@
 {% get_obj_perms request.user for object.monitoring as "monitoring_perms" %}
 {% if "change_alert" in monitoring_perms or "delete_alert" in monitoring_perms %}
     <div class="clearfix">
-        <div class="pull-right btn-group">
+        <div class="float-end btn-group">
             {% if "change_alert" in monitoring_perms %}
-                <a class="btn btn-default" href="{% url 'alerts:update' pk=object.pk %}">
+                <a class="btn btn-secondary" href="{% url 'alerts:update' pk=object.pk %}">
                     {% trans 'Edit' %}
                 </a>
                 <a class="btn btn-primary" href="{% url 'alerts:status' pk=object.pk %}">

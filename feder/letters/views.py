@@ -257,7 +257,7 @@ class LetterReplyView(
         return result
 
     def get_form_valid_message(self):
-        if self.object.eml:
+        if "send" in self.request.POST:
             return _("Reply {reply} to {letter} saved and send!").format(
                 letter=self.letter, reply=self.object
             )

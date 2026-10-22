@@ -532,7 +532,7 @@ class MonitoringReportView(LoginRequiredMixin, PermissionRequiredMixin, FilterVi
         context = super().get_context_data(**kwargs)
         context["monitoring"] = self.get_object()
         context["tags"] = Tag.objects.for_monitoring(context["monitoring"])
-        get_params = {key: value for key, value in context["filter"].data.items()}
+        get_params = {**context["filter"].data}
         get_params["format"] = "csv"
         get_params["page"] = 1
         get_params["page_size"] = 10000
@@ -556,6 +556,7 @@ class MonitoringReportView(LoginRequiredMixin, PermissionRequiredMixin, FilterVi
             .filter(monitoring__slug=self.kwargs["slug"])
             .with_institution()
             .with_tags_string()
+            .with_last_received_letter_date()
             .order_by(
                 "institution__jst__parent__parent__name",
                 "institution__jst__parent__name",
@@ -629,11 +630,15 @@ class MonitoringTemplateView(DetailView):
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         if "letter_normalization_prompt_extension" in request.POST:
-            self.object.letter_normalization_prompt_extension = request.POST[
-                "letter_normalization_prompt_extension"
-            ]
-            self.object.letter_normalization_prompt_extension_modified = timezone.now()
-            self.object.save()
+            new_prompt_extension = request.POST["letter_normalization_prompt_extension"]
+            if new_prompt_extension != (
+                self.object.letter_normalization_prompt_extension or ""
+            ):
+                self.object.letter_normalization_prompt_extension = new_prompt_extension
+                self.object.letter_normalization_prompt_extension_modified = (
+                    timezone.now()
+                )
+                self.object.save()
         if (
             "update_normalized_response_template" in request.POST
             and self.object.use_llm
@@ -692,6 +697,34 @@ class MonitoringResultsView(DetailView):
         else:
             context["results"] = mark_safe(text_to_html(self.object.results))
         return context
+
+
+class MonitoringInternalNotesView(RaisePermissionRequiredMixin, DetailView):
+    model = Monitoring
+    template_name_suffix = "_internal_notes"
+    select_related = ["user"]
+    permission_required = "monitorings.change_monitoring"
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        qs = qs.for_user(self.request.user)
+        return qs
+
+    def get_context_data(self, **kwargs):
+        kwargs["url_extra_kwargs"] = {"slug": self.object.slug}
+        context = super().get_context_data(**kwargs)
+        context["voivodeship_table"] = mark_safe(
+            self.object.generate_voivodeship_table()
+        )
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if "internal_notes" in request.POST:
+            self.object.internal_notes = request.POST["internal_notes"]
+            self.object.save()
+            messages.success(request, _("Internal notes updated."))
+        return self.get(request, *args, **kwargs)
 
 
 class MonitoringAnswersCategoriesView(DetailView):
@@ -1160,7 +1193,7 @@ class MassMessageView(
         return result
 
 
-class MonitoringAutocomplete(autocomplete.Select2QuerySetView):
+class MonitoringAutocomplete(autocomplete.AlightQuerySetView):
     def get_queryset(self):
         qs = Monitoring.objects
         if self.q:
@@ -1169,7 +1202,7 @@ class MonitoringAutocomplete(autocomplete.Select2QuerySetView):
         return qs.all()
 
 
-class UserMonitoringAutocomplete(autocomplete.Select2QuerySetView):
+class UserMonitoringAutocomplete(autocomplete.AlightQuerySetView):
     def get_queryset(self):
         qs = (
             get_user_model()

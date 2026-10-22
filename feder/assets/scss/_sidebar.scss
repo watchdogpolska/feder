@@ -1,4 +1,5 @@
 @use 'sass:color';
+@use 'variables';
 
 $block-list-item-hover-bg: color.scale(#4C4C4C, $lightness: 10%) !default;
 $block-list-item-selected-bg: color.scale(#4C4C4C, $lightness: -10%) !default;
@@ -39,7 +40,7 @@ $block-list-inidicator-color: $block-list-link-color !default;
 			padding: $block-list-link-padding-vertical $block-list-link-padding-horizontal;
 			font-style: none;
 			text-decoration: none;
-			> .fa, .glyphicon{
+			> .fa{
 				margin-right: 0.5em;
 			}
 		}
@@ -56,17 +57,17 @@ $block-list-inidicator-color: $block-list-link-color !default;
 
 .sidebar{
 	position: fixed;
-	top: $navbar-height;
+	top: variables.$navbar-height;
 	height: 100%;
 	overflow-x: hidden;
 	overflow-y: auto;
 	width: 90%;
-	z-index: #{ $zindex-navbar - 1};
+	z-index: #{ variables.$zindex-navbar - 1};
 	background: #4C4C4C;
 	// min-height: 100vh;
 	transform: translateX(-100%);
 	transition: transform 0.5s;
-	@media(min-width: $grid-float-breakpoint) {
+	@media(min-width: variables.$grid-float-breakpoint) {
 		width: auto;
 		transform: none;
 		height: 100%;
@@ -82,51 +83,6 @@ $block-list-inidicator-color: $block-list-link-color !default;
 		text-align: center;
 		a, a:focus, a:hover{
 			color: white;
-		}
-	}
-}
-
-.navbar-burger{
-	position: relative;
-	display: block;
-	font-size: 16px;
-	margin: .45em 0;
-	// border-bottom: 1px solid white;
-	width: 1em;
-	height: 1px;
-	background-color: white;
-	&, &:before, &:after{
-		transition: .2s;
-	}
-	&:after, &:before{
-		content: '';
-		display: block;
-		width: 100%;
-		background-color: white;
-		height: inherit;
-	}
-	&:before{
-		transform: translateY(-.5em);
-	}
-	&:after{
-		transform: translateY(.40em);
-	}
-	// TODO: Animation
-	// body.show-sidebar &{
-	// 	&{
-	// 		background: transparent;
-	// 	}
-	// 	&:before{
-	// 		transform: rotateZ(45deg)
-	// 	}
-	// 	&:after{
-	// 		transform: rotateZ(-45deg)
-	// 	}
-	// }
-	.navbar-toggle:focus &, .navbar-toggle:hover & {
-		background-color: $brand-primary;
-		&:before, &:after{
-			background-color: $brand-primary;
 		}
 	}
 }

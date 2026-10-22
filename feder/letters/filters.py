@@ -29,7 +29,7 @@ class LetterFilter(UserKwargFilterSetMixin, InitialFilterSet):
         self.filters["title"].lookup_expr = "icontains"
         self.filters["title"].label = _("Title")
         self.filters["record__case__institution"].field.widget = (
-            autocomplete.ModelSelect2(url="institutions:autocomplete")
+            autocomplete.ModelAlight(url="institutions:autocomplete")
         )
         self.filters["record__case__institution"].label = _("Institution")
         if not self.user.has_perm("letters.can_filter_eml"):
