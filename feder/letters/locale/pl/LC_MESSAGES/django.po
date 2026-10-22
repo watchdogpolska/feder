@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: letters 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-21 12:48+0200\n"
+"POT-Creation-Date: 2026-10-22 19:21+0200\n"
 "PO-Revision-Date: 2025-04-24 15:17+0200\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -105,12 +105,12 @@ msgstr "Żądaj skanowania"
 
 #: feder/letters/admin.py:301
 msgid "Schedule text content update for selected attachments"
-msgstr ""
+msgstr "Zaplanuj aktualizację treści tekstowej wybranych załączników"
 
 #: feder/letters/admin.py:309
 #, python-format
 msgid "Scheduled text content update for %(count)d attachment(s)."
-msgstr ""
+msgstr "Zaplanowano aktualizację treści tekstowej dla %(count)d załącznika(ów)."
 
 #: feder/letters/admin.py:357
 #, fuzzy
@@ -163,7 +163,7 @@ msgstr ""
 "Ocena AI została zmieniona. Utworzono zadanie aktualizacji znormalizowanych "
 "odpowiedzi w listach z instytucji"
 
-#: feder/letters/forms.py:158 feder/letters/forms.py:345
+#: feder/letters/forms.py:158 feder/letters/forms.py:349
 msgid ""
 "Case was changed. Task to update letter categorization and upadte normalized "
 "answers created"
@@ -205,11 +205,11 @@ msgstr "Nie masz odpowiedzi, aby wysłać odpowiedź."
 msgid "Assign"
 msgstr "Przypisz"
 
-#: feder/letters/forms.py:314 feder/letters/forms.py:356
+#: feder/letters/forms.py:318 feder/letters/forms.py:360
 msgid "Case number"
 msgstr "Numer sprawy"
 
-#: feder/letters/forms.py:352
+#: feder/letters/forms.py:356
 msgid "Reassign"
 msgstr "Przepisz"
 
@@ -442,9 +442,13 @@ msgstr "Załączniki"
 msgid "Attachments"
 msgstr "Załączniki"
 
+#: feder/letters/templates/letters/_attachment_text_content.html:6
+msgid "No extracted text available."
+msgstr "Brak wyodrębnionego tekstu."
+
 #: feder/letters/templates/letters/_btn.html:13
-#: feder/letters/templates/letters/attachment_base_object.html:49
-#: feder/letters/templates/letters/base_object.html:54
+#: feder/letters/templates/letters/attachment_base_object.html:53
+#: feder/letters/templates/letters/base_object.html:58
 msgid "Edit"
 msgstr "Edytuj"
 
@@ -453,13 +457,13 @@ msgid "Delete"
 msgstr "Usuń"
 
 #: feder/letters/templates/letters/_btn.html:28
-#: feder/letters/templates/letters/letter_send.html:11
-#: feder/letters/templates/letters/letter_send.html:21
+#: feder/letters/templates/letters/letter_send.html:10
+#: feder/letters/templates/letters/letter_send.html:20
 msgid "Send draft"
 msgstr "Wyślij ten szkic"
 
 #: feder/letters/templates/letters/_btn.html:33
-#: feder/letters/templates/letters/letter_reply.html:10
+#: feder/letters/templates/letters/letter_reply.html:9
 msgid "Reply"
 msgstr "Odpowiedź"
 
@@ -468,7 +472,7 @@ msgid "Resend"
 msgstr "Wyślij ponownie"
 
 #: feder/letters/templates/letters/_btn.html:49
-#: feder/letters/templates/letters/letter_spam.html:15
+#: feder/letters/templates/letters/letter_spam.html:14
 #: feder/letters/tests/test_views.py:115
 msgid "Report spam"
 msgstr "Zgłoś spam"
@@ -479,16 +483,16 @@ msgid "Mark spam"
 msgstr "Oznacz spam"
 
 #: feder/letters/templates/letters/_header.html:6
-#: feder/letters/templates/letters/attachment_base_object.html:68
-#: feder/letters/templates/letters/base_object.html:80
-#: feder/letters/templates/letters/base_object.html:101
+#: feder/letters/templates/letters/attachment_base_object.html:72
+#: feder/letters/templates/letters/base_object.html:84
+#: feder/letters/templates/letters/base_object.html:105
 #: feder/letters/templates/letters/letter_preview.html:13
 msgid "by"
 msgstr "przez"
 
 #: feder/letters/templates/letters/_header.html:19
 #: feder/letters/templates/letters/_letter_content_item.html:10
-#: feder/letters/templates/letters/base_object.html:92
+#: feder/letters/templates/letters/base_object.html:96
 msgid "LLM evaluation: "
 msgstr "Ocena listu z LLM"
 
@@ -535,7 +539,7 @@ msgstr ""
 "            </small>"
 
 #: feder/letters/templates/letters/_letter_unrecognized_small.html:24
-#: feder/letters/templates/letters/letter_detail.html:50
+#: feder/letters/templates/letters/letter_detail.html:52
 msgid "Download letter"
 msgstr "Pobierz list"
 
@@ -566,8 +570,8 @@ msgstr "odbiorców"
 #: feder/letters/templates/letters/_object.html:66
 #: feder/letters/templates/letters/letter_form.html:33
 msgid ""
-"This file appears to be password-protected or encrypted, so it could not "
-"be scanned. Download only if you trust the sender."
+"This file appears to be password-protected or encrypted, so it could not be "
+"scanned. Download only if you trust the sender."
 msgstr ""
 "Ten plik wydaje się być zabezpieczony hasłem lub zaszyfrowany, dlatego nie "
 "mógł zostać przeskanowany. Pobierz tylko jeśli ufasz nadawcy."
@@ -575,8 +579,8 @@ msgstr ""
 #: feder/letters/templates/letters/_object.html:70
 #: feder/letters/templates/letters/letter_form.html:37
 msgid ""
-"The scan returned an ambiguous result that was not confirmed as "
-"malicious. Download only if you trust the sender."
+"The scan returned an ambiguous result that was not confirmed as malicious. "
+"Download only if you trust the sender."
 msgstr ""
 "Skanowanie zwróciło niejednoznaczny wynik, który nie został potwierdzony "
 "jako złośliwy. Pobierz tylko jeśli ufasz nadawcy."
@@ -586,20 +590,28 @@ msgstr ""
 msgid "Download"
 msgstr "Pobierz"
 
-#: feder/letters/templates/letters/_object.html:78
+#: feder/letters/templates/letters/_object.html:86
 msgid "Refresh text content"
 msgstr "Odśwież treść załączników"
 
-#: feder/letters/templates/letters/_object.html:89
-#: feder/letters/templates/letters/letter_form.html:40
+#: feder/letters/templates/letters/_object.html:96
+#: feder/letters/templates/letters/letter_form.html:49
 msgid "Scan"
 msgstr "Skanuj"
 
-#: feder/letters/templates/letters/attachment_base_object.html:72
+#: feder/letters/templates/letters/_object.html:114
+msgid "Show att text"
+msgstr "Pokaż tekst załącznika"
+
+#: feder/letters/templates/letters/_object.html:131
+msgid "Close"
+msgstr "Zamknij"
+
+#: feder/letters/templates/letters/attachment_base_object.html:76
 msgid "unknown"
 msgstr "nieznany"
 
-#: feder/letters/templates/letters/attachment_base_object.html:77
+#: feder/letters/templates/letters/attachment_base_object.html:81
 #, python-format
 msgid ""
 "\n"
@@ -614,34 +626,34 @@ msgstr ""
 "small>\n"
 "            "
 
-#: feder/letters/templates/letters/attachment_request_scan.html:15
+#: feder/letters/templates/letters/attachment_request_scan.html:14
 msgid "Scan request"
 msgstr "Żądaj skanowania"
 
-#: feder/letters/templates/letters/attachment_request_scan.html:20
+#: feder/letters/templates/letters/attachment_request_scan.html:19
 #, python-format
 msgid "Are you sure you want to request scan of \"%(object)s\"?"
 msgstr "Czy jesteś pewien, że chcesz zażądać skanowania \"%(object)s\"?"
 
-#: feder/letters/templates/letters/attachment_request_scan.html:25
+#: feder/letters/templates/letters/attachment_request_scan.html:24
 msgid "Request scan"
 msgstr "Żądaj skanowania"
 
-#: feder/letters/templates/letters/base_object.html:37
+#: feder/letters/templates/letters/base_object.html:40
 msgid "Draft"
 msgstr "Szkic"
 
-#: feder/letters/templates/letters/base_object.html:83
-#: feder/letters/templates/letters/base_object.html:103
+#: feder/letters/templates/letters/base_object.html:87
+#: feder/letters/templates/letters/base_object.html:107
 msgid "in case of"
 msgstr "w sprawie"
 
-#: feder/letters/templates/letters/base_object.html:84
-#: feder/letters/templates/letters/base_object.html:104
+#: feder/letters/templates/letters/base_object.html:88
+#: feder/letters/templates/letters/base_object.html:108
 msgid "with"
 msgstr "z"
 
-#: feder/letters/templates/letters/base_object.html:100
+#: feder/letters/templates/letters/base_object.html:104
 msgid "New letter"
 msgstr "Nowy list"
 
@@ -653,20 +665,20 @@ msgstr "Potwierdź usuwanie"
 msgid "This is a mass message draft for recipients with tags:"
 msgstr "To jest szablon wiadomości masowej dla odbiorców z tagami:"
 
-#: feder/letters/templates/letters/letter_mark_spam.html:15
+#: feder/letters/templates/letters/letter_mark_spam.html:14
 msgid "Mark (non-)spam"
 msgstr "Oznacz jako (nie-)spam"
 
-#: feder/letters/templates/letters/letter_mark_spam.html:20
+#: feder/letters/templates/letters/letter_mark_spam.html:19
 #, python-format
 msgid "Are you sure you want to mark \"%(object)s\"?"
 msgstr "Czy jesteś pewien, że chcesz oznaczyć \"%(object)s\"?"
 
-#: feder/letters/templates/letters/letter_mark_spam.html:25
+#: feder/letters/templates/letters/letter_mark_spam.html:24
 msgid "Mark as spam"
 msgstr "Oznacz jako spam"
 
-#: feder/letters/templates/letters/letter_mark_spam.html:26
+#: feder/letters/templates/letters/letter_mark_spam.html:25
 msgid "Mark as non-spam"
 msgstr "Oznacz jako nie-spam"
 
@@ -682,7 +694,7 @@ msgstr "Wyślij"
 msgid "Or edit it again"
 msgstr "Lub edytuj je ponownie"
 
-#: feder/letters/templates/letters/letter_reply.html:17
+#: feder/letters/templates/letters/letter_reply.html:16
 #, python-format
 msgid ""
 "Reply for\n"
@@ -691,21 +703,21 @@ msgstr ""
 "Odpowiedź na \n"
 "            <a href=\"%(url)s\">%(object)s</a>"
 
-#: feder/letters/templates/letters/letter_resend.html:15
+#: feder/letters/templates/letters/letter_resend.html:14
 msgid "Resend letter"
 msgstr "Wyślij ponownie list"
 
-#: feder/letters/templates/letters/letter_resend.html:20
+#: feder/letters/templates/letters/letter_resend.html:19
 #, python-format
 msgid "Are you sure you want to resend letter \"%(object)s\"?"
 msgstr "Czy jesteś pewien, że chcesz wysłać ponownie \"%(object)s\"?"
 
-#: feder/letters/templates/letters/letter_send.html:16
+#: feder/letters/templates/letters/letter_send.html:15
 #, python-format
 msgid "Are you sure you want to send \"%(object)s\"?"
 msgstr "Czy jesteś pewien, że chcesz wysłać \"%(object)s\"?"
 
-#: feder/letters/templates/letters/letter_spam.html:20
+#: feder/letters/templates/letters/letter_spam.html:19
 #, python-format
 msgid "Are you sure you want to report as spam \"%(object)s\"?"
 msgstr "Czy jesteś pewien, że chcesz zgłosić \"%(object)s\" jako spam?"
@@ -798,41 +810,47 @@ msgstr "^(?P<pk>[\\d-]+)-msg$"
 msgid "^attachment/(?P<pk>[\\d-]+)/(?P<letter_pk>[\\d-]+)$"
 msgstr "^zalacznik/(?P<pk>[\\d-]+)/(?P<letter_pk>[\\d-]+)$"
 
-#: feder/letters/urls.py:55
+#: feder/letters/urls.py:51
+#, fuzzy
+#| msgid "^attachment/(?P<pk>[\\d-]+)/(?P<letter_pk>[\\d-]+)$"
+msgid "^attachment/(?P<pk>[\\d-]+)/(?P<letter_pk>[\\d-]+)/~text-content$"
+msgstr "^zalacznik/(?P<pk>[\\d-]+)/(?P<letter_pk>[\\d-]+)$"
+
+#: feder/letters/urls.py:60
 msgid "^(?P<pk>[\\d-]+)/~update$"
 msgstr "^(?P<pk>[\\d-]+)/~edytuj$"
 
-#: feder/letters/urls.py:57
+#: feder/letters/urls.py:62
 msgid "^(?P<pk>[\\d-]+)/~send"
 msgstr "^(?P<pk>[\\d-]+)/~wyslij"
 
-#: feder/letters/urls.py:59
+#: feder/letters/urls.py:64
 msgid "^(?P<pk>[\\d-]+)/~delete$"
 msgstr "^(?P<pk>[\\d-]+)/~usun$"
 
-#: feder/letters/urls.py:62
+#: feder/letters/urls.py:67
 msgid "^(?P<pk>[\\d-]+)/~reply$"
 msgstr "^(?P<pk>[\\d-]+)/~odpowiedz$"
 
-#: feder/letters/urls.py:68
+#: feder/letters/urls.py:73
 msgid "^(?P<pk>[\\d-]+)/~spam"
 msgstr "^(?P<pk>[\\d-]+)/~spam"
 
-#: feder/letters/urls.py:71
+#: feder/letters/urls.py:76
 msgid "^(?P<pk>[\\d-]+)/~mark-spam"
 msgstr "^(?P<pk>[\\d-]+)/~oznacz-spam"
 
-#: feder/letters/urls.py:76
+#: feder/letters/urls.py:81
 #, fuzzy
 #| msgid "Reassign"
 msgid "assign"
 msgstr "Przepisz"
 
-#: feder/letters/urls.py:81
+#: feder/letters/urls.py:86
 msgid "^~assign-(?P<pk>[\\d-]+)$"
 msgstr "^~przypisz-(?P<pk>[\\d-]+)$"
 
-#: feder/letters/urls.py:85
+#: feder/letters/urls.py:90
 msgid "webhook"
 msgstr "webhook"
 
@@ -850,32 +868,32 @@ msgstr ""
 "kategoryzacji AI listów. Może minąć trochę czasu, zanim uzyskasz pełną "
 "aktualizację - sprawdź kolejkę zadań w panelu administracyjnym."
 
-#: feder/letters/views.py:260
+#: feder/letters/views.py:261
 #, python-brace-format
 msgid "Reply {reply} to {letter} saved and send!"
 msgstr "Odpowiedź {reply} na {letter} zapisana i wysłana!"
 
-#: feder/letters/views.py:263
+#: feder/letters/views.py:264
 #, python-brace-format
 msgid "Reply {reply} to {letter} saved to review!"
 msgstr "Odpowiedź {reply} do listu {letter} zapisana do przejrzenia!"
 
-#: feder/letters/views.py:280
+#: feder/letters/views.py:281
 #, python-brace-format
 msgid ""
 "Message \"{letter}\" has been scheduled for sending to {count} recipients!"
 msgstr "Wiadomość \"{letter}\" zaplanowana do wysyłki do {count} odbiorców!"
 
-#: feder/letters/views.py:289
+#: feder/letters/views.py:290
 #, python-brace-format
 msgid "Reply \"{letter}\" has been sent to {institution}!"
 msgstr "Odpowiedź \"{letter}\" została wysłana do {institution}!"
 
-#: feder/letters/views.py:353
+#: feder/letters/views.py:354
 msgid "Latest letters on whole site"
 msgstr "Ostatnie listy na całej stronie"
 
-#: feder/letters/views.py:356
+#: feder/letters/views.py:357
 msgid ""
 "Updates on new letters on site including receving and sending in all "
 "monitorings."
@@ -883,55 +901,55 @@ msgstr ""
 "Aktualizacje wszystkich listów na stronie włączając w to listy przychodzące "
 "i wychodzące w wszystkich monitoringach."
 
-#: feder/letters/views.py:412
+#: feder/letters/views.py:413
 #, python-format
 msgid "Letter for monitoring %s"
 msgstr "Listy monitoringu %s"
 
-#: feder/letters/views.py:416
+#: feder/letters/views.py:417
 #, python-format
 msgid "Archive of letter for cases which involved in monitoring %s"
 msgstr "Archiwum listów w sprawach z monitoringu %s"
 
-#: feder/letters/views.py:432
+#: feder/letters/views.py:433
 #, python-format
 msgid "Letter for case %s"
 msgstr "Listy w sprawie %s"
 
-#: feder/letters/views.py:435
+#: feder/letters/views.py:436
 #, python-format
 msgid "Archive of letter for case %s"
 msgstr "Archiwum listów w sprawie %s"
 
-#: feder/letters/views.py:460
+#: feder/letters/views.py:461
 msgid "SPAM"
 msgstr "SPAM"
 
-#: feder/letters/views.py:467
+#: feder/letters/views.py:468
 msgid "Thanks for your help. The report was forwarded to responsible persons."
 msgstr ""
 "Dziękujemy za pomoc. Zgłoszenie zostało przekazane do odpowiedzialnych osób."
 
-#: feder/letters/views.py:507
+#: feder/letters/views.py:508
 msgid "The message was resend."
 msgstr "Wiadomość została wysłana ponownie."
 
-#: feder/letters/views.py:550
+#: feder/letters/views.py:558
 #, python-brace-format
 msgid "The letter {object} has been marked as valid."
 msgstr "List {object} został oznaczony jako \"Nie-spam\"."
 
-#: feder/letters/views.py:553
+#: feder/letters/views.py:561
 #, python-brace-format
 msgid "The message {object} has been marked as spam and hidden."
 msgstr "List {object} został oznaczony jako \"Spam\" i ukryty."
 
-#: feder/letters/views.py:615
+#: feder/letters/views.py:623
 #, python-format
 msgid "Assigned letter to case '%(case)s'"
 msgstr "Przypisano list do sprawy '%(case)s'"
 
-#: feder/letters/views.py:664
+#: feder/letters/views.py:672
 msgid ""
 "You do not have permission to view that file. The file was considered "
 "dangerous."
@@ -939,11 +957,11 @@ msgstr ""
 "Nie masz uprawnień do wyświetlania tego pliku. Plik został uznany za "
 "niebezpieczny."
 
-#: feder/letters/views.py:669 feder/letters/views.py:673
+#: feder/letters/views.py:677 feder/letters/views.py:681
 msgid "You do not have permission to view that file."
 msgstr "Nie masz uprawnień do wyświetlania tego pliku."
 
-#: feder/letters/views.py:696
+#: feder/letters/views.py:712
 msgid "The file {} has been queued for scanning"
 msgstr "Plik {} został zakolejkowany do skanowania"
 
