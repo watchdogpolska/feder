@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-21 12:48+0200\n"
+"POT-Creation-Date: 2026-10-22 19:21+0200\n"
 "PO-Revision-Date: 2021-01-29 01:44+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -57,11 +57,11 @@ msgstr "Utwórz"
 msgid "Tags index"
 msgstr "Wykaz tagów"
 
-#: feder/cases_tags/templates/cases_tags/tag_confirm_delete.html:9
+#: feder/cases_tags/templates/cases_tags/tag_confirm_delete.html:8
 msgid "Confirm delete"
 msgstr "Potwierdzenie usunięcia"
 
-#: feder/cases_tags/templates/cases_tags/tag_form.html:24
+#: feder/cases_tags/templates/cases_tags/tag_form.html:25
 msgid "Add tag"
 msgstr "Dodaj tag"
 
@@ -89,11 +89,11 @@ msgstr "^monitoring-(?P<monitoring>[\\d]+)/(?P<pk>[\\d]+)/~update$"
 msgid "^monitoring-(?P<monitoring>[\\d]+)/(?P<pk>[\\d]+)/~delete$"
 msgstr "^monitoring-(?P<monitoring>[\\d]+)/(?P<pk>[\\d]+)/~delete$"
 
-#: feder/cases_tags/views.py:25
+#: feder/cases_tags/views.py:26
 msgid "Tag index"
 msgstr "Wykaz tagów"
 
-#: feder/cases_tags/views.py:98
+#: feder/cases_tags/views.py:99
 #, python-brace-format
 msgid "{object} deleted!"
 msgstr "{object} usunięty!"

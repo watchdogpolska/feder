@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-21 12:48+0200\n"
+"POT-Creation-Date: 2026-10-22 19:21+0200\n"
 "PO-Revision-Date: 2024-03-13 19:27+0124\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: \n"
@@ -65,7 +65,7 @@ msgstr "E-mail"
 msgid "Password change"
 msgstr "Zmień hasło"
 
-#: feder/users/templates/users/user_form.html:18
+#: feder/users/templates/users/user_form.html:17
 msgid "Update"
 msgstr "Aktualizuj"
 

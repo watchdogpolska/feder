@@ -28,6 +28,13 @@
             href="{% url 'monitorings:results' slug=object.slug %}"
         {% endif %}
         >{% trans 'Results' %}</a></li>
+        {% if 'change_monitoring' in monitoring_perms %}
+        <li class="nav-item"><a class="nav-link{% if tab == 'internal_notes' %} active{% endif %}"
+        {% if tab != 'internal_notes' %}
+            href="{% url 'monitorings:internal-notes' slug=object.slug %}"
+        {% endif %}
+        >{% trans 'Internal notes' %}</a></li>
+        {% endif %}
         {% if user.is_superuser and object.use_llm and object.normalized_response_template %}
             <li class="nav-item"><a class="nav-link{% if tab == 'answers_categories' %} active{% endif %}"
             {% if tab != 'answers_categories' %}
