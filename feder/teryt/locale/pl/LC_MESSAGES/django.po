@@ -3,12 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: feder/teryt/urls.py:9 feder/teryt/urls.py:10
+#: feder/teryt/urls.py:8 feder/teryt/urls.py:9
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-21 12:48+0200\n"
+"POT-Creation-Date: 2026-10-22 19:21+0200\n"
 "PO-Revision-Date: 2023-05-16 13:02+0000\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: \n"
@@ -24,11 +24,11 @@ msgstr ""
 
 #: feder/teryt/admin.py:17 feder/teryt/admin.py:21
 msgid "Activate selected JSTs"
-msgstr ""
+msgstr "Aktywuj wybrane JST"
 
 #: feder/teryt/admin.py:23 feder/teryt/admin.py:27
 msgid "Deactivate selected JSTs"
-msgstr ""
+msgstr "Dezaktywuj wybrane JST"
 
 #: feder/teryt/filters.py:26
 msgid "County"
@@ -131,7 +131,7 @@ msgstr "Województwa"
 msgid "Select voivodeship."
 msgstr "Wybierz województwo"
 
-#: feder/teryt/urls.py:8
+#: feder/teryt/urls.py:7
 msgid "^(?P<slug>[\\w-]+)$"
 msgstr "^(?P<slug>[\\w-]+)$"
 
