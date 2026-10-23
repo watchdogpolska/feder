@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-institutions 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-21 12:48+0200\n"
+"POT-Creation-Date: 2026-10-22 19:21+0200\n"
 "PO-Revision-Date: 2024-02-09 18:25+0124\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -59,7 +59,7 @@ msgid "Slug"
 msgstr "Identyfikator redakcyjny"
 
 #: feder/institutions/models.py:38 feder/institutions/models.py:135
-#: feder/institutions/templates/institutions/institution_detail.html:55
+#: feder/institutions/templates/institutions/institution_detail.html:54
 msgid "Tags"
 msgstr "Tagi"
 
@@ -103,7 +103,7 @@ msgid "Tag"
 msgstr "Tag"
 
 #: feder/institutions/templates/institutions/_btn.html:8
-#: feder/institutions/templates/institutions/base_object.html:28
+#: feder/institutions/templates/institutions/base_object.html:27
 msgid "Edit"
 msgstr "Edycja"
 
@@ -124,43 +124,43 @@ msgstr "Liczba spraw"
 msgid "Institutions"
 msgstr "Instytucje"
 
-#: feder/institutions/templates/institutions/base_object.html:29
+#: feder/institutions/templates/institutions/base_object.html:28
 #: feder/institutions/templates/institutions/institution_filter.html:9
 msgid "Add institution"
 msgstr "Dodaj instytucje"
 
-#: feder/institutions/templates/institutions/institution_confirm_delete.html:9
+#: feder/institutions/templates/institutions/institution_confirm_delete.html:8
 msgid "Confirm delete"
 msgstr "Potwierdź usuwanie"
 
-#: feder/institutions/templates/institutions/institution_detail.html:51
+#: feder/institutions/templates/institutions/institution_detail.html:50
 msgid "E-mail"
 msgstr "E-mail"
 
-#: feder/institutions/templates/institutions/institution_detail.html:52
+#: feder/institutions/templates/institutions/institution_detail.html:51
 msgid "Archival"
 msgstr "Archiwalne"
 
-#: feder/institutions/templates/institutions/institution_detail.html:62
+#: feder/institutions/templates/institutions/institution_detail.html:61
 msgid "Cases"
 msgstr "Sprawy"
 
-#: feder/institutions/templates/institutions/institution_detail.html:76
+#: feder/institutions/templates/institutions/institution_detail.html:75
 msgid "No rows."
 msgstr "Brak wierszy"
 
-#: feder/institutions/templates/institutions/institution_detail.html:84
+#: feder/institutions/templates/institutions/institution_detail.html:83
 msgid "previous"
 msgstr "poprzednia"
 
-#: feder/institutions/templates/institutions/institution_detail.html:88
+#: feder/institutions/templates/institutions/institution_detail.html:87
 #, python-format
 msgid ""
 "Page %(no)s of\n"
 "                        %(total)s"
 msgstr "Strona %(no)s z %(total)s"
 
-#: feder/institutions/templates/institutions/institution_detail.html:93
+#: feder/institutions/templates/institutions/institution_detail.html:92
 msgid "next"
 msgstr "następna"
 
