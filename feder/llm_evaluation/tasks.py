@@ -131,7 +131,9 @@ def update_letter_normalized_answers(letter_pk):
 
 
 @background(schedule=120)
-def categorize_letter_answer_to_monitoring_question(letter_pk, question_number):
+def categorize_letter_answer_to_monitoring_question(
+    letter_pk, question_number, force_categorize=False
+):
     from feder.letters.models import Letter
 
     letter = Letter.objects.filter(pk=letter_pk).first()
@@ -142,7 +144,9 @@ def categorize_letter_answer_to_monitoring_question(letter_pk, question_number):
         return msg
 
     if EMAIL_IS_ANSWER in letter.ai_evaluation:
-        LlmLetterRequest.categorize_answer(letter, question_number)
+        LlmLetterRequest.categorize_answer(
+            letter, question_number, force_categorize=force_categorize
+        )
         msg = (
             f'Letter with pk={letter_pk} answer to question "{question_number}"'
             + " categorized."
@@ -251,6 +255,57 @@ def update_monitoring_responses_categorization_and_normalization(monitoring_pk):
         categorize_letter_in_background(letter.pk)
 
     msg = f"Tasks to categorize letters for monitoring pk={monitoring_pk} generated."
+    return msg
+
+
+@background(schedule=120)
+def update_case_responses_categorization_and_normalization(case_pk):
+    from feder.cases.models import Case
+    from feder.letters.models import Letter
+
+    letters_to_normalize = (
+        Letter.objects.all()
+        .filter(record__case__pk=case_pk)
+        .filter(author_user__isnull=True)
+    )
+
+    if not letters_to_normalize:
+        msg = f"No letters to normalize for case with pk={case_pk}."
+        logger.warning(msg)
+        return msg
+
+    case = Case.objects.filter(pk=case_pk).select_related("monitoring").first()
+    questions_to_categorize_list = []
+    if case and case.monitoring:
+        response_answers_categories_dict = (
+            case.monitoring.get_normalized_response_answers_categories_dict()
+        )
+        questions_to_categorize_list = [
+            k
+            for k, v in response_answers_categories_dict.items()
+            if v["answer_categories"]
+        ]
+
+    for letter in letters_to_normalize:
+        # .now() runs categorization synchronously, so get_normalized_answers
+        # (called inside it for answer letters) and ai_evaluation are guaranteed
+        # to be done before the question categorization below is queued.
+        try:
+            categorize_letter_in_background.now(letter.pk)
+        except Exception:
+            logger.exception(
+                f"Letter (pk={letter.pk}) categorization failed - skipping"
+                + " answer-to-question categorization."
+            )
+            continue
+        letter.refresh_from_db(fields=["ai_evaluation"])
+        if letter.ai_evaluation and EMAIL_IS_ANSWER in letter.ai_evaluation:
+            for question_number in questions_to_categorize_list:
+                categorize_letter_answer_to_monitoring_question(
+                    letter.pk, question_number, force_categorize=True
+                )
+
+    msg = f"Tasks to categorize letters for case pk={case_pk} generated."
     return msg
 
 

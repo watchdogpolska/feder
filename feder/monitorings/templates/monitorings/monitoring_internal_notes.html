@@ -1,0 +1,88 @@
+{% extends 'monitorings/base_monitoring_detail.html' %}
+{% load i18n %}
+{% block content_object %}
+    {% include 'monitorings/_tabs.html' with tab='internal_notes' %}
+    <style>
+        .content-frame {
+            border: 1px solid darkgray; /* Black border */
+            background-color: white; /* White background */
+            padding: 10px; /* Optional: Add padding for content inside the div */
+        }
+        #internalNotesPopup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            color: rgb(0, 0, 0);
+            background-color: white;
+            border: 1px solid #000000;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+            width: 50vw;
+            max-height: 80vh;
+            overflow: auto;
+        }
+        #internalNotesPopup textarea {
+            width: 100%;
+        }
+    </style>
+    <h3 class="visually-hidden">{% trans "Internal notes" %}</h3>
+    <div class="gray">
+        <div class="row" style="display: flex; align-items: flex-end;">
+            <div class="col-md-6">
+                <h5><b>{% trans "Internal notes" %}</b></h5>
+            </div>
+            <div class="col-md-6 text-end">
+                <a class="btn btn-primary" id="editInternalNotesButton" href="#">
+                    {% trans 'Edit' %}
+                </a>
+            </div>
+        </div>
+        <div class="content-frame">
+            {% if object.internal_notes %}
+                {{ object.internal_notes|linebreaksbr }}
+            {% else %}
+                <span class="text-muted">{% trans "No internal notes yet." %}</span>
+            {% endif %}
+        </div>
+    </div>
+
+    <div id="modalBackdrop" style="display: none; position: fixed; width: 100%; height: 100%;
+        top: 0; left: 0; background-color: rgba(0,0,0,0.5); z-index: 9999;">
+    </div>
+
+    <div id="internalNotesPopup">
+        <form method="post">
+            {% csrf_token %}
+            <div class="row">
+                <h4><b>{% trans 'Edit internal notes' %}</b></h4>
+            </div>
+            <div class="row">
+                <textarea name="internal_notes" class="form-control" rows="12"
+                    >{{ object.internal_notes }}</textarea>
+            </div>
+            <div class="row mt-3">
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">{% trans 'Save' %}</button>
+                    <button type="button" id="cancelInternalNotesButton" class="btn btn-secondary">
+                        {% trans 'Cancel' %}
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('editInternalNotesButton').addEventListener('click', function (event) {
+            event.preventDefault();
+            document.getElementById('internalNotesPopup').style.display = 'block';
+            document.getElementById('modalBackdrop').style.display = 'block';
+        });
+        document.getElementById('cancelInternalNotesButton').addEventListener('click', function () {
+            document.getElementById('internalNotesPopup').style.display = 'none';
+            document.getElementById('modalBackdrop').style.display = 'none';
+        });
+    </script>
+{% endblock %}

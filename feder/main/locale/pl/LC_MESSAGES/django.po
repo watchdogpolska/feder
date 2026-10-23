@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: main 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-21 12:48+0200\n"
+"POT-Creation-Date: 2026-10-22 19:21+0200\n"
 "PO-Revision-Date: 2024-08-21 11:13+0200\n"
 "Last-Translator:   <piotr.iwanski@gmail.com>\n"
 "Language-Team: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
@@ -21,11 +21,11 @@ msgstr ""
 "X-Generator: Poedit 2.4.1\n"
 "X-Translated-Using: django-rosetta 0.10.0\n"
 
-#: config/settings/common.py:189
+#: config/settings/common.py:188
 msgid "Polish"
 msgstr "Polski"
 
-#: config/settings/common.py:189
+#: config/settings/common.py:188
 msgid "English"
 msgstr "Angielski"
 
@@ -193,19 +193,19 @@ msgstr "Czy na pewno chcesz usunąć \"%(object)s\"?"
 msgid "Delete"
 msgstr "Usuń"
 
-#: feder/main/templates/_filter.html:15 feder/main/templates/main/home.html:31
-msgid "No rows."
-msgstr "Brak wierszy."
-
-#: feder/main/templates/_filter.html:29
+#: feder/main/templates/_filter.html:14
 msgid "Filter"
 msgstr "Filtruj"
+
+#: feder/main/templates/_filter.html:34 feder/main/templates/main/home.html:31
+msgid "No rows."
+msgstr "Brak wierszy."
 
 #: feder/main/templates/_navbar.html:8
 msgid "Toggle navigation"
 msgstr "Przełącz nawigacje"
 
-#: feder/main/templates/_navbar.html:16 feder/main/templates/base.html:7
+#: feder/main/templates/_navbar.html:13 feder/main/templates/base.html:7
 msgid "Civil data mining"
 msgstr "Obywatelskie fedrowanie danych"
 
@@ -265,7 +265,13 @@ msgstr "Panel administracyjny"
 msgid "Logout"
 msgstr "Wyloguj"
 
-#: feder/main/templates/_sidebar.html:90
+#: feder/main/templates/_sidebar.html:86
+#: feder/main/templates/account/signup.html:14
+#: feder/main/templates/account/signup.html:26
+msgid "Sign Up"
+msgstr "Zarejestuj się"
+
+#: feder/main/templates/_sidebar.html:91
 msgid "Log In"
 msgstr "Zaloguj"
 
@@ -285,36 +291,36 @@ msgstr "Adresy e-mail"
 msgid "The following e-mail addresses are associated with your account:"
 msgstr "Poniższe adresy e-mail są powiązane z Twoim kontem:"
 
-#: feder/main/templates/account/email.html:34
+#: feder/main/templates/account/email.html:31
 msgid "Verified"
 msgstr "Zweryfikowany"
 
-#: feder/main/templates/account/email.html:36
+#: feder/main/templates/account/email.html:33
 msgid "Unverified"
 msgstr "Brak weryfikacji"
 
-#: feder/main/templates/account/email.html:39
+#: feder/main/templates/account/email.html:36
 msgid "Primary"
 msgstr "Podstawowy"
 
-#: feder/main/templates/account/email.html:46
+#: feder/main/templates/account/email.html:43
 msgid "Make Primary"
 msgstr "Uczyń podstawowym"
 
-#: feder/main/templates/account/email.html:48
+#: feder/main/templates/account/email.html:45
 msgid "Re-send Verification"
 msgstr "Prześlij ponownie wiadomość weryfikacyjną"
 
-#: feder/main/templates/account/email.html:50
+#: feder/main/templates/account/email.html:47
 #: feder/main/templates/socialaccount/connections.html:47
 msgid "Remove"
 msgstr "Usuń"
 
-#: feder/main/templates/account/email.html:58
+#: feder/main/templates/account/email.html:55
 msgid "Warning:"
 msgstr "Uwaga:"
 
-#: feder/main/templates/account/email.html:58
+#: feder/main/templates/account/email.html:55
 msgid ""
 "You currently do not have any e-mail address set up. You should really add "
 "an e-mail address so you can receive notifications, reset your password, etc."
@@ -323,15 +329,15 @@ msgstr ""
 "Powinieneś je dodać, aby otrzymywać informacje administracyjne, wiadomości o "
 "zmianie hasła, itd."
 
-#: feder/main/templates/account/email.html:66
+#: feder/main/templates/account/email.html:63
 msgid "Add E-mail Address"
 msgstr "Dodaj adres e-mail"
 
-#: feder/main/templates/account/email.html:72
+#: feder/main/templates/account/email.html:69
 msgid "Add E-mail"
 msgstr "Dodaj e-mail"
 
-#: feder/main/templates/account/email.html:85
+#: feder/main/templates/account/email.html:82
 msgid "Do you really want to remove the selected e-mail address?"
 msgstr "Czy naprawdę chcesz usunąć wybrany adres e-mail?"
 
@@ -380,15 +386,16 @@ msgstr ""
 "adresem e-mail użytkownika %(user_display)s."
 
 #: feder/main/templates/account/login.html:7
-#: feder/main/templates/account/login.html:34
+#: feder/main/templates/account/login.html:42
+#: feder/main/templates/account/signup_closed.html:19
 msgid "Sign In"
 msgstr "Zaloguj"
 
-#: feder/main/templates/account/login.html:14
+#: feder/main/templates/account/login.html:18
 msgid "Sign In using Social Media"
 msgstr "Zaloguj poprzez media społecznościowe"
 
-#: feder/main/templates/account/login.html:15
+#: feder/main/templates/account/login.html:20
 #, python-format
 msgid ""
 "Please sign in with Google account,\n"
@@ -399,15 +406,20 @@ msgstr ""
 "href=\"%(signup_url)s\">zarejestruj się</a> \n"
 "na stronie i zaloguj poniżej."
 
-#: feder/main/templates/account/login.html:26
+#: feder/main/templates/account/login.html:24
+msgid "Please sign in with Google account or with your user account below."
+msgstr ""
+"Zaloguj się za pomocą konta Google lub za pomocą konta użytkownika poniżej."
+
+#: feder/main/templates/account/login.html:34
 msgid "Alternatively use user account"
 msgstr "Możesz też użyć konta użytkownika"
 
-#: feder/main/templates/account/login.html:36
+#: feder/main/templates/account/login.html:44
 msgid "Forgot Password?"
 msgstr "Zapomniałeś hasła?"
 
-#: feder/main/templates/account/login.html:38
+#: feder/main/templates/account/login.html:47
 #, python-format
 msgid ""
 "If you do not have a user account,\n"
@@ -415,6 +427,15 @@ msgid ""
 msgstr ""
 "Jeżeli nie masz jeszcze konta, to proszę <a "
 "href=\"%(signup_url)s\">zarejestruj się</a>"
+
+#: feder/main/templates/account/login.html:50
+#: feder/main/templates/account/signup_closed.html:17
+msgid ""
+"Public sign up is not available. User accounts are created by the "
+"administrators."
+msgstr ""
+"Samodzielna rejestracja nie jest dostępna. Konta użytkowników zakładają "
+"administratorzy."
 
 #: feder/main/templates/account/logout.html:5
 #: feder/main/templates/account/logout.html:12
@@ -430,20 +451,20 @@ msgstr "Jesteś pewny, że chcesz się wylogować ?"
 #: feder/main/templates/account/password_change.html:11
 #: feder/main/templates/account/password_change.html:16
 #: feder/main/templates/account/password_reset_from_key.html:6
-#: feder/main/templates/account/password_reset_from_key.html:12
+#: feder/main/templates/account/password_reset_from_key.html:16
 #: feder/main/templates/account/password_reset_from_key_done.html:4
-#: feder/main/templates/account/password_reset_from_key_done.html:10
+#: feder/main/templates/account/password_reset_from_key_done.html:14
 msgid "Change Password"
 msgstr "Zmień hasło"
 
 #: feder/main/templates/account/password_reset.html:7
-#: feder/main/templates/account/password_reset.html:14
+#: feder/main/templates/account/password_reset.html:18
 #: feder/main/templates/account/password_reset_done.html:6
-#: feder/main/templates/account/password_reset_done.html:12
+#: feder/main/templates/account/password_reset_done.html:16
 msgid "Password Reset"
 msgstr "Resetowanie hasła"
 
-#: feder/main/templates/account/password_reset.html:19
+#: feder/main/templates/account/password_reset.html:23
 msgid ""
 "Forgotten your password? Enter your e-mail address below, and we'll send you "
 "an e-mail allowing you to reset it."
@@ -451,18 +472,18 @@ msgstr ""
 "Zapomniałeś swojego hasła? Wpisz swój adres e-mail poniżej, a my wyślemy "
 "Tobie wiadomość, dzięki której dokonasz jego zmiany."
 
-#: feder/main/templates/account/password_reset.html:24
+#: feder/main/templates/account/password_reset.html:28
 msgid "Reset My Password"
 msgstr "Zresetuj moje hasło"
 
-#: feder/main/templates/account/password_reset.html:27
+#: feder/main/templates/account/password_reset.html:31
 msgid ""
 "Please contact us if you have any trouble resetting your\n"
 "                    password."
 msgstr ""
 "Skontaktuj się z nami, jeśli masz problem ze zresetowaniem swojego hasła."
 
-#: feder/main/templates/account/password_reset_done.html:18
+#: feder/main/templates/account/password_reset_done.html:22
 msgid ""
 "We have sent you an e-mail. Please contact us if you do not receive it "
 "within a few\n"
@@ -471,11 +492,11 @@ msgstr ""
 "Wysłaliśmy Tobie e-mail. Proszę skontaktuj się z nami, jeśli go nie "
 "otrzymasz w ciągu paru minut."
 
-#: feder/main/templates/account/password_reset_from_key.html:12
+#: feder/main/templates/account/password_reset_from_key.html:16
 msgid "Bad Token"
 msgstr "Zły klucz"
 
-#: feder/main/templates/account/password_reset_from_key.html:16
+#: feder/main/templates/account/password_reset_from_key.html:20
 #, python-format
 msgid ""
 "The password reset link was invalid, possibly because it has already been "
@@ -486,12 +507,12 @@ msgstr ""
 "Łącze resetujące hasło jest niepoprawne, prawdopodobnie już go użyłeś.  <a "
 "href=\"%(passwd_reset_url)s\">Zresetuj hasło jeszcze raz.</a>."
 
-#: feder/main/templates/account/password_reset_from_key.html:23
+#: feder/main/templates/account/password_reset_from_key.html:27
 msgid "change password"
 msgstr "zmień hasło"
 
-#: feder/main/templates/account/password_reset_from_key.html:26
-#: feder/main/templates/account/password_reset_from_key_done.html:11
+#: feder/main/templates/account/password_reset_from_key.html:30
+#: feder/main/templates/account/password_reset_from_key_done.html:15
 msgid "Your password is now changed."
 msgstr "Twoje hasło zostało zmienione."
 
@@ -505,12 +526,7 @@ msgstr "Ustaw hasło"
 msgid "Signup"
 msgstr "Zarejestruj się"
 
-#: feder/main/templates/account/signup.html:10
-#: feder/main/templates/account/signup.html:22
-msgid "Sign Up"
-msgstr "Zarejestuj się"
-
-#: feder/main/templates/account/signup.html:12
+#: feder/main/templates/account/signup.html:16
 #, python-format
 msgid ""
 "Already have an account? Then please <a href=\"%(login_url)s\">sign in</a>\n"
@@ -518,37 +534,24 @@ msgid ""
 msgstr ""
 "Masz już konto? Jeżeli tak, to <a href=\"%(login_url)s\">zaloguj się</a>."
 
-#: feder/main/templates/account/signup.html:25
+#: feder/main/templates/account/signup.html:29
 msgid "Sign Up through social media"
 msgstr "Rejestracja poprzez media społecznościowe"
 
-#: feder/main/templates/account/signup.html:26
+#: feder/main/templates/account/signup.html:30
 msgid "If you want, you can use social media to sign up. Select below:"
 msgstr ""
 "Jeżeli chcesz, możesz skorzystać z mediów społecznościowych do rejestracji. "
 "Wybierz poniżej:"
 
 #: feder/main/templates/account/signup_closed.html:5
-#: feder/main/templates/account/signup_closed.html:11
+#: feder/main/templates/account/signup_closed.html:15
 msgid "Sign Up Closed"
 msgstr "Rejestracja zamknięta"
 
-#: feder/main/templates/account/signup_closed.html:13
-msgid ""
-"Public sign up is not available. User accounts are created by the "
-"administrators."
-msgstr ""
-"Samodzielna rejestracja nie jest dostępna. Konta użytkowników zakładają "
-"administratorzy."
-
-#: feder/main/templates/account/signup_closed.html:14
+#: feder/main/templates/account/signup_closed.html:18
 msgid "If you already have an account, you can sign in."
 msgstr "Jeżeli masz już konto, możesz się zalogować."
-
-#: feder/main/templates/account/login.html:20
-msgid "Please sign in with Google account or with your user account below."
-msgstr ""
-"Zaloguj się za pomocą konta Google lub za pomocą konta użytkownika poniżej."
 
 #: feder/main/templates/account/verification_sent.html:5
 #: feder/main/templates/account/verification_sent.html:11
@@ -600,25 +603,35 @@ msgstr ""
 "<strong>Uwaga:</strong> możesz ciągle <a href=\"%(email_url)s\">zmienić swój "
 "adres e-mail</a>."
 
-#: feder/main/templates/base.html:103
+#: feder/main/templates/base.html:112
 msgid "This site uses cookies."
 msgstr "Ta strona wykorzystuje cookies."
 
-#: feder/main/templates/base.html:126
+#: feder/main/templates/base.html:160
 msgid "Show quote"
 msgstr "Pokaż cytat"
 
-#: feder/main/templates/base.html:127
+#: feder/main/templates/base.html:161
 msgid "Hide quote"
 msgstr "Ukryj cytat"
 
-#: feder/main/templates/base.html:128
-msgid "Show att text"
-msgstr "Pokaż treść"
+#: feder/main/templates/main/_pagination.html:3
+#, fuzzy
+#| msgid "Organisation"
+msgid "Pagination"
+msgstr "Organizacja"
 
-#: feder/main/templates/base.html:129
-msgid "Hide att text"
-msgstr "Ukryj treść"
+#: feder/main/templates/main/_pagination.html:7
+msgid "Previous"
+msgstr "Poprzednia"
+
+#: feder/main/templates/main/_pagination.html:21
+msgid "current"
+msgstr "aktualna"
+
+#: feder/main/templates/main/_pagination.html:32
+msgid "Next"
+msgstr "Następna"
 
 #: feder/main/templates/main/home.html:7
 msgid "Let's civil data mining!"
@@ -690,47 +703,47 @@ msgstr "o-stronie/"
 msgid "users/"
 msgstr "uzytkownik/"
 
-#: feder/main/urls.py:51
+#: feder/main/urls.py:54
 msgid "institutions/"
 msgstr "instytucje/"
 
-#: feder/main/urls.py:54
+#: feder/main/urls.py:57
 msgid "monitorings/"
 msgstr "monitoringi/"
 
-#: feder/main/urls.py:55
+#: feder/main/urls.py:58
 msgid "cases/"
 msgstr "sprawy/"
 
-#: feder/main/urls.py:56
+#: feder/main/urls.py:59
 msgid "cases/tags/"
 msgstr "sprawy/tagi/"
 
-#: feder/main/urls.py:57
+#: feder/main/urls.py:60
 msgid "alerts/"
 msgstr "alerty/"
 
-#: feder/main/urls.py:58
+#: feder/main/urls.py:61
 msgid "letters/"
 msgstr "listy/"
 
-#: feder/main/urls.py:59
+#: feder/main/urls.py:62
 msgid "teryt/"
 msgstr "jst/"
 
-#: feder/main/urls.py:60
+#: feder/main/urls.py:63
 msgid "letters/logs/"
 msgstr "listy/logi/"
 
-#: feder/main/urls.py:61
+#: feder/main/urls.py:64
 msgid "parcels/"
 msgstr "przesylki/"
 
-#: feder/main/urls.py:62
+#: feder/main/urls.py:65
 msgid "virus_scan/"
 msgstr "virus_scan/"
 
-#: feder/main/utils.py:93
+#: feder/main/utils.py:130
 msgid "<p>Normalized response is not valid JSON.</p>"
 msgstr "<p>Znormalizowana odpowiedź nie jest prawidłowym kodem JSON.</p>"
 
@@ -769,6 +782,12 @@ msgstr "Wpis"
 #: feder/records/models.py:124
 msgid "Records"
 msgstr "Wpisy"
+
+#~ msgid "Show att text"
+#~ msgstr "Pokaż treść"
+
+#~ msgid "Hide att text"
+#~ msgstr "Ukryj treść"
 
 #~ msgid "Page number is not valid."
 #~ msgstr "Numer strony jest nieprawidłowy."

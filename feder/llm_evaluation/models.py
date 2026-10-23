@@ -344,7 +344,7 @@ class LlmLetterRequest(LlmRequest):
         return normalized_questions_json
 
     @classmethod
-    def categorize_answer(self, letter, question_number):
+    def categorize_answer(self, letter, question_number, force_categorize=False):
         institution_name = ""
         if letter.case and letter.case.monitoring:
             institution_name = letter.case.institution.name
@@ -399,7 +399,7 @@ class LlmLetterRequest(LlmRequest):
                 args__question_number=question_number,
                 created__gt=categories_update_time,
             ).first()
-            if categorization_already_done:
+            if categorization_already_done and not force_categorize:
                 logger.info(
                     f"Skipping categorization for letter {letter.pk} and question"
                     + f' "{question_number}" as already done: '
