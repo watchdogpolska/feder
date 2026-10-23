@@ -428,7 +428,7 @@ class Monitoring(RenderBooleanFieldMixin, TimeStampedModel):
                     nr_answers_categories[key]["question"] = nr_template_dict[key].get(
                         "Pytanie", ""
                     )
-            for key in nr_answers_categories.keys():
+            for key in list(nr_answers_categories.keys()):
                 if key not in nr_template_dict:
                     del nr_answers_categories[key]
         self.normalized_response_answers_categories = json.dumps(
