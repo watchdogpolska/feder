@@ -7,6 +7,9 @@
   "baseBranchPatterns": [
     "develop"
   ],
+  "gitIgnoredAuthors": [
+    "41898282+github-actions[bot]@users.noreply.github.com"
+  ],
     "ignorePaths": [
       "**/node_modules/**",
       "**/bower_components/**"

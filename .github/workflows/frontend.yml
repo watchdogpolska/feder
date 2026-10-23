@@ -9,11 +9,39 @@ on:
 
   pull_request:
 
+concurrency:
+  group: frontend-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   regenerate_frontend:
     runs-on: ubuntu-latest
+    env:
+      # Renovate (Mend-hosted app) can't use postUpgradeTasks, so its PRs never
+      # carry a rebuilt feder/static/. Rebuild and push back to the PR branch
+      # instead of just failing the check.
+      IS_RENOVATE: ${{ github.event_name == 'pull_request' &&
+        github.event.pull_request.user.login == 'renovate[bot]' &&
+        github.event.pull_request.head.repo.full_name == github.repository }}
     steps:
+      - name: Create GitHub App token
+        if: env.IS_RENOVATE == 'true'
+        id: app
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ vars.FRONTEND_BOT_APP_ID }}
+          private-key: ${{ secrets.FRONTEND_BOT_PRIVATE_KEY }}
       - uses: actions/checkout@v7
+        with:
+          # On a pull_request event the default ref is the ephemeral
+          # refs/pull/N/merge commit. We need to check out and push to the
+          # real PR branch, so override the ref on Renovate PRs only.
+          ref: ${{ env.IS_RENOVATE == 'true' && github.head_ref || '' }}
+          # GITHUB_TOKEN-authored pushes don't trigger new workflow runs, so
+          # the follow-up run on the rebuild commit would never happen. Use
+          # the GitHub App token (falls back to the default token when the
+          # app step was skipped).
+          token: ${{ steps.app.outputs.token || github.token }}
       - name: Align container user with runner UID/GID
         # docker-compose.yml defaults UID/GID to 1000, which only matches the
         # checked-out file ownership by coincidence. Without this, containers
@@ -29,7 +57,24 @@ jobs:
         run: make wait_web regenerate_frontend
       - name: Show git status
         run: git status
+      - name: Commit rebuilt frontend
+        if: env.IS_RENOVATE == 'true'
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+          BOT_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
+        run: |
+          changes=$(git status --porcelain feder/static/ package*.json)
+          if [[ -n "$changes" ]]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "$BOT_EMAIL"
+            git add feder/static/ package.json package-lock.json
+            git commit -m "Regenerate frontend"
+            git push origin "HEAD:$HEAD_REF"
+          else
+            echo "No pending front-end changes detected."
+          fi
       - name: Require rebuild content
+        if: env.IS_RENOVATE != 'true'
         run: |
           changes=$(git status --porcelain feder/static/ package*.json)
           if [[ -n "$changes" ]]; then
