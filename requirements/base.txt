@@ -15,7 +15,7 @@ crispy-bootstrap5==2026.9
 django-model-utils==5.0.0
 
 # Images
-Pillow==12.3.0
+Pillow==13.0.0
 
 # For user registration, either via email or social
 # Well-built with regular release cycles!
