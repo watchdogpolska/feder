@@ -19,7 +19,7 @@ Pillow==12.3.0
 
 # For user registration, either via email or social
 # Well-built with regular release cycles!
-django-allauth==65.19.7
+django-allauth==65.20.0
 
 # Unicode slugification
 django-autoslug==1.9.9
@@ -44,12 +44,12 @@ django-tinymce==5.0.0
 git+https://github.com/watchdogpolska/django-tinycontent.git@v1.0.1
 
 django-formtools==2.7
-django-mptt==0.18.0
+django-mptt==0.19.1
 jsonfield==3.2.0
-django-guardian==3.5.0
+django-guardian==3.5.1
 django-teryt-tree==0.18.4
 
-django-reversion==6.3.0
+django-reversion==6.4.0
 djangorestframework==3.18.3
 djangorestframework-csv==3.0.2
 tqdm==4.70.1
@@ -73,9 +73,9 @@ openpyxl==3.1.5
 
 # LLM exvaluation
 langchain==1.4.6
-langchain-core==1.6.10
+langchain-core==1.6.12
 langchain-community==0.4.2
 #langchain[llms]==0.1.5
-openai==3.31.0
+openai==3.35.1
 langchain-openai==1.7.2
 tiktoken==0.14.0
