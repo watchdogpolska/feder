@@ -1,5 +1,5 @@
 # Production and staging Django
-Django==5.2.18
+Django==5.2.19
 
 # Database adapter
 mysqlclient==2.3.0
@@ -19,7 +19,7 @@ Pillow==13.0.0
 
 # For user registration, either via email or social
 # Well-built with regular release cycles!
-django-allauth==65.21.0
+django-allauth==65.21.1
 
 # Unicode slugification
 django-autoslug==1.9.9
@@ -44,13 +44,13 @@ django-tinymce==5.0.0
 git+https://github.com/watchdogpolska/django-tinycontent.git@v1.0.1
 
 django-formtools==2.7
-django-mptt==0.21.0
+django-mptt==0.21.1
 jsonfield==3.2.0
 django-guardian==3.5.2
 # django-teryt-tree==0.18.4 - latest, not updated on pypi
 git+https://github.com/watchdogpolska/django-teryt-tree@v0.19.0
 
-django-reversion==6.4.0
+django-reversion==6.5.1
 djangorestframework==3.18.3
 djangorestframework-csv==3.0.2
 tqdm==4.70.1
@@ -73,10 +73,10 @@ html2text==2025.4.15
 openpyxl==3.1.5
 
 # LLM exvaluation
-langchain==1.4.7
-langchain-core==1.7.0
+langchain==1.4.9
+langchain-core==1.7.6
 langchain-community==0.4.2
 #langchain[llms]==0.1.5
-openai==3.39.0
-langchain-openai==1.7.3
+openai==3.46.0
+langchain-openai==1.7.4
 tiktoken==0.14.0
