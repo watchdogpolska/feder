@@ -2,7 +2,7 @@
 Django==5.2.19
 
 # Database adapter
-mysqlclient==2.3.1
+mysqlclient==2.3.2
 
 # Configuration
 django-environ==0.14.0
@@ -19,7 +19,7 @@ Pillow==13.0.0
 
 # For user registration, either via email or social
 # Well-built with regular release cycles!
-django-allauth==65.21.1
+django-allauth==65.22.1
 
 # Unicode slugification
 django-autoslug==1.9.9
@@ -44,13 +44,13 @@ django-tinymce==5.0.0
 git+https://github.com/watchdogpolska/django-tinycontent.git@v1.0.1
 
 django-formtools==2.7
-django-mptt==0.21.1
+django-mptt==0.22.0
 jsonfield==3.2.0
 django-guardian==3.5.2
 # django-teryt-tree==0.18.4 - latest, not updated on pypi
 git+https://github.com/watchdogpolska/django-teryt-tree@v0.19.0
 
-django-reversion==6.5.1
+django-reversion==6.5.2
 djangorestframework==3.18.3
 djangorestframework-csv==3.0.2
 tqdm==4.70.1
@@ -66,17 +66,17 @@ virustotal-api==1.1.11
 git+https://github.com/watchdogpolska/django-background-tasks.git@master
 django-cors-headers==4.9.0
 
-django-rosetta==0.10.3
+django-rosetta==0.10.4
 bleach==6.4.0
 beautifulsoup4==4.15.0
 html2text==2025.4.15
 openpyxl==3.1.5
 
 # LLM exvaluation
-langchain==1.4.10
-langchain-core==1.7.7
+langchain==1.5.2
+langchain-core==1.8.4
 langchain-community==0.4.2
 #langchain[llms]==0.1.5
-openai==3.49.0
-langchain-openai==1.7.4
+openai==3.57.0
+langchain-openai==1.8.5
 tiktoken==0.14.0
